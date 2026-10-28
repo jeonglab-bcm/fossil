@@ -24,8 +24,8 @@ to GitHub.
 | --- | --- | --- |
 | Code hosting | GitHub + GitLab | `"github" OR "gitlab"` |
 | Code hosting | SourceForge | `"sourceforge"` |
-| Package repositories | CRAN + Bioconductor | `"cran" OR "bioconductor"` |
-| Package repositories | PyPI | `"pypi" OR "python package index"` |
+| R and Python ecosystems | CRAN + Bioconductor | `"cran" OR "bioconductor"` |
+| R and Python ecosystems | Python + PyPI | `("python" NOT ("snake" OR "snakes" OR "boidae")) OR "pypi" OR "python package index"` |
 | Archives with DOIs | Zenodo + figshare | `"zenodo" OR "figshare"` |
 | Data repositories | NCBI GEO | `"gene expression omnibus" OR "ncbi geo"` |
 | Data repositories | SRA / ENA | `"sequence read archive" OR "ncbi sra" OR "european nucleotide archive"` |
@@ -43,7 +43,8 @@ Caveats:
 - 2026 is a partial year (indexed through late October). The raw count for 2026 is therefore low.
   The share is more comparable, but may still change as indexing catches up.
 - A mention is not a deposit. An article can name GitHub or GEO without sharing code or data.
-- PyPI is rarely named (about 0.1% of articles); papers more often say `pip install` or just "Python".
+- Python + PyPI is almost all "python": PyPI alone is named in about 0.1% of articles. Excluding
+  articles that mention snakes drops a few Python-software papers too.
 - Row A omits zero counts, since a log axis cannot show them.
 - Early hits for some terms are other uses of the word. For example, the 16 "docker" hits in 2001 are
   medical articles (occupational medicine, primary care), not the container tool.

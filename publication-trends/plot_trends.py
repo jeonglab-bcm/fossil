@@ -14,19 +14,19 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.ticker import FuncFormatter  # noqa: E402
 
 ENV = "Docker, Jupyter, Conda, Snakemake, Nextflow"
-COLORS = {  # color follows the group in every figure; the first five pass all-pairs CVD checks
+COLORS = {  # color follows the group in every figure; the first seven pass all-pairs CVD checks
     "GitHub + GitLab": "#2a78d6",
-    "SourceForge": "#e87ba4",
-    "NCBI GEO": "#1baf7a",
+    "NCBI GEO": "#008300",
     "CRAN + Bioconductor": "#eda100",
-    "Zenodo + figshare": "#008300",
-    "PyPI": "#6250d6",
-    "SRA / ENA": "#eb6834",
-    ENV: "#e34948",
+    "Zenodo + figshare": "#1baf7a",
+    "Python + PyPI": "#e87ba4",
+    "SourceForge": "#2f2e2b",  # the palette has five hues that survive all pairs; the rest are grays
+    ENV: "#6b6a65",
+    "SRA / ENA": "#6250d6",
 }
 THEMES = {
     "Code hosting": ["GitHub + GitLab", "SourceForge"],
-    "Package repositories": ["CRAN + Bioconductor", "PyPI"],
+    "R and Python ecosystems": ["CRAN + Bioconductor", "Python + PyPI"],
     "Archives with DOIs": ["Zenodo + figshare"],
     "Data repositories": ["NCBI GEO", "SRA / ENA"],
     "Software environments": [ENV],
@@ -96,7 +96,7 @@ def main(src="counts.csv", out="publication_trends"):
     a0.set_ylim(0.7, 3e5)
     a0.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
     a0.set_ylabel("A  Articles per year (log)", color=INK, fontsize=10, fontweight="bold")
-    b0.set_ylim(0, 7)
+    b0.set_ylim(0, 8)
     b0.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}%"))
     b0.set_ylabel("B  Share of all PMC articles", color=INK, fontsize=10, fontweight="bold")
 

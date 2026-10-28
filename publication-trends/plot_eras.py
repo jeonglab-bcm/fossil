@@ -14,8 +14,9 @@ from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator  # noqa: 
 
 from plot_trends import AXIS, COLORS, ENV, GRID, INK, INK2, MUTED, PARTIAL, SURFACE, load  # noqa: E402
 
-SERIES = ["NCBI GEO", "CRAN + Bioconductor", "SourceForge", "GitHub + GitLab", "Zenodo + figshare", ENV]
-COLOR = {**COLORS, ENV: MUTED}  # six crossing lines cannot all be colored; environments go gray
+SERIES = ["NCBI GEO", "CRAN + Bioconductor", "SourceForge", "GitHub + GitLab", "Python + PyPI",
+          "Zenodo + figshare", ENV]
+COLOR = COLORS
 LABEL = {ENV: "Docker, Jupyter, Conda,\nSnakemake, Nextflow"}
 FOCUS = (2004, 2015)
 BAND = "#efede6"
@@ -105,16 +106,16 @@ def main(src="counts.csv", out="publication_eras"):
     end_labels(ax, data)
 
     handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=6,
+    ax.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=4,
               frameon=False, fontsize=8.5, labelcolor=INK2, handlelength=1.6, columnspacing=1.2)
     fig.suptitle("Data sharing became routine years before code sharing", x=0.065, y=0.985,
                  ha="left", fontsize=13, fontweight="bold", color=INK)
-    fig.text(0.065, 0.005,
+    fig.text(0.065, -0.025,
              "Source: PubMed Central full-text search (NCBI E-utilities, db=pmc, publication year); full "
              "text includes reference lists. Zero counts are omitted on the log scale.\nHollow marker and "
              "dashed segment = 2026, partial year (indexed through late Oct). Environment-tool hits before "
-             "about 2013 are mostly other uses of \"docker\" and \"conda\".\nSRA / ENA and PyPI are shown "
-             "in publication_trends.png.",
+             "about 2013 are mostly other uses of \"docker\" and \"conda\".\nSRA / ENA is shown "
+             "in publication_trends.png. Python + PyPI excludes articles that mention snakes.",
              fontsize=7.8, color=MUTED, ha="left", va="top")
     fig.subplots_adjust(left=0.065, right=0.84, top=0.93, bottom=0.12)
     for ext in ("png", "svg"):

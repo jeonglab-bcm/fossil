@@ -20,7 +20,8 @@ GROUPS = {
     "GitHub + GitLab": '"github"[All Fields] OR "gitlab"[All Fields]',
     "SourceForge": '"sourceforge"[All Fields]',
     "NCBI GEO": '"gene expression omnibus"[All Fields] OR "ncbi geo"[All Fields]',
-    "PyPI": '"pypi"[All Fields] OR "python package index"[All Fields]',
+    "Python + PyPI": ('("python"[All Fields] NOT ("snake"[All Fields] OR "snakes"[All Fields]'
+                      ' OR "boidae"[All Fields])) OR "pypi"[All Fields] OR "python package index"[All Fields]'),
     "CRAN + Bioconductor": '"cran"[All Fields] OR "bioconductor"[All Fields]',
     "Zenodo + figshare": '"zenodo"[All Fields] OR "figshare"[All Fields]',
     "SRA / ENA": ('"sequence read archive"[All Fields] OR "ncbi sra"[All Fields]'
