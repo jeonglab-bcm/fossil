@@ -262,6 +262,12 @@ def fig9(published, s4, out):
     ours = np.array(im) & np.pad(np.ones((box[3] - box[1] - 5, box[2] - box[0] - 5), bool), ((box[1] + 3, img.shape[0] - box[3] + 2), (box[0] + 3, img.shape[1] - box[2] + 2)))
     d_ours = ndimage.distance_transform_edt(~ours)
     d_pub = ndimage.distance_transform_edt(~pub)
+    # Our render and overlay of panel a: the published lines cleared, ours drawn in.
+    ours_img = img.copy().astype(np.uint8)
+    overlay = img.copy().astype(np.uint8)
+    ours_img[pub] = 255
+    ours_img[ours] = bar
+    overlay[ours & ~pub] = ORANGE
     res["a"] = {
         "published_within_2px": round(float(np.mean(d_ours[pub] <= 2)), 4),
         "ours_within_2px": round(float(np.mean(d_pub[ours] <= 2)), 4),
@@ -274,7 +280,10 @@ def fig9(published, s4, out):
     Y = fm.Axis(ys + [box[3]], [800, 700, 600, 500, 400, 300, 200, 100, 0])
     edges = np.linspace(pdr.min(), pdr.max(), 11)
     counts, _ = np.histogram(pdr, edges)
-    X = fm.Axis([box[0], box[2]], (0, 1.1))
+    # x from the tick marks at 0.2 to 1.0 on the top edge (bars reach the bottom edge).
+    top_row = fm.dark(img)[box[1] + 6 : box[1] + 14, box[0] + 2 : box[2] - 1].any(axis=0)
+    xt = [box[0] + 2 + (a + b - 1) / 2 for a, b in fm._runs(top_row)]
+    X = fm.Axis(xt, [0.2, 0.4, 0.6, 0.8, 1.0])
     # Bar top: the first non-white pixel at the bar centre (bars have a dark outline).
     m = img.sum(axis=2) < 600
     published = []
@@ -282,9 +291,25 @@ def fig9(published, s4, out):
         cx = int(round(X.inverse((edges[k] + edges[k + 1]) / 2)))
         col = np.flatnonzero(m[box[1] + 4 : box[3] - 3, cx])
         published.append(round(float(Y(box[1] + 4 + col.min())), 1) if len(col) else 0.0)
+    # Our render of panel b: the published bars cleared (fill and outline), ours drawn in
+    # with the same fill; the overlay outlines our bars in orange over the published ones.
+    fill = ndimage.binary_dilation(fm.mask(img, bar, tol=120), iterations=4)
+    region = np.zeros(img.shape[:2], bool)
+    region[box[1] + 2 : box[3] - 1, box[0] + 15 : box[2] - 15] = True
+    ours_img[fill & region & (img.sum(axis=2) < 700)] = 255
+    pil_ours, pil_over = Image.fromarray(ours_img), Image.fromarray(overlay)
+    d_ours_b, d_over = ImageDraw.Draw(pil_ours), ImageDraw.Draw(pil_over)
+    for k, c in enumerate(counts):
+        rect = [X.inverse(edges[k]), Y.inverse(c), X.inverse(edges[k + 1]), box[3]]
+        d_ours_b.rectangle(rect, fill=bar, outline=(110, 110, 110), width=3)
+        d_over.rectangle(rect, outline=ORANGE, width=5)
+    # Panels c and d (SNR) are not reproduced: keep the left half only.
+    np_ours, np_over = np.array(pil_ours)[:, :3000], np.array(pil_over)[:, :3000]
+    Image.fromarray(np_ours).save(os.path.join(out, "fig9_ours.png"), optimize=True)
+    Image.fromarray(np_over).save(os.path.join(out, "fig9_overlay.png"), optimize=True)
     res["b"] = {"S4_counts": counts.tolist(), "published_bar_heights": published,
                 "max_abs_difference": round(float(np.max(np.abs(np.array(published) - counts))), 1),
-                "y_tick_fit_residual": round(Y.residual, 4)}
+                "y_tick_fit_residual": round(Y.residual, 4), "x_tick_fit_residual": round(X.residual, 4)}
     print("fig9", res)
     return res
 
