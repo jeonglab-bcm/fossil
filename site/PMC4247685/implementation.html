@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}.back{display:inline-block;margin-bottom:12px;font-size:13px;color:var(--accent);text-decoration:none}.back:hover{text-decoration:underline}</style>
+<title>GABi Analysis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Single-column technical note for an implementation analysis */
+.results-table { overflow-x: auto; }
+.results-table table { min-width: 720px; }
+:root {
+  --bg: #fafbfc;
+  --surface: #ffffff;
+  --fg: #1a2332;
+  --muted: #5c6b7a;
+  --rule: #d4dbe3;
+  --accent: #2563a0;
+  --warn: #9a5c12;
+  --warn-bg: #fdf6ec;
+  --code-bg: #eef2f6;
+  --display: "Source Serif 4", "Georgia", serif;
+  --body: "Inter", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1318;
+    --surface: #171d24;
+    --fg: #dfe6ed;
+    --muted: #8a99a8;
+    --rule: #2a3441;
+    --accent: #5ba3e6;
+    --warn: #e4a84c;
+    --warn-bg: #251e0e;
+    --code-bg: #1c2430;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1318;
+  --surface: #171d24;
+  --fg: #dfe6ed;
+  --muted: #8a99a8;
+  --rule: #2a3441;
+  --accent: #5ba3e6;
+  --warn: #e4a84c;
+  --warn-bg: #251e0e;
+  --code-bg: #1c2430;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.7 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+}
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 48px;
+}
+.wrap > * { min-width: 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tag {
+  font: 500 0.72rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font: 600 clamp(1.6rem, 4vw, 2.1rem)/1.15 var(--display);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+h2 {
+  font: 600 1.2rem/1.3 var(--display);
+  margin: 0;
+  text-wrap: balance;
+}
+h3 {
+  font: 600 1rem/1.35 var(--body);
+  margin: 0;
+}
+p, li { margin: 0; max-width: 66ch; }
+ul { padding-left: 1.3em; margin: 0; }
+li + li { margin-top: 0.4em; }
+
+header { display: grid; gap: 12px; }
+.subtitle {
+  font: 400 1.05rem/1.55 var(--display);
+  font-style: italic;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+section { display: grid; gap: 16px; }
+section + section { padding-top: 8px; }
+
+.results-table {
+  overflow-x: auto;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+}
+th {
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--rule);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+td:last-child {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+.vignette {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+pre {
+  background: var(--code-bg);
+  border-radius: 6px;
+  padding: 18px 20px;
+  font: 400 0.82rem/1.65 var(--mono);
+  overflow-x: auto;
+  margin: 0;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.finding {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  display: grid;
+  gap: 6px;
+}
+.finding-label {
+  font: 600 0.82rem/1.3 var(--body);
+  color: var(--warn);
+}
+
+.sep {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.method-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  counter-reset: step;
+}
+.method-list li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0;
+  margin: 0;
+}
+.method-list li::before {
+  content: counter(step);
+  font: 600 0.78rem/2rem var(--mono);
+  color: var(--accent);
+  text-align: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.footer-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+<a class="back" href="./">← Figures 2–5</a>
+    <span class="tag">Implementation Analysis</span>
+    <h1>GABi 0.1 and the S1 bicluster models</h1>
+    <p class="subtitle">What the code behind Curry (2014), BMC Bioinformatics 15:355, computes, and where it differs from the paper</p>
+  </header>
+  <section>
+<p>The paper describes GABi, a genetic algorithm (GA) that searches over column subsets J and scores each J
+with a model-specific fitness function. The fitness function picks the rows I by rule. The code is the
+CRAN package <code>GABi</code> 0.1, which holds the GA, plus Additional file 1 (S1), which holds the R code for the
+paper's four bicluster models. This folder records what that code computes and where it departs from
+the paper. Every claimed difference has a small executable check.</p>
+<h2>Sources</h2>
+<div class="results-table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What</th>
+<th>sha256</th>
+<th>Get it from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>12859_2014_Article_355.pdf</code></td>
+<td>the paper, 14 pp, CC BY 4.0</td>
+<td><code>01d30067314aa50da8111c7e2295d86340e0cae5127ad21d5f201824e3a1d96a</code></td>
+<td><a href="https://doi.org/10.1186/s12859-014-0355-5">doi:10.1186/s12859-014-0355-5</a></td>
+</tr>
+<tr>
+<td><code>GABi_0.1.tar.gz</code></td>
+<td>GABi 0.1 (Packaged 2013-09-17), the only CRAN release, archived 2022. GPL (&gt;= 2). Pure R, depends on <code>hash</code>.</td>
+<td><code>ae9655fc16e48a5e7da46d4e09bdef835ef65e46da8409d38f37cbd01656b1fe</code></td>
+<td><a href="https://cran.r-project.org/src/contrib/Archive/GABi/GABi_0.1.tar.gz">https://cran.r-project.org/src/contrib/Archive/GABi/GABi_0.1.tar.gz</a></td>
+</tr>
+<tr>
+<td><code>12859_2014_355_MOESM1_ESM.txt</code></td>
+<td>Additional file 1 (S1): <code>block.*</code>, <code>cor.*</code>, <code>highvar.*</code>, <code>getFitnesses</code>, <code>featureSelection.dysregSurv</code>. CRLF line endings.</td>
+<td><code>f91e4234ae7c76ca7ebf4a852b95373012f82cc0206ceb07d4bf94552d73e1f7</code></td>
+<td><a href="https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt">https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>These files are kept in <code>PMC4247685/sources/</code>. That folder is gitignored and not redistributed. To get them:</p>
+<pre><code>mkdir -p PMC4247685/sources &amp;&amp; cd PMC4247685/sources
+curl -LO https://cran.r-project.org/src/contrib/Archive/GABi/GABi_0.1.tar.gz
+curl -L -o 12859_2014_355_MOESM1_ESM.txt \
+  'https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt'
+R CMD INSTALL GABi_0.1.tar.gz      # needs the hash package; the checks also use survival
+</code></pre>
+<p>Line references: <code>GABi.R:n</code> and the other <code>.R</code> names are files in <code>GABi/R/</code> of the tarball. <code>S1:n</code> is a
+line of Additional file 1 (the line numbers are the same with or without the CRs).</p>
+<h2>Method</h2>
+<ul>
+<li>Read <code>R/*.R</code> and <code>man/*.Rd</code> of GABi 0.1, the S1 code, and the paper: Algorithm 1 and "Parameter setting"
+  (pp 5-6), Eqs 14-44 (pp 7-8), Eq 45 and Algorithm 2 (p 9), and the synthetic offsets (p 10).</li>
+<li>Ran the authors' code: GABi from the installed library, with S1 <code>sys.source</code>d from <code>sources/</code>. Check
+  01 confirms that the installed functions are the tarball's. To read intermediate values without copying
+  code, <code>checks/common.R</code> has three helpers. <code>instrument()</code> returns an S1 function's local variables in
+  place of its result. <code>patch()</code> swaps exactly one source fragment, to test a proposed fix. <code>trace()</code> is
+  used on GABi namespace functions.</li>
+<li><code>reference/paper_models.R</code> implements Eqs 14-16, 17-23, 24-29, 31-35, 45 and Algorithm 2 from the paper
+  alone. Where a formula is inconsistent with its text, the function has a switch for the printed form
+  and the evident intent. Check 12 compares it with S1 on random Algorithm 2 inputs.</li>
+<li>R 4.6.1, survival 3.8.6, hash 2.2.6.4. The Fig 2 benchmark and the TCGA analysis were not run here.
+  They are in <code>../figure-reproduction/</code>.</li>
+<li>Status column below: <strong>exec</strong> means shown by running the code (check id given). <strong>read</strong> means from
+  reading the code only.</li>
+</ul>
+<h2>Recovered algorithm (<code>GABi()</code> with defaults)</h2>
+<pre><code>x: features x samples. A solution is a 0/1 vector over the columns (samples).
+fitnessArgs$tabu &lt;- list(features = 0, samples = 0)                     # GABi.R:5, overwrites any user tabu
+diffRows &lt;- rows that are not constant and whose min-max scaled row mean is
+            in [1 - diffThreshold, diffThreshold] = [0.1, 0.9]           # GABi.R:7-18; not in the paper
+fitnessFun and featureSelFun get GABi's frame as enclosure, so they read x, diffRows,
+row.mins, row.maxes, fitnessArgs from there                             # GABi.R:29-32
+repeat while length(allSols) &lt;= nSols (0) and loop &lt; maxLoop (1):       # GABi.R:37
+  4 demes x ceiling(256/4) = 64 solutions, each with exactly 2 random columns set   # GABi.R:40-45
+  cache: chromosome string -&gt; fitness (one hash per loop)               # GABi.R:58
+  for gen in 1..maxNgens (200), until converged:
+    for each deme j:
+      fitness of uncached rows; Inf and NA -&gt; 0                         # GABi.R:69-91
+      best_j &lt;- first row with maximal fitness
+      stagnant_j &lt;- best_j identical to any current best_k (k = 1..4); otherwise counter &lt;- 0
+      if counter &gt;= convergenceGens (40): converged; skip this deme     # GABi.R:108, 187-190
+      while all fitnesses == 0:                                         # GABi.R:110-158
+        &quot;re-initialise&quot;: rows[i, 2 random cols] == 1  (comparison; the deme stays all 0)
+        after 100 tries: diffThreshold += 0.1; if &gt; 1: warning, return(list())
+      selection: row 1 &lt;- argmax (elite); rows 2..64 &lt;- roulette over rows with fitness &gt; 0  # fps.R
+      crossover: each non-elite row independently with prob xfreq (0.5); shuffle the picked rows
+        and pair them; one-point cut k ~ round(U(1, n)) (k = n acts as n - 1); an odd row is kept  # reproduction.R, crossover.R
+      mutation: each bit of rows 2..64 flips with prob mfreq/ncol = 1/n  # mutation.R
+    if all 4 demes stagnant: counter += 1                               # GABi.R:192-194
+    every experiod (10) gens: exchangeSols(new demes, fitnesses of the previous population)  # GABi.R:195-198
+      k_i &lt;- argmax of old fitness in deme i; migrant_i &lt;- new deme i row k_i
+      deme i row k_i &lt;- migrant_{pi(i)}, pi a random permutation        # exchange_sols.R:9-11, 33-38
+  final: pool all demes, recompute fitness (Inf/NA -&gt; 0), keep rows with fitness &gt; 0  # GABi.R:201-211
+  dedup in population order: a new solution evicts every kept solution with
+    |A n B| / min(|A|, |B|) &gt; identityThreshold (0.75) over sample sets; the best of that group stays  # GABi.R:212-230
+  each kept solution -&gt; list(samples, features = featureSelFun(samples), score = fitnessFun(chr))  # GABi.R:232
+  tabu &lt;- union(tabu, returned features and samples)                    # GABi.R:237-244
+return allSols
+</code></pre>
+<p><code>keepBest = TRUE</code> keeps a de-duplicated archive of every positive-fitness solution seen during the run,
+and the final population is merged into it (GABi.R:165-181, 213-216). The Rd file describes <code>keepBest</code>
+as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
+<h2>Differences: GA framework (<code>GABi</code> 0.1)</h2>
+<div class="results-table"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Paper</th>
+<th>Code</th>
+<th>Effect</th>
+<th>Check</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>Re-initialisation of an all-zero deme</td>
+<td>Not described</td>
+<td><code>demes[[j]][i,sample(ncol(x),2)]==1</code> (GABi.R:115) compares and discards, so the deme stays all 0. After about 200 tries GABi warns "cannot find biclusters" and returns <code>list()</code>.</td>
+<td>GABi returns nothing whenever the 64 random initial solutions of a deme all score 0. With <code>&lt;-</code> the deme is re-drawn, but always with 2 columns again (G2).</td>
+<td>04.1-04.3</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>Initial solutions</td>
+<td>q0 columns, an input of Algorithm 1</td>
+<td>Always 2 (GABi.R:43), no argument</td>
+<td>For the S1 cor model a 2-column J gets Spearman p = 1, so the score comes only from the all-high fallback (C4). With <code>consistency &gt;= 1</code> every initial solution scores 0 and G1 ends the run: on an Algorithm 2 'cor' dataset GABi returns nothing, with or without the G1 fix.</td>
+<td>02.7, 04.4-04.6</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G3</td>
+<td><code>return(list())</code> inside the retry loop</td>
+<td>-</td>
+<td>GABi.R:146 returns an empty list, not <code>allSols</code></td>
+<td>With <code>maxLoop &gt; 1</code>, a later loop that scores 0 everywhere (for example once the tabu list covers the samples) throws away the earlier loops' biclusters</td>
+<td>07.2</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G4</td>
+<td>MaxLoop / tabu</td>
+<td>MaxLoop &gt; 1 reruns the GA, and found biclusters get zero fitness (p 6)</td>
+<td>The loop condition <code>!length(allSols)&gt;nSols &amp; loopCount&lt;maxLoop</code> (GABi.R:37) needs <code>nSols</code> too: with the default <code>nSols = 0</code>, a second loop never runs once anything is found. No S1 function reads <code>fitnessArgs$tabu</code>. GABi's own <code>getFitnesses.basic</code> does read it, but it only shrinks counts.</td>
+<td>With S1 models, a second loop re-finds the same bicluster</td>
+<td>07.1, 07.3-07.6</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G5</td>
+<td>Row pre-filter</td>
+<td>Not described</td>
+<td>Drops rows whose scaled mean is &lt; 0.1 or &gt; 0.9 before any fitness evaluation (GABi.R:7-18)</td>
+<td>No rows are dropped on Algorithm 2 data (300 datasets), so no effect on Fig 2. It does apply to the TCGA β-values: not quantified here.</td>
+<td>03.1-03.5</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G6</td>
+<td>Inf / NA fitness</td>
+<td>-</td>
+<td>Set to 0 (GABi.R:79-80, 88-89, 209-210)</td>
+<td>A solution whose score overflows is never selected or returned. This hits S1 <code>getFitnesses</code> (D1, D6).</td>
+<td>08.1</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G7</td>
+<td>Default population</td>
+<td>128 "is sufficient"; up to 4 subpopulations of at least 32</td>
+<td><code>popsize = 256</code>, 4 demes of 64</td>
+<td>More search than the text suggests. Effect not measured.</td>
+<td>02.1-02.2</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G8</td>
+<td>Elitism</td>
+<td>Not in Algorithm 1</td>
+<td>Always on (fps.R:8-13, reproduction.R:6-10). The Rd says <code>keepBest</code> controls it, but it does not.</td>
+<td>Best solution per deme is kept</td>
+<td>02.8-02.9</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G9</td>
+<td>Elitism hole</td>
+<td>-</td>
+<td>reproduction.R:17 <code>sample(setdiff(1:popsize, xindex))</code>: when exactly one row k is picked for crossover, <code>sample(k)</code> permutes 1..k and rows 1..k, the elite among them, are crossed</td>
+<td>Only in small demes: 135/3000 generations with demes of 8, 0/3000 with the default 64</td>
+<td>02.13</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G10</td>
+<td>Crossover</td>
+<td>"swap randomly-sampled subset of this row's values" (Alg 1 l.15)</td>
+<td>One-point crossover between shuffled pairs of rows. Each row is picked independently with prob <code>xfreq</code> (the Rd says "each pair").</td>
+<td>Positional linkage. Algorithm 2 places J at random, so this probably matters little. Not measured.</td>
+<td>02.10</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G11</td>
+<td>Migration</td>
+<td>Subpopulations described as "isolated"; no migration in Algorithm 1</td>
+<td>Every 10 generations, after reproduction, with the previous generation's fitnesses (GABi.R:196). The migrant is the new row at the old argmax index, and it overwrites the receiver's row at its own old argmax index, usually row 1 (the elite).</td>
+<td>4/96 migrants were not their deme's best. In 38/96 cases the receiver's elite was replaced: elites get permuted among demes, not copied.</td>
+<td>06.1-06.4</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G12</td>
+<td>Convergence</td>
+<td>Stop when the best fitness has not improved for a set number of generations (p 4)</td>
+<td>Counts consecutive generations in which every deme's best chromosome is identical to one of the current best chromosomes (GABi.R:94-108, 192-194). A migration that moves different elites between demes resets the count.</td>
+<td>In practice it stops only once the demes share their best, otherwise it runs to 200 generations. S1 block runs on Algorithm 2 data stopped at generations 45-85.</td>
+<td>02.12, 02.14</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G13</td>
+<td>Final dedup</td>
+<td>Rank by fitness, then drop highly overlapping solutions (Alg 1 l.27-30)</td>
+<td>Greedy in population order. A solution that overlaps two disjoint kept solutions evicts both, and only the best of the three stays.</td>
+<td>The output can lose distinct biclusters: order B,C,A keeps {B}; rank-then-filter keeps {B,C}</td>
+<td>05.3-05.4</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G14</td>
+<td><code>fitness=fitnesses[1]</code> (GABi.R:215)</td>
+<td>-</td>
+<td>Wrong index in the seed entry of <code>keptSols</code></td>
+<td><strong>None.</strong> The first pass of the loop replaces that entry (the stored fitness is ≤ the correct one), and the stored fitness is never output. Output identical with the fix (5 seeds).</td>
+<td>05.1-05.2</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>G15</td>
+<td>Other defaults</td>
+<td>Mutation ≈ 1/n; crossover 0.5-1; 100-200 generations</td>
+<td>Mutation 1/n per bit (<code>mfreq/ncol</code>), <code>xfreq = 0.5</code>, <code>maxNgens = 200</code>. No values in the paper for <code>convergenceGens</code> 40, <code>experiod</code> 10, <code>identityThreshold</code> 0.75, <code>diffThreshold</code> 0.9.</td>
+<td>Matches where the paper gives values</td>
+<td>02.3-02.5, 02.11</td>
+<td>exec</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Differences: bicluster models (S1)</h2>
+<p>The paper does not state θ (<code>consistency</code>), α or ρ for Fig 2 or for the TCGA run. ρ is not in the paper.</p>
+<div class="results-table"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Paper</th>
+<th>S1 code</th>
+<th>Effect</th>
+<th>Check</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>Block model</td>
+<td>Eqs 14-16, mean ≥ θ</td>
+<td>Same, with <code>&gt;</code> (S1:3-18)</td>
+<td>None on continuous data</td>
+<td>12.1</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>Seed row</td>
+<td>Eq 20: argmax |cor(row, PC1 rotation of A_XJ)|</td>
+<td><code>which.max(rowMeans(cor.mat))</code>: the largest mean Pearson correlation with the candidate rows (S1:33)</td>
+<td>Agrees with Eq 20 in 6% of random J</td>
+<td>09.1, 12.3</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Seed index bug</td>
+<td>-</td>
+<td><code>cor.test(y, y=x[cor.seed, chr==1])</code> (S1:36, also S1:59): <code>cor.seed</code> is a position in <code>cor.features</code>, not a row of x. Wrong whenever all-high rows were removed (C4) or GABi dropped rows.</td>
+<td>p-values are computed against an arbitrary row: score 136 vs 285 when fixed. Active in 9% of evaluations on Algorithm 2 'cor' data at consistency 0.8. If that row is constant on J, the fitness is NA (scored 0) and <code>cor.selection</code> stops with an error, which would abort GABi's last step.</td>
+<td>09.2, 09.6</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Row gate and α</td>
+<td>δ = 1 if p &lt; α (Eq 22)</td>
+<td>Rows pass if |Pearson r with seed| &gt; ρ (S1:34). α is not used by <code>cor.fitness</code>, only by <code>cor.selection</code> (S1:62).</td>
+<td>The fitness sums -log p over rows the selection may drop: 6 vs 42 vs 47 rows for α = 1e-12, 0.05, 1, with the same fitness</td>
+<td>09.3-09.4</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>All-high fallback</td>
+<td>Not in Eqs 19-23</td>
+<td>Rows with raw mean over J &gt; θ are removed from the correlation candidates. Score = max(cor score, |J|·n_high) (S1:27-31, 39).</td>
+<td>At q0 = 2 this is the only non-zero term (G2)</td>
+<td>09.5</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C5</td>
+<td><code>cor.selection</code> row indices</td>
+<td>-</td>
+<td>If the fallback wins, it returns positions within <code>diffRows</code>, not rows of x (S1:50, 62)</td>
+<td>Wrong rows are returned whenever GABi's filter dropped a row above them</td>
+<td>09.7</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>p-values</td>
+<td>Fisher z on Pearson r, sqrt((|J|-3)/1.06)·atanh(r) (Eq 19)</td>
+<td><code>cor.test(method="spearman")</code>, floored at 2e-16 (S1:36). For 10 ≤ n &lt; 1290, R uses the AS 89 Edgeworth series clamped at 0, which is not monotone in ρ.</td>
+<td>At n = 16, -log p is 36.1 for a row with ρ = 0.944 and 11.9 for a row with ρ = 1. The seed is always in its own row set, so every J gets |J|·(-log p_self): 109 at |J| = 9, 361 at 10, 542 at 15, 190 at 16. This is a size preference that has nothing to do with the data.</td>
+<td>09.9</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>C7</td>
+<td>Eq 19 as printed</td>
+<td>2Φ(z)</td>
+<td>-</td>
+<td>2Φ(z) &gt; 1 for every positive r, so as printed only negatively correlated rows count. Two-sided 2Φ(-|z|) is evidently intended. The seed row (r = 1) then makes Eq 23 infinite for every J.</td>
+<td>09.8</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>V1</td>
+<td>High-variance tail</td>
+<td>p = F_χ²(σ²_J/σ²_J′; |J|-1), the CDF (Eq 25)</td>
+<td><code>1 - pchisq(...)</code>, the upper tail, floored at 2e-16 (S1:74)</td>
+<td>Code follows the text, not the printed formula. It equals the reference to 8e-16.</td>
+<td>10.1-10.2, 12.2</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>V2</td>
+<td>High-variance statistic (paper and code)</td>
+<td>Bare variance ratio against χ²(|J|-1)</td>
+<td>Same</td>
+<td>Not a valid test: under H0 the ratio is F(|J|-1, |J′|-1). Type I error at α = 0.05 (m = 20): 0.065, 0.013, 0.001, 0.000, 0.14 for |J| = 2, 3, 5, 10, 18. On Algorithm 2 'highvar' data, along nested subsets of the true J, the S1 fitness peaks below 0.75·q in 47% of datasets (F test: 2%). This lowers sample recall in Fig 2's highvar panel.</td>
+<td>10.3-10.4</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>Seed in its own feature set, unfloored p</td>
+<td>-</td>
+<td><code>rowsForCor</code> keeps the seed (S1:112). <code>getFitnesses</code> uses raw <code>-log(p)</code> (S1:116), while the selection floors at 2e-16 (S1:163). R gives p = 0 for the self-test at n = 10-15 and n ≥ 27, and at every n if the seed row has ties. At n = 16-21 it also gives p = 0 for a band of |ρ| &lt; 1 (n = 21: 0.836-0.865).</td>
+<td>Fitness Inf → 0 (G6). The correlation branch can score only |J| in 3-9 and 22-26 (if the seed row has no ties), or 16-21 if no candidate row also falls in the band. On tied data (e.g. rounded β-values) no |J| can score. The paper's bicluster has |J| = 21.</td>
+<td>11.5-11.10</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>"All-low" rows</td>
+<td>Block branch δ^block (Eq 41), high rows only</td>
+<td><code>alllow.rows &lt;- which(1-pmatMeans&lt;(1-consistency))</code> (S1:98, 146) is the all-high condition again. The block score is (Σm + Σ(1-m))·|J| = n_high·|J|.</td>
+<td>The score is not doubled: it equals Eq 16 with scaled means. But rows low on J are in neither branch, and the selection returns each high row twice.</td>
+<td>11.1-11.4</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Rows for J′ in the fitness</td>
+<td>I″ (Eq 44)</td>
+<td><code>survFeatures &lt;- cor.features</code> (S1:123) holds positions within <code>rowsForCor</code>, but S1:126 uses them as positions in <code>diffRows</code>. The selection function maps them (S1:166).</td>
+<td>In the correlation branch, the comparison group J′, and so h, comes from the wrong rows: fitness 126 vs 595 when fixed. The GA optimises a different h from the one reported.</td>
+<td>11.11</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Multiple testing</td>
+<td>-</td>
+<td>BH in <code>featureSelection.dysregSurv</code> only (S1:163). The fitness uses raw p (S1:115).</td>
+<td>The GA's I″ is larger than the reported one: 14 vs 3 rows</td>
+<td>11.12</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>Correlation candidates</td>
+<td>I″ from all rows X</td>
+<td>Only rows with scaled mean in (1-θ, θ) on J (S1:101). PCA input is centred with scaled means, and <code>na.action</code> is ignored by <code>prcomp</code> (S1:106). The seed is argmax |Spearman r with PC1| (S1:107-108).</td>
+<td>Correlated rows that are high or low on J are not candidates. The centring shifts PC1 slightly.</td>
+<td>11.3</td>
+<td>exec (rows), read (PCA)</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>h(I, J)</td>
+<td>-log(2Φ(z)) (Eq 31)</td>
+<td><code>-log(1-pchisq(survdiff()$chisq, 1))</code> (S1:128) = -log(2Φ(-|z|))</td>
+<td>Equal to the two-sided form of Eqs 31-35. Eq 31 as printed has a sign error (h &lt; 0 for z &gt; 0). <code>1-pchisq</code> underflows for χ² &gt; 70.13 (p &lt; 5.6e-17), giving Inf → 0. Unlikely at 21 vs 21 (published p = 1e-5).</td>
+<td>08.2-08.3, 11.14</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>J′, l, reference column</td>
+<td>l = min(|J|, |Y|-|J|) least-correlated columns, against j₁, the first column of J (Eqs 36-40; p 9 text)</td>
+<td>Same, ranked within Y \ J (S1:126-127)</td>
+<td><strong>Matches.</strong> The suspected "first column only" difference is in the paper too.</td>
+<td>11.13</td>
+<td>exec</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>ρ gate</td>
+<td>Not in Eqs 41-44</td>
+<td>|Spearman ρ| &gt; ρ as well as p &lt; α (S1:115, 164)</td>
+<td>Same as C3</td>
+<td>-</td>
+<td>read</td>
+</tr>
+<tr>
+<td>T1</td>
+<td>Tabu</td>
+<td>Zero fitness for found biclusters</td>
+<td>Not read by any S1 function</td>
+<td>See G4</td>
+<td>07.3, 07.5</td>
+<td>exec</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Differential test, cor model (check 12)</h2>
+<p>25 Algorithm 2 'cor' datasets, each scored at the true J and at 20 random J of the same size. S1 uses
+ρ = 0.5 and α = 0.05. The reference is Eqs 17-23, two-sided, with the same 2e-16 floor.</p>
+<div class="results-table"><table>
+<thead>
+<tr>
+<th></th>
+<th>consistency 1</th>
+<th>consistency 0.8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seed row identical</td>
+<td>6%</td>
+<td>6%</td>
+</tr>
+<tr>
+<td>S1 score from the block fallback</td>
+<td>0%</td>
+<td>4%</td>
+</tr>
+<tr>
+<td>Jaccard, selected rows</td>
+<td>0.33</td>
+<td>0.33</td>
+</tr>
+<tr>
+<td>Spearman correlation of the two fitnesses across J (median)</td>
+<td>0.74</td>
+<td>0.71</td>
+</tr>
+<tr>
+<td>True J scores highest: S1 / paper</td>
+<td>68% / 32%</td>
+<td>64% / 32%</td>
+</tr>
+<tr>
+<td>Recall of implanted rows at the true J: S1 / paper</td>
+<td>0.54 / 0.67</td>
+<td>0.54 / 0.67</td>
+</tr>
+<tr>
+<td>S1 / paper score at the true J (median)</td>
+<td>1.00</td>
+<td>0.98</td>
+</tr>
+</tbody>
+</table></div>
+<p>The two models rank solutions differently, so a GA run with Eqs 17-23 would not reproduce a run with S1.
+On these data, S1 ranks the true J first more often than the reference does.</p>
+<h2>What could change the published results</h2>
+<p>Fig 2 (block, cor and highvar models on Algorithm 2 data, n = 100, m = 20), most to least:</p>
+<ol>
+<li>Cor model: C2, C6 and C1/C3. Wrong-row p-values, a size preference from R's Spearman p-values, and a
+   different seed and row gate from Eqs 17-23. Combined with G2, the cor GA starts only through the
+   block fallback, and with θ ≥ 1 GABi returns nothing. Which of these bite depends on θ and ρ, which the
+   paper does not give.</li>
+<li>Highvar model: V2 favours J smaller than the implanted one. The paper's formula has the same flaw, so
+   the published panel already reflects it.</li>
+<li>GA framework (G7, G10-G13): affects search quality, not the objective. Not quantified.</li>
+<li>G5 does not apply (no rows dropped). The block model matches the paper (B1).</li>
+</ol>
+<p>TCGA bicluster (dysregulation-vs-outcome model, |J| = 21), most to least:</p>
+<ol>
+<li>D1: under R 4.6.1, a 21-sample J scores 0 if any candidate CpG has |ρ| with the seed in
+   0.836-0.865 (and the ρ gate is below 0.836), or if the seed row has a tie. Not tested on 2013-era R.</li>
+<li>D3 and D4: during the search, h and I″ are computed on different rows from the ones the reported
+   bicluster uses.</li>
+<li>G5 and D5: rows are removed before the model sees them (scaled mean outside [0.1, 0.9]), and rows
+   high or low on J are never correlation candidates. Not quantified without the TCGA data.</li>
+<li>D2: no effect on a correlation-branch bicluster. It only changes the branch choice through the
+   missing low rows.</li>
+</ol>
+<h2>Reproduce</h2>
+<pre><code>Rscript PMC4247685/gabi-implementation-analysis/run_checks.R      # about 75 s
+GABI_SOURCES=/path/to/sources Rscript .../run_checks.R            # if the sources live elsewhere
+Rscript PMC4247685/gabi-implementation-analysis/checks/09_cor_model.R   # one check
+</code></pre>
+<p>Output summary (R 4.6.1, GABi 0.1, survival 3.8.6; two runs gave identical output):</p>
+<pre><code>SUMMARY 01_provenance.R: 4 pass, 0 fail
+SUMMARY 02_ga_settings.R: 14 pass, 0 fail
+SUMMARY 03_row_filter.R: 5 pass, 0 fail
+SUMMARY 04_reinit.R: 6 pass, 0 fail
+SUMMARY 05_final_dedup.R: 4 pass, 0 fail
+SUMMARY 06_migration.R: 4 pass, 0 fail
+SUMMARY 07_maxloop_tabu.R: 6 pass, 0 fail
+SUMMARY 08_inf_to_zero.R: 3 pass, 0 fail
+SUMMARY 09_cor_model.R: 9 pass, 0 fail
+SUMMARY 10_highvar_model.R: 4 pass, 0 fail
+SUMMARY 11_dysreg_model.R: 14 pass, 0 fail
+SUMMARY 12_difftest.R: 4 pass, 0 fail
+TOTAL: 77 pass, 0 fail in 12 scripts
+</code></pre>
+<p>A PASS means the stated behaviour of the authors' code was observed. It does not mean the code is
+correct.</p>
+  </section>
+  <p class="footer-note">Generated from <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685/gabi-implementation-analysis">PMC4247685/gabi-implementation-analysis/README.md</a>. GABi is GPL (&ge; 2); Additional file 1 is CC BY 4.0. Neither is redistributed here.</p>
+</div>
+</body>
+</html>

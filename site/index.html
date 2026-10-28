@@ -4,82 +4,127 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>fossil</title>
+<meta name="description" content="Independent reproductions of published computational papers: each figure rebuilt from the paper’s own code and data and laid over the original.">
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
-<style>
-  :root {
-    --bg: #f6f5f1; --surface: #ffffff; --ink: #1f1e1b; --ink-2: #57544c; --rule: #dedbd2;
-    --accent: #0f6b70; --ok: #2f6b3a; --ok-soft: #e4f0e3; --warn: #8a5a00; --warn-soft: #f6ecd6;
-    --info: #3d4f8f; --info-soft: #e6e9f5;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
-      --accent: #5cc2c4; --ok: #8fcb94; --ok-soft: #1f3122; --warn: #e2b55a; --warn-soft: #362b14;
-      --info: #a7b5ec; --info-soft: #252a42; color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
-    --accent: #5cc2c4; --ok: #8fcb94; --ok-soft: #1f3122; --warn: #e2b55a; --warn-soft: #362b14;
-    --info: #a7b5ec; --info-soft: #252a42; color-scheme: dark;
-  }
-  :root { padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0); }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font: 15px/1.6 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 40px 64px;
-  }
-  .wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
-  h1, h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 600; margin: 0; text-wrap: balance; }
-  h1 { font-size: 34px; }
-  h2 { font-size: 20px; line-height: 1.35; }
-  .lede { color: var(--ink-2); max-width: 64ch; margin: 6px 0 0; }
-  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
-  .meta { font-size: 13px; color: var(--ink-2); }
-  .meta .id { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; color: var(--accent); }
-  ul.results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-  ul.results li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: baseline; }
-  ul.results li > span:last-child { min-width: 0; }
-  .badge { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; text-align: center; white-space: nowrap; }
-  .ok { background: var(--ok-soft); color: var(--ok); }
-  .partial { background: var(--warn-soft); color: var(--warn); }
-  .info { background: var(--info-soft); color: var(--info); }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; }
-  .links a { font-size: 14px; font-weight: 500; color: var(--accent); text-decoration: none; border: 1px solid var(--rule); border-radius: 8px; padding: 7px 12px; }
-  .links a:hover { border-color: var(--accent); }
-  footer { font-size: 13px; color: var(--ink-2); max-width: 70ch; }
-  @media (max-width: 480px) { ul.results li { grid-template-columns: 1fr; gap: 2px; } .badge { justify-self: start; } }
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="index.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>fossil</h1>
-    <p class="lede">Independent reproductions of published computational papers. We rebuild each figure and table with the paper's own method and data. Then we compare the result with the published version, pixel by pixel.</p>
-  </header>
+<header class="slab">
+  <div class="container">
+    <a class="wordmark" href="./" aria-label="fossil, home">fossil</a>
+    <nav class="links" aria-label="Site"><a href="https://github.com/jeonglab-bcm/fossil">GitHub</a></nav>
+  </div>
+</header>
 
-  <section class="card" aria-label="PMC4081639">
-    <div class="meta"><span class="id">PMC4081639</span> · Yu &amp; Shaw · <i>Bioinformatics</i> 30(11):1547–1554 (2014)</div>
-    <h2>An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function</h2>
-    <ul class="results">
-      <li><span class="badge ok">Fig. 2</span><span>Same data as the paper. Our curve covers all of the published curve pixels.</span></li>
-      <li><span class="badge ok">Fig. 4</span><span>Same data as the paper.</span></li>
-      <li><span class="badge partial">Fig. 5</span><span>Same setup. 26 of 50 VGAM marks are identical. The remaining rounding noise depends on the 2013 build.</span></li>
-      <li><span class="badge info">Fig. 6</span><span>Re-timed on new hardware. After one constant, mesh runtime grows with <i>n</i> exactly as in the paper. VGAM does not.</span></li>
-      <li><span class="badge ok">Table 1</span><span>All four dispersion estimates match to five decimals.</span></li>
-    </ul>
-    <div class="links">
-      <a href="PMC4081639/">Figures and Table 1</a>
-      <a href="PMC4081639/implementation.html">Implementation analysis</a>
-      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081639">Code and data</a>
+<main>
+  <section class="hero" aria-labelledby="hero-head">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 id="hero-head">Published figures, rebuilt from their data</h1>
+        <p class="lead">Each figure redrawn from the paper’s code and laid over the original.</p>
+        <a class="btn btn--primary" href="PMC4247685/">See the latest reproduction</a>
+      </div>
+      <figure class="signature">
+        <img src="assets/pmc4247685-fig5-overlay.png" width="894" height="803" fetchpriority="high" alt="Kaplan–Meier curves of PMC4247685 Figure 5: the published curves in ink with the reproduced curves printed over them in magenta. They coincide.">
+        <figcaption>PMC4247685, Fig. 5. The published curves in ink, ours printed over them in magenta.</figcaption>
+      </figure>
     </div>
   </section>
 
-  <footer>The papers belong to their publishers. This site shows four figures from PMC4081639 (© Oxford University Press) only to compare them with our reproductions. It does not contain the papers or their supplements.</footer>
-</div>
+  <section class="index" aria-labelledby="index-head">
+    <div class="container">
+      <div class="sheet">
+        <div class="sheet-head">
+          <h2 id="index-head">Reproductions, newest first</h2>
+          <dl class="tally">
+            <div><dt>Papers</dt><dd>2</dd></div>
+            <div><dt>Agrees</dt><dd>1</dd></div>
+            <div><dt>Partly agrees</dt><dd>1</dd></div>
+            <div><dt>Differs</dt><dd>0</dd></div>
+          </dl>
+        </div>
+        <div class="table-wrap">
+          <table class="record">
+            <colgroup><col class="col-date"><col class="col-date"><col class="col-paper"><col class="col-lost"><col class="col-found"><col></colgroup>
+            <thead>
+              <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2014-11-21">21 Nov 2014</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4247685</span>
+                  <a class="title" href="https://doi.org/10.1186/s12859-014-0355-5">A framework for generalized subspace pattern mining in high-dimensional datasets</a>
+                  <span class="journal">Curry, BMC Bioinformatics</span>
+                  <span class="go"><a href="PMC4247685/">Results</a><a href="PMC4247685/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>GABi’s parameter values</li>
+                  <li>Fig. 2’s synthetic datasets</li>
+                  <li>The 21 + 21 TCGA tumours</li>
+                  <li>The 2013 TCGA clinical data</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li>Fig. 5’s data (Table S3)</li>
+                  <li>The bicluster’s 14,382 CpG sites</li>
+                  <li>How each figure was drawn</li>
+                  <li>Fig. 2’s box statistics, from its pixels</li>
+                  <li>What GABi 0.1 computes (77 checks)</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly"><span aria-hidden="true">◐</span>Partly agrees</span><span class="verdict-note">Figs 3 and 4 running</span></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2014-02-11">11 Feb 2014</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4081639</span>
+                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btu079">An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function</a>
+                  <span class="journal">Yu and Shaw, Bioinformatics</span>
+                  <span class="go"><a href="PMC4081639/">Results</a><a href="PMC4081639/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081639">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The algorithm’s source code</li>
+                  <li>The 2013 build’s rounding (Fig. 5)</li>
+                  <li>The 2013 machine’s timings (Fig. 6)</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li>The algorithm, from the compiled library (to 4 × 10<sup>−16</sup>)</li>
+                  <li>Fig. 2’s exact inputs</li>
+                  <li>Table 1’s four estimates</li>
+                  <li>The figure toolchain</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="agrees"><span aria-hidden="true">✓</span>Agrees</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rerun" aria-labelledby="rerun-head">
+    <div class="container">
+      <h2 id="rerun-head">Rerun any of them</h2>
+      <pre class="cmd"><code>nextflow run PMC4247685/figure-reproduction/main.nf --outdir results
+nextflow run PMC4081639/figure-reproduction/main.nf --outdir results</code></pre>
+      <p class="note">Each run redraws the figures and writes a report comparing them with the committed ones.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="statement">Each reproduction is a pipeline in the repository.</p>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/jeonglab-bcm/fossil">GitHub</a>
+      <a href="PMC4247685/">PMC4247685 results</a>
+      <a href="PMC4081639/">PMC4081639 results</a>
+    </nav>
+  </div>
+</footer>
 </body>
 </html>
