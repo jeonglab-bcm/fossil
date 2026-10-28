@@ -8,44 +8,49 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<header class="slab">
+<header class="topbar">
   <div class="container">
     <a class="wordmark" href="./" aria-label="fossil, home">fossil</a>
-    <nav class="links" aria-label="Site"><a href="https://github.com/jeonglab-bcm/fossil">GitHub</a></nav>
+    <nav aria-label="Site"><a href="#papers">The papers</a><a href="https://github.com/jeonglab-bcm/fossil">The code</a></nav>
   </div>
 </header>
 
 <main>
   <section class="hero" aria-labelledby="hero-head">
+    <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <div class="container hero-grid">
       <div class="hero-text">
-        <h1 id="hero-head">Published figures, rebuilt from their data</h1>
-        <p class="lead">Each figure redrawn from the paper’s code and laid over the original.</p>
-        <a class="btn btn--primary" href="PMC4247685/">See the latest reproduction</a>
+        <h1 id="hero-head">Fig. 5 came back the same.</h1>
+        <p class="lead">We dig up old papers and get their figures back.</p>
+        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">Both papers</a></div>
+        <p class="aside">Two papers dug up so far.</p>
       </div>
       <figure class="signature">
-        <img src="assets/pmc4247685-fig5-overlay.png" width="894" height="803" fetchpriority="high" alt="Kaplan–Meier curves of PMC4247685 Figure 5: the published curves in ink with the reproduced curves printed over them in magenta. They coincide.">
-        <figcaption>PMC4247685, Fig. 5. The published curves in ink, ours printed over them in magenta.</figcaption>
+        <div class="surface sig-card">
+          <img src="assets/pmc4247685-fig5-overlay.png" width="950" height="859" fetchpriority="high" alt="Kaplan-Meier curves of PMC4247685 Figure 5: the published curves in ink with the reproduced curves drawn inside them in green. They coincide.">
+        </div>
+        <figcaption class="label">
+          <span class="label-head"><span>Curry 2014</span><span>Fig. 5</span></span>
+          <span class="label-title">Progression-free survival</span>
+          <span>From Table S3, 40 patients</span>
+          <span class="stamp" data-v="agrees">Matched on 28 Oct<small>by our rerun</small></span>
+          <span class="label-stub">Ink is theirs, green is ours</span>
+        </figcaption>
       </figure>
     </div>
   </section>
 
-  <section class="index" aria-labelledby="index-head">
+  <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
-      <div class="sheet">
-        <div class="sheet-head">
-          <h2 id="index-head">Reproductions, newest first</h2>
-          <dl class="tally">
-            <div><dt>Papers</dt><dd>2</dd></div>
-            <div><dt>Agrees</dt><dd>1</dd></div>
-            <div><dt>Partly agrees</dt><dd>1</dd></div>
-            <div><dt>Differs</dt><dd>0</dd></div>
-          </dl>
-        </div>
+      <div class="index-head">
+        <h2 id="index-head">Two papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, one partly.</p>
+      </div>
+      <div class="surface">
         <div class="table-wrap">
           <table class="record">
             <colgroup><col class="col-date"><col class="col-date"><col class="col-paper"><col class="col-lost"><col class="col-found"><col></colgroup>
@@ -75,7 +80,7 @@
                   <li>Fig. 2’s box statistics, from its pixels</li>
                   <li>What GABi 0.1 computes (77 checks)</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="verdict" data-v="partly"><span aria-hidden="true">◐</span>Partly agrees</span><span class="verdict-note">Figs 3 and 4 running</span></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">Figs 3 and 4 running</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-02-11">11 Feb 2014</time></td>
@@ -97,7 +102,7 @@
                   <li>Table 1’s four estimates</li>
                   <li>The figure toolchain</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="verdict" data-v="agrees"><span aria-hidden="true">✓</span>Agrees</span></td>
+                <td data-label="Verdict"><span class="stamp" data-v="agrees">Agrees</span></td>
               </tr>
             </tbody>
           </table>
@@ -106,23 +111,15 @@
     </div>
   </section>
 
-  <section class="rerun" aria-labelledby="rerun-head">
-    <div class="container">
-      <h2 id="rerun-head">Rerun any of them</h2>
-      <pre class="cmd"><code>nextflow run PMC4247685/figure-reproduction/main.nf --outdir results
-nextflow run PMC4081639/figure-reproduction/main.nf --outdir results</code></pre>
-      <p class="note">Each run redraws the figures and writes a report comparing them with the committed ones.</p>
-    </div>
-  </section>
 </main>
 
 <footer class="foot">
   <div class="container">
-    <p class="statement">Each reproduction is a pipeline in the repository.</p>
+    <p class="statement">Every figure here can be dug up again from the code.</p>
     <nav class="links" aria-label="Footer">
-      <a href="https://github.com/jeonglab-bcm/fossil">GitHub</a>
-      <a href="PMC4247685/">PMC4247685 results</a>
-      <a href="PMC4081639/">PMC4081639 results</a>
+      <a href="https://github.com/jeonglab-bcm/fossil">The code on GitHub</a>
+      <a href="PMC4247685/">GABi figures</a>
+      <a href="PMC4081639/">lldmn figures</a>
     </nav>
   </div>
 </footer>
