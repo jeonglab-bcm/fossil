@@ -1,0 +1,72 @@
+name: Reproduce PMC4247685
+
+on:
+  workflow_dispatch:
+    inputs:
+      rerun_ga:
+        description: "Rerun both genetic-algorithm steps (about 2 h on 4 cores)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC4247685/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc4247685.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4247685/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc4247685.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages(c("ggplot2", "survival", "data.table", "jsonlite", "isa2", "hash", "MASS", "colorspace", "lattice", "flexclust", "additivityTests", "tidyr"))'
+          # biclust 2.0.3.1 and GABi 0.1 are archived on CRAN.
+          Rscript -e 'install.packages(c("https://cran.r-project.org/src/contrib/Archive/biclust/biclust_2.0.3.1.tar.gz", "https://cran.r-project.org/src/contrib/Archive/GABi/GABi_0.1.tar.gz"), repos = NULL, type = "source")'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy scipy pillow
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC4247685/figure-reproduction/main.nf --outdir results -ansi-log false
+          --cores 4 ${{ inputs.rerun_ga && '--rerun_ga' || '' }}
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4247685-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

@@ -23,6 +23,8 @@ DATA = {
     "6": ("remeasured", "Shown on the paper's own axis (0.27–510 µs; breaks 1, 10, 100). Timings were measured on this Mac, then each method was divided by one constant fitted to the paper's box medians (least squares in log10): mesh ÷13.2, VGAM ÷27.3. Mesh runs 13.2–13.3× slower than the paper's at every n, so after that one constant its growth with n matches the paper exactly. For VGAM the ratio climbs from 4.3× (n = 100) to 77× (n = 10⁴): our R code for Eq. (7) grows linearly with n, while the paper's VGAM barely changes between n = 100 and 1000 (2.1 → 2.5 µs). One VGAM outlier at 10⁵ falls above the axis and is clipped."),
 }
 
+VERDICTS = {"2": "Agrees", "4": "Agrees", "5": "Partly agrees", "6": "Partly agrees"}
+
 
 def b64(path_or_img, fmt="PNG"):
     if isinstance(path_or_img, str):
@@ -45,7 +47,7 @@ for fig in ("2", "4", "5", "6"):
     O = np.asarray(Image.open(f"{OUTDIR}/fig{fig}_ours.png").convert("L")).astype(float)
     d = np.abs(P - O)
     figs.append(dict(
-        id=fig, caption=CAPTIONS[fig], data_status=DATA[fig][0], data_note=DATA[fig][1],
+        id=fig, caption=CAPTIONS[fig], data_status=DATA[fig][0], data_note=DATA[fig][1], verdict=VERDICTS[fig],
         w=P.shape[1], h=P.shape[0],
         paper="data:image/jpeg;base64," + b64(f"{PAPER}/figure-{fig}.jpg"),
         ours="data:image/png;base64," + b64(Image.open(f"{OUTDIR}/fig{fig}_ours.png").convert("L")),
@@ -79,7 +81,7 @@ detail = "".join(
     f"<tr><td>{NAMES[k]}</td><td class=num>{v['samples']}</td><td class=num>{v['reads']:,}</td><td class=num>{v['psi']:.6f}</td><td class=num>{v['paper']:.5f}</td>"
     f"<td class=num>{'✓' if round(v['psi'], 5) == v['paper'] else '✗'}</td></tr>" for k, v in t1.items())
 TABLE1 = f"""<section class="card" aria-label="Table 1">
-  <div class="card-head"><h2>Table 1</h2><span class="badge identical">All four match to 5 decimals</span>
+  <div class="card-head"><h2>Table 1</h2><span class="pill agrees"><span aria-hidden="true">✓</span>Agrees</span><span class="badge identical">All four match to 5 decimals</span>
   <p>The MLE of the dispersion parameters of the 16S rRNA pyrosequencing data from all four body sites.</p></div>
   <div class="t1pair">{jtable("Published", lambda v: f"{v['paper']:.5f}")}{jtable("Reproduced", lambda v: f"{round(v['psi'], 5):.5f}")}</div>
   <div class="stage"><table class="detail"><thead><tr><th>Body site</th><th class=num>Samples</th><th class=num>Reads</th><th class=num>MLE <i>ψ</i> (6 d.p.)</th><th class=num>Paper</th><th class=num>Match</th></tr></thead><tbody>{detail}</tbody></table></div>

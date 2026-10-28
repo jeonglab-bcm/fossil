@@ -68,6 +68,11 @@
   .badge { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
   .badge.identical { background: var(--ok-soft); color: var(--ok); }
   .badge.partial { background: var(--warn-soft); color: var(--warn); }
+  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 3px 11px; border-radius: 99px; border: 1.5px solid currentColor; white-space: nowrap; }
+  .pill.agrees { color: var(--ok); background: var(--ok-soft); }
+  .pill.partly { color: var(--warn); background: var(--warn-soft); }
+  .pill.differs { color: var(--red); background: var(--warn-soft); }
+  .pill.running { color: var(--info); background: var(--info-soft); }
   .badge.remeasured { background: var(--info-soft); color: var(--info); }
 
   .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
@@ -143,6 +148,15 @@ const FIGS = /*__FIGS__*/[];
 const MODES = [["side", "Side by side"], ["swipe", "Swipe"], ["blink", "Blink"], ["overlay", "Overlay"], ["diff", "Difference"]];
 const BADGE = { identical: "Identical data", partial: "Same setup · ulp noise differs", remeasured: "Re-timed · scaled to paper's axis" };
 
+const VERDICT = { "Agrees": ["agrees", "✓"], "Partly agrees": ["partly", "◐"], "Differs": ["differs", "✕"], "Running": ["running", "⋯"] };
+function pill(v) {
+  if (!v) return "";
+  const [cls, mark] = VERDICT[v];
+  const s = document.createElement("span"); s.className = "pill " + cls;
+  const m = document.createElement("span"); m.setAttribute("aria-hidden", "true"); m.textContent = mark;
+  s.append(m, v); return s;
+}
+
 function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
 
 function pixels(img, w, h) {
@@ -175,7 +189,7 @@ function plate(label, node) { return el("div", { class: "plate" }, el("span", { 
 function card(f) {
   const state = { mode: "side", zoom: 1, timer: null };
   const head = el("div", { class: "card-head" },
-    el("h2", {}, "Figure " + f.id), el("span", { class: "badge " + f.data_status }, BADGE[f.data_status]), el("p", {}, f.caption));
+    el("h2", {}, "Figure " + f.id), pill(f.verdict), el("span", { class: "badge " + f.data_status }, BADGE[f.data_status]), el("p", {}, f.caption));
   const tabs = el("div", { class: "tabs", role: "group", "aria-label": "View mode" });
   const tool = el("div", { class: "tool" });
   const zoom = el("button", { type: "button" }, "Zoom 2×");
