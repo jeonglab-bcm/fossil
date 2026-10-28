@@ -1,0 +1,172 @@
+/* Hallmark · shape: Workbench (the figures are the product: one lifted station per figure, the notes below the bench) · genre: modern-minimal · theme: Dose (by request) · redesign: full
+ * hero: Banner (both results pages: short, so the first station starts on the first screen) · nav: edge-aligned · footer: statement on the ink band · imagery: the product (each published figure and our reproduction of it) · signature: each published figure under its reproduction, switched by plastic keys, the overlay printing theirs in ink and ours in green · dose: white
+ * axes: light/grotesk-sans/chromatic-green · posture: committed · contrast: pass · job: read the figures · motion: still, only a pressed key sinks · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: H, the long data notes competed with the figures; moved them under a dashed tear-off beside the DM Mono stats so each figure leads its station */
+/* Hallmark · waive 59 · the hero sits 40px above the first station · the owner asked for the first figure on the first screen, so Fig. 2 follows the short hero directly */
+/* Hallmark · dismissed 58 · each station holds the paper's own caption, data note and six measured stats, and the owner keeps every one of them */
+/* Hallmark · answered F1 · the straight quotes left are R code set in DM Mono, xaxs = "S" exactly as R takes it */
+/* Hallmark · answered F2 · the three periods are R code, survfit(...) as typed in the call, not an ellipsis */
+/* Hallmark · answered F4 · the mint fill is the latched state of a clear key; the hero's green key is the one primary on each page */
+/* Hallmark · answered F6 · each station head is one figure number that never stands in a column, and tabular figures spaced Fig. 5 apart */
+/* Hallmark · answered F20 · each station head is one row of number, caption and stamp; the stamp's two-degree turn measures as a second row */
+/* Hallmark · answered F25 · the 21-row box table for Fig. 2 scrolls sideways inside its own wrap on a phone; restacking it would part each paper value from ours */
+@import url("./tokens.css");
+@import url("./base.css");
+@import url("./site.css");
+
+html { padding-block: env(safe-area-inset-top) env(safe-area-inset-bottom); }
+.topbar nav a { white-space: nowrap; }
+
+/* Hero: short. Head and one sentence on eight columns, the verdict label on four, window light across the paper. */
+.hero { position: relative; overflow: clip; padding-block: var(--space-2xl) var(--space-xl); }
+.window { position: absolute; inset: 0; z-index: -1; pointer-events: none; mask-image: linear-gradient(to bottom, black 40%, transparent 100%); }
+.window span { position: absolute; top: -10%; width: 16%; height: 120%; background: var(--light); filter: blur(28px); opacity: 0.85; transform: skewX(-24deg); }
+.window span:nth-child(1) { left: 6%; } .window span:nth-child(2) { left: 26%; }
+.window span:nth-child(3) { left: 50%; width: 12%; } .window span:nth-child(4) { left: 68%; width: 12%; }
+.hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: end; }
+.hero-text { grid-column: 1 / span 8; display: grid; gap: var(--space-lg); justify-items: start; }
+.hero h1 { font-size: var(--text-display); max-width: 16ch; }
+.hero .lead { color: var(--color-ink-2); }
+
+/* The pharmacy label: the paper's reference and every figure's verdict, each line a way into its station. */
+.label { grid-column: 9 / span 4; display: grid; gap: var(--space-2xs); padding: var(--space-md) var(--space-md) 0; background: var(--color-surface); border-radius: var(--radius-input); box-shadow: var(--shadow-lift); font: 400 var(--text-sm)/1.4 var(--font-outlier); color: var(--color-ink); }
+.label-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2xs) var(--space-sm); padding-bottom: var(--space-2xs); border-bottom: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); font-size: var(--text-xs); }
+.label-title { font-weight: 500; margin-top: var(--space-2xs); }
+.label ol { list-style: none; margin: 0 0 var(--space-sm); padding: 0; }
+.label li a { display: flex; justify-content: space-between; gap: var(--space-sm); padding-block: var(--space-xs); border-bottom: var(--rule-hair) solid var(--color-rule); text-decoration: none; }
+.label li:last-child a { border-bottom: 0; }
+.label li a:hover .v { text-decoration: underline; text-decoration-color: var(--color-accent); }
+.label .v[data-v="agrees"] { color: var(--color-accent-deep); }
+.label .v[data-v="partly"], .label .v[data-v="differs"], .label .v[data-v="running"], .label .v[data-v="none"] { color: var(--color-muted); }
+.label-stub { margin-inline: calc(-1 * var(--space-md)); padding: var(--space-xs) var(--space-md); border-top: var(--rule-hair) dashed var(--color-muted); font-size: var(--text-xs); color: var(--color-muted); }
+
+/* The bench: one lifted white station per figure, separated by paper. */
+.bench { padding-block: 0 var(--section-gap-s); }
+.stations { display: grid; gap: var(--space-2xl); }
+.station { display: grid; gap: var(--space-lg); padding: var(--space-xl); min-width: 0; scroll-margin-top: var(--space-lg); }
+.station-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-xl); }
+.station-head h2 { flex: 0 1 auto; max-width: none; font-size: var(--text-section); }
+.station-head .caption { flex: 1 1 30rem; max-width: 60ch; font-size: var(--text-lead); line-height: 1.4; color: var(--color-ink-2); }
+.station-head .stamp, .station-head .basis { flex: none; margin-left: auto; }
+.basis { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); }
+.station-head .stamp small { color: inherit; }
+
+/* Keys: clear plastic, the pressed one latched in mint and sitting lower. */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-xl); }
+.keyset { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.keyset--data { padding-right: var(--space-xl); border-right: var(--rule-hair) solid var(--color-rule); }
+.btn--key { min-height: 44px; padding-inline: var(--space-md); font-size: var(--text-sm); background: var(--color-surface); }
+.btn--key[aria-pressed="true"] { background: var(--color-accent-soft); color: var(--color-ink); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--glint) 60%, transparent), 0 0 0 1px var(--color-accent), 0 1px 0 var(--color-accent); transform: translateY(2px); }
+.btn--key[aria-pressed="true"]:hover { background: var(--color-accent-soft); }
+.btn--key[aria-pressed="true"]:active { transform: translateY(3px); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.tool { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); font-size: var(--text-sm); color: var(--color-ink-2); }
+.tool:empty { display: none; }
+.tool input[type="range"] { width: 10rem; margin: 0; accent-color: var(--color-accent); cursor: pointer; }
+.tool input[type="range"]:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.tool input[type="range"]:active { cursor: grabbing; }
+.tool input[type="range"]:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* The stage: the figures at their own pixels, scaled down only to fit. */
+.stage { overflow-x: auto; min-width: 0; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-columns); }
+.plate { margin: 0; display: grid; gap: var(--space-xs); align-content: start; justify-items: start; min-width: 0; }
+.plate figcaption { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); }
+.plate img, .plate canvas { display: block; max-width: 100%; height: auto; box-shadow: 0 0 0 var(--rule-hair) var(--color-rule); }
+.zoomed img, .zoomed canvas { max-width: none; image-rendering: pixelated; }
+.single { display: inline-grid; }
+.swipe { position: relative; display: inline-block; line-height: 0; }
+.swipe .top { position: absolute; inset: 0; box-shadow: none; }
+.swipe .bar { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--color-accent); pointer-events: none; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-lg); font-size: var(--text-sm); color: var(--color-ink-2); }
+.legend:empty { display: none; }
+.legend .sw { display: inline-block; width: 12px; height: 12px; margin-right: var(--space-xs); border-radius: 3px; vertical-align: -1px; }
+
+/* The tear-off: a dashed rule, the measured stats in DM Mono beside the data note. */
+.station-foot { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); margin-inline: calc(-1 * var(--space-xl)); padding: var(--space-lg) var(--space-xl) 0; border-top: var(--rule-hair) dashed var(--color-muted); }
+.dose { grid-column: 1 / span 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: var(--space-md) var(--space-lg); margin: 0; font-family: var(--font-outlier); font-variant-numeric: tabular-nums; }
+.dose dt { font-size: var(--text-xs); line-height: 1.35; color: var(--color-muted); }
+.dose dd { margin: var(--space-2xs) 0 0; font-size: var(--text-md); line-height: 1.35; color: var(--color-ink); }
+.station-foot .note { grid-column: 8 / span 5; }
+.note { font-size: var(--text-sm); line-height: 1.55; color: var(--color-ink-2); max-width: 50ch; }
+.split .caption { font-size: var(--text-lead); line-height: 1.45; color: var(--color-ink-2); max-width: 44ch; }
+
+/* A figure still being dug up: the published figure alone, the reason beside it. */
+.pending { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: start; }
+.pending .plate { grid-column: 1 / span 6; }
+.pending .note { grid-column: 8 / span 5; font-size: var(--text-lead); line-height: 1.45; }
+
+/* Tables on a station: the record's rules, tighter rows for long runs of numbers. */
+.split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: start; }
+.split > .wide { grid-column: 1 / span 7; min-width: 0; }
+.split > .side { grid-column: 8 / span 5; min-width: 0; display: grid; gap: var(--space-lg); }
+.split > .side--lead { grid-column: 1 / span 5; }
+.split > .side--lead + .wide { grid-column: 6 / span 7; }
+table.record.dense td { padding-block: var(--space-xs); }
+table.record th.num { text-align: right; }
+table.record td.num { white-space: nowrap; }
+table.record td:first-child { font-family: var(--font-body); }
+
+/* Table 1 as the journal printed it: two short tables between ink rules. */
+.jt-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-columns); }
+.jt { margin: 0; display: grid; gap: var(--space-xs); align-content: start; }
+.jt figcaption { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); }
+.jt table { width: 100%; max-width: 20rem; border-collapse: collapse; font-size: var(--text-md); color: var(--color-ink); }
+.jt thead tr { border-top: 1.5px solid var(--color-ink); border-bottom: var(--rule-hair) solid var(--color-ink); }
+.jt tbody tr:last-child { border-bottom: 1.5px solid var(--color-ink); }
+.jt th, .jt td { padding: var(--space-2xs) var(--space-sm) var(--space-2xs) 0; text-align: left; font-weight: 400; }
+.jt .num { text-align: right; font-family: var(--font-outlier); }
+
+/* The notes under the bench: a ledger of rows on the paper, hairlines between. */
+.notes { padding-block: var(--section-gap) 0; }
+.notes h2 { font-size: var(--text-section); margin-bottom: var(--space-xl); }
+.ledger { margin: 0; }
+.ledger .row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-xs) var(--gap-columns); padding-block: var(--space-lg); border-top: var(--rule-hair) solid var(--color-rule); }
+.ledger .row:last-child { border-bottom: var(--rule-hair) solid var(--color-rule); }
+.ledger dt { grid-column: 1 / span 3; font: 500 var(--text-md)/1.4 var(--font-body); color: var(--color-ink); }
+.ledger dd { grid-column: 4 / span 8; margin: 0; max-width: 72ch; }
+
+/* What stayed buried: one band of plastic, the losses listed on it. */
+.buried { padding-block: var(--space-3xl) 0; }
+.buried-band { --t: var(--p-fri); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto 1fr; align-items: start; gap: var(--space-lg) var(--gap-columns); padding: var(--space-2xl) var(--space-xl); color: var(--color-ink); }
+.buried-band h2 { grid-column: 1 / span 5; font-size: var(--text-section); }
+.buried-band .so { grid-column: 1 / span 5; grid-row: 2; color: var(--color-ink); }
+.buried-band ul { grid-column: 7 / span 6; grid-row: 1 / span 2; margin: 0; padding: 0; list-style: none; }
+.buried-band li { padding-block: var(--space-md); border-top: var(--rule-hair) solid color-mix(in oklab, var(--color-ink) 22%, transparent); font-size: var(--text-lead); line-height: 1.4; color: var(--color-ink); }
+.buried-band li:first-child { border-top: 0; padding-top: 0; }
+
+/* What we matched: the head and its sentence pinned on the left, the settings stacked on the right. */
+.matched { padding-block: var(--section-gap) var(--space-3xl); }
+.matched-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: start; }
+.matched-intro { grid-column: 1 / span 4; display: grid; gap: var(--space-lg); position: sticky; top: var(--space-lg); }
+.matched-intro h2 { font-size: var(--text-section); }
+.matched-intro p { color: var(--color-ink-2); }
+.matched .ledger { grid-column: 6 / span 7; }
+.matched .ledger .row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xs); }
+.matched .ledger dt, .matched .ledger dd { grid-column: 1 / -1; }
+.after-bench { padding-block: 0; }
+
+@media (max-width: 60rem) {
+  .hero-text, .label { grid-column: 1 / -1; }
+  .label { max-width: 26rem; }
+  .station { padding: var(--space-lg) var(--space-md); }
+  .station-foot { margin-inline: calc(-1 * var(--space-md)); padding-inline: var(--space-md); }
+  .station-head .stamp, .station-head .basis { margin-left: 0; }
+  .dose, .station-foot .note, .pending .plate, .pending .note, .split > .wide, .split > .side, .split > .side--lead, .split > .side--lead + .wide { grid-column: 1 / -1; }
+  .dose { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pair, .jt-pair { grid-template-columns: minmax(0, 1fr); }
+  .ledger dt, .ledger dd { grid-column: 1 / -1; }
+  .buried-band { padding: var(--space-xl) var(--space-lg); }
+  .buried-band h2, .buried-band .so, .buried-band ul { grid-column: 1 / -1; grid-row: auto; }
+  .matched-intro, .matched .ledger { grid-column: 1 / -1; }
+  .matched-intro { position: static; }
+  .keyset--data { padding-right: 0; border-right: 0; }
+  table.record.stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  table.record.stack, table.record.stack tbody, table.record.stack tr { display: block; width: auto; }
+  table.record.stack tr { padding-block: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); }
+  table.record.stack tbody tr:first-child { border-top: 0; padding-top: 0; }
+  table.record.stack td { display: flex; justify-content: space-between; gap: var(--space-md); padding: var(--space-2xs) 0; border-top: 0; }
+  table.record.stack td:first-child { font-weight: 500; color: var(--color-ink); }
+  table.record.stack td[data-label]::before { content: attr(data-label); font: 400 var(--text-sm)/1.4 var(--font-body); color: var(--color-muted); text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .btn--key { transition: none; } }

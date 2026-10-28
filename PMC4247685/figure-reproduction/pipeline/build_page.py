@@ -3,6 +3,7 @@
 Usage: python3 build_page.py <dir with outputs and published figures> <out index.html>
 The directory holds fig{2,3,4,5}_ours.png and .json, figure-2.jpg, figure-{3,4,5}.png,
 fig5_tests.json, fig34_summary.json, fig2_boxes.csv and fig2_tests.json.
+The page links ../results.css, the stylesheet the site's results pages share.
 """
 import base64
 import csv
@@ -46,9 +47,9 @@ def fig2_result():
     bc = opt("fig2_block_check.json")
     if bc is not None:
         by, runs = bc["benchmark_by_sign"], {r["consistency"]: r for r in bc["consistency_runs"]}
-        out += (f" On block data, Algorithm 2's offset b ~ N(0, 1) is negative in {40 - by['n_positive']} of 40 "
+        out += (f" On block data, Algorithm 2’s offset b ~ N(0, 1) is negative in {40 - by['n_positive']} of 40 "
                 f"datasets, where the implanted block is lower than the rest of its rows and the block model "
-                f"cannot see it: GABi.block's median F is {by['b_negative']:.2f} there and {by['b_positive']:.2f} "
+                f"cannot see it: GABi.block’s median F is {by['b_negative']:.2f} there and {by['b_positive']:.2f} "
                 f"where b > 0. With consistency 0.6 instead of 0.8 the median rises to {runs[0.6]['median']:.2f}.")
     return out
 
@@ -66,7 +67,7 @@ def notes(fig):
         "by pixels. " + fig2_result())),
     "3": lambda: ("partial", "R base graphics", (
         f"TCGA OV HumanMethylation27 (UCSC Xena), {t34['bicluster_samples']} bicluster and "
-        f"{t34['control_samples']} control tumours found by GABi 0.1 with S1's dysregulation-vs-outcome "
+        f"{t34['control_samples']} control tumours found by GABi 0.1 with S1’s dysregulation-vs-outcome "
         f"model on the Table S3 probes; {t34['features']:,} CpG sites selected. Paper: 21 and 21 tumours, "
         f"14,382 sites. Mode of the pair-wise correlations: {t34['pair_cor_mode']['bicluster']:.2f} "
         f"(bicluster), {t34['pair_cor_mode']['control']:.2f} (control).")),
@@ -76,7 +77,7 @@ def notes(fig):
         f"{pm['control']:.1f} months (paper 85.4 vs 32). Progression-free interval from the TCGA "
         "Pan-Cancer clinical resource, not the 2013 portal data the paper used.")),
     "5": lambda: ("identical", "R base graphics", (
-        f"Same data as the paper: the clinical rows of Table S3 (20 + 20 patients, PFS in the file's "
+        f"Same data as the paper: the clinical rows of Table S3 (20 + 20 patients, PFS in the file’s "
         f"units). Logrank p = {fmt_p(t5['pfs']['p'])} for progression-free survival and "
         f"{fmt_p(t5['os']['p'])} for overall survival; the paper reports 0.15 and 0.1.")),
     }[fig]()
@@ -91,6 +92,10 @@ PENDING = {
     "4": "GABi is still searching the TCGA data for the dysregulation bicluster.",
 }
 
+# What each reproduction is drawn from, printed under its verdict.
+BASIS = {"identical": "Identical data", "partial": "Reconstructed from public data", "remeasured": "Rerun on random data"}
+VCLASS = {"Agrees": "agrees", "Partly agrees": "partly", "Differs": "differs", "Running": "running"}
+
 
 def b64_file(path):
     return base64.b64encode(open(path, "rb").read()).decode()
@@ -102,72 +107,123 @@ def b64_img(img):
     return base64.b64encode(buf.getvalue()).decode()
 
 
-figs, pending = [], []
+esc = html.escape
+num = lambda v: f"{v:g}"  # prints a number the way the page's script would (100.0 as 100)
+
+
+def stamp(verdict, basis=None):
+    if not verdict:
+        return f'<p class="basis">{esc(basis)}</p>' if basis else ""
+    small = f"<small>{esc(basis)}</small>" if basis else ""
+    return f'<span class="stamp" data-v="{VCLASS[verdict]}">{esc(verdict)}{small}</span>'
+
+
+def head(hid, title, caption, right=""):
+    return f'<header class="station-head"><h2 id="{hid}">{title}</h2><p class="caption">{caption}</p>{right}</header>'
+
+
+def dose(rows):
+    return "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>" for k, v in rows)
+
+
+def plate(label, src, alt, w, h):
+    return f'<figure class="plate"><figcaption>{esc(label)}</figcaption><img src="{src}" alt="{esc(alt)}" width="{w}" height="{h}"></figure>'
+
+
+def figs_phrase(ids):
+    ids = sorted(ids, key=int)
+    if len(ids) == 1:
+        return f"Fig. {ids[0]}"
+    run = [int(i) for i in ids] == list(range(int(ids[0]), int(ids[-1]) + 1))
+    return f"Figs {ids[0]} to {ids[-1]}" if run and len(ids) > 2 else f"Figs {', '.join(ids[:-1])} and {ids[-1]}"
+
+
+figs, pending, stations, verdict_of = [], [], {}, {}
 for fig in ("2", "3", "4", "5"):
     pub_path = p("figure-2.jpg" if fig == "2" else f"figure-{fig}.png")
     mime = "jpeg" if pub_path.endswith(".jpg") else "png"
+    hid = f"fig-{fig}-head"
     if not os.path.exists(p(f"fig{fig}_ours.png")):
-        pending.append((fig, f"data:image/{mime};base64," + b64_file(pub_path)))
+        pw, ph = Image.open(pub_path).size
+        pending.append(fig)
+        verdict_of[fig] = "Running"
+        stations[int(fig) * 10] = (
+            f'<section class="station surface" id="fig-{fig}" aria-labelledby="{hid}">'
+            + head(hid, f"Fig. {fig}", esc(CAPTIONS[fig]), stamp("Running"))
+            + '<div class="pending">'
+            + plate("Published", f"data:image/{mime};base64," + b64_file(pub_path), f"Figure {fig} as published", pw, ph)
+            + f'<p class="note">{esc(PENDING[fig])} This page is rebuilt when it finishes.</p></div></section>')
         continue
     m = j(f"fig{fig}.json")
     P = np.asarray(Image.open(pub_path).convert("L")).astype(float)
     ours = Image.open(p(f"fig{fig}_ours.png")).convert("RGB" if fig == "2" else "L")
     O = np.asarray(ours.convert("L")).astype(float)
     status, tool, note = notes(fig)
-    figs.append(dict(
-        id=fig, caption=CAPTIONS[fig], data_status=status, data_note=note, tool=tool, verdict=VERDICTS.get(fig),
-        w=P.shape[1], h=P.shape[0],
-        paper=f"data:image/{mime};base64," + b64_file(pub_path),
-        ours="data:image/png;base64," + b64_img(ours),
-        device=("ggplot2, 1946×1355 px at 300 dpi" if fig == "2" else "png() 480×480 px, 72 dpi"),
-        scale=f"{m['scale'][0]:.3f} × {m['scale'][1]:.3f}",
-        cover_pub=round(100 * m["published_ink_within_2px_of_ours"], 1),
-        cover_ours=round(100 * m["our_ink_within_2px_of_published"], 1),
-        mad=round(float(np.abs(P - O).mean()), 2),
-    ))
-
-esc = html.escape
+    w, h = P.shape[1], P.shape[0]
+    verdict_of[fig] = VERDICTS.get(fig)
+    stats = [
+        ("Pixel size", f"{w} × {h}"),
+        ("Drawn at", "ggplot2, 1946×1355 px at 300 dpi" if fig == "2" else "png() 480×480 px, 72 dpi"),
+        ("Frame scale", f"{m['scale'][0]:.3f} × {m['scale'][1]:.3f}"),
+        ("Paper ink ≤2 px from ours", num(round(100 * m["published_ink_within_2px_of_ours"], 1)) + "%"),
+        ("Our ink ≤2 px from paper", num(round(100 * m["our_ink_within_2px_of_published"], 1)) + "%"),
+        ("Mean |Δ| grey", num(round(float(np.abs(P - O).mean()), 2))),
+    ]
+    figs.append(dict(id=fig, w=w, h=h))
+    stations[int(fig) * 10] = (
+        f'<section class="station surface" id="fig-{fig}" aria-labelledby="{hid}">'
+        + head(hid, f"Fig. {fig}", esc(CAPTIONS[fig]), stamp(VERDICTS.get(fig), BASIS[status]))
+        + '<div class="stage"><div class="pair">'
+        + plate("Published", f"data:image/{mime};base64," + b64_file(pub_path), f"Figure {fig} as published", w, h)
+        + plate(f"Reproduction in {tool}", "data:image/png;base64," + b64_img(ours), f"Figure {fig} reproduced", w, h)
+        + '</div></div>'
+        + f'<div class="station-foot"><dl class="dose">{dose(stats)}</dl><p class="note">{esc(note)}</p></div></section>')
 
 
 def fig2_section():
     rows = "".join(
         f"<tr><td>{esc(b['structure'])}</td><td>{esc(b['method'])}</td>"
-        f"<td class=num>{float(b['published_median']):.2f}</td><td class=num>{float(b['published_q1']):.2f}–{float(b['published_q3']):.2f}</td>"
-        f"<td class=num>{float(b['ours_median']):.2f}</td><td class=num>{float(b['ours_q1']):.2f}–{float(b['ours_q3']):.2f}</td></tr>"
+        f"<td class=num>{float(b['published_median']):.2f}</td><td class=num>{float(b['published_q1']):.2f} to {float(b['published_q3']):.2f}</td>"
+        f"<td class=num>{float(b['ours_median']):.2f}</td><td class=num>{float(b['ours_q1']):.2f} to {float(b['ours_q3']):.2f}</td></tr>"
         for b in boxes)
     best = "; ".join(f"{s}: paper {v['published']}, ours {v['ours']}" for s, v in t2["highest_median"].items())
     tests = "".join(
         f"<tr><td>{esc(t['structure'])}</td><td>{esc(t['matched'])} &gt; {esc(t['versus'])}</td>"
         f"<td class=num>{fmt_p(t['p_greater'])}</td></tr>" for t in t2["wilcoxon"])
-    return f"""<section class="card" aria-label="Figure 2 box statistics">
-      <div class="card-head"><h2>Figure 2 in numbers</h2><span class="badge remeasured">Read from the published pixels</span>
-      <p>Median and interquartile range per method. Published values are read from the figure's box positions (fig2_measure.py, ±0.002 F.score). Highest median per structure: {esc(best)}.</p></div>
-      <div class="stage"><table class="detail"><thead><tr><th>Structure</th><th>Method</th><th class=num>Paper median</th><th class=num>Paper IQR</th><th class=num>Ours median</th><th class=num>Ours IQR</th></tr></thead><tbody>{rows}</tbody></table></div>
-      <p class="note">The paper (p. 11) reports that the matched GABi model beat every other method at p &lt; 0.01 (Wilcoxon signed rank), except Bimax on block structure (p = 0.1). Our one-sided paired tests on the rerun:</p>
-      <div class="stage"><table class="detail"><thead><tr><th>Structure</th><th>Comparison</th><th class=num>p</th></tr></thead><tbody>{tests}</tbody></table></div>
+    intro = ("Median and interquartile range per method. Published values are read from the figure’s box "
+             f"positions (fig2_measure.py, ±0.002 F.score). Highest median per structure: {esc(best)}.")
+    return f"""<section class="station surface" id="fig-2-numbers" aria-labelledby="fig-2-numbers-head">
+      {head("fig-2-numbers-head", "Fig. 2 in numbers", intro, '<p class="basis">Read from the published pixels</p>')}
+      <div class="split">
+        <div class="wide table-wrap"><table class="record dense"><thead><tr><th scope="col">Structure</th><th scope="col">Method</th><th scope="col" class=num>Paper median</th><th scope="col" class=num>Paper IQR</th><th scope="col" class=num>Ours median</th><th scope="col" class=num>Ours IQR</th></tr></thead><tbody>{rows}</tbody></table></div>
+        <div class="side">
+          <p class="note">The paper (p. 11) reports that the matched GABi model beat every other method at p &lt; 0.01 (Wilcoxon signed rank), except Bimax on block structure (p = 0.1). Our one-sided paired tests on the rerun:</p>
+          <div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Structure</th><th scope="col">Comparison</th><th scope="col" class=num>p</th></tr></thead><tbody>{tests}</tbody></table></div>
+        </div>
+      </div>
     </section>"""
 
 
-EXTRA = "".join(
-    f"""<section class="card" aria-label="Figure {fig}">
-  <div class="card-head"><h2>Figure {fig}</h2><span class="pill running"><span aria-hidden="true">⋯</span>Running</span>
-  <p>{esc(CAPTIONS[fig])}</p></div>
-  <div class="stage"><div class="plate single"><span class="label">Published</span><img src="{src}" alt="Figure {fig} as published"></div></div>
-  <p class="note">{esc(PENDING[fig])} This page is rebuilt when it finishes.</p>
-</section>""" for fig, src in pending)
 if t2 is not None and boxes is not None:
-    EXTRA += fig2_section()
+    stations[25] = fig2_section()
+STATIONS = "\n".join(stations[k] for k in sorted(stations))
 
 r, sd = s23["tcga_mean_abs_r"], s23["tcga_median_sd"]
-EXTRA += f"""<section class="card" aria-label="Table S2 and Table S3">
-  <div class="card-head"><h2>Tables S2 and S3 list different CpG sites</h2><span class="badge partial">Finding</span>
-  <p>Both are described as the {s23['s2']:,} CpG sites of the dysregulation bicluster. They share {s23['shared']:,}. Both lists are sorted, and they agree row for row up to row {s23['rows_equal_until']}. After that they drift apart by up to {s23['row_offset_range'][1]} positions, which looks like an indexing slip in one of them.</p></div>
-  <div class="stage"><table class="detail"><thead><tr><th>Probes (TCGA OV HM27, {s23['tcga_primary_tumours']} primary tumours)</th><th class=num>Mean |r| between probes</th><th class=num>Median SD of β</th></tr></thead><tbody>
-  <tr><td>In both lists ({s23['shared']:,})</td><td class=num>{r['shared']:.3f}</td><td class=num>{sd['shared']:.3f}</td></tr>
-  <tr><td>Only in Table S3 ({s23['s3_only']:,})</td><td class=num>{r['s3_only']:.3f}</td><td class=num>{sd['s3_only']:.3f}</td></tr>
-  <tr><td>Only in Table S2 ({s23['s2_only']:,})</td><td class=num>{r['s2_only']:.3f}</td><td class=num>{sd['s2_only']:.3f}</td></tr>
-  <tr><td>Random probes in neither list (3,000)</td><td class=num>{r['random']:.3f}</td><td class=num>{sd['random']:.3f}</td></tr></tbody></table></div>
-  <p class="note">The probes only in Table S3 behave like the shared ones: tightly co-varying, with low variance across tumours. The probes only in Table S2 behave like random probes. Table S3's row labels also match its values (mean β per row against the TCGA mean of the labelled probe: r = {s23['s3_labels_vs_tcga_mean_r']:.3f}; against the S2 probe at the same row: r = {s23['s2_labels_at_same_row_vs_tcga_mean_r']:.3f}). We take Table S3's list as the bicluster's CpG sites.</p>
+EXTRA = f"""<section class="container after-bench" aria-labelledby="s2s3-head">
+  <div class="station surface">
+    <header class="station-head"><h2 id="s2s3-head">Tables S2 and S3 list different CpG sites</h2><p class="basis">Our finding</p></header>
+    <div class="split">
+      <div class="side side--lead"><p class="caption">Both are described as the {s23['s2']:,} CpG sites of the dysregulation bicluster. They share {s23['shared']:,}. Both lists are sorted, and they agree row for row up to row {s23['rows_equal_until']}. After that they drift apart by up to {s23['row_offset_range'][1]} positions, which looks like an indexing slip in one of them.</p></div>
+      <div class="wide">
+        <div class="table-wrap"><table class="record stack"><thead><tr><th scope="col">Probes (TCGA OV HM27, {s23['tcga_primary_tumours']} primary tumours)</th><th scope="col" class=num>Mean |r| between probes</th><th scope="col" class=num>Median SD of β</th></tr></thead><tbody>
+  <tr><td>In both lists ({s23['shared']:,})</td><td class=num data-label="Mean |r| between probes">{r['shared']:.3f}</td><td class=num data-label="Median SD of β">{sd['shared']:.3f}</td></tr>
+  <tr><td>Only in Table S3 ({s23['s3_only']:,})</td><td class=num data-label="Mean |r| between probes">{r['s3_only']:.3f}</td><td class=num data-label="Median SD of β">{sd['s3_only']:.3f}</td></tr>
+  <tr><td>Only in Table S2 ({s23['s2_only']:,})</td><td class=num data-label="Mean |r| between probes">{r['s2_only']:.3f}</td><td class=num data-label="Median SD of β">{sd['s2_only']:.3f}</td></tr>
+  <tr><td>Random probes in neither list (3,000)</td><td class=num data-label="Mean |r| between probes">{r['random']:.3f}</td><td class=num data-label="Median SD of β">{sd['random']:.3f}</td></tr></tbody></table></div>
+        <p class="note">The probes only in Table S3 behave like the shared ones: tightly co-varying, with low variance across tumours. The probes only in Table S2 behave like random probes. Table S3’s row labels also match its values (mean β per row against the TCGA mean of the labelled probe: r = {s23['s3_labels_vs_tcga_mean_r']:.3f}; against the S2 probe at the same row: r = {s23['s2_labels_at_same_row_vs_tcga_mean_r']:.3f}). We take Table S3’s list as the bicluster’s CpG sites.</p>
+      </div>
+    </div>
+  </div>
 </section>"""
 def fig2_recovered():
     if t2 is None or boxes is None:
@@ -189,46 +245,66 @@ tcga = ("<dd>Running: GABi is searching the TCGA tumours for the dysregulation b
         f"{t34['features']:,} CpG sites (paper: 21, 21 and 14,382); progression-free logrank p = "
         f"{fmt_p(t34['pfs_logrank_p'])} (paper 1 × 10⁻⁵). The paper does not list the tumours, so they are "
         "found again by GABi on public TCGA data.</dd>")
-RECOVERED = f"""<section class="method">
-    <h2>What we recovered</h2>
-    <dl>
-      <dt>Fig. 5 data</dt><dd>Table S3 is the validation cohort of Fig. 5, not the TCGA set: its 40 columns are the
+RECOVERED = f"""<section class="notes" aria-labelledby="back-head">
+  <div class="container">
+    <h2 id="back-head">What came back</h2>
+    <dl class="ledger">
+      <div class="row"><dt>Fig. 5 data</dt><dd>Table S3 is the validation cohort of Fig. 5, not the TCGA set: its 40 columns are the
         20 tumours most (Group1, solid) and 20 least (Group2, dashed) correlated with the bicluster profile, and its
-        times span the figure's unlabelled 0–1700 axis. Kaplan–Meier curves from it match the published curves
+        times span the figure’s unlabelled 0 to 1700 axis. Kaplan-Meier curves from it match the published curves
         pixel for pixel. Logrank p = {fmt_p(t5['pfs']['p'])} (progression-free) and {fmt_p(t5['os']['p'])}
-        (overall); the paper prints 0.15 and 0.1.</dd>
-      <dt>How Figs 3–5 were drawn</dt><dd>R base graphics on the default <span class="mono">png()</span> device
+        (overall); the paper prints 0.15 and 0.1.</dd></div>
+      <div class="row"><dt>How Figs 3 to 5 were drawn</dt><dd>R base graphics on the default <span class="mono">png()</span> device
         (480×480&nbsp;px, 72&nbsp;dpi, pointsize 12, default margins), cropped to the plot frame and enlarged 2.00×,
-        2.01× and 2.14×. The survival curves use <span class="mono">xaxs = "S"</span>, the survival 2.x default.</dd>
-      <dt>How Fig. 2 was drawn</dt><dd>ggplot2 with 0.9.3 theme sizes at a base of 8.6&nbsp;pt, the default hue
-        palette in method order, one facet per structure. Its box statistics are read back from the pixels (table
-        below).</dd>
-      <dt>The bicluster's CpG sites</dt><dd>Table S3's {s23['s3']:,} row labels. Table S2 claims the same sites,
+        2.01× and 2.14×. The survival curves use <span class="mono">xaxs = "S"</span>, the survival 2.x default.</dd></div>
+      <div class="row"><dt>How Fig. 2 was drawn</dt><dd>ggplot2 with 0.9.3 theme sizes at a base of 8.6&nbsp;pt, the default hue
+        palette in method order, one facet per structure. Its box statistics are read back from the pixels (Fig. 2 in
+        numbers, above).</dd></div>
+      <div class="row"><dt>The bicluster’s CpG sites</dt><dd>Table S3’s {s23['s3']:,} row labels. Table S2 claims the same sites,
         but only {s23['shared']:,} agree; from row {s23['rows_equal_until'] + 1} on it is shifted by up to
-        {s23['row_offset_range'][1]} positions, and its extra probes behave like random probes.</dd>
-      <dt>What the code computes</dt><dd>As published, S1's dysregulation fitness cannot score a 21-sample
-        bicluster in current R. Spearman's test returns p&nbsp;=&nbsp;0 for the seed row against itself and for
+        {s23['row_offset_range'][1]} positions, and its extra probes behave like random probes.</dd></div>
+      <div class="row"><dt>What the code computes</dt><dd>As published, S1’s dysregulation fitness cannot score a 21-sample
+        bicluster in current R. Spearman’s test returns p&nbsp;=&nbsp;0 for the seed row against itself and for
         |ρ| between 0.836 and 0.865, and GABi turns the resulting infinite score into 0. We add the 2e-16 floor that
-        S1's own selection function uses. Details, and 77 checks of GABi&nbsp;0.1 and S1 against the paper, are on
-        the implementation page.</dd>
-      <dt>Fig. 2 result</dt>{fig2_recovered()}
-      <dt>TCGA bicluster (Figs 3–4)</dt>{tcga}
-      <dt>Not recoverable</dt><dd>GABi's thresholds (consistency, ρ, α), the comparison methods' settings and
-        the synthetic datasets of Fig. 2; the identities of the 21 + 21 TCGA tumours; the 2013 TCGA clinical data.
-        Figs 2–4 can therefore match the paper only in distribution, not pixel for pixel.</dd>
+        S1’s own selection function uses. Details, and 77 checks of GABi&nbsp;0.1 and S1 against the paper, are on
+        the implementation page.</dd></div>
+      <div class="row"><dt>Fig. 2 result</dt>{fig2_recovered()}</div>
+      <div class="row"><dt>TCGA bicluster (Figs 3 and 4)</dt>{tcga}</div>
     </dl>
-  </section>"""
+  </div>
+</section>
+<section class="buried" aria-labelledby="buried-head">
+  <div class="container">
+    <div class="plastic buried-band">
+      <h2 id="buried-head">What stayed buried</h2>
+      <ul>
+        <li>GABi’s thresholds (consistency, ρ, α), the comparison methods’ settings and the synthetic datasets of Fig. 2</li>
+        <li>The identities of the 21 + 21 TCGA tumours</li>
+        <li>The 2013 TCGA clinical data</li>
+      </ul>
+      <p class="so">Figs 2 to 4 can therefore match the paper only in distribution, not pixel for pixel.</p>
+    </div>
+  </div>
+</section>"""
 
-page = open(os.path.join(HERE, "page_template.html")).read().replace("<!--__EXTRA__-->", EXTRA)
-page = page.replace("<!--__RECOVERED__-->", RECOVERED)
-page = page.replace("/*__FIGS__*/[]", json.dumps(figs))
-page = page.replace('<span class="eyebrow">', '<a class="back" href="../">← fossil</a>\n    <span class="eyebrow">', 1)
-HEAD = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
-        '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
-        '<style>:root{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}'
-        '.back{font-size:13px;color:var(--accent);text-decoration:none}.back:hover{text-decoration:underline}</style>\n')
-i = page.index("</style>") + len("</style>")
-page = HEAD + page[:i] + "\n</head>\n<body>\n" + page[i:] + "\n</body>\n</html>\n"
+# The hero's label lists every figure with its verdict; the lede and the closing line follow what has run.
+LABEL = "<ol>" + "".join(
+    f'<li><a href="#fig-{fig}"><span>Fig. {fig}</span>'
+    f'<span class="v" data-v="{VCLASS.get(v, "none")}">{esc(v or "No verdict yet")}</span></a></li>'
+    for fig, v in verdict_of.items()) + "</ol>"
+done = [f["id"] for f in figs]
+LEDE = (f"So far its data, code and {figs_phrase(done)} are back." if pending and done else
+        "So far its data and its code are back." if pending else
+        f"Its data, its code and {figs_phrase(done)} are back.")
+CLOSING = (f"We rebuild this page when {figs_phrase(pending)} {'comes' if len(pending) == 1 else 'come'} back."
+           if pending else "We rebuild this page each time the pipeline runs.")
+
+page = open(os.path.join(HERE, "page_template.html")).read()
+for marker, text in (("<!--__STATIONS__-->", STATIONS), ("<!--__EXTRA__-->", EXTRA), ("<!--__RECOVERED__-->", RECOVERED),
+                     ("<!--__LABEL__-->", LABEL), ("<!--__LEDE__-->", LEDE), ("<!--__CLOSING__-->", CLOSING),
+                     ("/*__FIGS__*/[]", json.dumps(figs))):
+    assert marker in page, marker
+    page = page.replace(marker, text)
 assert "__EXTRA__" not in page
 os.makedirs(os.path.dirname(os.path.abspath(OUT)), exist_ok=True)
 open(OUT, "w").write(page)
