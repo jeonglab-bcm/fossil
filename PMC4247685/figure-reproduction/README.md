@@ -13,7 +13,8 @@ difference views).
 | --- | --- |
 | Fig. 5 | Same data as the paper: the clinical rows of Table S3 (the validation cohort, 20 + 20 patients). 100% of the published curve pixels lie within 2 px of ours and the reverse. Logrank p = 0.12 for progression-free and 0.12 for overall survival; the paper prints 0.15 and 0.1. |
 | Fig. 2 | Rerun of the synthetic benchmark: 40 new Algorithm 2 datasets per structure, GABi 0.1 with the S1 models, ISA, CC, Plaid and Bimax. cor: GABi.cor has the highest median (0.59, paper 0.64) and beats all six other methods (paired Wilcoxon p < 0.001). highvar: GABi.highvar beats five of six; Bimax has a higher median (p = 0.027). block: GABi.block's median is 0.02 against the paper's 0.40; Algorithm 2's offset is negative in 21 of 40 datasets, where the block model cannot see the block. |
-| Figs 3 and 4 | Running: GABi with S1's dysregulation-vs-outcome model on public TCGA OV HumanMethylation27 data. |
+| Fig. 3 | Reconstructed. GABi with S1's dysregulation-vs-outcome model on the Table S3 probes in 477 high-grade TCGA OV tumours (UCSC Xena) finds 146 bicluster and 146 control tumours over 3,682 CpG sites (paper: 21, 21 and 14,382). The bicluster's sites co-vary more than the control set's, with the small negative mode near -0.55 the paper shows, but the peaks sit at 0.62 and 0.43 against the paper's about 0.8 and 0.25. |
+| Fig. 4 | Same reconstruction. Progression-free intervals differ strongly (logrank p = 3 × 10⁻¹⁴) but the other way from the paper: median 11.5 months for the bicluster against 22.3 for the control set (paper: 85.4 against 32). GABi's survival term uses a two-sided logrank p, so the search can land on either direction. |
 | Tables S2 and S3 | Both list "the 14,382 CpG sites" of the bicluster but share 8,904. S3's probes co-vary in TCGA (mean \|r\| 0.27, like the shared probes); S2's own behave like random probes (0.10). The TCGA run uses S3's list. |
 
 ## Layout
