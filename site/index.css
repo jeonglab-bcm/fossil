@@ -1,0 +1,51 @@
+/* Hallmark · shape: Index-First (draw a9ab87 dealt Conversational FAQ; swapped, the owner set the page as one row per paper) · genre: editorial · theme: Almanac (deal 1/3, seed independent-reproductions-published-computational-16b6·6a63c2a8·2026-10-28·r0) · redesign: full
+ * hero: Banner (draw dealt Ledge; swapped so the index starts on the first screen) · nav: slab · footer: statement · imagery: the product · signature: the published Fig. 5 curves in ink with ours printed over them in magenta
+ * axes: mid/grotesk-sans/chromatic-magenta · posture: restrained · contrast: pass · fold: pass · job: listen · draw: a9ab87 · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 · weakest: P, the page argues by showing one overlay instead of stating a claim; kept, the owner asked for little text */
+@import url("./tokens.css");
+@import url("./base.css");
+@import url("./site.css");
+
+.hero { padding-block: var(--space-2xl) 0; }
+.hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: center; }
+.hero-text { grid-column: 1 / span 6; display: grid; gap: var(--space-lg); justify-items: start; }
+.hero h1 { font-size: var(--text-display); letter-spacing: -0.035em; line-height: 0.95; max-width: 14ch; }
+.hero .lead { color: var(--color-ink-2); }
+.signature { grid-column: 8 / span 5; margin: 0; }
+.signature img { width: 100%; height: auto; background: var(--color-sheet); outline: var(--rule-hair) solid var(--color-rule-2); outline-offset: -1px; }
+.signature figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); max-width: 52ch; }
+
+.index { padding-block: var(--space-xl) var(--section-gap-s); }
+.tally { display: flex; flex-wrap: wrap; margin: 0; }
+.tally > div { display: grid; gap: var(--space-3xs); padding-inline: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); }
+.tally > div:first-child { padding-left: 0; border-left: 0; }
+.tally > div:last-child { padding-right: 0; }
+.tally dt { font-size: var(--text-sm); color: var(--color-muted); }
+.tally dd { margin: 0; font: 500 var(--text-2xl)/1 var(--font-outlier); font-variant-numeric: tabular-nums; color: var(--color-ink); }
+
+.record .col-date { width: 8%; }
+.record .col-paper { width: 32%; }
+.record .col-lost { width: 20%; }
+.record .col-found { width: 26%; }
+.record .date { white-space: nowrap; font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
+.record .pmc { font: 500 var(--text-sm)/1.2 var(--font-outlier); color: var(--color-muted); }
+.record .title { display: block; margin-block: var(--space-2xs) var(--space-xs); font: 600 var(--text-lg)/1.25 var(--font-display); letter-spacing: -0.01em; }
+.record .journal { display: block; font-size: var(--text-sm); color: var(--color-muted); }
+.record .go { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-md); margin-top: var(--space-sm); font-size: var(--text-sm); }
+
+.rerun { background: var(--color-ink); color: var(--color-sheet); padding-block: var(--section-gap-s); }
+.rerun .container { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: start; }
+.rerun h2 { grid-column: 1 / span 5; color: var(--color-sheet); }
+.rerun .cmd { grid-column: 6 / span 7; margin: 0; padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule-2); font: 400 var(--text-md)/1.9 var(--font-outlier); color: var(--color-sheet); white-space: pre; overflow-x: auto; }
+.rerun .note { grid-column: 6 / span 7; font-size: var(--text-sm); color: var(--color-paper-3); }
+
+@media (max-width: 60rem) {
+  .hero-text, .signature { grid-column: 1 / -1; }
+  .rerun h2, .rerun .cmd, .rerun .note { grid-column: 1 / -1; }
+  .sheet { padding: var(--space-lg) var(--space-md); }
+  .record thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .record, .record tbody, .record tr, .record td { display: block; width: auto; }
+  .record tr { padding-block: var(--space-lg); border-top: var(--rule-bar) solid var(--color-rule-2); }
+  .record td { padding: var(--space-xs) 0; border-top: 0; }
+  .record td[data-label]::before { content: attr(data-label); display: block; font-size: var(--text-sm); color: var(--color-muted); }
+}
