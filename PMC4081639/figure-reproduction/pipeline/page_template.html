@@ -1,181 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Figure Comparison</title>
+<meta name="description" content="Yu and Shaw 2014, the Dirichlet-multinomial log-likelihood paper in Bioinformatics, dug back up: each published figure and Table 1 laid over our reproduction, with its data and verdict.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>
-  :root {
-    --bg: #f6f5f1;
-    --surface: #ffffff;
-    --ink: #1f1e1b;
-    --ink-2: #57544c;
-    --rule: #dedbd2;
-    --accent: #0f6b70;
-    --accent-soft: #e2efee;
-    --ok: #2f6b3a;
-    --ok-soft: #e4f0e3;
-    --warn: #8a5a00;
-    --warn-soft: #f6ecd6;
-    --info: #3d4f8f;
-    --info-soft: #e6e9f5;
-    --plate: #ffffff;
-    --plate-rule: #e4e2dc;
-    --cyan: #13a8b5;
-    --red: #d8342c;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
-      --accent: #5cc2c4; --accent-soft: #1d3434; --ok: #8fcb94; --ok-soft: #1f3122;
-      --warn: #e2b55a; --warn-soft: #362b14; --info: #a7b5ec; --info-soft: #252a42;
-      --plate: #ffffff; --plate-rule: #3c3b35; --cyan: #33c6d2; --red: #f0625a;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
-    --accent: #5cc2c4; --accent-soft: #1d3434; --ok: #8fcb94; --ok-soft: #1f3122;
-    --warn: #e2b55a; --warn-soft: #362b14; --info: #a7b5ec; --info-soft: #252a42;
-    --plate: #ffffff; --plate-rule: #3c3b35; --cyan: #33c6d2; --red: #f0625a;
-    color-scheme: dark;
-  }
-  * { box-sizing: border-box; }
-  body {
-    background: var(--bg); color: var(--ink);
-    font: 15px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    padding-left: max(16px, env(safe-area-inset-left, 0px));
-    padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 32px 64px;
-  }
-  .wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
-  h1, h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 600; text-wrap: balance; margin: 0; }
-  h1 { font-size: 30px; line-height: 1.2; }
-  h2 { font-size: 21px; }
-  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
-  .lede { max-width: 68ch; color: var(--ink-2); margin: 8px 0 0; }
-  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 13px; }
-  header { display: flex; flex-direction: column; gap: 6px; }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../results.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container">
+    <a class="wordmark" href="../" aria-label="fossil, home">fossil</a>
+    <nav aria-label="Site"><a href="../#papers">The papers</a><a href="implementation.html">Code analysis</a></nav>
+  </div>
+</header>
 
-  .method { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; }
-  .method h2 { font-size: 17px; margin-bottom: 10px; }
-  .method dl { display: grid; grid-template-columns: minmax(130px, 180px) 1fr; gap: 6px 18px; margin: 0; }
-  .method dt { color: var(--ink-2); font-size: 13px; padding-top: 1px; }
-  .method dd { margin: 0; min-width: 0; }
-  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; gap: 2px; } .method dd { margin-bottom: 8px; } }
-
-  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 14px; }
-  .card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
-  .card-head p { margin: 0; color: var(--ink-2); flex: 1 1 320px; min-width: 0; }
-  .badge { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
-  .badge.identical { background: var(--ok-soft); color: var(--ok); }
-  .badge.partial { background: var(--warn-soft); color: var(--warn); }
-  .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 3px 11px; border-radius: 99px; border: 1.5px solid currentColor; white-space: nowrap; }
-  .pill.agrees { color: var(--ok); background: var(--ok-soft); }
-  .pill.partly { color: var(--warn); background: var(--warn-soft); }
-  .pill.differs { color: var(--red); background: var(--warn-soft); }
-  .pill.running { color: var(--info); background: var(--info-soft); }
-  .badge.remeasured { background: var(--info-soft); color: var(--info); }
-
-  .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
-  .tabs { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
-  .tabs button { font: inherit; font-size: 13px; padding: 6px 12px; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; border-right: 1px solid var(--rule); }
-  .tabs button:last-child { border-right: 0; }
-  .tabs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-  .tool { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--ink-2); }
-  .tool button { font: inherit; font-size: 13px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
-  .tool input[type=range] { width: 160px; accent-color: var(--accent); }
-
-  .stage { overflow-x: auto; }
-  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; }
-  .plate { background: var(--plate); border: 1px solid var(--plate-rule); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-  .plate .label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; color: #5d5a52; }
-  .plate img, .plate canvas { display: block; max-width: 100%; height: auto; }
-  .zoomed img, .zoomed canvas { max-width: none; image-rendering: pixelated; }
-  .single { display: inline-flex; }
-  .swipe { position: relative; display: inline-block; line-height: 0; }
-  .swipe img { display: block; }
-  .swipe .top { position: absolute; inset: 0; }
-  .swipe .bar { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); pointer-events: none; }
-  .key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
-  .key i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
-
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; border-top: 1px solid var(--rule); padding-top: 12px; }
-  .stat .k { font-size: 12px; color: var(--ink-2); }
-  .stat .v { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 14px; }
-  .note { font-size: 14px; color: var(--ink-2); max-width: 90ch; margin: 0; }
-  footer { font-size: 13px; color: var(--ink-2); max-width: 90ch; }
-  .t1pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; }
-  .jt { background: var(--plate); color: #1f1e1b; border: 1px solid var(--plate-rule); border-radius: 6px; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 8px; }
-  .jt .label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; color: #5d5a52; }
-  .jt table { border-collapse: collapse; font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-size: 15px; width: 100%; max-width: 280px; }
-  .jt thead tr { border-top: 1.5px solid #1f1e1b; border-bottom: 1px solid #1f1e1b; }
-  .jt tbody tr:last-child { border-bottom: 1.5px solid #1f1e1b; }
-  .jt th, .jt td { text-align: left; padding: 3px 10px 3px 0; font-weight: 400; }
-  .num { text-align: right !important; font-variant-numeric: tabular-nums; }
-  .detail { border-collapse: collapse; font-size: 13px; min-width: 520px; width: 100%; }
-  .detail th { font-weight: 500; color: var(--ink-2); border-bottom: 1px solid var(--rule); text-align: left; padding: 6px 10px 6px 0; }
-  .detail td { border-bottom: 1px solid var(--rule); padding: 6px 10px 6px 0; font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
-  .detail td:first-child { font-family: inherit; }
-</style>
-
-<div class="wrap">
-  <header>
-    <span class="eyebrow">Yu &amp; Shaw 2014 · Bioinformatics 30:1547</span>
-    <h1>Pixel comparison: published figures and Table 1 vs. reproduction</h1>
-    <p class="lede">Each reproduction is drawn with ggplot2 through tikzDevice and pdfLaTeX, the toolchain the paper's typography points to. It is styled with ggplot2's 2013 defaults and rendered at the published figure's exact pixel size, so the two images can be laid over each other directly.</p>
-  </header>
-
-  <section class="method">
-    <h2>What was matched</h2>
-    <dl>
-      <dt>Package &amp; theme</dt><dd>ggplot2 with the 0.9.3 <span class="mono">theme_grey</span> defaults restated: grey panel, white major and lighter minor gridlines, grey50 axis text at 0.8×, 0.15&nbsp;cm ticks, grey95 legend keys of 1.2&nbsp;lines, grey80 strips.</dd>
-      <dt>Fonts</dt><dd>tikzDevice → pdfLaTeX in Computer Modern, the LaTeX default, with <i>ψ</i>, <i>n</i>, <i>μ</i> and 10<sup>−14</sup> set in math mode as in the paper. Times scored within a few percent on stroke alignment, so at this resolution the typeface can't be identified with certainty.</dd>
-      <dt>Lines</dt><dd>72.27/96&nbsp;pt per lwd (R's own convention) instead of current tikzDevice's 0.4&nbsp;pt, which matches the published lines of about 1&nbsp;pt. Dashes are 2&nbsp;pt on, 2&nbsp;pt off, as measured in Fig. 4.</dd>
-      <dt>Colours</dt><dd>Panel and strip fills sampled from the published JPEGs. These read lighter than ggplot's grey90 (#E5E5E5): #E9E9E9 in Figs 2 and 6, #EEEEEE in Figs 4 and 5. Strips read #D4D4D4 rather than grey80 (#CCCCCC). Text keeps ggplot's black and grey50.</dd>
-      <dt>Size</dt><dd>Drawing size and raster resolution fitted per figure so the panel lands on the published pixels, then cropped to the published frame (538×521, 565×471, 570×473 and 586×393&nbsp;px).</dd>
-      <dt>Spacing</dt><dd>Axis-title gaps, legend position and y-title sizes tuned per figure by local alignment. ggplot2 0.9.3 laid out title rows differently from 4.x, and the published y-titles measure 9.9–12.7&nbsp;pt rather than a uniform 12&nbsp;pt.</dd>
-    </dl>
+<main>
+  <section class="hero" aria-labelledby="hero-head">
+    <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 id="hero-head">Yu and Shaw, dug back up.</h1>
+        <p class="lead"><!--__LEDE__--></p>
+        <div class="actions"><a class="btn btn--primary" href="implementation.html">Read the code analysis</a></div>
+      </div>
+      <nav class="label" aria-label="Figures on this page">
+        <span class="label-head"><span>Yu and Shaw 2014</span><span>Bioinformatics 30:1547</span></span>
+        <span class="label-title">Dirichlet-multinomial log-likelihood</span>
+        <!--__LABEL__-->
+        <span class="label-stub">In the overlay, ink is theirs and green is ours</span>
+      </nav>
+    </div>
   </section>
 
-  <div id="figs" class="wrap" style="gap:28px"></div>
+  <div class="container bench">
+    <div id="figs" class="stations">
+      <!--__STATIONS__-->
+    </div>
+  </div>
 
   <!--__TABLE1__-->
 
-  <footer>Overlay colours: <b style="color:var(--cyan)">cyan</b> = ink only in the paper, <b style="color:var(--red)">red</b> = ink only in the reproduction, black = both. Difference view: darker = larger grey-level difference (×2). Mean |Δ| includes JPEG artefacts in the published images.</footer>
-</div>
+  <section class="matched" aria-labelledby="matched-head">
+    <div class="container matched-grid">
+      <div class="matched-intro">
+        <h2 id="matched-head">What we matched</h2>
+        <p>Each reproduction is drawn with ggplot2 through tikzDevice and pdfLaTeX, the toolchain the paper’s typography points to. It is styled with ggplot2’s 2013 defaults and rendered at the published figure’s exact pixel size, so the two images can be laid over each other directly.</p>
+      </div>
+      <dl class="ledger">
+        <div class="row"><dt>Package and theme</dt><dd>ggplot2 with the 0.9.3 <span class="mono">theme_grey</span> defaults restated: grey panel, white major and lighter minor gridlines, grey50 axis text at 0.8×, 0.15&nbsp;cm ticks, grey95 legend keys of 1.2&nbsp;lines, grey80 strips.</dd></div>
+        <div class="row"><dt>Fonts</dt><dd>tikzDevice, then pdfLaTeX, in Computer Modern, the LaTeX default, with <i>ψ</i>, <i>n</i>, <i>μ</i> and 10<sup>−14</sup> set in math mode as in the paper. Times scored within a few percent on stroke alignment, so at this resolution the typeface can’t be identified with certainty.</dd></div>
+        <div class="row"><dt>Lines</dt><dd>72.27/96&nbsp;pt per lwd (R’s own convention) instead of current tikzDevice’s 0.4&nbsp;pt, which matches the published lines of about 1&nbsp;pt. Dashes are 2&nbsp;pt on, 2&nbsp;pt off, as measured in Fig. 4.</dd></div>
+        <div class="row"><dt>Colours</dt><dd>Panel and strip fills sampled from the published JPEGs. These read lighter than ggplot’s grey90 (#E5E5E5): #E9E9E9 in Figs 2 and 6, #EEEEEE in Figs 4 and 5. Strips read #D4D4D4 rather than grey80 (#CCCCCC). Text keeps ggplot’s black and grey50.</dd></div>
+        <div class="row"><dt>Size</dt><dd>Drawing size and raster resolution fitted per figure so the panel lands on the published pixels, then cropped to the published frame (538×521, 565×471, 570×473 and 586×393&nbsp;px).</dd></div>
+        <div class="row"><dt>Spacing</dt><dd>Axis-title gaps, legend position and y-title sizes tuned per figure by local alignment. ggplot2 0.9.3 laid out title rows differently from 4.x, and the published y-titles measure 9.9 to 12.7&nbsp;pt rather than a uniform 12&nbsp;pt.</dd></div>
+        <div class="row"><dt>Reading the views</dt><dd>Overlay: ink is the paper only, light green is the reproduction only, dark green is both. Difference: darker means a larger grey-level difference (×2). Mean |Δ| includes JPEG artefacts in the published images.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="statement">We rebuild this page each time the pipeline runs.</p>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081639">The code on GitHub</a>
+      <a href="implementation.html">Code analysis</a>
+      <a href="../">All papers</a>
+    </nav>
+  </div>
+</footer>
 
 <script>
 const FIGS = /*__FIGS__*/[];
 const MODES = [["side", "Side by side"], ["swipe", "Swipe"], ["blink", "Blink"], ["overlay", "Overlay"], ["diff", "Difference"]];
-const BADGE = { identical: "Identical data", partial: "Same setup · ulp noise differs", remeasured: "Re-timed · scaled to paper's axis" };
-
-const VERDICT = { "Agrees": ["agrees", "✓"], "Partly agrees": ["partly", "◐"], "Differs": ["differs", "✕"], "Running": ["running", "⋯"] };
-function pill(v) {
-  if (!v) return "";
-  const [cls, mark] = VERDICT[v];
-  const s = document.createElement("span"); s.className = "pill " + cls;
-  const m = document.createElement("span"); m.setAttribute("aria-hidden", "true"); m.textContent = mark;
-  s.append(m, v); return s;
-}
-
-function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
-
-function pixels(img, w, h) {
-  const c = document.createElement("canvas"); c.width = w; c.height = h;
-  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
-  return x.getImageData(0, 0, w, h).data;
-}
-
-function composite(f, kind) {
-  const c = document.createElement("canvas"); c.width = f.w; c.height = f.h;
-  const x = c.getContext("2d"), out = x.createImageData(f.w, f.h), o = out.data, p = f.pp, q = f.qq;
-  for (let i = 0; i < o.length; i += 4) {
-    const a = (p[i] + p[i + 1] + p[i + 2]) / 3, b = (q[i] + q[i + 1] + q[i + 2]) / 3;
-    if (kind === "overlay") { o[i] = a; o[i + 1] = b; o[i + 2] = b; }
-    else { const v = 255 - Math.min(255, Math.abs(a - b) * 2); o[i] = o[i + 1] = o[i + 2] = v; }
-    o[i + 3] = 255;
-  }
-  x.putImageData(out, 0, 0); c.setAttribute("aria-label", kind === "overlay" ? "Red/cyan overlay" : "Difference map"); return c;
-}
+const STILL = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function el(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
@@ -184,31 +87,77 @@ function el(tag, attrs = {}, ...kids) {
   return e;
 }
 
-function plate(label, node) { return el("div", { class: "plate" }, el("span", { class: "label" }, label), node); }
+// Every colour comes from the tokens: paint the CSS value on a 1px canvas and read the pixel back.
+function token(name) {
+  const c = document.createElement("canvas"); c.width = c.height = 1;
+  const x = c.getContext("2d", { willReadFrequently: true });
+  x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  x.fillRect(0, 0, 1, 1);
+  return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+}
+const INK = token("--color-ink"), GREEN = token("--color-accent"), GROUND = token("--color-surface");
+const OVER = 0.65; // the reproduction is laid over the paper's ink at this strength
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+const SWATCH = { paper: INK, ours: mix(GROUND, GREEN, OVER), both: mix(INK, GREEN, OVER) };
 
-function card(f) {
+function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
+
+function pixels(img, w, h) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d", { willReadFrequently: true }); x.fillStyle = "white"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+  return x.getImageData(0, 0, w, h).data;
+}
+
+// Overlay: the published figure in ink, the reproduction in green over it. Difference: ink by grey-level difference (×2).
+function composite(f, kind) {
+  const c = document.createElement("canvas"); c.width = f.w; c.height = f.h;
+  const x = c.getContext("2d"), out = x.createImageData(f.w, f.h), o = out.data, p = f.pp, q = f.qq;
+  for (let i = 0; i < o.length; i += 4) {
+    const a = (p[i] + p[i + 1] + p[i + 2]) / 3, b = (q[i] + q[i + 1] + q[i + 2]) / 3;
+    if (kind === "overlay") {
+      const da = 1 - a / 255, t = (1 - b / 255) * OVER;
+      for (let j = 0; j < 3; j++) { const u = GROUND[j] + (INK[j] - GROUND[j]) * da; o[i + j] = u + (GREEN[j] - u) * t; }
+    } else {
+      const t = Math.min(1, Math.abs(a - b) * 2 / 255);
+      for (let j = 0; j < 3; j++) o[i + j] = GROUND[j] + (INK[j] - GROUND[j]) * t;
+    }
+    o[i + 3] = 255;
+  }
+  x.putImageData(out, 0, 0);
+  c.setAttribute("role", "img");
+  c.setAttribute("aria-label", kind === "overlay" ? "Overlay: the published figure in ink, the reproduction in green" : "Difference map");
+  return c;
+}
+
+function plate(label, node) { return el("figure", { class: "plate" }, el("figcaption", {}, label), node); }
+function swatch(rgb, label) { const s = el("i", { class: "sw", "aria-hidden": "true" }); s.style.backgroundColor = `rgb(${rgb.join(" ")})`; return el("span", {}, s, label); }
+
+// The station is already on the page (head, side-by-side pair, stats, note); this adds the keys and the other views.
+function workbench(f, sec) {
   const state = { mode: "side", zoom: 1, timer: null };
-  const head = el("div", { class: "card-head" },
-    el("h2", {}, "Figure " + f.id), pill(f.verdict), el("span", { class: "badge " + f.data_status }, BADGE[f.data_status]), el("p", {}, f.caption));
-  const tabs = el("div", { class: "tabs", role: "group", "aria-label": "View mode" });
+  const stage = sec.querySelector(".stage"), pair = stage.querySelector(".pair");
+  const ourImg = pair.querySelectorAll("img")[1];
+  const note = sec.querySelector(".station-foot .note"), dose = sec.querySelector(".dose");
+  const key = (label, pressed) => el("button", pressed === undefined ? { type: "button", class: "btn btn--key" } : { type: "button", class: "btn btn--key", "aria-pressed": String(pressed) }, label);
+  const tabs = el("div", { class: "keyset", role: "group", "aria-label": "View mode" });
+  const variant = el("div", { class: "keyset keyset--data", role: "group", "aria-label": "Reproduction data" });
   const tool = el("div", { class: "tool" });
-  const zoom = el("button", { type: "button" }, "Zoom 2×");
-  const stage = el("div", { class: "stage" });
-  const variant = el("div", { class: "tabs", role: "group", "aria-label": "Reproduction data" });
-  const key = el("div", { class: "key" });
+  const zoom = key("Zoom 2×");
+  const legend = el("p", { class: "legend" });
   for (const [m, label] of MODES) {
-    const b = el("button", { type: "button", "aria-pressed": String(m === state.mode) }, label);
+    const b = key(label, m === state.mode);
     b.onclick = () => { state.mode = m; [...tabs.children].forEach(c => c.setAttribute("aria-pressed", String(c === b))); render(); };
     tabs.append(b);
   }
   if (f.variants) {
     f.variants.forEach((v, i) => {
-      const b = el("button", { type: "button", "aria-pressed": String(i === 0) }, v.label);
+      v.ours = v.ours || f.ours;
+      const b = key(v.label, i === 0);
       b.onclick = async () => {
         [...variant.children].forEach(c => c.setAttribute("aria-pressed", String(c === b)));
-        Object.assign(f, { ours: v.ours, W: v.W, H: v.H, dpix: v.dpix, dpiy: v.dpiy, mad: v.mad, within: v.within, data_note: v.note });
+        f.ours = v.ours; ourImg.src = v.ours;
         f.qq = pixels(await loadImg(v.ours), f.w, f.h);
-        note.textContent = v.note; fillStats(); render();
+        note.textContent = v.note; dose.innerHTML = v.stats; render();
       };
       variant.append(b);
     });
@@ -218,13 +167,11 @@ function card(f) {
   function sized(node) { node.style.width = (f.w * state.zoom) + "px"; return node; }
 
   function render() {
-    clearInterval(state.timer); stage.replaceChildren(); tool.replaceChildren(); key.replaceChildren();
+    clearInterval(state.timer); state.timer = null; stage.replaceChildren(); tool.replaceChildren(); legend.replaceChildren();
     stage.classList.toggle("zoomed", state.zoom === 2);
     zoom.hidden = state.mode === "side";
     if (state.mode === "side") {
-      const a = el("img", { src: f.paper, alt: "Figure " + f.id + " as published", width: f.w, height: f.h });
-      const b = el("img", { src: f.ours, alt: "Figure " + f.id + " reproduced", width: f.w, height: f.h });
-      stage.append(el("div", { class: "pair" }, plate("Published", a), plate("Reproduction · ggplot2 + tikzDevice", b)));
+      stage.append(pair);
     } else if (state.mode === "swipe") {
       const base = sized(el("img", { src: f.paper, alt: "Published" }));
       const top = sized(el("img", { src: f.ours, alt: "Reproduction", class: "top" }));
@@ -233,54 +180,45 @@ function card(f) {
       const r = el("input", { type: "range", min: 0, max: 100, value: 50, "aria-label": "Swipe position" });
       const set = v => { top.style.clipPath = `inset(0 0 0 ${v}%)`; bar.style.left = `calc(${v}% - 1px)`; };
       r.oninput = () => set(r.value); set(50);
-      tool.append("Published", r, "Reproduction");
-      stage.append(plate("Published ← → Reproduction", box));
+      tool.append(el("span", {}, "Published"), r, el("span", {}, "Reproduction"));
+      stage.append(plate("Published left of the line, reproduction right", box));
     } else if (state.mode === "blink") {
       const img = sized(el("img", { src: f.paper, alt: "Blink comparison" }));
-      const lab = el("span", { class: "label" }, "Published");
+      const lab = el("figcaption", {}, "Published");
       let on = false;
       const flip = () => { on = !on; img.src = on ? f.ours : f.paper; lab.textContent = on ? "Reproduction" : "Published"; };
-      const btn = el("button", { type: "button" }, "Pause");
-      state.timer = setInterval(flip, 650);
+      const btn = key(STILL ? "Play" : "Pause");
+      if (!STILL) state.timer = setInterval(flip, 650);
       btn.onclick = () => { if (state.timer) { clearInterval(state.timer); state.timer = null; btn.textContent = "Play"; } else { state.timer = setInterval(flip, 650); btn.textContent = "Pause"; } };
-      const step = el("button", { type: "button" }, "Step"); step.onclick = flip;
+      const step = key("Step"); step.onclick = flip;
       tool.append(btn, step);
-      stage.append(el("div", { class: "plate single" }, lab, img));
+      stage.append(el("figure", { class: "plate single" }, lab, img));
     } else {
       const c = sized(composite(f, state.mode));
       stage.append(plate(state.mode === "overlay" ? "Overlay" : "Difference ×2", c));
-      if (state.mode === "overlay") key.append(
-        el("span", {}, el("i", { style: "background:var(--cyan)" }), "paper only"),
-        el("span", {}, el("i", { style: "background:var(--red)" }), "reproduction only"),
-        el("span", {}, el("i", { style: "background:#000" }), "both"));
+      if (state.mode === "overlay") legend.append(
+        swatch(SWATCH.paper, "ink: paper only"), swatch(SWATCH.ours, "light green: reproduction only"), swatch(SWATCH.both, "dark green: both"));
+      else legend.append("Darker means a larger grey-level difference (×2).");
     }
   }
 
-  const stat = (k, v) => el("div", { class: "stat" }, el("div", { class: "k" }, k), el("div", { class: "v" }, v));
-  const stats = el("div", { class: "stats" });
-  const note = el("p", { class: "note" }, f.data_note);
-  function fillStats() {
-    stats.replaceChildren(
-      stat("Pixel size", `${f.w} × ${f.h}`),
-      stat("Drawn at", `${f.W} × ${f.H} in`),
-      stat("Rasterised", f.dpix === f.dpiy ? `${f.dpix} dpi` : `${f.dpix} × ${f.dpiy} dpi`),
-      stat("Panel fill", f.panel),
-      stat("Mean |Δ| grey", String(f.mad)),
-      stat("Pixels within ±24", f.within + "%"));
-  }
-  fillStats(); render();
   const controls = el("div", { class: "controls" }, tabs, tool, zoom);
   if (f.variants) controls.prepend(variant);
-  return el("section", { class: "card", "aria-label": "Figure " + f.id },
-    head, controls, stage, key, stats, note);
+  stage.before(controls); stage.after(legend);
+  render();
 }
 
 (async () => {
-  const root = document.getElementById("figs");
   for (const f of FIGS) {
+    const sec = document.getElementById("fig-" + f.id);
+    if (!sec) continue;
+    const imgs = sec.querySelectorAll(".pair img");
+    f.paper = imgs[0].src; f.ours = imgs[1].src;
     const [a, b] = await Promise.all([loadImg(f.paper), loadImg(f.ours)]);
     f.pp = pixels(a, f.w, f.h); f.qq = pixels(b, f.w, f.h);
-    root.append(card(f));
+    workbench(f, sec);
   }
 })();
 </script>
+</body>
+</html>
