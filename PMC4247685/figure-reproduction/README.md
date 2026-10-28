@@ -69,5 +69,11 @@ workflow `.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubunt
 - The 2013 TCGA level-3 files are no longer served. UCSC Xena's copy rounds β-values to 4 decimals; we
   spread each value over its rounding interval. Progression-free intervals come from the TCGA Pan-Cancer
   clinical resource, not the 2013 portal.
+- Figs 3 and 4 use the floored S1 model as published. A second run that also maps S1's correlation
+  features to rows before choosing the comparison columns (`tcga_gabi.R ... floor+jprime`,
+  `data/tcga_bicluster_seed1_jprime.json`, `data/fig34_summary_jprime.json`) finds 143 + 143 tumours over
+  3,706 CpG sites, 3,435 of them shared with the first run, with the same result: correlation modes 0.60
+  and 0.48, and a progression-free split the other way from the paper (11.5 against 24.0 months, logrank
+  p = 1 × 10⁻¹⁶).
 - `gabi_parallel.R` spreads GABi's fitness evaluations over forked workers; on a test problem its output
   is identical to the serial function's.
