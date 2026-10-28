@@ -2,7 +2,7 @@
 
 Source: NCBI E-utilities esearch on db=pmc, which searches full text
 (including references). Terms are pinned to [All Fields] so PMC's automatic
-term mapping cannot widen them (e.g. "python" -> Boidae MeSH).
+term mapping cannot widen them (e.g. "bioconductor" -> "bioconductor s").
 Writes counts.csv: year, group, query, count, total, share.
 """
 import csv
@@ -14,13 +14,13 @@ import urllib.request
 from datetime import date
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-YEARS = range(2010, 2027)
+YEARS = range(2000, 2027)
 
 GROUPS = {
     "GitHub + GitLab": '"github"[All Fields] OR "gitlab"[All Fields]',
     "SourceForge": '"sourceforge"[All Fields]',
     "NCBI GEO": '"gene expression omnibus"[All Fields] OR "ncbi geo"[All Fields]',
-    "Python": '"python"[All Fields] NOT ("snake"[All Fields] OR "snakes"[All Fields] OR "boidae"[All Fields])',
+    "PyPI": '"pypi"[All Fields] OR "python package index"[All Fields]',
     "CRAN + Bioconductor": '"cran"[All Fields] OR "bioconductor"[All Fields]',
 }
 
