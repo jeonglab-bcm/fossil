@@ -4,8 +4,8 @@ Downloads each file from the PMC Article Datasets on AWS (s3://pmc-oa-opendata o
 temporary file, compares its MD5 with the one PMC publishes in the article's JSON metadata and
 with the object's own ETag (when only the JSON value differs, the file is intact and the metadata
 is stale), checks the format by its magic bytes
-or by opening it (zip, gzip, bzip2, tar, PDF, Office, images, text), and lists archive members to
-see whether the supplement carries source code. Files are deleted after checking.
+or by opening it (zip, gzip, bzip2, tar, PDF, Office, images, text), and lists archive members (and members of
+archives nested one level inside) to see whether the supplement carries source code. Files are deleted after checking.
 
 Writes supplement_status.csv: one row per supplementary file.
 """
@@ -137,6 +137,39 @@ def validate(path, ext):
         return "corrupt", f"{type(e).__name__}: {str(e)[:120]}", []
 
 
+ARCHIVE = (".zip", ".tar", ".tar.gz", ".tgz", ".tar.bz2", ".tbz2", ".gz")
+
+
+def nested_names(path, names, limit=200_000_000):
+    """Member names of archives inside an archive (one level), prefixed with the outer member."""
+    inner = [n for n in names if n.lower().endswith(ARCHIVE) and not n.startswith("__MACOSX")]
+    out = []
+    if not inner:
+        return out
+    try:
+        if zipfile.is_zipfile(path):
+            z = zipfile.ZipFile(path)
+            read = lambda n: z.read(n) if z.getinfo(n).file_size < limit else b""  # noqa: E731
+        else:
+            t = tarfile.open(path)
+            read = lambda n: (t.extractfile(n).read(limit) if t.extractfile(n) else b"")  # noqa: E731
+        for n in inner[:20]:
+            data = read(n)
+            buf = io.BytesIO(data)
+            try:
+                if zipfile.is_zipfile(buf):
+                    out += [f"{n}/{m}" for m in zipfile.ZipFile(buf).namelist()]
+                else:
+                    buf.seek(0)
+                    with tarfile.open(fileobj=buf) as tt:
+                        out += [f"{n}/{m}" for m in tt.getnames()]
+            except (tarfile.TarError, zipfile.BadZipFile, OSError, EOFError):
+                pass
+    except (tarfile.TarError, zipfile.BadZipFile, OSError, EOFError, KeyError):
+        pass
+    return out
+
+
 def check(row):
     name = row["href"].split("/")[-1]
     ext = ext_of(name)
@@ -171,6 +204,8 @@ def check(row):
         if stale and md5.hexdigest() != etag:
             return {**base, "bytes": n, "status": "md5_mismatch"}
         status, detail, names = validate(Path(tmp.name), ext)
+        if names:
+            names += nested_names(Path(tmp.name), names)
         if stale:
             detail = (detail + "; " if detail else "") + "metadata MD5 stale, matches object ETag"
     code, build = code_in(names) if names else ([name] if ext in CODE_EXT else [], [])

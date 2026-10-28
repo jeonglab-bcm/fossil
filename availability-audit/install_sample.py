@@ -62,19 +62,25 @@ def download(url, dest):
     return out
 
 
-def unpack(path, dest):
+def unpack(path, dest, nested=True):
+    """Extract a zip or tar archive into dest; archives inside it are extracted once more, in place."""
     try:
         if zipfile.is_zipfile(path):
             with zipfile.ZipFile(path) as z:
                 z.extractall(dest)
-            return True
-        if tarfile.is_tarfile(path):
+        elif tarfile.is_tarfile(path):
             with tarfile.open(path) as t:
                 t.extractall(dest, filter="data")
-            return True
+        else:
+            return False
     except (zipfile.BadZipFile, tarfile.TarError, OSError):
         return False
-    return False
+    if nested:
+        for inner in [p for p in Path(dest).rglob("*") if p.is_file() and
+                      p.name.lower().endswith((".zip", ".tar", ".tar.gz", ".tgz", ".tar.bz2"))]:
+            if unpack(inner, inner.parent / (inner.name + "_unpacked"), nested=False):
+                inner.unlink()
+    return True
 
 
 def project_root(src):
@@ -188,17 +194,26 @@ def obtain(kind, artifact, dest, log):
         (dest / "src").mkdir()
         return unpack(out, dest / "src"), "Google Code archive source-archive.zip"
     if kind == "sourceforge":
-        proj = re.search(r"sourceforge\.net/(?:projects|p)/([^/#?]+)", artifact) or \
-            re.search(r"([a-z0-9-]+)\.(?:sourceforge|sf)\.net", artifact)
-        url = f"https://sourceforge.net/projects/{proj.group(1)}/files/latest/download"
-        out = download(url, dest)
+        proj = (re.search(r"sourceforge\.net/(?:projects|p)/([^/#?]+)", artifact) or
+                re.search(r"([a-z0-9-]+)\.(?:sourceforge|sf)\.net", artifact)).group(1)
+        # The project's file feed lists files newest first; take the newest source archive, else
+        # the newest jar, else the newest file of any kind.
+        rss = requests.get(f"https://sourceforge.net/projects/{proj}/rss?path=/", headers={"User-Agent": UA},
+                           timeout=60)
+        paths = re.findall(rf"<link>https://sourceforge\.net/projects/{re.escape(proj)}/files/(.+?)/download</link>",
+                           rss.text) if rss.status_code == 200 else []
+        if not paths:
+            return False, f"SourceForge project has no files (feed HTTP {rss.status_code})"
+        rank = lambda f: (0 if re.search(r"\.(tar\.gz|tgz|tar\.bz2?|tar\.xz|zip)$", f, re.I) else  # noqa: E731
+                          1 if f.lower().endswith(".jar") else 2)
+        pick = min(paths, key=lambda f: (rank(f), paths.index(f)))
+        out = download(f"https://downloads.sourceforge.net/project/{proj}/{pick}", dest)
         if isinstance(out, int):
-            return False, f"SourceForge latest download HTTP {out}"
+            return False, f"SourceForge download HTTP {out}"
         (dest / "src").mkdir()
-        if unpack(out, dest / "src"):
-            return True, f"SourceForge latest file {out.name}"
-        shutil.move(str(out), dest / "src" / out.name)
-        return True, f"SourceForge latest file {out.name} (not an archive)"
+        if not unpack(out, dest / "src"):
+            shutil.move(str(out), dest / "src" / out.name)
+        return True, f"SourceForge file {pick}"
     if kind in ("download", "supplement"):
         url = artifact if kind == "download" else S3 + artifact
         try:

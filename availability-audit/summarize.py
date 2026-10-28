@@ -95,6 +95,13 @@ def main():
     md += ["## URL status", "", table(["Category", "Distinct URLs", "Share", "Paper x URL rows", "Share"],
                                       [(c, uc[c], pct(uc[c], sum(uc.values())), rc[c], pct(rc[c], len(rows)))
                                        for c in CATEGORIES]), ""]
+    res = [r for r in rows if r["group"] != "Journal / publisher"]
+    resd = {r["url"]: r["category"] for r in res}
+    ru, rr = Counter(resd.values()), Counter(r["category"] for r in res)
+    md += ["Excluding links to journal and publisher sites (mostly BioMed Central boilerplate such as "
+           "pre-publication-history links), which point at the article itself, not at software or data:", "",
+           table(["Category", "Distinct URLs", "Share", "Paper x URL rows", "Share"],
+                 [(c, ru[c], pct(ru[c], len(resd)), rr[c], pct(rr[c], len(res))) for c in CATEGORIES]), ""]
     reasons = Counter((r["category"], r["reason"]) for r in rows if r["category"] not in ("alive",))
     md += ["Reasons (paper x URL rows):", "", table(["Category", "Reason", "Rows"],
                                                    [(c, w, n) for (c, w), n in reasons.most_common(25)]), ""]
@@ -176,30 +183,61 @@ def main():
                f"Papers whose supplements contain source code: {len(code_p)} ({pct(len(code_p), n_p)}); "
                f"with build or package files (Makefile, DESCRIPTION, setup.py, README...): {len(build_p)}.", ""]
 
-    # 8. install sample
-    inst = read("install_results.csv")
-    if inst:
-        smp = {r["pmcid"]: r for r in read("install_sample.csv", comment=True)}
-        ic = Counter(r["kind"] if r["installed"] == "n/a" else ("installed" if r["installed"] == "yes" else
-                     "source unavailable" if r["obtained"] == "no" else "obtained, install failed") for r in inst)
-        md += ["## Install test (stratified random sample)", "",
-               table(["Outcome", "Papers", "Share"], [(k, v, pct(v, len(inst))) for k, v in ic.most_common()]), ""]
+    # 8. install-test sample: what each paper released, and whether it can be obtained today
+    smp = read("install_sample.csv", comment=True)
+    insp = {r["pmcid"]: r for r in read("inspect_results.csv")}
+    if smp and insp:
+        oc = Counter()
         band = defaultdict(Counter)
-        for r in inst:
+        for r in smp:
+            out = sample_outcome(r, insp.get(r["pmcid"], {}))
+            oc[out] += 1
             y = year[r["pmcid"]]
-            b = "2004-2007" if y <= 2007 else "2008-2011" if y <= 2011 else "2012-2015"
-            band[b]["n"] += 1
-            band[b]["released"] += r["kind"] not in ("none", "request", "webserver") or r["via"] == "alternate"
-            band[b]["obtained"] += r["obtained"] == "yes"
-            band[b]["installed"] += r["installed"] == "yes"
-        md += [table(["Years", "Papers", "Released downloadable software", "Source obtained today", "Installs today"],
-                     [(b, c["n"], c["released"], c["obtained"], c["installed"]) for b, c in sorted(band.items())]), ""]
-        fails = Counter((r["build_system"], r["failure"]) for r in inst if r["installed"] == "no")
-        md += [table(["Build system", "Failure", "Papers"], [(b or "–", f, n) for (b, f), n in fails.most_common()]), ""]
-        _ = smp
+            band["2004-2007" if y <= 2007 else "2008-2011" if y <= 2011 else "2012-2015"][out] += 1
+        bands = sorted(band)
+        md += ["## Software in a stratified random sample of 150 papers", "",
+               table(["Outcome", "Papers", "Share"] + bands,
+                     [(o, oc[o], pct(oc[o], len(smp)), *[band[b][o] for b in bands]) for o in SAMPLE_OUTCOMES]), ""]
+        got = [insp[r["pmcid"]] for r in smp if insp.get(r["pmcid"], {}).get("obtained") == "yes"]
+        via = Counter(g["kind"] if g.get("via") == "primary" else f"{g['kind']} (alternate)" for g in got)
+        md += [f"Obtained today: {len(got)} of {len(smp)} papers, from: "
+               + ", ".join(f"{k} {n}" for k, n in via.most_common()) + ".", ""]
+        sc = Counter((g.get("build_system") or "–", g.get("static_check") or "n/a") for g in got)
+        md += ["Static checks on the software that could be obtained (no downloaded code was run):", "",
+               table(["Build system", "Static check", "Papers"], [(b, c, n) for (b, c), n in sc.most_common()]), ""]
     md += paper_tiers(papers, rows)
     Path("summary.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))
+
+
+SAMPLE_OUTCOMES = ["No software released", "Only on request", "Web service only", "Cited location gone",
+                   "Cited location unreachable from here", "Cited location can't be told", "Obtained: static check passes",
+                   "Obtained: static check inconclusive", "Obtained: static check fails", "Obtained: not checkable"]
+GONE_NOTE = re.compile(r"(?i)DNS|NXDOMAIN|\b40[34]\b.*not found|\b404\b|\b410\b|not found|no longer|parked|does ?n[o']t exist|"
+                       r"removed|page-not-found")
+CANT_TELL_NOTE = re.compile(r"(?i)indeterminate|captcha|bot check|cloudflare|akamai|\b403\b|untestable|ftp://")
+UNREACHABLE_NOTE = re.compile(r"(?i)time[sd]? ?out|\b503\b|upstream|reset|refus|connect")
+
+
+def sample_outcome(s, i):
+    kind = s["kind"].strip()
+    if i.get("obtained") == "yes":
+        return {"pass": "Obtained: static check passes", "inconclusive": "Obtained: static check inconclusive",
+                "fail": "Obtained: static check fails"}.get(i.get("static_check"), "Obtained: not checkable")
+    if kind == "none":
+        return "No software released"
+    if kind == "request":
+        return "Only on request"
+    if kind == "webserver":
+        return "Web service only"
+    note = s.get("note", "")
+    if CANT_TELL_NOTE.search(note):
+        return "Cited location can't be told"
+    if GONE_NOTE.search(note):
+        return "Cited location gone"
+    if UNREACHABLE_NOTE.search(note):
+        return "Cited location unreachable from here"
+    return "Cited location gone"
 
 
 CODE_GROUPS = {"GitHub", "SourceForge", "Google Code", "Bitbucket / GitLab", "Bioconductor / CRAN"}

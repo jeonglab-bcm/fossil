@@ -30,8 +30,6 @@ import requests
 from install_sample import NO_INSTALL, WORK, obtain, project_root
 
 FIELDS = ["pmcid", "kind", "artifact", "via", "obtained", "build_system", "static_check", "detail"]
-PY_AST = ("import ast, sys\nbad = []\nfor f in sys.argv[1:]:\n    try:\n        ast.parse(open(f, 'rb').read(), f)\n"
-          "    except (SyntaxError, ValueError) as e:\n        bad.append(f)\nprint(len(bad))")
 JAVA = {45: "1.1", 46: "1.2", 47: "1.3", 48: "1.4", 49: "5", 50: "6", 51: "7", 52: "8", 53: "9", 54: "10", 55: "11",
         56: "12", 57: "13", 58: "14", 59: "15", 60: "16", 61: "17", 62: "18", 63: "19", 64: "20", 65: "21"}
 _avail = {}
@@ -55,12 +53,95 @@ def pypi(name):
     return True, f"latest {info.get('version')}, requires_python={info.get('requires_python') or 'unspecified'}"
 
 
+def check_python(paths):
+    """Parse each file with Python 3.13's ast. Returns (failures, python2_markers, first error)."""
+    code = ("import ast, sys\nbad = py2 = 0\nfirst = ''\nfor f in sys.argv[1:]:\n    try:\n"
+            "        ast.parse(open(f, 'rb').read(), f)\n    except (SyntaxError, ValueError) as e:\n"
+            "        bad += 1\n        m = str(e)\n"
+            "        py2 += any(k in m for k in ('Missing parentheses', 'multiple exception types', 'leading zeros', "
+            "'inconsistent use of tabs'))\n"
+            "        first = first or m[:100]\nprint(bad, py2, first, sep='\\t')")
+    out = subprocess.run([sys.executable, "-I", "-c", code, *paths], capture_output=True, text=True,
+                         errors="replace", timeout=600).stdout.strip().split("\t")
+    return int(out[0] or 0), int(out[1] or 0), (out[2] if len(out) > 2 else "")
+
+
+def check_r(paths):
+    """Parse each file with R's parse() (no evaluation). Returns (failures, first error)."""
+    if not paths:
+        return 0, ""
+    expr = ('bad <- 0; first <- ""; for (f in commandArgs(TRUE)) { e <- try(parse(f, encoding="latin1"), silent=TRUE); '
+            'if (inherits(e, "try-error")) { bad <- bad + 1; if (first == "") first <- conditionMessage(attr(e, "condition")) } }; '
+            'cat(bad, gsub("[\\t\\n]", " ", substr(first, 1, 100)), sep="\\t")')
+    out = subprocess.run(["Rscript", "-e", expr, *paths], capture_output=True, text=True, errors="replace",
+                         timeout=600).stdout.strip().split("\t")
+    return int(out[0] or 0), (out[1] if len(out) > 1 else "")
+
+
+KNOWN_BREAK = re.compile(
+    r"[‘'](u?int(8|16|32|64)_t|u?intptr_t|INT_MIN|INT_MAX|UINT_MAX|LONG_MAX|CHAR_BIT|SIZE_MAX|strlen|strcpy|strncpy|strcmp|"
+    r"strcat|memcpy|memset|memmove|exit|malloc|calloc|realloc|free|abs|atoi|atof|qsort|rand|srand|printf|sprintf|"
+    r"fprintf|fopen|fclose|std::\w+)[’'] (was not declared|does not name a type|is not a member of)"
+    r"|conflicting types for [‘'](getline|getdelim|strdup|strndup|basename)[’']"
+    r"|must use [‘']\.\*[’'] or [‘']->\*[’'] to call pointer-to-member function")
+
+
+def check_c(root, files, csrc):
+    incs = sorted({str(p.parent) for p in files if p.suffix in (".h", ".hpp", ".hh")})
+    bad, lang, first = 0, 0, ""
+    for p in csrc[:60]:
+        comp = "gcc" if p.suffix == ".c" else "g++"
+        cmd = [comp, "-fsyntax-only", "-w", *[f"-I{i}" for i in incs[:40]], str(p)]
+        r = subprocess.run(cmd, capture_output=True, text=True, errors="replace", timeout=120)
+        if r.returncode:
+            bad += 1
+            errs = [l for l in r.stderr.splitlines() if "error" in l]
+            # Only errors caused by documented toolchain changes count as breakage: standard names no
+            # longer pulled in by other headers (GCC 13 porting notes), glibc's POSIX getline, and old
+            # pointer-to-member call syntax. Anything else may just be this file compiled outside its
+            # build (missing defines, generated or external headers), so it stays inconclusive.
+            if any(KNOWN_BREAK.search(e) for e in errs):
+                lang += 1
+            err = next((e for e in errs if "No such file" not in e), errs[0] if errs else "")
+            first = first or re.sub(r"^.*?(fatal error|error): ", r"\1: ", err)[:110]
+    return bad, lang, first
+
+
+def java_targets(jars, classes):
+    majors = set()
+    for j in jars[:5]:
+        try:
+            with zipfile.ZipFile(j) as z:
+                for n in [n for n in z.namelist() if n.endswith(".class")][:20]:
+                    head = z.read(n)[:8]
+                    if head[:4] == b"\xca\xfe\xba\xbe":
+                        majors.add(struct.unpack(">H", head[6:8])[0])
+        except (zipfile.BadZipFile, OSError, KeyError):
+            pass
+    for c in classes[:20]:
+        head = c.read_bytes()[:8]
+        if head[:4] == b"\xca\xfe\xba\xbe":
+            majors.add(struct.unpack(">H", head[6:8])[0])
+    return sorted(majors)
+
+
 def static(src):
+    """Identify the build system, then check every language present. Returns (system, check, detail)."""
     root = project_root(src)
-    files = [p for p in root.rglob("*") if p.is_file() and "__MACOSX" not in p.parts]
-    rel = {p.relative_to(root).as_posix().lower() for p in files}
-    top = {r for r in rel if "/" not in r}
+    files = [p for p in root.rglob("*") if p.is_file() and "__MACOSX" not in p.parts and ".git" not in p.parts]
+    names = {p.relative_to(root).as_posix().lower() for p in files}
+    top = {n.split("/")[-1] for n in names if n.count("/") <= 1}
     desc = [p for p in files if p.name == "DESCRIPTION" and p.read_text(errors="ignore").startswith("Package:")]
+    py = [str(p) for p in files if p.suffix == ".py"]
+    rf = [str(p) for p in files if p.suffix in (".R", ".r")]
+    csrc = [p for p in files if p.suffix in (".c", ".cc", ".cpp", ".cxx")]
+    jars = [p for p in files if p.suffix == ".jar"]
+    classes = [p for p in files if p.suffix == ".class"]
+    system = ("R package" if desc else "autotools" if {"configure", "configure.ac", "configure.in"} & top
+              else "CMake" if "cmakelists.txt" in top else "Python package" if {"setup.py", "pyproject.toml"} & top
+              else "maven" if "pom.xml" in top else "ant" if "build.xml" in top
+              else "make" if {"makefile", "gnumakefile"} & top else "")
+    results, details = [], []
     if desc:
         text = desc[0].read_text(errors="ignore")
         deps = set()
@@ -70,82 +151,50 @@ def static(src):
                 deps |= {re.sub(r"\(.*?\)", "", d).strip() for d in m.group(1).split(",")}
         deps -= {"", "R"}
         missing = sorted(d for d in deps if d not in r_available())
-        rfiles = [str(p) for p in files if p.suffix in (".R", ".r")]
-        bad = parse_r(rfiles)
-        ok = not missing and not bad
-        return "R package", "pass" if ok else "fail", \
-            f"{len(deps)} deps, missing today: {', '.join(missing) or 'none'}; {bad} of {len(rfiles)} R files fail to parse"
-    py = [str(p) for p in files if p.suffix == ".py"]
+        results.append(("R package", 10 ** 6, "fail" if missing else "pass"))
+        details.append(f"R deps {len(deps)}, missing from today's CRAN/Bioconductor: {', '.join(missing) or 'none'}")
+    if rf:
+        bad, first = check_r(rf)
+        results.append(("R", len(rf), "fail" if bad else "pass"))
+        details.append(f"R: {bad} of {len(rf)} files fail to parse" + (f" ({first})" if first else ""))
     if py:
-        bad = int(subprocess.run([sys.executable, "-I", "-c", PY_AST, *py], capture_output=True, text=True,
-                                 timeout=300).stdout.strip() or 0)
-        system = "Python package" if {"setup.py", "pyproject.toml"} & top else "Python scripts"
-        return system, "pass" if bad == 0 else "fail", f"{bad} of {len(py)} .py files do not parse as Python 3"
-    jars = [p for p in files if p.suffix == ".jar"]
-    classes = [p for p in files if p.suffix == ".class"]
-    if jars or classes:
-        majors = set()
-        for j in jars[:5]:
-            try:
-                with zipfile.ZipFile(j) as z:
-                    for n in [n for n in z.namelist() if n.endswith(".class")][:20]:
-                        head = z.read(n)[:8]
-                        if head[:4] == b"\xca\xfe\xba\xbe":
-                            majors.add(struct.unpack(">H", head[6:8])[0])
-            except (zipfile.BadZipFile, OSError):
-                pass
-        for c in classes[:20]:
-            head = c.read_bytes()[:8]
-            if head[:4] == b"\xca\xfe\xba\xbe":
-                majors.add(struct.unpack(">H", head[6:8])[0])
-        if not majors:
-            return "Java", "fail", "no readable class files"
-        return "Java", "pass", "targets Java " + ", ".join(JAVA.get(m, str(m)) for m in sorted(majors))
-    csrc = [p for p in files if p.suffix in (".c", ".cc", ".cpp", ".cxx")]
+        bad, py2, first = check_python(py)
+        results.append(("Python", len(py), "fail" if py2 else "inconclusive" if bad else "pass"))
+        details.append(f"Python: {bad} of {len(py)} files do not parse as Python 3"
+                       + (f", {py2} with Python 2 print/exec syntax" if py2 else "") + (f" ({first})" if first else ""))
     if csrc:
-        system = ("autotools" if "configure" in top or "configure.ac" in top else "CMake" if "cmakelists.txt" in top
-                  else "make" if "makefile" in top else "C/C++ without build files")
-        incs = sorted({str(p.parent) for p in files if p.suffix in (".h", ".hpp", ".hh")})
-        bad, lang, first = 0, 0, ""
-        for p in csrc[:60]:
-            comp = "gcc" if p.suffix == ".c" else "g++"
-            cmd = [comp, "-fsyntax-only", "-w", *[f"-I{i}" for i in incs[:40]], str(p)]
-            r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-            if r.returncode:
-                bad += 1
-                errs = [l for l in r.stderr.splitlines() if "error" in l]
-                # A missing header (external library, or one the build generates) is inconclusive;
-                # any other error means today's compiler rejects the code.
-                if not errs or not all("No such file" in e for e in errs):
-                    lang += 1
-                err = next((e for e in errs if "No such file" not in e), errs[0] if errs else "")
-                first = first or re.sub(r"^.*?(fatal error|error): ", r"\1: ", err)[:110]
-        check = "pass" if bad == 0 else "fail" if lang else "inconclusive"
-        return system, check, f"{bad} of {min(len(csrc), 60)} sources fail gcc -fsyntax-only, {lang} with a " \
-            f"compiler error other than a missing header" + (f" (first: {first})" if first else "")
-    rfiles = [str(p) for p in files if p.suffix in (".R", ".r")]
-    if rfiles:
-        bad = parse_r(rfiles)
-        return "R scripts", "pass" if bad == 0 else "fail", f"{bad} of {len(rfiles)} R files fail to parse"
-    if any(p.suffix == ".m" for p in files):
-        return "MATLAB", "n/a", "needs MATLAB"
-    if any(p.suffix in (".pl", ".pm") for p in files):
-        return "Perl scripts", "n/a", "not checked (perl -c runs BEGIN blocks)"
-    if any(p.suffix.lower() in (".exe", ".msi", ".dll") for p in files):
-        return "Windows binary", "fail", "Windows-only"
-    if any(p.suffix in (".gms", ".gams") for p in files):
-        return "GAMS model", "n/a", "needs GAMS"
-    return "unknown", "n/a", f"{len(files)} files, no recognised sources"
-
-
-def parse_r(rfiles):
-    if not rfiles:
-        return 0
-    expr = ('bad <- 0; for (f in commandArgs(TRUE)) { e <- try(parse(f), silent=TRUE); '
-            'if (inherits(e, "try-error")) { bad <- bad + 1; message(f, ": ", conditionMessage(attr(e, "condition"))) } }; '
-            'cat(bad)')
-    out = subprocess.run(["Rscript", "-e", expr, "--args", *rfiles], capture_output=True, text=True, timeout=300)
-    return int(out.stdout.strip() or 0)
+        bad, lang, first = check_c(root, files, csrc)
+        results.append(("C/C++", len(csrc), "pass" if bad == 0 else "fail" if lang else "inconclusive"))
+        details.append(f"C/C++: {bad} of {min(len(csrc), 60)} sources fail gcc -fsyntax-only, {lang} from a known "
+                       f"compiler/libc change" + (f" ({first})" if first else ""))
+    if jars or classes:
+        majors = java_targets(jars, classes)
+        results.append(("Java", len(jars) + len(classes), "pass" if majors else "inconclusive"))
+        details.append("Java: targets " + ", ".join(JAVA.get(m, str(m)) for m in majors) if majors
+                       else "Java: no readable class files")
+    if not results:
+        if any(p.suffix == ".m" for p in files):
+            return "MATLAB", "n/a", "needs MATLAB"
+        if any(p.suffix in (".pl", ".pm") for p in files):
+            return system or "Perl scripts", "n/a", "Perl not checked (perl -c runs BEGIN blocks)"
+        if any(p.suffix.lower() in (".exe", ".msi", ".dll") for p in files):
+            return "Windows binary", "fail", "Windows-only"
+        elf = [p for p in files if p.read_bytes()[:4] == b"\x7fELF"]
+        if elf:
+            bits = {"32-bit" if p.read_bytes()[4] == 1 else "64-bit" for p in elf}
+            return "Linux binary", "n/a", f"prebuilt {'/'.join(sorted(bits))} ELF executable(s) only, no source"
+        if any(p.suffix.lower() in (".rpm", ".deb") for p in files):
+            return "Linux package", "n/a", "binary RPM/DEB package only"
+        if any(p.suffix in (".gms", ".gams") or p.suffix.upper() == ".GMS" for p in files):
+            return "GAMS model", "n/a", "needs GAMS"
+        return system or "unknown", "n/a", f"{len(files)} files, no recognised sources"
+    if not system:
+        langs = [("R scripts", rf), ("Python scripts", py), ("C/C++ without build files", csrc),
+                 ("Java", jars or classes)]
+        system = next(n for n, v in langs if v)
+    # The verdict follows the dominant language (most files; an R package's DESCRIPTION wins).
+    check = max(results, key=lambda r: r[1])[2]
+    return system, check, "; ".join(details)
 
 
 def inspect(pmcid, kind, artifact, sub):

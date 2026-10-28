@@ -325,7 +325,7 @@ def progress_rank(row):
     if row["outcome"] == "http":
         s = int(row["status"] or 0)
         return 4 if s < 400 else 3 if s in (404, 410) else 2
-    return 1 if row["outcome"] in TRANSIENT else 2
+    return 2 if row["outcome"] == "gateway_503" else 1 if row["outcome"] in TRANSIENT else 2
 
 
 def main(*args):
