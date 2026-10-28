@@ -7,7 +7,9 @@ log-likelihood function. *Bioinformatics* 30(11):1547–1554 (2014).
 
 The paper is © The Author 2014, published by Oxford University Press, all rights reserved. This folder
 does not contain the paper, its supplement, or the authors' `lldmn` package. Get them from the journal.
+`figure-reproduction/published/` holds four of the paper's figures, only for comparison.
 
 | Folder | Content |
 | --- | --- |
+| [`figure-reproduction/`](figure-reproduction/) | Figs 2, 4, 5 and 6 and Table 1, rebuilt and compared with the published versions pixel by pixel. Nextflow pipeline. |
 | [`lldmn-implementation-analysis/`](lldmn-implementation-analysis/) | What the authors' compiled `lldmn` library does, and how it differs from the paper. |

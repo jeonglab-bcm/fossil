@@ -6,4 +6,8 @@ papers or their supplements.
 
 | Folder | Paper | Status |
 | --- | --- | --- |
-| [`PMC4081639`](PMC4081639/) | Yu P, Shaw CA. An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function. *Bioinformatics* 30(11):1547–1554 (2014). [doi:10.1093/bioinformatics/btu079](https://doi.org/10.1093/bioinformatics/btu079) | Implementation analysis |
+| [`PMC4081639`](PMC4081639/) | Yu P, Shaw CA. An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function. *Bioinformatics* 30(11):1547–1554 (2014). [doi:10.1093/bioinformatics/btu079](https://doi.org/10.1093/bioinformatics/btu079) | Figs 2, 4, 5, 6 and Table 1 reproduced; implementation analysis |
+
+Site: <https://jeonglab-bcm.github.io/fossil/>
+
+The workflow `.github/workflows/reproduce.yml` reruns each reproduction with Nextflow on every change.
