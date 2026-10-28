@@ -22,14 +22,13 @@ peaks and every peak class, identical to six decimals (`output/port_check.json`)
 | Fig. 6 (a to d) | Raw spectrum and what LIMPIC removes from it (smoothing residual plus baseline), divided by 5: 97.6% or better in a, b and d, 97.9% and 96.9% in c. |
 | Fig. 7, LIMPIC | The processed spectrum, 8.73 to 9.02 kDa: 99.57% and 99.93%. The same 16 peaks, each with a published marker at our position, and no published marker without one of ours. |
 | Fig. 8 | Same curve and the same 16 peaks (100% and 99.96%). Our 30-spectrum classification colours 9 of the 16 the same way as the paper. |
-| Fig. 9a, 9b | Drawn from Additional File 4 (the authors' plasma peak classes): 9a 98.6% and 99.5%. 9b, `hist(PDR, 10)`: [801, 359, 207, 106, 49, 28, 7, 6, 6, 12] against published bars read as [811, 359, 208, 108, 47, 21, 7, 6, 6, 12]. |
+| Fig. 9a, 9b | Drawn from Additional File 4 (the authors' plasma peak classes), not from our run: 9a 98.6% and 99.5%. 9b, `hist(PDR, 10)`: the bar edges fall on the published ones, and the counts [801, 359, 207, 106, 49, 28, 7, 6, 6, 12] against published bars read as [811, 359, 208, 108, 47, 21, 7, 6, 6, 12]. |
 | Tables 1 to 3, LIMPIC rows | Not reproduced. In the in-vitro spectra LIMPIC 1.1 finds about 667 peaks per spectrum (paper: 16) and 500 to 717 classes per concentration (paper: 7 to 11). Plasma: 302 peaks per spectrum and 104 classes (paper: 146 and 62). Both sets are in `output/report.md`. |
 
 Figs 1 and 10 and the APEX, CENTROID and CROMWELL panels of Figs 4, 6 and 7 are not attempted. Fig. 1 is a
 diagram. APEX and CENTROID are Bruker FlexAnalysis, which is proprietary; the paper does not give
 CROMWELL's settings, and Fig. 10 also needs the masses of the 68 reference proteins, which
-Additional File 5 does not list. Figs 9c and 9d need the noise levels behind Additional File 4,
-and that run cannot be regenerated (below).
+Additional File 5 does not list. Figs 9c and 9d are not reproduced either; see below.
 
 ## What the code does, against the paper
 
@@ -59,6 +58,16 @@ Additional File 4 value to three decimals, where an identical run would match ne
 them. Its 30 subjects cannot be matched to the 30 files by peak positions or intensity profiles
 either. Fig. 9a and 9b agree with Additional File 4, and Fig. 8's colours agree
 with neither it nor our run, so the published classification came from a run we cannot repeat.
+
+## Figs 9c and 9d use a noise model the code does not have
+
+Each stem of Fig. 9c is an Additional File 4 class's mean intensity (its MEAN column) divided by
+a smooth noise curve. Read off the 62 stems, that curve is close to
+0.137 + 1.57 · exp(−(m/z − 6000) / 873), with m/z in Da: it falls from about 1.1 at 6.4 kDa to a
+floor of about 0.137 above 11 kDa. LIMPIC 1.1's noise estimate is jagged, because it interpolates
+between 100 Da blocks, and the paper describes no smooth model. Fitting the same curve to our noise
+estimates, for the average spectrum or for each spectrum, gives other constants. Drawing 9c and 9d
+would mean taking the curve from the figure itself, so they are left out.
 
 ## Layout
 
