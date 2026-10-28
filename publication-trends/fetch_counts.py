@@ -26,13 +26,20 @@ GROUPS = {
     "Zenodo + figshare": '"zenodo"[All Fields] OR "figshare"[All Fields]',
     "SRA / ENA": ('"sequence read archive"[All Fields] OR "ncbi sra"[All Fields]'
                   ' OR "european nucleotide archive"[All Fields]'),
-    "Docker, Jupyter, Conda, Snakemake, Nextflow": (
-        '"docker"[All Fields] OR "jupyter"[All Fields] OR "conda"[All Fields]'
-        ' OR "bioconda"[All Fields] OR "snakemake"[All Fields] OR "nextflow"[All Fields]'),
+    "Docker, Jupyter, Conda, Snakemake, Nextflow": (  # "docker" and "conda" need a software context
+        '("docker"[All Fields] AND ("container"[All Fields] OR "containers"[All Fields]'
+        ' OR "containerized"[All Fields] OR "dockerfile"[All Fields] OR "dockerhub"[All Fields]'
+        ' OR "docker hub"[All Fields]))'
+        ' OR ("conda"[All Fields] AND ("anaconda"[All Fields] OR "miniconda"[All Fields]'
+        ' OR "bioconda"[All Fields] OR "python"[All Fields] OR "conda-forge"[All Fields]'
+        ' OR "conda install"[All Fields]))'
+        ' OR "jupyter"[All Fields] OR "bioconda"[All Fields] OR "snakemake"[All Fields]'
+        ' OR "nextflow"[All Fields]'),
 }
 # Groups counted only from this year. The tools date from 2012 on (Docker 2013, Jupyter 2014,
 # Snakemake 2012, Nextflow 2013); earlier "docker" and "conda" hits are other things, such as
 # Molegro Virtual Docker (molecular docking), tail-docking tools, and Conda Laboratorios (Madrid).
+# Those products still appear later, hence the software-context terms on "docker" and "conda".
 START = {"Docker, Jupyter, Conda, Snakemake, Nextflow": 2012}
 
 
