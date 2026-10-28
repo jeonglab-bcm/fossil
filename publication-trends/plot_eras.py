@@ -113,8 +113,8 @@ def main(src="counts.csv", out="publication_eras"):
     fig.text(0.065, -0.025,
              "Source: PubMed Central full-text search (NCBI E-utilities, db=pmc, publication year); full "
              "text includes reference lists. Zero counts are omitted on the log scale.\nHollow marker and "
-             "dashed segment = 2026, partial year (indexed through late Oct). Environment-tool hits before "
-             "about 2013 are mostly other uses of \"docker\" and \"conda\".\nSRA / ENA is shown "
+             "dashed segment = 2026, partial year (indexed through late Oct). Environment tools are counted from 2012; "
+             "earlier \"docker\" and \"conda\" hits are other things.\nSRA / ENA is shown "
              "in publication_trends.png. Python + PyPI excludes articles that mention snakes.",
              fontsize=7.8, color=MUTED, ha="left", va="top")
     fig.subplots_adjust(left=0.065, right=0.84, top=0.93, bottom=0.12)

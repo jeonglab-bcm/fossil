@@ -29,7 +29,7 @@ to GitHub.
 | Archives with DOIs | Zenodo + figshare | `"zenodo" OR "figshare"` |
 | Data repositories | NCBI GEO | `"gene expression omnibus" OR "ncbi geo"` |
 | Data repositories | SRA / ENA | `"sequence read archive" OR "ncbi sra" OR "european nucleotide archive"` |
-| Software environments | Docker, Jupyter, Conda, Snakemake, Nextflow | `"docker" OR "jupyter" OR "conda" OR "bioconda" OR "snakemake" OR "nextflow"` |
+| Software environments | Docker, Jupyter, Conda, Snakemake, Nextflow (from 2012) | `"docker" OR "jupyter" OR "conda" OR "bioconda" OR "snakemake" OR "nextflow"` |
 
 Each query is ANDed with `<year>[pdat]`. Row B divides by all PMC articles with that publication
 year (`<year>[pdat]`), so PMC's growth does not drive the trend. Each column is one theme; the
@@ -46,8 +46,11 @@ Caveats:
 - Python + PyPI is almost all "python": PyPI alone is named in about 0.1% of articles. Excluding
   articles that mention snakes drops a few Python-software papers too.
 - Row A omits zero counts, since a log axis cannot show them.
-- Early hits for some terms are other uses of the word. For example, the 16 "docker" hits in 2001 are
-  medical articles (occupational medicine, primary care), not the container tool.
+- Environment tools are counted from 2012 only. None of them existed earlier (Docker 2013,
+  Jupyter 2014, Snakemake 2012, Nextflow 2013), and earlier "docker" and "conda" hits are other
+  things: Molegro Virtual Docker (molecular docking), tail-docking tools for lambs, dock workers,
+  Conda Laboratorios (a reagent supplier in Madrid), and the surname Conda-Sheridan. These products
+  still appear after 2012, so the 2012–2015 values are mostly not the software tools.
 
 ## Reproduce
 

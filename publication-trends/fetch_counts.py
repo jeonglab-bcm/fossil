@@ -3,7 +3,7 @@
 Source: NCBI E-utilities esearch on db=pmc, which searches full text
 (including references). Terms are pinned to [All Fields] so PMC's automatic
 term mapping cannot widen them (e.g. "bioconductor" -> "bioconductor s").
-Writes counts.csv: year, group, query, count, total, share.
+Writes counts.csv: year, group, query, count, total, share (blank before a group's START year).
 """
 import csv
 import json
@@ -30,6 +30,10 @@ GROUPS = {
         '"docker"[All Fields] OR "jupyter"[All Fields] OR "conda"[All Fields]'
         ' OR "bioconda"[All Fields] OR "snakemake"[All Fields] OR "nextflow"[All Fields]'),
 }
+# Groups counted only from this year. The tools date from 2012 on (Docker 2013, Jupyter 2014,
+# Snakemake 2012, Nextflow 2013); earlier "docker" and "conda" hits are other things, such as
+# Molegro Virtual Docker (molecular docking), tail-docking tools, and Conda Laboratorios (Madrid).
+START = {"Docker, Jupyter, Conda, Snakemake, Nextflow": 2012}
 
 
 def count(term):
@@ -55,6 +59,10 @@ def main(out="counts.csv"):
         ydate = f"{year}[pdat]"
         total = count(ydate)
         for name, q in GROUPS.items():
+            if year < START.get(name, 0):  # not counted: blank, not zero
+                rows.append({"year": year, "group": name, "query": f"not counted before {START[name]}",
+                             "count": "", "total": total, "share": ""})
+                continue
             n = count(f"({q}) AND {ydate}")
             rows.append({"year": year, "group": name, "query": f"({q}) AND {ydate}",
                          "count": n, "total": total, "share": n / total})

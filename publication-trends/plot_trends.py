@@ -43,8 +43,8 @@ def load(path):
     for r in rows:
         d = data[r["group"]]
         d["year"].append(int(r["year"]))
-        d["count"].append(int(r["count"]))
-        d["share"].append(100 * float(r["share"]))
+        d["count"].append(int(r["count"]) if r["count"] else math.nan)  # blank = not counted
+        d["share"].append(100 * float(r["share"]) if r["share"] else math.nan)
     return data
 
 
@@ -104,7 +104,8 @@ def main(src="counts.csv", out="publication_trends"):
              "Source: PubMed Central full-text search (NCBI E-utilities, db=pmc, publication year); "
              "full text includes reference lists. Gray lines are the other groups, for comparison.\n"
              "Hollow marker and dashed segment = 2026, partial year (indexed through late Oct). "
-             "Zero counts are omitted on the log scale. Queries are listed in fetch_counts.py.",
+             "Zero counts are omitted on the log scale. Environment tools are counted from 2012. "
+             "Queries are listed in fetch_counts.py.",
              fontsize=8, color=MUTED, ha="left", va="top")
     fig.subplots_adjust(left=0.07, right=0.99, top=0.93, bottom=0.1)
     for ext in ("png", "svg"):
