@@ -11,8 +11,8 @@ papers or their supplements.
 Other analyses:
 
 - [`publication-trends`](publication-trends/): PMC articles per year (2000–2026) mentioning
-  GitHub/GitLab, SourceForge, NCBI GEO, PyPI, and CRAN/Bioconductor, as a proxy for when code and
-  data sharing took hold.
+  code hosts, package repositories, DOI archives, data repositories, and software environment tools,
+  as a proxy for when code and data sharing took hold.
 
 Site: <https://jeonglab-bcm.github.io/fossil/>
 

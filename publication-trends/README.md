@@ -5,16 +5,20 @@ rough proxy for when sharing code and data, and so reproducibility, became commo
 
 ![Publication trends](publication_trends.png)
 
-| Group | Query (PMC full text, `[All Fields]`) |
-| --- | --- |
-| GitHub + GitLab | `"github" OR "gitlab"` |
-| SourceForge | `"sourceforge"` |
-| NCBI GEO | `"gene expression omnibus" OR "ncbi geo"` |
-| PyPI | `"pypi" OR "python package index"` |
-| CRAN + Bioconductor | `"cran" OR "bioconductor"` |
+| Theme | Group | Query (PMC full text, `[All Fields]`) |
+| --- | --- | --- |
+| Code hosting | GitHub + GitLab | `"github" OR "gitlab"` |
+| Code hosting | SourceForge | `"sourceforge"` |
+| Package repositories | CRAN + Bioconductor | `"cran" OR "bioconductor"` |
+| Package repositories | PyPI | `"pypi" OR "python package index"` |
+| Archives with DOIs | Zenodo + figshare | `"zenodo" OR "figshare"` |
+| Data repositories | NCBI GEO | `"gene expression omnibus" OR "ncbi geo"` |
+| Data repositories | SRA / ENA | `"sequence read archive" OR "ncbi sra" OR "european nucleotide archive"` |
+| Software environments | Docker, Jupyter, Conda, Snakemake, Nextflow | `"docker" OR "jupyter" OR "conda" OR "bioconda" OR "snakemake" OR "nextflow"` |
 
-Each query is ANDed with `<year>[pdat]`. Panel B divides by all PMC articles with that publication
-year (`<year>[pdat]`), so PMC's growth does not drive the trend.
+Each query is ANDed with `<year>[pdat]`. Row B divides by all PMC articles with that publication
+year (`<year>[pdat]`), so PMC's growth does not drive the trend. Each column is one theme; the
+other groups are drawn in gray for comparison.
 
 Caveats:
 
@@ -25,12 +29,14 @@ Caveats:
   The share is more comparable, but may still change as indexing catches up.
 - A mention is not a deposit. An article can name GitHub or GEO without sharing code or data.
 - PyPI is rarely named (about 0.1% of articles); papers more often say `pip install` or just "Python".
-- Panel A omits zero counts, since a log axis cannot show them.
+- Row A omits zero counts, since a log axis cannot show them.
+- Early hits for some terms are other uses of the word. For example, the 16 "docker" hits in 2001 are
+  medical articles (occupational medicine, primary care), not the container tool.
 
 ## Reproduce
 
 ```bash
-python3 fetch_counts.py counts.csv   # about 160 NCBI E-utilities requests, ~2 min
+python3 fetch_counts.py counts.csv   # about 250 NCBI E-utilities requests, ~3 min
 python3 plot_trends.py counts.csv publication_trends
 ```
 

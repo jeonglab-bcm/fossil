@@ -22,6 +22,12 @@ GROUPS = {
     "NCBI GEO": '"gene expression omnibus"[All Fields] OR "ncbi geo"[All Fields]',
     "PyPI": '"pypi"[All Fields] OR "python package index"[All Fields]',
     "CRAN + Bioconductor": '"cran"[All Fields] OR "bioconductor"[All Fields]',
+    "Zenodo + figshare": '"zenodo"[All Fields] OR "figshare"[All Fields]',
+    "SRA / ENA": ('"sequence read archive"[All Fields] OR "ncbi sra"[All Fields]'
+                  ' OR "european nucleotide archive"[All Fields]'),
+    "Docker, Jupyter, Conda, Snakemake, Nextflow": (
+        '"docker"[All Fields] OR "jupyter"[All Fields] OR "conda"[All Fields]'
+        ' OR "bioconda"[All Fields] OR "snakemake"[All Fields] OR "nextflow"[All Fields]'),
 }
 
 
