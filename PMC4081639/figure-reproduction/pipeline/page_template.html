@@ -1,0 +1,272 @@
+<title>Figure Comparison</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --ink: #1f1e1b;
+    --ink-2: #57544c;
+    --rule: #dedbd2;
+    --accent: #0f6b70;
+    --accent-soft: #e2efee;
+    --ok: #2f6b3a;
+    --ok-soft: #e4f0e3;
+    --warn: #8a5a00;
+    --warn-soft: #f6ecd6;
+    --info: #3d4f8f;
+    --info-soft: #e6e9f5;
+    --plate: #ffffff;
+    --plate-rule: #e4e2dc;
+    --cyan: #13a8b5;
+    --red: #d8342c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
+      --accent: #5cc2c4; --accent-soft: #1d3434; --ok: #8fcb94; --ok-soft: #1f3122;
+      --warn: #e2b55a; --warn-soft: #362b14; --info: #a7b5ec; --info-soft: #252a42;
+      --plate: #ffffff; --plate-rule: #3c3b35; --cyan: #33c6d2; --red: #f0625a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161614; --surface: #1f1f1c; --ink: #ecebe6; --ink-2: #a9a69c; --rule: #34332e;
+    --accent: #5cc2c4; --accent-soft: #1d3434; --ok: #8fcb94; --ok-soft: #1f3122;
+    --warn: #e2b55a; --warn-soft: #362b14; --info: #a7b5ec; --info-soft: #252a42;
+    --plate: #ffffff; --plate-rule: #3c3b35; --cyan: #33c6d2; --red: #f0625a;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 15px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 32px 64px;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  h1, h2 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 600; text-wrap: balance; margin: 0; }
+  h1 { font-size: 30px; line-height: 1.2; }
+  h2 { font-size: 21px; }
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); font-weight: 500; }
+  .lede { max-width: 68ch; color: var(--ink-2); margin: 8px 0 0; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 13px; }
+  header { display: flex; flex-direction: column; gap: 6px; }
+
+  .method { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; }
+  .method h2 { font-size: 17px; margin-bottom: 10px; }
+  .method dl { display: grid; grid-template-columns: minmax(130px, 180px) 1fr; gap: 6px 18px; margin: 0; }
+  .method dt { color: var(--ink-2); font-size: 13px; padding-top: 1px; }
+  .method dd { margin: 0; min-width: 0; }
+  @media (max-width: 560px) { .method dl { grid-template-columns: 1fr; gap: 2px; } .method dd { margin-bottom: 8px; } }
+
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+  .card-head p { margin: 0; color: var(--ink-2); flex: 1 1 320px; min-width: 0; }
+  .badge { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+  .badge.identical { background: var(--ok-soft); color: var(--ok); }
+  .badge.partial { background: var(--warn-soft); color: var(--warn); }
+  .badge.remeasured { background: var(--info-soft); color: var(--info); }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .tabs { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .tabs button { font: inherit; font-size: 13px; padding: 6px 12px; border: 0; background: transparent; color: var(--ink-2); cursor: pointer; border-right: 1px solid var(--rule); }
+  .tabs button:last-child { border-right: 0; }
+  .tabs button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .tool { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--ink-2); }
+  .tool button { font: inherit; font-size: 13px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .tool input[type=range] { width: 160px; accent-color: var(--accent); }
+
+  .stage { overflow-x: auto; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; }
+  .plate { background: var(--plate); border: 1px solid var(--plate-rule); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .plate .label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; color: #5d5a52; }
+  .plate img, .plate canvas { display: block; max-width: 100%; height: auto; }
+  .zoomed img, .zoomed canvas { max-width: none; image-rendering: pixelated; }
+  .single { display: inline-flex; }
+  .swipe { position: relative; display: inline-block; line-height: 0; }
+  .swipe img { display: block; }
+  .swipe .top { position: absolute; inset: 0; }
+  .swipe .bar { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); pointer-events: none; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
+  .key i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 18px; border-top: 1px solid var(--rule); padding-top: 12px; }
+  .stat .k { font-size: 12px; color: var(--ink-2); }
+  .stat .v { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 14px; }
+  .note { font-size: 14px; color: var(--ink-2); max-width: 90ch; margin: 0; }
+  footer { font-size: 13px; color: var(--ink-2); max-width: 90ch; }
+  .t1pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; }
+  .jt { background: var(--plate); color: #1f1e1b; border: 1px solid var(--plate-rule); border-radius: 6px; padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .jt .label { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; color: #5d5a52; }
+  .jt table { border-collapse: collapse; font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-size: 15px; width: 100%; max-width: 280px; }
+  .jt thead tr { border-top: 1.5px solid #1f1e1b; border-bottom: 1px solid #1f1e1b; }
+  .jt tbody tr:last-child { border-bottom: 1.5px solid #1f1e1b; }
+  .jt th, .jt td { text-align: left; padding: 3px 10px 3px 0; font-weight: 400; }
+  .num { text-align: right !important; font-variant-numeric: tabular-nums; }
+  .detail { border-collapse: collapse; font-size: 13px; min-width: 520px; width: 100%; }
+  .detail th { font-weight: 500; color: var(--ink-2); border-bottom: 1px solid var(--rule); text-align: left; padding: 6px 10px 6px 0; }
+  .detail td { border-bottom: 1px solid var(--rule); padding: 6px 10px 6px 0; font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+  .detail td:first-child { font-family: inherit; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Yu &amp; Shaw 2014 · Bioinformatics 30:1547</span>
+    <h1>Pixel comparison: published figures and Table 1 vs. reproduction</h1>
+    <p class="lede">Each reproduction is drawn with ggplot2 through tikzDevice and pdfLaTeX, the toolchain the paper's typography points to. It is styled with ggplot2's 2013 defaults and rendered at the published figure's exact pixel size, so the two images can be laid over each other directly.</p>
+  </header>
+
+  <section class="method">
+    <h2>What was matched</h2>
+    <dl>
+      <dt>Package &amp; theme</dt><dd>ggplot2 with the 0.9.3 <span class="mono">theme_grey</span> defaults restated: grey panel, white major and lighter minor gridlines, grey50 axis text at 0.8×, 0.15&nbsp;cm ticks, grey95 legend keys of 1.2&nbsp;lines, grey80 strips.</dd>
+      <dt>Fonts</dt><dd>tikzDevice → pdfLaTeX in Computer Modern, the LaTeX default, with <i>ψ</i>, <i>n</i>, <i>μ</i> and 10<sup>−14</sup> set in math mode as in the paper. Times scored within a few percent on stroke alignment, so at this resolution the typeface can't be identified with certainty.</dd>
+      <dt>Lines</dt><dd>72.27/96&nbsp;pt per lwd (R's own convention) instead of current tikzDevice's 0.4&nbsp;pt, which matches the published lines of about 1&nbsp;pt. Dashes are 2&nbsp;pt on, 2&nbsp;pt off, as measured in Fig. 4.</dd>
+      <dt>Colours</dt><dd>Panel and strip fills sampled from the published JPEGs. These read lighter than ggplot's grey90 (#E5E5E5): #E9E9E9 in Figs 2 and 6, #EEEEEE in Figs 4 and 5. Strips read #D4D4D4 rather than grey80 (#CCCCCC). Text keeps ggplot's black and grey50.</dd>
+      <dt>Size</dt><dd>Drawing size and raster resolution fitted per figure so the panel lands on the published pixels, then cropped to the published frame (538×521, 565×471, 570×473 and 586×393&nbsp;px).</dd>
+      <dt>Spacing</dt><dd>Axis-title gaps, legend position and y-title sizes tuned per figure by local alignment. ggplot2 0.9.3 laid out title rows differently from 4.x, and the published y-titles measure 9.9–12.7&nbsp;pt rather than a uniform 12&nbsp;pt.</dd>
+    </dl>
+  </section>
+
+  <div id="figs" class="wrap" style="gap:28px"></div>
+
+  <!--__TABLE1__-->
+
+  <footer>Overlay colours: <b style="color:var(--cyan)">cyan</b> = ink only in the paper, <b style="color:var(--red)">red</b> = ink only in the reproduction, black = both. Difference view: darker = larger grey-level difference (×2). Mean |Δ| includes JPEG artefacts in the published images.</footer>
+</div>
+
+<script>
+const FIGS = /*__FIGS__*/[];
+const MODES = [["side", "Side by side"], ["swipe", "Swipe"], ["blink", "Blink"], ["overlay", "Overlay"], ["diff", "Difference"]];
+const BADGE = { identical: "Identical data", partial: "Same setup · ulp noise differs", remeasured: "Re-timed · scaled to paper's axis" };
+
+function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
+
+function pixels(img, w, h) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+  return x.getImageData(0, 0, w, h).data;
+}
+
+function composite(f, kind) {
+  const c = document.createElement("canvas"); c.width = f.w; c.height = f.h;
+  const x = c.getContext("2d"), out = x.createImageData(f.w, f.h), o = out.data, p = f.pp, q = f.qq;
+  for (let i = 0; i < o.length; i += 4) {
+    const a = (p[i] + p[i + 1] + p[i + 2]) / 3, b = (q[i] + q[i + 1] + q[i + 2]) / 3;
+    if (kind === "overlay") { o[i] = a; o[i + 1] = b; o[i + 2] = b; }
+    else { const v = 255 - Math.min(255, Math.abs(a - b) * 2); o[i] = o[i + 1] = o[i + 2] = v; }
+    o[i + 3] = 255;
+  }
+  x.putImageData(out, 0, 0); c.setAttribute("aria-label", kind === "overlay" ? "Red/cyan overlay" : "Difference map"); return c;
+}
+
+function el(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === "class" ? e.className = v : e.setAttribute(k, v);
+  for (const k of kids) e.append(k);
+  return e;
+}
+
+function plate(label, node) { return el("div", { class: "plate" }, el("span", { class: "label" }, label), node); }
+
+function card(f) {
+  const state = { mode: "side", zoom: 1, timer: null };
+  const head = el("div", { class: "card-head" },
+    el("h2", {}, "Figure " + f.id), el("span", { class: "badge " + f.data_status }, BADGE[f.data_status]), el("p", {}, f.caption));
+  const tabs = el("div", { class: "tabs", role: "group", "aria-label": "View mode" });
+  const tool = el("div", { class: "tool" });
+  const zoom = el("button", { type: "button" }, "Zoom 2×");
+  const stage = el("div", { class: "stage" });
+  const variant = el("div", { class: "tabs", role: "group", "aria-label": "Reproduction data" });
+  const key = el("div", { class: "key" });
+  for (const [m, label] of MODES) {
+    const b = el("button", { type: "button", "aria-pressed": String(m === state.mode) }, label);
+    b.onclick = () => { state.mode = m; [...tabs.children].forEach(c => c.setAttribute("aria-pressed", String(c === b))); render(); };
+    tabs.append(b);
+  }
+  if (f.variants) {
+    f.variants.forEach((v, i) => {
+      const b = el("button", { type: "button", "aria-pressed": String(i === 0) }, v.label);
+      b.onclick = async () => {
+        [...variant.children].forEach(c => c.setAttribute("aria-pressed", String(c === b)));
+        Object.assign(f, { ours: v.ours, W: v.W, H: v.H, dpix: v.dpix, dpiy: v.dpiy, mad: v.mad, within: v.within, data_note: v.note });
+        f.qq = pixels(await loadImg(v.ours), f.w, f.h);
+        note.textContent = v.note; fillStats(); render();
+      };
+      variant.append(b);
+    });
+  }
+  zoom.onclick = () => { state.zoom = state.zoom === 1 ? 2 : 1; zoom.textContent = state.zoom === 1 ? "Zoom 2×" : "Zoom 1×"; render(); };
+
+  function sized(node) { node.style.width = (f.w * state.zoom) + "px"; return node; }
+
+  function render() {
+    clearInterval(state.timer); stage.replaceChildren(); tool.replaceChildren(); key.replaceChildren();
+    stage.classList.toggle("zoomed", state.zoom === 2);
+    zoom.hidden = state.mode === "side";
+    if (state.mode === "side") {
+      const a = el("img", { src: f.paper, alt: "Figure " + f.id + " as published", width: f.w, height: f.h });
+      const b = el("img", { src: f.ours, alt: "Figure " + f.id + " reproduced", width: f.w, height: f.h });
+      stage.append(el("div", { class: "pair" }, plate("Published", a), plate("Reproduction · ggplot2 + tikzDevice", b)));
+    } else if (state.mode === "swipe") {
+      const base = sized(el("img", { src: f.paper, alt: "Published" }));
+      const top = sized(el("img", { src: f.ours, alt: "Reproduction", class: "top" }));
+      const bar = el("div", { class: "bar" });
+      const box = el("div", { class: "swipe" }, base, top, bar);
+      const r = el("input", { type: "range", min: 0, max: 100, value: 50, "aria-label": "Swipe position" });
+      const set = v => { top.style.clipPath = `inset(0 0 0 ${v}%)`; bar.style.left = `calc(${v}% - 1px)`; };
+      r.oninput = () => set(r.value); set(50);
+      tool.append("Published", r, "Reproduction");
+      stage.append(plate("Published ← → Reproduction", box));
+    } else if (state.mode === "blink") {
+      const img = sized(el("img", { src: f.paper, alt: "Blink comparison" }));
+      const lab = el("span", { class: "label" }, "Published");
+      let on = false;
+      const flip = () => { on = !on; img.src = on ? f.ours : f.paper; lab.textContent = on ? "Reproduction" : "Published"; };
+      const btn = el("button", { type: "button" }, "Pause");
+      state.timer = setInterval(flip, 650);
+      btn.onclick = () => { if (state.timer) { clearInterval(state.timer); state.timer = null; btn.textContent = "Play"; } else { state.timer = setInterval(flip, 650); btn.textContent = "Pause"; } };
+      const step = el("button", { type: "button" }, "Step"); step.onclick = flip;
+      tool.append(btn, step);
+      stage.append(el("div", { class: "plate single" }, lab, img));
+    } else {
+      const c = sized(composite(f, state.mode));
+      stage.append(plate(state.mode === "overlay" ? "Overlay" : "Difference ×2", c));
+      if (state.mode === "overlay") key.append(
+        el("span", {}, el("i", { style: "background:var(--cyan)" }), "paper only"),
+        el("span", {}, el("i", { style: "background:var(--red)" }), "reproduction only"),
+        el("span", {}, el("i", { style: "background:#000" }), "both"));
+    }
+  }
+
+  const stat = (k, v) => el("div", { class: "stat" }, el("div", { class: "k" }, k), el("div", { class: "v" }, v));
+  const stats = el("div", { class: "stats" });
+  const note = el("p", { class: "note" }, f.data_note);
+  function fillStats() {
+    stats.replaceChildren(
+      stat("Pixel size", `${f.w} × ${f.h}`),
+      stat("Drawn at", `${f.W} × ${f.H} in`),
+      stat("Rasterised", f.dpix === f.dpiy ? `${f.dpix} dpi` : `${f.dpix} × ${f.dpiy} dpi`),
+      stat("Panel fill", f.panel),
+      stat("Mean |Δ| grey", String(f.mad)),
+      stat("Pixels within ±24", f.within + "%"));
+  }
+  fillStats(); render();
+  const controls = el("div", { class: "controls" }, tabs, tool, zoom);
+  if (f.variants) controls.prepend(variant);
+  return el("section", { class: "card", "aria-label": "Figure " + f.id },
+    head, controls, stage, key, stats, note);
+}
+
+(async () => {
+  const root = document.getElementById("figs");
+  for (const f of FIGS) {
+    const [a, b] = await Promise.all([loadImg(f.paper), loadImg(f.ours)]);
+    f.pp = pixels(a, f.w, f.h); f.qq = pixels(b, f.w, f.h);
+    root.append(card(f));
+  }
+})();
+</script>

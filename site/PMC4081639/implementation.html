@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}.back{display:inline-block;margin-bottom:12px;font-size:13px;color:var(--accent);text-decoration:none}.back:hover{text-decoration:underline}</style>
+<title>lldmn Analysis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Single-column technical note for a numerical validation study */
+:root {
+  --bg: #fafbfc;
+  --surface: #ffffff;
+  --fg: #1a2332;
+  --muted: #5c6b7a;
+  --rule: #d4dbe3;
+  --accent: #2563a0;
+  --warn: #9a5c12;
+  --warn-bg: #fdf6ec;
+  --code-bg: #eef2f6;
+  --display: "Source Serif 4", "Georgia", serif;
+  --body: "Inter", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1318;
+    --surface: #171d24;
+    --fg: #dfe6ed;
+    --muted: #8a99a8;
+    --rule: #2a3441;
+    --accent: #5ba3e6;
+    --warn: #e4a84c;
+    --warn-bg: #251e0e;
+    --code-bg: #1c2430;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1318;
+  --surface: #171d24;
+  --fg: #dfe6ed;
+  --muted: #8a99a8;
+  --rule: #2a3441;
+  --accent: #5ba3e6;
+  --warn: #e4a84c;
+  --warn-bg: #251e0e;
+  --code-bg: #1c2430;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.7 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 80px;
+}
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  display: grid;
+  gap: 48px;
+}
+.wrap > * { min-width: 0; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.tag {
+  font: 500 0.72rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font: 600 clamp(1.6rem, 4vw, 2.1rem)/1.15 var(--display);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+h2 {
+  font: 600 1.2rem/1.3 var(--display);
+  margin: 0;
+  text-wrap: balance;
+}
+h3 {
+  font: 600 1rem/1.35 var(--body);
+  margin: 0;
+}
+p, li { margin: 0; max-width: 66ch; }
+ul { padding-left: 1.3em; margin: 0; }
+li + li { margin-top: 0.4em; }
+
+header { display: grid; gap: 12px; }
+.subtitle {
+  font: 400 1.05rem/1.55 var(--display);
+  font-style: italic;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+section { display: grid; gap: 16px; }
+section + section { padding-top: 8px; }
+
+.results-table {
+  overflow-x: auto;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  font-variant-numeric: tabular-nums;
+}
+th {
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 2px solid var(--rule);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+td:last-child {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+.vignette {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+pre {
+  background: var(--code-bg);
+  border-radius: 6px;
+  padding: 18px 20px;
+  font: 400 0.82rem/1.65 var(--mono);
+  overflow-x: auto;
+  margin: 0;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.finding {
+  background: var(--warn-bg);
+  border-left: 3px solid var(--warn);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  display: grid;
+  gap: 6px;
+}
+.finding-label {
+  font: 600 0.82rem/1.3 var(--body);
+  color: var(--warn);
+}
+
+.sep {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+.method-list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  counter-reset: step;
+}
+.method-list li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0;
+  margin: 0;
+}
+.method-list li::before {
+  content: counter(step);
+  font: 600 0.78rem/2rem var(--mono);
+  color: var(--accent);
+  text-align: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.footer-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.55;
+  border-top: 1px solid var(--rule);
+  padding-top: 20px;
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+<a class="back" href="./">← Figures and Table 1</a>
+    <span class="tag">Implementation Analysis</span>
+    <h1>lldmn: Mesh Log-Likelihood for the Dirichlet-Multinomial</h1>
+    <p class="subtitle">Validating the compiled algorithm shipped with Yu &amp; Shaw (2014), Bioinformatics 30(11):1547&ndash;1554</p>
+  </header>
+
+  <section>
+    <p>The supplementary <code>lldmn</code> R package ships the mesh algorithm only as precompiled static libraries (<code>libloglikdmn-linux.a</code> and <code>libloglikdmn-mac.a</code>, x86_64). Its <code>DESCRIPTION</code> declares <strong>License: GPL-2</strong>. No C++ source for the algorithm is included.</p>
+    <p>This analysis recovers what the compiled code does, validates it against the paper&rsquo;s equations, and documents the differences.</p>
+  </section>
+
+  <hr class="sep">
+
+  <section>
+    <h2>Method</h2>
+    <ol class="method-list">
+      <li><span>Split the Linux archive (GCC 4.6.1, Ubuntu; symbols not stripped, no DWARF) into its 8 objects and decompiled every function with REA 6.8.0 (<code>rea decompile-all --provider ghidra</code>) on Ghidra 12.1.4 / JDK 21.</span></li>
+      <li><span>Ran the authors&rsquo; macOS x86_64 library under Rosetta through a C driver (<code>driver.c</code> + <code>stubs.c</code> supplying <code>operator new/delete</code>, aborting on any other C++ runtime call).</span></li>
+      <li><span>Compared over 324 inputs (paper Figs 2/4/5/6 settings, the vignette example, 300 random K=21 cases with counts up to 10<sup>5</sup> and &psi; &isin; {0} &cup; [10<sup>&minus;8</sup>, 10]): the binary, a Python reimplementation from the decompiled logic, and exact Eq.&nbsp;(6) via mpmath at 50 digits.</span></li>
+    </ol>
+  </section>
+
+  <hr class="sep">
+
+  <section>
+    <h2>Results</h2>
+    <div class="results-table">
+      <table>
+        <thead>
+          <tr><th>Comparison</th><th>Max Relative Difference</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Reimplementation vs authors&rsquo; binary</td><td>3.9 &times; 10<sup>&minus;16</sup></td></tr>
+          <tr><td>Authors&rsquo; binary vs exact Eq.&nbsp;(6)</td><td>4.0 &times; 10<sup>&minus;16</sup></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="vignette">lldmn(c(3,5,7), c(.2,.3,.5), .01) = &minus;15.838047564592856</div>
+    <p>Both comparisons are at machine epsilon. The shipped binary is numerically accurate.</p>
+  </section>
+
+  <hr class="sep">
+
+  <section>
+    <h2>Recovered Algorithm</h2>
+    <p>R entry point: <code>loglikdmn::loglikdirmultinom_mesh(n, p, &psi;)</code></p>
+    <pre>if all n == 0: return 0
+&alpha; = p / &psi;
+min_alpha = 1/&delta; + 1 = 6              (&delta; = 0.2)
+
+<strong># 1. VGAM warm-up (not described in the paper)</strong>
+if any(n_i &gt; 0 and &alpha;_i &lt; 6):
+    x_i = min(n_i, ceil(6 &minus; &alpha;_i))   for those i, else 0
+    total += exact product (Eq. 4/7)
+    update (p, &psi;) via Eqs (27)&ndash;(28);  n &larr; n &minus; x
+
+<strong># 2. Bernoulli mesh steps (paper Eqs 20, 29&ndash;32)</strong>
+while any(n &gt; 0):
+    x_i = min(n_i, floor(0.2 &middot; &alpha;_i))   Eq. (30) + Eq. (32) cap
+    total += &Sigma; [x_k log p_k + D_20(&psi;/p_k, x_k)] &minus; D_20(&psi;, &Sigma;x)
+    update (p, &psi;);  n &larr; n &minus; x
+return total
+
+where D_20(x, y) = &Sigma;_{n=2}^{20} (&minus;1)^n &phi;_n(y) x^{n&minus;1} / (n(n&minus;1))
+      &phi;_n(y) = B_n(y) &minus; B_n  (Bernoulli polynomials)</pre>
+  </section>
+
+  <hr class="sep">
+
+  <section>
+    <h2>Differences from the Paper</h2>
+
+    <div class="finding">
+      <span class="finding-label">1. Undocumented exact warm-up</span>
+      <p>Before any Bernoulli step, every category with &alpha;<sub>i</sub> = p<sub>i</sub>/&psi; &lt; 6 gets up to &lceil;6 &minus; &alpha;<sub>i</sub>&rceil; counts evaluated with the exact VGAM-style product. The paper&rsquo;s mesh rule, Eq.&nbsp;(30) x<sub>i</sub> = &lfloor;&alpha;<sub>i</sub>&delta;&rfloor;, is 0 whenever &alpha;<sub>i</sub> &lt; 5. Implemented exactly as written, it would never advance such a category. <strong>The warm-up is what makes the algorithm terminate.</strong> It adds at most 6 terms per category, so the runtime claims are unaffected.</p>
+    </div>
+
+    <div class="finding">
+      <span class="finding-label">2. Large &psi; produces zero Bernoulli steps</span>
+      <p>In the Fig.&nbsp;2/4 setting (x&nbsp;=&nbsp;(2,3,1), p&nbsp;=&nbsp;(.2,.3,.5)), &psi;&nbsp;&ge;&nbsp;0.1 gives zero Bernoulli steps. The value reported as the &ldquo;mesh algorithm&rdquo; is entirely the VGAM-style product, written in &psi; rather than &rho;.</p>
+    </div>
+
+    <div class="finding">
+      <span class="finding-label">3. Fixed constants</span>
+      <p>m&nbsp;=&nbsp;20 and &delta;&nbsp;=&nbsp;0.2, as stated in the paper. &psi;&nbsp;&lt;&nbsp;1 and &psi;&nbsp;&ge;&nbsp;1 use different but algebraically equal update formulas, matching Eqs&nbsp;(27)&ndash;(28).</p>
+    </div>
+
+    <div class="finding">
+      <span class="finding-label">4. Unpublished extras</span>
+      <p>The library also contains <code>loglikdirmultinom_diff_{mesh,vgam,bern_approx}</code> (log-likelihood differences for a second p vector). These are not exposed by the R wrapper.</p>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <section>
+    <h2>Reproduce</h2>
+    <pre>clang -arch x86_64 -mmacosx-version-min=10.13 -w \
+  driver.c stubs.c libloglikdmn-mac.a -o lldmn_driver
+
+uv run --with mpmath==1.3.0 \
+  python -I difftest/difftest.py ./lldmn_driver</pre>
+  </section>
+
+  <p class="footer-note">Analysis performed with REA 6.8.0, Ghidra 12.1.4, JDK 21, Python with mpmath 1.3.0. The <code>lldmn</code> package declares License: GPL-2 in its DESCRIPTION file.</p>
+</div>
+
+</body>
+</html>
