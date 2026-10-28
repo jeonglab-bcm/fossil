@@ -14,6 +14,8 @@ Other analyses:
   code hosts, R and Python ecosystems, DOI archives, data repositories, and software environment tools,
   as a proxy for when code and data sharing took hold.
 
+Figures for the papers are in [`figures/`](figures/).
+
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
 The workflow `.github/workflows/reproduce.yml` reruns each reproduction with Nextflow on every change.

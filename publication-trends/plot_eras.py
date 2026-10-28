@@ -12,7 +12,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator  # noqa: E402
 
-from plot_trends import AXIS, COLORS, ENV, GRID, INK, INK2, MUTED, PARTIAL, SURFACE, load  # noqa: E402
+from plot_trends import (AXIS, COLORS, ENV, FIGURES, GRID, HERE, INK, INK2, MUTED, PARTIAL,  # noqa: E402
+                         SURFACE, load, save)
 
 SERIES = ["NCBI GEO", "CRAN + Bioconductor", "SourceForge", "GitHub + GitLab", "Python + PyPI",
           "Zenodo + figshare", ENV]
@@ -48,7 +49,7 @@ def end_labels(ax, data):
                     fontsize=9, color=INK2, annotation_clip=False, linespacing=1.1)
 
 
-def main(src="counts.csv", out="publication_eras"):
+def main(src=HERE / "counts.csv", out=FIGURES / "publication_eras"):
     data = load(src)
     fig, (top, ax) = plt.subplots(2, 1, figsize=(11, 6.8), sharex=True, facecolor=SURFACE,
                                   gridspec_kw={"height_ratios": [1, 5.2], "hspace": 0.04})
@@ -113,13 +114,12 @@ def main(src="counts.csv", out="publication_eras"):
     fig.text(0.065, -0.025,
              "Source: PubMed Central full-text search (NCBI E-utilities, db=pmc, publication year); full "
              "text includes reference lists. Zero counts are omitted on the log scale.\nHollow marker and "
-             "dashed segment = 2026, partial year (indexed through late Oct). Environment tools are counted from 2012; "
-             "earlier \"docker\" and \"conda\" hits are other things.\nSRA / ENA is shown "
-             "in publication_trends.png. Python + PyPI excludes articles that mention snakes.",
+             "dashed segment = 2026, partial year (indexed through late Oct). Environment tools are counted from 2012, "
+             "and \"docker\" and \"conda\" only alongside a software term.\nSRA / ENA is in the by-theme "
+             "figure, publication_trends. Python + PyPI excludes articles that mention snakes.",
              fontsize=7.8, color=MUTED, ha="left", va="top")
     fig.subplots_adjust(left=0.065, right=0.84, top=0.93, bottom=0.12)
-    for ext in ("png", "svg"):
-        fig.savefig(f"{out}.{ext}", dpi=200, bbox_inches="tight", facecolor=SURFACE)
+    save(fig, out)
 
 
 if __name__ == "__main__":

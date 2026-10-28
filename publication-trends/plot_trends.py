@@ -6,10 +6,13 @@ articles that year. Every panel shows the other groups as gray context lines.
 import csv
 import math
 import sys
+from pathlib import Path
 
 import matplotlib
 
 matplotlib.use("Agg")
+matplotlib.rcParams["pdf.fonttype"] = 42  # embed TrueType, so text stays editable
+matplotlib.rcParams["svg.hashsalt"] = "fossil"  # stable SVG ids, so reruns diff cleanly
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.ticker import FuncFormatter  # noqa: E402
 
@@ -35,6 +38,8 @@ LABELS = {ENV: "Docker, Jupyter, Conda/\nBioconda, Snakemake,\nNextflow"}
 INK, INK2, MUTED, GRID, AXIS, SURFACE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7", "#fcfcfb"
 CONTEXT = "#d3d2cb"
 PARTIAL = 2026
+HERE = Path(__file__).resolve().parent
+FIGURES = HERE.parent / "figures"
 
 
 def load(path):
@@ -75,7 +80,16 @@ def panel(ax, data, key, groups, log):
         ax.plot(x[-1], y[-1], marker="o", ms=5, mfc=SURFACE, mec=c, mew=1.4, zorder=3)
 
 
-def main(src="counts.csv", out="publication_trends"):
+def save(fig, out):
+    """Write PNG (200 dpi), SVG and PDF, without timestamps so reruns diff cleanly."""
+    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    meta = {"pdf": {"CreationDate": None}, "svg": {"Date": None}}
+    for ext in ("png", "svg", "pdf"):
+        fig.savefig(f"{out}.{ext}", dpi=200, bbox_inches="tight", facecolor=SURFACE,
+                    metadata=meta.get(ext))
+
+
+def main(src=HERE / "counts.csv", out=FIGURES / "publication_trends"):
     data = load(src)
     n = len(THEMES)
     fig, axes = plt.subplots(2, n, figsize=(3.3 * n, 7.4), facecolor=SURFACE,
@@ -104,12 +118,11 @@ def main(src="counts.csv", out="publication_trends"):
              "Source: PubMed Central full-text search (NCBI E-utilities, db=pmc, publication year); "
              "full text includes reference lists. Gray lines are the other groups, for comparison.\n"
              "Hollow marker and dashed segment = 2026, partial year (indexed through late Oct). "
-             "Zero counts are omitted on the log scale. Environment tools are counted from 2012. "
+             "Zero counts are omitted on the log scale. Environment tools are counted from 2012; \"docker\" and \"conda\" need a software term. "
              "Queries are listed in fetch_counts.py.",
              fontsize=8, color=MUTED, ha="left", va="top")
     fig.subplots_adjust(left=0.07, right=0.99, top=0.93, bottom=0.1)
-    for ext in ("png", "svg"):
-        fig.savefig(f"{out}.{ext}", dpi=200, bbox_inches="tight", facecolor=SURFACE)
+    save(fig, out)
 
 
 if __name__ == "__main__":
