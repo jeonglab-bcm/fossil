@@ -1,54 +1,62 @@
-/* Hallmark · shared parts of the fossil site: slab nav, statement footer, sheet, tables, verdicts, controls · theme: Almanac · v2.0.0 */
+/* Hallmark · shared parts of the fossil site: edge-aligned nav, ink-band statement footer, lifted surfaces, record tables, stamps, plastic bands, moulded controls · theme: Dose (by request) · v2.0.0 */
 
-/* Text links: ink with a magenta underline that thickens on hover. */
-a { color: var(--color-ink); text-decoration-color: var(--color-accent); text-underline-offset: 0.15em; transition: text-decoration-thickness var(--dur-micro) var(--ease-out); }
-a:hover { text-decoration-thickness: 2px; }
-a:active { color: var(--color-accent-2); }
+/* Paper with a fibre wash: a low-frequency fractal noise under the paper colour, never animated. */
+body { position: relative; isolation: isolate; color: var(--color-ink-2); font-size: var(--text-md); line-height: 1.5; }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--texture-opacity); background-size: 480px 480px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018 0.06' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 1.4 -0.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"); }
+h1, h2, h3 { color: var(--color-ink); line-height: 1.02; }
 
-/* Slab nav: one ink bar across the page. */
-.slab { background: var(--color-ink); color: var(--color-sheet); }
-.slab .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); min-height: 64px; }
-.slab a { color: var(--color-sheet); text-decoration-color: var(--color-accent); }
-.slab a:hover, .slab a:active { color: var(--color-accent-ink); }
-.wordmark { font: 600 var(--text-xl)/1 var(--font-display); letter-spacing: -0.03em; text-decoration: none; }
-.slab .links { display: flex; gap: var(--space-lg); font-size: var(--text-md); }
-.slab .crumb { color: var(--color-paper); }
+/* Links: ink, green underline on hover. */
+a { color: var(--color-ink); text-decoration-color: color-mix(in oklab, var(--color-accent) 55%, transparent); text-underline-offset: 0.18em; transition: text-decoration-color var(--dur-micro) var(--ease-out); }
+a:hover { text-decoration-color: var(--color-accent); }
+a:active { color: var(--color-accent-deep); }
 
-/* The printed sheet: pale stock with an ink rule at its head. */
-.sheet { background: var(--color-sheet); border-top: var(--rule-bar) solid var(--color-ink); padding: var(--space-xl); }
-.sheet-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-sm) var(--space-xl); padding-bottom: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
-.sheet-head h2 { font-size: var(--text-section); }
+/* Edge-aligned nav: the wordmark at one edge, the page's places at the other. */
+.topbar { border-bottom: var(--rule-hair) solid var(--color-rule); background: color-mix(in oklab, var(--color-paper) 88%, transparent); }
+.topbar .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); min-height: 64px; }
+.wordmark { font: 700 var(--text-xl)/1 var(--font-display); letter-spacing: -0.03em; color: var(--color-ink); text-decoration: none; }
+.topbar nav { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); font-size: var(--text-sm); }
 
-/* Tables as the book sets them: sentence-case heads over a firm rule, hairlines between rows. */
+/* A lifted white surface: tables and figures sit on it. */
+.surface { background: var(--color-surface); border-radius: var(--radius-card); box-shadow: var(--shadow-lift); }
+
+/* Record tables: sentence-case heads, thin rules, numerals tabular. */
 .table-wrap { overflow-x: auto; }
 table.record { width: 100%; border-collapse: collapse; font-size: var(--text-md); line-height: 1.45; }
-table.record th { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); text-align: left; vertical-align: bottom; padding: var(--space-md) var(--space-md) var(--space-sm) 0; border-bottom: var(--rule-bar) solid var(--color-rule-2); white-space: nowrap; }
+table.record caption { caption-side: top; text-align: left; }
+table.record th { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); text-align: left; vertical-align: bottom; padding: 0 var(--space-md) var(--space-sm) 0; border-bottom: var(--rule-hair) solid var(--color-rule); white-space: nowrap; }
 table.record td { padding: var(--space-lg) var(--space-md) var(--space-lg) 0; border-top: var(--rule-hair) solid var(--color-rule); vertical-align: top; }
+table.record tbody tr:first-child td { border-top: 0; }
 table.record th:last-child, table.record td:last-child { padding-right: 0; }
-table.record ul { margin: 0; padding-left: var(--space-md); list-style: square outside; display: grid; gap: var(--space-2xs); }
-table.record li::marker { color: var(--color-muted); }
-.num, td.num, .figure { font-family: var(--font-outlier); font-variant-numeric: tabular-nums; }
+table.record ul { margin: 0; padding-left: var(--space-md); display: grid; gap: var(--space-2xs); }
+table.record li::marker { color: var(--color-accent); }
+.num, td.num, .figure, .mono { font-family: var(--font-outlier); font-variant-numeric: tabular-nums; }
 td.num { text-align: right; }
 
-/* Verdicts: a mark and a word in the verdict's colour, no pill. */
-.verdict { display: inline-flex; align-items: baseline; gap: var(--space-xs); font: 600 var(--text-md)/1.2 var(--font-display); white-space: nowrap; }
-.verdict[data-v="agrees"] { color: var(--color-agree); }
-.verdict[data-v="partly"] { color: var(--color-warn); }
-.verdict[data-v="differs"] { color: var(--color-error); }
-.verdict[data-v="running"] { color: var(--color-muted); }
-.verdict-note { display: block; margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-muted); }
+/* Stamps: a double ring naming the verdict, green when it agrees, grey otherwise, turned two degrees. */
+.stamp { display: inline-grid; justify-items: center; gap: var(--space-3xs); padding: var(--space-xs) var(--space-sm); border: 1.5px solid currentColor; border-radius: var(--radius-input); box-shadow: 0 0 0 2px var(--color-surface), 0 0 0 3.5px currentColor; font: 500 var(--text-sm)/1.2 var(--font-outlier); white-space: nowrap; transform: rotate(-2deg); }
+.stamp small { font-size: var(--text-xs); font-weight: 400; }
+.stamp[data-v="agrees"] { color: var(--color-accent-deep); }
+.stamp[data-v="partly"], .stamp[data-v="differs"], .stamp[data-v="running"] { color: var(--color-muted); }
 
-/* Controls: one filled magenta primary, a hairline secondary. */
-.btn { display: inline-flex; align-items: center; min-height: 48px; padding: 0 var(--space-lg); border: var(--rule-hair) solid var(--color-ink); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-display); white-space: nowrap; text-decoration: none; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+/* Plastic: a pale tint at 62%, a glint along the top, a deeper shade at the foot. */
+.plastic { --t: var(--p-thu); position: relative; border-radius: var(--radius-card); background: linear-gradient(color-mix(in oklab, var(--glint) 32%, transparent), transparent 18%), color-mix(in oklab, var(--t) 62%, transparent); box-shadow: inset 0 1.5px 0 var(--glint), inset 0 -24px 36px -28px color-mix(in oklab, var(--t) 45%, var(--color-ink)); }
+
+/* Moulded controls: a 52px key that sinks 3px on press. */
+.btn { display: inline-flex; align-items: center; min-height: 52px; padding: 0 var(--space-lg); border: 0; border-radius: var(--radius-input); background: transparent; color: var(--color-ink); font: 500 var(--text-md)/1 var(--font-body); white-space: nowrap; text-decoration: none; cursor: pointer; box-shadow: inset 0 1px 0 var(--glint), 0 0 0 1px var(--color-rule), 0 3px 0 var(--color-rule); transition: transform var(--dur-micro) var(--ease-out); }
 .btn:hover { background: var(--color-paper-2); }
-.btn:active { transform: translateY(1px); }
-.btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-.btn--primary { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
-.btn--primary:hover { background: var(--color-accent-2); border-color: var(--color-accent-2); }
+.btn:active { transform: translateY(3px); }
+.btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.btn--primary { background: linear-gradient(var(--color-accent), var(--color-accent-deep)); color: var(--color-accent-ink); box-shadow: inset 0 1px 0 color-mix(in oklab, var(--glint) 35%, transparent), 0 0 0 1px var(--color-accent-deep), 0 3px 0 var(--color-accent-deep); }
+.btn--primary:hover { background: var(--color-accent-deep); }
 
-/* Statement footer: one closing sentence large, the links beneath. */
-.foot { padding-block: var(--section-gap-s) var(--space-2xl); border-top: var(--rule-bar) solid var(--color-rule-2); }
-.foot .statement { font: 600 var(--text-display-s)/1.05 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-ink); max-width: 24ch; text-wrap: balance; }
-.foot .links { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-xl); margin-top: var(--space-xl); }
+/* Statement on the ink band, closing the page. */
+.foot { background: var(--color-ink); color: var(--color-paper); padding-block: var(--section-gap-s) var(--space-2xl); }
+.foot .statement { font: 700 var(--text-display-s)/1.02 var(--font-display); letter-spacing: var(--tracking-display); color: var(--color-paper); max-width: 22ch; text-wrap: balance; }
+.foot .links { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-xl); margin-top: var(--space-lg); }
+.foot a { color: var(--color-accent-soft); text-decoration-color: color-mix(in oklab, var(--color-accent-soft) 50%, transparent); }
+.foot a:hover { text-decoration-color: var(--color-accent-soft); }
+.foot a:active { color: var(--color-paper); }
+.foot a:focus-visible { outline-color: var(--color-accent-soft); }
 
 @media (prefers-reduced-motion: reduce) { a, .btn { transition: none; } }

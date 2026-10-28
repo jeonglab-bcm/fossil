@@ -3,249 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>:root{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}.back{display:inline-block;margin-bottom:12px;font-size:13px;color:var(--accent);text-decoration:none}.back:hover{text-decoration:underline}</style>
-<title>GABi Analysis</title>
+<title>GABi code analysis</title>
+<meta name="description" content="What the GABi 0.1 code and Additional file 1 behind Curry (2014) compute, and where they differ from the paper. Built from the analysis README.">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<style>
-/* Single-column technical note for an implementation analysis */
-.results-table { overflow-x: auto; }
-.results-table table { min-width: 720px; }
-:root {
-  --bg: #fafbfc;
-  --surface: #ffffff;
-  --fg: #1a2332;
-  --muted: #5c6b7a;
-  --rule: #d4dbe3;
-  --accent: #2563a0;
-  --warn: #9a5c12;
-  --warn-bg: #fdf6ec;
-  --code-bg: #eef2f6;
-  --display: "Source Serif 4", "Georgia", serif;
-  --body: "Inter", system-ui, -apple-system, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f1318;
-    --surface: #171d24;
-    --fg: #dfe6ed;
-    --muted: #8a99a8;
-    --rule: #2a3441;
-    --accent: #5ba3e6;
-    --warn: #e4a84c;
-    --warn-bg: #251e0e;
-    --code-bg: #1c2430;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f1318;
-  --surface: #171d24;
-  --fg: #dfe6ed;
-  --muted: #8a99a8;
-  --rule: #2a3441;
-  --accent: #5ba3e6;
-  --warn: #e4a84c;
-  --warn-bg: #251e0e;
-  --code-bg: #1c2430;
-  color-scheme: dark;
-}
-
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 16px/1.7 var(--body);
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 48px 80px;
-}
-.wrap {
-  max-width: 720px;
-  margin: 0 auto;
-  display: grid;
-  gap: 48px;
-}
-.wrap > * { min-width: 0; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.tag {
-  font: 500 0.72rem/1 var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-h1 {
-  font: 600 clamp(1.6rem, 4vw, 2.1rem)/1.15 var(--display);
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-  margin: 0;
-}
-h2 {
-  font: 600 1.2rem/1.3 var(--display);
-  margin: 0;
-  text-wrap: balance;
-}
-h3 {
-  font: 600 1rem/1.35 var(--body);
-  margin: 0;
-}
-p, li { margin: 0; max-width: 66ch; }
-ul { padding-left: 1.3em; margin: 0; }
-li + li { margin-top: 0.4em; }
-
-header { display: grid; gap: 12px; }
-.subtitle {
-  font: 400 1.05rem/1.55 var(--display);
-  font-style: italic;
-  color: var(--muted);
-  max-width: 60ch;
-}
-
-section { display: grid; gap: 16px; }
-section + section { padding-top: 8px; }
-
-.results-table {
-  overflow-x: auto;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-  font-size: 0.92rem;
-  font-variant-numeric: tabular-nums;
-}
-th {
-  font-weight: 600;
-  text-align: left;
-  padding: 10px 16px;
-  border-bottom: 2px solid var(--rule);
-  font-size: 0.8rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-td {
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--rule);
-}
-td:last-child {
-  font-family: var(--mono);
-  font-size: 0.88rem;
-  color: var(--accent);
-  font-weight: 500;
-}
-.vignette {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 14px 18px;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  overflow-x: auto;
-}
-
-pre {
-  background: var(--code-bg);
-  border-radius: 6px;
-  padding: 18px 20px;
-  font: 400 0.82rem/1.65 var(--mono);
-  overflow-x: auto;
-  margin: 0;
-}
-code {
-  font-family: var(--mono);
-  font-size: 0.88em;
-}
-:not(pre) > code {
-  background: var(--code-bg);
-  padding: 0.1em 0.35em;
-  border-radius: 3px;
-}
-
-.finding {
-  background: var(--warn-bg);
-  border-left: 3px solid var(--warn);
-  border-radius: 0 6px 6px 0;
-  padding: 14px 18px;
-  display: grid;
-  gap: 6px;
-}
-.finding-label {
-  font: 600 0.82rem/1.3 var(--body);
-  color: var(--warn);
-}
-
-.sep {
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin: 0;
-}
-
-.method-list {
-  display: grid;
-  gap: 12px;
-  list-style: none;
-  padding: 0;
-  counter-reset: step;
-}
-.method-list li {
-  counter-increment: step;
-  display: grid;
-  grid-template-columns: 2rem 1fr;
-  gap: 0;
-  margin: 0;
-}
-.method-list li::before {
-  content: counter(step);
-  font: 600 0.78rem/2rem var(--mono);
-  color: var(--accent);
-  text-align: center;
-  width: 1.8rem;
-  height: 1.8rem;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-}
-
-.footer-note {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.55;
-  border-top: 1px solid var(--rule);
-  padding-top: 20px;
-}
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../analysis.css">
 </head>
 <body>
+<header class="topbar">
+  <div class="container">
+    <a class="wordmark" href="../" aria-label="fossil, home">fossil</a>
+    <nav aria-label="Site"><a href="../#papers">The papers</a><a href="./">Results</a></nav>
+  </div>
+</header>
 
+<main>
+  <section class="hero" aria-labelledby="hero-head">
+    <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 id="hero-head">We dug up and reran GABi’s code.</h1>
+        <p class="lead">What it really computes, and where it parts from the paper.</p>
+      </div>
+      <figure class="rx" aria-label="The paper and its code">
+        <figcaption class="label">
+          <span class="label-head"><span>Curry 2014</span><span>GABi 0.1</span></span>
+          <span class="label-title">GABi 0.1 and the S1 bicluster models</span>
+          <span>BMC Bioinformatics 15:355</span>
+          <span class="stamp" data-v="differs">Parts from the paper<small>each difference checked</small></span>
+          <span class="label-stub">From CRAN and Additional file 1</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
 
-<div class="wrap">
-  <header>
-<a class="back" href="./">← Figures 2–5</a>
-    <span class="tag">Implementation Analysis</span>
-    <h1>GABi 0.1 and the S1 bicluster models</h1>
-    <p class="subtitle">What the code behind Curry (2014), BMC Bioinformatics 15:355, computes, and where it differs from the paper</p>
-  </header>
-  <section>
+  <div class="container note">
+    <article class="prose">
 <p>The paper describes GABi, a genetic algorithm (GA) that searches over column subsets J and scores each J
 with a model-specific fitness function. The fitness function picks the rows I by rule. The code is the
 CRAN package <code>GABi</code> 0.1, which holds the GA, plus Additional file 1 (S1), which holds the R code for the
-paper's four bicluster models. This folder records what that code computes and where it departs from
+paper&rsquo;s four bicluster models. This folder records what that code computes and where it departs from
 the paper. Every claimed difference has a small executable check.</p>
-<h2>Sources</h2>
-<div class="results-table"><table>
+<h2 id="sources">Sources</h2>
+<div class="surface sheet" role="region" aria-label="Sources, table" tabindex="0">
+<table class="record" data-cols="4">
 <thead>
 <tr>
-<th>File</th>
-<th>What</th>
-<th>sha256</th>
-<th>Get it from</th>
+<th scope="col">File</th>
+<th scope="col">What</th>
+<th scope="col">sha256</th>
+<th scope="col">Get it from</th>
 </tr>
 </thead>
 <tbody>
@@ -268,9 +77,10 @@ the paper. Every claimed difference has a small executable check.</p>
 <td><a href="https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt">https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt</a></td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <p>These files are kept in <code>PMC4247685/sources/</code>. That folder is gitignored and not redistributed. To get them:</p>
-<pre><code>mkdir -p PMC4247685/sources &amp;&amp; cd PMC4247685/sources
+<pre class="tray" tabindex="0"><code>mkdir -p PMC4247685/sources &amp;&amp; cd PMC4247685/sources
 curl -LO https://cran.r-project.org/src/contrib/Archive/GABi/GABi_0.1.tar.gz
 curl -L -o 12859_2014_355_MOESM1_ESM.txt \
   'https://static-content.springer.com/esm/art%3A10.1186%2Fs12859-014-0355-5/MediaObjects/12859_2014_355_MOESM1_ESM.txt'
@@ -278,13 +88,13 @@ R CMD INSTALL GABi_0.1.tar.gz      # needs the hash package; the checks also use
 </code></pre>
 <p>Line references: <code>GABi.R:n</code> and the other <code>.R</code> names are files in <code>GABi/R/</code> of the tarball. <code>S1:n</code> is a
 line of Additional file 1 (the line numbers are the same with or without the CRs).</p>
-<h2>Method</h2>
+<h2 id="method">Method</h2>
 <ul>
-<li>Read <code>R/*.R</code> and <code>man/*.Rd</code> of GABi 0.1, the S1 code, and the paper: Algorithm 1 and "Parameter setting"
+<li>Read <code>R/*.R</code> and <code>man/*.Rd</code> of GABi 0.1, the S1 code, and the paper: Algorithm 1 and &ldquo;Parameter setting&rdquo;
   (pp 5-6), Eqs 14-44 (pp 7-8), Eq 45 and Algorithm 2 (p 9), and the synthetic offsets (p 10).</li>
-<li>Ran the authors' code: GABi from the installed library, with S1 <code>sys.source</code>d from <code>sources/</code>. Check
-  01 confirms that the installed functions are the tarball's. To read intermediate values without copying
-  code, <code>checks/common.R</code> has three helpers. <code>instrument()</code> returns an S1 function's local variables in
+<li>Ran the authors&rsquo; code: GABi from the installed library, with S1 <code>sys.source</code>d from <code>sources/</code>. Check
+  01 confirms that the installed functions are the tarball&rsquo;s. To read intermediate values without copying
+  code, <code>checks/common.R</code> has three helpers. <code>instrument()</code> returns an S1 function&rsquo;s local variables in
   place of its result. <code>patch()</code> swaps exactly one source fragment, to test a proposed fix. <code>trace()</code> is
   used on GABi namespace functions.</li>
 <li><code>reference/paper_models.R</code> implements Eqs 14-16, 17-23, 24-29, 31-35, 45 and Algorithm 2 from the paper
@@ -295,8 +105,8 @@ line of Additional file 1 (the line numbers are the same with or without the CRs
 <li>Status column below: <strong>exec</strong> means shown by running the code (check id given). <strong>read</strong> means from
   reading the code only.</li>
 </ul>
-<h2>Recovered algorithm (<code>GABi()</code> with defaults)</h2>
-<pre><code>x: features x samples. A solution is a 0/1 vector over the columns (samples).
+<h2 id="recovered-algorithm-gabi-with-defaults">Recovered algorithm (<code>GABi()</code> with defaults)</h2>
+<pre class="plastic band" tabindex="0"><code>x: features x samples. A solution is a 0/1 vector over the columns (samples).
 fitnessArgs$tabu &lt;- list(features = 0, samples = 0)                     # GABi.R:5, overwrites any user tabu
 diffRows &lt;- rows that are not constant and whose min-max scaled row mean is
             in [1 - diffThreshold, diffThreshold] = [0.1, 0.9]           # GABi.R:7-18; not in the paper
@@ -332,17 +142,18 @@ return allSols
 <p><code>keepBest = TRUE</code> keeps a de-duplicated archive of every positive-fitness solution seen during the run,
 and the final population is merged into it (GABi.R:165-181, 213-216). The Rd file describes <code>keepBest</code>
 as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
-<h2>Differences: GA framework (<code>GABi</code> 0.1)</h2>
-<div class="results-table"><table>
+<h2 id="differences-ga-framework-gabi-01">Differences: GA framework (<code>GABi</code> 0.1)</h2>
+<div class="surface sheet" role="region" aria-label="Differences: GA framework (GABi 0.1), table" tabindex="0">
+<table class="record" data-cols="7">
 <thead>
 <tr>
-<th>#</th>
-<th>Item</th>
-<th>Paper</th>
-<th>Code</th>
-<th>Effect</th>
-<th>Check</th>
-<th>Status</th>
+<th scope="col">#</th>
+<th scope="col">Item</th>
+<th scope="col">Paper</th>
+<th scope="col">Code</th>
+<th scope="col">Effect</th>
+<th scope="col">Check</th>
+<th scope="col">Status</th>
 </tr>
 </thead>
 <tbody>
@@ -350,7 +161,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>G1</td>
 <td>Re-initialisation of an all-zero deme</td>
 <td>Not described</td>
-<td><code>demes[[j]][i,sample(ncol(x),2)]==1</code> (GABi.R:115) compares and discards, so the deme stays all 0. After about 200 tries GABi warns "cannot find biclusters" and returns <code>list()</code>.</td>
+<td><code>demes[[j]][i,sample(ncol(x),2)]==1</code> (GABi.R:115) compares and discards, so the deme stays all 0. After about 200 tries GABi warns &ldquo;cannot find biclusters&rdquo; and returns <code>list()</code>.</td>
 <td>GABi returns nothing whenever the 64 random initial solutions of a deme all score 0. With <code>&lt;-</code> the deme is re-drawn, but always with 2 columns again (G2).</td>
 <td>04.1-04.3</td>
 <td>exec</td>
@@ -360,7 +171,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>Initial solutions</td>
 <td>q0 columns, an input of Algorithm 1</td>
 <td>Always 2 (GABi.R:43), no argument</td>
-<td>For the S1 cor model a 2-column J gets Spearman p = 1, so the score comes only from the all-high fallback (C4). With <code>consistency &gt;= 1</code> every initial solution scores 0 and G1 ends the run: on an Algorithm 2 'cor' dataset GABi returns nothing, with or without the G1 fix.</td>
+<td>For the S1 cor model a 2-column J gets Spearman p = 1, so the score comes only from the all-high fallback (C4). With <code>consistency &gt;= 1</code> every initial solution scores 0 and G1 ends the run: on an Algorithm 2 &lsquo;cor&rsquo; dataset GABi returns nothing, with or without the G1 fix.</td>
 <td>02.7, 04.4-04.6</td>
 <td>exec</td>
 </tr>
@@ -369,7 +180,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td><code>return(list())</code> inside the retry loop</td>
 <td>-</td>
 <td>GABi.R:146 returns an empty list, not <code>allSols</code></td>
-<td>With <code>maxLoop &gt; 1</code>, a later loop that scores 0 everywhere (for example once the tabu list covers the samples) throws away the earlier loops' biclusters</td>
+<td>With <code>maxLoop &gt; 1</code>, a later loop that scores 0 everywhere (for example once the tabu list covers the samples) throws away the earlier loops&rsquo; biclusters</td>
 <td>07.2</td>
 <td>exec</td>
 </tr>
@@ -377,7 +188,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>G4</td>
 <td>MaxLoop / tabu</td>
 <td>MaxLoop &gt; 1 reruns the GA, and found biclusters get zero fitness (p 6)</td>
-<td>The loop condition <code>!length(allSols)&gt;nSols &amp; loopCount&lt;maxLoop</code> (GABi.R:37) needs <code>nSols</code> too: with the default <code>nSols = 0</code>, a second loop never runs once anything is found. No S1 function reads <code>fitnessArgs$tabu</code>. GABi's own <code>getFitnesses.basic</code> does read it, but it only shrinks counts.</td>
+<td>The loop condition <code>!length(allSols)&gt;nSols &amp; loopCount&lt;maxLoop</code> (GABi.R:37) needs <code>nSols</code> too: with the default <code>nSols = 0</code>, a second loop never runs once anything is found. No S1 function reads <code>fitnessArgs$tabu</code>. GABi&rsquo;s own <code>getFitnesses.basic</code> does read it, but it only shrinks counts.</td>
 <td>With S1 models, a second loop re-finds the same bicluster</td>
 <td>07.1, 07.3-07.6</td>
 <td>exec</td>
@@ -403,7 +214,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <tr>
 <td>G7</td>
 <td>Default population</td>
-<td>128 "is sufficient"; up to 4 subpopulations of at least 32</td>
+<td>128 &ldquo;is sufficient&rdquo;; up to 4 subpopulations of at least 32</td>
 <td><code>popsize = 256</code>, 4 demes of 64</td>
 <td>More search than the text suggests. Effect not measured.</td>
 <td>02.1-02.2</td>
@@ -430,8 +241,8 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <tr>
 <td>G10</td>
 <td>Crossover</td>
-<td>"swap randomly-sampled subset of this row's values" (Alg 1 l.15)</td>
-<td>One-point crossover between shuffled pairs of rows. Each row is picked independently with prob <code>xfreq</code> (the Rd says "each pair").</td>
+<td>&ldquo;swap randomly-sampled subset of this row&rsquo;s values&rdquo; (Alg 1 l.15)</td>
+<td>One-point crossover between shuffled pairs of rows. Each row is picked independently with prob <code>xfreq</code> (the Rd says &ldquo;each pair&rdquo;).</td>
 <td>Positional linkage. Algorithm 2 places J at random, so this probably matters little. Not measured.</td>
 <td>02.10</td>
 <td>exec</td>
@@ -439,9 +250,9 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <tr>
 <td>G11</td>
 <td>Migration</td>
-<td>Subpopulations described as "isolated"; no migration in Algorithm 1</td>
-<td>Every 10 generations, after reproduction, with the previous generation's fitnesses (GABi.R:196). The migrant is the new row at the old argmax index, and it overwrites the receiver's row at its own old argmax index, usually row 1 (the elite).</td>
-<td>4/96 migrants were not their deme's best. In 38/96 cases the receiver's elite was replaced: elites get permuted among demes, not copied.</td>
+<td>Subpopulations described as &ldquo;isolated&rdquo;; no migration in Algorithm 1</td>
+<td>Every 10 generations, after reproduction, with the previous generation&rsquo;s fitnesses (GABi.R:196). The migrant is the new row at the old argmax index, and it overwrites the receiver&rsquo;s row at its own old argmax index, usually row 1 (the elite).</td>
+<td>4/96 migrants were not their deme&rsquo;s best. In 38/96 cases the receiver&rsquo;s elite was replaced: elites get permuted among demes, not copied.</td>
 <td>06.1-06.4</td>
 <td>exec</td>
 </tr>
@@ -449,7 +260,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>G12</td>
 <td>Convergence</td>
 <td>Stop when the best fitness has not improved for a set number of generations (p 4)</td>
-<td>Counts consecutive generations in which every deme's best chromosome is identical to one of the current best chromosomes (GABi.R:94-108, 192-194). A migration that moves different elites between demes resets the count.</td>
+<td>Counts consecutive generations in which every deme&rsquo;s best chromosome is identical to one of the current best chromosomes (GABi.R:94-108, 192-194). A migration that moves different elites between demes resets the count.</td>
 <td>In practice it stops only once the demes share their best, otherwise it runs to 200 generations. S1 block runs on Algorithm 2 data stopped at generations 45-85.</td>
 <td>02.12, 02.14</td>
 <td>exec</td>
@@ -482,19 +293,21 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>exec</td>
 </tr>
 </tbody>
-</table></div>
-<h2>Differences: bicluster models (S1)</h2>
+</table>
+</div>
+<h2 id="differences-bicluster-models-s1">Differences: bicluster models (S1)</h2>
 <p>The paper does not state θ (<code>consistency</code>), α or ρ for Fig 2 or for the TCGA run. ρ is not in the paper.</p>
-<div class="results-table"><table>
+<div class="surface sheet" role="region" aria-label="Differences: bicluster models (S1), table" tabindex="0">
+<table class="record" data-cols="7">
 <thead>
 <tr>
-<th>#</th>
-<th>Item</th>
-<th>Paper</th>
-<th>S1 code</th>
-<th>Effect</th>
-<th>Check</th>
-<th>Status</th>
+<th scope="col">#</th>
+<th scope="col">Item</th>
+<th scope="col">Paper</th>
+<th scope="col">S1 code</th>
+<th scope="col">Effect</th>
+<th scope="col">Check</th>
+<th scope="col">Status</th>
 </tr>
 </thead>
 <tbody>
@@ -521,7 +334,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>Seed index bug</td>
 <td>-</td>
 <td><code>cor.test(y, y=x[cor.seed, chr==1])</code> (S1:36, also S1:59): <code>cor.seed</code> is a position in <code>cor.features</code>, not a row of x. Wrong whenever all-high rows were removed (C4) or GABi dropped rows.</td>
-<td>p-values are computed against an arbitrary row: score 136 vs 285 when fixed. Active in 9% of evaluations on Algorithm 2 'cor' data at consistency 0.8. If that row is constant on J, the fitness is NA (scored 0) and <code>cor.selection</code> stops with an error, which would abort GABi's last step.</td>
+<td>p-values are computed against an arbitrary row: score 136 vs 285 when fixed. Active in 9% of evaluations on Algorithm 2 &lsquo;cor&rsquo; data at consistency 0.8. If that row is constant on J, the fitness is NA (scored 0) and <code>cor.selection</code> stops with an error, which would abort GABi&rsquo;s last step.</td>
 <td>09.2, 09.6</td>
 <td>exec</td>
 </tr>
@@ -548,7 +361,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td><code>cor.selection</code> row indices</td>
 <td>-</td>
 <td>If the fallback wins, it returns positions within <code>diffRows</code>, not rows of x (S1:50, 62)</td>
-<td>Wrong rows are returned whenever GABi's filter dropped a row above them</td>
+<td>Wrong rows are returned whenever GABi&rsquo;s filter dropped a row above them</td>
 <td>09.7</td>
 <td>exec</td>
 </tr>
@@ -584,7 +397,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>High-variance statistic (paper and code)</td>
 <td>Bare variance ratio against χ²(|J|-1)</td>
 <td>Same</td>
-<td>Not a valid test: under H0 the ratio is F(|J|-1, |J′|-1). Type I error at α = 0.05 (m = 20): 0.065, 0.013, 0.001, 0.000, 0.14 for |J| = 2, 3, 5, 10, 18. On Algorithm 2 'highvar' data, along nested subsets of the true J, the S1 fitness peaks below 0.75·q in 47% of datasets (F test: 2%). This lowers sample recall in Fig 2's highvar panel.</td>
+<td>Not a valid test: under H0 the ratio is F(|J|-1, |J′|-1). Type I error at α = 0.05 (m = 20): 0.065, 0.013, 0.001, 0.000, 0.14 for |J| = 2, 3, 5, 10, 18. On Algorithm 2 &lsquo;highvar&rsquo; data, along nested subsets of the true J, the S1 fitness peaks below 0.75·q in 47% of datasets (F test: 2%). This lowers sample recall in Fig 2&rsquo;s highvar panel.</td>
 <td>10.3-10.4</td>
 <td>exec</td>
 </tr>
@@ -593,13 +406,13 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>Seed in its own feature set, unfloored p</td>
 <td>-</td>
 <td><code>rowsForCor</code> keeps the seed (S1:112). <code>getFitnesses</code> uses raw <code>-log(p)</code> (S1:116), while the selection floors at 2e-16 (S1:163). R gives p = 0 for the self-test at n = 10-15 and n ≥ 27, and at every n if the seed row has ties. At n = 16-21 it also gives p = 0 for a band of |ρ| &lt; 1 (n = 21: 0.836-0.865).</td>
-<td>Fitness Inf → 0 (G6). The correlation branch can score only |J| in 3-9 and 22-26 (if the seed row has no ties), or 16-21 if no candidate row also falls in the band. On tied data (e.g. rounded β-values) no |J| can score. The paper's bicluster has |J| = 21.</td>
+<td>Fitness Inf → 0 (G6). The correlation branch can score only |J| in 3-9 and 22-26 (if the seed row has no ties), or 16-21 if no candidate row also falls in the band. On tied data (e.g. rounded β-values) no |J| can score. The paper&rsquo;s bicluster has |J| = 21.</td>
 <td>11.5-11.10</td>
 <td>exec</td>
 </tr>
 <tr>
 <td>D2</td>
-<td>"All-low" rows</td>
+<td>&ldquo;All-low&rdquo; rows</td>
 <td>Block branch δ^block (Eq 41), high rows only</td>
 <td><code>alllow.rows &lt;- which(1-pmatMeans&lt;(1-consistency))</code> (S1:98, 146) is the all-high condition again. The block score is (Σm + Σ(1-m))·|J| = n_high·|J|.</td>
 <td>The score is not doubled: it equals Eq 16 with scaled means. But rows low on J are in neither branch, and the selection returns each high row twice.</td>
@@ -620,7 +433,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>Multiple testing</td>
 <td>-</td>
 <td>BH in <code>featureSelection.dysregSurv</code> only (S1:163). The fitness uses raw p (S1:115).</td>
-<td>The GA's I″ is larger than the reported one: 14 vs 3 rows</td>
+<td>The GA&rsquo;s I″ is larger than the reported one: 14 vs 3 rows</td>
 <td>11.12</td>
 <td>exec</td>
 </tr>
@@ -647,7 +460,7 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>J′, l, reference column</td>
 <td>l = min(|J|, |Y|-|J|) least-correlated columns, against j₁, the first column of J (Eqs 36-40; p 9 text)</td>
 <td>Same, ranked within Y \ J (S1:126-127)</td>
-<td><strong>Matches.</strong> The suspected "first column only" difference is in the paper too.</td>
+<td><strong>Matches.</strong> The suspected &ldquo;first column only&rdquo; difference is in the paper too.</td>
 <td>11.13</td>
 <td>exec</td>
 </tr>
@@ -670,16 +483,18 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>exec</td>
 </tr>
 </tbody>
-</table></div>
-<h2>Differential test, cor model (check 12)</h2>
-<p>25 Algorithm 2 'cor' datasets, each scored at the true J and at 20 random J of the same size. S1 uses
+</table>
+</div>
+<h3 id="differential-test-cor-model-check-12">Differential test, cor model (check 12)</h3>
+<p>25 Algorithm 2 &lsquo;cor&rsquo; datasets, each scored at the true J and at 20 random J of the same size. S1 uses
 ρ = 0.5 and α = 0.05. The reference is Eqs 17-23, two-sided, with the same 2e-16 floor.</p>
-<div class="results-table"><table>
+<div class="surface sheet sheet--measure" role="region" aria-label="Differential test, cor model (check 12), table" tabindex="0">
+<table class="record" data-cols="3">
 <thead>
 <tr>
-<th></th>
-<th>consistency 1</th>
-<th>consistency 0.8</th>
+<th scope="col"></th>
+<th scope="col">consistency 1</th>
+<th scope="col">consistency 0.8</th>
 </tr>
 </thead>
 <tbody>
@@ -719,17 +534,18 @@ as elitism. Elitism is in fact always on (GABi.R:183, 185).</p>
 <td>0.98</td>
 </tr>
 </tbody>
-</table></div>
+</table>
+</div>
 <p>The two models rank solutions differently, so a GA run with Eqs 17-23 would not reproduce a run with S1.
 On these data, S1 ranks the true J first more often than the reference does.</p>
-<h2>What could change the published results</h2>
+<h2 id="what-could-change-the-published-results">What could change the published results</h2>
 <p>Fig 2 (block, cor and highvar models on Algorithm 2 data, n = 100, m = 20), most to least:</p>
 <ol>
-<li>Cor model: C2, C6 and C1/C3. Wrong-row p-values, a size preference from R's Spearman p-values, and a
+<li>Cor model: C2, C6 and C1/C3. Wrong-row p-values, a size preference from R&rsquo;s Spearman p-values, and a
    different seed and row gate from Eqs 17-23. Combined with G2, the cor GA starts only through the
    block fallback, and with θ ≥ 1 GABi returns nothing. Which of these bite depends on θ and ρ, which the
    paper does not give.</li>
-<li>Highvar model: V2 favours J smaller than the implanted one. The paper's formula has the same flaw, so
+<li>Highvar model: V2 favours J smaller than the implanted one. The paper&rsquo;s formula has the same flaw, so
    the published panel already reflects it.</li>
 <li>GA framework (G7, G10-G13): affects search quality, not the objective. Not quantified.</li>
 <li>G5 does not apply (no rows dropped). The block model matches the paper (B1).</li>
@@ -745,13 +561,13 @@ On these data, S1 ranks the true J first more often than the reference does.</p>
 <li>D2: no effect on a correlation-branch bicluster. It only changes the branch choice through the
    missing low rows.</li>
 </ol>
-<h2>Reproduce</h2>
-<pre><code>Rscript PMC4247685/gabi-implementation-analysis/run_checks.R      # about 75 s
+<h2 id="reproduce">Reproduce</h2>
+<pre class="tray" tabindex="0"><code>Rscript PMC4247685/gabi-implementation-analysis/run_checks.R      # about 75 s
 GABI_SOURCES=/path/to/sources Rscript .../run_checks.R            # if the sources live elsewhere
 Rscript PMC4247685/gabi-implementation-analysis/checks/09_cor_model.R   # one check
 </code></pre>
 <p>Output summary (R 4.6.1, GABi 0.1, survival 3.8.6; two runs gave identical output):</p>
-<pre><code>SUMMARY 01_provenance.R: 4 pass, 0 fail
+<pre class="tray" tabindex="0"><code>SUMMARY 01_provenance.R: 4 pass, 0 fail
 SUMMARY 02_ga_settings.R: 14 pass, 0 fail
 SUMMARY 03_row_filter.R: 5 pass, 0 fail
 SUMMARY 04_reinit.R: 6 pass, 0 fail
@@ -765,10 +581,22 @@ SUMMARY 11_dysreg_model.R: 14 pass, 0 fail
 SUMMARY 12_difftest.R: 4 pass, 0 fail
 TOTAL: 77 pass, 0 fail in 12 scripts
 </code></pre>
-<p>A PASS means the stated behaviour of the authors' code was observed. It does not mean the code is
+<p>A PASS means the stated behaviour of the authors&rsquo; code was observed. It does not mean the code is
 correct.</p>
-  </section>
-  <p class="footer-note">Generated from <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685/gabi-implementation-analysis">PMC4247685/gabi-implementation-analysis/README.md</a>. GABi is GPL (&ge; 2); Additional file 1 is CC BY 4.0. Neither is redistributed here.</p>
-</div>
+<p class="colophon">Built from <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685/gabi-implementation-analysis">PMC4247685/gabi-implementation-analysis/README.md</a> by <code>build_page.py</code>. GABi is GPL (≥ 2); Additional file 1 is CC BY 4.0. Neither is redistributed here.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="statement">All 77 checks rerun in about 75 seconds.</p>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685/gabi-implementation-analysis">The code on GitHub</a>
+      <a href="./">GABi figures</a>
+      <a href="../PMC4081639/implementation.html">lldmn code analysis</a>
+    </nav>
+  </div>
+</footer>
 </body>
 </html>

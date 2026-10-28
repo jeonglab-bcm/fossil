@@ -1,51 +1,66 @@
-/* Hallmark · shape: Index-First (draw a9ab87 dealt Conversational FAQ; swapped, the owner set the page as one row per paper) · genre: editorial · theme: Almanac (deal 1/3, seed independent-reproductions-published-computational-16b6·6a63c2a8·2026-10-28·r0) · redesign: full
- * hero: Banner (draw dealt Ledge; swapped so the index starts on the first screen) · nav: slab · footer: statement · imagery: the product · signature: the published Fig. 5 curves in ink with ours printed over them in magenta
- * axes: mid/grotesk-sans/chromatic-magenta · posture: restrained · contrast: pass · fold: pass · job: listen · draw: a9ab87 · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 · weakest: P, the page argues by showing one overlay instead of stating a claim; kept, the owner asked for little text */
+/* Hallmark · shape: Index-First (the owner set the page as one row per paper) · genre: modern-minimal · theme: Dose (by request) · redesign: full
+ * hero: Banner (the index starts on the first screen) · nav: edge-aligned · footer: statement on the ink band · imagery: the product · signature: the published Fig. 5 in ink with ours drawn inside it in green, under a pharmacy label stamped with the match · dose: white
+ * axes: light/grotesk-sans/chromatic-green · posture: committed · contrast: pass · fold: pass · job: listen · motion: still light, no drift · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: P, the page argues by showing one matched figure instead of stating a claim; kept, the owner asked for little text */
+/* Hallmark · waive 59 · the hero and the paper index share one screen · the owner asked for the index on the first screen, so it follows the hero at 24px */
+/* Hallmark · dismissed 77 · three sections · the owner asked for one row per paper and little text: hero, paper index, footer */
+/* Hallmark · dismissed F4 · one control on the page · .btn is the clear key the results pages set beside the green primary */
+/* Hallmark · dismissed 58 · the window holds the two-row paper index the owner specified, with its columns as given */
 @import url("./tokens.css");
 @import url("./base.css");
 @import url("./site.css");
 
-.hero { padding-block: var(--space-2xl) 0; }
+/* Hero: text on five columns, the figure and its label on six, window light lying across the paper. */
+.hero { position: relative; overflow: clip; padding-block: var(--space-2xl) var(--space-xl); }
+.window { position: absolute; inset: 0; z-index: -1; pointer-events: none; mask-image: linear-gradient(to bottom, black 55%, transparent 100%); }
+.window span { position: absolute; top: -10%; width: 16%; height: 120%; background: var(--light); filter: blur(28px); opacity: 0.85; transform: skewX(-24deg); }
+.window span:nth-child(1) { left: 4%; } .window span:nth-child(2) { left: 22%; }
+.window span:nth-child(3) { left: 44%; width: 12%; } .window span:nth-child(4) { left: 60%; width: 12%; }
 .hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); align-items: center; }
-.hero-text { grid-column: 1 / span 6; display: grid; gap: var(--space-lg); justify-items: start; }
-.hero h1 { font-size: var(--text-display); letter-spacing: -0.035em; line-height: 0.95; max-width: 14ch; }
+.hero-text { grid-column: 1 / span 5; display: grid; gap: var(--space-lg); justify-items: start; }
+.hero h1 { font-size: var(--text-display); max-width: 13ch; }
 .hero .lead { color: var(--color-ink-2); }
-.signature { grid-column: 8 / span 5; margin: 0; }
-.signature img { width: 100%; height: auto; background: var(--color-sheet); outline: var(--rule-hair) solid var(--color-rule-2); outline-offset: -1px; }
-.signature figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); max-width: 52ch; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.hero .aside { font-size: var(--text-sm); color: var(--color-muted); }
 
-.index { padding-block: var(--space-xl) var(--section-gap-s); }
-.tally { display: flex; flex-wrap: wrap; margin: 0; }
-.tally > div { display: grid; gap: var(--space-3xs); padding-inline: var(--space-lg); border-left: var(--rule-hair) solid var(--color-rule); }
-.tally > div:first-child { padding-left: 0; border-left: 0; }
-.tally > div:last-child { padding-right: 0; }
-.tally dt { font-size: var(--text-sm); color: var(--color-muted); }
-.tally dd { margin: 0; font: 500 var(--text-2xl)/1 var(--font-outlier); font-variant-numeric: tabular-nums; color: var(--color-ink); }
+.signature { grid-column: 7 / span 6; margin: 0; position: relative; }
+.sig-card { padding: var(--space-md); }
+.sig-card img { width: 100%; height: auto; max-height: min(26rem, 50dvh); object-fit: contain; border-radius: var(--radius-input); }
+.label { position: absolute; right: var(--space-lg); top: var(--space-2xl); width: min(18rem, 52%); padding: var(--space-md) var(--space-md) 0; display: grid; gap: var(--space-2xs); background: var(--color-surface); border-radius: var(--radius-input); box-shadow: var(--shadow-lift); font: 400 var(--text-sm)/1.4 var(--font-outlier); color: var(--color-ink); }
+.label-head { display: flex; justify-content: space-between; gap: var(--space-sm); padding-bottom: var(--space-2xs); border-bottom: var(--rule-hair) solid var(--color-rule); color: var(--color-muted); font-size: var(--text-xs); }
+.label-title { font-weight: 500; }
+.label .stamp { justify-self: start; margin-block: var(--space-xs) var(--space-sm); }
+.label-stub { margin-inline: calc(-1 * var(--space-md)); padding: var(--space-xs) var(--space-md); border-top: var(--rule-hair) dashed var(--color-muted); font-size: var(--text-xs); color: var(--color-muted); }
 
+/* The index: a split head, then the record on a lifted surface. */
+.index { padding-block: var(--space-lg) var(--section-gap); }
+.index-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-sm) var(--gap-columns); align-items: baseline; margin-bottom: var(--space-lg); }
+.index-head h2 { grid-column: 1 / span 7; font-size: var(--text-section); }
+.index-head p { grid-column: 9 / span 4; color: var(--color-ink-2); }
+.index .surface { padding: var(--space-xl); }
 .record .col-date { width: 8%; }
-.record .col-paper { width: 32%; }
+.record .col-paper { width: 29%; }
+.record th:last-child, .record td:last-child { min-width: 10rem; padding-right: var(--space-xs); }
 .record .col-lost { width: 20%; }
-.record .col-found { width: 26%; }
+.record .col-found { width: 25%; }
 .record .date { white-space: nowrap; font-family: var(--font-outlier); font-size: var(--text-sm); color: var(--color-ink-2); }
-.record .pmc { font: 500 var(--text-sm)/1.2 var(--font-outlier); color: var(--color-muted); }
-.record .title { display: block; margin-block: var(--space-2xs) var(--space-xs); font: 600 var(--text-lg)/1.25 var(--font-display); letter-spacing: -0.01em; }
+.record .pmc { font: 500 var(--text-sm)/1.2 var(--font-outlier); color: var(--color-accent-deep); }
+.record .title { display: block; margin-block: var(--space-2xs) var(--space-xs); font: 700 var(--text-lg)/1.2 var(--font-display); letter-spacing: -0.015em; }
 .record .journal { display: block; font-size: var(--text-sm); color: var(--color-muted); }
 .record .go { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-md); margin-top: var(--space-sm); font-size: var(--text-sm); }
-
-.rerun { background: var(--color-ink); color: var(--color-sheet); padding-block: var(--section-gap-s); }
-.rerun .container { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); align-items: start; }
-.rerun h2 { grid-column: 1 / span 5; color: var(--color-sheet); }
-.rerun .cmd { grid-column: 6 / span 7; margin: 0; padding-top: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule-2); font: 400 var(--text-md)/1.9 var(--font-outlier); color: var(--color-sheet); white-space: pre; overflow-x: auto; }
-.rerun .note { grid-column: 6 / span 7; font-size: var(--text-sm); color: var(--color-paper-3); }
+.record li a { white-space: nowrap; }
+.record .verdict-note { display: block; margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 
 @media (max-width: 60rem) {
   .hero-text, .signature { grid-column: 1 / -1; }
-  .rerun h2, .rerun .cmd, .rerun .note { grid-column: 1 / -1; }
-  .sheet { padding: var(--space-lg) var(--space-md); }
+  .signature { display: grid; gap: var(--space-md); }
+  .label { position: static; width: auto; }
+  .index-head h2, .index-head p { grid-column: 1 / -1; }
+  .index .surface { padding: var(--space-lg) var(--space-md); }
   .record thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .record, .record tbody, .record tr, .record td { display: block; width: auto; }
-  .record tr { padding-block: var(--space-lg); border-top: var(--rule-bar) solid var(--color-rule-2); }
+  .record tr { padding-block: var(--space-lg); border-top: var(--rule-hair) solid var(--color-rule); }
+  .record tbody tr:first-child { border-top: 0; padding-top: 0; }
   .record td { padding: var(--space-xs) 0; border-top: 0; }
   .record td[data-label]::before { content: attr(data-label); display: block; font-size: var(--text-sm); color: var(--color-muted); }
 }
