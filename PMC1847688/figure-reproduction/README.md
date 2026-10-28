@@ -17,14 +17,15 @@ peaks and every peak class, identical to six decimals (`output/port_check.json`)
 | Fig. 2 | The example spectrum is plasma file `P_15`. The figure plots its raw counts divided by 5. 99.99% of the published trace pixels lie within 2 px of ours, and 99.96% of ours within 2 px of theirs. |
 | Fig. 3 (a to d) | Raw minus LIMPIC's smoothing at window 10, 20, 30 and 40, divided by 5. 99.99% both ways, ours 99.1% or better. |
 | Fig. 4c | Same as Fig. 3b: 99.97% and 98.99%. |
-| Fig. 5, peak-elimination | LIMPIC's baseline, divided by 5: 95.9% and 94.7%. The curves overlay except at one block near 7.25 kDa, where ours dips to 1.5 and the published one does not; the rest of the gap is the published blue curve covering the red. |
+| Fig. 5, peak-elimination | LIMPIC's baseline, divided by 5: 99.38% and 94.69%. The curves overlay except at one block near 7.25 kDa, where ours dips to 1.5 and the published one does not; the rest of the gap is the published blue curve covering the red. |
+| Fig. 5, monotone-minimum | The comparison baseline: 99.99% and 98.45%. The paper gives no settings for it. A wavelet-denoised running minimum, CROMWELL's approach, reproduces it with one combination found by search (`pipeline/monotone_min.py`); neighbouring settings fall to 72% or below. |
 | Fig. 6 (a to d) | Raw spectrum and what LIMPIC removes from it (smoothing residual plus baseline), divided by 5: 97.6% or better in a, b and d, 97.9% and 96.9% in c. |
 | Fig. 7, LIMPIC | The processed spectrum, 8.73 to 9.02 kDa: 99.57% and 99.93%. The same 16 peaks, each with a published marker at our position, and no published marker without one of ours. |
 | Fig. 8 | Same curve and the same 16 peaks (100% and 99.96%). Our 30-spectrum classification colours 9 of the 16 the same way as the paper. |
 | Fig. 9a, 9b | Drawn from Additional File 4 (the authors' plasma peak classes): 9a 98.6% and 99.5%. 9b, `hist(PDR, 10)`: [801, 359, 207, 106, 49, 28, 7, 6, 6, 12] against published bars read as [811, 359, 208, 108, 47, 21, 7, 6, 6, 12]. |
 | Tables 1 to 3, LIMPIC rows | Not reproduced. In the in-vitro spectra LIMPIC 1.1 finds about 667 peaks per spectrum (paper: 16) and 500 to 717 classes per concentration (paper: 7 to 11). Plasma: 302 peaks per spectrum and 104 classes (paper: 146 and 62). Both sets are in `output/report.md`. |
 
-Figs 1 and 10 and the APEX, CENTROID and CROMWELL panels are not attempted. Fig. 1 is a
+Figs 1 and 10 and the APEX, CENTROID and CROMWELL panels of Figs 4, 6 and 7 are not attempted. Fig. 1 is a
 diagram. APEX and CENTROID are Bruker FlexAnalysis, which is proprietary; the paper does not give
 CROMWELL's settings, and Fig. 10 also needs the masses of the 68 reference proteins, which
 Additional File 5 does not list. Figs 9c and 9d need the noise levels behind Additional File 4,
@@ -65,6 +66,7 @@ with neither it nor our run, so the published classification came from a run we 
 | --- | --- |
 | `main.nf`, `nextflow.config` | Nextflow pipeline that runs every step below. |
 | `pipeline/limpic.py` | LIMPIC 1.1 ported to Python. |
+| `pipeline/monotone_min.py` | Fig. 5's monotone-minimum baseline (the comparison method). |
 | `pipeline/octave/` | Driver for the authors' MATLAB code in GNU Octave, with two stand-ins: `read_txt.m` (the original opens a file dialog) and `kurtosis.m`. |
 | `pipeline/` | The other scripts (Python, shell). |
 | `published/` | Figs 1 to 10 of the paper: the authors' original files, © 2007 Mantini et al., licensee BioMed Central, CC BY 2.0, converted from TIFF to PNG. |
@@ -72,7 +74,7 @@ with neither it nor our run, so the published classification came from a run we 
 
 ## Run
 
-Requirements: Python 3 with numpy, scipy, pandas, pillow and xlrd; Nextflow with Java 17 or
+Requirements: Python 3 with numpy, scipy, pandas, pillow, pywavelets and xlrd; Nextflow with Java 17 or
 later; GNU Octave only for `--octave`.
 
 ```sh
@@ -94,7 +96,7 @@ does the same run, with `--octave`, on Ubuntu.
 | Additional File 4 as CSV | `export_s4.py` | `S4_LIMPIC.csv` |
 | LIMPIC on all 60 spectra | `run_limpic.py`, `limpic.py` | peaks, classes and the `P_15` signals |
 | Port check (with `--octave`) | `octave/run_limpic.m`, `check_port.py` | `port_check.json` |
-| Figures | `compare.py`, `figmeasure.py` | `fig*_ours.png`, `fig*_overlay.png`, `comparison.json` |
+| Figures | `compare.py`, `figmeasure.py`, `monotone_min.py` | `fig*_ours.png`, `fig*_overlay.png`, `comparison.json` |
 | Tables | `make_tables.py` | `tables.json` |
 | Check | `check_reproduction.py` | `report.md` |
 

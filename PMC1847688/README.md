@@ -13,7 +13,7 @@ holds Figs 1 to 10 of the paper for comparison, under CC BY 2.0 with the attribu
 
 | Folder | Content |
 | --- | --- |
-| [`figure-reproduction/`](figure-reproduction/) | LIMPIC 1.1 ported to Python and checked against the authors' code in GNU Octave. Figs 2, 3, 4c, 6a to 6d, 7 (LIMPIC) and 8 rebuilt from the paper's spectra and compared with the published figures pixel by pixel; Fig. 5's LIMPIC baseline and Figs 9a and 9b from Additional File 4. LIMPIC's rows of Tables 1 to 3 recomputed. Nextflow pipeline. |
+| [`figure-reproduction/`](figure-reproduction/) | LIMPIC 1.1 ported to Python and checked against the authors' code in GNU Octave. Figs 2, 3, 4c, 5, 6a to 6d, 7 (LIMPIC) and 8 rebuilt from the paper's spectra and compared with the published figures pixel by pixel; Figs 9a and 9b from Additional File 4. LIMPIC's rows of Tables 1 to 3 recomputed. Nextflow pipeline. |
 
 Kept local and gitignored: `sources/` (the paper, Additional Files 1 to 5, the original figure
 TIFFs), `limpic-paper/` (an agent-readable copy of the paper built with the paper2agent skill),

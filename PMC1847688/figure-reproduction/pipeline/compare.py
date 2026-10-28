@@ -23,6 +23,7 @@ from scipy import ndimage
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import figmeasure as fm  # noqa: E402
+import monotone_min  # noqa: E402
 
 # Fig. 2 and the panels drawn from it plot raw counts divided by 5. The divisor is the only
 # constant read from the figures; at 0.19 or 0.21 times the counts the Fig. 2 match drops
@@ -34,9 +35,9 @@ ORANGE = (255, 140, 0)
 # from the printed tick labels, y tick values from top to bottom, tick-mark depth in px.
 # Rows kept in <fig>_ours.png and <fig>_overlay.png: panels made by other software
 # (APEX, CENTROID, CROMWELL, Savitzky-Golay and wavelet filters) are cut away.
+# Published traces in a kept panel that we do not redraw would be listed in CLEAR_OTHER.
 CROP_ROWS = {"fig4": (1690, None), "fig6": (0, 1045), "fig7": (0, 1250)}
-# Published traces that are not LIMPIC's and stay inside a kept panel: removed from our render.
-CLEAR_OTHER = {"fig5": dict(keep=[(1731, 420, 2617, 603)])}
+CLEAR_OTHER = {}
 
 PANELS = {
     "fig2": [dict(panel="", box=(317, 190, 2943, 2258), xlim=(5, 20), yticks=[300, 250, 200, 150, 100, 50], yzero_at_bottom=True, series="raw")],
@@ -47,7 +48,11 @@ PANELS = {
         dict(panel="d", box=(278, 2253, 2903, 2670), xlim=(5, 20), yticks=[10, -10], series="noise40"),
     ],
     "fig4": [dict(panel="c", box=(293, 1763, 2918, 2331), xlim=(5, 20), yticks=[10, -10], series="noise20")],
-    "fig5": [dict(panel="peak-elimination", box=(209, 192, 2890, 2307), xlim=(5, 20), yticks=list(range(11, 0, -1)), yzero_at_bottom=True, series="baseline", colour=fm.RED, legend=[(1731, 420, 2617, 603)])],
+    "fig5": [
+        dict(panel="peak-elimination", box=(209, 192, 2890, 2307), xlim=(5, 20), yticks=list(range(11, 0, -1)), yzero_at_bottom=True, series="baseline", colour=fm.RED, legend=[(1731, 420, 2617, 603)]),
+        # The comparison method; its settings are not in the paper (see monotone_min.py).
+        dict(panel="monotone-minimum", box=(209, 192, 2890, 2307), xlim=(5, 20), yticks=list(range(11, 0, -1)), yzero_at_bottom=True, series="monotone_min", colour=fm.BLUE, width=6, legend=[(1731, 420, 2617, 603)]),
+    ],
     "fig6": [
         dict(panel="a", box=(97, 93, 531, 435), xlim=(5, 8), yticks=[40, 30, 20, 10], yzero_at_bottom=True, series="raw", depth=(1, 4)),
         dict(panel="b", box=(718, 94, 1152, 435), xlim=(14.75, 17.75), yticks=[40, 30, 20, 10], yzero_at_bottom=True, series="raw", depth=(1, 4)),
@@ -72,6 +77,8 @@ def load_series(data):
         # What LIMPIC removes from the raw spectrum: the smoothing residual plus the baseline.
         "limpic_noise": (x, (w - raw[:, 2] + np.interp(x, xr, baseline)) * RAW_SCALE),
     }
+    mx, mv = monotone_min.monotone_minimum(raw[:, 0], w)
+    s["monotone_min"] = (mx / 1000, mv * RAW_SCALE)
     for k, f in enumerate((10, 20, 30, 40)):
         s[f"noise{f}"] = (x, (w - smooth[:, k + 1]) * RAW_SCALE)
     return s
@@ -131,6 +138,10 @@ def main(data, published, s4, out):
             width = spec.get("width", 3)
             ours = np.zeros(img.shape[:2], bool)
             ours[inner] = draw(img.shape, X, Y, box, x, y, width)[inner]
+            for lb in spec.get("legend", []):
+                # Legend samples are not data.
+                pub[lb[1] : lb[3], lb[0] : lb[2]] = False
+                ours[lb[1] : lb[3], lb[0] : lb[2]] = False
             if spec.get("markers"):
                 # Crosses sit on the curve; leave their neighbourhood out of the line comparison.
                 for c in (fm.RED, fm.GREEN):

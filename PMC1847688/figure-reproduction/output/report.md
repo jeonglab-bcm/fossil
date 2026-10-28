@@ -10,7 +10,8 @@ Share of published trace pixels within 2 px of ours / of ours within 2 px of the
 | fig3 | c | 99.99% | 99.98% |  |
 | fig3 | d | 99.99% | 99.98% |  |
 | fig4 | c | 99.97% | 98.99% |  |
-| fig5 | peak-elimination | 95.92% | 94.69% |  |
+| fig5 | peak-elimination | 99.38% | 94.69% |  |
+| fig5 | monotone-minimum | 99.99% | 98.45% |  |
 | fig6 | a | 100.00% | 98.51% |  |
 | fig6 | b | 100.00% | 99.13% |  |
 | fig6 | c | 97.93% | 96.94% |  |
