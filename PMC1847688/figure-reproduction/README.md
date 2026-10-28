@@ -28,9 +28,7 @@ peaks and every peak class, identical to six decimals (`output/port_check.json`)
 Figs 1 and 10 and the APEX, CENTROID and CROMWELL panels of Figs 4, 6 and 7 are not attempted. Fig. 1 is a
 diagram. APEX and CENTROID are Bruker FlexAnalysis, which is proprietary; the paper does not give
 CROMWELL's settings, and Fig. 10 also needs the masses of the 68 reference proteins, which
-Additional File 5 does not list. Figs 9c and 9d plot the signal-to-noise ratio of the selected classes. That needs the noise
-levels of the run behind Additional File 4, which the file does not hold and which cannot be
-regenerated (below).
+Additional File 5 does not list. Figs 9c and 9d are not reproduced either; see below.
 
 ## What the code does, against the paper
 
@@ -60,6 +58,16 @@ Additional File 4 value to three decimals, where an identical run would match ne
 them. Its 30 subjects cannot be matched to the 30 files by peak positions or intensity profiles
 either. Fig. 9a and 9b agree with Additional File 4, and Fig. 8's colours agree
 with neither it nor our run, so the published classification came from a run we cannot repeat.
+
+## Figs 9c and 9d use a noise model the code does not have
+
+Each stem of Fig. 9c is an Additional File 4 class's mean intensity (its MEAN column) divided by
+a smooth noise curve. Read off the 62 stems, that curve is close to
+0.137 + 1.57 · exp(−(m/z − 6000) / 873), with m/z in Da: it falls from about 1.1 at 6.4 kDa to a
+floor of about 0.137 above 11 kDa. LIMPIC 1.1's noise estimate is jagged, because it interpolates
+between 100 Da blocks, and the paper describes no smooth model. Fitting the same curve to our noise
+estimates, for the average spectrum or for each spectrum, gives other constants. Drawing 9c and 9d
+would mean taking the curve from the figure itself, so they are left out.
 
 ## Layout
 
