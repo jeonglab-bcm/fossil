@@ -1,0 +1,58 @@
+name: Reproduce PMC1847688
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC1847688/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc1847688.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC1847688/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc1847688.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy scipy pandas pillow pywavelets xlrd
+
+      - name: Install GNU Octave (to check the Python port against the authors' MATLAB code)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends octave
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC1847688/figure-reproduction/main.nf --outdir results --octave -ansi-log false
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc1847688-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
