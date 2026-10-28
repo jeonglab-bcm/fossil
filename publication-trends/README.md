@@ -3,6 +3,21 @@
 How often PubMed Central articles mention places where code and data are shared. We use it as a
 rough proxy for when sharing code and data, and so reproducibility, became common practice.
 
+## Three eras
+
+![Three eras of code and data sharing](publication_eras.png)
+
+| Era | What happened | Evidence (share of all PMC articles) |
+| --- | --- | --- |
+| 1. Data first, ~2004–2014 | Data deposits became routine before code sharing did | GEO passed 1% in 2010; CRAN/Bioconductor passed 1% in 2015; SourceForge peaked at 0.53% in 2014 and never reached 1% |
+| 2. Code moves to GitHub, ~2015–2017 | GitHub took over from the older venues | GitHub passed SourceForge in 2015, reached 1% in 2016, and passed GEO and CRAN/Bioconductor in 2017 |
+| 3. Archived copies, environments, ~2016 onward | Archives with DOIs grew; environment tools appeared | Zenodo + figshare reached 1% in 2018 and passed GEO in 2022; environment tools reached 0.1% in 2017 |
+
+Our period of interest is 2004–2015 (shaded): the data-first era and the year code hosting moved
+to GitHub.
+
+## By theme
+
 ![Publication trends](publication_trends.png)
 
 | Theme | Group | Query (PMC full text, `[All Fields]`) |
@@ -38,7 +53,8 @@ Caveats:
 ```bash
 python3 fetch_counts.py counts.csv   # about 250 NCBI E-utilities requests, ~3 min
 python3 plot_trends.py counts.csv publication_trends
+python3 plot_eras.py counts.csv publication_eras
 ```
 
-`plot_trends.py` needs matplotlib. `counts.csv` holds the counts we retrieved and the date we
+The plotting scripts need matplotlib. `counts.csv` holds the counts we retrieved and the date we
 retrieved them.

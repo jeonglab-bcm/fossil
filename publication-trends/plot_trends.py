@@ -14,14 +14,14 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.ticker import FuncFormatter  # noqa: E402
 
 ENV = "Docker, Jupyter, Conda, Snakemake, Nextflow"
-COLORS = {  # categorical slots 1-8, fixed order; color follows the group
+COLORS = {  # color follows the group in every figure; the first five pass all-pairs CVD checks
     "GitHub + GitLab": "#2a78d6",
-    "SourceForge": "#eb6834",
+    "SourceForge": "#e87ba4",
     "NCBI GEO": "#1baf7a",
-    "PyPI": "#eda100",
-    "CRAN + Bioconductor": "#e87ba4",
+    "CRAN + Bioconductor": "#eda100",
     "Zenodo + figshare": "#008300",
-    "SRA / ENA": "#6250d6",
+    "PyPI": "#6250d6",
+    "SRA / ENA": "#eb6834",
     ENV: "#e34948",
 }
 THEMES = {
