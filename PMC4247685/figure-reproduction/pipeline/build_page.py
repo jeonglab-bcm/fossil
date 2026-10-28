@@ -73,9 +73,12 @@ def notes(fig):
         f"(bicluster), {t34['pair_cor_mode']['control']:.2f} (control).")),
     "4": lambda: ("partial", "R base graphics", (
         f"Same reconstruction. Logrank p = {fmt_p(t34['pfs_logrank_p'])} (paper 1 × 10⁻⁵). Median "
-        f"progression-free interval {pm['bicluster'] if pm['bicluster'] is not None else 'not reached'} vs "
-        f"{pm['control']:.1f} months (paper 85.4 vs 32). Progression-free interval from the TCGA "
-        "Pan-Cancer clinical resource, not the 2013 portal data the paper used.")),
+        f"progression-free interval {'not reached' if pm['bicluster'] is None else format(pm['bicluster'], '.1f')} vs "
+        f"{pm['control']:.1f} months (paper 85.4 vs 32). "
+        + ("Our bicluster progresses sooner than its control set, the reverse of the paper. "
+           if pm['bicluster'] is not None and pm['bicluster'] < pm['control'] else "")
+        + "Progression-free interval from the TCGA Pan-Cancer clinical resource, not the 2013 portal "
+        "data the paper used.")),
     "5": lambda: ("identical", "R base graphics", (
         f"Same data as the paper: the clinical rows of Table S3 (20 + 20 patients, PFS in the file’s "
         f"units). Logrank p = {fmt_p(t5['pfs']['p'])} for progression-free survival and "
@@ -83,8 +86,9 @@ def notes(fig):
     }[fig]()
 
 
-# Verdict per figure. Figs 3-4 get theirs from the TCGA reconstruction once it has run.
-VERDICTS = {"2": "Partly agrees", "5": "Agrees"}
+# Verdict per figure. Fig. 3: the bicluster's sites co-vary more than the control set's, as in the paper,
+# but the two peaks sit closer. Fig. 4: the survival difference runs the other way from the paper's.
+VERDICTS = {"2": "Partly agrees", "3": "Partly agrees", "4": "Differs", "5": "Agrees"}
 
 PENDING = {
     "2": "The synthetic benchmark (40 datasets × 3 structures × 7 methods) is still running.",
