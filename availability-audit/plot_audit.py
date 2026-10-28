@@ -68,8 +68,9 @@ def links_figure(out=FIGURES / "availability_links"):
         if r["category"] == "unchecked":
             continue
         s = FOLD[r["category"]]
-        by_year[int(r["year"]) if int(r["year"]) <= 2015 else 2015][s] += 1
         by_group[r["group"]][s] += 1
+        if r["group"] != "Journal / publisher":  # article self-links (mostly BMC boilerplate) only in B
+            by_year[int(r["year"]) if int(r["year"]) <= 2015 else 2015][s] += 1
     years = sorted(by_year)
     groups = sorted(by_group, key=lambda g: by_group[g]["Reachable"] / sum(by_group[g].values()))
     fig, (a, b) = plt.subplots(1, 2, figsize=(12.5, 4.8), facecolor=SURFACE,
@@ -77,29 +78,30 @@ def links_figure(out=FIGURES / "availability_links"):
     for ax in (a, b):
         style(ax)
     stacked(a, years, [by_year[y] for y in years], horizontal=False)
-    a.set_xticks(range(len(years)), [str(y) for y in years], rotation=0)
+    a.tick_params(axis="x", labelsize=7.5)
+    a.set_xticks(range(len(years)), [f"{y}\n{sum(by_year[y].values()):,}" for y in years], rotation=0)
     a.set_ylim(0, 1)
     a.set_yticks([0, 0.25, 0.5, 0.75, 1], ["0", "25", "50", "75", "100%"])
     a.yaxis.grid(True, color=GRID, lw=0.6)
     a.set_axisbelow(True)
-    a.set_title("A  Links in the paper text, by publication year", loc="left", color=INK, fontsize=11,
+    a.set_title("A  Software and data links, by publication year", loc="left", color=INK, fontsize=11,
                 fontweight="bold", pad=10)
-    for i, y in enumerate(years):
-        a.annotate(f"{sum(by_year[y].values()):,}", (i, 1.01), ha="center", va="bottom", fontsize=7, color=MUTED)
     stacked(b, groups, [by_group[g] for g in groups], horizontal=True)
     b.set_yticks(range(len(groups)), [f"{g}  ({sum(by_group[g].values()):,})" for g in groups])
     b.set_xlim(0, 1)
     b.set_xticks([0, 0.25, 0.5, 0.75, 1], ["0", "25", "50", "75", "100%"])
     b.xaxis.grid(True, color=GRID, lw=0.6)
     b.set_axisbelow(True)
-    b.set_title("B  By where the link points (links)", loc="left", color=INK, fontsize=11,
+    b.set_title("B  All links, by where they point", loc="left", color=INK, fontsize=11,
                 fontweight="bold", pad=10)
     handles = [plt.Rectangle((0, 0), 1, 1, color=c) for _, c in STATUS]
     fig.legend(handles, [n for n, _ in STATUS], loc="lower center", ncol=4, frameon=False, fontsize=9,
                labelcolor=INK2, bbox_to_anchor=(0.5, -0.06))
-    fig.text(0.01, -0.12, "Checked October 2026. Each bar is 100% of paper x link pairs (count above A, in "
-             "parentheses in B). Labels are percentages. Reachable includes 'moved' notices; Can't tell = refused "
-             "this client, bot check, ftp://, non-standard port.", fontsize=7.5, color=MUTED, ha="left", va="top")
+    fig.text(0.01, -0.13, "Checked October 2026. Links in the abstract, body and back matter (reference lists "
+             "excluded); each bar is 100% of paper x link pairs (count under the year in A, in parentheses in B); labels "
+             "are percentages. A leaves out links to the journal itself (mostly BioMed Central boilerplate). Reachable "
+             "includes 'moved' notices; Can't tell = refused this client, bot check, ftp://, non-standard port.",
+             fontsize=7.5, color=MUTED, ha="left", va="top", wrap=True)
     save(fig, out)
 
 
@@ -111,6 +113,8 @@ def artifacts_figure(out=FIGURES / "availability_artifacts"):
     acc = Counter()
     by_type = defaultdict(Counter)
     for r in read("accession_status.csv"):
+        if r["status"] == "invalid":
+            continue
         name = {"live": "Reachable", "obsolete": "Gone", "not_found": "Gone", "error": "Can't tell"}[r["status"]]
         if r["type"] == "PDB" and r["status"] == "not_found":
             name = "Can't tell"  # often a four-character false positive, not a lost entry

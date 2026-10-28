@@ -10,6 +10,10 @@ papers or their supplements.
 
 Other analyses:
 
+- [`availability-audit`](availability-audit/): what still works in 7,080 open-access bioinformatics and
+  biomedical-informatics methodology papers from 2004–2015 (links, Wayback captures, repository
+  accessions, supplementary files, and the software of a 150-paper sample), with a per-paper
+  readiness tier for choosing reproduction targets.
 - [`publication-trends`](publication-trends/): PMC articles per year (2000–2026) mentioning
   code hosts, R and Python ecosystems, DOI archives, data repositories, and software environment tools,
   as a proxy for when code and data sharing took hold.

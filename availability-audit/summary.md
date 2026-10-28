@@ -6,53 +6,53 @@ Papers: 7080. With at least one body-text URL: 5255 (74.2%). Paper x URL rows: 1
 
 | Category | Distinct URLs | Share | Paper x URL rows | Share |
 | --- | --- | --- | --- | --- |
-| alive | 4362 | 38.4% | 5709 | 40.2% |
+| alive | 4375 | 38.5% | 5722 | 40.3% |
 | moved | 56 | 0.5% | 81 | 0.6% |
-| gone | 3934 | 34.6% | 5019 | 35.3% |
-| unreachable | 1441 | 12.7% | 1557 | 11.0% |
-| indeterminate | 1203 | 10.6% | 1440 | 10.1% |
+| gone | 3938 | 34.7% | 5032 | 35.4% |
+| unreachable | 1424 | 12.5% | 1539 | 10.8% |
+| indeterminate | 1203 | 10.6% | 1432 | 10.1% |
 | untestable | 360 | 3.2% | 397 | 2.8% |
 
 Excluding links to journal and publisher sites (mostly BioMed Central boilerplate such as pre-publication-history links), which point at the article itself, not at software or data:
 
 | Category | Distinct URLs | Share | Paper x URL rows | Share |
 | --- | --- | --- | --- | --- |
-| alive | 4308 | 41.5% | 5575 | 45.3% |
+| alive | 4321 | 41.7% | 5588 | 45.4% |
 | moved | 56 | 0.5% | 81 | 0.7% |
-| gone | 3646 | 35.2% | 3931 | 32.0% |
-| unreachable | 1441 | 13.9% | 1557 | 12.7% |
-| indeterminate | 558 | 5.4% | 762 | 6.2% |
+| gone | 3649 | 35.2% | 3935 | 32.0% |
+| unreachable | 1424 | 13.7% | 1539 | 12.5% |
+| indeterminate | 559 | 5.4% | 763 | 6.2% |
 | untestable | 360 | 3.5% | 397 | 3.2% |
 
 Reasons (paper x URL rows):
 
 | Category | Reason | Rows |
 | --- | --- | --- |
-| gone | HTTP 404 | 1722 |
+| gone | HTTP 404 | 1724 |
 | gone | domain not in DNS | 1702 |
-| gone | redirected to catch-all page | 1218 |
-| unreachable | HTTP 503 | 882 |
-| indeterminate | HTTP 403 | 610 |
+| gone | redirected to catch-all page | 1227 |
+| unreachable | gateway_503 | 1040 |
+| indeterminate | HTTP 403 | 612 |
 | indeterminate | HTTP 403 bot check | 592 |
 | untestable | untestable_ftp | 298 |
-| unreachable | gateway_503 | 251 |
-| gone | redirected to home page | 213 |
+| gone | redirected to home page | 215 |
 | unreachable | tls_hostname | 90 |
+| unreachable | HTTP 503 | 84 |
 | moved | moved_notice | 81 |
-| unreachable | HTTP 500 | 61 |
+| unreachable | HTTP 500 | 62 |
 | indeterminate | dns_error | 60 |
 | indeterminate | HTTP 200 bot check | 59 |
 | untestable | untestable_port | 59 |
 | indeterminate | tls_chain_incomplete | 56 |
-| unreachable | connect_fail | 46 |
-| unreachable | timeout | 40 |
+| unreachable | connect_fail | 40 |
 | gone | hijacked (now gambling, crypto or porn) | 39 |
+| unreachable | timeout | 38 |
 | unreachable | tls_self_signed | 35 |
 | unreachable | tls_expired | 35 |
 | gone | GitHub repository not found | 30 |
 | gone | HTTP 410 | 29 |
 | gone | soft404 | 29 |
-| indeterminate | HTTP 429 | 27 |
+| unreachable | tls_other | 26 |
 
 ## By publication year (paper x URL rows)
 
@@ -60,53 +60,70 @@ Reasons (paper x URL rows):
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2004 | 80 | 22.5% | 1.2% | 50.0% | 12.5% | 6.2% | 7.5% | 23.8% |
 | 2005 | 333 | 28.5% | 1.5% | 43.8% | 16.2% | 4.5% | 5.4% | 30.0% |
-| 2006 | 456 | 28.3% | 0.2% | 45.2% | 16.4% | 7.7% | 2.2% | 28.5% |
+| 2006 | 456 | 28.3% | 0.2% | 47.1% | 16.4% | 5.7% | 2.2% | 28.5% |
 | 2007 | 674 | 32.2% | 0.3% | 45.4% | 11.6% | 6.2% | 4.3% | 32.5% |
-| 2008 | 1112 | 33.3% | 1.1% | 43.8% | 9.9% | 8.3% | 3.7% | 34.4% |
-| 2009 | 1279 | 35.1% | 0.9% | 38.0% | 12.4% | 10.3% | 3.2% | 36.0% |
-| 2010 | 1584 | 38.1% | 0.7% | 35.9% | 11.7% | 10.7% | 2.8% | 38.8% |
-| 2011 | 1410 | 37.2% | 0.8% | 36.0% | 12.8% | 9.9% | 3.3% | 38.0% |
+| 2008 | 1112 | 33.4% | 1.1% | 43.9% | 9.7% | 8.3% | 3.7% | 34.4% |
+| 2009 | 1279 | 35.2% | 0.9% | 38.0% | 12.4% | 10.3% | 3.2% | 36.1% |
+| 2010 | 1584 | 38.2% | 0.7% | 35.9% | 11.7% | 10.7% | 2.8% | 38.9% |
+| 2011 | 1410 | 37.4% | 0.8% | 36.1% | 12.6% | 9.9% | 3.3% | 38.2% |
 | 2012 | 1645 | 38.8% | 0.3% | 38.5% | 8.7% | 11.5% | 2.2% | 39.1% |
-| 2013 | 1728 | 43.4% | 0.5% | 32.6% | 10.8% | 10.8% | 1.9% | 43.9% |
-| 2014 | 1826 | 48.4% | 0.5% | 28.4% | 8.7% | 11.4% | 2.6% | 48.9% |
-| 2015 | 1863 | 51.0% | 0.2% | 26.2% | 10.3% | 10.0% | 2.3% | 51.2% |
-| 2016 | 213 | 36.6% | 0.0% | 32.4% | 10.8% | 18.3% | 1.9% | 36.6% |
+| 2013 | 1728 | 43.6% | 0.5% | 32.6% | 10.5% | 10.9% | 1.9% | 44.2% |
+| 2014 | 1826 | 48.5% | 0.5% | 28.4% | 8.6% | 11.4% | 2.6% | 49.0% |
+| 2015 | 1863 | 51.1% | 0.2% | 26.2% | 10.3% | 10.0% | 2.3% | 51.3% |
+| 2016 | 213 | 37.1% | 0.0% | 32.4% | 10.3% | 18.3% | 1.9% | 37.1% |
 
 ## By host group (paper x URL rows)
 
 | Host group | Rows | alive | moved | gone | unreachable | indeterminate | untestable |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Other | 5874 | 45.9% | 0.2% | 31.2% | 12.6% | 8.2% | 2.0% |
-| University / research institute | 3637 | 26.2% | 1.8% | 44.2% | 20.8% | 4.5% | 2.4% |
-| Journal / publisher | 1900 | 7.1% | 0.0% | 57.3% | 0.0% | 35.7% | 0.0% |
+| Other | 5874 | 46.0% | 0.2% | 31.2% | 12.4% | 8.2% | 2.0% |
+| University / research institute | 3637 | 26.2% | 1.8% | 44.3% | 20.7% | 4.6% | 2.4% |
+| Journal / publisher | 1900 | 7.1% | 0.0% | 57.7% | 0.0% | 35.2% | 0.0% |
 | NCBI / NLM / NIH | 817 | 51.8% | 0.1% | 22.5% | 0.7% | 9.5% | 15.3% |
 | SourceForge | 407 | 88.5% | 0.7% | 6.6% | 0.0% | 4.2% | 0.0% |
-| EBI / EMBL / SIB | 397 | 56.9% | 0.0% | 21.7% | 10.8% | 0.8% | 9.8% |
+| EBI / EMBL / SIB | 397 | 57.2% | 0.0% | 21.7% | 10.6% | 0.8% | 9.8% |
 | GitHub | 387 | 81.7% | 0.0% | 12.1% | 0.0% | 0.8% | 5.4% |
 | Bioconductor / CRAN | 334 | 92.2% | 0.0% | 7.8% | 0.0% | 0.0% | 0.0% |
 | Other .gov | 302 | 66.2% | 0.0% | 28.1% | 3.3% | 1.0% | 1.3% |
-| Google Code | 113 | 71.7% | 0.0% | 14.2% | 2.7% | 11.5% | 0.0% |
+| Google Code | 113 | 73.5% | 0.0% | 14.2% | 0.9% | 11.5% | 0.0% |
 | Bitbucket / GitLab | 35 | 37.1% | 0.0% | 60.0% | 0.0% | 2.9% | 0.0% |
 
 ## Papers by status of their own-resource links (abstract or availability-type sections)
 
 | Status | Papers | Share |
 | --- | --- | --- |
-| none alive, at least one dead | 1481 | 47.7% |
-| all alive | 787 | 25.4% |
+| none alive, at least one dead | 1477 | 47.6% |
+| all alive | 791 | 25.5% |
 | some alive | 566 | 18.2% |
 | none alive, rest indeterminate/untestable | 269 | 8.7% |
 
 ## Wayback Machine captures for links that are not alive
 
-Looked up: 267 of 8413 rows. Some capture: 164 (61.4%). Closest capture within 2 years of publication: 116 (43.4%).
+Looked up: 1883 of 8400 rows. Some capture: 1192 (63.3%). Closest capture within 2 years of publication: 927 (49.2%).
 
 | Category | Looked up | Archived |
 | --- | --- | --- |
-| gone | 92 | 69.6% |
-| untestable | 83 | 47.0% |
-| unreachable | 61 | 75.4% |
-| indeterminate | 31 | 48.4% |
+| unreachable | 376 | 79.8% |
+| gone | 924 | 68.9% |
+| indeterminate | 470 | 42.3% |
+| untestable | 113 | 49.6% |
+
+## Repository accessions (distinct)
+
+| Type | Distinct | live | obsolete | not_found | error |
+| --- | --- | --- | --- | --- | --- |
+| PDB | 2271 | 2239 | 24 | 8 | 0 |
+| RefSeq | 1786 | 1599 | 177 | 10 | 0 |
+| GEO | 1304 | 1283 | 0 | 21 | 0 |
+| GenBank | 1008 | 968 | 35 | 5 | 0 |
+| SRA/ENA/DDBJ | 538 | 527 | 0 | 11 | 0 |
+| UniProt | 123 | 121 | 2 | 0 | 0 |
+| ArrayExpress | 122 | 121 | 0 | 1 | 0 |
+| dbGaP | 17 | 17 | 0 | 0 | 0 |
+| BioProject | 10 | 10 | 0 | 0 | 0 |
+| EGA | 3 | 3 | 0 | 0 | 0 |
+
+Papers citing at least one accession: 1183 (16.7%). Papers with a non-PDB accession that no longer resolves or is obsolete: 115.
 
 ## Supplementary files in the PMC dataset
 
@@ -170,10 +187,10 @@ Static checks on the software that could be obtained (no downloaded code was run
 | Tier | Meaning | Papers | Share | 2004-2007 | 2008-2011 | 2012-2015 |
 | --- | --- | --- | --- | --- | --- | --- |
 | A | code in the PMC supplement | 385 | 5.4% | 99 | 139 | 147 |
-| B | reachable link to a code host or package repository | 743 | 10.5% | 43 | 222 | 478 |
-| C | reachable own-resource link (lab page, web service) | 729 | 10.3% | 89 | 286 | 354 |
-| D | own-resource links dead, Wayback capture exists | 79 | 1.1% | 21 | 31 | 27 |
-| E | own-resource links dead, no Wayback capture | 1289 | 18.2% | 263 | 549 | 477 |
-| F | own-resource links can't be told (blocked or untestable) | 242 | 3.4% | 34 | 101 | 107 |
-| G | no own-resource link and no code supplement | 3613 | 51.0% | 708 | 1480 | 1425 |
+| B | reachable own-resource link to a code host or package repository | 481 | 6.8% | 30 | 131 | 320 |
+| C | reachable own-resource link (lab page, web service) | 779 | 11.0% | 91 | 303 | 385 |
+| D | own-resource links dead, Wayback capture exists | 621 | 8.8% | 125 | 258 | 238 |
+| E | own-resource links dead, no Wayback capture | 783 | 11.1% | 159 | 341 | 283 |
+| F | own-resource links can't be told (blocked or untestable) | 254 | 3.6% | 34 | 104 | 116 |
+| G | no own-resource link and no code supplement | 3777 | 53.3% | 719 | 1532 | 1526 |
 

@@ -1,7 +1,8 @@
 """Check whether each distinct accession in accessions.csv still resolves in its repository.
 
   GEO (GSE/GSM/GPL/GDS)   NCBI E-utilities esummary on db=gds (the UID is derived from the accession)
-  RefSeq, GenBank         NCBI E-utilities esearch [ACCN] on db=nuccore, then db=protein
+  RefSeq, GenBank         NCBI E-utilities esearch [ACCN] (100 per query) on db=nuccore, then db=protein;
+                          esummary by accession for the rest (suppressed records are obsolete)
   SRA/ENA/DDBJ            ENA Browser API summary (INSDC mirror of SRA, ENA and DDBJ)
   BioProject, dbGaP       NCBI E-utilities esearch on db=bioproject / db=gap
   ArrayExpress            EBI BioStudies API
@@ -9,13 +10,15 @@
   UniProt                 UniProt REST (entryType "Inactive" = deleted or merged)
   EGA                     EGA metadata API
 
-Writes accession_status.csv: type, accession, status (live | obsolete | not_found | error), detail.
+Writes accession_status.csv: type, accession, status (live | obsolete | not_found | invalid | error),
+detail.
 "not_found" for PDB IDs is often an extraction false positive (4 characters after "PDB").
 """
 import csv
 import re
 import sys
 import time
+from pathlib import Path
 
 import requests
 
@@ -73,6 +76,77 @@ def entrez_accn(accs, dbs):
                 status = ("live", db)
                 break
         out[a] = status
+    return out
+
+
+def entrez_accn_batch(accs, dbs, chunk=100):
+    """Like entrez_accn, but 100 accessions per esearch; esummary maps UIDs back to accessions."""
+    out = {a: ("not_found", "") for a in accs}
+    left = list(accs)
+    for db in dbs:
+        found = set()
+        for i in range(0, len(left), chunk):
+            part = left[i:i + chunk]
+            # Entrez indexes only the current version of a record, so search the base accession:
+            # a superseded version (NC_000022.10 for GRCh37 chr22) is still the same, live record.
+            terms = sorted({a.split(".")[0] for a in part})
+            res = eutil("esearch.fcgi", {"db": db, "term": " OR ".join(f"{a}[ACCN]" for a in terms), "retmax": 10000})
+            if res is None:
+                for a in part:
+                    out[a] = ("error", db)
+                continue
+            ids = res["esearchresult"].get("idlist", [])
+            seen = set()
+            for j in range(0, len(ids), 200):
+                summ = eutil("esummary.fcgi", {"db": db, "id": ",".join(ids[j:j + 200])})
+                for uid, d in (summ or {}).get("result", {}).items():
+                    if uid != "uids" and isinstance(d, dict):
+                        seen.add(str(d.get("caption", "")).upper())
+                        seen.add(str(d.get("accessionversion", "")).upper())
+            for a in part:
+                if a.upper() in seen or a.split(".")[0].upper() in seen:
+                    out[a] = ("live", db)
+                    found.add(a)
+        left = [a for a in left if a not in found]
+    # Records withdrawn from Entrez search (suppressed, e.g. a RefSeq transcript retired by a
+    # reannotation) are still served by accession; their summary says so. Ask for those directly.
+    for db in dbs:
+        for i in range(0, len(left), 100):
+            part = left[i:i + 100]
+            summ = eutil("esummary.fcgi", {"db": db, "id": ",".join(part)}) or {}
+            for uid, d in summ.get("result", {}).items():
+                if uid == "uids" or not isinstance(d, dict) or d.get("error"):
+                    continue
+                for a in part:
+                    if a.split(".")[0].upper() == str(d.get("caption", "")).upper():
+                        st = str(d.get("status", "")).lower()
+                        out[a] = ("live", db) if st == "live" else ("obsolete", f"{st} in {db}")
+        left = [a for a in left if out[a][0] == "not_found"]
+    return out
+
+
+INSDC = re.compile(r"^([A-Z]{1,2}\d{5,6}|[A-Z]{3}\d{5}|[A-Z]{4,6}\d{8,10}|[A-Z]{2}_\d{6,9})(\.\d+)?$")
+
+
+def genbank(accs):
+    """GenBank IDs from <ext-link ext-link-type="gen">: INSDC accessions, or bare GI numbers (an
+    identifier NCBI stopped displaying in 2016, still usable as a UID). Anything else (coordinate
+    ranges, Ensembl or PDB IDs in the wrong markup) is recorded as invalid and not counted."""
+    out = {}
+    acc = [a for a in accs if INSDC.match(a)]
+    out.update(entrez_accn_batch(acc, ["nuccore", "protein"]))
+    for a in accs:
+        if a.isdigit():
+            status = ("not_found", "GI")
+            for db in ("nuccore", "protein"):
+                res = eutil("esummary.fcgi", {"db": db, "id": a})
+                d = (res or {}).get("result", {}).get(a, {})
+                if isinstance(d, dict) and d.get("caption") and not d.get("error"):
+                    status = ("live", f"GI resolves in {db}")
+                    break
+            out[a] = status
+        elif a not in out:
+            out[a] = ("invalid", "not an INSDC accession")
     return out
 
 
@@ -157,11 +231,10 @@ def main():
     by_type = {}
     for r in rows:
         by_type.setdefault(r["type"], set()).add(r["accession"].strip())
-    results = []
     checkers = {
         "GEO": lambda a: geo([x.upper() for x in a]),
-        "RefSeq": lambda a: entrez_accn(a, ["nuccore", "protein"]),
-        "GenBank": lambda a: entrez_accn(a, ["nuccore", "protein"]),
+        "RefSeq": lambda a: entrez_accn_batch(a, ["nuccore", "protein"]),
+        "GenBank": genbank,
         "SRA/ENA/DDBJ": ena,
         "BioProject": lambda a: entrez_all(a, "bioproject"),
         "dbGaP": lambda a: entrez_all(a, "gap"),
@@ -170,19 +243,27 @@ def main():
         "UniProt": uniprot,
         "EGA": ega,
     }
-    for kind, accs in sorted(by_type.items(), key=lambda kv: len(kv[1])):
-        accs = sorted(a for a in accs if re.fullmatch(r"[A-Za-z0-9_.\-]+", a))
-        print(kind, len(accs), file=sys.stderr, flush=True)
-        if kind not in checkers:
-            continue
-        res = checkers[kind](accs)
-        for a in accs:
-            st, detail = res.get(a.upper() if kind == "GEO" else a, ("error", "unchecked"))
-            results.append({"type": kind, "accession": a, "status": st, "detail": detail})
-    with open("accession_status.csv", "w", newline="") as f:
+    out = Path("accession_status.csv")
+    done = set()
+    if out.exists():
+        with open(out) as f:
+            done = {r["type"] for r in csv.DictReader(f)}
+    new = not out.exists()
+    # Results are appended one repository at a time, so an interrupted run resumes where it stopped.
+    with open(out, "a", newline="") as f:
         w = csv.DictWriter(f, ["type", "accession", "status", "detail"])
-        w.writeheader()
-        w.writerows(results)
+        if new:
+            w.writeheader()
+        for kind, accs in sorted(by_type.items(), key=lambda kv: len(kv[1])):
+            accs = sorted(a for a in accs if re.fullmatch(r"[A-Za-z0-9_.\-]+", a))
+            print(kind, len(accs), "(done)" if kind in done else "", file=sys.stderr, flush=True)
+            if kind not in checkers or kind in done:
+                continue
+            res = checkers[kind](accs)
+            for a in accs:
+                st, detail = res.get(a.upper() if kind == "GEO" else a, ("error", "unchecked"))
+                w.writerow({"type": kind, "accession": a, "status": st, "detail": detail})
+            f.flush()
 
 
 if __name__ == "__main__":

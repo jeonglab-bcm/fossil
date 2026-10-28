@@ -157,7 +157,8 @@ def main():
     if acc_st:
         ac = defaultdict(Counter)
         for (t, a), r in acc_st.items():
-            ac[t][r["status"]] += 1
+            if r["status"] != "invalid":  # e.g. coordinate ranges tagged as GenBank IDs; not accessions
+                ac[t][r["status"]] += 1
         sts = ["live", "obsolete", "not_found", "error"]
         md += ["## Repository accessions (distinct)", "",
                table(["Type", "Distinct"] + sts, [(t, sum(c.values()), *[c[s] for s in sts])
@@ -243,7 +244,7 @@ def sample_outcome(s, i):
 CODE_GROUPS = {"GitHub", "SourceForge", "Google Code", "Bitbucket / GitLab", "Bioconductor / CRAN"}
 TIERS = [
     ("A", "code in the PMC supplement"),
-    ("B", "reachable link to a code host or package repository"),
+    ("B", "reachable own-resource link to a code host or package repository"),
     ("C", "reachable own-resource link (lab page, web service)"),
     ("D", "own-resource links dead, Wayback capture exists"),
     ("E", "own-resource links dead, no Wayback capture"),
@@ -274,7 +275,7 @@ def paper_tiers(papers, rows):
         dead = [r for r in own if r["category"] in ("gone", "unreachable")]
         if p["pmcid"] in code:
             tier = "A"
-        elif any(reach(r) and r["group"] in CODE_GROUPS for r in rs):
+        elif any(reach(r) and r["group"] in CODE_GROUPS for r in own):
             tier = "B"
         elif any(reach(r) for r in own):
             tier = "C"
@@ -291,7 +292,7 @@ def paper_tiers(papers, rows):
                     "reachable": c["alive"] + c["moved"], "gone": c["gone"], "unreachable": c["unreachable"],
                     "cant_tell": c["indeterminate"] + c["untestable"], "own_urls": len(own),
                     "own_reachable": oc["alive"] + oc["moved"], "own_dead": len(dead),
-                    "code_host_links_reachable": sum(reach(r) and r["group"] in CODE_GROUPS for r in rs),
+                    "own_code_host_links_reachable": sum(reach(r) and r["group"] in CODE_GROUPS for r in own),
                     "supplementary_files": nsup[p["pmcid"]], "supplement_has_code": p["pmcid"] in code,
                     "accessions": sum(acc_p[p["pmcid"]].values()),
                     "accessions_not_resolving": acc_p[p["pmcid"]]["not_found"] + acc_p[p["pmcid"]]["obsolete"]})
