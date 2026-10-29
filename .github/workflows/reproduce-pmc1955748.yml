@@ -5,11 +5,13 @@ on:
   pull_request:
     paths:
       - "PMC1955748/figure-reproduction/**"
+      - "PMC1955748/ash-rebuild/**"
       - ".github/workflows/reproduce-pmc1955748.yml"
   push:
     branches: [main]
     paths:
       - "PMC1955748/figure-reproduction/**"
+      - "PMC1955748/ash-rebuild/**"
       - ".github/workflows/reproduce-pmc1955748.yml"
 
 permissions:
@@ -27,7 +29,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install Python packages
-        run: pip install numpy scipy pillow xlrd
+        run: pip install numpy scipy pillow xlrd gemmi==0.7.5 numba tmtools==0.3.0 matplotlib
 
       - uses: actions/setup-java@v4
         with:
@@ -41,9 +43,14 @@ jobs:
       - name: Run the Nextflow pipeline
         run: nextflow run PMC1955748/figure-reproduction/main.nf --outdir results -ansi-log false
 
-      - name: Write the check report to the job summary
+      - name: Run the rebuilt ASH against Additional File 3
+        run: nextflow run PMC1955748/ash-rebuild/main.nf --outdir results/ash-rebuild -ansi-log false
+
+      - name: Write the check reports to the job summary
         if: always()
-        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+          cat results/ash-rebuild/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No rebuild report." >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()

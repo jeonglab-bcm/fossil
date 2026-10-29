@@ -13,6 +13,7 @@ material under CC BY 2.0 with the attribution above.
 
 | Folder | Content |
 | --- | --- |
+| [`ash-rebuild/`](ash-rebuild/) | ASH rewritten from the 2005 and 2007 papers (TM-align seeds in place of the lost Local ASH) and tested on Additional File 3: the paper's score formula gives the published scores at r = 0.977 from the published NER and SAS; our own alignments reach r = 0.80. Nextflow pipeline. |
 | [`figure-reproduction/`](figure-reproduction/) | Why no figure or table can be redrawn (ASH and the test set are gone), and the checks the published files still allow: the training set against CATH 3.0.0 and SCOP 1.69, Additional File 3, Additional File 2 against BLOSUM62, AAindex2 and Additional File 4, and the paper's derived numbers. Nextflow pipeline. |
 
 Kept local and gitignored: `sources/` (the paper, Additional Files 1 to 4, and our CSV copies of
