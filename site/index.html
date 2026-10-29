@@ -123,6 +123,26 @@
                 </ul></td>
                 <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">Figs 2 to 8 came back</span></td>
               </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2014-07-03">3 Jul 2014</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4081021</span>
+                  <a class="title" href="https://doi.org/10.1371/journal.pcbi.1003686">ODE constrained mixture modelling: a method for unraveling subpopulation structures and dynamics</a>
+                  <span class="journal">Hasenauer et al., PLoS Computational Biology</span>
+                  <span class="go"><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The fit behind Fig. 5C’s model-B weight</li>
+                  <li>The random cells drawn in Figs 2B and 2E</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4081021/figure-reproduction/pipeline/odemm.py">The ODE-MM likelihood</a> in Python, equal to the authors’ fits to 10<sup>−3</sup></li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021/figure-reproduction/output/refit">Table 1’s 24 fits</a>, rerun from scratch</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021/figure-reproduction/output">Figs 2 to 6</a> on the published axes</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="agrees">Agrees</span><span class="verdict-note">One pie in Fig. 5C differs</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
