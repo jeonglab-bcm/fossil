@@ -1,0 +1,334 @@
+{
+  "page": 4,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0004.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 3-4x crops of every math region. p0004-b001 continues page 3 (\"parameters and / experimental conditions\") -> join_previous space; p0004-b015 continues p0004-b014 across the column break -> join_previous space. Extractor formula p0004-b017 wrongly swallowed the paragraph under \"Parameter estimation and model selection\": split into new text item p0004-b017a (paragraph) and p0004-b017 (Eq. 6, bbox [345,279,556,368]). Equations (3), (4), (5), (6) transcribed as LaTeX display math from crops (native symbol-font text garbled, e.g. \"ji\" for xi_i, \"Q\" for varphi, \"h\" for theta); expect line-coverage diagnostics for those native lines. Re-transcribed all inline math (xi_i, k_0, k_i != k_j, varphi_i, mu_i, Sigma_i, N(y|mu_i,Sigma_i), theta^*, nu_i, j−th printed with a minus sign). nu_i chosen because the symbol-font glyph is \"n\" (same mapping as m->mu); it renders like an italic v. Restored real hyphens lost at line wraps: \"time-dependent\", \"ODE-MMs\" (p0004-b021). Italic cross-reference *Mixture models* kept. Subsection headings ###. p0004-b021 continues on page 5. Header/footers/page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0004-b000",
+    "Review possible header/footer: p0004-b022",
+    "Review possible header/footer: p0004-b023"
+  ],
+  "items": [
+    {
+      "id": "p0004-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0004-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        155.0
+      ],
+      "markdown": "experimental conditions. The subpopulation parameters $\\xi_i$ are a collection of parameters $k_0$ which are identical in all subpopulations and subpopulation specific parameters $k_i$, $\\xi_i=(k_0,k_i)$. Identical parameters might be structural properties, such as affinities. Differences between subpopulations are modelled by differences in their parameters, $k_i\\neq k_j$. These parameter discrepancies describe the causal differences between subpopulations, e.g., altered protein abundances, and are biologically essential when studying heterogeneity.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0004-b002",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        156.0,
+        298.0,
+        176.0
+      ],
+      "markdown": "As most experimental procedures only allow for the assessment of a few chemical species, we introduce a measurement model,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b003",
+      "kind": "text",
+      "bbox": [
+        130.0,
+        189.0,
+        299.0,
+        205.0
+      ],
+      "markdown": "$$y_i(t,u)=h(x_i(t,u),\\xi_i,u). \\tag{3}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        212.0,
+        298.0,
+        232.0
+      ],
+      "markdown": "If merely the $j-$th chemical species is observed this mapping becomes: $h(x_i(t,u),\\xi_i,u)=x_{i,j}(t,u)$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b005",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        234.0,
+        298.0,
+        296.0
+      ],
+      "markdown": "Assuming that the communication across and transitions between subpopulations can be neglected for the process of interest, the dynamics of the overall population are captured by the weighted dynamics of its subpopulations. This idea is exploited by ODE-MMs, and will in the following be illustrated for mixtures of normal distributions and more general mixture distributions.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b006",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        308.0,
+        263.0,
+        317.0
+      ],
+      "markdown": "### RRE constrained mixture of normal distributions",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b007",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        320.0,
+        298.0,
+        392.0
+      ],
+      "markdown": "The most commonly used mixture models are mixtures of normal distributions, $p(y|\\varphi_i)=\\mathcal{N}(y|\\mu_i,\\Sigma_i)$, which are parameterised by mean $\\mu_i$ and covariance $\\Sigma_i$. As RREs describe the dynamics of the mean state $x_i(t,u)$ of homogeneous subpopulations, an obvious possibility is to model the condition- and time-dependent measured mean $\\mu_i(t,u)$ of the mixture components by RREs,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b008",
+      "kind": "text",
+      "bbox": [
+        114.0,
+        406.0,
+        299.0,
+        422.0
+      ],
+      "markdown": "$$\\mu_i(t,u)=y_i(t,u)=h(x_i(t,u),\\xi_i,u). \\tag{4}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b009",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        429.0,
+        298.0,
+        490.0
+      ],
+      "markdown": "Accordingly, the component means ($\\mu_i=\\mu_i(t,u)$) are determined by the parameters of the subpopulation $i$, $\\xi_i=(k_0,k_i)$. The component covariances ($\\Sigma_i=\\Sigma_i(t,u)$), which summarise cell-to-cell variability within the $i$-th subpopulation and measurement noise, are not constrained by RREs. Accordingly, we obtain RRE constrained mixture of normal distributions,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b010",
+      "kind": "text",
+      "bbox": [
+        94.0,
+        502.0,
+        299.0,
+        569.0
+      ],
+      "markdown": "$$\\begin{aligned}p(y|\\theta,t,u)&=\\sum_{i=1}^{m} w_i\\,\\mathcal{N}(y|\\mu_i(t),\\Sigma_i(t))\\\\ \\text{with}\\qquad \\dot{x}_i&=f(x_i,\\xi_i,u),\\quad x_i(0)=x_0(\\xi_i,u),\\\\ \\mu_i&=h(x_i,\\xi_i,u),\\end{aligned} \\tag{5}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b011",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        573.0,
+        298.0,
+        605.0
+      ],
+      "markdown": "with parameters $\\theta=\\{(w_i,\\xi_i,\\Sigma_i)\\}_{i=1}^{m}$. The mixture parameters, $\\varphi_i=(\\mu_i,\\Sigma_i)$, depend on experimental condition $u$ and time $t$. Furthermore, $\\mu_i$ depends implicitly on $\\xi_i$ via the ODE model.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b012",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        607.0,
+        298.0,
+        690.0
+      ],
+      "markdown": "In contrast to conventional mixture models (1), ODE-MMs (5) describe the distribution of the observed variables at discrete points and the temporal evolution of subpopulations in response to stimuli. Hence, ODE-MMs establish a mechanistic link between different experimental conditions and time points based on pathway models and differences between subpopulations. This renders error-prone matching of distributions across conditions unnecessary (see discussion in *Mixture models*).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b013",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        702.0,
+        269.0,
+        710.0
+      ],
+      "markdown": "### General class of ODE constrained mixture models",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b014",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        714.0,
+        298.0,
+        734.0
+      ],
+      "markdown": "The combination of normal mixture models and RRE models yields simple ODE-MMs. More flexible ODE-MMs are obtained",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b015",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        186.0
+      ],
+      "markdown": "by considering other distributions $p(y|\\varphi_i)$, e.g., log-normal, skew normal, t- or skew t-distributions [7]. Furthermore, more sophisticated descriptions of the biochemical processes can be employed, e.g., linear noise approximations [27,28], effective mesoscopic rate equations [29,30] or moment equations [31,32]. These classes of ODE models, $\\dot{x}_i=f(x_i,\\xi_i,u)$, do not only constrained means but also variances, covariances and higher order moments. Hence, more distribution parameters $\\varphi_i$ can be linked to the state of the ODE model, $\\varphi_i=h(x_i,\\xi_i,u)$. In general, the subpopulation parameters $\\xi_i$ contain mechanistic parameters as well as parameters $\\nu_i$ which specify statistics of the distribution, $\\xi_i=(k_0,k_i,\\nu_i)$.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0004-b016",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        199.0,
+        496.0,
+        207.0
+      ],
+      "markdown": "### Parameter estimation and model selection",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b017a",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        210.0,
+        555.0,
+        273.0
+      ],
+      "source_class": "text",
+      "markdown": "The analysis of measurement data $\\mathcal{D}$ using ODE-MMs requires the estimation of the parameters $\\theta$. For this we will use maximum likelihood estimation. The likelihood function is the product of the conditional probability of the snapshot data $\\mathcal{D}^e_k$ given the parameters $\\theta$. The resulting optimisation problem in terms of the log-likelihood function $\\ell(\\theta)$ is"
+    },
+    {
+      "id": "p0004-b017",
+      "kind": "text",
+      "bbox": [
+        345.0,
+        279.0,
+        556.0,
+        368.0
+      ],
+      "markdown": "$$\\begin{aligned}&\\max_{\\theta\\in\\Theta}\\left\\{\\ell(\\theta):=\\sum_{e,k,j}\\log\\left(\\sum_{i=1}^{m} w_i\\,p\\left(y^{k,e}_j|\\varphi^e_i(t_k)\\right)\\right)\\right\\}\\\\ &\\text{subject to}\\quad \\dot{x}_i^e=f(x^e_i,\\xi_i,u^e),\\quad x^e_i(0)=x_0(\\xi_i,u^e)\\\\ &\\qquad\\qquad\\quad \\varphi^e_i=h(x^e_i,\\xi_i,u^e),\\quad \\forall i,e,\\\\ &\\qquad\\qquad\\quad 1=\\sum_{i=1}^{m} w_i.\\end{aligned} \\tag{6}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b018",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        376.0,
+        555.0,
+        406.0
+      ],
+      "markdown": "Note that in contrast to the MMs we sum over all combinations of $k$ and $j$, meaning that all time points and experimental conditions are studied simultaneously.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b019",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        408.0,
+        555.0,
+        543.0
+      ],
+      "markdown": "Optimisation problem (6) belongs to the class of ODE constrained optimisation problems. In general this problem is non-convex and possesses local maxima. To determine the parameter vector $\\theta^*$ which maximises the log-likelihood function, global optimisation methods are required. Commonly used global optimisation methods are multi-start local optimisation [33], evolutionary and genetic algorithms [34], particle swarm optimisers [35], simulated annealing [36] and hybrid optimisers [37,38]. For details we refer to available comprehensive surveys of local and global optimisation procedures [33,39–41]. In the following, we will use multi-start local optimisation, an approach which has been shown to be efficient for parameter estimation in RRE models [33].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b020",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        545.0,
+        555.0,
+        670.0
+      ],
+      "markdown": "As the measurement data are limited, the parameters can often not be determined uniquely. In particular the kinetic rates, $k_0$ and $k_i$, as well as the population fraction, $w_i$ often remain uncertain. A variety of methods exist to assess parameter uncertainties, including profile likelihoods [33,42], bootstrapping [43,44], Markov chain Monte Carlo sampling [45,46], Approximate Bayesian Computing [47,48] and local approximation to the objective function [44]. In the remainder, we use profile likelihoods due to their often superior efficiency. Profile likelihoods allow for a global uncertainty analysis of individual parameters by means of repeated optimisation. For details we refer to the work of Raue et al. [42].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b021",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        672.0,
+        555.0,
+        734.0
+      ],
+      "markdown": "The source of the cell-to-cell variability, namely the parameters which differ between subpopulations, are often unknown. ODE-MMs can be used to assess the plausibility of different potential sources of cell-to-cell variability by means of model selection. Models corresponding to different hypotheses can be formulated and fitted to the data. The comparison of these models using",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b022",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0004-b023",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0004-b024",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "4",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}

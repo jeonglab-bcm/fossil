@@ -1,0 +1,241 @@
+{
+  "page": 4,
+  "width": 595.2760009765625,
+  "height": 841.8900146484375,
+  "mode": "native",
+  "preview": "previews/page-0004.png",
+  "reviewed": true,
+  "review_notes": "Checked every symbol against 220-dpi crops. Headings: 3.1.1-3.1.3 set to #####, 3.2 to #### (extraction had # / ##). Replaced the four formula image crops (mass conservation, rate equations, reformulated ODE model, initial condition) and the flattened reaction list with LaTeX display math; species names are written as plain identifiers inside math (e.g. [TrkA:NGF]) and reaction arrows as Unicode → so the source text stays searchable. Inline math converted to $...$ (k_i interval [10^-10, 10^10], w_i in [0,1], SD/shape bounds [10^-1,10^2] and [10^-1,10^1]). Calligraphic model symbol written as ℳ<sub>H3,2</sub>. Source quirks preserved as printed: x1 = [TrkA:NGF]/k3 (inconsistent with the ODE, which implies x1 = k3[TrkA:NGF]); \"Table 2-4\" refers to Supplement Tables 2-4. Page number \"4\" omitted.",
+  "warnings": [],
+  "items": [
+    {
+      "id": "p0004-b000",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        66.0,
+        172.0,
+        74.0
+      ],
+      "markdown": "##### 3.1.1 Reaction network",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b001",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        88.0,
+        245.0,
+        99.0
+      ],
+      "markdown": "Pathway model A accounts for the reactions,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b002",
+      "kind": "text",
+      "bbox": [
+        159.0,
+        109.0,
+        438.0,
+        180.0
+      ],
+      "markdown": "$$\n\\begin{array}{lll}\nR_1: & TrkA + NGF → TrkA:NGF, & \\text{rate} = k_1[TrkA][NGF],\\\\\nR_2: & TrkA:NGF → NGF + TrkA, & \\text{rate} = k_2[TrkA:NGF],\\\\\nR_3: & Erk → pErk, & \\text{rate} = k_3[TrkA:NGF][Erk],\\\\\nR_4: & Erk → pErk, & \\text{rate} = k_4[Erk],\\\\\nR_5: & pErk → Erk, & \\text{rate} = k_5[pErk],\n\\end{array}\n$$",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b003",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        190.0,
+        164.0,
+        198.0
+      ],
+      "markdown": "and the mass conservation",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b004",
+      "kind": "text",
+      "bbox": [
+        223.0,
+        194.0,
+        374.0,
+        245.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n[TrkA] + [TrkA:NGF] &= [TrkA]_0\\\\\n[NGF] + [TrkA:NGF] &= [NGF]_0\\\\\n[Erk] + [pErk] &= [Erk]_0.\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b005",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        259.0,
+        304.0,
+        269.0
+      ],
+      "markdown": "##### 3.1.2 Reaction rate equation and parametrization",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b006",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        281.0,
+        548.0,
+        303.0
+      ],
+      "markdown": "Under the assumption that the total NGF concentration is much larger than the total TrkA concentration, $[NGF]_0 \\gg [TrkA]_0$, the dynamics of TrkA:NGF and pErk can be stated as",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b007",
+      "kind": "text",
+      "bbox": [
+        146.0,
+        308.0,
+        452.0,
+        380.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n\\frac{d[TrkA:NGF]}{dt} &= k_1[NGF]_0([TrkA]_0 - [TrkA:NGF]) - k_2[TrkA:NGF]\\\\\n\\frac{d[pErk]}{dt} &= (k_3[TrkA:NGF] + k_4)([Erk]_0 - [pErk]) - k_5[pErk]\\\\\ny &= s[pErk],\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b008",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        385.0,
+        548.0,
+        420.0
+      ],
+      "markdown": "with kinetic parameters $k = (k_1, k_2, k_3, k_4, k_5, [TrkA]_0, [Erk]_0, s)$. As the absolute concentrations of TrkA and Erk are unknown, this system is structurally non-identifiable. To circumvent this we reformulate the system in terms of $x_1 = [TrkA:NGF]/k_3$ and $x_2 = s[pErk]$, yielding the ODE model",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b009",
+      "kind": "text",
+      "bbox": [
+        205.0,
+        425.0,
+        392.0,
+        495.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n\\frac{dx_1}{dt} &= k_1[NGF]_0(k_3[TrkA]_0 - x_1) - k_2x_1\\\\\n\\frac{dx_2}{dt} &= (x_1 + k_4)(s[Erk]_0 - x_2) - k_5x_2\\\\\ny &= x_2.\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b010",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        501.0,
+        548.0,
+        536.0
+      ],
+      "markdown": "This ODE model merely depends on the products $s[Erk]_0$ and $k_3[TrkA]_0$ and not on the individual parameters $(s, [Erk]_0)$ and $(k_3, [TrkA]_0)$, respectively. Thus, we obtain the reduced vector of kinetic parameters $k = (k_1, k_2, k_4, k_5, k_3[TrkA]_0, s[Erk]_0)$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b011",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        541.0,
+        373.0,
+        552.0
+      ],
+      "markdown": "As initial condition we use the steady state of this system for $[NGF]_0 = 0$,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b012",
+      "kind": "text",
+      "bbox": [
+        248.0,
+        557.0,
+        349.0,
+        606.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\nx_1(0) &= 0\\\\\nx_2(0) &= \\frac{k_4(s[Erk]_0)}{k_4 + k_5}.\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0004-b013",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        618.0,
+        192.0,
+        626.0
+      ],
+      "markdown": "##### 3.1.3 Parameter estimation",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b014",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        639.0,
+        550.0,
+        675.0
+      ],
+      "markdown": "For the parameter estimation and model selection we constrained the kinetic parameter $k_i$ to the interval $[10^{-10}, 10^{10}]$. The subpopulation sizes $w_i$ have been constrained to $[0, 1]$. Standard deviations of normal distributions and shape parameters of log-normal distributions were constrained to $[10^{-1}, 10^{2}]$ and $[10^{-1}, 10^{1}]$, respectively.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b015",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        681.0,
+        548.0,
+        715.0
+      ],
+      "markdown": "Maximum likelihood estimates and profile likelihood derived confidence intervals are provided in Table 2-4. For the best two models, ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>, profile likelihoods and their local approximations are depicted in Supplement Figures 1 and 2.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b016",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        735.0,
+        184.0,
+        747.0
+      ],
+      "markdown": "#### 3.2 Pathway model B",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0004-b017",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        759.0,
+        548.0,
+        781.0
+      ],
+      "markdown": "The pathway model B is more detailed than pathway model A and accounts for the protein amplification cascade from TrkA to Erk via Ras, Raf and Mek.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0004-b018",
+      "kind": "omit",
+      "bbox": [
+        295.0,
+        801.0,
+        301.0,
+        808.0
+      ],
+      "markdown": "4",
+      "source_class": "page-footer",
+      "reason": "Running page number \"4\" centred in the bottom margin; confirmed against the page preview."
+    }
+  ]
+}

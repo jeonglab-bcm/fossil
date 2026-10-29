@@ -1,0 +1,322 @@
+{
+  "page": 11,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0011.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview, a 3x render of the rotated Table 2 (rotated 90 degrees on the page, left half) and 3x crops of the right column. p0011-b004 continues p0010-b006 (\"...a negative | feedback\"), join_previous=space. Table 2 (title caption p0011-b001, CSV table p0011-b003, footnote p0011-b002) is placed after the first paragraph (paragraph boundary) so it does not interrupt prose. Table 2 transcribed cell by cell from the render (9 models x 11 columns) and cross-checked against the publisher table XML: text layer had minus signs as \"2\" (e.g. \"25.2890\" is -5.2890) and \">10\" as \".10\"; corrected to the printed \"−5.2890\" and \">10\". Empty top-left header cell is blank in the source. Model names written ℳ_H1,1 etc. in CSV; [Erk]_0/[TrkA]_0 mean subscript 0. Restored \"non-identifiable\" and \"2-dimensional\" (compound hyphens lost at line breaks), italic \"Materials and Methods\", ℳ<sub>H3,3</sub>. Split run-in title into \"#### Validation of subpopulation structure\" (JATS level-3 sec). Footnote math restored: Δ<sub>BIC</sub> = BIC<sub>i</sub> − BIC<sub>opt</sub> > 10. Furniture omitted.",
+  "warnings": [
+    "Review possible header/footer: p0011-b000",
+    "Review possible header/footer: p0011-b010",
+    "Review possible header/footer: p0011-b011"
+  ],
+  "items": [
+    {
+      "id": "p0011-b004",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        110.0
+      ],
+      "markdown": "feedback, two key features of the NGF-induced Erk1/2 activation pathway. These models are therefore more flexible and possess a larger number of unknown parameters. For details on the models and their mathematical descriptions we refer to the Supporting Information S1.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0011-b001",
+      "kind": "caption",
+      "bbox": [
+        65.0,
+        288.0,
+        76.0,
+        726.0
+      ],
+      "markdown": "**Table 2.** Parameter estimation and model selection results for NGF-induced Erk1/2 signalling (pathway model A).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b003",
+      "kind": "table",
+      "bbox": [
+        91.0,
+        55.0,
+        238.0,
+        727.0
+      ],
+      "markdown": "",
+      "source_class": "table",
+      "label": "Table 2",
+      "asset_name": "table-2",
+      "rows": [
+        [
+          "",
+          "m",
+          "distribution",
+          "ODE const.",
+          "variability",
+          "# par.",
+          "ℓ(θ*)(10⁴)",
+          "BIC (10⁴)",
+          "rank",
+          "ΔBIC",
+          "decision"
+        ],
+        [
+          "ℳ_H1,1",
+          "1",
+          "normal",
+          "mean",
+          "-",
+          "17",
+          "−5.2890",
+          "10.5955",
+          "9",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H1,2",
+          "1",
+          "log-normal",
+          "mean",
+          "-",
+          "17",
+          "−3.7659",
+          "7.5495",
+          "6",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H1,3",
+          "1",
+          "log-normal",
+          "median",
+          "-",
+          "17",
+          "−3.7556",
+          "7.5288",
+          "5",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H2,1",
+          "2",
+          "normal",
+          "mean",
+          "[Erk]_0",
+          "30",
+          "−4.0348",
+          "8.1006",
+          "8",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H2,2",
+          "2",
+          "log-normal",
+          "mean",
+          "[Erk]_0",
+          "30",
+          "−3.6482",
+          "7.3274",
+          "4",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H2,3",
+          "2",
+          "log-normal",
+          "median",
+          "[Erk]_0",
+          "30",
+          "−3.6262",
+          "7.2835",
+          "3",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H3,1",
+          "2",
+          "normal",
+          "mean",
+          "[TrkA]_0",
+          "30",
+          "−3.9846",
+          "8.0002",
+          "7",
+          ">10",
+          "rejected"
+        ],
+        [
+          "ℳ_H3,2",
+          "2",
+          "log-normal",
+          "mean",
+          "[TrkA]_0",
+          "30",
+          "−3.5847",
+          "7.2003",
+          "2",
+          "2.189",
+          "not rejected"
+        ],
+        [
+          "ℳ_H3,3",
+          "2",
+          "log-normal",
+          "median",
+          "[TrkA]_0",
+          "30",
+          "−3.5846",
+          "7.2001",
+          "1",
+          "0",
+          "optimal"
+        ]
+      ]
+    },
+    {
+      "id": "p0011-b002",
+      "kind": "caption",
+      "bbox": [
+        243.0,
+        56.0,
+        286.0,
+        726.0
+      ],
+      "markdown": "For each biological hypothesis (H1: no subpopulations; H2: different levels of total Erk, [Erk]<sub>0</sub>; H3: different levels of total TrkA, [TrkA]<sub>0</sub>) three models, differing in the distribution assumption (normal vs. log-normal) and the ODE constrained properties (subpopulation mean vs. subpopulation median), have been specified and fitted to the experimental data using multi-start local optimisation (accuracy: 10 digits). For the model selection using the Bayesian information criterion (BIC) we found that H1 and H2 could be rejected according to [85] as Δ<sub>BIC</sub> = BIC<sub>i</sub> − BIC<sub>opt</sub> > 10. The subpopulations seemed to follow a log-normal distribution. The two models, ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>, which only differ in the ODE constrained property were acceptable. doi:10.1371/journal.pcbi.1003686.t002",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b005",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        114.0,
+        555.0,
+        260.0
+      ],
+      "markdown": "As for pathway model A, we carried out the parameter estimation and model selection for pathway models B and C (Supporting Information S1). Interestingly, for all pathway models we found the same ranking of subpopulation structures. Two subpopulations with different TrkA concentrations, log-normally distributed pErk levels and ODE-constrained subpopulation median (ℳ<sub>H3,3</sub>) were always preferred. Furthermore, our comparison of BIC values (Figure 5B) revealed that the influence of the pathway model on the BIC values is small in comparison with the influence of the subpopulation structure (H1–H3) and the distribution assumptions. This indicates that for an accurate description of the measurement data, the subpopulation structures is more important than a more detailed description of the signalling pathway.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b006",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        261.0,
+        555.0,
+        376.0
+      ],
+      "markdown": "The hypothesis testing using different pathway models supported our prediction that TrkA is the key source of cell-to-cell variability. Moreover, the maximum likelihood estimates for the size of the responsive subpopulations (Figure 5C) were consistent. For the kinetic parameters such a comparison was not possible as (i) the meaning of parameters differ between pathway models and (ii) many parameters of the pathway models B and C are non-identifiable. As for more detailed pathway models we expect that the parameter identifiability becomes even worse, we did not study the most detailed and sophisticated model for the NGF signalling pathway [58,59].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b007h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        377.0,
+        486.0,
+        386.0
+      ],
+      "markdown": "#### Validation of subpopulation structure"
+    },
+    {
+      "id": "p0011-b007",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        377.0,
+        555.0,
+        468.0
+      ],
+      "markdown": "To validate the ODE-MM derived prediction that subpopulations do not possess different Erk levels (H2) but different TrkA levels (H3), co-labelling experiments have been performed. In addition to Erk phosphorylation also total Erk is quantified using a second antibody. As both measurements provide only relative information the scales are not comparable. For details regarding the experiments, we refer to the section *Materials and Methods* in Supporting Information S1.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b008",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        472.0,
+        555.0,
+        628.0
+      ],
+      "markdown": "Figures 6A and B depict the distribution of pErk and total Erk levels observed under control conditions and after stimulation with 1 nM NGF for 30 minutes. As expected, cells with high total Erk levels tend to possess high pErk levels. The Pearson correlation is 0.895 for the control and 0.696 for the stimulation. The significant correlation decreases after NGF stimulation is caused by the appearance of a group of cells with high pErk signals. To analyse the NGF-induced response in more detail we fit a simple 2-dimensional mixture of normal distribution to the logarithmized data. Figure 6B shows the level sets of the two mixture components, which are denoted by subpopulations 1 and 2. By comparing Figures 6A and B we found that subpopulation 1 is similar to the control population. Hence, subpopulation 1 hardly responds to the NGF stimulation. In contrast, subpopulation 2 has a significantly increased average pErk level.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b009",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        630.0,
+        555.0,
+        734.0
+      ],
+      "markdown": "As subpopulations 1 and 2 have similar total Erk but different pErk distributions, total Erk is not the cause of the different activation potentials of the subpopulations. This verifies the rejection of hypothesis H2, which assumed a predominant role of the total Erk. The different activation potentials have to be caused by a further network compound such as TrkA. This partially validates hypothesis H3. However, the differences could in principle also be due to intermediate signalling components, such as Raf and Mek, which are not considered in the model. While a conclusive proof of H3 would require a simultaneous labelling of",
+      "source_class": "text"
+    },
+    {
+      "id": "p0011-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (short title \"ODE Constrained Mixture Modelling\") repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0011-b010",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer line \"PLOS Computational Biology | www.ploscompbiol.org\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0011-b011",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal issue footer \"July 2014 | Volume 10 | Issue 7 | e1003686\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0011-b012",
+      "kind": "omit",
+      "bbox": [
+        302.0,
+        754.0,
+        311.0,
+        761.0
+      ],
+      "markdown": "11",
+      "source_class": "page-footer",
+      "reason": "Page-number-only footer; verified in preview."
+    }
+  ]
+}

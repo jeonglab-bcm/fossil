@@ -1,0 +1,223 @@
+{
+  "s001-pcbi-1003686": [
+    {
+      "page": 1,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "a6073fa02edc03aba139ba933bfe37643ac4948286eab67434ed5ad5ff31baa1",
+      "reason": "Visible source prints 'Copyright: © 2014'; pypdf decodes the © glyph (AdvT377 font) as '/C223' and joins it to the year, giving token '2232014'; transcription '© 2014' matches the render."
+    },
+    {
+      "page": 2,
+      "check": "missing_lines",
+      "fingerprint": "6cecbc7d4adc0e8ab6c7015e7011ea1b69fd36882e657c7448e5cbdbcd4b7183",
+      "reason": "All 18 flagged lines are inline/display math in the Measurement data and Mixture models paragraphs (calligraphic D^e_k, t^e_k, u^e, y^e_j(t^e_k)∈R^{n_y}, Eq. (1), w_i≥0, Σ_{i=1}^m w_i=1, φ_i=(μ_i,Σ_i), ℓ(θ):=log p(D|θ), snapshots D); the symbol-font text layer garbles them (e.g. 'D~fDe kge,k', 'wi§0, with Pm'); the 4x render matches the LaTeX transcription term by term."
+    },
+    {
+      "page": 2,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "1bd81ed1019b2b086a7d18ae6a44558abd3d1c1117d577b8398b8d8c87fb0bd7",
+      "reason": "Tokens '18'/'19' come from pypdf decoding the large-parenthesis glyphs of the unnumbered ML display equation as '/C18/C19'; the render shows only big brackets there, and the remaining '19' ([14–19]) is in the transcription."
+    },
+    {
+      "page": 3,
+      "check": "missing_lines",
+      "fingerprint": "156b5081c6d15f3502f90928cc47d39a75fe55f43d56c7cdaccd79a96b791511",
+      "reason": "All 6 flagged lines are Eq. (2) and the following symbol definitions (ẋ_i=f(x_i,ξ_i,u), x_i(0)=x_0(ξ_i,u), x_i(t)∈R_+^{n_x}, ξ_i∈R_+^{n_ξ}, u(t)∈R^{n_u}); the text layer flattens the dot, Greek letters, ∈ and subscript '+' to '_xi~f', 'ji', '[Rnx', 'z'; the render matches the LaTeX transcription."
+    },
+    {
+      "page": 4,
+      "check": "missing_lines",
+      "fingerprint": "656a115ea147a086011b2d7640065d7a279cf30801137acf4711f9c6a2426958",
+      "reason": "All 40 flagged lines are inline/display math on page 4 (ξ_i=(k_0,k_i), k_i≠k_j, Eqs. (3)-(6), p(y|φ_i)=N(y|μ_i,Σ_i), μ_i(t,u), Σ_i, θ={(w_i,ξ_i,Σ_i)}, φ_i=h(x_i,ξ_i,u), ν_i, D^e_k, ℓ(θ), θ^*); the symbol-font layer gives 'ji', 'mi', 'Si', 'Qi', 'h', '~'; 4x renders of both columns match the LaTeX transcription term by term."
+    },
+    {
+      "page": 4,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "ecd8655eab6b30432d9c094a3ea397fe22da3fe7e47603af923a7d642a227fdc",
+      "reason": "pypdf reads the θ* asterisk as '/C3' (token '3') and the big delimiters of Eq. (6) as '/C16/C17/C18/C19' (tokens 16-19); the render shows θ^* and large brackets only, which the transcription has."
+    },
+    {
+      "page": 5,
+      "check": "missing_lines",
+      "fingerprint": "a3bd5a35b0df2a444e9e670fc5e371a3c0442ecd0ae732da4fe8612d293ccc81",
+      "reason": "Flagged lines are the R1-R3 reaction list, the d[A]/dt, d[B]/dt RRE, '[A]+[B] being constant', '[A]+[B], equal to one ... u(t)=1' and 'for t>0'; the text layer encodes brackets as '½…\\x03', '+' as 'z', '−' as '{', '=' as '~' and '>' as 'w'; the 4x render matches the transcription."
+    },
+    {
+      "page": 5,
+      "check": "number_differences",
+      "fingerprint": "c21eca440294274925c48d25457f267f1a4d32706b092e730cfb90d8435feab9",
+      "reason": "Visible source prints measurement times 't=0, 0.1, 0.2, 0.3, 0.5 and 1.0'; the text layer encodes the decimal point as ':' ('0:1 … 1:0'), splitting them into integers; transcription '0.1, 0.2, 0.3, 0.5 and 1.0' matches the render."
+    },
+    {
+      "page": 5,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "8145421a2700e98f7169e61dcefe3db9856eea9c17717131d1aa86379b06cb1a",
+      "reason": "Same decimal-point-as-colon split of '0.1 … 1.0' as the primary check, plus 13 tokens '138' where pypdf decodes the closing-bracket glyph of [A]/[B] as '/C138'; render shows ordinary ']' brackets, transcribed as such."
+    },
+    {
+      "page": 6,
+      "check": "missing_lines",
+      "fingerprint": "2b287709a9783e23e6b3116fb3dfc57bbb5add189f831b93df34afa0fc064723",
+      "reason": "Flagged lines are the bracket ranges [0,1], [10^{-6},10^{4}], [10^{-2.5},10^{2.5}], 'concentrations of [B]', y=s[pErk], [pErk], and the five-reaction list R1-R5 of pathway model A; the text layer garbles brackets, arrows and superscripts ('½10{6,104\\x03', 'TrkAzNGF?TrkA : NGF'); the 4x render matches the transcription."
+    },
+    {
+      "page": 6,
+      "check": "number_differences",
+      "fingerprint": "6def97a3e31f631af01fb90dc74b7bc3206d639f209bdb2c995c4ed3dd25b13d",
+      "reason": "Visible source prints [10^{-6},10^{4}], [10^{-2.5},10^{2.5}] with superscripts and 'factor of ∼1.6'; the text layer flattens the exponents to '½10{6,104' / '10{2:5,102:5' and the decimal to '1:6'; transcription $[10^{-6},10^{4}]$, $[10^{-2.5},10^{2.5}]$ and ∼1.6 matches the render."
+    },
+    {
+      "page": 6,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "5219129729854cd5d8f87b884a258681deda2e44528328b6b318f885649a9c69",
+      "reason": "Same superscript and '1:6' flattening as the primary check, plus 13 tokens '138' from pypdf decoding the closing-bracket glyph in [B], [pErk], [TrkA:NGF] etc. as '/C138'; render shows ']' brackets as transcribed."
+    },
+    {
+      "page": 7,
+      "check": "missing_lines",
+      "fingerprint": "fe1bfec7862b03763a0626eb139702f40136af2ee0e6f2d2b8ef0e8078f5d307",
+      "reason": "The three flagged lines are the mass-conservation equations [TrkA]+[TrkA:NGF]=[TrkA]_0, [NGF]+[TrkA:NGF]=[NGF]_0, [Erk]+[pErk]=[Erk]_0; text layer encodes brackets/operators as '½…\\x03', 'z', '~'; the 4x render matches the transcription."
+    },
+    {
+      "page": 7,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "9372b5fc50ccd9cc97ee519aab8f6b54acd607fae2669368b67275e6db6d1722",
+      "reason": "All 9 tokens '138' are pypdf's '/C138' decoding of the closing bracket in the three mass-conservation equations; render shows ordinary ']' brackets, transcribed as such."
+    },
+    {
+      "page": 8,
+      "check": "missing_lines",
+      "fingerprint": "5c69f8e87cb937a0b802b0c30838721c4f7c35c34ebac47a256c7d86fc506a70",
+      "reason": "All 20 flagged lines are the d[TrkA:NGF]/dt, d[pErk]/dt and reduced x1/x2 RRE systems, parameter vectors k=(…), [NGF]_0≫[TrkA]_0, [Erk]_{0,i}/[TrkA]_{0,i} in H2/H3, and 'NGF concentration >1 nM'; the text layer garbles brackets, '−', '+', '≫' and '>' ('½NGF\\x030&', 'w1 nM'); 4x renders match the transcription term by term."
+    },
+    {
+      "page": 8,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "bff099eeb953f9e9d1ae4f48b320b2089ff981f358e37290a6c9da84df25d902",
+      "reason": "All 28 tokens '138' are pypdf's '/C138' decoding of the closing-bracket glyph in [TrkA:NGF], [pErk], [Erk]_0 etc.; render shows ordinary ']' brackets, transcribed as such."
+    },
+    {
+      "page": 9,
+      "check": "missing_lines",
+      "fingerprint": "22b7845b5d57d04f3230d059acc0c6f0e250c52664c42b1432625bc91099b218",
+      "reason": "Page 9 is rotated Table 1; flagged lines are the 'ℓ(θ*)(10^4)'/'(10^3)' and 'Δ_BIC' headers, the BIC column and the Δ_BIC footnote; text layer prints minus as '2' ('21.9534' = −1.9534, '213.831' = −13.831), flattens superscripts and Δ to 'D'; rotated 3x renders of both scenario blocks match every CSV cell and the footnote LaTeX."
+    },
+    {
+      "page": 9,
+      "check": "number_differences",
+      "fingerprint": "ea0f3176b24dc98366eb6f2e207a98ee0bb664f0390ef148c7d2fb420d8d8647",
+      "reason": "Rotated Table 1 render shows BIC values −1.9534 … −13.894 and headers ℓ(θ*)(10^4)/BIC (10^4) (scenario 2: 10^3); text layer encodes '−' as '2' and flattens 10^4/10^3 to '104'/'103'; extra '1'/'2' come from the CSV's repeated Scenario 1/2 column and combined headers; all 24 rows match the CSV."
+    },
+    {
+      "page": 9,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "68d5e2d66b402d7c31214a4997fe374ca1a31e3973ab26fb55bd898114b146a3",
+      "reason": "Same minus-as-'2' and flattened 10^4/10^3 headers as the primary check; pypdf also reads the θ* asterisk as '/C3' and ΔBIC '>10' as '.10'; rotated render matches the CSV values, extra '1'/'2' are the CSV's repeated Scenario column."
+    },
+    {
+      "page": 11,
+      "check": "missing_lines",
+      "fingerprint": "f0946d3cf8cc198a30a7635e166b276c6d2a0cc69817f880ca5d56a691c4bf13",
+      "reason": "Flagged lines are rotated Table 2's ℓ(θ*)(10^4) and Δ_BIC headers, the nine ℓ(θ*) values printed −5.2890 … −3.5846 (text layer '25.2890' etc., minus as '2'), and two footnote lines with [Erk]_0, [TrkA]_0 and Δ_BIC=BIC_i−BIC_opt>10; rotated 3x render matches the CSV and footnote."
+    },
+    {
+      "page": 11,
+      "check": "number_differences",
+      "fingerprint": "425ab0fc9497a58f7273e5e4629fb87618bf5216cff222909f8d75047c644a04",
+      "reason": "Rotated Table 2 render prints ℓ(θ*) values −5.2890, −3.7659, −3.7556, −4.0348, −3.6482, −3.6262, −3.9846, −3.5847, −3.5846 and headers (10^4); text layer reads minus as '2' and 10^4 as '104'; CSV stores U+2212 values and 10⁴, matching the render."
+    },
+    {
+      "page": 11,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "5a2972d098d2ee03cfcbcb868752424f3722faa65e124919835e05b09a7069c9",
+      "reason": "Same minus-as-'2' and flattened (10^4) headers as the primary check; pypdf additionally reads θ* as 'h/C3' and the bracket glyph in footnote [Erk]_0/[TrkA]_0 as '/C138'; rotated render matches the CSV and footnote."
+    },
+    {
+      "page": 14,
+      "check": "missing_lines",
+      "fingerprint": "44a9616e8a3208b967dca4925ccda4955d68016318c007de9bc21904b9fe38cf",
+      "reason": "Flagged Figure 6 caption line prints 's_1[pErk], and total Erk levels, s_2([Erk]+[pErk])'; text layer garbles brackets and '+' ('s1½pErk\\x03', 'z'); the 4x render matches the caption transcription *s*<sub>1</sub>[pErk] … *s*<sub>2</sub>([Erk] + [pErk])."
+    },
+    {
+      "page": 14,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "d4aac75aed49013f589a0462d6a4bea5e411cdfc2ad6fec66c6e6c925d30d4ae",
+      "reason": "The three tokens '138' are pypdf's '/C138' decoding of the closing brackets in the Figure 6 caption's s_1[pErk] and s_2([Erk]+[pErk]); render shows ']' brackets as transcribed."
+    },
+    {
+      "page": 15,
+      "check": "missing_lines",
+      "fingerprint": "f8d52808b3424c244eb62120bdd41b5ae13533de083406244a0763d33a822f9f",
+      "reason": "Reference 12 visibly prints 'Špidlen J' with a caron; text layer stores it as 'S' plus spacing caron 'ˇ', which survives normalization; transcription 'Špidlen' matches the render."
+    }
+  ],
+  "s002-pcbi-1003686-s002": [
+    {
+      "page": 4,
+      "check": "missing_lines",
+      "fingerprint": "c6b40d717cead18223993f71f9f88cd8ab7ff93fabb64516db5809fdcf67e92e",
+      "reason": "Flagged line is the numerator of x_2(0)=k_4(s[Erk]_0)/(k_4+k_5); the render shows a stacked fraction, transcribed as \\frac{k_4(s[Erk]_0)}{k_4 + k_5}, so the inserted '\\frac' breaks the normalized line match only."
+    },
+    {
+      "page": 4,
+      "check": "number_differences",
+      "fingerprint": "5004b812fe02870fcdb6529dc25c12309bd308c96ef8f2ca37cc3d5506cacf24",
+      "reason": "Visible source prints [10^{-10}, 10^{10}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−10, 1010', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 4,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "5004b812fe02870fcdb6529dc25c12309bd308c96ef8f2ca37cc3d5506cacf24",
+      "reason": "Visible source prints [10^{-10}, 10^{10}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−10, 1010', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 6,
+      "check": "missing_lines",
+      "fingerprint": "22d09ec6850c77c68b7ba66b0d0795fceb7bac2fb26b0db689b7ce1ee079ce4b",
+      "reason": "Flagged lines are the stacked-fraction numerators of x_2(0)…x_5(0) and the Hill-type R3 rate k_3[TrkA:NGF][Ras:GDP]K_3^n/(K_3^n+[pErk]^n); the render shows these as fractions with superscripts, transcribed term by term as \\frac{…}{…} LaTeX."
+    },
+    {
+      "page": 6,
+      "check": "number_differences",
+      "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+      "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 6,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+      "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 7,
+      "check": "missing_lines",
+      "fingerprint": "6a5af29944f20af41e1af451d37357f5292b823a928ee4828b490f3568bcf3ff",
+      "reason": "Flagged lines are the Hill-term fractions in d[Ras:GTP]/dt ('(k_3[TrkA:NGF]K_3^n' over 'K_3^n+[pErk]^n', with the unclosed parenthesis as printed) and dx_2/dt ('(sK_3)^n + x_5^n' denominator); render shows stacked fractions, transcribed as \\frac LaTeX term by term."
+    },
+    {
+      "page": 7,
+      "check": "number_differences",
+      "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+      "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 7,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+      "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+    },
+    {
+      "page": 9,
+      "check": "number_differences",
+      "fingerprint": "23852cec9fc8656ed30d0bc5cb46581e17847e9edb60491dbaa5d87b5dfdc581",
+      "reason": "Supplement Table 1 prints three blocks (pathway models A, B, C), each with headers ℓ(θ*)(10^4) and BIC (10^4); text layer flattens to '104' six times while the merged CSV has one header row (10^4); all 27 data rows match the 3x renders."
+    },
+    {
+      "page": 9,
+      "check": "independent_parser_number_differences",
+      "fingerprint": "23852cec9fc8656ed30d0bc5cb46581e17847e9edb60491dbaa5d87b5dfdc581",
+      "reason": "Supplement Table 1 prints three blocks each headed ℓ(θ*)(10^4) and BIC (10^4); pypdf flattens to '104' six times while the merged CSV has a single (10^4) header row; all 27 data rows match the 3x renders."
+    }
+  ],
+  "real_errors": []
+}

@@ -1,0 +1,180 @@
+{
+  "page": 14,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0014.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview, bbox overlay and a 4x crop of the Figure 6 caption. p0014-b001 ends the Results paragraph begun at p0013-b004 (join_previous=space; valid in default order). Figure 6 + caption are placed right after it, before \"## Discussion\", so they stay with Results and do not interrupt the Discussion paragraph that continues onto page 15 (p0014-b007 -> p0015-b001). p0014-b005 continues p0014-b004 across columns (join_previous=space). Heading level changed to \"## Discussion\". Line-break hyphens (mech-anistic, phosphory-lation, heteroge-neous, uncertain-ty) correctly removed by extraction; prose checked against evidence lines. Caption: \"n~3\" -> \"n = 3\", \"s1½pErk�\" -> s<sub>1</sub>[pErk], \"s2(½Erk�z½pErk�)\" -> s<sub>2</sub>([Erk] + [pErk]); source typo \"1 nM NFG\" kept as printed. Figure 6 bbox encloses panels A and B.",
+  "warnings": [
+    "Review possible header/footer: p0014-b000",
+    "Review possible header/footer: p0014-b010",
+    "Review possible header/footer: p0014-b011"
+  ],
+  "items": [
+    {
+      "id": "p0014-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        81.0
+      ],
+      "markdown": "cell-to-cell variability and validated this explanation partially using new experimental data.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0014-b008",
+      "kind": "figure",
+      "bbox": [
+        53.0,
+        422.0,
+        549.0,
+        673.0
+      ],
+      "markdown": "",
+      "source_class": "picture",
+      "label": "Figure 6",
+      "asset_name": "figure-6"
+    },
+    {
+      "id": "p0014-b009",
+      "kind": "caption",
+      "bbox": [
+        58.0,
+        680.0,
+        555.0,
+        733.0
+      ],
+      "markdown": "**Figure 6. Two-dimensional analysis of Erk and pErk levels.** Joint distribution of pErk levels and total Erk levels under (A) control conditions and after (B) stimulation with 1 nM NFG for 30 minutes, along with the corresponding histograms (pooled data of *n* = 3 biological replicates, 4134 cells). Measured pErk levels, *s*<sub>1</sub>[pErk], and total Erk levels, *s*<sub>2</sub>([Erk] + [pErk]), are in arbitrary units of intensity. (B) Data measured after stimulation with 1 nM NGF have been fitted with a 2-component normal mixture model, of which the level set and the components weights are depicted. Using the mixture model the measured cells are assigned to the subpopulations and the corresponding contribution to the histogram are colour-coded. doi:10.1371/journal.pcbi.1003686.g006",
+      "source_class": "caption"
+    },
+    {
+      "id": "p0014-b002",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        95.0,
+        110.0,
+        104.0
+      ],
+      "markdown": "## Discussion",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0014-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        113.0,
+        298.0,
+        346.0
+      ],
+      "markdown": "Most multicellular organisms and microbial colonies consist of subpopulations with distinct biological functions. A study of mechanistic differences between these subpopulations and their functions is crucial for a holistic understanding of such complex biological systems. In this work, we introduced ODE constrained mixture models, a novel class of data analysis tools which can help to detect subpopulations and to analyse differences between them using population snapshot data. A simulation example illustrates that ODE-MMs possess a higher sensitivity than classical mixture models and ODE models, which originates from the simultaneous exploitation of distribution information and dependencies between experimental conditions. Furthermore, ODE-MMs provide mechanistic insights, e.g., estimates for kinetic parameters and abundance differences between subpopulations. In contrast to population models relying on a stochastic description of the individual cell [62–64] or ensemble models with parameter distributions [65,66], which can in principle also be used to analyse systems with different subpopulations, the computation time is significantly reduced. Furthermore, ODE-MMs are easily applicable as they merely rely on ODE models, for which numerical simulation as well as parameter estimation is well established [33].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0014-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        348.0,
+        298.0,
+        410.0
+      ],
+      "markdown": "To assess and illustrate the properties of ODE-MMs, we studied the response of primary sensory neurones to NGF stimulation. Therefore, we considered single-cell data for Erk1/2 phosphorylation levels collected by quantitative automated microscopy (QuAM) [13,18]. Using these data we performed model selection and found that the cell population consists of two subpopulations",
+      "source_class": "text"
+    },
+    {
+      "id": "p0014-b005",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        208.0
+      ],
+      "markdown": "with different abundances of the NGF receptor TrkA. The responsive subpopulation with high TrkA levels constituted 30% of the overall population. By performing co-labelling experiments in which pErk1/2 and total Erk1/2 have been measured, we validated the existence of two subpopulations and found strong indications that TrkA is the causal factor for the population split. Thus, ODE-MMs enabled the inference of the population structure using only measurement of pErk1/2. Even the estimated size of the subpopulation with high TrkA expression was consistent with the newly collected as well as the literature data. This implies that ODE-MMs have the potential to significantly reduce the number of different measurements required to analyse heterogeneous populations and are even capable of predicting causal factors for the population split which have not been observed.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0014-b006",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        210.0,
+        555.0,
+        356.0
+      ],
+      "markdown": "Beyond insights in subpopulation substructures, ODE-MM can improve estimates of kinetic parameters. This has been revealed by a profile likelihoods based uncertainty analysis of ODE-MMs for NGF-induced Erk1/2 phosphorylation. We found that kinetic parameters of ODE-MMs with two subpopulations are better identifiable than kinetic parameters of ODE-MMs without subpopulation structure. In many situations additional model complexity and an increased number of parameters results in increased parameter uncertainty. This is however not the case if the more complex model can exploit additional features of the data. In this case the data are effectively more informative for a more complex model resulting in a reduced parameter uncertainty. We are not aware of papers which reported this generic observation.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0014-b007",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        359.0,
+        555.0,
+        411.0
+      ],
+      "markdown": "For our analysis of NGF-induced Erk1/2 phosphorylation we considered three pathway models. While these models consider key network motifs, such as an amplification cascade and a negative feedback loop, they are simple compared to the most detailed models (see [56–60] and references therein). These more",
+      "source_class": "text"
+    },
+    {
+      "id": "p0014-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (short title \"ODE Constrained Mixture Modelling\") repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0014-b010",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer line \"PLOS Computational Biology | www.ploscompbiol.org\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0014-b011",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal issue footer \"July 2014 | Volume 10 | Issue 7 | e1003686\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0014-b012",
+      "kind": "omit",
+      "bbox": [
+        302.0,
+        754.0,
+        311.0,
+        761.0
+      ],
+      "markdown": "14",
+      "source_class": "page-footer",
+      "reason": "Page-number-only footer; verified in preview."
+    }
+  ]
+}

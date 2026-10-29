@@ -1,0 +1,71 @@
+{
+ "schema_version": 1,
+ "entries": [
+  {
+   "page": 4,
+   "check": "missing_lines",
+   "fingerprint": "c6b40d717cead18223993f71f9f88cd8ab7ff93fabb64516db5809fdcf67e92e",
+   "reason": "Flagged line is the numerator of x_2(0)=k_4(s[Erk]_0)/(k_4+k_5); the render shows a stacked fraction, transcribed as \\frac{k_4(s[Erk]_0)}{k_4 + k_5}, so the inserted '\\frac' breaks the normalized line match only."
+  },
+  {
+   "page": 4,
+   "check": "number_differences",
+   "fingerprint": "5004b812fe02870fcdb6529dc25c12309bd308c96ef8f2ca37cc3d5506cacf24",
+   "reason": "Visible source prints [10^{-10}, 10^{10}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−10, 1010', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 4,
+   "check": "independent_parser_number_differences",
+   "fingerprint": "5004b812fe02870fcdb6529dc25c12309bd308c96ef8f2ca37cc3d5506cacf24",
+   "reason": "Visible source prints [10^{-10}, 10^{10}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−10, 1010', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 6,
+   "check": "missing_lines",
+   "fingerprint": "22d09ec6850c77c68b7ba66b0d0795fceb7bac2fb26b0db689b7ce1ee079ce4b",
+   "reason": "Flagged lines are the stacked-fraction numerators of x_2(0)…x_5(0) and the Hill-type R3 rate k_3[TrkA:NGF][Ras:GDP]K_3^n/(K_3^n+[pErk]^n); the render shows these as fractions with superscripts, transcribed term by term as \\frac{…}{…} LaTeX."
+  },
+  {
+   "page": 6,
+   "check": "number_differences",
+   "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+   "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 6,
+   "check": "independent_parser_number_differences",
+   "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+   "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 7,
+   "check": "missing_lines",
+   "fingerprint": "6a5af29944f20af41e1af451d37357f5292b823a928ee4828b490f3568bcf3ff",
+   "reason": "Flagged lines are the Hill-term fractions in d[Ras:GTP]/dt ('(k_3[TrkA:NGF]K_3^n' over 'K_3^n+[pErk]^n', with the unclosed parenthesis as printed) and dx_2/dt ('(sK_3)^n + x_5^n' denominator); render shows stacked fractions, transcribed as \\frac LaTeX term by term."
+  },
+  {
+   "page": 7,
+   "check": "number_differences",
+   "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+   "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; text layer flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 7,
+   "check": "independent_parser_number_differences",
+   "fingerprint": "da3e7005a08c51f887e161688b2f7267091f6fdd58f7e6675b9360e1e3da590d",
+   "reason": "Visible source prints [10^{-3}, 10^{3}], [10^{-1}, 10^{2}] and [10^{-1}, 10^{1}] with superscripts; pypdf flattens them to '10−3, 103', '102', '101'; LaTeX transcription matches the render."
+  },
+  {
+   "page": 9,
+   "check": "number_differences",
+   "fingerprint": "23852cec9fc8656ed30d0bc5cb46581e17847e9edb60491dbaa5d87b5dfdc581",
+   "reason": "Supplement Table 1 prints three blocks (pathway models A, B, C), each with headers ℓ(θ*)(10^4) and BIC (10^4); text layer flattens to '104' six times while the merged CSV has one header row (10^4); all 27 data rows match the 3x renders."
+  },
+  {
+   "page": 9,
+   "check": "independent_parser_number_differences",
+   "fingerprint": "23852cec9fc8656ed30d0bc5cb46581e17847e9edb60491dbaa5d87b5dfdc581",
+   "reason": "Supplement Table 1 prints three blocks each headed ℓ(θ*)(10^4) and BIC (10^4); pypdf flattens to '104' six times while the merged CSV has a single (10^4) header row; all 27 data rows match the 3x renders."
+  }
+ ]
+}

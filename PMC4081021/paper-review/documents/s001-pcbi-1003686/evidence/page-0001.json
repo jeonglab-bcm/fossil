@@ -1,0 +1,1542 @@
+{
+  "page": 1,
+  "lines": [
+    {
+      "text": "ODE Constrained Mixture Modelling: A Method for",
+      "bbox": [
+        58.05350112915039,
+        57.56964874267578,
+        507.0084228515625,
+        75.86107635498047
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Unraveling Subpopulation Structures and Dynamics",
+      "bbox": [
+        58.05350112915039,
+        79.50940704345703,
+        516.6622314453125,
+        97.80083465576172
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Jan Hasenauer1,2*, Christine Hasenauer3, Tim Hucho3,4, Fabian J. Theis1,2",
+      "bbox": [
+        58.05350112915039,
+        108.40415954589844,
+        410.2252197265625,
+        119.6832275390625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "1 Institute of Computational Biology, Helmholtz Center Munich, Munich, Germany, 2 Division of Mathematical Modeling of Biological Systems, Department of",
+      "bbox": [
+        58.05350112915039,
+        126.53440856933594,
+        554.19775390625,
+        132.99911499023438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Mathematics, University of Technology Munich, Munich, Germany, 3 Max Planck Institute for Molecular Genetics, Berlin, Germany, 4 Division of Experimental",
+      "bbox": [
+        58.053466796875,
+        136.45530700683594,
+        554.1187744140625,
+        142.92001342773438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Anesthesiology and Pain Research, Department of Anesthesiology and Intensive Care Medicine, University Hospital Cologne, Cologne, Germany",
+      "bbox": [
+        58.053497314453125,
+        146.47523498535156,
+        486.2452087402344,
+        152.87718200683594
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Abstract",
+      "bbox": [
+        73.81420135498047,
+        174.51087951660156,
+        114.33209991455078,
+        183.7462158203125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Functional cell-to-cell variability is ubiquitous in multicellular organisms as well as bacterial populations. Even genetically",
+      "bbox": [
+        73.81420135498047,
+        190.18836975097656,
+        538.40771484375,
+        198.41943359375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "identical cells of the same cell type can respond differently to identical stimuli. Methods have been developed to analyse",
+      "bbox": [
+        73.81420135498047,
+        200.1660919189453,
+        538.4328002929688,
+        208.39715576171875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "heterogeneous populations, e.g., mixture models and stochastic population models. The available methods are, however,",
+      "bbox": [
+        73.81420135498047,
+        210.14381408691406,
+        538.4677734375,
+        218.3748779296875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "either incapable of simultaneously analysing different experimental conditions or are computationally demanding and",
+      "bbox": [
+        73.81420135498047,
+        220.0650177001953,
+        538.45068359375,
+        228.29608154296875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "difficult to apply. Furthermore, they do not account for biological information available in the literature. To overcome",
+      "bbox": [
+        73.81420135498047,
+        230.04273986816406,
+        538.4507446289062,
+        238.2738037109375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "disadvantages of existing methods, we combine mixture models and ordinary differential equation (ODE) models. The ODE",
+      "bbox": [
+        73.81420135498047,
+        240.0204620361328,
+        538.414794921875,
+        248.25152587890625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "models provide a mechanistic description of the underlying processes while mixture models provide an easy way to capture",
+      "bbox": [
+        73.81420135498047,
+        249.99818420410156,
+        538.4507446289062,
+        258.229248046875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "variability. In a simulation study, we show that the class of ODE constrained mixture models can unravel the subpopulation",
+      "bbox": [
+        73.81420135498047,
+        259.9194030761719,
+        538.4121704101562,
+        268.15045166015625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "structure and determine the sources of cell-to-cell variability. In addition, the method provides reliable estimates for kinetic",
+      "bbox": [
+        73.81420135498047,
+        269.8971252441406,
+        538.4660034179688,
+        278.128173828125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "rates and subpopulation characteristics. We use ODE constrained mixture modelling to study NGF-induced Erk1/2",
+      "bbox": [
+        73.81420135498047,
+        279.87481689453125,
+        538.4470825195312,
+        288.1058654785156
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "phosphorylation in primary sensory neurones, a process relevant in inflammatory and neuropathic pain. We propose a",
+      "bbox": [
+        73.81420135498047,
+        289.7960205078125,
+        538.4408569335938,
+        298.0270690917969
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "mechanistic pathway model for this process and reconstructed static and dynamical subpopulation characteristics across",
+      "bbox": [
+        73.81420135498047,
+        299.7737121582031,
+        538.4345092773438,
+        308.0047607421875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "experimental conditions. We validate the model predictions experimentally, which verifies the capabilities of ODE",
+      "bbox": [
+        73.81420135498047,
+        309.75140380859375,
+        538.4183959960938,
+        317.9824523925781
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "constrained mixture models. These results illustrate that ODE constrained mixture models can reveal novel mechanistic",
+      "bbox": [
+        73.81420135498047,
+        319.7290954589844,
+        538.4085693359375,
+        327.96014404296875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "insights and possess a high sensitivity.",
+      "bbox": [
+        73.81420135498047,
+        329.6502990722656,
+        221.21214294433594,
+        337.88134765625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Citation: Hasenauer J, Hasenauer C, Hucho T, Theis FJ (2014) ODE Constrained Mixture Modelling: A Method for Unraveling Subpopulation Structures and",
+      "bbox": [
+        66.55750274658203,
+        354.77996826171875,
+        538.7218017578125,
+        361.24468994140625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Dynamics. PLoS Comput Biol 10(7): e1003686. doi:10.1371/journal.pcbi.1003686",
+      "bbox": [
+        66.55751037597656,
+        362.75872802734375,
+        302.45477294921875,
+        369.1606750488281
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Editor: Jorg Stelling, ETH Zurich, Switzerland",
+      "bbox": [
+        66.55751037597656,
+        375.1894836425781,
+        201.93148803710938,
+        381.6542053222656
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Received December 18, 2013; Accepted May 9, 2014; Published July 3, 2014",
+      "bbox": [
+        66.55751037597656,
+        387.6621398925781,
+        305.3439636230469,
+        394.1268615722656
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Copyright: \u0002 2014 Hasenauer et al. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits",
+      "bbox": [
+        66.55751037597656,
+        400.0776062011719,
+        538.7078247070312,
+        406.5423278808594
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.",
+      "bbox": [
+        66.55751037597656,
+        408.11285400390625,
+        417.8964538574219,
+        414.5148010253906
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Funding: The authors would like to acknowledge financial support from the German Federal Ministry of Education and Research (BMBF) within the Virtual Liver",
+      "bbox": [
+        66.55751037597656,
+        420.4864501953125,
+        538.712646484375,
+        426.951171875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "project (Grant No. 0315766), LungSys II (Grant No. 0316042G), MoPS (Grant No. 0315449D) and NoPain (Grant No. 0316177A), and the European Union within the",
+      "bbox": [
+        66.55751037597656,
+        428.52239990234375,
+        538.7744140625,
+        434.9243469238281
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "ERC grant ‘‘LatentCauses.’’ The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.",
+      "bbox": [
+        66.5574951171875,
+        436.5157775878906,
+        517.0782470703125,
+        442.917724609375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Competing Interests: The authors have declared that no competing interests exist.",
+      "bbox": [
+        66.5574951171875,
+        448.8893737792969,
+        321.67376708984375,
+        455.3540954589844
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "* Email: jan.hasenauer@helmholtz-muenchen.de",
+      "bbox": [
+        66.5574951171875,
+        461.4039001464844,
+        208.8195037841797,
+        467.80584716796875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "This is a PLOS Computational Biology Methods article.",
+      "bbox": [
+        69.052001953125,
+        492.4186706542969,
+        259.32049560546875,
+        500.6407775878906
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Introduction",
+      "bbox": [
+        58.05350112915039,
+        515.1217651367188,
+        118.1698226928711,
+        524.3571166992188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Multi-cellular organisms are faced with diverse, ever changing",
+      "bbox": [
+        67.01100158691406,
+        533.0675048828125,
+        297.1249084472656,
+        541.28955078125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "environments. To ensure survival and evolutionary success,",
+      "bbox": [
+        58.05366897583008,
+        543.7257690429688,
+        297.1329345703125,
+        551.9478149414062
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "microbial systems exploit cell-to-cell variability originating from",
+      "bbox": [
+        58.05366897583008,
+        554.3839721679688,
+        297.1723937988281,
+        562.6060180664062
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "bet-hedging strategies which increase the robustness against",
+      "bbox": [
+        58.05366897583008,
+        565.0421752929688,
+        297.1822509765625,
+        573.2642211914062
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "environmental changes [1]. Such bet-hedging relies on the",
+      "bbox": [
+        58.05366897583008,
+        575.700439453125,
+        297.1876220703125,
+        583.9224853515625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "formation of cellular subpopulations with distinct phenotypes",
+      "bbox": [
+        58.05366897583008,
+        586.3587036132812,
+        297.1114501953125,
+        594.5807495117188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "and has been observed in the context of food source selection",
+      "bbox": [
+        58.05366897583008,
+        597.0169067382812,
+        297.1248474121094,
+        605.2389526367188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "[2] and cellular stress response [3]. More complex organisms,",
+      "bbox": [
+        58.05366897583008,
+        607.6751098632812,
+        297.1365661621094,
+        615.8971557617188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "such as mammals, evolved strategies to actively detect and",
+      "bbox": [
+        58.05366897583008,
+        618.3333740234375,
+        297.08270263671875,
+        626.555419921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "respond to environmental changes. The building blocks for the",
+      "bbox": [
+        58.05366897583008,
+        628.9916381835938,
+        297.18853759765625,
+        637.2136840820312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "necessary structures and functional units are cell types with",
+      "bbox": [
+        58.05366897583008,
+        639.6498413085938,
+        297.12396240234375,
+        647.8718872070312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "distinct properties [4]. These cell types, e.g., neurones and",
+      "bbox": [
+        58.05366897583008,
+        650.3080444335938,
+        297.0809631347656,
+        658.5300903320312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "immune cells, split up in further cellular subpopulations – cluster",
+      "bbox": [
+        58.05366897583008,
+        660.96630859375,
+        297.1059875488281,
+        669.1883544921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "of cells with similar properties – to allow for a fine-grained",
+      "bbox": [
+        58.05366897583008,
+        671.6245727539062,
+        297.0854187011719,
+        679.8466186523438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "recognition and tailored response. Due to the ubiquity of",
+      "bbox": [
+        58.05366897583008,
+        682.2827758789062,
+        297.1114501953125,
+        690.5048217773438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "structured population heterogeneity, the analysis of subpopula-",
+      "bbox": [
+        58.05366897583008,
+        692.9410400390625,
+        297.1445617675781,
+        701.1630859375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "tion characteristics and causal differences between subpopula-",
+      "bbox": [
+        58.05366897583008,
+        703.5993041992188,
+        297.07733154296875,
+        711.8213500976562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "tions",
+      "bbox": [
+        58.05366897583008,
+        714.2575073242188,
+        75.27255249023438,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "is",
+      "bbox": [
+        82.54421997070312,
+        714.2575073242188,
+        87.85406494140625,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "crucial",
+      "bbox": [
+        95.07283020019531,
+        714.2575073242188,
+        119.49614715576172,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "for",
+      "bbox": [
+        126.7077407836914,
+        714.2575073242188,
+        136.9490509033203,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "a",
+      "bbox": [
+        144.22520446777344,
+        714.2575073242188,
+        148.4214324951172,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "holistic",
+      "bbox": [
+        155.62046813964844,
+        714.2575073242188,
+        181.19326782226562,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "understanding",
+      "bbox": [
+        188.44610595703125,
+        714.2575073242188,
+        240.65956115722656,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "of",
+      "bbox": [
+        247.97247314453125,
+        714.2575073242188,
+        254.87652587890625,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "biological",
+      "bbox": [
+        262.1455078125,
+        714.2575073242188,
+        297.169677734375,
+        722.4795532226562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "processes.",
+      "bbox": [
+        58.05366897583008,
+        724.915771484375,
+        93.79962158203125,
+        733.1378173828125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Heterogeneous cell populations are usually investigated using",
+      "bbox": [
+        324.05780029296875,
+        491.9067077636719,
+        554.1923217773438,
+        500.1288146972656
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "molecular and cell-biological methods with single cell resolution.",
+      "bbox": [
+        315.1004638671875,
+        502.5084533691406,
+        554.2039794921875,
+        510.7305603027344
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Currently available methods include microscopy [5,6], flow",
+      "bbox": [
+        315.1004638671875,
+        513.1102294921875,
+        554.2048950195312,
+        521.332275390625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "cytometry [7], single-cell PCR [8–10] and single-cell mass",
+      "bbox": [
+        315.1004638671875,
+        523.7119750976562,
+        554.1788330078125,
+        531.9340209960938
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "spectrometry [11]. While some microscopy based approaches",
+      "bbox": [
+        315.1004638671875,
+        534.2572631835938,
+        554.1950073242188,
+        542.4793090820312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "provide possibly time-resolved data [5], most experimental",
+      "bbox": [
+        315.1004638671875,
+        544.8589477539062,
+        554.1761474609375,
+        553.0809936523438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "techniques do not allow for the tracking of individual cells but",
+      "bbox": [
+        315.1004638671875,
+        555.4607543945312,
+        554.1976928710938,
+        563.6828002929688
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "provide snapshots of the population. In this study, we considered",
+      "bbox": [
+        315.1004638671875,
+        566.0624389648438,
+        554.1734619140625,
+        574.2844848632812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "these snapshot data, which can provide information about cellular",
+      "bbox": [
+        315.1004638671875,
+        576.6642456054688,
+        554.1627807617188,
+        584.8862915039062
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "properties, such as protein expression and phosphorylation. An",
+      "bbox": [
+        315.1004638671875,
+        587.2659301757812,
+        554.227294921875,
+        595.4879760742188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "illustration of snapshot data is provided in Figures 1A and B.",
+      "bbox": [
+        315.1004638671875,
+        597.8677368164062,
+        539.8632202148438,
+        606.0897827148438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "The analysis of population snapshot data can be approached",
+      "bbox": [
+        324.05780029296875,
+        608.6962890625,
+        554.1707763671875,
+        616.9183349609375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "using a multitude of statistical methods, e.g., thresholding, density",
+      "bbox": [
+        315.1004638671875,
+        619.2980346679688,
+        554.167236328125,
+        627.5200805664062
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "based methods and mixture modelling. The selection of the",
+      "bbox": [
+        315.1004638671875,
+        629.8998413085938,
+        554.1752319335938,
+        638.1218872070312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "method is highly problem specific [12]. Thresholding methods are",
+      "bbox": [
+        315.1004638671875,
+        640.5015258789062,
+        554.2066040039062,
+        648.7235717773438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "the most commonly used tools to identify the size of a",
+      "bbox": [
+        315.1004638671875,
+        651.1033325195312,
+        554.1707763671875,
+        659.3253784179688
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "subpopulation, e.g., the size of a subpopulation expressing a",
+      "bbox": [
+        315.1004638671875,
+        661.6485595703125,
+        554.2254638671875,
+        669.87060546875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "particular marker [13]. Based on a control experiment a threshold",
+      "bbox": [
+        315.1004638671875,
+        672.2503051757812,
+        554.1940307617188,
+        680.4723510742188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "(or gate) is defined based on which cells are classified as marker",
+      "bbox": [
+        315.1004638671875,
+        682.85205078125,
+        554.2012939453125,
+        691.0740966796875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "positive or negative. While thresholding works in cases of clearly",
+      "bbox": [
+        315.1004638671875,
+        693.4537963867188,
+        554.183349609375,
+        701.6758422851562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "separated",
+      "bbox": [
+        315.1004638671875,
+        704.0556030273438,
+        349.51312255859375,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "subpopulations",
+      "bbox": [
+        357.052001953125,
+        704.0556030273438,
+        411.2532958984375,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "(Figure",
+      "bbox": [
+        418.78857421875,
+        704.0556030273438,
+        444.1632080078125,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "1A),",
+      "bbox": [
+        451.6697998046875,
+        704.0556030273438,
+        466.607666015625,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "it",
+      "bbox": [
+        474.11962890625,
+        704.0556030273438,
+        478.97039794921875,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "fails",
+      "bbox": [
+        486.4787902832031,
+        704.0556030273438,
+        500.4662170410156,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "for",
+      "bbox": [
+        507.9647216796875,
+        704.0556030273438,
+        518.1325073242188,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "strongly",
+      "bbox": [
+        525.5960693359375,
+        704.0556030273438,
+        554.144775390625,
+        712.2776489257812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "overlapping heterogeneous populations (Figure 1B) as no appro-",
+      "bbox": [
+        315.1004638671875,
+        714.6573486328125,
+        554.1959228515625,
+        722.87939453125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "priate threshold exists, resulting in large numbers of false positives",
+      "bbox": [
+        315.1004638671875,
+        725.2590942382812,
+        554.1859741210938,
+        733.4811401367188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "PLOS Computational Biology | www.ploscompbiol.org",
+      "bbox": [
+        58.05350112915039,
+        754.4796142578125,
+        243.41412353515625,
+        761.7962036132812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "1",
+      "bbox": [
+        304.0936584472656,
+        754.4796142578125,
+        308.158447265625,
+        761.7962036132812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "bbox": [
+        398.1475830078125,
+        754.4796142578125,
+        554.2893676757812,
+        761.7962036132812
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "layout": {
+    "metadata": {
+      "format": "PDF 1.7",
+      "title": "pcbi.1003686 1..17",
+      "author": "",
+      "subject": "",
+      "keywords": "",
+      "creator": "3B2 Total Publishing System 7.51n/W",
+      "producer": "Acrobat Distiller 9.0.0 (Windows); modified using iText 5.0.3 (c) 1T3XT BVBA",
+      "creationDate": "D:20140624131745+08'00'",
+      "modDate": "D:20140625084137-07'00'",
+      "trapped": "",
+      "encryption": null,
+      "file_path": "/Users/hyunhwanj/wss/fossil/PMC4081021/paper-review/documents/.pdf-skill-scan-115sxb1k/review/source.pdf",
+      "page_count": 17,
+      "page_number": 1
+    },
+    "toc_items": [],
+    "page_boxes": [
+      {
+        "index": 0,
+        "class": "section-header",
+        "bbox": [
+          58,
+          57,
+          517,
+          99
+        ],
+        "pos": [
+          0,
+          101
+        ]
+      },
+      {
+        "index": 1,
+        "class": "picture",
+        "bbox": [
+          565,
+          58,
+          603,
+          96
+        ],
+        "pos": [
+          101,
+          103
+        ]
+      },
+      {
+        "index": 2,
+        "class": "section-header",
+        "bbox": [
+          58,
+          108,
+          411,
+          119
+        ],
+        "pos": [
+          103,
+          229
+        ]
+      },
+      {
+        "index": 3,
+        "class": "text",
+        "bbox": [
+          58,
+          126,
+          555,
+          153
+        ],
+        "pos": [
+          229,
+          676
+        ]
+      },
+      {
+        "index": 4,
+        "class": "section-header",
+        "bbox": [
+          73,
+          174,
+          115,
+          182
+        ],
+        "pos": [
+          676,
+          690
+        ]
+      },
+      {
+        "index": 5,
+        "class": "text",
+        "bbox": [
+          73,
+          190,
+          539,
+          338
+        ],
+        "pos": [
+          690,
+          2406
+        ]
+      },
+      {
+        "index": 6,
+        "class": "text",
+        "bbox": [
+          66,
+          354,
+          539,
+          370
+        ],
+        "pos": [
+          2406,
+          2634
+        ]
+      },
+      {
+        "index": 7,
+        "class": "text",
+        "bbox": [
+          66,
+          375,
+          202,
+          382
+        ],
+        "pos": [
+          2634,
+          2683
+        ]
+      },
+      {
+        "index": 8,
+        "class": "text",
+        "bbox": [
+          66,
+          387,
+          306,
+          395
+        ],
+        "pos": [
+          2683,
+          2758
+        ]
+      },
+      {
+        "index": 9,
+        "class": "text",
+        "bbox": [
+          66,
+          400,
+          539,
+          415
+        ],
+        "pos": [
+          2758,
+          3031
+        ]
+      },
+      {
+        "index": 10,
+        "class": "text",
+        "bbox": [
+          66,
+          420,
+          539,
+          456
+        ],
+        "pos": [
+          3031,
+          3580
+        ]
+      },
+      {
+        "index": 11,
+        "class": "text",
+        "bbox": [
+          66,
+          461,
+          209,
+          468
+        ],
+        "pos": [
+          3580,
+          3627
+        ]
+      },
+      {
+        "index": 12,
+        "class": "text",
+        "bbox": [
+          69,
+          492,
+          260,
+          501
+        ],
+        "pos": [
+          3627,
+          3683
+        ]
+      },
+      {
+        "index": 13,
+        "class": "section-header",
+        "bbox": [
+          58,
+          515,
+          119,
+          523
+        ],
+        "pos": [
+          3683,
+          3701
+        ]
+      },
+      {
+        "index": 14,
+        "class": "text",
+        "bbox": [
+          58,
+          533,
+          298,
+          734
+        ],
+        "pos": [
+          3701,
+          4826
+        ]
+      },
+      {
+        "index": 15,
+        "class": "text",
+        "bbox": [
+          315,
+          491,
+          555,
+          607
+        ],
+        "pos": [
+          4826,
+          5515
+        ]
+      },
+      {
+        "index": 16,
+        "class": "text",
+        "bbox": [
+          315,
+          608,
+          555,
+          734
+        ],
+        "pos": [
+          5515,
+          6278
+        ]
+      },
+      {
+        "index": 17,
+        "class": "page-footer",
+        "bbox": [
+          58,
+          754,
+          244,
+          763
+        ],
+        "pos": [
+          6278,
+          6330
+        ]
+      },
+      {
+        "index": 18,
+        "class": "page-footer",
+        "bbox": [
+          398,
+          754,
+          555,
+          763
+        ],
+        "pos": [
+          6330,
+          6375
+        ]
+      },
+      {
+        "index": 19,
+        "class": "page-footer",
+        "bbox": [
+          304,
+          754,
+          309,
+          761
+        ],
+        "pos": [
+          6375,
+          6379
+        ]
+      }
+    ],
+    "text": "# ODE Constrained Mixture Modelling: A Method for Unraveling Subpopulation Structures and Dynamics \n\n\n\n## Jan Hasenauer<sup>1,2</sup> *, Christine Hasenauer<sup>3</sup> , Tim Hucho<sup>3,4</sup> , Fabian J. Theis<sup>1,2</sup> \n\n1 Institute of Computational Biology, Helmholtz Center Munich, Munich, Germany, 2 Division of Mathematical Modeling of Biological Systems, Department of Mathematics, University of Technology Munich, Munich, Germany, 3 Max Planck Institute for Molecular Genetics, Berlin, Germany, 4 Division of Experimental Anesthesiology and Pain Research, Department of Anesthesiology and Intensive Care Medicine, University Hospital Cologne, Cologne, Germany \n\n## Abstract \n\nFunctional cell-to-cell variability is ubiquitous in multicellular organisms as well as bacterial populations. Even genetically identical cells of the same cell type can respond differently to identical stimuli. Methods have been developed to analyse heterogeneous populations, e.g., mixture models and stochastic population models. The available methods are, however, either incapable of simultaneously analysing different experimental conditions or are computationally demanding and difficult to apply. Furthermore, they do not account for biological information available in the literature. To overcome disadvantages of existing methods, we combine mixture models and ordinary differential equation (ODE) models. The ODE models provide a mechanistic description of the underlying processes while mixture models provide an easy way to capture variability. In a simulation study, we show that the class of ODE constrained mixture models can unravel the subpopulation structure and determine the sources of cell-to-cell variability. In addition, the method provides reliable estimates for kinetic rates and subpopulation characteristics. We use ODE constrained mixture modelling to study NGF-induced Erk1/2 phosphorylation in primary sensory neurones, a process relevant in inflammatory and neuropathic pain. We propose a mechanistic pathway model for this process and reconstructed static and dynamical subpopulation characteristics across experimental conditions. We validate the model predictions experimentally, which verifies the capabilities of ODE constrained mixture models. These results illustrate that ODE constrained mixture models can reveal novel mechanistic insights and possess a high sensitivity. \n\nCitation: Hasenauer J, Hasenauer C, Hucho T, Theis FJ (2014) ODE Constrained Mixture Modelling: A Method for Unraveling Subpopulation Structures and Dynamics. PLoS Comput Biol 10(7): e1003686. doi:10.1371/journal.pcbi.1003686 \n\nEditor: Jorg Stelling, ETH Zurich, Switzerland \n\nReceived December 18, 2013; Accepted May 9, 2014; Published July 3, 2014 \n\nCopyright: � 2014 Hasenauer et al. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited. \n\nFunding: The authors would like to acknowledge financial support from the German Federal Ministry of Education and Research (BMBF) within the Virtual Liver project (Grant No. 0315766), LungSys II (Grant No. 0316042G), MoPS (Grant No. 0315449D) and NoPain (Grant No. 0316177A), and the European Union within the ERC grant ‘‘LatentCauses.’’ The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript. Competing Interests: The authors have declared that no competing interests exist. \n\n* Email: jan.hasenauer@helmholtz-muenchen.de \n\nThis is a PLOS Computational Biology Methods article. \n\n## Introduction \n\nMulti-cellular organisms are faced with diverse, ever changing environments. To ensure survival and evolutionary success, microbial systems exploit cell-to-cell variability originating from bet-hedging strategies which increase the robustness against environmental changes [1]. Such bet-hedging relies on the formation of cellular subpopulations with distinct phenotypes and has been observed in the context of food source selection [2] and cellular stress response [3]. More complex organisms, such as mammals, evolved strategies to actively detect and respond to environmental changes. The building blocks for the necessary structures and functional units are cell types with distinct properties [4]. These cell types, e.g., neurones and immune cells, split up in further cellular subpopulations – cluster of cells with similar properties – to allow for a fine-grained recognition and tailored response. Due to the ubiquity of structured population heterogeneity, the analysis of subpopulation characteristics and causal differences between subpopulations is crucial for a holistic understanding of biological processes. \n\nHeterogeneous cell populations are usually investigated using molecular and cell-biological methods with single cell resolution. Currently available methods include microscopy [5,6], flow cytometry [7], single-cell PCR [8–10] and single-cell mass spectrometry [11]. While some microscopy based approaches provide possibly time-resolved data [5], most experimental techniques do not allow for the tracking of individual cells but provide snapshots of the population. In this study, we considered these snapshot data, which can provide information about cellular properties, such as protein expression and phosphorylation. An illustration of snapshot data is provided in Figures 1A and B. \n\nThe analysis of population snapshot data can be approached using a multitude of statistical methods, e.g., thresholding, density based methods and mixture modelling. The selection of the method is highly problem specific [12]. Thresholding methods are the most commonly used tools to identify the size of a subpopulation, e.g., the size of a subpopulation expressing a particular marker [13]. Based on a control experiment a threshold (or gate) is defined based on which cells are classified as marker positive or negative. While thresholding works in cases of clearly separated subpopulations (Figure 1A), it fails for strongly overlapping heterogeneous populations (Figure 1B) as no appropriate threshold exists, resulting in large numbers of false positives \n\nPLOS Computational Biology | www.ploscompbiol.org \n\nJuly 2014 | Volume 10 | Issue 7 | e1003686 \n\n1 \n\n"
+  }
+}

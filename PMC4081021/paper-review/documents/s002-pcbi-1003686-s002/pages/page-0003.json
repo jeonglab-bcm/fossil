@@ -1,0 +1,205 @@
+{
+  "page": 3,
+  "width": 595.2760009765625,
+  "height": 841.8900146484375,
+  "mode": "native",
+  "preview": "previews/page-0003.png",
+  "reviewed": true,
+  "review_notes": "Checked against preview. Headings: 1.7/1.8/3.1 set to ####, sections 2 and 3 to ###. Fixed \"1280 × 1024\", \"10×\", µm<sup>2</sup> (2x) spacing/superscripts. Repaired the file name, which extraction had split into code/strike-through fragments, to `data_scaling.m` (typewriter font with underscore in source). Kept the italic emphasis on the two confidence-interval terms and removed the stray space before the full stop. Page number \"3\" omitted. The last paragraph (3.1 intro) ends a sentence; page 4 starts with heading 3.1.1, so no cross-page join.",
+  "warnings": [],
+  "items": [
+    {
+      "id": "p0003-b000",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        64.0,
+        351.0,
+        77.0
+      ],
+      "markdown": "#### 1.7 Quantitative Automated Microscopy (QuAM)",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b001",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        88.0,
+        548.0,
+        194.0
+      ],
+      "markdown": "As published recently, cells were evaluated with a Zeiss Axioplan 2 microscope controlled by the software Metacyte (Metasystems) [1]. In short, images of mounted coverslips were taken (1280 × 1024 pixels) with a 10× objective. The exposure time was defined automatically so that maximal 1000 pixel / 100 µm<sup>2</sup> were saturated, but with an exposure time of maximal 0.96 s. As selection marker of sensory neurones, cell identification was performed on immunofluorescently-labeled (Erk staining) cells. Parameters were defined to automatically identify neurones but not glia cells, (positive selection parameters: size 150-1500 µm<sup>2</sup>, form (aspect ratio = 2; concavity depth = 0.25) and contrast (object threshold 30%). The pixel intensity of selected neurones was averaged, and normalised against object area and exposure time. The fluorescence intensities derived from pErk antibody and Erk antibody were quantified.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b002",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        215.0,
+        192.0,
+        227.0
+      ],
+      "markdown": "#### 1.8 Data preprocessing",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b003",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        238.0,
+        548.0,
+        285.0
+      ],
+      "markdown": "Experimental and biological variability causes differences in the mean fluorescence intensity between experimental replicates. To compensate for these differences, the data are normalised. All fluorescence values collected on one day are scaled with a constant, which is chosen such that quadratic mismatch of the fluorescence mean intensities across replicates is minimal. For details we refer to the implementation (`data_scaling.m`).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b004",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        290.0,
+        548.0,
+        312.0
+      ],
+      "markdown": "Most research groups determine the scale constant using only the control. We however observed, that more robust results are achieved when considering all data for the normalisation.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b005",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        336.0,
+        522.0,
+        350.0
+      ],
+      "markdown": "### 2 Parameter estimation, uncertainty analysis and model selection",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b006",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        365.0,
+        548.0,
+        423.0
+      ],
+      "markdown": "The parameter estimation for the ODE-MM models is performed using multi-start local optimisation. At least 100 runs of the local optimiser were performed for each model. If the best objective function value has not been determined at least 5 times, the number of local optimisations has been increased. For computational efficiency, all parameters besides the subpopulation weights have been log-transformed. The bounds for the optimisation variables are provided in the next section.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b007",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        429.0,
+        548.0,
+        475.0
+      ],
+      "markdown": "For the analysis of parameter uncertainties we used *asymptotic confidence intervals* as well as *finite sample confidence intervals*. Asymptotic confidence intervals were computed from the curvature of the likelihood at the maximum likelihood, namely the Hessian. Finite sample confidence intervals were determined using profile likelihoods (see [2] for details).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b008",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        480.0,
+        548.0,
+        502.0
+      ],
+      "markdown": "The model selection has been performed using the Bayesian information criterion (BIC) [3]. The results of the model selection are summarised in Supplement Table 1.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b009",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        526.0,
+        354.0,
+        540.0
+      ],
+      "markdown": "### 3 Models for the NGF signalling pathway",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b010",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        555.0,
+        548.0,
+        577.0
+      ],
+      "markdown": "In the following we introduced three models for the NGF signalling pathway. These models are rather simple and rely on a minimal set of assumptions and parameters.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b011",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        583.0,
+        548.0,
+        630.0
+      ],
+      "markdown": "In the literature, detailed models for the NGF-induced Erk1/2 phosphorylation have been proposed. These available models have been developed to study the response of the rat pheochromocytoma cell line (PC12) to NGF stimulation. In this study we considered however primary sensory neurones derived from rat DRGs. It has been shown that the response characteristics of PC12 cells and primary DRG neurones differ [1].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b012",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        635.0,
+        548.0,
+        693.0
+      ],
+      "markdown": "We believe that the pathway topology is similar in PC12 cells and primary DRG neurones, protein abundances and reaction rates are however most likely altered. This can shift the pathway in a completely different dynamic regime, in which other mechanism are important, and limits the reusability of the available quantitative information. Besides the limited amount of experimental data for primary sensory neurones, the limited reusability of existing information is the key reason why we start out with rather simple models.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b013",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        713.0,
+        184.0,
+        725.0
+      ],
+      "markdown": "#### 3.1 Pathway model A",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b014",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        737.0,
+        548.0,
+        759.0
+      ],
+      "markdown": "The pathway model A provides a simple description of NGF-induced Erk1/2 phosphorylation which merely accounts for the NGF receptor TrkA and Erk.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b015",
+      "kind": "omit",
+      "bbox": [
+        295.0,
+        801.0,
+        301.0,
+        809.0
+      ],
+      "markdown": "3",
+      "source_class": "page-footer",
+      "reason": "Running page number \"3\" centred in the bottom margin; confirmed against the page preview."
+    }
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "page": 5,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0005.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 3-4x crops of all math and lists. p0005-b001 continues page 4 (\"models using / model selection criteria\") -> join_previous space; p0005-b012 continues p0005-b011 across the column break -> join_previous space. Restored real hyphens lost at line wraps: \"ODE-MMs\" (p0005-b001), \"anti-phospho-Erk\" (p0005-b004). Source heading typo \"NFG-induced\" kept as printed (also in publisher XML). Results ##, subsections ###. Bold run-in paragraph heads (\"Population model and artificial data.\", \"Hypothesis testing.\") split into #### heading items p0005-b015h/p0005-b016h (bbox from bold-font spans; trailing period dropped) — they are level-3 <sec> titles in the publisher XML. Reaction scheme (unnumbered) and RRE (unnumbered) transcribed as LaTeX display math (native text garbled: \"A?B\", \"½A\\x03\"). Inline math re-transcribed (k_1, u(t), k=(k_1,k_2,k_3), [A]+[B], u=0, t=0, u(t)=1 for t>0, k_{1,i} etc.). Bold-looking A/B/R glyphs in places are font artefacts and were not marked up. H1–H4 written as list items. p0005-b021 continues on page 6. Header/footers/page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0005-b000",
+    "Review possible header/footer: p0005-b022",
+    "Review possible header/footer: p0005-b023"
+  ],
+  "items": [
+    {
+      "id": "p0005-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0005-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        154.0
+      ],
+      "markdown": "model selection criteria such as the Akaike information criterion (AIC) [49] or the Bayesian information criterion (BIC) [50] indicates which model is most appropriate. Using such model selection procedures, ODE-MMs can unravel the population structure by predicting differences in properties which have not been measured or are not even measurable. Furthermore, ODE-MMs provide information about rate constants. In contrast, conventional mixture models can only be used to analyse differences in observed quantities.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0005-b002",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        167.0,
+        283.0,
+        189.0
+      ],
+      "markdown": "### Acquisition of snapshot data for NFG-induced Erk1/2 phosphorylation",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0005-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        191.0,
+        298.0,
+        274.0
+      ],
+      "markdown": "The proposed ODE-MMs will be used to analyse NGF-induced Erk1/2 phosphorylation. The respective measurement data for NGF-induced Erk1/2 phosphorylation were acquired using quantitative automated microscopy (QuAM) [13]. The preparation of primary sensory neurones from rat (DRG cell culturing), the cell stimulation, the immunofluorescence labelling and the cell imaging was performed according to the protocol described by Andres et al. [19].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        275.0,
+        298.0,
+        440.0
+      ],
+      "markdown": "In short, primary sensory neurones derived from L1-L6 DRGs were prepared from male Sprague Dawley rats. Dissociated cells were cultured for 15–20 h before stimulated with NGF. After treatment, cells were fixed with paraformaldehyde and permeabilised with Triton X-100. Nonspecific binding sites were blocked and cultures were probed with primary antibodies (anti-phospho-Erk (Thr-202/Tyr-204) (1:200) and anti-Erk (1:500)) against target proteins, washed three times, and incubated with secondary antibodies. Cells were quantified with a Zeiss Axioplan 2 microscope controlled by the software Metacyte (Metasystems). As selection marker of sensory neurones, cell identification was performed on immunofluorescently-labelled (Erk staining) cells. The fluorescence intensities derived from pErk antibody and Erk antibody were quantified. To compensate for differences in the mean fluorescence intensity between experimental replicates, the data are normalised.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b005",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        444.0,
+        298.0,
+        474.0
+      ],
+      "markdown": "More detailed information, e.g., information about cell culture conditions as well as the detailed immunofluorescence protocol is provided in Supporting Information S1.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b006",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        487.0,
+        93.0,
+        495.0
+      ],
+      "markdown": "## Results",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0005-b007",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        505.0,
+        298.0,
+        567.0
+      ],
+      "markdown": "In the following, we will illustrate how ODE-MMs can be used, how the results can be interpreted and what kind of insights can be gained using them. For this purpose, we study a simulation example for which the ground truth is known as well as an application example for which new biological insights are gained using ODE-MMs.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b008",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        579.0,
+        230.0,
+        589.0
+      ],
+      "markdown": "### Simulation example: Conversion process",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0005-b009",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        591.0,
+        298.0,
+        611.0
+      ],
+      "markdown": "To illustrate the properties of ODE-MMs and to assess their performance, we consider the conversion process",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b010",
+      "kind": "text",
+      "bbox": [
+        113.0,
+        622.0,
+        251.0,
+        667.0
+      ],
+      "markdown": "$$\\begin{array}{lll}\\mathrm{R}_1: & \\mathrm{A}\\rightarrow\\mathrm{B}, & \\text{rate}=k_1u[\\mathrm{A}],\\\\ \\mathrm{R}_2: & \\mathrm{A}\\rightarrow\\mathrm{B}, & \\text{rate}=k_2[\\mathrm{A}],\\\\ \\mathrm{R}_3: & \\mathrm{B}\\rightarrow\\mathrm{A}, & \\text{rate}=k_3[\\mathrm{B}],\\end{array}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0005-b011",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        672.0,
+        298.0,
+        734.0
+      ],
+      "markdown": "which is illustrated in Figure 2A. The reactions R<sub>1</sub> and R<sub>2</sub> model a stimulus dependent and a stimulus ($u$) independent (basal) conversion of A to B, respectively. The conversion of B to A is described by reaction R<sub>3</sub>. Concentrations of A and B are denoted by [A] and [B]. The conversion of A to B is modulated by the time-dependent concentration $u$ of an external stimulus, also",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b012",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        79.0
+      ],
+      "markdown": "denoted as input. The governing RRE for this conversion process is",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0005-b013",
+      "kind": "text",
+      "bbox": [
+        369.0,
+        92.0,
+        500.0,
+        142.0
+      ],
+      "markdown": "$$\\begin{aligned}\\frac{d[\\mathrm{A}]}{dt}&=-(k_1u+k_2)[\\mathrm{A}]+k_3[\\mathrm{B}]\\\\ \\frac{d[\\mathrm{B}]}{dt}&=+(k_1u+k_2)[\\mathrm{A}]-k_3[\\mathrm{B}]\\end{aligned}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0005-b014",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        147.0,
+        424.0,
+        157.0
+      ],
+      "markdown": "with $[\\mathrm{A}]+[\\mathrm{B}]$ being constant.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b015h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        159.0,
+        480.0,
+        168.0
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Population model and artificial data"
+    },
+    {
+      "id": "p0005-b015",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        159.0,
+        555.0,
+        529.0
+      ],
+      "markdown": "Artificial data for the conversion process are generated using an ensemble cell population model [51], which belongs to the class of Bayesian hierarchical models. The ensemble consists of single cells whose stimulus response is governed by the RRE stated above. The parameters differ between cells and are drawn from a probability distribution. Ensemble models provide a more detailed description of cell populations and are, in principle, advantageous compared to the ODE-MMs. This description of cell-to-cell variability, namely parameter variability, is thought to be sufficient to describe genetic and epigenetic differences between single cells [51,52]. However, estimating parameters and parameter distributions of ensemble models is computationally very demanding. Already a single simulation of an ensemble model takes minutes, which limits their application. As ODE-MMs can be simulated orders of magnitudes faster, it is interesting to analyse whether they suffice for extracting the key properties of the underlying subpopulations. To address this question, we consider two scenarios: (1) a cell population consisting of two homogeneous subpopulations which do not overlap after stimulation (Figures 2B–D); (2) a cell population consisting of two heterogeneous, highly-overlapping subpopulations (Figures 2E–G). In both scenarios the subpopulations differ in their responsiveness $k_1$ to the stimulation $u(t)$. The remaining parameters, $k_2$ and $k_3$, also vary between individual cells but have the same probability distributions across the two subpopulations. The probability distribution of the parameters $k=(k_1,k_2,k_3)$ in the individual subpopulations and scenarios is depicted in Figures 2D and G. The initial condition of each cell is the steady state reached for $u=0$ and total concentration, $[\\mathrm{A}]+[\\mathrm{B}]$, equal to one. At $t=0$, the cells are stimulated, $u(t)=1$ for $t>0$, resulting in an increase in the abundance of B. Representative trajectory samples are shown in Figures 2A and D. To obtain the artificial measurement data (Figures 2C and F), the abundance of B is measured for 1,000 cells at $t=0$, 0.1, 0.2, 0.3, 0.5 and 1.0.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b016h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        532.0,
+        403.0,
+        540.0
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Hypothesis testing"
+    },
+    {
+      "id": "p0005-b016",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        531.0,
+        555.0,
+        572.0
+      ],
+      "markdown": "Given the artificial data sets, we first asked whether ODE-MMs can detect the presence of two subpopulations and unravel the differences between them. To address this, we considered four competing hypotheses:",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b017",
+      "kind": "text",
+      "bbox": [
+        350.0,
+        582.0,
+        437.0,
+        591.0
+      ],
+      "markdown": "- H1 No subpopulations.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b018",
+      "kind": "text",
+      "bbox": [
+        350.0,
+        595.0,
+        555.0,
+        625.0
+      ],
+      "markdown": "- H2 Two subpopulations with significantly different stimulus dependent conversion rates A to B ($k_{1,i}$ for subpopulation $i$).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b019",
+      "kind": "text",
+      "bbox": [
+        350.0,
+        629.0,
+        555.0,
+        660.0
+      ],
+      "markdown": "- H3 Two subpopulations with significantly different stimulus independent (basal) conversion rates A to B ($k_{2,i}$ for subpopulation $i$).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b020",
+      "kind": "text",
+      "bbox": [
+        350.0,
+        663.0,
+        555.0,
+        683.0
+      ],
+      "markdown": "- H4 Two subpopulations with significantly different conversion rates B to A ($k_{3,i}$ for subpopulation $i$).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b021",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        693.0,
+        555.0,
+        734.0
+      ],
+      "markdown": "These four scenarios were described using RRE constrained mixture models. To ensure robustness with respect to the distribution assumption, we considered normal distribution and log-normal distributions with the mean parameterized by the RRE",
+      "source_class": "text"
+    },
+    {
+      "id": "p0005-b022",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0005-b023",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0005-b024",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "5",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}

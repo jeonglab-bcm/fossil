@@ -1,0 +1,120 @@
+{
+  "page": 12,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0012.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview, bbox overlay and 5-6x crops of the caption and the \"(≈30%)\" text. Both text items continue one paragraph that starts on page 11 (p0011-b009 -> p0012-b003 -> p0012-b004 -> p0013-b003), so they come first with join_previous=space, and Figure 4 + caption are placed after them. Coordinator: to avoid Figure 4 splitting the sentence \"...determined from the co-labelling | data using mixture modelling...\", move p0012-b001 and p0012-b002 to directly after p0013-b003 in plan reading_order and set join_previous=space on p0013-b003. Fixed text-layer errors: \"&30%\" -> \"≈30%\", \"ODEMMs\" -> \"ODE-MMs\", \"colabelling\" -> \"co-labelling\" (compound hyphens lost at line breaks), \"n~4\" -> \"n = 4\", MH3,2 -> ℳ<sub>H3,2</sub>. Caption panel (D) really reads ℳH1,2 and ℳH1,3 in the source (verified at 5x; panel D legend shows MH3,2/MH3,3) - kept as printed. Figure 4 bbox encloses panels A-D, legends and the w1 strip.",
+  "warnings": [
+    "Review possible header/footer: p0012-b000",
+    "Review possible header/footer: p0012-b005",
+    "Review possible header/footer: p0012-b006"
+  ],
+  "items": [
+    {
+      "id": "p0012-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        678.0,
+        298.0,
+        730.0
+      ],
+      "markdown": "pErk and TrkA, which is currently infeasible due to the lack of appropriate TrkA antibodies, there are three – in our opinion convincing – indications that TrkA causes the population split. First of all, the available measurement data can be described by assuming different TrkA levels. Secondly, the estimate for the",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0012-b004",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        678.0,
+        555.0,
+        730.0
+      ],
+      "markdown": "fraction of cells with high TrkA levels (≈30%) derived via ODE-MMs from the pErk kinetic and dose response (Figure 4B) agrees perfectly with the size of the responsive subpopulation found by co-labelling pErk and Erk (subpopulation 2, Figure 6B). The size of the responsive subpopulation has been determined from the co-labelling",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0012-b001",
+      "kind": "figure",
+      "bbox": [
+        53.0,
+        55.0,
+        551.0,
+        577.0
+      ],
+      "markdown": "",
+      "source_class": "picture",
+      "label": "Figure 4",
+      "asset_name": "figure-4"
+    },
+    {
+      "id": "p0012-b002",
+      "kind": "caption",
+      "bbox": [
+        58.0,
+        583.0,
+        555.0,
+        664.0
+      ],
+      "markdown": "**Figure 4. Models for NGF-induced Erk1/2 signalling with two subpopulations which have different TrkA levels.** (A) Schematic of model for NGF-induced Erk1/2 signalling. Arrows represent conversion reactions and regulatory interactions. The frequency of an object is used to illustrate its abundance. (B) Mean and standard deviation of measured pErk levels (kinetic: *n* = 4, 18797 cells; dose response: *n* = 4, 12205 cells) as well as simulated mean for the models ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>. (C) Histograms of the measured pErk levels (data of biological replica are pooled) and corresponding distributions computed using model ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>. Simulation results for ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub> are very similar leading to significant overplotting. pErk levels in (B) and (C) are in arbitrary units of intensity (UI). (D) Maximum likelihood estimates of parameters and confidence intervals for the parameters of ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub>. Vertical lines mark the maximum likelihood estimates and the horizontal bars represent the confidence intervals corresponding to different confidence levels (80%, 90%, 95% and 99%) computed using profile likelihoods. doi:10.1371/journal.pcbi.1003686.g004",
+      "source_class": "caption"
+    },
+    {
+      "id": "p0012-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (short title \"ODE Constrained Mixture Modelling\") repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0012-b005",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer line \"PLOS Computational Biology | www.ploscompbiol.org\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0012-b006",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal issue footer \"July 2014 | Volume 10 | Issue 7 | e1003686\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0012-b007",
+      "kind": "omit",
+      "bbox": [
+        302.0,
+        754.0,
+        311.0,
+        761.0
+      ],
+      "markdown": "12",
+      "source_class": "page-footer",
+      "reason": "Page-number-only footer; verified in preview."
+    }
+  ]
+}

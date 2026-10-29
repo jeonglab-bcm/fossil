@@ -1,0 +1,394 @@
+{
+  "page": 15,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0015.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 5x crops of the reference list. Reading order: left column Discussion text, right column (rest of Discussion, Supporting Information, Acknowledgments, Author Contributions), then the full-width References block (refs 1-7 left, 8-13 right). p0015-b001 continues p0014-b007 (\"These more | detailed models\"; join_previous=space, valid in default order) and p0015-b005 continues p0015-b004 across columns. Headings set to ## level. Restored \"stimulus-induced\" (compound hyphen lost at line break), \"Fröhlich\", \"reagents/materials\". Merged the stand-alone \"(ZIP)\" line (old p0015-b009) into the Code S1 entry, matching \"(PDF)\" in the S1 entry. References rebuilt one item per entry from evidence lines with diacritics repaired (Schütte, Ibàñez as printed with grave accent, Špidlen) and line-wrap joins fixed (\"high-dimensional\", \"8519–8124\"). The reference font in the source PDF itself lacks fl/ffi ligature glyphs (\"ow cytometric\" = flow cytometric); kept as printed. Source typos kept (\"acidtransformation\", \"8519–8124\").",
+  "warnings": [
+    "Review possible header/footer: p0015-b000",
+    "Review possible header/footer: p0015-b029",
+    "Review possible header/footer: p0015-b030"
+  ],
+  "items": [
+    {
+      "id": "p0015-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        154.0
+      ],
+      "markdown": "detailed models have however been developed for cell lines and it is unclear how well they describe the signalling in primary sensory neurones. Furthermore, all three models we studied fit the experimental data and provided consistent predictions for the population structure, indicating a certain degree of robustness with respect to the pathway model. However, model extension may become necessary if the amount of available measurement data for primary sensory neurones increases, other stimuli are included or the biological question changes.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0015-b002",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        155.0,
+        298.0,
+        415.0
+      ],
+      "markdown": "In this study we employed reaction rate equation models to constrained means and medians of mixture components. A further improvement of the sensitivity of ODE-MMs might be achieved by using ODE models which capture the cell-to-cell variability within subpopulations. Possible choices are linear noise approximations [27,28], effective mesoscopic rate equations [29,30] or moment equations [31,32]. These ODE models allow for an improved mechanistic description of the single cell dynamics, in particular the explicit consideration of intrinsic and/or extrinsic noise [67]. Intrinsic noise is related to the stochasticity of biochemical reactions. Extrinsic noise can originate from variation outside the considered signalling pathway and can be related to cell size, cell cycle state or the history of a cell. A variety of modelling approaches has been proposed for systems exhibiting intrinsic noise [1,62–64,68–70], extrinsic noise [51,65,71–73] and combinations of both [52,74,75]. The aforementioned deterministic, ODE-based approximation of these modelling approaches could build the basis for the description of the subpopulation dynamics. The consideration of more general ODE constraints describing the temporal correlation of stochastic processes [76,77] might even allow for the study of single-cell dynamics based on time-lapse microscopy data. In this context explicit models of the measurement noise might be beneficial, which have not been considered here, as the covariance was nevertheless a free parameter.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        416.0,
+        298.0,
+        507.0
+      ],
+      "markdown": "Consistent with our studied biological applications, we considered the special case of constant population sizes. There are however many situations in which spontaneous [5] or stimulus-induced cell-type transitions [5,10,78] occur. While such scenarios have not been considered in this manuscript and are not captured by our formulation, ODE-MMs can be generalised to studying such cell systems. Changing subpopulation sizes might be captured using parametric functions, splines or dynamic mechanistic models.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        510.0,
+        298.0,
+        572.0
+      ],
+      "markdown": "In our studies, ODE-MM parameters have been estimated by solving the maximum likelihood problem using multi-start local optimisation. The computational efficiency of this approach could probably be improved by using expectation maximisation (EM) algorithms [79]. Also the profile likelihood-based uncertainty analysis approach we used would profit from this. To obtain",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b005",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        91.0
+      ],
+      "markdown": "uncertainty bounds not only for parameters but also for model predictions, prediction profile likelihoods [80] or Bayesian methods [46] can be used.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0015-b006",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        93.0,
+        555.0,
+        246.0
+      ],
+      "markdown": "The availability of pathway information in databases like KEGG [81], BioPath [82], BioCyc [83] and others is steadily increasing. We illustrated that integrating this information with snapshot data yields additional insights. ODE-MMs are however not only applicable to pure snapshot datasets but can be used to analyse mixed sets of snapshot and population average data (e.g., Western blots). Furthermore, we expect that the methods scale well. Solely, the numerical simulation of the ODE models is critical, but for this, efficient and reliable solvers exist which can easily handle systems with hundreds of chemical species [84]. Therefore, ODE-MMs should be applicable to large-scale datasets, such as transcriptomics, proteomics and metabolomics. This renders ODE-MMs potentially very valuable for the analysis of heterogeneous groups, not only cell populations, but also patient cohorts.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b007",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        260.0,
+        431.0,
+        271.0
+      ],
+      "markdown": "## Supporting Information",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0015-b008",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        278.0,
+        555.0,
+        371.0
+      ],
+      "markdown": "**Code S1 MATLAB code used for ODE constrained mixture modelling.** This zip-file contains the MATLAB code for the simulation example (conversion process) and the application example (NGF-induced Erk1/2 phosphorylation) presented in the paper. We provide implementations for the models, the parameter estimation, the uncertainty analysis and the model selection. In addition to the implementation, also all data and result files (.mat) are included. (ZIP)",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b010",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        378.0,
+        555.0,
+        460.0
+      ],
+      "markdown": "**Supporting Information S1 Supplemental notes regarding the computational modelling.** This document provides a detailed description of the different pathway models, the parameter estimation, the uncertainty analysis and the model selection. Furthermore, numerical results of the parameter estimation, the uncertainty analysis and the model selection are listed and illustrated. (PDF)",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b011",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        473.0,
+        405.0,
+        483.0
+      ],
+      "markdown": "## Acknowledgments",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0015-b012",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        490.0,
+        555.0,
+        506.0
+      ],
+      "markdown": "The authors are grateful for helpful comments and proof-reading by Fabian Fröhlich and Donna Ankerst.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b013",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        520.0,
+        419.0,
+        528.0
+      ],
+      "markdown": "## Author Contributions",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0015-b014",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        536.0,
+        555.0,
+        572.0
+      ],
+      "markdown": "Conceived and designed the experiments: JH CH TH. Performed the experiments: CH. Analyzed the data: JH CH. Contributed reagents/materials/analysis tools: TH. Wrote the paper: JH CH. Developed and implemented the analysis tools: JH CH FJT.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0015-b015",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        584.0,
+        111.0,
+        593.0
+      ],
+      "markdown": "## References",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0015-b016",
+      "kind": "text",
+      "bbox": [
+        61,
+        600,
+        298,
+        617
+      ],
+      "markdown": "1. Eldar A, Elowitz MB (2010) Functional roles for noise in genetic circuits. Nature 467: 1–7.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b017",
+      "kind": "text",
+      "bbox": [
+        61,
+        617,
+        298,
+        642
+      ],
+      "markdown": "2. Ozbudak EM, Thattai M, Lim HN, Shraiman BI, van Oudenaarden A (2004) Multistability in the lactose utilization network of Escherichia coli. Nature 427: 737–740.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b018",
+      "kind": "text",
+      "bbox": [
+        61,
+        641,
+        298,
+        658
+      ],
+      "markdown": "3. Nester EW, Stocker BA (1963) Biosynthetic latency in early stages of deoxyribonucleic acidtransformation in Bacillus subtilis. J Bacteriol 86: 785–796.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b019",
+      "kind": "text",
+      "bbox": [
+        61,
+        658,
+        298,
+        675
+      ],
+      "markdown": "4. Arendt D (2008) The evolution of cell types in animals: emerging principles from molecular studies. Nature Reviews Genetics 9: 868–882.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b020",
+      "kind": "text",
+      "bbox": [
+        61,
+        675,
+        298,
+        691
+      ],
+      "markdown": "5. Schroeder T (2011) Long-term single-cell imaging of mammalian stem cells. Nat Methods 8: 30–35.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b021",
+      "kind": "text",
+      "bbox": [
+        61,
+        691,
+        298,
+        708
+      ],
+      "markdown": "6. Rimon N, Schuldiner M (2011) Getting the whole picture: combining throughput with content in microscopy. J Cell Sci 124: 3743–3751.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b022",
+      "kind": "text",
+      "bbox": [
+        61,
+        708,
+        298,
+        732
+      ],
+      "markdown": "7. Pyne S, Hu X, Wang K, Rossin E, Lin T, et al. (2009) Automated high-dimensional ow cytometric data analysis. Proc Natl Acad Sci U S A 106: 8519–8124.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b023",
+      "kind": "text",
+      "bbox": [
+        318,
+        600,
+        555,
+        617
+      ],
+      "markdown": "8. Taniguchi K, Kajiyama T, Kambara H (2009) Quantitative analysis of gene expression in a single cell by qPCR. Nature Methods 6: 503–506.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b024",
+      "kind": "text",
+      "bbox": [
+        318,
+        617,
+        555,
+        642
+      ],
+      "markdown": "9. Taniguchi Y, Choi PJ, Li GW, Chen H, Babu M, et al. (2010) Quantifying E. coli proteome and transcriptome with single-molecule sensitivity in single cells. Science 329: 533–538.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b025",
+      "kind": "text",
+      "bbox": [
+        314,
+        641,
+        555,
+        666
+      ],
+      "markdown": "10. Moignard V, Macaulay IC, Swiers G, Buettner F, Schütte J, et al. (2013) Characterization of transcriptional networks in blood stem and progenitor cells using high-throughput single-cell gene expression analysis. Nat Cell Biol 15: 363–372.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b026",
+      "kind": "text",
+      "bbox": [
+        314,
+        666,
+        555,
+        691
+      ],
+      "markdown": "11. Ibàñez AJ, Fagerer SR, Schmidt AM, Urban PL, Jefimovs K, et al. (2013) Mass spectrometry-based metabolomics of single yeast cells. Proc Natl Acad Sci U S A 110: 8790–8794.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b027",
+      "kind": "text",
+      "bbox": [
+        314,
+        689,
+        555,
+        707
+      ],
+      "markdown": "12. O’Neill K, Aghaeepour N, Špidlen J, Brinkman R (2013) Flow cytometry bioinformatics. PLoS Comput Biol 9: e1003365.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b028",
+      "kind": "text",
+      "bbox": [
+        314,
+        707,
+        555,
+        732
+      ],
+      "markdown": "13. Andres C, Meyer S, Dina OA, Levine JD, Hucho T (2010) Quantitative automated microscopy (QuAM) elucidates growth factor specific signalling in pain sensitization. Molecular Pain 6: 1–16.",
+      "source_class": "list-item"
+    },
+    {
+      "id": "p0015-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (short title \"ODE Constrained Mixture Modelling\") repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0015-b029",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer line \"PLOS Computational Biology | www.ploscompbiol.org\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0015-b030",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal issue footer \"July 2014 | Volume 10 | Issue 7 | e1003686\" repeated on every page; verified in preview."
+    },
+    {
+      "id": "p0015-b031",
+      "kind": "omit",
+      "bbox": [
+        302.0,
+        754.0,
+        311.0,
+        761.0
+      ],
+      "markdown": "15",
+      "source_class": "page-footer",
+      "reason": "Page-number-only footer; verified in preview."
+    }
+  ]
+}

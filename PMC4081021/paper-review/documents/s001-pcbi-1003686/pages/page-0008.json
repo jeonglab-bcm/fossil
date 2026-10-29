@@ -1,0 +1,321 @@
+{
+  "page": 8,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0008.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 3-4x crops of all math. p0008-b001 continues the sentence begun on page 7 after the conservation relations (not joined: previous item is display math). p0008-b015 continues p0008-b014 across the column break -> join_previous space. Unnumbered TrkA:NGF/pErk ODE system (p0008-b002) and the reduced RRE model transcribed as LaTeX display math; the extractor had split the reduced model into three formula items (b004, b005, b006) — merged into p0008-b004 (bbox [98,286,258,354]); b005/b006 removed as duplicates of the merged item. Inline math re-transcribed ([NGF]_0 >> [TrkA]_0, parameter vectors k, x_1=k_3[TrkA:NGF], x_2=s[pErk], [Erk]_{0,i}, [TrkA]_{0,i}, \">1 nM\" (native \"w1 nM\"), model names as ℳ<sub>H3,2</sub> etc. (coordinator convention) (native \"MH3,2\")). Restored real hyphens lost at line wraps: \"log-normal\" (p0008-b017), \"ODE-MMs\" (p0008-b018). Source typos kept (\"due the the\", \"pERK\"). Bold run-in heads split into #### headings p0008-b009h, b016h, b019h (two-line head). H1–H3 written as list items. Last paragraph p0008-b020 ends a paragraph; page 9 is the rotated Table 1. Header/footers/page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0008-b000",
+    "Review possible header/footer: p0008-b021",
+    "Review possible header/footer: p0008-b022"
+  ],
+  "items": [
+    {
+      "id": "p0008-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0008-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        100.0
+      ],
+      "markdown": "and the well justified assumption that the total NGF concentration is much larger than the total TrkA concentration, $[\\mathrm{NGF}]_0\\gg[\\mathrm{TrkA}]_0$, the dynamics of TrkA:NGF and pErk can be stated as",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b002",
+      "kind": "text",
+      "bbox": [
+        63.0,
+        113.0,
+        292.0,
+        215.0
+      ],
+      "markdown": "$$\\begin{aligned}\\frac{d[\\mathrm{TrkA}:\\mathrm{NGF}]}{dt}&=k_1[\\mathrm{NGF}]_0([\\mathrm{TrkA}]_0-[\\mathrm{TrkA}:\\mathrm{NGF}])\\\\ &\\quad-k_2[\\mathrm{TrkA}:\\mathrm{NGF}]\\\\ \\frac{d[\\mathrm{pErk}]}{dt}&=(k_3[\\mathrm{TrkA}:\\mathrm{NGF}]+k_4)([\\mathrm{Erk}]_0-[\\mathrm{pErk}])\\\\ &\\quad-k_5[\\mathrm{pErk}]\\\\ y&=s[\\mathrm{pErk}],\\end{aligned}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0008-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        222.0,
+        298.0,
+        275.0
+      ],
+      "markdown": "with kinetic parameters $k=(k_1,k_2,k_3,k_4,k_5,[\\mathrm{TrkA}]_0,[\\mathrm{Erk}]_0,s)$. As the absolute concentrations of TrkA and Erk are unknown, this system is structurally non-identifiable. To circumvent this we reformulate the system in terms of $x_1=k_3[\\mathrm{TrkA}:\\mathrm{NGF}]$ and $x_2=s[\\mathrm{pErk}]$, yielding the RRE model",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b004",
+      "kind": "text",
+      "bbox": [
+        98.0,
+        286.0,
+        258.0,
+        354.0
+      ],
+      "markdown": "$$\\begin{aligned}\\frac{dx_1}{dt}&=k_1[\\mathrm{NGF}]_0(k_3[\\mathrm{TrkA}]_0-x_1)-k_2x_1\\\\ \\frac{dx_2}{dt}&=(x_1+k_4)(s[\\mathrm{Erk}]_0-x_2)-k_5x_2\\\\ y&=x_2.\\end{aligned}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0008-b007",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        360.0,
+        298.0,
+        404.0
+      ],
+      "markdown": "This ODE model merely depends on the products $s[\\mathrm{Erk}]_0$ and $k_3[\\mathrm{TrkA}]_0$ and not on the individual parameters $(s,[\\mathrm{Erk}]_0)$ and $(k_3,[\\mathrm{TrkA}]_0)$, respectively. Thus, we obtain the reduced vector of kinetic parameters $k=(k_1,k_2,k_4,k_5,k_3[\\mathrm{TrkA}]_0,s[\\mathrm{Erk}]_0)$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b008",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        405.0,
+        298.0,
+        425.0
+      ],
+      "markdown": "In the remainder, all plots depict the scaled TrkA:NGF and pErk concentrations, $x_1$ and $x_2$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b009h",
+      "kind": "heading",
+      "bbox": [
+        66.0,
+        427.0,
+        222.0,
+        435.5
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Inference of subpopulation structure"
+    },
+    {
+      "id": "p0008-b009",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        427.0,
+        298.0,
+        457.0
+      ],
+      "markdown": "We employed the dynamical pathway model A to assess the population dynamics and to compare the three hypotheses:",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b010",
+      "kind": "text",
+      "bbox": [
+        93.0,
+        467.0,
+        180.0,
+        476.0
+      ],
+      "markdown": "- H1 No subpopulations.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b011",
+      "kind": "text",
+      "bbox": [
+        93.0,
+        480.0,
+        298.0,
+        501.0
+      ],
+      "markdown": "- H2 Two subpopulations with significantly different Erk levels ($[\\mathrm{Erk}]_{0,i}$ for subpopulation $i$).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b012",
+      "kind": "text",
+      "bbox": [
+        93.0,
+        503.0,
+        298.0,
+        524.0
+      ],
+      "markdown": "- H3 Two subpopulations with significantly different TrkA levels ($[\\mathrm{TrkA}]_{0,i}$ for subpopulation $i$).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b013",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        533.0,
+        298.0,
+        702.0
+      ],
+      "markdown": "We only regarded altered abundance of signalling molecules as potential differences between subpopulations. Differences in elementary reaction rates would require mutations or differential post-translational modifications which we consider unlikely. As in the simulation example, the scenarios were described using RRE constrained mixture models. For each scenario we considered normal and log-normal mixture components with means parameterised by the RRE as well as log-normal mixture components with medians parameterised by the RRE. This yielded in total 9 ODE-MMs, which have been fitted using multi-start local optimisation. Properties of models, goodness of fit statistics and obtained BIC values are listed in Table 2. Based upon the BIC (and AIC) values for the different models hypotheses H1 and H2 were rejected compared to H3. Significance levels for the rejections were very high, indicating the presence of two subpopulations with different average levels of TrkA receptors.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b014",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        703.0,
+        298.0,
+        734.0
+      ],
+      "markdown": "We note that the rejection of hypotheses H1 and H2 requires information about the distribution of pErk levels. Even models for the simplest hypothesis, H1, describe the kinetic and dose response",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b015",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        121.0
+      ],
+      "markdown": "of the mean pErk level (Figure 3B). This proves that the mean is not informative enough and implies that simple RRE models are in general insufficient for determining subgroups. Using the distribution of pErk levels in combination with ODE-MMs, H1 can be rejected easily (Figure 3C) due to the strong model-data mismatch for stimulation with 1 nM and 10 nM NGF.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0008-b016h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        124.5,
+        499.5,
+        133.0
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Size and characteristics of subpopulations"
+    },
+    {
+      "id": "p0008-b016",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        124.0,
+        555.0,
+        196.0
+      ],
+      "markdown": "The selected population structure, H3, assumes different concentrations of the NGF receptor TrkA for the subpopulations. This results in different concentration of TrkA-NGF complexes and ultimately in different Erk phosphorylation levels. The overall Erk concentration, [Erk] + [pErk], is the same for the subpopulations. An illustration of the models and signalling is provided in Figure 4A.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b017",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        198.0,
+        555.0,
+        313.0
+      ],
+      "markdown": "The ODE-MMs representing H3 explain the kinetic and dose response measurements of the mean pErk concentration as well as the pErk distribution. Measurement data and fits for the best two models, ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>, are depicted in Figures 4B and C. These two models exploit different parameterisations of the log-normal distributions (see Table 2). In ℳ<sub>H3,2</sub> the mean is parameterised using the RRE, while in ℳ<sub>H3,3</sub> the median is parameterised. The latter yields a slightly better fit, however, the differences are minor and not statistically significant. As ℳ<sub>H3,3</sub> does not describe the time-dependent mean, splines are used to obtain Figure 4B (bottom).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b018",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        314.0,
+        555.0,
+        450.0
+      ],
+      "markdown": "The maximum likelihood estimation of the model parameters provides estimates for the relative size of the subpopulations and their pErk levels. Roughly 70% of the cells belong to the subpopulation with low TrkA levels (subpopulation 1) and 30% of the cells possess high TrkA levels (subpopulation 2). Subpopulation 1 hardly responds to NGF, while subpopulation 2 responds with a 4-fold increase in pERK levels for a 1 nM NGF stimulation. The maximal response is reached after 10 minutes and the response amplitude saturates for NGF concentration $>1$ nM. The differences between the subpopulations sound large, however, a direct extraction of these insights from the data is impossible due the the large overlap of subpopulations. This renders the proposed ODE-MMs, which incorporate pathway information, essential.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b019h",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        451.5,
+        555.0,
+        470.0
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Quantification of kinetic parameters and abundance differences"
+    },
+    {
+      "id": "p0008-b019",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        451.0,
+        555.0,
+        649.0
+      ],
+      "markdown": "Beyond subpopulation differences in observed pErk levels, ODE-MMs rendered quantities accessible which could not be measured. In particular the Erk dephosphorylation rate and the NGF-TrkA affinities could be inferred. Furthermore, we found a 30-fold difference between TrkA levels in the two subpopulations. This information is valuable as TrkA antibodies with high sensitivity and specificity are not available for immunofluorescence based experiments in cultures of primary sensory neurones. A practical identifiability analysis using profile likelihood showed that all estimated parameters – kinetic parameters, subpopulation sizes and standard deviations – are identifiable (Figure 4D; and Figures 1 and 2 in Supporting Information S1). Indeed, the confidence intervals for most parameters, in particular the subpopulation sizes and standard deviations, are rather narrow (Tables 2, 3 and 4 in Supporting Information S1). This and the rather consistent estimates obtained using different models (Supporting Information S1), indicate the reliability of the parameter estimates.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b020",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        651.0,
+        555.0,
+        734.0
+      ],
+      "markdown": "The ODE-MMs ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub> for H1 possess 17 parameters while the ODE-MMs ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub> for H3 possess 30 parameters. As the ODE-MMs for H1 possess 13 parameters less than the ODE-MMs for H3 we expected that the parameters of ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub> are more well determined than the parameters of ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub>. The comparison of parameter uncertainties for H1 (Figure 3D) and for H3 (Figure 4D) yielded however a surprising, counterintuitive result.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0008-b021",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0008-b022",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0008-b023",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "8",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}

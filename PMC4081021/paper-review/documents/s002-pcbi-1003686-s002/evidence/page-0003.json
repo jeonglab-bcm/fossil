@@ -1,0 +1,901 @@
+{
+  "page": 3,
+  "lines": [
+    {
+      "text": "1.7",
+      "bbox": [
+        48.18899917602539,
+        65.44509887695312,
+        65.39253234863281,
+        76.06130981445312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Quantitative Automated Microscopy (QuAM)",
+      "bbox": [
+        78.84213256835938,
+        65.44509887695312,
+        350.1773376464844,
+        76.06130981445312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "As published recently, cells were evaluated with a Zeiss Axioplan 2 microscope controlled by the software Metacyte",
+      "bbox": [
+        48.18899917602539,
+        89.20295715332031,
+        547.0960693359375,
+        98.04975128173828
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "(Metasystems) [1]. In short, images of mounted coverslips were taken (1280 × 1024 pixels) with a 10× objective.",
+      "bbox": [
+        48.18899917602539,
+        100.6000747680664,
+        547.0921020507812,
+        110.00476837158203
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "The exposure time was deﬁned automatically so that maximal 1000 pixel / 100 µm2 were saturated, but with an",
+      "bbox": [
+        48.188995361328125,
+        109.49800109863281,
+        547.1033935546875,
+        121.95978546142578
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "exposure time of maximal 0.96 s. As selection marker of sensory neurones, cell identiﬁcation was performed on",
+      "bbox": [
+        48.188995361328125,
+        125.06800842285156,
+        547.0961303710938,
+        133.914794921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "immunoﬂuorescently-labeled (Erk staining) cells. Parameters were deﬁned to automatically identify neurones but",
+      "bbox": [
+        48.188995361328125,
+        137.0240020751953,
+        547.1458740234375,
+        145.87078857421875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "not glia cells, (positive selection parameters: size 150-1500 µm2, form (aspect ratio = 2; concavity depth = 0.25)",
+      "bbox": [
+        48.188995361328125,
+        147.43722534179688,
+        547.1163330078125,
+        157.8258056640625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "and contrast (object threshold 30%). The pixel intensity of selected neurones was averaged, and normalised against",
+      "bbox": [
+        48.188995361328125,
+        160.9340362548828,
+        547.1260986328125,
+        169.78082275390625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "object area and exposure time. The ﬂuorescence intensities derived from pErk antibody and Erk antibody were",
+      "bbox": [
+        48.188995361328125,
+        172.88905334472656,
+        547.1460571289062,
+        181.73583984375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "quantiﬁed.",
+      "bbox": [
+        48.188995361328125,
+        184.8440704345703,
+        94.14646911621094,
+        193.69085693359375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "1.8",
+      "bbox": [
+        48.188995361328125,
+        215.33523559570312,
+        65.39253234863281,
+        225.95144653320312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Data preprocessing",
+      "bbox": [
+        78.84213256835938,
+        215.33523559570312,
+        191.79483032226562,
+        225.95144653320312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Experimental and biological variability causes diﬀerences in the mean ﬂuorescence intensity between experimental",
+      "bbox": [
+        48.188995361328125,
+        239.0921173095703,
+        547.1161499023438,
+        247.93890380859375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "replicates. To compensate for these diﬀerences, the data are normalised. All ﬂuorescence values collected on one",
+      "bbox": [
+        48.188995361328125,
+        251.04713439941406,
+        547.0662841796875,
+        259.8939208984375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "day are scaled with a constant, which is chosen such that quadratic mismatch of the ﬂuorescence mean intensities",
+      "bbox": [
+        48.188995361328125,
+        263.0021667480469,
+        547.09619140625,
+        271.84893798828125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "across replicates is minimal. For details we refer to the implementation (data scaling.m).",
+      "bbox": [
+        48.188995361328125,
+        274.9579772949219,
+        444.5690612792969,
+        284.0838928222656
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Most research groups determine the scale constant using only the control. We however observed, that more robust",
+      "bbox": [
+        48.18902587890625,
+        290.8979797363281,
+        547.1160888671875,
+        299.7447509765625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "results are achieved when considering all data for the normalisation.",
+      "bbox": [
+        48.18902587890625,
+        302.8529968261719,
+        345.80169677734375,
+        311.69976806640625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "2",
+      "bbox": [
+        48.18902587890625,
+        336.74176025390625,
+        56.26593780517578,
+        349.481201171875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Parameter estimation, uncertainty analysis and model selection",
+      "bbox": [
+        72.40541076660156,
+        336.74176025390625,
+        521.3409423828125,
+        349.481201171875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "The parameter estimation for the ODE-MM models is performed using multi-start local optimisation. At least",
+      "bbox": [
+        48.18902587890625,
+        365.5899963378906,
+        547.1160278320312,
+        374.436767578125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "100 runs of the local optimiser were performed for each model. If the best objective function value has not been",
+      "bbox": [
+        48.18902587890625,
+        377.54498291015625,
+        547.1259765625,
+        386.3917541503906
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "determined at least 5 times, the number of local optimisations has been increased. For computational eﬃciency,",
+      "bbox": [
+        48.18902587890625,
+        389.4999694824219,
+        547.1060791015625,
+        398.34674072265625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "all parameters besides the subpopulation weights have been log-transformed. The bounds for the optimisation",
+      "bbox": [
+        48.18902587890625,
+        401.4549560546875,
+        547.14599609375,
+        410.3017272949219
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "variables are provided in the next section.",
+      "bbox": [
+        48.18902587890625,
+        413.41094970703125,
+        231.05259704589844,
+        422.2577209472656
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "For the analysis of parameter uncertainties we used asymptotic conﬁdence intervals as well as ﬁnite sample conﬁdence",
+      "bbox": [
+        48.18902587890625,
+        429.3509521484375,
+        547.076171875,
+        438.1977233886719
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "intervals. Asymptotic conﬁdence intervals were computed from the curvature of the likelihood at the maximum",
+      "bbox": [
+        48.189056396484375,
+        441.3059387207031,
+        547.1192016601562,
+        450.1527099609375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "likelihood, namely the Hessian. Finite sample conﬁdence intervals were determined using proﬁle likelihoods (see [2]",
+      "bbox": [
+        48.189056396484375,
+        453.26092529296875,
+        547.1260375976562,
+        462.1076965332031
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "for details).",
+      "bbox": [
+        48.189056396484375,
+        465.2159118652344,
+        98.37065887451172,
+        474.06268310546875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "The model selection has been performed using the Bayesian information criterion (BIC) [3]. The results of the",
+      "bbox": [
+        48.189056396484375,
+        481.15692138671875,
+        547.1160278320312,
+        490.0036926269531
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "model selection are summarised in Supplement Table 1.",
+      "bbox": [
+        48.189056396484375,
+        493.1119079589844,
+        291.1170349121094,
+        501.95867919921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "3",
+      "bbox": [
+        48.189056396484375,
+        527.0006713867188,
+        56.265968322753906,
+        539.7400512695312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Models for the NGF signalling pathway",
+      "bbox": [
+        72.40544128417969,
+        527.0006713867188,
+        353.0027160644531,
+        539.7400512695312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "In the following we introduced three models for the NGF signalling pathway. These models are rather simple and",
+      "bbox": [
+        48.189056396484375,
+        555.848876953125,
+        547.135986328125,
+        564.6956787109375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "rely on a minimal set of assumptions and parameters.",
+      "bbox": [
+        48.189056396484375,
+        567.8038330078125,
+        282.6886901855469,
+        576.650634765625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "In the literature, detailed models for the NGF-induced Erk1/2 phosphorylation have been proposed. These available",
+      "bbox": [
+        48.189056396484375,
+        583.743896484375,
+        547.166015625,
+        592.5906982421875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "models have been developed to study the response of the rat pheochromocytoma cell line (PC12) to NGF stimulation.",
+      "bbox": [
+        48.189056396484375,
+        595.6988525390625,
+        547.1259765625,
+        604.545654296875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "In this study we considered however primary sensory neurones derived from rat DRGs. It has been shown that the",
+      "bbox": [
+        48.189056396484375,
+        607.6538696289062,
+        547.1259765625,
+        616.5006713867188
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "response characteristics of PC12 cells and primary DRG neurones diﬀer [1].",
+      "bbox": [
+        48.189056396484375,
+        619.60986328125,
+        377.7120056152344,
+        628.4566650390625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "We believe that the pathway topology is similar in PC12 cells and primary DRG neurones, protein abundances",
+      "bbox": [
+        48.189056396484375,
+        635.5498657226562,
+        547.1559448242188,
+        644.3966674804688
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "and reaction rates are however most likely altered. This can shift the pathway in a completely diﬀerent dynamic",
+      "bbox": [
+        48.189056396484375,
+        647.5048828125,
+        547.126220703125,
+        656.3516845703125
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "regime, in which other mechanism are important, and limits the reusability of the available quantitative information.",
+      "bbox": [
+        48.189056396484375,
+        659.4598388671875,
+        547.1658935546875,
+        668.306640625
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Besides the limited amount of experimental data for primary sensory neurones, the limited reusability of existing",
+      "bbox": [
+        48.189056396484375,
+        671.4148559570312,
+        547.1358642578125,
+        680.2616577148438
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "information is the key reason why we start out with rather simple models.",
+      "bbox": [
+        48.189056396484375,
+        683.369873046875,
+        372.41192626953125,
+        692.2166748046875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "3.1",
+      "bbox": [
+        48.189056396484375,
+        713.8610229492188,
+        65.39259338378906,
+        724.477294921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "Pathway model A",
+      "bbox": [
+        78.84219360351562,
+        713.8610229492188,
+        183.94033813476562,
+        724.477294921875
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "The pathway model A provides a simple description of NGF-induced Erk1/2 phosphorylation which merely accounts",
+      "bbox": [
+        48.189056396484375,
+        737.6178588867188,
+        547.1558837890625,
+        746.4646606445312
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "for the NGF receptor TrkA and Erk.",
+      "bbox": [
+        48.189056396484375,
+        749.5728759765625,
+        208.93560791015625,
+        758.419677734375
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "text": "3",
+      "bbox": [
+        295.14703369140625,
+        801.0848999023438,
+        300.1283264160156,
+        809.9317016601562
+      ],
+      "direction": [
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "layout": {
+    "metadata": {
+      "format": "PDF 1.7",
+      "title": "",
+      "author": "",
+      "subject": "",
+      "keywords": "",
+      "creator": "TeX",
+      "producer": "pdfTeX-1.40.13",
+      "creationDate": "D:20140514173659+02'00'",
+      "modDate": "D:20140514173659+02'00'",
+      "trapped": "",
+      "encryption": null,
+      "file_path": "/Users/hyunhwanj/wss/fossil/PMC4081021/paper-review/documents/.pdf-skill-scan-6zy0s3sq/review/source.pdf",
+      "page_count": 14,
+      "page_number": 3
+    },
+    "toc_items": [],
+    "page_boxes": [
+      {
+        "index": 0,
+        "class": "section-header",
+        "bbox": [
+          48,
+          64,
+          351,
+          77
+        ],
+        "pos": [
+          0,
+          54
+        ]
+      },
+      {
+        "index": 1,
+        "class": "text",
+        "bbox": [
+          48,
+          88,
+          548,
+          194
+        ],
+        "pos": [
+          54,
+          1001
+        ]
+      },
+      {
+        "index": 2,
+        "class": "section-header",
+        "bbox": [
+          48,
+          215,
+          192,
+          227
+        ],
+        "pos": [
+          1001,
+          1033
+        ]
+      },
+      {
+        "index": 3,
+        "class": "text",
+        "bbox": [
+          48,
+          238,
+          548,
+          285
+        ],
+        "pos": [
+          1033,
+          1483
+        ]
+      },
+      {
+        "index": 4,
+        "class": "text",
+        "bbox": [
+          48,
+          290,
+          548,
+          312
+        ],
+        "pos": [
+          1483,
+          1667
+        ]
+      },
+      {
+        "index": 5,
+        "class": "section-header",
+        "bbox": [
+          48,
+          336,
+          522,
+          350
+        ],
+        "pos": [
+          1667,
+          1740
+        ]
+      },
+      {
+        "index": 6,
+        "class": "text",
+        "bbox": [
+          48,
+          365,
+          548,
+          423
+        ],
+        "pos": [
+          1740,
+          2227
+        ]
+      },
+      {
+        "index": 7,
+        "class": "text",
+        "bbox": [
+          48,
+          429,
+          548,
+          475
+        ],
+        "pos": [
+          2227,
+          2595
+        ]
+      },
+      {
+        "index": 8,
+        "class": "text",
+        "bbox": [
+          48,
+          480,
+          548,
+          502
+        ],
+        "pos": [
+          2595,
+          2761
+        ]
+      },
+      {
+        "index": 9,
+        "class": "section-header",
+        "bbox": [
+          48,
+          526,
+          354,
+          540
+        ],
+        "pos": [
+          2761,
+          2809
+        ]
+      },
+      {
+        "index": 10,
+        "class": "text",
+        "bbox": [
+          48,
+          555,
+          548,
+          577
+        ],
+        "pos": [
+          2809,
+          2975
+        ]
+      },
+      {
+        "index": 11,
+        "class": "text",
+        "bbox": [
+          48,
+          583,
+          548,
+          630
+        ],
+        "pos": [
+          2975,
+          3392
+        ]
+      },
+      {
+        "index": 12,
+        "class": "text",
+        "bbox": [
+          48,
+          635,
+          548,
+          693
+        ],
+        "pos": [
+          3392,
+          3920
+        ]
+      },
+      {
+        "index": 13,
+        "class": "section-header",
+        "bbox": [
+          48,
+          713,
+          184,
+          725
+        ],
+        "pos": [
+          3920,
+          3949
+        ]
+      },
+      {
+        "index": 14,
+        "class": "text",
+        "bbox": [
+          48,
+          737,
+          548,
+          759
+        ],
+        "pos": [
+          3949,
+          4096
+        ]
+      },
+      {
+        "index": 15,
+        "class": "page-footer",
+        "bbox": [
+          295,
+          801,
+          301,
+          809
+        ],
+        "pos": [
+          4096,
+          4100
+        ]
+      }
+    ],
+    "text": "## **1.7 Quantitative Automated Microscopy (QuAM)** \n\nAs published recently, cells were evaluated with a Zeiss Axioplan 2 microscope controlled by the software Metacyte (Metasystems) [1]. In short, images of mounted coverslips were taken (1280 _×_ 1024 pixels) with a 10 _×_ objective. The exposure time was defined automatically so that maximal 1000 pixel / 100 _µ_ m<sup>2</sup> were saturated, but with an exposure time of maximal 0.96 s. As selection marker of sensory neurones, cell identification was performed on immunofluorescently-labeled (Erk staining) cells. Parameters were defined to automatically identify neurones but not glia cells, (positive selection parameters: size 150-1500 _µ_ m<sup>2</sup> , form (aspect ratio = 2; concavity depth = 0.25) and contrast (object threshold 30%). The pixel intensity of selected neurones was averaged, and normalised against object area and exposure time. The fluorescence intensities derived from pErk antibody and Erk antibody were quantified. \n\n## **1.8 Data preprocessing** \n\nExperimental and biological variability causes differences in the mean fluorescence intensity between experimental replicates. To compensate for these differences, the data are normalised. All fluorescence values collected on one day are scaled with a constant, which is chosen such that quadratic mismatch of the fluorescence mean intensities across replicates is minimal. For details we refer to the implementation ( `data` ~~`s`~~ `caling.m` ). \n\nMost research groups determine the scale constant using only the control. We however observed, that more robust results are achieved when considering all data for the normalisation. \n\n# **2 Parameter estimation, uncertainty analysis and model selection** \n\nThe parameter estimation for the ODE-MM models is performed using multi-start local optimisation. At least 100 runs of the local optimiser were performed for each model. If the best objective function value has not been determined at least 5 times, the number of local optimisations has been increased. For computational efficiency, all parameters besides the subpopulation weights have been log-transformed. The bounds for the optimisation variables are provided in the next section. \n\nFor the analysis of parameter uncertainties we used _asymptotic confidence intervals_ as well as _finite sample confidence intervals_ . Asymptotic confidence intervals were computed from the curvature of the likelihood at the maximum likelihood, namely the Hessian. Finite sample confidence intervals were determined using profile likelihoods (see [2] for details). \n\nThe model selection has been performed using the Bayesian information criterion (BIC) [3]. The results of the model selection are summarised in Supplement Table 1. \n\n# **3 Models for the NGF signalling pathway** \n\nIn the following we introduced three models for the NGF signalling pathway. These models are rather simple and rely on a minimal set of assumptions and parameters. \n\nIn the literature, detailed models for the NGF-induced Erk1/2 phosphorylation have been proposed. These available models have been developed to study the response of the rat pheochromocytoma cell line (PC12) to NGF stimulation. In this study we considered however primary sensory neurones derived from rat DRGs. It has been shown that the response characteristics of PC12 cells and primary DRG neurones differ [1]. \n\nWe believe that the pathway topology is similar in PC12 cells and primary DRG neurones, protein abundances and reaction rates are however most likely altered. This can shift the pathway in a completely different dynamic regime, in which other mechanism are important, and limits the reusability of the available quantitative information. Besides the limited amount of experimental data for primary sensory neurones, the limited reusability of existing information is the key reason why we start out with rather simple models. \n\n## **3.1 Pathway model A** \n\nThe pathway model A provides a simple description of NGF-induced Erk1/2 phosphorylation which merely accounts for the NGF receptor TrkA and Erk. \n\n3 \n\n"
+  }
+}

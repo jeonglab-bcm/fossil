@@ -1,0 +1,169 @@
+{
+  "page": 6,
+  "width": 595.2760009765625,
+  "height": 841.8900146484375,
+  "mode": "native",
+  "preview": "previews/page-0006.png",
+  "reviewed": true,
+  "review_notes": "Checked every symbol against 250-dpi crops. Headings: 3.2.3/3.3.1 set to #####, 3.3 to ####. The initial-condition formula crop (x1(0)..x5(0), nested fractions) and the mass-conservation crop were replaced by LaTeX display math transcribed term by term from the crop. The reaction list was badly garbled by extraction (Hill-type R3 rate split into superscripts); rewritten as a LaTeX array with R3 rate = k3[TrkA:NGF][Ras:GDP]K3^n/(K3^n + [pErk]^n). First paragraph continues the discussion after the RRE model on page 5 but starts a new paragraph after display math, so join_previous is not set. Page number \"6\" omitted.",
+  "warnings": [],
+  "items": [
+    {
+      "id": "p0006-b000",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        66.0,
+        548.0,
+        101.0
+      ],
+      "markdown": "The solution of this ODE model merely depends on the parameters $k_1$, $k_2$, $k_4$, $k_5$, $k_7$, $k_9$ and $k_{11}$, and the parameter products $k_3[TrkA]_0$, $k_6[Ras]_0$, $k_8[Raf]_0$, $k_{10}[Mek]_0$ and $s[Erk]_0$. Thus, we obtain the reduced vector of kinetic parameters $k = (k_1, k_2, k_4, k_5, k_7, k_9, k_{11}, k_3[TrkA]_0, k_6[Ras]_0, k_8[Raf]_0, k_{10}[Mek]_0, s[Erk]_0)$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b001",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        106.0,
+        373.0,
+        117.0
+      ],
+      "markdown": "As initial condition we use the steady state of this system for $[NGF]_0 = 0$,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b002",
+      "kind": "text",
+      "bbox": [
+        62.0,
+        122.0,
+        535.0,
+        281.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\nx_1(0) &= 0\\\\\nx_2(0) &= \\frac{k_4(k_6[Ras]_0)}{k_4 + k_5}\\\\\nx_3(0) &= \\frac{x_2(0)(k_8[Raf]_0)}{x_2(0) + k_7} = \\frac{k_4(k_6[Ras]_0)(k_8[Raf]_0)}{k_4(k_6[Ras]_0) + (k_4 + k_5)k_7}\\\\\nx_4(0) &= \\frac{x_3(0)(k_{10}[Mek]_0)}{x_3(0) + k_9} = \\frac{k_4(k_6[Ras]_0)(k_8[Raf]_0)(k_{10}[Mek]_0)}{k_4(k_6[Ras]_0)(k_8[Raf]_0) + (k_4(k_6[Ras]_0) + (k_4 + k_5)k_7)k_9}\\\\\nx_5(0) &= \\frac{x_4(0)(s[Erk]_0)}{x_4(0) + k_{11}}\\\\\n&= \\frac{k_4(k_6[Ras]_0)(k_8[Raf]_0)(k_{10}[Mek]_0)(s[Erk]_0)}{k_4(k_6[Ras]_0)(k_8[Raf]_0)(k_{10}[Mek]_0) + (k_4(k_6[Ras]_0)(k_8[Raf]_0) + (k_4(k_6[Ras]_0) + (k_4 + k_5)k_7)k_9)k_{11}}.\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0006-b003",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        294.0,
+        192.0,
+        302.0
+      ],
+      "markdown": "##### 3.2.3 Parameter estimation",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0006-b004",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        315.0,
+        548.0,
+        375.0
+      ],
+      "markdown": "For the parameter estimation and model selection we constrained the kinetic parameter $k_i$ to the interval $[10^{-3}, 10^{3}]$. The range of the kinetic parameters is smaller than for pathway model A but still six order of magnitude wide. The range had to be reduced as we encountered numerical integration problems for the ODE solvers. The subpopulation sizes $w_i$ have been constrained to $[0, 1]$. Standard deviations of normal distributions and shape parameters of log-normal distributions were constrained to $[10^{-1}, 10^{2}]$ and $[10^{-1}, 10^{1}]$, respectively.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b005",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        395.0,
+        184.0,
+        406.0
+      ],
+      "markdown": "#### 3.3 Pathway model C",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0006-b006",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        418.0,
+        172.0,
+        427.0
+      ],
+      "markdown": "##### 3.3.1 Reaction network",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0006-b007",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        441.0,
+        548.0,
+        463.0
+      ],
+      "markdown": "Pathway model C accounts for the same reactions as pathway model B and an additional negative feedback from pErk to TrkA:NGF-induced Ras phosphorylation ($R_3$),",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b008",
+      "kind": "text",
+      "bbox": [
+        136.0,
+        474.0,
+        461.0,
+        648.0
+      ],
+      "markdown": "$$\n\\begin{array}{lll}\nR_1: & TrkA + NGF → TrkA:NGF, & \\text{rate} = k_1[TrkA][NGF],\\\\\nR_2: & TrkA:NGF → NGF + TrkA, & \\text{rate} = k_2[TrkA:NGF],\\\\\nR_3: & Ras:GDP → Ras:GTP, & \\text{rate} = \\dfrac{k_3[TrkA:NGF][Ras:GDP]K_3^n}{K_3^n + [pErk]^n},\\\\\nR_4: & Ras:GDP → Ras:GTP, & \\text{rate} = k_4[Ras:GDP],\\\\\nR_5: & Ras:GTP → Ras:GDP, & \\text{rate} = k_5[Ras:GTP],\\\\\nR_6: & Raf → pRaf, & \\text{rate} = k_6[Ras:GTP][Raf],\\\\\nR_7: & pRaf → Raf, & \\text{rate} = k_7[pRaf],\\\\\nR_8: & Mek → pMek, & \\text{rate} = k_8[pRaf][Mek],\\\\\nR_9: & pMek → Mek, & \\text{rate} = k_9[pMek],\\\\\nR_{10}: & Erk → pErk, & \\text{rate} = k_{10}[Erk],\\\\\nR_{11}: & pErk → Erk, & \\text{rate} = k_{11}[pErk],\n\\end{array}\n$$",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b009",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        659.0,
+        164.0,
+        667.0
+      ],
+      "markdown": "and the mass conservation",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b010",
+      "kind": "text",
+      "bbox": [
+        217.0,
+        663.0,
+        379.0,
+        759.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n[TrkA] + [TrkA:NGF] &= [TrkA]_0\\\\\n[NGF] + [TrkA:NGF] &= [NGF]_0\\\\\n[Ras:GDP] + [Ras:GTP] &= [Ras]_0\\\\\n[Raf] + [pRaf] &= [Raf]_0\\\\\n[Mek] + [pMek] &= [Mek]_0\\\\\n[Erk] + [pErk] &= [Erk]_0.\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0006-b011",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        761.0,
+        304.0,
+        771.0
+      ],
+      "markdown": "Note that we do not distinguish between c-Raf and B-Raf.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b012",
+      "kind": "omit",
+      "bbox": [
+        295.0,
+        801.0,
+        301.0,
+        809.0
+      ],
+      "markdown": "6",
+      "source_class": "page-footer",
+      "reason": "Running page number \"6\" centred in the bottom margin; confirmed against the page preview."
+    }
+  ]
+}

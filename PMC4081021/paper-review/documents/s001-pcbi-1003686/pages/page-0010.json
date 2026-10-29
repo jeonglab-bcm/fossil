@@ -1,0 +1,155 @@
+{
+ "page": 10,
+ "width": 612.2830200195312,
+ "height": 790.8660278320312,
+ "mode": "native",
+ "preview": "previews/page-0010.png",
+ "reviewed": true,
+ "review_notes": "Inspected preview, 4x crops of the Figure 3 caption and evidence lines. Order: left-column continuation paragraph (p0010-b003), Figure 3 + caption, then the \"Comparison of pathway models\" subsection. p0010-b003 starts unindented and continues the page-8 paragraph ending p0008-b020 (\"...counterintuitive result.\"); join_previous is deliberately NOT set because page 9 (Table 1) sits between them in default order; coordinator should add a plan reading_order placing p0010-b003 directly after p0008-b020 and then set join_previous=space. Split the bold run-in subsection title into heading p0010-b004h (\"#### Comparison of pathway models\", a JATS level-3 sec under \"Application example\"). p0010-b005 joins p0010-b004 across columns. Restored model symbols lost by the text layer (MH1,2 -> ℳ<sub>H1,2</sub> etc.) and \"n~4\" -> \"n = 4\" in the caption. Figure 3 bbox checked: encloses panels A-D and all labels. Header/footer/page number omitted.",
+ "warnings": [
+  "Review possible header/footer: p0010-b000",
+  "Review possible header/footer: p0010-b007",
+  "Review possible header/footer: p0010-b008"
+ ],
+ "items": [
+  {
+   "id": "p0010-b003",
+   "kind": "text",
+   "bbox": [
+    58.0,
+    592.0,
+    298.0,
+    695.0
+   ],
+   "markdown": "While the kinetic parameters of ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub> were mostly practically non-identifiable, all parameters of ℳ<sub>H3,2</sub> and ℳ<sub>H3,3</sub> were practically identifiable. A possible explanation is that ODE-MMs for H1 cannot exploit all information encoded in the distribution as the model is not flexible enough, rendering the data less informative and causing non-identifiability of parameters. This on the other hand means that the informativeness of data depends on the model used to analyse them. More flexible models might not only provide deeper insights but also provide more reliable estimates.",
+   "source_class": "text",
+   "join_previous": "space"
+  },
+  {
+   "id": "p0010-b001",
+   "kind": "figure",
+   "bbox": [
+    53.0,
+    55.0,
+    550.0,
+    491.0
+   ],
+   "markdown": "",
+   "source_class": "picture",
+   "label": "Figure 3",
+   "asset_name": "figure-3"
+  },
+  {
+   "id": "p0010-b002",
+   "kind": "caption",
+   "bbox": [
+    58.0,
+    498.0,
+    555.0,
+    578.0
+   ],
+   "markdown": "**Figure 3. Models for NGF-induced Erk1/2 signalling without subpopulations.** (A) Schematic of model for NGF-induced Erk1/2 signalling. Arrows represent conversion reactions and regulatory interactions. (B) Mean and standard deviation of measured pErk levels (kinetic: *n* = 4, 18797 cells; dose response: *n* = 4, 12205 cells) as well as simulated mean for the models ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub>. (C) Histograms of the measured pErk levels (data of biological replica are pooled) and corresponding distributions computed using model ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub>. Simulation results for ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub> are very similar leading to significant overplotting. pErk levels in (B) and (C) are in arbitrary units of intensity (UI). (D) Maximum likelihood estimates of parameters and confidence intervals for the parameters of ℳ<sub>H1,2</sub> and ℳ<sub>H1,3</sub>. Vertical lines mark the maximum likelihood estimates and the horizontal bars represent the confidence intervals corresponding to different confidence levels (80%, 90%, 95% and 99%) computed using profile likelihoods. doi:10.1371/journal.pcbi.1003686.g003",
+   "source_class": "caption"
+  },
+  {
+   "id": "p0010-b004h",
+   "kind": "heading",
+   "bbox": [
+    66.0,
+    699.0,
+    214.0,
+    708.0
+   ],
+   "markdown": "#### Comparison of pathway models"
+  },
+  {
+   "id": "p0010-b004",
+   "kind": "text",
+   "bbox": [
+    58.0,
+    699.0,
+    298.0,
+    729.0
+   ],
+   "markdown": "Pathway model A (Figure 5A, left) which we studied so far merely accounts for TrkA and Erk dynamics. In the literature more detailed models for",
+   "source_class": "text"
+  },
+  {
+   "id": "p0010-b005",
+   "kind": "text",
+   "bbox": [
+    315.0,
+    592.0,
+    555.0,
+    686.0
+   ],
+   "markdown": "NGF-induced Erk1/2 activation have been proposed [56–60]. Although these pathway models have been developed for cell lines, such as the rat pheochromocytoma cell line (PC12), we expect the structure of the pathway to be similar in primary DRG neurones. In contrast, protein abundances and reaction rates are most likely altered, which limits the reusability of the available quantitative information. In addition, cell lines are most likely more homogeneous than the primary DRG neurons considered in this project.",
+   "source_class": "text",
+   "join_previous": "space"
+  },
+  {
+   "id": "p0010-b006",
+   "kind": "text",
+   "bbox": [
+    315.0,
+    688.0,
+    555.0,
+    729.0
+   ],
+   "markdown": "To evaluate the robustness of our predictions with respect to the choice of the pathway description, we considered two additional pathway models. Pathway models B and C (Figure 5A, middle and right) account for the signal amplification cascade and a negative",
+   "source_class": "text"
+  },
+  {
+   "id": "p0010-b000",
+   "kind": "omit",
+   "bbox": [
+    432.0,
+    30.0,
+    555.0,
+    38.0
+   ],
+   "markdown": "ODE Constrained Mixture Modelling",
+   "source_class": "page-header",
+   "reason": "Running header (short title \"ODE Constrained Mixture Modelling\") repeated on every page; verified in preview."
+  },
+  {
+   "id": "p0010-b007",
+   "kind": "omit",
+   "bbox": [
+    58.0,
+    754.0,
+    244.0,
+    763.0
+   ],
+   "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+   "source_class": "page-footer",
+   "reason": "Journal footer line \"PLOS Computational Biology | www.ploscompbiol.org\" repeated on every page; verified in preview."
+  },
+  {
+   "id": "p0010-b008",
+   "kind": "omit",
+   "bbox": [
+    398.0,
+    754.0,
+    555.0,
+    763.0
+   ],
+   "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+   "source_class": "page-footer",
+   "reason": "Journal issue footer \"July 2014 | Volume 10 | Issue 7 | e1003686\" repeated on every page; verified in preview."
+  },
+  {
+   "id": "p0010-b009",
+   "kind": "omit",
+   "bbox": [
+    302.0,
+    754.0,
+    311.0,
+    761.0
+   ],
+   "markdown": "10",
+   "source_class": "page-footer",
+   "reason": "Page-number-only footer; verified in preview."
+  }
+ ]
+}

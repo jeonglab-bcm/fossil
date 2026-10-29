@@ -1,0 +1,181 @@
+{
+  "page": 7,
+  "width": 595.2760009765625,
+  "height": 841.8900146484375,
+  "mode": "native",
+  "preview": "previews/page-0007.png",
+  "reviewed": true,
+  "review_notes": "Checked every symbol against 220-dpi crops. Headings 3.3.2/3.3.3 set to ##### (extraction had #). Replaced four formula crops (rate equations with pErk feedback, full parameter vector, reformulated RRE model, reduced parameter vector) with LaTeX display math. Preserved source quirks as printed: the d[Ras:GTP]/dt numerator opens a parenthesis \"(k3[TrkA:NGF]K3^n\" that is never closed; K3 appears twice in the full parameter vector. Restored the compound hyphen \"non-identifiable\" broken at a line wrap (extraction gave \"nonidentifiable\"). Page number \"7\" omitted.",
+  "warnings": [],
+  "items": [
+    {
+      "id": "p0007-b000",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        66.0,
+        304.0,
+        76.0
+      ],
+      "markdown": "##### 3.3.2 Reaction rate equation and parametrization",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0007-b001",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        88.0,
+        548.0,
+        111.0
+      ],
+      "markdown": "Under the assumption that the total NGF concentration is much larger than the total TrkA concentration, $[NGF]_0 \\gg [TrkA]_0$, the dynamics of TrkA:NGF, Ras:GTP, pRaf, pMek and pErk can be stated as",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b002",
+      "kind": "text",
+      "bbox": [
+        116.0,
+        116.0,
+        482.0,
+        266.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n\\frac{d[TrkA:NGF]}{dt} &= k_1[NGF]_0([TrkA]_0 - [TrkA:NGF]) - k_2[TrkA:NGF]\\\\\n\\frac{d[Ras:GTP]}{dt} &= \\left(\\frac{(k_3[TrkA:NGF]K_3^n}{K_3^n + [pErk]^n} + k_4\\right)([Ras]_0 - [Ras:GTP]) - k_5[Ras:GTP]\\\\\n\\frac{d[pRaf]}{dt} &= k_6[Ras:GTP]([Raf]_0 - [pRaf]) - k_7[pRaf]\\\\\n\\frac{d[pMek]}{dt} &= k_8[pRaf]([Mek]_0 - [pMek]) - k_9[pMek]\\\\\n\\frac{d[pErk]}{dt} &= k_{10}[pMek]([Erk]_0 - [pErk]) - k_{11}[pErk]\\\\\ny &= s[pErk],\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0007-b003",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        272.0,
+        152.0,
+        282.0
+      ],
+      "markdown": "with kinetic parameters",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b004",
+      "kind": "text",
+      "bbox": [
+        90.0,
+        288.0,
+        505.0,
+        309.0
+      ],
+      "markdown": "$$\nk = (k_1, k_2, k_3, K_3, k_4, k_5, k_6, k_7, k_8, k_9, k_{10}, k_{11}, [TrkA]_0, [Ras]_0, [Raf]_0, [Mek]_0, [Erk]_0, s, K_3, n).\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0007-b005",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        316.0,
+        548.0,
+        350.0
+      ],
+      "markdown": "As the absolute concentrations of TrkA, Ras, Raf, Mek and Erk are unknown, this system is structurally non-identifiable. To circumvent this we reformulate the system in terms of $x_1 = k_3[TrkA:NGF]$, $x_2 = k_6[Ras:GTP]$, $x_3 = k_8[pRaf]$, $x_4 = k_{10}[pMek]$ and $x_5 = s[pErk]$, yielding the RRE model",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b006",
+      "kind": "text",
+      "bbox": [
+        182.0,
+        355.0,
+        415.0,
+        502.0
+      ],
+      "markdown": "$$\n\\begin{aligned}\n\\frac{dx_1}{dt} &= k_1[NGF]_0(k_3[TrkA]_0 - x_1) - k_2x_1\\\\\n\\frac{dx_2}{dt} &= \\left(\\frac{x_1(sK_3)^n}{(sK_3)^n + x_5^n} + k_4\\right)(k_6[Ras]_0 - x_2) - k_5x_2\\\\\n\\frac{dx_3}{dt} &= x_2(k_8[Raf]_0 - x_3) - k_7x_3\\\\\n\\frac{dx_4}{dt} &= x_3(k_{10}[Mek]_0 - x_4) - k_9x_4\\\\\n\\frac{dx_5}{dt} &= x_4(s[Erk]_0 - x_5) - k_{11}x_5\\\\\ny &= x_5,\n\\end{aligned}\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0007-b007",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        509.0,
+        548.0,
+        543.0
+      ],
+      "markdown": "The solution of this ODE model merely depends on the parameters $k_1$, $k_2$, $k_4$, $k_5$, $k_7$, $k_9$ and $k_{11}$, and the parameter products $k_3[TrkA]_0$, $sK_3$, $k_6[Ras]_0$, $k_8[Raf]_0$, $k_{10}[Mek]_0$ and $s[Erk]_0$. Thus, we obtain the reduced vector of kinetic parameters",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b008",
+      "kind": "text",
+      "bbox": [
+        108.0,
+        549.0,
+        487.0,
+        570.0
+      ],
+      "markdown": "$$\nk = (k_1, k_2, k_4, k_5, k_7, k_9, k_{11}, k_3[TrkA]_0, k_6[Ras]_0, k_8[Raf]_0, k_{10}[Mek]_0, s[Erk]_0, sK_3, n).\n$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0007-b009",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        580.0,
+        548.0,
+        602.0
+      ],
+      "markdown": "As initial condition we use the steady state of this system for $[NGF]_0 = 0$, which is equivalent to the initial condition for pathway model B.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b010",
+      "kind": "heading",
+      "bbox": [
+        48.0,
+        622.0,
+        192.0,
+        630.0
+      ],
+      "markdown": "##### 3.3.3 Parameter estimation",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0007-b011",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        643.0,
+        548.0,
+        703.0
+      ],
+      "markdown": "For the parameter estimation and model selection we constrained the kinetic parameter $k_i$ to the interval $[10^{-3}, 10^{3}]$. The range of the kinetic parameters is smaller than for pathway model A but still six order of magnitude wide. The range had to be reduced as we encountered numerical integration problems for the ODE solvers. The subpopulation sizes $w_i$ have been constrained to $[0, 1]$. Standard deviations of normal distributions and shape parameters of log-normal distributions were constrained to $[10^{-1}, 10^{2}]$ and $[10^{-1}, 10^{1}]$, respectively.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b012",
+      "kind": "text",
+      "bbox": [
+        48.0,
+        708.0,
+        548.0,
+        764.0
+      ],
+      "markdown": "Pathway model C possesses a negative feedback loop and can oscillate. It turned out that several runs of the local optimiser converged to parameters for which the system exhibits very fast oscillations. As very fast oscillations have not been observed experimentally, we filter the parameter for which the system oscillates heavily. More precisely, we excluded parameters for which the simulated trajectory for 1 ng/ml NGF exhibit more than five peaks in the time interval from 0 to 60 min.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0007-b013",
+      "kind": "omit",
+      "bbox": [
+        295.0,
+        801.0,
+        301.0,
+        809.0
+      ],
+      "markdown": "7",
+      "source_class": "page-footer",
+      "reason": "Running page number \"7\" centred in the bottom margin; confirmed against the page preview."
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "page": 3,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0003.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview, 4x crops of the math and a bbox overlay of Figure 1. p0003-b001 continues page 2 (\"their dependence / on time and stimuli\") -> join_previous space; fixed \"not/ hardly\" -> \"not/hardly\" (slash at line end, confirmed against publisher XML). Figure 1 (all panels A-D incl. the embedded comparison table in panel C) kept as one image, bbox tightened to [55,266,547,645] around the embedded raster [58.1,270,543.3,641.3]; asset figure-1. Caption kept as separate caption item with bold title. Figure 1 + caption placed after the first paragraph (paragraph boundary before \"Pathway models\") so that the paragraph continuing onto page 4 is not interrupted. p0003-b005 continues p0003-b004 across the column break (\"More / precisely\") -> join_previous space. \"Pathway models\" is ###. Equation (2) transcribed as LaTeX display math from a 4x crop (native text garbled); inline math in p0003-b008 re-transcribed ($\\mathbb{R}_+^{n_x}$, $\\xi_i$, $\\mathbb{R}_+^{n_\\xi}$, $\\mathbb{R}^{n_u}$). p0003-b008 continues on page 4 (\"parameters and / experimental conditions\"). Header/footers/page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0003-b000",
+    "Review possible header/footer: p0003-b011",
+    "Review possible header/footer: p0003-b012"
+  ],
+  "items": [
+    {
+      "id": "p0003-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0003-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        113.0
+      ],
+      "markdown": "on time and stimuli. The matching performed between individual conditions is however often questionable, in particular if some populations change their characteristics dramatically or are not/hardly distinguishable under some condition. In this case matching-based methods are highly error-prone [12].",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0003-b009",
+      "kind": "figure",
+      "bbox": [
+        55.0,
+        266.0,
+        547.0,
+        645.0
+      ],
+      "markdown": "",
+      "source_class": "picture",
+      "label": "Figure 1",
+      "asset_name": "figure-1"
+    },
+    {
+      "id": "p0003-b010",
+      "kind": "caption",
+      "bbox": [
+        58.0,
+        653.0,
+        555.0,
+        733.0
+      ],
+      "markdown": "**Figure 1. Illustration of population snapshot data and ODE constrained mixture modelling.** (A) Heterogeneous population consisting of two homogeneous subpopulations with a very different response level. Snapshot data provide at different time points (filled circle) information about the biological state of single cells. This allows for the characterisation of the kinetics of the subpopulations using threshold, histogram and kernel density estimate (KDE) based methods as well as mixture modelling. (B) Heterogeneous population consisting of two heterogenous subpopulations with a large overlap of the dose response behaviour, rendering an analysis using snapshot data difficult. (C) Table including the available analysis tools for population snapshot data and proposed ODE constrained mixture modelling along with key properties of the methods. (D) Sketch of ODE constrained mixture modelling which combines mixture modelling of the measurement data with pathway information, thereby allowing for an improved quantification of subpopulation properties and mechanistic insights. doi:10.1371/journal.pcbi.1003686.g001",
+      "source_class": "caption"
+    },
+    {
+      "id": "p0003-b002",
+      "kind": "heading",
+      "bbox": [
+        58.0,
+        129.0,
+        128.0,
+        139.0
+      ],
+      "markdown": "### Pathway models",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0003-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        141.0,
+        298.0,
+        203.0
+      ],
+      "markdown": "To circumvent shortcomings of mixture modelling, we propose to complement it with pathway information. The responses of subpopulations to different experimental conditions is ultimately determined by the involved metabolic, signalling and gene regulatory pathways. Accordingly, experimental conditions can be matched using models of the underlying biochemical pathway.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        205.0,
+        298.0,
+        257.0
+      ],
+      "markdown": "Biochemical pathways are mostly modelled using reaction rate equations (RREs) [24], which are systems of ODEs. RREs describe the temporal evolution of the ‘‘average state’’ of cells in a cell population, e.g., the abundance of signalling molecules and their activity, assuming that the population is homogeneous. More",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b005",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        113.0
+      ],
+      "markdown": "precisely, RREs implicitly assume that the variance in the abundance of chemical species across cells is small. Therefore, these models can neither be used to process the distributional information encoded in snapshot data nor to study cellular subpopulations.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0003-b006",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        114.0,
+        555.0,
+        166.0
+      ],
+      "markdown": "While RRE based modelling of heterogenous cell populations consisting of different subpopulations is not desirable, RREs might be used to model the dynamics of rather homogeneous subpopulations. In the following, we will describe the ‘‘average dynamics’’ of cells in the i-th subpopulation using a RRE,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b007",
+      "kind": "text",
+      "bbox": [
+        343.0,
+        178.0,
+        556.0,
+        195.0
+      ],
+      "markdown": "$$\\dot{x}_i=f(x_i,\\xi_i,u),\\quad x_i(0)=x_0(\\xi_i,u),\\quad i=1,\\dots,m, \\tag{2}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0003-b008",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        201.0,
+        555.0,
+        257.0
+      ],
+      "markdown": "in which $x_i(t)\\in\\mathbb{R}_+^{n_x}$ is the state of the $i$-th subpopulation at time $t$, $\\xi_i\\in\\mathbb{R}_+^{n_\\xi}$ is the parameter vector of the $i$-th subpopulation, and $u(t)\\in\\mathbb{R}^{n_u}$ is the time-dependent external stimulus. The vector field $f$ encodes the biochemical pathway and $x_0$ models the dependence of the initial condition on subpopulation parameters and",
+      "source_class": "text"
+    },
+    {
+      "id": "p0003-b011",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0003-b012",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0003-b013",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "3",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}

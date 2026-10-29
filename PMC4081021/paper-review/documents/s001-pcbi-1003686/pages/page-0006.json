@@ -1,0 +1,274 @@
+{
+  "page": 6,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0006.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 3-3.5x crops. p0006-b001 continues page 5 (\"parameterized by the RRE / as well as log-normal\") -> join_previous space; p0006-b007 continues p0006-b006 across the column break -> join_previous space. Restored real hyphen \"log-standard deviation\" (line wrap). Inline math re-transcribed: [0,1], [10^{-6},10^{4}], [10^{-2.5},10^{2.5}] (native \"½10{6,104�\"), [B], k_1..k_3, ~1.6, ~5 (native \"*1:6\"), y=s[pErk]. Bold run-in heads split into #### headings (p0006-b003h, b004h, b011h, b012h; bbox from bold-font spans, trailing period dropped). \"Application example: NGF-induced Erk1/2 signalling\" is ###. Extractor table p0006-b013 is not a table but the reaction scheme of pathway model A (R1–R5, unnumbered display); converted to LaTeX display math (text item) after checking every reaction/rate at 3.5x (native arrows/brackets garbled as \"?\", \"½…\\x03\", \"z\"). The scheme is followed on page 7 by \"and is illustrated in Figure 3A\" (after a display equation, so not joined). Header/footers/page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0006-b000",
+    "Review possible header/footer: p0006-b014",
+    "Review possible header/footer: p0006-b015"
+  ],
+  "items": [
+    {
+      "id": "p0006-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0006-b001",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        61.0,
+        298.0,
+        81.0
+      ],
+      "markdown": "as well as log-normal distributions with the median parameterised by the RRE.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0006-b002",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        82.0,
+        298.0,
+        240.0
+      ],
+      "markdown": "The combination of the 4 hypothesis and the 3 distribution assumptions yields 12 models. These 12 models were fitted to the artificial measurement data using multi-start local optimisation. Components weights were constrained to the interval [0,1], reaction rate constants to $[10^{-6},10^{4}]$, and scale parameters (normal distribution: standard deviation; log-normal distribution: log-standard deviation) to $[10^{-2.5},10^{2.5}]$. A detailed specification of the models, the maximal value of the log-likelihood function and the BIC values are provided in Table 1. Based on the BIC values, hypotheses H1, H3 and H4 can be rejected. The same holds for the AIC values. The choice of the distribution and its parameterisation plays a role. However, compared to the different model structures, the influence is negligible. Thus, ODE-MMs determined robustly the correct number of subpopulations and even revealed the differences between the subpopulations.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b003h",
+      "kind": "heading",
+      "bbox": [
+        66.0,
+        242.0,
+        274.5,
+        250.5
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Reconstruction of subpopulation characteristics"
+    },
+    {
+      "id": "p0006-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        241.0,
+        298.0,
+        387.0
+      ],
+      "markdown": "Following the hypothesis testing, the best models were analysed in greater detail, starting with comparisons of model predictions with the data. This comparison revealed that the measured means (Figures 2B and E) as well as the full distributions (Figures 2C and F) were described well by the selected ODE-MM. Furthermore, although the data did not contain a label to which subpopulation a cell belongs, the ODE-MM derived estimates for mean concentrations of [B] in the subpopulations agreed well with the true means (Figures 2B and E). For scenario 1 (homogeneous subpopulations) the true and the estimated subpopulation means were actually indistinguishable. Hence, ODE-MM derived state estimates for the subpopulation characteristics can indeed be interpreted as average subpopulation characteristics.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b004h",
+      "kind": "heading",
+      "bbox": [
+        66.0,
+        389.0,
+        234.5,
+        397.5
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Interpretation of ODE-MM parameters"
+    },
+    {
+      "id": "p0006-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        388.0,
+        298.0,
+        597.0
+      ],
+      "markdown": "Regarding the parameters, we found for scenario 1 that the ODE-MM estimates of the parameters $k_2$ and $k_3$ agree with the population average (Figure 2D). For the subpopulation specific parameter $k_1$, the ODE-MM estimates correspond to the mean parameter in the subpopulation. Even the relative size of the subpopulations is determined well. For scenario 2, in which the subpopulations are more heterogenous and overlap, the inference of the model properties is more challenging and the estimate for the subpopulation size is slightly off (Figure 2G). This can however be explained by the relatively small number of observed cells. As a reference, the distribution of population size observed when sampling 1,000 cells is depicted in Figure 2G. Furthermore, for the subpopulation which responds only weakly to the stimulus, the ODE-MM estimate of the rate constant $k_1$ does not correspond to the average rate constant in the subpopulation but overestimates it by a factor of ∼1.6. The reason might be a low signal-to-noise ratio. In this subpopulation the basal rate constant $k_2$ exceeds $k_1$ by a factor of ∼5. In combination with the large cell-to-cell variability, this might limit the estimation accuracy.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b005",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        599.0,
+        298.0,
+        702.0
+      ],
+      "markdown": "To assess the uncertainty of the parameters, we computed the profile likelihoods. The confidence intervals derived from the profile likelihoods are relatively tight. This indicates that even for cell populations consisting of heterogeneous subpopulations, population snapshots provide information about the dynamical parameters and the subpopulation statistics. Furthermore, for this artificial example, the average parameters in the subpopulation are always within the confidence intervals for the parameters of the ODE-MM. This suggests that the ODE-MM parameters can be interpreted as average parameters of the subpopulations.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b006",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        704.0,
+        298.0,
+        734.0
+      ],
+      "markdown": "To conclude the simulation example, we found that ODE-MMs facilitate the simultaneous analysis of several snapshot data sets. Furthermore, ODE-MMs can be used for hypothesis testing, and",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b007",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        91.0
+      ],
+      "markdown": "the states of the RREs accurately describe the subpopulations while their parameters provide estimates for the means of the underlying biological quantities.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0006-b008",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        104.0,
+        536.0,
+        114.0
+      ],
+      "markdown": "### Application example: NGF-induced Erk1/2 signalling",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0006-b009",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        116.0,
+        555.0,
+        232.0
+      ],
+      "markdown": "In this section, we use ODE-MMs to perform a data-driven study of NGF-induced Erk1/2 phosphorylation in primary sensory neurones. Primary sensory neurones are commonly used as a cellular model for investigating signalling components mediating pain sensitisation. NGF is known to induce a strong pain sensitisation during inflammation, but also to support neuronal repair during neuropathic pain. Studies showed that NGF binds and activates the receptor tyrosine kinase TrkA [53]. Activation of TrkA leads to the induction of the MAPK/Erk kinase pathway (see Figure 3A) resulting in the phosphorylation of ion channels and protein expression [53].",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b010",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        233.0,
+        555.0,
+        381.0
+      ],
+      "markdown": "Beyond the importance of NGF-induced Erk1/2 phosphorylation in pain research, primary sensory neurones are well suited for the evaluation of ODE-MMs as they exhibit a significant degree of cell-to-cell variability. This variability is no nuisance but relevant for their biological function [54]. It has been shown that different neuronal subgroups with different protein abundances and even phosphorylation levels exist [22,54], namely neurones which detect mechanical stimuli, heat, cold or chemicals. The detailed dynamical characteristics of these subpopulations and the causal differences are largely unknown. In the following, we will employ ODE-MMs to quantify the characteristics of the NGF responsive and unresponsive neuronal subpopulations and their sizes, and to assess reaction rate constants which cannot be obtained experimentally (Figures 3B and C).",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b011h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        383.0,
+        403.0,
+        391.5
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Experimental data"
+    },
+    {
+      "id": "p0006-b011",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        383.0,
+        555.0,
+        520.0
+      ],
+      "markdown": "The quantitative assessment of signalling in primary and heterogeneous cells is challenging compared to cell lines as many experimental methods are not applicable. To study the dynamics of the MAPK/Erk pathway we previously introduced a quantitative automated microscopy technique [13]. This technique allows for the quantification of Erk1/2 activity in single cells and provides rich datasets regarding the cell-to-cell variability. Using this technique we recorded kinetics and dose responses of NGF-induced Erk1/2 phosphorylation [13]. The signals we observed represent relative Erk1/2 phosphorylation, $y=s[\\mathrm{pErk}]$, as no calibration curve is employed. The unknown scaling constant which related absolute Erk1/2 phosphorylation, [pErk], and the measured quantity $y$ is denoted by $s$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b012h",
+      "kind": "heading",
+      "bbox": [
+        323.0,
+        521.5,
+        389.5,
+        530.0
+      ],
+      "source_class": "section-header",
+      "markdown": "#### Pathway model"
+    },
+    {
+      "id": "p0006-b012",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        521.0,
+        555.0,
+        669.0
+      ],
+      "markdown": "In the literature, it is described that NGF binds to TrkA, yielding the active signalling complex TrkA:NGF. TrkA:NGF-induces the activation of the Ras kinase, which phosphorylates the Raf kinase. The active Raf kinase phosphorylates Mek, which phosphorylates Erk1 and Erk2. In principle the consideration of all these steps is possible, but experimentally the activity of the signalling intermediates Ras, Raf and Mek is difficult to measure in primary sensory neurones as appropriate antibodies are not available. Therefore, we mainly consider a simple pathway model which merely accounts for NGF-TrkA interaction and Erk1/2 phosphorylation. We do not distinguish between Erk1 and Erk2, as their biochemical properties have been demonstrated to be nearly identical (see [55] and references therein). The resulting pathway model A considers five reactions,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0006-b013",
+      "kind": "text",
+      "bbox": [
+        322.0,
+        677.0,
+        556.0,
+        737.0
+      ],
+      "markdown": "$$\\begin{array}{lll}\\mathrm{R}_1: & \\mathrm{TrkA}+\\mathrm{NGF}\\rightarrow\\mathrm{TrkA}:\\mathrm{NGF}, & \\text{rate}=k_1[\\mathrm{TrkA}][\\mathrm{NGF}],\\\\ \\mathrm{R}_2: & \\mathrm{TrkA}:\\mathrm{NGF}\\rightarrow\\mathrm{NGF}+\\mathrm{TrkA}, & \\text{rate}=k_2[\\mathrm{TrkA}:\\mathrm{NGF}],\\\\ \\mathrm{R}_3: & \\mathrm{Erk}\\rightarrow\\mathrm{pErk}, & \\text{rate}=k_3[\\mathrm{TrkA}:\\mathrm{NGF}][\\mathrm{Erk}],\\\\ \\mathrm{R}_4: & \\mathrm{Erk}\\rightarrow\\mathrm{pErk}, & \\text{rate}=k_4[\\mathrm{Erk}],\\\\ \\mathrm{R}_5: & \\mathrm{pErk}\\rightarrow\\mathrm{Erk}, & \\text{rate}=k_5[\\mathrm{pErk}],\\end{array}$$",
+      "source_class": "table"
+    },
+    {
+      "id": "p0006-b014",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0006-b015",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0006-b016",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "6",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}

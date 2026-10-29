@@ -1,0 +1,298 @@
+{
+  "page": 2,
+  "width": 612.2830200195312,
+  "height": 790.8660278320312,
+  "mode": "native",
+  "preview": "previews/page-0002.png",
+  "reviewed": true,
+  "review_notes": "Inspected preview and 4x crops of all math. p0002-b003 continues the page-1 Introduction sentence (\"false positives / and/or false negatives\") -> join_previous space; p0002-b006 continues p0002-b005 across the column break -> join_previous space. The Author Summary box (top left; p0002-b001/b002) floats inside the Introduction: placed after the end of the Introduction (p0002-b007) and before Methods so prose is not split; coordinator may instead move it after the page-1 abstract via plan.json reading_order. Headings: Author Summary and Methods ##; Ethics statement, Measurement data, Mixture models ###. Restored real compound hyphens \"NGF-induced\" (x2, line-wrap) in p0002-b007; fixed \"für\" and italic authority name in Ethics statement. Native symbol-font text for all math was garbled (e.g. \"D~fDe kge,k\", \"h[H\"); re-transcribed inline math as LaTeX from 4x crops. Display equation (1) and the unnumbered ML problem transcribed as LaTeX display math (converted from formula images; bboxes kept); line-coverage diagnostics for these garbled native lines are expected. p0002-b019 continues on page 3 (\"their dependence / on time and stimuli\"). Running header, footers and page number omitted.",
+  "warnings": [
+    "Review possible header/footer: p0002-b000",
+    "Review possible header/footer: p0002-b020",
+    "Review possible header/footer: p0002-b021"
+  ],
+  "items": [
+    {
+      "id": "p0002-b000",
+      "kind": "omit",
+      "bbox": [
+        432.0,
+        30.0,
+        555.0,
+        38.0
+      ],
+      "markdown": "ODE Constrained Mixture Modelling",
+      "source_class": "page-header",
+      "reason": "Running header (journal short title) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0002-b003",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        303.0,
+        298.0,
+        460.0
+      ],
+      "markdown": "and/or false negatives. Furthermore, thresholding only detects large changes rendering it insensitive. An improved sensitivity is achieved by density based methods, namely histogram-based and kernel density estimation (KDE)-based methods [14–19], which compare the full distributions. Nevertheless, also density based methods tend to underestimate the size of positive/responsive subpopulations. This is not the case for mixture models which describe the cell population as a weighted sum of the underlying subpopulations. The underlying subpopulations are described using simple distributions functions [7,20–22], those statistical properties, e.g., mean and variance, describe the subpopulation. The outcome of a mixture model based data analysis depends, more or less sensitively, on the distribution assumption [7]. To assess the temporal evolution of subpopulations, matching is performed [7,12].",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0002-b004",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        461.0,
+        298.0,
+        597.0
+      ],
+      "markdown": "In addition to the aforementioned shortcoming, currently available statistical methods can only analyse measured snapshot data. None of the methods provides directly mechanistic insights, prediction for hidden network components, hypotheses regarding causal factors for the population heterogeneity or estimates for reaction rates. To gain such additional insight and to simultaneously analyse multiple snapshots, a mechanistic description of the underlying process is required. Mostly, such descriptions are based on ordinary differential equations (ODEs). Commonly used ODE models, however, do not allow for the integration of distributional information but only use the measured mean concentration [23–26]. A summary of data analysis tools and their key properties is provided in Figure 1C.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b005",
+      "kind": "text",
+      "bbox": [
+        58.0,
+        598.0,
+        298.0,
+        734.0
+      ],
+      "markdown": "In the following, we propose ODE constrained mixture models (ODE-MMs), a combination of mixture models and ODE based pathway models which exploits their individual advantages (Figure 1D). This novel class of models describes the individual snapshots using mixtures whose components are constrained by ODE models. These ODE models for the subpopulations are derived from the pathway topology and assumptions about causal, mechanistic differences between subpopulations. Due to the underlying mechanistic description of subpopulation dynamics, ODE-MMs can go beyond the obvious. Instead of only analysing the measured quantities and performing error-prone matching across conditions across multiple snapshots, ODE-MMs are capable of determining the dynamics of hidden components and",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b006",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        61.0,
+        555.0,
+        81.0
+      ],
+      "markdown": "testing for causal differences between subpopulations. This is illustrated using a simulation study of a conversion process.",
+      "source_class": "text",
+      "join_previous": "space"
+    },
+    {
+      "id": "p0002-b007",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        82.0,
+        555.0,
+        177.0
+      ],
+      "markdown": "Exemplarily, ODE-MMs are applied to investigate NGF-induced Erk1/2 phosphorylation in primary sensory neurones, a signalling pathway regulating pain sensitisation. Due to the diverse functional roles of sensory neurones, the cell system is highly heterogeneous. We introduce a dynamical model for NGF-induced Erk1/2 phosphorylation in primary sensory neurones and attempt the unraveling of the subpopulation structure and the source of heterogeneity using ODE-MMs. The results are validated using co-labelling experiments.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b001",
+      "kind": "heading",
+      "bbox": [
+        66.0,
+        64.0,
+        150.0,
+        74.0
+      ],
+      "markdown": "## Author Summary",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0002-b002",
+      "kind": "text",
+      "bbox": [
+        66.0,
+        82.0,
+        288.0,
+        280.0
+      ],
+      "markdown": "In this manuscript, we introduce ODE constrained mixture models for the analysis of population snapshot data of kinetics and dose responses. Population snapshot data can for instance be derived from flow cytometry or single-cell microscopy and provide information about the population structure and the dynamics of subpopulations. Currently available methods enable, however, only the extraction of this information if the subpopulations are very different. By combining pathway-specific ODE and mixture models, a more sensitive method is obtained, which can simultaneously analyse a variety of experimental conditions. ODE constrained mixture models facilitate the reconstruction of subpopulation sizes and dynamics, even in situations where the subpopulations are hardly distinguishable. This is shown for a simulation example as well as for the process of NGF-induced Erk1/2 phosphorylation in primary sensory neurones. We find that the proposed method allows for a simple but pervasive analysis of heterogeneous cell systems and more profound, mechanistic insights.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b008",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        189.0,
+        358.0,
+        197.0
+      ],
+      "markdown": "## Methods",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0002-b009",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        208.0,
+        386.0,
+        216.0
+      ],
+      "markdown": "### Ethics statement",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0002-b010",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        219.0,
+        555.0,
+        261.0
+      ],
+      "markdown": "All animal experiments were reported to the responsible authority, the *Landesamtes für Gesundheit und Soziales* (LAGeSo) in Berlin (T0370/05) and approved (license ZH120). All efforts were made to minimise the number of animals used and their suffering.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b011",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        273.0,
+        395.0,
+        281.0
+      ],
+      "markdown": "### Measurement data",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0002-b012",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        284.0,
+        555.0,
+        372.0
+      ],
+      "markdown": "In this work we consider collections $\\mathcal{D}=\\{\\mathcal{D}^e_k\\}_{e,k}$ of population snapshot data $\\mathcal{D}^e_k$, as illustrated in Figures 1A and B. Experimental conditions are indexed by $e$ and time points are indexed by $k$. The individual snapshots $\\mathcal{D}^e_k$ are measured at time $t^e_k$ under experimental condition $u^e$. $\\mathcal{D}^e_k$ is a collection of single cell measurements $y^e_j(t^e_k)\\in\\mathbb{R}^{n_y}$, $\\mathcal{D}^e_k=\\{y^e_j(t^e_k)\\}_j$, with $j$ indexing the individual cells. The single cell measurements are assumed to be statistically independent.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b013",
+      "kind": "heading",
+      "bbox": [
+        315.0,
+        385.0,
+        381.0,
+        393.0
+      ],
+      "markdown": "### Mixture models",
+      "source_class": "section-header"
+    },
+    {
+      "id": "p0002-b014",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        396.0,
+        555.0,
+        417.0
+      ],
+      "markdown": "The analysis of the individual population snapshots $\\mathcal{D}^e_k$, which are samples of cells, is often approached using mixture models,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b015",
+      "kind": "text",
+      "bbox": [
+        348.0,
+        428.0,
+        556.0,
+        462.0
+      ],
+      "markdown": "$$p(y|\\theta)=\\sum_{i=1}^{m} w_i\\,p(y|\\varphi_i)\\ \\text{ with }\\ \\theta=\\{(w_i,\\varphi_i)\\}_{i=1}^{m}. \\tag{1}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0002-b016",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        467.0,
+        555.0,
+        551.0
+      ],
+      "markdown": "Parameters and probability weights of the $i$-th mixture component are denoted by $\\varphi_i$ and $w_i\\geq 0$, with $\\sum_{i=1}^{m} w_i=1$, respectively. Common choices for the individual mixture components $p(y|\\varphi_i)$ are normal, log-normal, skew normal, t-, and skew t-distributions [7]. In the case of normal mixtures the component parameters are mean $\\mu_i$ and covariance matrix $\\Sigma_i$, $\\varphi_i=(\\mu_i,\\Sigma_i)$. The parameters $\\theta$ of mixture models can be estimated using maximum likelihood methods,",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b017",
+      "kind": "text",
+      "bbox": [
+        360.0,
+        560.0,
+        518.0,
+        623.0
+      ],
+      "markdown": "$$\\begin{aligned}&\\max_{\\theta\\in\\Theta}\\left\\{\\ell(\\theta):=\\sum_{j}\\,\\log\\left(\\sum_{i=1}^{m} w_i\\,p(y_j|\\varphi_i)\\right)\\right\\},\\\\ &\\text{subject to}\\quad \\sum_{i=1}^{m} w_i=1,\\end{aligned}$$",
+      "source_class": "formula"
+    },
+    {
+      "id": "p0002-b018",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        628.0,
+        555.0,
+        670.0
+      ],
+      "markdown": "in which $\\ell(\\theta):=\\log p(\\mathcal{D}|\\theta)$ denotes the log-likelihood function of the mixture model and $j$ is the index of the single cell measurement. The set of possible parameter values is denoted by $\\Theta$.",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b019",
+      "kind": "text",
+      "bbox": [
+        315.0,
+        672.0,
+        555.0,
+        734.0
+      ],
+      "markdown": "The individual mixture components are often regarded as subpopulations with different characteristics, e.g., different expression levels. To analyse collections of snapshots $\\mathcal{D}$, a matching of subpopulations detected under different conditions is performed [7,12]. The results of this matching can in principle be used to extract the characteristics of subpopulations and their dependence",
+      "source_class": "text"
+    },
+    {
+      "id": "p0002-b020",
+      "kind": "omit",
+      "bbox": [
+        58.0,
+        754.0,
+        244.0,
+        763.0
+      ],
+      "markdown": "PLOS Computational Biology | www.ploscompbiol.org",
+      "source_class": "page-footer",
+      "reason": "Journal footer (PLOS Computational Biology | www.ploscompbiol.org) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0002-b021",
+      "kind": "omit",
+      "bbox": [
+        398.0,
+        754.0,
+        555.0,
+        763.0
+      ],
+      "markdown": "July 2014 | Volume 10 | Issue 7 | e1003686",
+      "source_class": "page-footer",
+      "reason": "Journal footer (July 2014 | Volume 10 | Issue 7 | e1003686) repeated on every page; verified against preview."
+    },
+    {
+      "id": "p0002-b022",
+      "kind": "omit",
+      "bbox": [
+        304.0,
+        754.0,
+        309.0,
+        761.0
+      ],
+      "markdown": "2",
+      "source_class": "page-footer",
+      "reason": "Page number in footer; verified against preview."
+    }
+  ]
+}
