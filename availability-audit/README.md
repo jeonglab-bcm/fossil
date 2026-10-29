@@ -46,6 +46,36 @@ published 2004–2015, all with a PubMed Central ID and full text in the PMC Ope
 "Own-resource" links are those in the abstract or in sections whose titles mention availability,
 software, implementation, download and the like. Full tables are in [`summary.md`](summary.md).
 
+## Code lost, data still here
+
+These are candidates for reproducing a method from the paper text alone. The code is gone or was
+never released, but the input data is still available and small. [`find_data_candidates.py`](find_data_candidates.py)
+writes `data_candidates.csv`: papers in tiers D, E or G whose intact data-type supplements total at
+most 20 MB, or that cite a GEO, ArrayExpress or SRA accession that still resolves.
+
+- 1,073 papers qualify.
+- 227 of them have supplement captions that describe input data (a dataset, benchmark,
+  training/test set or expression data).
+- 51 of those 227 had code that is now lost (tiers D and E).
+
+The ranking is heuristic: a caption can say "dataset" for a file of results.
+
+We opened the files for these and confirmed they hold the input data:
+
+| Paper | Method | Code status | Data in the PMC supplement |
+| --- | --- | --- | --- |
+| PMC1802094 (2007) | Boolean networks inferred with chi-square tests | site unreachable | toy data (18 time points × 8 genes), 43 simulated sets (7 × 40), yeast cell-cycle binary data, and the true Boolean functions as R code; under 30 kB |
+| PMC3322362 (2011) | RPISeq: RNA–protein interaction prediction from sequence | server unreachable | RPI2241 and RPI369 interaction pairs (PDB chains; 36 kB) |
+| PMC2958853 (2010) | Scoring function for solubility mutagenesis | page unreachable | dataset of solubility mutants and cross-validation folds (311 kB; structures from PDB) |
+| PMC3027113 (2011) | NetSAP: disease-associated amino-acid substitutions | domain gone | training and independent datasets (791 kB), plus the trained models (4.9 MB) |
+| PMC1955748 (2007) | ASH protein structure alignment | page 404 | training set of CATH domain IDs (23 kB; structures from CATH) |
+| PMC2573020 (2008) | MEDUSA model of the yeast oxygen and heme network | page 404 | normalized, discretized and fold-change expression data (4.3 MB) and the learned model's regulators |
+| PMC2063505 (2007) | EDISA biclustering of expression time series | domain gone | synthetic evaluation dataset (6.9 MB) and the gene lists of all modules |
+| PMC548129 (2005) | Non-linear mapping (SOM, Sammon) of expression data | never released | leukaemia, SRBCT and Parkinson's datasets (1.9 MB), and the published maps for comparison |
+| PMC3348049 (2012) | SVM for virus–human protein interactions | never released | HCV and HPV training/test sets (38 kB) |
+| PMC3176265 (2011) | ΔΔG prediction from sequence and structure | never released | training and independent test sets (98 kB) |
+| PMC4682424 (2015) | Positive-unlabeled learning of B-cell epitopes | never released | 92 unbound structures with annotated epitopes (~100 kB) |
+
 ## Which papers
 
 [`select_papers.py`](select_papers.py) runs two PubMed queries, both limited to 2004–2015, research
@@ -157,6 +187,7 @@ python3 sample_candidates.py        # then fill install_sample.csv by hand
 python3 inspect_sample.py           # static checks; install_sample.py (runs builds) only in a sandbox
 python3 summarize.py
 python3 plot_audit.py
+python3 find_data_candidates.py      # code lost, small data available
 ```
 
 Link checks depend on the day and the network they run from: rerunning gives somewhat different
