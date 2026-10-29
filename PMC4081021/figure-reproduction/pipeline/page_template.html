@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ODE-MM Figure Comparison</title>
+<meta name="description" content="Hasenauer et al. 2014, ODE constrained mixture modelling in PLoS Computational Biology, dug back up: each published figure beside our panels drawn on its own pixels, with its verdict and what stayed buried.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../results.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="container">
+    <a class="wordmark" href="../" aria-label="fossil, home">fossil</a>
+    <nav aria-label="Site"><a href="../#papers">The papers</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021/figure-reproduction#details">Code notes</a></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-head">
+    <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 id="hero-head">ODE-MM, dug back up.</h1>
+        <p class="lead"><!--__LEDE__--></p>
+        <div class="actions"><a class="btn btn--primary" href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021/figure-reproduction#details">Read the code notes</a></div>
+      </div>
+      <nav class="label" aria-label="Figures on this page">
+        <span class="label-head"><span>Hasenauer et al. 2014</span><span>PLoS Comput Biol 10:e1003686</span></span>
+        <span class="label-title">ODE constrained mixture modelling</span>
+        <!--__LABEL__-->
+        <span class="label-stub">In the overlay, ink is theirs and green is ours</span>
+      </nav>
+    </div>
+  </section>
+
+  <div class="container bench">
+    <div id="figs" class="stations">
+      <!--__STATIONS__-->
+    </div>
+  </div>
+
+  <!--__EXTRA__-->
+
+  <!--__RECOVERED__-->
+
+  <section class="matched" aria-labelledby="matched-head">
+    <div class="container matched-grid">
+      <div class="matched-intro">
+        <h2 id="matched-head">What we matched</h2>
+        <p>The figures are MATLAB plots, and PLOS keeps the original 600&nbsp;dpi files. Inside each axes box we erased the published figure and drew our panel there, from the authors’ saved fits. Axes, labels, legends and schematics outside the boxes are the paper’s; nothing inside a box is fitted to it.</p>
+      </div>
+      <dl class="ledger">
+        <div class="row"><dt>Our run</dt><dd>Code S1, the authors’ MATLAB implementation with its data and every saved fit, ported to Python. Each panel is computed as the authors’ plotting scripts compute it, from the saved optima, Hessians and profile likelihoods.</dd></div>
+        <div class="row"><dt>Axes</dt><dd>Each axes box is snapped to the published box lines, and data map to pixels linearly or on log10 between the axis limits the plotting scripts set.</dd></div>
+        <div class="row"><dt>Lines and colours</dt><dd>MATLAB’s line widths at the figure’s scale, and MATLAB’s colours as the publisher’s CMYK conversion printed them. Histograms, fills and interval bars keep MATLAB’s black edges.</dd></div>
+        <div class="row"><dt>Scores</dt><dd>For each colour, the share of published pixels within 4&nbsp;px of ours, and of ours within 4&nbsp;px of the published ones. Each figure lists, per panel, the lowest share each way over the axes and colours the pipeline checks; <span class="mono">report.md</span> has every one. Legends and labels inside a box are left out.</dd></div>
+        <div class="row"><dt>Reading the views</dt><dd>Overlay: ink is the paper only, light green is the reproduction only, dark green is both. Difference: darker means a larger grey-level difference (×2). Most text inside a box is erased with the figure, so it shows as the paper’s only.</dd></div>
+        <div class="row"><dt>Images</dt><dd>Both images are scaled down from the 600&nbsp;dpi files for this page and share one 256-colour palette; the scores come from the full-size files.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="statement"><!--__CLOSING__--></p>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021">The code on GitHub</a>
+      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081021/figure-reproduction#details">Code notes</a>
+      <a href="../">All papers</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+const FIGS = /*__FIGS__*/[];
+const MODES = [["side", "Side by side"], ["swipe", "Swipe"], ["blink", "Blink"], ["overlay", "Overlay"], ["diff", "Difference"]];
+const STILL = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function el(tag, attrs = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === "class" ? e.className = v : e.setAttribute(k, v);
+  for (const k of kids) e.append(k);
+  return e;
+}
+
+// Every colour comes from the tokens: paint the CSS value on a 1px canvas and read the pixel back.
+function token(name) {
+  const c = document.createElement("canvas"); c.width = c.height = 1;
+  const x = c.getContext("2d", { willReadFrequently: true });
+  x.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  x.fillRect(0, 0, 1, 1);
+  return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)];
+}
+const INK = token("--color-ink"), GREEN = token("--color-accent"), GROUND = token("--color-surface");
+const OVER = 0.65; // the reproduction is laid over the paper's ink at this strength
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+const SWATCH = { paper: INK, ours: mix(GROUND, GREEN, OVER), both: mix(INK, GREEN, OVER) };
+
+function loadImg(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
+
+function pixels(img, w, h) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d", { willReadFrequently: true }); x.fillStyle = "white"; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+  return x.getImageData(0, 0, w, h).data;
+}
+
+// Overlay: the published figure in ink, the reproduction in green over it. Difference: ink by grey-level difference (×2).
+function composite(f, kind) {
+  const c = document.createElement("canvas"); c.width = f.w; c.height = f.h;
+  const x = c.getContext("2d"), out = x.createImageData(f.w, f.h), o = out.data, p = f.pp, q = f.qq;
+  for (let i = 0; i < o.length; i += 4) {
+    const a = (p[i] + p[i + 1] + p[i + 2]) / 3, b = (q[i] + q[i + 1] + q[i + 2]) / 3;
+    if (kind === "overlay") {
+      const da = 1 - a / 255, t = (1 - b / 255) * OVER;
+      for (let j = 0; j < 3; j++) { const u = GROUND[j] + (INK[j] - GROUND[j]) * da; o[i + j] = u + (GREEN[j] - u) * t; }
+    } else {
+      const t = Math.min(1, Math.abs(a - b) * 2 / 255);
+      for (let j = 0; j < 3; j++) o[i + j] = GROUND[j] + (INK[j] - GROUND[j]) * t;
+    }
+    o[i + 3] = 255;
+  }
+  x.putImageData(out, 0, 0);
+  c.setAttribute("role", "img");
+  c.setAttribute("aria-label", kind === "overlay" ? "Overlay: the published figure in ink, the reproduction in green" : "Difference map");
+  return c;
+}
+
+function plate(label, node) { return el("figure", { class: "plate" }, el("figcaption", {}, label), node); }
+function swatch(rgb, label) { const s = el("i", { class: "sw", "aria-hidden": "true" }); s.style.backgroundColor = `rgb(${rgb.join(" ")})`; return el("span", {}, s, label); }
+
+// The station is already on the page (head, side-by-side pair, stats, note); this adds the keys and the other views.
+function workbench(f, sec) {
+  const state = { mode: "side", zoom: 1, timer: null };
+  const stage = sec.querySelector(".stage"), pair = stage.querySelector(".pair");
+  const ourImg = pair.querySelectorAll("img")[1];
+  const note = sec.querySelector(".station-foot .note"), dose = sec.querySelector(".dose");
+  const key = (label, pressed) => el("button", pressed === undefined ? { type: "button", class: "btn btn--key" } : { type: "button", class: "btn btn--key", "aria-pressed": String(pressed) }, label);
+  const tabs = el("div", { class: "keyset", role: "group", "aria-label": "View mode" });
+  const variant = el("div", { class: "keyset keyset--data", role: "group", "aria-label": "Reproduction data" });
+  const tool = el("div", { class: "tool" });
+  const zoom = key("Zoom 2×");
+  const legend = el("p", { class: "legend" });
+  for (const [m, label] of MODES) {
+    const b = key(label, m === state.mode);
+    b.onclick = () => { state.mode = m; [...tabs.children].forEach(c => c.setAttribute("aria-pressed", String(c === b))); render(); };
+    tabs.append(b);
+  }
+  if (f.variants) {
+    f.variants.forEach((v, i) => {
+      v.ours = v.ours || f.ours;
+      const b = key(v.label, i === 0);
+      b.onclick = async () => {
+        [...variant.children].forEach(c => c.setAttribute("aria-pressed", String(c === b)));
+        f.ours = v.ours; ourImg.src = v.ours;
+        f.qq = pixels(await loadImg(v.ours), f.w, f.h);
+        note.textContent = v.note; dose.innerHTML = v.stats; render();
+      };
+      variant.append(b);
+    });
+  }
+  zoom.onclick = () => { state.zoom = state.zoom === 1 ? 2 : 1; zoom.textContent = state.zoom === 1 ? "Zoom 2×" : "Zoom 1×"; render(); };
+
+  function sized(node) { node.style.width = (f.w * state.zoom) + "px"; return node; }
+
+  function render() {
+    clearInterval(state.timer); state.timer = null; stage.replaceChildren(); tool.replaceChildren(); legend.replaceChildren();
+    stage.classList.toggle("zoomed", state.zoom === 2);
+    zoom.hidden = state.mode === "side";
+    if (state.mode === "side") {
+      stage.append(pair);
+    } else if (state.mode === "swipe") {
+      const base = sized(el("img", { src: f.paper, alt: "Published" }));
+      const top = sized(el("img", { src: f.ours, alt: "Reproduction", class: "top" }));
+      const bar = el("div", { class: "bar" });
+      const box = el("div", { class: "swipe" }, base, top, bar);
+      const r = el("input", { type: "range", min: 0, max: 100, value: 50, "aria-label": "Swipe position" });
+      const set = v => { top.style.clipPath = `inset(0 0 0 ${v}%)`; bar.style.left = `calc(${v}% - 1px)`; };
+      r.oninput = () => set(r.value); set(50);
+      tool.append(el("span", {}, "Published"), r, el("span", {}, "Reproduction"));
+      stage.append(plate("Published left of the line, reproduction right", box));
+    } else if (state.mode === "blink") {
+      const img = sized(el("img", { src: f.paper, alt: "Blink comparison" }));
+      const lab = el("figcaption", {}, "Published");
+      let on = false;
+      const flip = () => { on = !on; img.src = on ? f.ours : f.paper; lab.textContent = on ? "Reproduction" : "Published"; };
+      const btn = key(STILL ? "Play" : "Pause");
+      if (!STILL) state.timer = setInterval(flip, 650);
+      btn.onclick = () => { if (state.timer) { clearInterval(state.timer); state.timer = null; btn.textContent = "Play"; } else { state.timer = setInterval(flip, 650); btn.textContent = "Pause"; } };
+      const step = key("Step"); step.onclick = flip;
+      tool.append(btn, step);
+      stage.append(el("figure", { class: "plate single" }, lab, img));
+    } else {
+      const c = sized(composite(f, state.mode));
+      stage.append(plate(state.mode === "overlay" ? "Overlay" : "Difference ×2", c));
+      if (state.mode === "overlay") legend.append(
+        swatch(SWATCH.paper, "ink: paper only"), swatch(SWATCH.ours, "light green: reproduction only"), swatch(SWATCH.both, "dark green: both"));
+      else legend.append("Darker means a larger grey-level difference (×2).");
+    }
+  }
+
+  const controls = el("div", { class: "controls" }, tabs, tool, zoom);
+  if (f.variants) controls.prepend(variant);
+  stage.before(controls); stage.after(legend);
+  render();
+}
+
+(async () => {
+  for (const f of FIGS) {
+    const sec = document.getElementById("fig-" + f.id);
+    if (!sec) continue;
+    const imgs = sec.querySelectorAll(".pair img");
+    f.paper = imgs[0].src; f.ours = imgs[1].src;
+    const [a, b] = await Promise.all([loadImg(f.paper), loadImg(f.ours)]);
+    f.pp = pixels(a, f.w, f.h); f.qq = pixels(b, f.w, f.h);
+    workbench(f, sec);
+  }
+})();
+</script>
+</body>
+</html>

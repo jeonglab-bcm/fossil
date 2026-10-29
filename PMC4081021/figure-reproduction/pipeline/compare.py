@@ -6,7 +6,8 @@ at the figure's scale, and published pixels are classified by nearest palette co
 colour we report the share of published pixels within TOL px of ours and of our visible pixels
 within TOL px of the published ones.
 
-Outputs: fig*_overlay.png (published faded, ours painted on top) and comparison.json.
+Outputs: fig*_overlay.png (published faded, ours painted on top), fig*_redrawn.png (the
+published figure with each compared region erased and ours painted in) and comparison.json.
 """
 
 import argparse
@@ -243,12 +244,18 @@ def measure(img, box, panel, scale):
     return cv, region, res
 
 
-def paint_overlay(out, cv, region):
+def paint_overlay(out, cv, region, fade=0.3):
+    """Our layers over the published pixels of the region, faded to `fade` (0: erased)."""
     faded = out[region].astype(float)
-    out[region] = (255 - (255 - faded) * 0.3).astype(np.uint8)
+    out[region] = (255 - (255 - faded) * fade).astype(np.uint8)
     for i, (c, _) in cv.colour_of.items():
         m = (cv.labels == i) & region
         out[m] = pub_rgb(c)
+
+
+def paint_both(ov, rd, cv, region):
+    paint_overlay(ov, cv, region)
+    paint_overlay(rd, cv, region, fade=0)
 
 
 # --------------------------------------------------------------------------- layouts
@@ -324,6 +331,7 @@ def fig2_compare(sources, published, out, fits, refit_dir, tag):
     img = load(os.path.join(published, "figure-2.png"))
     boxes = boxes_fig2(img)
     ov = img.astype(np.uint8).copy()
+    rd = ov.copy()
     res = {}
     for scen in (1, 2):
         P = fd.fig2(sources, scen, fits, refit_dir)
@@ -339,9 +347,10 @@ def fig2_compare(sources, published, out, fits, refit_dir, tag):
                 panel = P[key[0]][key[1]]
                 name = f"{key[0]}:{key[1]}"
             cv, region, r = measure(img, box, panel, 7.15)
-            paint_overlay(ov, cv, region)
+            paint_both(ov, rd, cv, region)
             res[name] = {"box": [round(float(v), 1) for v in box], "colours": r}
     _save_half(ov, os.path.join(out, f"fig2_overlay{tag}.png"))
+    _save_half(rd, os.path.join(out, f"fig2_redrawn{tag}.png"))
     return res
 
 
@@ -354,6 +363,7 @@ def fig34_compare(sources, published, out, fits, refit_dir, figs):
         boxes = boxes_fig34(img, which)
         P = fd.fig34(sources, which, fits, refit_dir)
         ov = img.astype(np.uint8).copy()
+        rd = ov.copy()
         res = {}
         for key, box in boxes.items():
             panel = P[key[0]][key[1]]
@@ -361,10 +371,11 @@ def fig34_compare(sources, published, out, fits, refit_dir, figs):
                 # the "w1 = ..%" / "w2 = ..%" labels (text, not traces)
                 panel["exclude"] = [(0.55, 0.62, 1.0, 0.82), (0.55, 0.12, 1.0, 0.30)]
             cv, region, r = measure(img, box, panel, 7.25)
-            paint_overlay(ov, cv, region)
+            paint_both(ov, rd, cv, region)
             res[f"{key[0]}:{key[1]}"] = {"box": [round(float(v), 1) for v in box], "colours": r}
         res["weights"] = [[round(float(w), 4) for w in ws] for ws in P["weights"]]
         _save_half(ov, os.path.join(out, f"fig{fig}_overlay.png"))
+        _save_half(rd, os.path.join(out, f"fig{fig}_redrawn.png"))
         result[f"fig{fig}"] = res
     return result
 
@@ -383,8 +394,10 @@ def fig5_compare(sources, published, out, fits, refit_dir):
     panel = {"xlim": (0.5, 9.5), "ylim": (np.exp(11.15), np.exp(11.65)), "layers": layers}
     cv, region, r = measure(img, box, panel, 7.27)
     ov = img.astype(np.uint8).copy()
-    paint_overlay(ov, cv, region)
+    rd = ov.copy()
+    paint_both(ov, rd, cv, region)
     _save_half(ov, os.path.join(out, "fig5_overlay.png"))
+    _save_half(rd, os.path.join(out, "fig5_redrawn.png"))
     return {"B": {"box": [round(float(v), 1) for v in box], "colours": r},
             "BIC": F5["BIC"].round(4).tolist(),
             "C_w1_percent": [round(100 * w[0], 1) for w in F5["w_H33"]],
@@ -395,6 +408,7 @@ def fig6_compare(sources, published, out):
     img = load(os.path.join(published, "figure-6.png"))
     F6 = fd.fig6(sources)
     ov = img.astype(np.uint8).copy()
+    rd = ov.copy()
     res = {"rho_control": round(F6["rho_control"], 4), "rho_stimulated": round(F6["rho_stimulated"], 4),
            "published_rho": [0.895, 0.696],
            "w_percent": [round(100 * float(p), 2) for p in F6["gm"]["p"]],
@@ -424,7 +438,7 @@ def fig6_compare(sources, published, out):
                  # legend, and the "32.0 %" / "68.0 %" labels
                  "exclude": [(0.22, 0.0, 1.0, 0.2), (0.6, 0.83, 1.0, 0.98), (0.6, 0.43, 1.0, 0.59)]}
         cv, region, r = measure(img, box, panel, 6.16)
-        paint_overlay(ov, cv, region)
+        paint_both(ov, rd, cv, region)
         res[key] = {"box": [round(float(v), 1) for v in box], "colours": r}
     # marginal histograms
     st = lambda h: fd.staircase(y_hist, h)   # noqa: E731
@@ -450,9 +464,10 @@ def fig6_compare(sources, published, out):
         else:
             panel = {"xlim": (0.1, 10), "xlog": True, "ylim": (0, 1.1 * hmax), "layers": layers}
         cv, region, r = measure(img, box, panel, 6.16)
-        paint_overlay(ov, cv, region)
+        paint_both(ov, rd, cv, region)
         res[key] = {"box": [round(float(v), 1) for v in box], "colours": r}
     _save_half(ov, os.path.join(out, "fig6_overlay.png"))
+    _save_half(rd, os.path.join(out, "fig6_redrawn.png"))
     return res
 
 
