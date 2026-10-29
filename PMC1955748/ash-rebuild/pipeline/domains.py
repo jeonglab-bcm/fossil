@@ -51,7 +51,7 @@ def fetch(pdb, cif_dir):
             if url.endswith('.gz'):
                 import gzip
                 data = gzip.decompress(data)
-            tmp = path + '.part'
+            tmp = f'{path}.{os.getpid()}.part'
             open(tmp, 'wb').write(data)
             os.replace(tmp, path)          # never leave a half-written file for another reader
             break
@@ -89,3 +89,18 @@ def load_domain(name, boundaries, cif_dir):
     seq = ''.join(gemmi.find_tabulated_residue(r.name).one_letter_code.upper()
                   if gemmi.find_tabulated_residue(r.name) else 'X' for r in res_all)
     return Domain(name, seq, coords('CA'), coords('N'), coords('C'), coords('O'))
+
+
+def load_chain(pdb, chain, cif_dir):
+    """A whole chain (ATOM records with CA); chain None takes the longest chain."""
+    st = gemmi.read_structure(fetch(pdb, cif_dir))
+    model = st[0]
+    ch = next((c for c in model if c.name == chain), None) if chain else None
+    if ch is None:
+        ch = max(model, key=lambda c: sum(1 for r in c if r.het_flag != 'H' and r.find_atom('CA', '*')))
+    res = [r for r in ch if r.find_atom('CA', '*') and r.het_flag != 'H']
+    def coords(atom):
+        return np.array([[a.pos.x, a.pos.y, a.pos.z] if (a := r.find_atom(atom, '*')) else [np.nan] * 3 for r in res])
+    seq = ''.join(gemmi.find_tabulated_residue(r.name).one_letter_code.upper()
+                  if gemmi.find_tabulated_residue(r.name) else 'X' for r in res)
+    return Domain(f'{pdb}{chain or ""}', seq, coords('CA'), coords('N'), coords('C'), coords('O'))

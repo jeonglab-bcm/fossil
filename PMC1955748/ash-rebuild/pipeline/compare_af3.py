@@ -68,6 +68,15 @@ result['rows_fp_above_tn'] = {
                           (score_pub[key[(r, 'fp')]] > score_pub[key[(r, 'tn')]]) for r in q)),
     'rows': len(q),
 }
+# Which pairs does SAS use? Scan distance cutoffs on the pairs where our NER is within 3 of the
+# published one, where our alignment is most likely ASH's.
+close = [x for x in d if abs(x['ner'] - x['published']['ner']) <= 3]
+scan = {}
+for cut in (4, 5, 6, 7, 8, 10):
+    v = np.array([sas_within(x, cut) for x in close])
+    p = np.array([x['published']['sas'] for x in close])
+    scan[f'{cut}A'] = dict(r=round(float(np.corrcoef(v, p)[0, 1]), 3), median_abs_diff=round(float(np.median(abs(v - p))), 3))
+result['sas_cutoff_scan'] = {'pairs_with_ner_within_3': len(close), 'by_cutoff': scan}
 json.dump(result, open(f'{outdir}/af3_comparison.json', 'w'), indent=1)
 
 # Four panels, one series each: ink points, a muted identity line, the fitted line in green.

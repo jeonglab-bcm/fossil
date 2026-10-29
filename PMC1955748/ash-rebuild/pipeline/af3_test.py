@@ -1,6 +1,7 @@
 """Align the 138 pairs of Additional File 3 with the rebuilt ASH and compare with the published values.
 
-Usage: af3_test.py BOUNDARIES AF3.csv AF2_MATRIX CIF_DIR OUT.json
+Usage: af3_test.py BOUNDARIES AF3.csv AF2_MATRIX CIF_DIR OUT.json [SEEDS]
+SEEDS: tm (TM-align, default), ddp (rebuilt Local ASH) or both.
 """
 import csv
 import json
@@ -12,25 +13,21 @@ import tmtools
 
 import ash
 import domains
+import localash
 import ss
+from tmseed import tm_pairs
 
 bounds_path, af3_path, matrix_path, cif_dir, out_path = sys.argv[1:6]
+SEEDS = sys.argv[6] if len(sys.argv) > 6 else 'tm'
 
 
-def pairs_from_tmalign(res):
-    out, i, j = [], 0, 0
-    for a, b in zip(res.seqxA, res.seqyA):
-        if a != '-' and b != '-':
-            out.append((i, j))
-        i += a != '-'
-        j += b != '-'
-    return np.array(out)
-
-
-def align(q, t):
+def align(q, t, ss_q, ss_t):
     res = tmtools.tm_align(q.ca, t.ca, q.seq, t.seq)
-    seed = pairs_from_tmalign(res)
-    pairs, R, tr = ash.ner_maximization(q.ca, t.ca, seed)
+    seed = tm_pairs(q, t)
+    if SEEDS == 'tm':
+        pairs, R, tr = ash.ner_maximization(q.ca, t.ca, seed)
+    else:
+        _, pairs, R, tr = localash.rash(q, t, ss_q, ss_t, extra_seeds=[seed] if SEEDS == 'both' else [])
     return pairs, R, tr, float(res.tm_norm_chain1)
 
 
@@ -39,10 +36,11 @@ def run(job):
     B = domains.read_boundaries(bounds_path)
     A = ash.read_matrix(matrix_path)
     doms = {n: domains.load_domain(n, B, cif_dir) for n in (qn, tn)}
-    desc = {n: ash.descriptors(d, ss.assign(d.n, d.ca, d.c, d.o)) for n, d in doms.items()}
-    pairs, R, tr, tm = align(doms[qn], doms[tn])
+    sss = {n: ss.assign(d.n, d.ca, d.c, d.o) for n, d in doms.items()}
+    desc = {n: ash.descriptors(d, sss[n]) for n, d in doms.items()}
+    pairs, R, tr, tm = align(doms[qn], doms[tn], sss[qn], sss[tn])
     terms = ash.score_terms(doms[qn], doms[tn], desc[qn], desc[tn], pairs, R, tr, A, ash.WEIGHTS['full'])
-    terms.update(query=qn, template=tn, kind=kind, tm_score=tm, published=published)
+    terms.update(query=qn, template=tn, kind=kind, tm_score=tm, published=published, seeds=SEEDS)
     return terms
 
 
