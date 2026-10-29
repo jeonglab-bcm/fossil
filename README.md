@@ -13,3 +13,5 @@ papers or their supplements.
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
 The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun each reproduction with Nextflow on every change.
+
+A new reproduction follows the skill in [`.claude/skills/paper2repro/`](.claude/skills/paper2repro/SKILL.md): one clean session and one pull request, with a `results.json` whose verdicts are computed from the scores, a tested cause for every result that does not match exactly, and a ledger of the session's prompts, tool calls and tokens.
