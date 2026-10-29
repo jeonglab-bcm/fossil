@@ -77,9 +77,10 @@ are ported to Python and checked against the saved results:
 | `pipeline/odemm_jax.py` | The same likelihood in JAX, with exact gradients, for refitting. |
 | `pipeline/saved.py` | Reads the authors' fitting scripts and saved results. |
 | `pipeline/figdata.py` | What each published panel plots, computed as in the authors' plotting scripts. |
+| `pipeline/build_page.py`, `pipeline/page_template.html` | The comparison page, `site/PMC4081021/index.html`. |
 | `pipeline/` | The other scripts (Python, shell). |
 | `published/` | Figs 1 to 6 of the paper (PLOS original-size files, converted from TIFF to PNG) and Tables 1, 2 and S1 Table 1 as CSV, © 2014 Hasenauer et al., CC BY 4.0. |
-| `output/` | `fig*_ours.png` (our panels, drawn with matplotlib), `fig*_overlay.png` (published faded, ours on top, at half the published resolution), `comparison.json`, `tables.json`, `port_check.json`, `optima_check.json`, `refit/` (one JSON per refitted model), `report.md`; `refit_ngfA_attempt.json` records the one-off blind refit of pathway model A described above (not part of the pipeline). |
+| `output/` | `fig*_ours.png` (our panels, drawn with matplotlib), `fig*_overlay.png` (published faded, ours on top, at half the published resolution), `fig*_redrawn.png` (the same with the published pixels inside each compared axes box erased: our panels on the published axes), `comparison.json`, `tables.json`, `port_check.json`, `optima_check.json`, `refit/` (one JSON per refitted model), `report.md`; `refit_ngfA_attempt.json` records the one-off blind refit of pathway model A described above (not part of the pipeline). |
 
 ## Run
 
@@ -93,8 +94,8 @@ nextflow run PMC4081021/figure-reproduction/main.nf --outdir results --refit   #
 
 The run downloads Code S1 from Europe PMC (PLOS refuses scripted downloads) and checks its
 SHA-256 (`--sources DIR` reuses a local `pcbi.1003686.s001.zip`). On a 12-core machine it
-takes about 7 minutes without `--refit` and 14 with it; the refit runs on all cores. It writes the renders, the comparison, the tables
-and `results/report.md`, and fails if a check falls below its threshold. The GitHub workflow
+takes about 7 minutes without `--refit` and 14 with it; the refit runs on all cores. It writes the renders, the comparison, the tables,
+`results/report.md` and the comparison page `results/site/index.html`, and fails if a check falls below its threshold. The GitHub workflow
 `.github/workflows/reproduce-pmc4081021.yml` does the same run, with `--refit`, on Ubuntu.
 
 ## Pipeline steps
@@ -105,6 +106,7 @@ and `results/report.md`, and fails if a check falls below its threshold. The Git
 | Port check | `check_port.py`, `odemm.py` | `port_check.json` |
 | Refit (with `--refit`) | `refit_all.sh`, `refit.py`, `odemm_jax.py` | `refit/` |
 | Saved optima (with `--refit`) | `check_optima.py` | `optima_check.json` |
-| Figures | `compare.py`, `figmeasure.py`, `figdata.py`, `render.py` | `fig*_ours.png`, `fig*_overlay.png`, `comparison.json` |
+| Figures | `compare.py`, `figmeasure.py`, `figdata.py`, `render.py` | `fig*_ours.png`, `fig*_overlay.png`, `fig*_redrawn.png`, `comparison.json` |
 | Tables | `make_tables.py` | `tables.json` |
 | Check | `check_reproduction.py` | `report.md` |
+| Comparison page | `build_page.py` | `site/index.html`, copied to `site/PMC4081021/` |
