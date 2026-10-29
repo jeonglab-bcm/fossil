@@ -91,8 +91,9 @@ nextflow run PMC4081021/figure-reproduction/main.nf --outdir results
 nextflow run PMC4081021/figure-reproduction/main.nf --outdir results --refit   # also refit Table 1 and check the saved optima
 ```
 
-The run downloads Code S1 from Europe PMC (PLOS refuses scripted downloads) and checks its
-SHA-256 (`--sources DIR` reuses a local `pcbi.1003686.s001.zip`). On a 12-core machine it
+The run downloads Code S1 from PMC's open-access copy on AWS, or from Europe PMC if that fails
+(PLOS refuses scripted downloads), and checks its SHA-256 (`--sources DIR` reuses a local
+`pcbi.1003686.s001.zip`). On a 12-core machine it
 takes about 7 minutes without `--refit` and 14 with it; the refit runs on all cores. It writes the renders, the comparison, the tables
 and `results/report.md`, and fails if a check falls below its threshold. The GitHub workflow
 `.github/workflows/reproduce-pmc4081021.yml` does the same run, with `--refit`, on Ubuntu.
