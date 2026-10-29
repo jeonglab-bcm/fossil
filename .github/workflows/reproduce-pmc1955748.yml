@@ -1,0 +1,55 @@
+name: Reproduce PMC1955748
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC1955748/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc1955748.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC1955748/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc1955748.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy scipy pillow xlrd
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC1955748/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc1955748-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
