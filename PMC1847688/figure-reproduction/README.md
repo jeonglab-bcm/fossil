@@ -78,6 +78,7 @@ would mean taking the curve from the figure itself, so they are left out.
 | `pipeline/monotone_min.py` | Fig. 5's monotone-minimum baseline (the comparison method). |
 | `pipeline/octave/` | Driver for the authors' MATLAB code in GNU Octave, with two stand-ins: `read_txt.m` (the original opens a file dialog) and `kurtosis.m`. |
 | `pipeline/` | The other scripts (Python, shell). |
+| `pipeline/build_page.py`, `pipeline/page_template.html` | The comparison page, `site/PMC1847688/index.html`. |
 | `published/` | Figs 1 to 10 of the paper: the authors' original files, © 2007 Mantini et al., licensee BioMed Central, CC BY 2.0, converted from TIFF to PNG. |
 | `output/` | `fig*_ours.png` (our traces on the published axes; panels made with other software are cut away), `fig*_overlay.png` (published blue, ours orange where they differ), `comparison.json`, `tables.json`, `port_check.json`, `report.md`. |
 
@@ -108,6 +109,7 @@ does the same run, with `--octave`, on Ubuntu.
 | Figures | `compare.py`, `figmeasure.py`, `monotone_min.py` | `fig*_ours.png`, `fig*_overlay.png`, `comparison.json` |
 | Tables | `make_tables.py` | `tables.json` |
 | Check | `check_reproduction.py` | `report.md` |
+| Comparison page | `build_page.py` | `site/index.html`, copied to `site/PMC1847688/` |
 
 ## Limits
 

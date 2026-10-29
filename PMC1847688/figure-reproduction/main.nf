@@ -1,4 +1,5 @@
-// Reproduce PMC1847688 (Mantini et al. 2007, LIMPIC): Figs 2-9 and LIMPIC's rows of Tables 1-3.
+// Reproduce PMC1847688 (Mantini et al. 2007, LIMPIC): Figs 2-9 and LIMPIC's rows of Tables 1-3,
+// and the comparison page that site/PMC1847688/index.html is copied from.
 // Run: nextflow run main.nf --outdir results [--python python3] [--sources DIR] [--octave]
 // --octave also runs the authors' MATLAB code in GNU Octave and checks that the Python
 // port gives the same peaks, classes and signals.
@@ -81,6 +82,18 @@ process COMPARE {
     """
 }
 
+process BUILD_PAGE {
+    publishDir "${params.outdir}/site", mode: 'copy'
+    input:
+    path outputs
+    output:
+    path 'index.html'
+    script:
+    """
+    ${params.python} ${projectDir}/pipeline/build_page.py . ${projectDir}/published index.html
+    """
+}
+
 process CHECK {
     publishDir params.outdir, mode: 'copy'
     input:
@@ -103,4 +116,5 @@ workflow {
     }
     out = COMPARE(limpic.dir, s4csv)
     CHECK(out.collect())
+    BUILD_PAGE(out.collect())
 }
