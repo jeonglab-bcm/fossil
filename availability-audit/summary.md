@@ -99,14 +99,14 @@ Reasons (paper x URL rows):
 
 ## Wayback Machine captures for links that are not alive
 
-Looked up: 1883 of 8400 rows. Some capture: 1192 (63.3%). Closest capture within 2 years of publication: 927 (49.2%).
+Looked up: 3416 of 8400 rows. Some capture: 2156 (63.1%). Closest capture within 2 years of publication: 1679 (49.2%).
 
 | Category | Looked up | Archived |
 | --- | --- | --- |
-| unreachable | 376 | 79.8% |
-| gone | 924 | 68.9% |
-| indeterminate | 470 | 42.3% |
-| untestable | 113 | 49.6% |
+| unreachable | 710 | 78.3% |
+| gone | 1675 | 69.1% |
+| indeterminate | 899 | 41.6% |
+| untestable | 132 | 52.3% |
 
 ## Repository accessions (distinct)
 
@@ -189,8 +189,8 @@ Static checks on the software that could be obtained (no downloaded code was run
 | A | code in the PMC supplement | 385 | 5.4% | 99 | 139 | 147 |
 | B | reachable own-resource link to a code host or package repository | 481 | 6.8% | 30 | 131 | 320 |
 | C | reachable own-resource link (lab page, web service) | 779 | 11.0% | 91 | 303 | 385 |
-| D | own-resource links dead, Wayback capture exists | 621 | 8.8% | 125 | 258 | 238 |
-| E | own-resource links dead, no Wayback capture | 783 | 11.1% | 159 | 341 | 283 |
+| D | own-resource links dead, Wayback capture exists | 1065 | 15.0% | 231 | 440 | 394 |
+| E | own-resource links dead, no Wayback capture | 339 | 4.8% | 53 | 159 | 127 |
 | F | own-resource links can't be told (blocked or untestable) | 254 | 3.6% | 34 | 104 | 116 |
 | G | no own-resource link and no code supplement | 3777 | 53.3% | 719 | 1532 | 1526 |
 

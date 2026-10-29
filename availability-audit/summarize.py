@@ -1,7 +1,7 @@
 """Summarize the audit: per-URL categories, per-paper status, and tables for the README.
 
 Reads papers.csv, urls.csv, url_status.csv, wayback.csv, accession_status.csv, accessions.csv,
-supplement_status.csv and install_results.csv (whichever exist). Writes:
+supplement_status.csv, install_sample.csv and inspect_results.csv (whichever exist). Writes:
   url_audit.csv     one row per paper x URL with category, reason, host group, and Wayback capture
   paper_audit.csv   one row per paper with counts and an overall status
   summary.md        the tables quoted in README.md
