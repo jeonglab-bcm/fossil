@@ -76,6 +76,27 @@ We opened the files for these and confirmed they hold the input data:
 | PMC3176265 (2011) | ΔΔG prediction from sequence and structure | never released | training and independent test sets (98 kB) |
 | PMC4682424 (2015) | Positive-unlabeled learning of B-cell epitopes | never released | 92 unbound structures with annotated epitopes (~100 kB) |
 
+## Paper catalog with citations and tags
+
+`paper_catalog.csv` and `paper_catalog.xlsx` have one row per paper, with the audit's results as
+filterable columns and tags and with citation metrics. The xlsx has filters, a frozen header,
+PMC links, a Columns tab explaining every column and tag, and a Data Sources tab. It opens in
+Google Sheets from Drive.
+
+- **Citations:** NIH iCite (count, relative citation ratio, NIH percentile, expected rate), Europe
+  PMC (count) and PMC (citing articles), all fetched by [`fetch_citations.py`](fetch_citations.py).
+- **Subject tags:** PubMed MeSH major topics.
+- **OpenAlex (count, last-five-years count, FWCI, field-normalized percentile, topic, keywords):**
+  not filled yet. Without an API key, OpenAlex shares a small daily budget per network, and it was
+  used up. Rerun with an API key to add these columns:
+  `OPENALEX_API_KEY=... python3 fetch_citations.py openalex`.
+
+Tags include the readiness tier (`code:in-supplement` ... `code:no-link`), `data:small-supplement`,
+`data:input-described`, `data:repository`, `data:obsolete-accession`, `link:hijacked`, `cites:low`
+(RCR below 0.25), `cites:high` (RCR 2 or more), `cites:none`, and `sample:<outcome>` for the 150
+sampled papers. For example, 51 papers carry both `code:lost` or `code:lost-archived` and
+`data:input-described`.
+
 ## Which papers
 
 [`select_papers.py`](select_papers.py) runs two PubMed queries, both limited to 2004–2015, research
@@ -188,6 +209,8 @@ python3 inspect_sample.py           # static checks; install_sample.py (runs bui
 python3 summarize.py
 python3 plot_audit.py
 python3 find_data_candidates.py      # code lost, small data available
+FOSSIL_CONTACT_EMAIL=you@example.org python3 fetch_citations.py   # add OPENALEX_API_KEY for OpenAlex
+python3 build_catalog.py            # paper_catalog.csv and .xlsx
 ```
 
 Link checks depend on the day and the network they run from: rerunning gives somewhat different
