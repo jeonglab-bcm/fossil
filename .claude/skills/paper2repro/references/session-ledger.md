@@ -26,7 +26,7 @@ It reads this session's transcript (`~/.claude/projects/<project-slug>/<session-
 - `ledger.json`: session id, start and end, wall-clock minutes, models, human prompts (and how many were sent mid-turn), assistant responses (API calls), tool calls by name, and tokens (input, cache write, cache read, output, thinking within output), for the session, its subagents and both together. If Claude Code wrote its own running cost record, it is copied in as `cost_state`.
 - `conversation.md`: every human prompt and every reply in order, each tool call as one line (its description, not its output). Thinking is left out; strings that look like credentials are masked.
 
-Without `--session-id` it takes the newest transcript of the current project folder, which in a fresh session is this one. Token totals count each response once, using its final usage record; they match Claude Code's own running total.
+Without `--session-id` it takes the newest transcript of the current project folder, which in a fresh session is this one. Token totals count each conversation response once, using its final usage record. Claude Code's own record (`cost_state`, written at the end of each turn) also counts side requests that never appear as responses in the transcript, so it can run a few percent higher. In the session that built this skill the two were identical at the end of the first turn; by the end of the third, Claude Code's record held about 1,000 more input tokens and 5% more cache reads. Report both.
 
 After the pull request is open and CI is green, run it again and push the updated ledger, so the record includes the CI work.
 

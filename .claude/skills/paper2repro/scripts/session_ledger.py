@@ -209,6 +209,8 @@ def main():
     if cost:
         # Claude Code's own running total, written at the end of each turn.
         ledger["cost_state"] = {k: cost.get(k) for k in ("totalCostUSD", "totalDuration", "totalAPIDuration", "modelUsage")}
+        ledger["cost_state"]["note"] = ("Claude Code's own total at the end of the last finished turn. It also counts side "
+                                        "requests that are not conversation responses, so it can exceed tokens.")
 
     os.makedirs(args.out, exist_ok=True)
     with open(os.path.join(args.out, "ledger.json"), "w", encoding="utf-8") as f:
