@@ -13,6 +13,16 @@ KIND = [("github.com", "github"), ("gitlab", "gitlab"), ("bitbucket.org", "bitbu
         ("bioconductor.org", "bioconductor"), ("cran.r-project.org", "cran"), ("pypi.org", "pypi")]
 
 
+# Software that the automated supplement scan missed (RAR archive, binary, RData, scripts without
+# code file extensions) but that the supplement caption and an inspection of the file show is there.
+CODE_IN_SUPPLEMENT = {
+    "PMC2206061": ("1471-2105-8-341-S5.rar", 'caption: "application and source code of miRFinder"'),
+    "PMC3123239": ("1471-2105-12-202-S1.ZIP", 'caption: "Binary code with manual and examples" (Linux64 binary)'),
+    "PMC2599889": ("pcbi.1000257.s001.zip", 'caption: "RData archive containing the complete collection of programs"'),
+    "PMC3038154": ("1471-2105-12-28-S1.ZIP", 'caption: "FASIMU 2.2.1 release archive"'),
+}
+
+
 def kind_of(url):
     return next((k for host, k in KIND if host in url), "lab-site")
 
@@ -37,7 +47,11 @@ def main():
         row = {"pmcid": pmcid, "year": r["year"], "rcr": r["rcr"], "title": r["title"], "dead_links": r["dead_links"]}
         live_reg = r["found"] == "True" and r["home_status"] in ("alive", "indeterminate")
         w = web.get(pmcid)
-        if live_reg:
+        if pmcid in CODE_IN_SUPPLEMENT:
+            f, ev = CODE_IN_SUPPLEMENT[pmcid]
+            row.update(outcome="moved, code is in the PMC supplement", new_home=f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/",
+                       kind="pmc-supplement", source="supplement inspection", evidence=f"{f}; {ev}", note="")
+        elif live_reg:
             row.update(outcome="moved, live home found", new_home=r["new_home"], kind=kind_of(r["new_home"]),
                        source=r["where"], evidence=r["evidence"], note=r["registry"])
         elif w and w["found"] == "yes" and w["reachable"] == "yes":

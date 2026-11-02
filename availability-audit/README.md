@@ -88,9 +88,10 @@ authors, or a page that cites the paper) and reachable now; its rows are in `new
 | Outcome | Papers |
 | --- | --- |
 | Moved, live new home verified | 172 |
+| Code is in the PMC supplement after all (RAR archive, binary, RData or scripts the automated scan missed) | 4 |
 | Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 40 |
 | Registry entry only, and its homepage is dead too | 20 |
-| Not found anywhere | 147 |
+| Not found anywhere | 143 |
 
 Where the moved software lives: github 54, lab-site 48, other 15, bundled 14, sourceforge 14, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
 ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure); "other" includes Debian
@@ -99,6 +100,61 @@ in `paper_catalog.csv` they carry the tag `code:not-found-elsewhere`, and the mo
 
 Some links looked dead only because the journal's XML wrote "∼" (U+223C) or "˜" for the "~" in addresses such as
 `/~user/`. `extract.py` now normalizes these; 38 corrected URLs were checked again.
+
+## Code gone, data still here (143 papers)
+
+For each paper whose software was not found anywhere, we read the paper to find what input data its main results came
+from, and checked whether that data can still be obtained: PMC supplement files were downloaded and opened (inputs,
+not just results), cited accessions resolved, and named public datasets and data links fetched. Results are in
+`lost_software_data.csv` ([`merge_data_check.py`](merge_data_check.py)); the catalog has them as
+`lost_software_data`, `reproduction_readiness` and the tags `reproduce:high-readiness` and so on.
+
+| Data status | Papers |
+| --- | --- |
+| Complete in the PMC supplement | 6 |
+| Complete from public sources that still work | 37 |
+| No external data (simulation or theory) | 4 |
+| Partial (some inputs lost, usually an in-house set on a dead lab site) | 81 |
+| Not available | 15 |
+
+Readiness to start a reimplementation now: high 30, medium 50, low 63. The 30
+high-readiness papers:
+
+| Paper | Year | RCR | Title | Data | MB |
+| --- | --- | --- | --- | --- | --- |
+| PMC4331676 | 2015 | 2.4 | Identifying DNA-binding proteins by combining support vector machine a… | complete-in-pmc | 0.4 |
+| PMC2887807 | 2010 | 1.7 | Machine learning approach to predict protein phosphorylation sites by … | complete-in-pmc | 30 |
+| PMC1175843 | 2005 | 1.4 | YANA - a software tool for analyzing flux modes, gene-expression and e… | complete-in-pmc | 0.07 |
+| PMC2020486 | 2007 | 1.3 | Integrated network reconstruction, visualization and analysis using YA… | complete-in-pmc | 0.24 |
+| PMC3548331 | 2013 | 1.2 | PPInterFinder--a mining tool for extracting causal relations on human … | complete-in-pmc | 2.2 |
+| PMC3819749 | 2013 | 1.0 | Identification of properties important to protein aggregation using fe… | complete-in-pmc | 1.6 |
+| PMC2735674 | 2009 | 10.4 | Supervised prediction of drug-target interactions using bipartite loca… | complete-public | 15 |
+| PMC3322362 | 2011 | 10.1 | Predicting RNA-protein interactions using only sequence information. | complete-public | 0.04 |
+| PMC2850872 | 2010 | 6.2 | Application of support vector machine modeling for prediction of commo… | complete-public | 100 |
+| PMC4426843 | 2015 | 3.0 | Bias in microRNA functional enrichment analysis. | complete-public | 9 |
+| PMC2349296 | 2008 | 2.6 | Comparative analysis of five protein-protein interaction corpora. | complete-public | 16 |
+| PMC3582598 | 2012 | 2.6 | mGOASVM: Multi-label protein subcellular localization based on gene on… | complete-public | 730 |
+| PMC4015815 | 2014 | 2.6 | Using distances between Top-n-gram and residue pairs for protein remot… | complete-public | 1.5 |
+| PMC2711306 | 2009 | 2.5 | Geometric de-noising of protein-protein interaction networks. | complete-public | 5 |
+| PMC4765871 | 2015 | 2.4 | Reconstructing gene regulatory dynamics from high-dimensional single-c… | complete-public | 3.4 |
+| PMC2262056 | 2008 | 1.9 | ProLoc-GO: utilizing informative Gene Ontology terms for sequence-base… | complete-public | 300 |
+| PMC1800866 | 2007 | 1.9 | Predicting zinc binding at the proteome level. | complete-public | 5 |
+| PMC4481854 | 2015 | 1.9 | L-GRAAL: Lagrangian graphlet-based network aligner. | complete-public | 24 |
+| PMC1764477 | 2006 | 1.7 | MicroTar: predicting microRNA targets from RNA duplexes. | complete-public | 0.05 |
+| PMC3174950 | 2011 | 1.6 | A comparison of the functional modules identified from time course and… | complete-public | 15 |
+| PMC3324512 | 2012 | 1.3 | An integrated strategy for prediction uncertainty analysis. | complete-public | 0.03 |
+| PMC3324513 | 2012 | 1.3 | A Bayesian approach to targeted experiment design. | complete-public | 0.1 |
+| PMC522806 | 2004 | 1.3 | A combinational feature selection and ensemble neural network method f… | complete-public | 100 |
+| PMC2613876 | 2008 | 1.3 | Fast gene ontology based clustering for microarray experiments. | complete-public | 20 |
+| PMC4426845 | 2015 | 1.3 | Topology-function conservation in protein-protein interaction networks… | complete-public | 100 |
+| PMC2718659 | 2008 | 1.3 | Integrating high dimensional bi-directional parsing models for gene me… | complete-public | 10 |
+| PMC3967105 | 2014 | 1.2 | FastPros: screening of reaction knockout strategies for metabolic engi… | complete-public | 10 |
+| PMC2949886 | 2010 | 1.2 | Filtering, FDR and power. | complete-public | 150 |
+| PMC4686965 | 2015 | 1.1 | Local Geometry and Evolutionary Conservation of Protein Surfaces Revea… | complete-public | 40 |
+| PMC408466 | 2004 | 1.4 | Biochemical Network Stochastic Simulator (BioNetS): software for stoch… | no-external-data | 0 |
+
+Data sources are versioned: several high-readiness papers depend on an exact old release (BioGRID 3.2.101, SCOP 1.53,
+GOA 2007) that is still archived; where only a newer release exists the row's note says so.
 
 ## Paper catalog with citations and tags
 
@@ -236,6 +292,7 @@ python3 find_data_candidates.py      # code lost, small data available
 FOSSIL_CONTACT_EMAIL=you@example.org python3 fetch_citations.py   # add OPENALEX_API_KEY for OpenAlex
 python3 find_new_homes.py           # registries; then the web search writes cache/newhome/web_result_*.csv
 python3 merge_new_homes.py
+python3 merge_data_check.py         # after the per-paper data check (cache/data147/data_result_*.csv)
 python3 build_catalog.py            # paper_catalog.csv and .xlsx
 ```
 
