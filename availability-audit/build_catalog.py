@@ -1,7 +1,7 @@
 """Build the paper catalog: one row per paper with the audit's tags and citation metrics.
 
 Joins papers.csv, paper_audit.csv, url_audit.csv, data_candidates.csv, install_sample.csv,
-inspect_results.csv and citations.csv. Writes paper_catalog.csv and paper_catalog.xlsx (Papers,
+inspect_results.csv, citations.csv and software_new_homes.csv. Writes paper_catalog.csv and paper_catalog.xlsx (Papers,
 Columns and Data Sources tabs; filters and a frozen header on Papers; opens in Google Sheets).
 """
 import csv
@@ -40,6 +40,8 @@ COLUMNS = [  # (name, description)
     ("live_repository_accessions", "GEO/ArrayExpress/SRA accessions cited that still resolve"),
     ("accessions_not_resolving", "Cited accessions now obsolete or not found"),
     ("sample_outcome", "For the 150-paper software sample only: what happened to the paper's software"),
+    ("new_home", "Where the software lives now, for papers with RCR >= 1 whose cited software link is dead"),
+    ("new_home_status", "Outcome of the search for a new home (software_new_homes.csv)"),
     ("icite_citations", "Citations (NIH iCite)"),
     ("icite_rcr", "Relative Citation Ratio (iCite): citations per year relative to papers in the same field; 1.0 = NIH-funded median"),
     ("icite_nih_percentile", "RCR percentile among NIH-funded papers (iCite)"),
@@ -64,6 +66,8 @@ TAGS = [
     ("data:repository", "Cites a GEO, ArrayExpress or SRA accession that still resolves"),
     ("data:obsolete-accession", "Cites an accession that is now obsolete or not found"),
     ("link:hijacked", "A link in the paper now goes to a gambling, crypto or porn site"),
+    ("code:moved", "RCR >= 1, cited software link dead, and a verified live new home was found"),
+    ("code:not-found-elsewhere", "RCR >= 1, cited software link dead, and no new home was found"),
     ("cites:low", f"iCite RCR below {LOW_RCR} (about 30% of these papers; their median RCR is 0.48)"),
     ("cites:high", f"iCite RCR {HIGH_RCR} or more (about 13% of these papers)"),
     ("cites:none", "No citations in iCite"),
@@ -89,6 +93,7 @@ def main():
     audit = {r["pmcid"]: r for r in read("paper_audit.csv")}
     cites = {r["pmcid"]: r for r in read("citations.csv", comment=True)}
     cand = {r["pmcid"]: r for r in read("data_candidates.csv")}
+    homes = {r["pmcid"]: r for r in read("software_new_homes.csv")} if Path("software_new_homes.csv").exists() else {}
     smp = {r["pmcid"]: r for r in read("install_sample.csv", comment=True)}
     insp = {r["pmcid"]: r for r in read("inspect_results.csv")}
     archived, hijacked = defaultdict(int), set()
@@ -110,6 +115,11 @@ def main():
             tags.append("data:repository")
         if int(a["accessions_not_resolving"]) > 0:
             tags.append("data:obsolete-accession")
+        home = homes.get(pmcid, {})
+        if home.get("outcome", "").startswith("moved"):
+            tags.append("code:moved")
+        elif home.get("outcome") == "not found":
+            tags.append("code:not-found-elsewhere")
         if pmcid in hijacked:
             tags.append("link:hijacked")
         rcr = num(c.get("icite_rcr"))
@@ -129,6 +139,8 @@ def main():
             "data_supplement_mb": d.get("data_mb", ""), "input_data_captions": d.get("input_data_captions", ""),
             "live_repository_accessions": len(d["live_accessions"].split()) if d.get("live_accessions") else "",
             "accessions_not_resolving": a["accessions_not_resolving"], "sample_outcome": outcome,
+            "new_home": home.get("new_home", "") if home.get("outcome", "").startswith(("moved", "possible")) else "",
+            "new_home_status": home.get("outcome", ""),
             **{k: c.get(k, "") for k, _ in COLUMNS if k.startswith(("icite_", "europepmc_", "pmc_citing", "oa_", "mesh_"))},
         })
     names = [k for k, _ in COLUMNS]
