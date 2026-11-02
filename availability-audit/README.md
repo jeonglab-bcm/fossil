@@ -156,6 +156,11 @@ high-readiness papers:
 Data sources are versioned: several high-readiness papers depend on an exact old release (BioGRID 3.2.101, SCOP 1.53,
 GOA 2007) that is still archived; where only a newer release exists the row's note says so.
 
+For the ten strongest of these (RCR at least 1.9, high readiness), [`reproduction_plans/`](reproduction_plans/) has a
+per-figure and per-table plan for each paper: whether each item can be regenerated from the paper text plus today's
+data (exactly, approximately or not), which method details are missing, an ordered plan, and the reported numbers to
+check against. None of the 66 main-text result items is regenerable exactly; 60 are approximately.
+
 ## Paper catalog with citations and tags
 
 `paper_catalog.csv` and `paper_catalog.xlsx` have one row per paper, with the audit's results as
