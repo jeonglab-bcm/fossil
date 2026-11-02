@@ -2,7 +2,8 @@
 
 The web search was done by reading search results for each paper not settled by the registry pass;
 its rows are kept in new_homes_web_search.csv. A paper's software counts as moved when a verified
-home is reachable now. Writes software_new_homes.csv: one row per paper with RCR >= 1 whose cited
+home is reachable now. Papers the web search did not reach (its shared limit of searches ran out)
+are marked "search pending". Writes software_new_homes.csv: one row per paper with RCR >= 1 whose cited
 software link is dead (tiers D and E).
 """
 import csv
@@ -38,6 +39,9 @@ def main():
         elif w and w["found"] == "yes" and w["reachable"] == "yes":
             row.update(outcome="moved, live home found", new_home=w["new_home"], kind=w["kind"], source="web search",
                        evidence=w["same_tool_evidence"], note=w["note"])
+        elif w and "not web-searched" in w["note"].lower():
+            row.update(outcome="search pending", new_home=w["new_home"] if w["found"] != "no" else "", kind=w["kind"],
+                       source="web search (incomplete)", evidence=w["same_tool_evidence"], note=w["note"])
         elif w and w["found"] in ("yes", "unsure"):
             row.update(outcome="possible home, not confirmed", new_home=w["new_home"], kind=w["kind"],
                        source="web search", evidence=w["same_tool_evidence"], note=f"reachable: {w['reachable']}; {w['note']}")

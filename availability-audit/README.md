@@ -76,6 +76,28 @@ We opened the files for these and confirmed they hold the input data:
 | PMC3176265 (2011) | ΔΔG prediction from sequence and structure | never released | training and independent test sets (98 kB) |
 | PMC4682424 (2015) | Positive-unlabeled learning of B-cell epitopes | never released | 92 unbound structures with annotated epitopes (~100 kB) |
 
+## Where the lost software went (RCR at least 1)
+
+For the 381 papers with iCite RCR of 1 or more whose cited software link is dead (tiers D and E),
+we looked for the software elsewhere. [`find_new_homes.py`](find_new_homes.py) searched Bioconductor, CRAN (current and
+archived), PyPI and bio.tools under candidate tool names from [`tool_names.py`](tool_names.py), accepting a match only if
+the entry names the paper. A web search then covered the rest, accepting a home only if it is the same tool (same
+authors, or a page that cites the paper) and reachable now; its rows are in `new_homes_web_search.csv`.
+[`merge_new_homes.py`](merge_new_homes.py) combines both into `software_new_homes.csv`.
+
+| Outcome | Papers |
+| --- | --- |
+| Moved, live new home verified | 164 |
+| Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 34 |
+| Registry entry only, and its homepage is dead too | 6 |
+| Not found after searching | 63 |
+| Search pending (the web search's limit ran out before these) | 114 |
+
+Where the moved software lives: github 50, lab-site 48, bundled 14, sourceforge 13, other 12, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
+ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure). Papers marked not found
+are well-cited methods whose software has disappeared; in `paper_catalog.csv` they carry the tag
+`code:not-found-elsewhere`, and the moved ones `code:moved`.
+
 ## Paper catalog with citations and tags
 
 `paper_catalog.csv` and `paper_catalog.xlsx` have one row per paper, with the audit's results as
@@ -210,6 +232,8 @@ python3 summarize.py
 python3 plot_audit.py
 python3 find_data_candidates.py      # code lost, small data available
 FOSSIL_CONTACT_EMAIL=you@example.org python3 fetch_citations.py   # add OPENALEX_API_KEY for OpenAlex
+python3 find_new_homes.py           # registries; then the web search writes cache/newhome/web_result_*.csv
+python3 merge_new_homes.py
 python3 build_catalog.py            # paper_catalog.csv and .xlsx
 ```
 
