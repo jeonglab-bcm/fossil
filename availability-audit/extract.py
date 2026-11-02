@@ -46,8 +46,15 @@ AVAIL = re.compile(r"(?i)availab|software|implement|download|requirement|source 
                    r"data access|url|resource|program|package|tool")
 
 
+# Characters some journals' XML uses in place of "~" in URLs such as /~user/ (tilde operator, small
+# tilde, full-width tilde, wave dash, and the percent-encoded tilde operator).
+TILDES = ("\u223c", "\u02dc", "\uff5e", "\u301c", "%E2%88%BC", "%e2%88%bc")
+
+
 def clean_url(u):
     u = u.strip().replace("​", "")
+    for t in TILDES:
+        u = u.replace(t, "~")
     while u and u[-1] in TRAIL:
         u = u[:-1]
     while u.endswith(")") and u.count("(") < u.count(")"):

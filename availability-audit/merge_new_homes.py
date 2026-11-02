@@ -28,8 +28,12 @@ def main():
             w = csv.DictWriter(f, ["pmcid", "found", "new_home", "kind", "same_tool_evidence", "reachable", "note"])
             w.writeheader()
             w.writerows(web[k] for k in sorted(web))
+    # Use the current tiers: a paper whose cited link was later found to work leaves the list.
+    tier = {r["pmcid"]: r["tier"] for r in csv.DictReader(open("paper_audit.csv"))}
     out = []
     for pmcid, r in reg.items():
+        if tier.get(pmcid) not in ("D", "E"):
+            continue
         row = {"pmcid": pmcid, "year": r["year"], "rcr": r["rcr"], "title": r["title"], "dead_links": r["dead_links"]}
         live_reg = r["found"] == "True" and r["home_status"] in ("alive", "indeterminate")
         w = web.get(pmcid)

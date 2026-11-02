@@ -8,16 +8,16 @@ published 2004–2015, all with a PubMed Central ID and full text in the PMC Ope
 
 ![Links by publication year and by host](../figures/availability_links.png)
 
-- **Links.** 11,356 distinct URLs in 5,255 of the 7,080 papers (74%). Leaving out links to the
-  journal itself (mostly BioMed Central boilerplate), 42% of 10,369 software and data links still
+- **Links.** 11,292 distinct URLs in 5,255 of the 7,080 papers (74%). Leaving out links to the
+  journal itself (mostly BioMed Central boilerplate), 42% of 10,305 software and data links still
   reach a page, 35% are gone and 14% do not answer; the rest
   (9%) could not be checked from here. 25% of links in 2004
   papers still work, 56% in 2015 papers. Bioconductor/CRAN (92%), SourceForge (89%) and GitHub (82%) links
   hold up; university and institute links do not (28%).
 - **Hijacked domains.** 22 cited domains now serve gambling, crypto or porn, including those of
   BioMart, PlantGDB, the Human Microbiome Project DACC and Genome 10K.
-- **Wayback Machine.** All 3,054 non-working links in the papers' abstracts and availability
-  sections were looked up: 60% have a capture. The other 3,871 non-working links were not looked up.
+- **Wayback Machine.** All 3,024 non-working links in the papers' abstracts and availability
+  sections were looked up: 61% have a capture. The other non-working links were not looked up.
 - **Accessions.** 7,182 distinct accessions from 1,183 papers;
   96% resolve today. RefSeq is the exception: 177 of
   1,786 cited records are suppressed or replaced (most model XM_/XP_, bacterial YP_ and contig NT_ records).
@@ -37,9 +37,9 @@ published 2004–2015, all with a PubMed Central ID and full text in the PMC Ope
 | --- | --- | --- |
 | A | code in the PMC supplement | 385 |
 | B | reachable own-resource link to a code host or package repository | 481 |
-| C | reachable own-resource link (lab page, web service) | 779 |
-| D | own-resource links dead, Wayback capture exists | 1,065 |
-| E | own-resource links dead, no Wayback capture | 339 |
+| C | reachable own-resource link (lab page, web service) | 783 |
+| D | own-resource links dead, Wayback capture exists | 1,071 |
+| E | own-resource links dead, no Wayback capture | 329 |
 | F | own-resource links can't be told (blocked or untestable) | 254 |
 | G | no own-resource link and no code supplement | 3,777 |
 
@@ -78,7 +78,7 @@ We opened the files for these and confirmed they hold the input data:
 
 ## Where the lost software went (RCR at least 1)
 
-For the 381 papers with iCite RCR of 1 or more whose cited software link is dead (tiers D and E),
+For the 379 papers with iCite RCR of 1 or more whose cited software link is dead (tiers D and E),
 we looked for the software elsewhere. [`find_new_homes.py`](find_new_homes.py) searched Bioconductor, CRAN (current and
 archived), PyPI and bio.tools under candidate tool names from [`tool_names.py`](tool_names.py), accepting a match only if
 the entry names the paper. A web search then covered the rest, accepting a home only if it is the same tool (same
@@ -87,16 +87,18 @@ authors, or a page that cites the paper) and reachable now; its rows are in `new
 
 | Outcome | Papers |
 | --- | --- |
-| Moved, live new home verified | 164 |
-| Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 34 |
-| Registry entry only, and its homepage is dead too | 6 |
-| Not found after searching | 63 |
-| Search pending (the web search's limit ran out before these) | 114 |
+| Moved, live new home verified | 172 |
+| Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 40 |
+| Registry entry only, and its homepage is dead too | 20 |
+| Not found anywhere | 147 |
 
-Where the moved software lives: github 50, lab-site 48, bundled 14, sourceforge 13, other 12, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
-ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure). Papers marked not found
-are well-cited methods whose software has disappeared; in `paper_catalog.csv` they carry the tag
-`code:not-found-elsewhere`, and the moved ones `code:moved`.
+Where the moved software lives: github 54, lab-site 48, other 15, bundled 14, sourceforge 14, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
+ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure); "other" includes Debian
+packages, the Google Code Archive and ModelDB. Papers not found are well-cited methods whose software has disappeared;
+in `paper_catalog.csv` they carry the tag `code:not-found-elsewhere`, and the moved ones `code:moved`.
+
+Some links looked dead only because the journal's XML wrote "∼" (U+223C) or "˜" for the "~" in addresses such as
+`/~user/`. `extract.py` now normalizes these; 38 corrected URLs were checked again.
 
 ## Paper catalog with citations and tags
 
