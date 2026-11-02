@@ -17,10 +17,10 @@ and on RPI369.
 | Item | Status | Evidence |
 | --- | --- | --- |
 | Table 1, RPI2241, SVM | **Identical at the printed precision** | 87.1%, precision 0.87, recall 0.88, F 0.87, as printed. 1,962 true positives, 279 false negatives, 299 false positives, 1,942 true negatives. |
-| Table 1, RPI2241, RF | Same setup, close | 90.1%, 0.92, 0.88, 0.90 against 89.6%, 0.89, 0.90, 0.90. Eleven forest seeds give 89.8% to 90.5%. |
-| Table 1, RPI369 | Same setup, other negatives; differs | RF 71.0% (paper 76.2%), SVM 58.5% (paper 72.8%). The paper never published RPI369's negatives. |
-| Fig. 1, RPI2241 curves | Same setup, curves overlay | AUC 0.967 (RF) and 0.923 (SVM), printed 0.97 and 0.92. 96.4% of the published blue curve pixels lie within 2 px of ours. |
-| Fig. 1, RPI369 curves | Differs | AUC 0.80 (RF) and 0.65 (SVM) against 0.85 and 0.81; same cause as Table 1. |
+| Table 1, RPI2241, RF | Same setup, close | 90.2%, 0.92, 0.88, 0.90 against 89.6%, 0.89, 0.90, 0.90. Forest seeds 1 to 11 give 89.6% to 90.5%. |
+| Table 1, RPI369 | Same setup, other negatives; differs | Seed 1: RF 68.4% (paper 76.2%), SVM 60.4% (paper 72.8%). Seeds 1 to 10: RF 68.0% to 71.4%, SVM 60.2% to 64.1%. The paper never published RPI369's negatives. |
+| Fig. 1, RPI2241 curves | Same setup, curves overlay | AUC 0.967 (RF) and 0.923 (SVM), printed 0.97 and 0.92. 97.2% of the published blue curve pixels lie within 2 px of ours. |
+| Fig. 1, RPI369 curves | Differs | AUC 0.78 (RF) and 0.66 (SVM) against 0.85 and 0.81; same cause as Table 1. |
 | Fig. 2, SEN1 hub | Same setup, agrees | Trained on RPI2241, RF and SVM both predict all 8 snoRNA partners of the SEN1 helicase, as the paper says. |
 | Fig. 2, U6 hub | Partly agrees | Trained on RPI2241, RF misses 1 of the 7 Lsm partners we test (paper: 1 of 8) and SVM misses 2. |
 | Tables 2 and 3 | Not reproduced; arithmetic checked | The 2011 NPInter "ncRNA binds protein" pairs are not available. Every column sum and all but one percentage agree with the printed counts; E. coli RF in Table 3, 20 of 37, is 54.05% and printed as 54.0. |
@@ -40,16 +40,17 @@ SVM row equals the paper's; Weka's weighted averages give recall 0.87, not 0.88.
   the Methods' rule: random protein and RNA from RPI369's pairs, dropped when the protein shares
   30% identity or more with a known partner of that RNA. Seeds 1 to 10 are run; seed 1 is shown.
   Two other negative sets were tried and are reported, not used: IPMiner's (Pan et al. 2016:
-  non-interacting chains of the same complex; RF 70.2%, AUC 0.75) and 369 drawn from the
-  authors' RPI2241 negatives whose RNA is in RPI369 (RF 87 to 88%, AUC 0.95). The paper's 76.2%
+  non-interacting chains of the same complex; RF 70.7%, AUC 0.75; SVM 71.5%) and 369 drawn from the
+  authors' RPI2241 negatives whose RNA is in RPI369 (RF 87 to 88%, AUC 0.95, in an exploratory run outside the pipeline). The paper's 76.2%
   and 0.85 sit between them, so the RPI369 rows depend on a choice the paper does not record.
 - **Fig. 2 hubs** (`pipeline/inputs/fig2c_hubs.tsv`): SEN1 (UniProt Q00416) with the eight
   snoRNAs that NPInter lists from the paper's ref. 38 (snR5, 10, 11, 13, 30, 31, 42, 45), and U6
   snRNA (snR6) with Lsm2 to Lsm8 (ref. 39). Sequences from UniProt and SGD. The paper's figure
   names neither the snoRNAs nor its eighth U6 partner.
 - **Weka 3.7.5** and `pentaho-package-manager` 0.9.9 from Maven Central. Weka 3.7.3 and 3.7.4,
-  the releases of the paper's time, are only on SourceForge. Weka 3.7.6 gives the same RF result
-  as 3.7.5; 3.7.9 gives 89.9%.
+  the releases of the paper's time, are only on SourceForge. In exploratory runs with an earlier
+  version of the encoder, Weka 3.7.6 gave the same RF result as 3.7.5 and 3.7.9 a slightly
+  different one; not rechecked.
 
 `pipeline/fetch_inputs.sh` downloads all of these and checks each SHA-256.
 
