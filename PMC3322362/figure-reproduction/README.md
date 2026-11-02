@@ -29,8 +29,10 @@ Table 1's precision, recall and F-measure are those of the interacting class. Wi
 SVM row equals the paper's; the weighted averages give recall 0.87, not 0.88.
 
 An earlier version of this pipeline ran Weka 3.7.5 itself. It gave the same SVM row
-(1,962 / 279 / 299 / 1,942) and RF 90.2%, so the move to scikit-learn changes one SVM prediction
-and moves RF by 0.4 points.
+(1,962 / 279 / 299 / 1,942) and RF 90.2%. Under scikit-learn, 93 of the 4,482 RPI2241 SVM calls
+change (47 right only with Weka, 46 right only with scikit-learn), so the totals move by one
+pair. Trained on the same data, the two SVMs give the hub pairs probabilities within 0.001 of
+each other, so the changed calls come from the different folds. RF moves by 0.4 points.
 
 ## Inputs
 
