@@ -1,0 +1,803 @@
+{
+  "paper": {
+    "table1": {
+      "RPI2241": {
+        "rf": [
+          89.6,
+          0.89,
+          0.9,
+          0.9
+        ],
+        "svm": [
+          87.1,
+          0.87,
+          0.88,
+          0.87
+        ]
+      },
+      "RPI369": {
+        "rf": [
+          76.2,
+          0.75,
+          0.78,
+          0.77
+        ],
+        "svm": [
+          72.8,
+          0.73,
+          0.73,
+          0.73
+        ]
+      }
+    },
+    "fig1_auc": {
+      "RF RPI2241": 0.97,
+      "SVM RPI2241": 0.92,
+      "RF RPI369": 0.85,
+      "SVM RPI369": 0.81
+    },
+    "fig2_hubs": {
+      "2241": {
+        "rf": {
+          "SEN1": "8 of 8",
+          "U6": "7 of 8"
+        },
+        "svm": {
+          "SEN1": "8 of 8",
+          "U6": "7 of 8"
+        }
+      },
+      "369": {
+        "rf": {
+          "SEN1": "4 of 8",
+          "U6": "6 of 8"
+        },
+        "svm": {
+          "SEN1": "6 of 8",
+          "U6": "8 of 8"
+        }
+      }
+    },
+    "table2": [
+      [
+        "H. sapiens",
+        1189,
+        888,
+        74.7,
+        681,
+        57.3
+      ],
+      [
+        "S. cerevisiae",
+        254,
+        249,
+        98.0,
+        252,
+        99.2
+      ],
+      [
+        "M. musculus",
+        120,
+        98,
+        81.7,
+        85,
+        70.8
+      ],
+      [
+        "D. melanogaster",
+        81,
+        80,
+        98.8,
+        72,
+        88.9
+      ],
+      [
+        "E. coli",
+        37,
+        34,
+        91.9,
+        25,
+        67.6
+      ],
+      [
+        "Total",
+        1681,
+        1349,
+        80.2,
+        1115,
+        66.3
+      ]
+    ],
+    "table3": [
+      [
+        "H. sapiens",
+        1189,
+        808,
+        68.0,
+        988,
+        83.1
+      ],
+      [
+        "S. cerevisiae",
+        254,
+        168,
+        66.1,
+        226,
+        89.0
+      ],
+      [
+        "M. musculus",
+        120,
+        81,
+        67.5,
+        111,
+        92.5
+      ],
+      [
+        "D. melanogaster",
+        81,
+        38,
+        46.9,
+        53,
+        65.4
+      ],
+      [
+        "E. coli",
+        37,
+        20,
+        54.0,
+        24,
+        64.9
+      ],
+      [
+        "Total",
+        1681,
+        1115,
+        66.3,
+        1402,
+        83.4
+      ]
+    ],
+    "fig2c_labels": {
+      "rf": {
+        "SEN1": [
+          0.5,
+          0.6,
+          0.5,
+          0.4,
+          0.4,
+          0.4,
+          0.5,
+          0.35
+        ],
+        "U6": [
+          0.7,
+          0.4,
+          0.4,
+          0.6,
+          0.5,
+          0.6,
+          0.55,
+          0.55
+        ]
+      },
+      "svm": {
+        "SEN1": [
+          0.37,
+          0.89,
+          0.38,
+          0.79,
+          0.79,
+          0.74,
+          0.64,
+          0.66
+        ],
+        "U6": [
+          0.84,
+          0.62,
+          0.88,
+          0.91,
+          0.84,
+          0.76,
+          0.75,
+          0.64
+        ]
+      }
+    }
+  },
+  "weka": "3.7.5",
+  "table1": {
+    "RPI2241": {
+      "rf": {
+        "ours": [
+          90.1,
+          0.92,
+          0.88,
+          0.9
+        ],
+        "full": {
+          "tp": 1976,
+          "fn": 265,
+          "fp": 179,
+          "tn": 2062,
+          "accuracy": 90.09370816599733,
+          "precision": 0.9169373549883991,
+          "recall": 0.8817492190986167,
+          "f_measure": 0.8989990900818927,
+          "weighted_precision": 0.9015284110567264,
+          "weighted_recall": 0.9009370816599732,
+          "weighted_f_measure": 0.9009005958290374,
+          "auc": 0.9669725557990801
+        },
+        "matches_paper": false
+      },
+      "svm": {
+        "ours": [
+          87.1,
+          0.87,
+          0.88,
+          0.87
+        ],
+        "full": {
+          "tp": 1962,
+          "fn": 279,
+          "fp": 299,
+          "tn": 1942,
+          "accuracy": 87.10397144132084,
+          "precision": 0.8677576293675365,
+          "recall": 0.8755020080321285,
+          "f_measure": 0.8716126166148379,
+          "weighted_precision": 0.8710692694338809,
+          "weighted_recall": 0.8710397144132084,
+          "weighted_f_measure": 0.8710371464965717,
+          "auc": 0.9233945051861967
+        },
+        "matches_paper": true
+      }
+    },
+    "RPI369": {
+      "rf": {
+        "ours": [
+          68.8,
+          0.71,
+          0.64,
+          0.67
+        ],
+        "full": {
+          "tp": 237,
+          "fn": 132,
+          "fp": 98,
+          "tn": 271,
+          "accuracy": 68.83468834688347,
+          "precision": 0.7074626865671642,
+          "recall": 0.6422764227642277,
+          "f_measure": 0.6732954545454545,
+          "weighted_precision": 0.6899596311247731,
+          "weighted_recall": 0.6883468834688347,
+          "weighted_f_measure": 0.687683996702779,
+          "auc": 0.7813801308744794
+        },
+        "seeds": 10,
+        "range": [
+          [
+            68.4,
+            71.3
+          ],
+          [
+            0.69,
+            0.72
+          ],
+          [
+            0.64,
+            0.69
+          ],
+          [
+            0.67,
+            0.71
+          ]
+        ],
+        "auc_range": [
+          0.776,
+          0.816
+        ],
+        "ipminer_negatives": [
+          70.2,
+          0.72,
+          0.67,
+          0.69,
+          0.753
+        ]
+      },
+      "svm": {
+        "ours": [
+          60.4,
+          0.61,
+          0.6,
+          0.6
+        ],
+        "full": {
+          "tp": 220,
+          "fn": 149,
+          "fp": 143,
+          "tn": 226,
+          "accuracy": 60.43360433604336,
+          "precision": 0.6060606060606061,
+          "recall": 0.5962059620596206,
+          "f_measure": 0.6010928961748634,
+          "weighted_precision": 0.6043636363636363,
+          "weighted_recall": 0.6043360433604336,
+          "weighted_f_measure": 0.6043098889476467,
+          "auc": 0.657357833740939
+        },
+        "seeds": 10,
+        "range": [
+          [
+            60.2,
+            64.1
+          ],
+          [
+            0.6,
+            0.64
+          ],
+          [
+            0.58,
+            0.66
+          ],
+          [
+            0.6,
+            0.65
+          ]
+        ],
+        "auc_range": [
+          0.657,
+          0.702
+        ],
+        "ipminer_negatives": [
+          71.5,
+          0.7,
+          0.75,
+          0.72,
+          0.737
+        ]
+      }
+    }
+  },
+  "fig1": {
+    "roc": {
+      "RF RPI2241": {
+        "auc": 0.9669725557990801,
+        "points": 39
+      },
+      "SVM RPI2241": {
+        "auc": 0.9233945051861967,
+        "points": 4447
+      },
+      "RF RPI369": {
+        "auc": 0.7813801308744794,
+        "points": 32
+      },
+      "SVM RPI369": {
+        "auc": 0.657357833740939,
+        "points": 726
+      }
+    },
+    "curves": {
+      "RF RPI2241": {
+        "ours_within_2px": 0.9243421052631579
+      },
+      "SVM RPI2241": {
+        "ours_within_2px": 0.8923357664233577
+      },
+      "blue": {
+        "published_pixels": 970,
+        "published_within_2px": 0.9639175257731959
+      },
+      "RF RPI369": {
+        "ours_within_2px": 0.14341761115954665
+      },
+      "SVM RPI369": {
+        "ours_within_2px": 0.003746487667811427
+      },
+      "red": {
+        "published_pixels": 1345,
+        "published_within_2px": 0.0691449814126394
+      }
+    }
+  },
+  "fig2_hubs": {
+    "2241": {
+      "rf": {
+        "pairs": [
+          {
+            "pair": "SEN1-SNR10",
+            "protein": "Q00416",
+            "rna": "YNCG0013W",
+            "p": 0.9
+          },
+          {
+            "pair": "SEN1-SNR11",
+            "protein": "Q00416",
+            "rna": "YNCM0031W",
+            "p": 0.9
+          },
+          {
+            "pair": "SEN1-SNR13",
+            "protein": "Q00416",
+            "rna": "YNCD0030W",
+            "p": 0.6
+          },
+          {
+            "pair": "SEN1-SNR30",
+            "protein": "Q00416",
+            "rna": "YNCL0003W",
+            "p": 0.75
+          },
+          {
+            "pair": "SEN1-SNR31",
+            "protein": "Q00416",
+            "rna": "YNCO0027C",
+            "p": 0.75
+          },
+          {
+            "pair": "SEN1-SNR42",
+            "protein": "Q00416",
+            "rna": "YNCK0020C",
+            "p": 0.6
+          },
+          {
+            "pair": "SEN1-SNR45",
+            "protein": "Q00416",
+            "rna": "YNCP0021W",
+            "p": 0.7
+          },
+          {
+            "pair": "SEN1-SNR5",
+            "protein": "Q00416",
+            "rna": "YNCO0028W",
+            "p": 0.8
+          },
+          {
+            "pair": "LSM2-SNR6",
+            "protein": "P38203",
+            "rna": "YNCL0006W",
+            "p": 0.55
+          },
+          {
+            "pair": "LSM3-SNR6",
+            "protein": "P57743",
+            "rna": "YNCL0006W",
+            "p": 0.45
+          },
+          {
+            "pair": "LSM4-SNR6",
+            "protein": "P40070",
+            "rna": "YNCL0006W",
+            "p": 0.7
+          },
+          {
+            "pair": "LSM5-SNR6",
+            "protein": "P40089",
+            "rna": "YNCL0006W",
+            "p": 0.55
+          },
+          {
+            "pair": "LSM6-SNR6",
+            "protein": "Q06406",
+            "rna": "YNCL0006W",
+            "p": 0.6
+          },
+          {
+            "pair": "LSM7-SNR6",
+            "protein": "P53905",
+            "rna": "YNCL0006W",
+            "p": 0.5
+          },
+          {
+            "pair": "LSM8-SNR6",
+            "protein": "P47093",
+            "rna": "YNCL0006W",
+            "p": 0.55
+          }
+        ],
+        "SEN1": "8 of 8",
+        "U6": "6 of 7"
+      },
+      "svm": {
+        "pairs": [
+          {
+            "pair": "SEN1-SNR10",
+            "protein": "Q00416",
+            "rna": "YNCG0013W",
+            "p": 0.9622
+          },
+          {
+            "pair": "SEN1-SNR11",
+            "protein": "Q00416",
+            "rna": "YNCM0031W",
+            "p": 0.9877
+          },
+          {
+            "pair": "SEN1-SNR13",
+            "protein": "Q00416",
+            "rna": "YNCD0030W",
+            "p": 0.9943
+          },
+          {
+            "pair": "SEN1-SNR30",
+            "protein": "Q00416",
+            "rna": "YNCL0003W",
+            "p": 0.9672
+          },
+          {
+            "pair": "SEN1-SNR31",
+            "protein": "Q00416",
+            "rna": "YNCO0027C",
+            "p": 0.9439
+          },
+          {
+            "pair": "SEN1-SNR42",
+            "protein": "Q00416",
+            "rna": "YNCK0020C",
+            "p": 0.9895
+          },
+          {
+            "pair": "SEN1-SNR45",
+            "protein": "Q00416",
+            "rna": "YNCP0021W",
+            "p": 0.9938
+          },
+          {
+            "pair": "SEN1-SNR5",
+            "protein": "Q00416",
+            "rna": "YNCO0028W",
+            "p": 0.996
+          },
+          {
+            "pair": "LSM2-SNR6",
+            "protein": "P38203",
+            "rna": "YNCL0006W",
+            "p": 0.2989
+          },
+          {
+            "pair": "LSM3-SNR6",
+            "protein": "P57743",
+            "rna": "YNCL0006W",
+            "p": 0.4512
+          },
+          {
+            "pair": "LSM4-SNR6",
+            "protein": "P40070",
+            "rna": "YNCL0006W",
+            "p": 0.746
+          },
+          {
+            "pair": "LSM5-SNR6",
+            "protein": "P40089",
+            "rna": "YNCL0006W",
+            "p": 0.6726
+          },
+          {
+            "pair": "LSM6-SNR6",
+            "protein": "Q06406",
+            "rna": "YNCL0006W",
+            "p": 0.5152
+          },
+          {
+            "pair": "LSM7-SNR6",
+            "protein": "P53905",
+            "rna": "YNCL0006W",
+            "p": 0.8983
+          },
+          {
+            "pair": "LSM8-SNR6",
+            "protein": "P47093",
+            "rna": "YNCL0006W",
+            "p": 0.6407
+          }
+        ],
+        "SEN1": "8 of 8",
+        "U6": "5 of 7"
+      }
+    },
+    "369": {
+      "rf": {
+        "pairs": [
+          {
+            "pair": "SEN1-SNR10",
+            "protein": "Q00416",
+            "rna": "YNCG0013W",
+            "p": 0.5
+          },
+          {
+            "pair": "SEN1-SNR11",
+            "protein": "Q00416",
+            "rna": "YNCM0031W",
+            "p": 0.54
+          },
+          {
+            "pair": "SEN1-SNR13",
+            "protein": "Q00416",
+            "rna": "YNCD0030W",
+            "p": 0.59
+          },
+          {
+            "pair": "SEN1-SNR30",
+            "protein": "Q00416",
+            "rna": "YNCL0003W",
+            "p": 0.35
+          },
+          {
+            "pair": "SEN1-SNR31",
+            "protein": "Q00416",
+            "rna": "YNCO0027C",
+            "p": 0.64
+          },
+          {
+            "pair": "SEN1-SNR42",
+            "protein": "Q00416",
+            "rna": "YNCK0020C",
+            "p": 0.59
+          },
+          {
+            "pair": "SEN1-SNR45",
+            "protein": "Q00416",
+            "rna": "YNCP0021W",
+            "p": 0.7
+          },
+          {
+            "pair": "SEN1-SNR5",
+            "protein": "Q00416",
+            "rna": "YNCO0028W",
+            "p": 0.69
+          },
+          {
+            "pair": "LSM2-SNR6",
+            "protein": "P38203",
+            "rna": "YNCL0006W",
+            "p": 0.45
+          },
+          {
+            "pair": "LSM3-SNR6",
+            "protein": "P57743",
+            "rna": "YNCL0006W",
+            "p": 0.45
+          },
+          {
+            "pair": "LSM4-SNR6",
+            "protein": "P40070",
+            "rna": "YNCL0006W",
+            "p": 0.55
+          },
+          {
+            "pair": "LSM5-SNR6",
+            "protein": "P40089",
+            "rna": "YNCL0006W",
+            "p": 0.4
+          },
+          {
+            "pair": "LSM6-SNR6",
+            "protein": "Q06406",
+            "rna": "YNCL0006W",
+            "p": 0.45
+          },
+          {
+            "pair": "LSM7-SNR6",
+            "protein": "P53905",
+            "rna": "YNCL0006W",
+            "p": 0.3
+          },
+          {
+            "pair": "LSM8-SNR6",
+            "protein": "P47093",
+            "rna": "YNCL0006W",
+            "p": 0.4
+          }
+        ],
+        "SEN1": "7 of 8",
+        "U6": "1 of 7"
+      },
+      "svm": {
+        "pairs": [
+          {
+            "pair": "SEN1-SNR10",
+            "protein": "Q00416",
+            "rna": "YNCG0013W",
+            "p": 0.584
+          },
+          {
+            "pair": "SEN1-SNR11",
+            "protein": "Q00416",
+            "rna": "YNCM0031W",
+            "p": 0.5417
+          },
+          {
+            "pair": "SEN1-SNR13",
+            "protein": "Q00416",
+            "rna": "YNCD0030W",
+            "p": 0.8097
+          },
+          {
+            "pair": "SEN1-SNR30",
+            "protein": "Q00416",
+            "rna": "YNCL0003W",
+            "p": 0.8453
+          },
+          {
+            "pair": "SEN1-SNR31",
+            "protein": "Q00416",
+            "rna": "YNCO0027C",
+            "p": 0.6991
+          },
+          {
+            "pair": "SEN1-SNR42",
+            "protein": "Q00416",
+            "rna": "YNCK0020C",
+            "p": 0.8938
+          },
+          {
+            "pair": "SEN1-SNR45",
+            "protein": "Q00416",
+            "rna": "YNCP0021W",
+            "p": 0.857
+          },
+          {
+            "pair": "SEN1-SNR5",
+            "protein": "Q00416",
+            "rna": "YNCO0028W",
+            "p": 0.8444
+          },
+          {
+            "pair": "LSM2-SNR6",
+            "protein": "P38203",
+            "rna": "YNCL0006W",
+            "p": 0.3963
+          },
+          {
+            "pair": "LSM3-SNR6",
+            "protein": "P57743",
+            "rna": "YNCL0006W",
+            "p": 0.5838
+          },
+          {
+            "pair": "LSM4-SNR6",
+            "protein": "P40070",
+            "rna": "YNCL0006W",
+            "p": 0.7012
+          },
+          {
+            "pair": "LSM5-SNR6",
+            "protein": "P40089",
+            "rna": "YNCL0006W",
+            "p": 0.5132
+          },
+          {
+            "pair": "LSM6-SNR6",
+            "protein": "Q06406",
+            "rna": "YNCL0006W",
+            "p": 0.4911
+          },
+          {
+            "pair": "LSM7-SNR6",
+            "protein": "P53905",
+            "rna": "YNCL0006W",
+            "p": 0.7204
+          },
+          {
+            "pair": "LSM8-SNR6",
+            "protein": "P47093",
+            "rna": "YNCL0006W",
+            "p": 0.3843
+          }
+        ],
+        "SEN1": "8 of 8",
+        "U6": "4 of 7"
+      }
+    }
+  },
+  "tables23_arithmetic": {
+    "table2": [],
+    "table3": [
+      "E. coli: 20/37 = 54.05%, printed 54.0"
+    ]
+  }
+}
