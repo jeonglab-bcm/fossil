@@ -1,7 +1,7 @@
 """Collect the cross-validation summaries and hub predictions into tables.json.
 
 Table 1's precision, recall and F-measure are those of the interacting class: with them the
-SVM row on RPI2241 equals the paper's at its printed precision, and Weka's weighted averages
+SVM row on RPI2241 equals the paper's at its printed precision, and the weighted averages
 do not (recall 0.87 against the paper's 0.88).
 
 Usage: python make_tables.py CV_DIR HUBS.tsv HUB_DIR FIG1_ROC.json FIG1_CURVES.json OUT.json
@@ -53,7 +53,7 @@ def full(s):
 def main(cv_dir, hubs_tsv, hub_dir, roc_json, curves_json, out):
     S = {os.path.basename(p)[: -len(".summary.json")]: json.load(open(p))
          for p in glob.glob(os.path.join(cv_dir, "*.summary.json"))}
-    t = {"paper": PAPER, "weka": S["rpi2241_rf"]["weka"], "table1": {}}
+    t = {"paper": PAPER, "tool": S["rpi2241_rf"]["tool"], "table1": {}}
     for clf in ("rf", "svm"):
         s = S[f"rpi2241_{clf}"]
         t["table1"].setdefault("RPI2241", {})[clf] = {"ours": row(s), "full": full(s),

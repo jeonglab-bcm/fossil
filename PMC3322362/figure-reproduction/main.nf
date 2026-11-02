@@ -1,5 +1,5 @@
 // Reproduce PMC3322362 (Muppirala et al. 2011, RPISeq): Table 1, Fig. 1 and the hub checks of Fig. 2.
-// Run: nextflow run main.nf --outdir results [--python python3] [--java java] [--javac javac] [--sources DIR]
+// Run: nextflow run main.nf --outdir results [--python python3] [--sources DIR]
 // --sources reuses local copies of the inputs (file names as in pipeline/fetch_inputs.sh).
 
 process FETCH {
@@ -7,7 +7,6 @@ process FETCH {
     path 'S3.txt', emit: s3
     path '*.rpi', emit: rpi2241
     path 'ipminer369*', emit: ipminer
-    path '*.jar', emit: jars
     script:
     """
     bash ${projectDir}/pipeline/fetch_inputs.sh ${params.sources ?: ''}
@@ -35,30 +34,16 @@ process ENCODE {
     """
 }
 
-process COMPILE {
-    input:
-    path jars
-    output:
-    path 'classes'
-    script:
-    """
-    mkdir classes
-    ${params.javac} -nowarn -cp weka.jar:pentaho-package-manager.jar -d classes ${projectDir}/pipeline/RpiWeka.java
-    """
-}
-
 process CV {
     tag "${name} ${clf}"
     publishDir "${params.outdir}/cv", mode: 'copy'
     input:
     tuple val(name), val(clf), path(arff)
-    path jars
-    path classes
     output:
     path "${name}_${clf}.*"
     script:
     """
-    ${params.java} -Xmx4g -cp weka.jar:pentaho-package-manager.jar:classes RpiWeka cv ${clf} ${arff} 10 1 ${name}_${clf}
+    ${params.python} ${projectDir}/pipeline/rpi_sklearn.py cv ${clf} ${arff} 10 1 ${name}_${clf}
     """
 }
 
@@ -67,13 +52,11 @@ process HUBS {
     publishDir "${params.outdir}/hubs", mode: 'copy'
     input:
     tuple val(train), val(clf), path(arff), path(hubs)
-    path jars
-    path classes
     output:
     path "hubs_${train}_${clf}.csv"
     script:
     """
-    ${params.java} -Xmx4g -cp weka.jar:pentaho-package-manager.jar:classes RpiWeka train ${clf} ${arff} ${hubs} hubs_${train}_${clf}.csv
+    ${params.python} ${projectDir}/pipeline/rpi_sklearn.py train ${clf} ${arff} ${hubs} hubs_${train}_${clf}.csv
     """
 }
 
@@ -128,17 +111,16 @@ process CHECK {
 workflow {
     inputs = FETCH()
     enc = ENCODE(inputs.s3, inputs.rpi2241, inputs.ipminer)
-    classes = COMPILE(inputs.jars)
     arffs = enc.arff.flatten().map { f -> [f.baseName, f] }
     clfs = Channel.of('rf', 'svm')
     jobs = arffs.filter { it[0] != 'hubs' }.combine(clfs).map { name, f, clf -> [name, clf, f] }
-    cv = CV(jobs, inputs.jars, classes)
+    cv = CV(jobs)
     hubs_arff = arffs.filter { it[0] == 'hubs' }.map { it[1] }
     train = arffs.filter { it[0] in ['rpi2241', 'rpi369_s1'] }
         .map { name, f -> [name == 'rpi2241' ? '2241' : '369', f] }
         .combine(clfs).combine(hubs_arff)
         .map { t, f, clf, h -> [t, clf, f, h] }
-    hubs = HUBS(train, inputs.jars, classes)
+    hubs = HUBS(train)
     all_cv = cv.flatten().collect()
     fig1 = FIG1(all_cv)
     fig1_json = fig1.flatten().filter { it.name in ['fig1_ours.roc.json', 'fig1_curves.json'] }.collect()
