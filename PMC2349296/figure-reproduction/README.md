@@ -94,7 +94,11 @@ otherwise. The 21% lower bound comes from IEPA, where our RelEx is 7 points belo
 - **Negation.** Fundel et al. name "not, without, lack, unable"; the rest of our list is ours.
 - **MedPost on x86_64.** `MPtok.C` defines `NUM_ABB` as `sizeof common_abb` (bytes, not
   entries), so the tokenizer reads past the table and crashes. `build_medpost.sh` divides by the
-  entry size and builds at `-O0` (`-O2` still crashes). Only the tokenizer and tagger are built.
+  entry size and builds at `-O0` (`-O2` still crashes). Two more fixes: the tagger deletes an
+  uninitialized lexicon pointer, and `run_tokenizer` falls off the end of an `int` function. On
+  the ubuntu-24.04 CI runner the second lost the tokenizer's last buffered output (18 AIMed
+  sentences). With all three fixes, a build with AddressSanitizer and fatal UBSan and a plain
+  build give byte-identical output on all five corpora. Only the tokenizer and tagger are built.
 
 ## Layout
 
