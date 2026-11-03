@@ -1,0 +1,63 @@
+name: Reproduce PMC2349296
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC2349296/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc2349296.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2349296/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc2349296.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy==2.5.4 pillow==12.2.0 scipy==1.18.1
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.4.3"
+
+      - name: Install fonts (R's "sans" is DejaVu Sans, as in the committed renders)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-dejavu-core
+
+      # Stanford Parser 1.5.1 (2006) runs on Java 11; it is the version the paper names.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC2349296/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2349296-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
