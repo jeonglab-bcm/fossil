@@ -1,0 +1,53 @@
+name: Reproduce PMC3322362
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC3322362/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc3322362.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3322362/figure-reproduction/**"
+      - ".github/workflows/reproduce-pmc3322362.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy==2.5.4 scipy==1.18.1 matplotlib==3.11.2 pillow==13.0.0 biopython==1.88 scikit-learn==1.9.1
+
+      - name: Install Liberation Sans (Arial metrics) for Fig. 1
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-liberation
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3322362/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/output/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3322362-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
