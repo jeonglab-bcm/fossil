@@ -10,6 +10,18 @@ papers or their supplements.
 | [`PMC4247685`](PMC4247685/) | Curry EWJ. A framework for generalized subspace pattern mining in high-dimensional datasets. *BMC Bioinformatics* 15:355 (2014). [doi:10.1186/s12859-014-0355-5](https://doi.org/10.1186/s12859-014-0355-5) | Fig. 5 reproduced, Fig. 2 rerun, Figs 3 and 4 reconstructed from TCGA; implementation analysis |
 | [`PMC4081639`](PMC4081639/) | Yu P, Shaw CA. An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function. *Bioinformatics* 30(11):1547–1554 (2014). [doi:10.1093/bioinformatics/btu079](https://doi.org/10.1093/bioinformatics/btu079) | Figs 2, 4, 5, 6 and Table 1 reproduced; implementation analysis |
 
+Other analyses:
+
+- [`availability-audit`](availability-audit/): what still works in 7,080 open-access bioinformatics and
+  biomedical-informatics methodology papers from 2004–2015 (links, Wayback captures, repository
+  accessions, supplementary files, and the software of a 150-paper sample), with a per-paper
+  readiness tier for choosing reproduction targets.
+- [`publication-trends`](publication-trends/): PMC articles per year (2000–2026) mentioning
+  code hosts, R and Python ecosystems, DOI archives, data repositories, and software environment tools,
+  as a proxy for when code and data sharing took hold.
+
+Figures for the papers are in [`figures/`](figures/).
+
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
 The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun each reproduction with Nextflow on every change.
