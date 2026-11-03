@@ -1,0 +1,315 @@
+# Availability audit of 2004–2015 methodology papers
+
+Which of the papers we could reproduce still have working software, data links and supplements?
+This folder audits 7,080 open-access bioinformatics and biomedical-informatics methodology papers
+published 2004–2015, all with a PubMed Central ID and full text in the PMC Open Access Subset.
+
+## Results (checked 28 October 2026)
+
+![Links by publication year and by host](../figures/availability_links.png)
+
+- **Links.** 11,292 distinct URLs in 5,255 of the 7,080 papers (74%). Leaving out links to the
+  journal itself (mostly BioMed Central boilerplate), 42% of 10,305 software and data links still
+  reach a page, 35% are gone and 14% do not answer; the rest
+  (9%) could not be checked from here. 25% of links in 2004
+  papers still work, 56% in 2015 papers. Bioconductor/CRAN (92%), SourceForge (89%) and GitHub (82%) links
+  hold up; university and institute links do not (28%).
+- **Hijacked domains.** 22 cited domains now serve gambling, crypto or porn, including those of
+  BioMart, PlantGDB, the Human Microbiome Project DACC and Genome 10K.
+- **Wayback Machine.** All 3,024 non-working links in the papers' abstracts and availability
+  sections were looked up: 61% have a capture. The other non-working links were not looked up.
+- **Accessions.** 7,182 distinct accessions from 1,183 papers;
+  96% resolve today. RefSeq is the exception: 177 of
+  1,786 cited records are suppressed or replaced (most model XM_/XP_, bacterial YP_ and contig NT_ records).
+- **Supplementary files.** All 13,720 files named in 3,484 papers are in the PMC dataset; 21 are corrupt.
+  385 papers keep source code in their supplement.
+- **Software sample (150 papers).** 35 can still be obtained; 52 never released
+  code, 9 only on request, 3 only as a web service;
+  27 point to a location that is gone and 24
+  to one we could not reach or judge. Static checks of what we got found Python 2 syntax, code that GCC 13
+  or glibc now reject, MATLAB or GAMS dependencies, and binary-only releases (Windows, 32-bit Linux, old Java).
+
+![Accessions and the software sample](../figures/availability_artifacts.png)
+
+`paper_audit.csv` gives each paper a readiness tier for choosing reproduction targets (first match wins):
+
+| Tier | Meaning | Papers |
+| --- | --- | --- |
+| A | code in the PMC supplement | 385 |
+| B | reachable own-resource link to a code host or package repository | 481 |
+| C | reachable own-resource link (lab page, web service) | 783 |
+| D | own-resource links dead, Wayback capture exists | 1,071 |
+| E | own-resource links dead, no Wayback capture | 329 |
+| F | own-resource links can't be told (blocked or untestable) | 254 |
+| G | no own-resource link and no code supplement | 3,777 |
+
+"Own-resource" links are those in the abstract or in sections whose titles mention availability,
+software, implementation, download and the like. Full tables are in [`summary.md`](summary.md).
+
+## Code lost, data still here
+
+These are candidates for reproducing a method from the paper text alone. The code is gone or was
+never released, but the input data is still available and small. [`find_data_candidates.py`](find_data_candidates.py)
+writes `data_candidates.csv`: papers in tiers D, E or G whose intact data-type supplements total at
+most 20 MB, or that cite a GEO, ArrayExpress or SRA accession that still resolves.
+
+- 1,073 papers qualify.
+- 227 of them have supplement captions that describe input data (a dataset, benchmark,
+  training/test set or expression data).
+- 51 of those 227 had code that is now lost (tiers D and E).
+
+The ranking is heuristic: a caption can say "dataset" for a file of results.
+
+We opened the files for these and confirmed they hold the input data:
+
+| Paper | Method | Code status | Data in the PMC supplement |
+| --- | --- | --- | --- |
+| PMC1802094 (2007) | Boolean networks inferred with chi-square tests | site unreachable | toy data (18 time points × 8 genes), 43 simulated sets (7 × 40), yeast cell-cycle binary data, and the true Boolean functions as R code; under 30 kB |
+| PMC3322362 (2011) | RPISeq: RNA–protein interaction prediction from sequence | server unreachable; feature code and RPI2241 data (positives and negatives) later found in the lab's RPIMotif repository | RPI2241 and RPI369 interaction pairs (PDB chains; 36 kB) |
+| PMC2958853 (2010) | Scoring function for solubility mutagenesis | page unreachable | dataset of solubility mutants and cross-validation folds (311 kB; structures from PDB) |
+| PMC3027113 (2011) | NetSAP: disease-associated amino-acid substitutions | domain gone | training and independent datasets (791 kB), plus the trained models (4.9 MB) |
+| PMC1955748 (2007) | ASH protein structure alignment | page 404 | training set of CATH domain IDs (23 kB; structures from CATH) |
+| PMC2573020 (2008) | MEDUSA model of the yeast oxygen and heme network | page 404 | normalized, discretized and fold-change expression data (4.3 MB) and the learned model's regulators |
+| PMC2063505 (2007) | EDISA biclustering of expression time series | domain gone | synthetic evaluation dataset (6.9 MB) and the gene lists of all modules |
+| PMC548129 (2005) | Non-linear mapping (SOM, Sammon) of expression data | never released | leukaemia, SRBCT and Parkinson's datasets (1.9 MB), and the published maps for comparison |
+| PMC3348049 (2012) | SVM for virus–human protein interactions | never released | HCV and HPV training/test sets (38 kB) |
+| PMC3176265 (2011) | ΔΔG prediction from sequence and structure | never released | training and independent test sets (98 kB) |
+| PMC4682424 (2015) | Positive-unlabeled learning of B-cell epitopes | never released | 92 unbound structures with annotated epitopes (~100 kB) |
+
+## Where the lost software went (RCR at least 1)
+
+For the 379 papers with iCite RCR of 1 or more whose cited software link is dead (tiers D and E),
+we looked for the software elsewhere. [`find_new_homes.py`](find_new_homes.py) searched Bioconductor, CRAN (current and
+archived), PyPI and bio.tools under candidate tool names from [`tool_names.py`](tool_names.py), accepting a match only if
+the entry names the paper. A web search then covered the rest, accepting a home only if it is the same tool (same
+authors, or a page that cites the paper) and reachable now; its rows are in `new_homes_web_search.csv`.
+[`merge_new_homes.py`](merge_new_homes.py) combines both into `software_new_homes.csv`.
+
+| Outcome | Papers |
+| --- | --- |
+| Moved, live new home verified | 172 |
+| Code is in the PMC supplement after all (RAR archive, binary, RData or scripts the automated scan missed) | 4 |
+| Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 40 |
+| Registry entry only, and its homepage is dead too | 20 |
+| Partly found: feature code and training data in a successor tool, the paper's own models not | 1 |
+| Not found anywhere | 142 |
+
+Where the moved software lives: github 54, lab-site 48, other 15, bundled 14, sourceforge 14, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
+ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure); "other" includes Debian
+packages, the Google Code Archive and ModelDB. Papers not found are well-cited methods whose software has disappeared;
+in `paper_catalog.csv` they carry the tag `code:not-found-elsewhere`, and the moved ones `code:moved`.
+
+The partly found paper is RPISeq (PMC3322362). The searches above recorded it as not found. A later reproduction
+([PR #12](https://github.com/jeonglab-bcm/fossil/pull/12)) found the authors' successor tool,
+[Dobbs-Lab/RPIMotif](https://github.com/Dobbs-Lab/RPIMotif), which has RPISeq's feature code (`createARFF_test.pl`) and
+the RPI2241 training pairs with sequences, including the 2,241 negative pairs the paper never published. Its positives
+equal the paper's Additional File 2 pair for pair. Name-based searches miss this kind of home: the repository is named
+after a different tool and cites the paper only inside a script. Some of the 142 "not found" papers may have similar
+homes. The catalog tags this paper `code:partly-found`.
+
+Some links looked dead only because the journal's XML wrote "∼" (U+223C) or "˜" for the "~" in addresses such as
+`/~user/`. `extract.py` now normalizes these; 38 corrected URLs were checked again.
+
+## Code gone, data still here (143 papers)
+
+For each paper whose software was not found anywhere (142, plus RPISeq, whose code was only partly found later), we
+read the paper to find what input data its main results came
+from, and checked whether that data can still be obtained: PMC supplement files were downloaded and opened (inputs,
+not just results), cited accessions resolved, and named public datasets and data links fetched. Results are in
+`lost_software_data.csv` ([`merge_data_check.py`](merge_data_check.py)); the catalog has them as
+`lost_software_data`, `reproduction_readiness` and the tags `reproduce:high-readiness` and so on.
+
+| Data status | Papers |
+| --- | --- |
+| Complete in the PMC supplement | 6 |
+| Complete from public sources that still work | 37 |
+| No external data (simulation or theory) | 4 |
+| Partial (some inputs lost, usually an in-house set on a dead lab site) | 81 |
+| Not available | 15 |
+
+Readiness to start a reimplementation now: high 30, medium 50, low 63. The 30
+high-readiness papers:
+
+| Paper | Year | RCR | Title | Data | MB |
+| --- | --- | --- | --- | --- | --- |
+| PMC4331676 | 2015 | 2.4 | Identifying DNA-binding proteins by combining support vector machine a… | complete-in-pmc | 0.4 |
+| PMC2887807 | 2010 | 1.7 | Machine learning approach to predict protein phosphorylation sites by … | complete-in-pmc | 30 |
+| PMC1175843 | 2005 | 1.4 | YANA - a software tool for analyzing flux modes, gene-expression and e… | complete-in-pmc | 0.07 |
+| PMC2020486 | 2007 | 1.3 | Integrated network reconstruction, visualization and analysis using YA… | complete-in-pmc | 0.24 |
+| PMC3548331 | 2013 | 1.2 | PPInterFinder--a mining tool for extracting causal relations on human … | complete-in-pmc | 2.2 |
+| PMC3819749 | 2013 | 1.0 | Identification of properties important to protein aggregation using fe… | complete-in-pmc | 1.6 |
+| PMC2735674 | 2009 | 10.4 | Supervised prediction of drug-target interactions using bipartite loca… | complete-public | 15 |
+| PMC3322362 | 2011 | 10.1 | Predicting RNA-protein interactions using only sequence information. | complete-public | 0.04 |
+| PMC2850872 | 2010 | 6.2 | Application of support vector machine modeling for prediction of commo… | complete-public | 100 |
+| PMC4426843 | 2015 | 3.0 | Bias in microRNA functional enrichment analysis. | complete-public | 9 |
+| PMC2349296 | 2008 | 2.6 | Comparative analysis of five protein-protein interaction corpora. | complete-public | 16 |
+| PMC3582598 | 2012 | 2.6 | mGOASVM: Multi-label protein subcellular localization based on gene on… | complete-public | 730 |
+| PMC4015815 | 2014 | 2.6 | Using distances between Top-n-gram and residue pairs for protein remot… | complete-public | 1.5 |
+| PMC2711306 | 2009 | 2.5 | Geometric de-noising of protein-protein interaction networks. | complete-public | 5 |
+| PMC4765871 | 2015 | 2.4 | Reconstructing gene regulatory dynamics from high-dimensional single-c… | complete-public | 3.4 |
+| PMC2262056 | 2008 | 1.9 | ProLoc-GO: utilizing informative Gene Ontology terms for sequence-base… | complete-public | 300 |
+| PMC1800866 | 2007 | 1.9 | Predicting zinc binding at the proteome level. | complete-public | 5 |
+| PMC4481854 | 2015 | 1.9 | L-GRAAL: Lagrangian graphlet-based network aligner. | complete-public | 24 |
+| PMC1764477 | 2006 | 1.7 | MicroTar: predicting microRNA targets from RNA duplexes. | complete-public | 0.05 |
+| PMC3174950 | 2011 | 1.6 | A comparison of the functional modules identified from time course and… | complete-public | 15 |
+| PMC3324512 | 2012 | 1.3 | An integrated strategy for prediction uncertainty analysis. | complete-public | 0.03 |
+| PMC3324513 | 2012 | 1.3 | A Bayesian approach to targeted experiment design. | complete-public | 0.1 |
+| PMC522806 | 2004 | 1.3 | A combinational feature selection and ensemble neural network method f… | complete-public | 100 |
+| PMC2613876 | 2008 | 1.3 | Fast gene ontology based clustering for microarray experiments. | complete-public | 20 |
+| PMC4426845 | 2015 | 1.3 | Topology-function conservation in protein-protein interaction networks… | complete-public | 100 |
+| PMC2718659 | 2008 | 1.3 | Integrating high dimensional bi-directional parsing models for gene me… | complete-public | 10 |
+| PMC3967105 | 2014 | 1.2 | FastPros: screening of reaction knockout strategies for metabolic engi… | complete-public | 10 |
+| PMC2949886 | 2010 | 1.2 | Filtering, FDR and power. | complete-public | 150 |
+| PMC4686965 | 2015 | 1.1 | Local Geometry and Evolutionary Conservation of Protein Surfaces Revea… | complete-public | 40 |
+| PMC408466 | 2004 | 1.4 | Biochemical Network Stochastic Simulator (BioNetS): software for stoch… | no-external-data | 0 |
+
+Data sources are versioned: several high-readiness papers depend on an exact old release (BioGRID 3.2.101, SCOP 1.53,
+GOA 2007) that is still archived; where only a newer release exists the row's note says so.
+
+For the ten strongest of these (RCR at least 1.9, high readiness), [`reproduction_plans/`](reproduction_plans/) has a
+per-figure and per-table plan for each paper: whether each item can be regenerated from the paper text plus today's
+data (exactly, approximately or not), which method details are missing, an ordered plan, and the reported numbers to
+check against. None of the 66 main-text result items is regenerable exactly; 60 are approximately.
+
+## Paper catalog with citations and tags
+
+`paper_catalog.csv` and `paper_catalog.xlsx` have one row per paper, with the audit's results as
+filterable columns and tags and with citation metrics. The xlsx has filters, a frozen header,
+PMC links, a Columns tab explaining every column and tag, and a Data Sources tab. It opens in
+Google Sheets from Drive.
+
+- **Citations:** NIH iCite (count, relative citation ratio, NIH percentile, expected rate), Europe
+  PMC (count) and PMC (citing articles), all fetched by [`fetch_citations.py`](fetch_citations.py).
+- **Subject tags:** PubMed MeSH major topics.
+- **OpenAlex (count, last-five-years count, FWCI, field-normalized percentile, topic, keywords):**
+  not filled yet. Without an API key, OpenAlex shares a small daily budget per network, and it was
+  used up. Rerun with an API key to add these columns:
+  `OPENALEX_API_KEY=... python3 fetch_citations.py openalex`.
+
+Tags include the readiness tier (`code:in-supplement` ... `code:no-link`), `data:small-supplement`,
+`data:input-described`, `data:repository`, `data:obsolete-accession`, `link:hijacked`, `cites:low`
+(RCR below 0.25), `cites:high` (RCR 2 or more), `cites:none`, and `sample:<outcome>` for the 150
+sampled papers. For example, 51 papers carry both `code:lost` or `code:lost-archived` and
+`data:input-described`.
+
+## Which papers
+
+[`select_papers.py`](select_papers.py) runs two PubMed queries, both limited to 2004–2015, research
+article types, and the PMC Open Access Subset (`"pubmed pmc open access"[filter]`):
+
+| Rule | Journals | Methodology marker | Papers |
+| --- | --- | --- | --- |
+| `mesh` | 17 MEDLINE-indexed core journals: Bioinformatics, BMC Bioinformatics, PLoS Comput Biol, Brief Bioinform, Database (Oxford), J Comput Biol, IEEE/ACM TCBB, Stat Appl Genet Mol Biol, BMC Syst Biol, Pac Symp Biocomput, J Bioinform Comput Biol, JAMIA, J Biomed Inform, BMC Med Inform Decis Mak, Int J Med Inform, AMIA Annu Symp Proc, Methods Inf Med | MeSH `Algorithms` | 6,307 |
+| `tiab` | 5 core journals not MEDLINE-indexed in this period (no MeSH): Algorithms Mol Biol, Source Code Biol Med, BioData Min, Cancer Inform, Evol Bioinform Online | `algorithm*` or `method*` in title/abstract | 773 |
+
+Reviews, editorials, comments, letters, news, errata, retractions, congresses and biographies are
+excluded. `papers.csv` lists the papers and the exact queries. Most come from BMC Bioinformatics
+(3,698), PLoS Comput Biol (974), Bioinformatics (904) and BMC Syst Biol (370). Journals whose papers
+are not openly licensed (J Comput Biol, IEEE/ACM TCBB, PSB, AMIA) contribute almost nothing.
+
+## What we checked
+
+| Step | Script | Source | Output |
+| --- | --- | --- | --- |
+| Full text and metadata | [`fetch_articles.py`](fetch_articles.py) | PMC Article Datasets on AWS (`s3://pmc-oa-opendata`), which PMC lists among the services allowed for automated retrieval | `cache/` (not committed) |
+| URLs, accessions, supplements in each paper | [`extract.py`](extract.py) | JATS XML: abstract, body and back matter; reference lists, citations and license text dropped | `urls.csv`, `accessions.csv`, `supplements.csv` |
+| Is each URL still there? | [`check_urls.py`](check_urls.py), [`classify.py`](classify.py) | One GET per distinct URL, redirects followed | `url_status.csv` |
+| Is a dead URL archived? | [`check_wayback.py`](check_wayback.py) | Wayback Machine Availability API; run until every non-working own-resource link was looked up | `wayback.csv` |
+| Do accessions still resolve? | [`check_accessions.py`](check_accessions.py) | NCBI E-utilities (GEO, RefSeq, GenBank, BioProject, dbGaP), ENA Browser API (SRA/ENA/DDBJ), BioStudies (ArrayExpress), RCSB (PDB), UniProt REST, EGA | `accession_status.csv` |
+| Are the supplementary files intact? | [`check_supplements.py`](check_supplements.py) | Each file downloaded from the PMC dataset, MD5 checked, opened by format, archives listed for source code | `supplement_status.csv` |
+| Can the software still be obtained, and does it look buildable? | [`sample_candidates.py`](sample_candidates.py), [`inspect_sample.py`](inspect_sample.py) | Stratified random sample, 50 papers per 4-year band; static checks only | `install_sample.csv`, `inspect_results.csv` |
+| Tables and per-paper status | [`summarize.py`](summarize.py), [`plot_audit.py`](plot_audit.py) | All of the above | `url_audit.csv`, `paper_audit.csv`, `summary.md`, `../figures/availability_*` |
+
+### Link categories
+
+| Category | Meaning |
+| --- | --- |
+| Reachable | 2xx after redirects (including a "this has moved" notice), or the GitHub repository still exists |
+| Gone | 404/410; soft 404; parked or for-sale domain; "retired" notice; deep link redirected to a site's home page or to a page many dead links funnel into; domain not in DNS (confirmed by Google Public DNS); GitHub repository not found |
+| Unreachable | Host resolves but does not answer properly: connection refused or reset, timeout, 5xx, redirect loop, invalid TLS certificate (expired, wrong host, self-signed). An http:// link counts here only if HTTPS fails too |
+| Can't tell | The site refused this client (401/403/429, Cloudflare or other bot checks), other 4xx; or we cannot reach it from here: ftp://, non-standard ports, GitHub user pages |
+
+How the checker behaves, and why:
+
+- It names itself (`fossil-link-audit/0.1 (+https://github.com/jeonglab-bcm/fossil)`) and does not
+  imitate a browser. Sites behind bot protection therefore land in "can't tell", not "gone". This
+  hits Oxford University Press hardest: its old `*.oxfordjournals.org` supplement links now go to
+  `academic.oup.com`, which answers this client with a Cloudflare challenge.
+- It does two things a current browser does: it retries an http:// link over HTTPS when plain HTTP
+  fails (Chrome and Firefox upgrade navigations to HTTPS first), and it fetches a missing
+  intermediate certificate from the server certificate's Authority Information Access URL when a
+  server sends an incomplete chain (as UCSC's does). TLS verification is never turned off.
+- Failures that can be transient (timeouts, connection errors, 5xx, 429, DNS errors) were checked a
+  second time; the better result is kept. A domain counts as gone only when both the local resolver
+  and Google Public DNS (DNS-over-HTTPS) return NXDOMAIN.
+- The audit ran from a cloud container whose egress allows only ports 80 and 443 and whose GitHub
+  access is limited: ftp:// and non-standard ports are untestable here, and GitHub links are checked
+  with `git ls-remote` on the repository (so a deleted file inside a live repository still counts
+  as reachable). Plain-HTTP requests pass through an egress gateway that answers
+  `503 upstream connect error` when it cannot reach a server; those count as connection failures,
+  not as the server's own 503.
+- The Wayback lookup asks for the capture closest to 1 July of the publication year and records
+  whether any capture exists. We could not download captures from this environment
+  (web.archive.org itself is not reachable from it), so "archived" means "the archive lists a
+  capture", not "we confirmed it contains the software".
+
+### Accessions
+
+GEO (GSE/GSM/GPL/GDS), SRA/ENA/DDBJ, BioProject, BioSample, ArrayExpress, dbGaP, EGA and RefSeq
+accessions are matched in the paper text with patterns specific enough for free text. PDB IDs are
+taken only within 80 characters after "PDB" or "Protein Data Bank", so some "not found" PDB IDs are
+false positives (e.g. a year or a version number), not lost entries. GenBank and UniProt IDs are
+taken only from tagged `<ext-link>` elements. Accessions in reference lists are not counted.
+
+### Software sample
+
+For a stratified random sample (seed 2026; 50 papers from each of 2004–2007, 2008–2011, 2012–2015)
+we read each paper and recorded its primary software artifact as the paper states it, plus an
+alternate (usually a code-bearing PMC supplement), in `install_sample.csv`. The `note` column says
+why, for example which host failed and how.
+
+[`inspect_sample.py`](inspect_sample.py) then obtains each artifact today (git clone, Google Code
+archive, newest source file from the SourceForge project feed, direct download, or the PMC
+supplement; Bioconductor, CRAN and PyPI packages are looked up in today's releases) and checks it
+**without running any of it**:
+
+| Language | Check | Counts as failing |
+| --- | --- | --- |
+| Python | every `.py` file parsed by Python 3.13's `ast` | Python 2 syntax (`print x`, `except X, e:`, `0777`, mixed tabs) |
+| R | every `.R` file through R 4.6's `parse()`; for a package, `Depends`/`Imports`/`LinkingTo` against today's CRAN and Bioconductor | a parse error, or a dependency no longer available |
+| C/C++ | each source file through `gcc`/`g++ -fsyntax-only` (GCC 13) | only errors from documented toolchain changes: standard names no longer included indirectly (GCC 13 porting notes), glibc's `getline`, old pointer-to-member call syntax. Other errors (missing defines or generated headers) are inconclusive |
+| Java | class-file major version in jars | no readable classes |
+
+A mixed project is judged by its dominant language. MATLAB, GAMS, Perl (`perl -c` would run
+`BEGIN` blocks) and binary-only releases are recorded but not checked.
+
+[`install_sample.py`](install_sample.py) would go one step further and run each build
+(`BiocManager::install`, `pip install`, `configure && make`, `cmake`, `ant`, `mvn`, ...). It runs
+third-party code, so it was not run in this audit; run it only in an isolated, network-restricted
+container.
+
+## Reproduce
+
+```bash
+python3 select_papers.py            # PubMed, ~1 min
+python3 fetch_articles.py           # PMC S3, ~850 MB into cache/
+python3 extract.py
+python3 check_urls.py               # ~1.5 h; then rerun failures:
+python3 check_urls.py --retry
+python3 check_wayback.py            # ~1 request/s
+python3 check_accessions.py
+python3 check_supplements.py        # downloads ~14 GB, one file at a time, deleting as it goes
+python3 sample_candidates.py        # then fill install_sample.csv by hand
+python3 inspect_sample.py           # static checks; install_sample.py (runs builds) only in a sandbox
+python3 summarize.py
+python3 plot_audit.py
+python3 find_data_candidates.py      # code lost, small data available
+FOSSIL_CONTACT_EMAIL=you@example.org python3 fetch_citations.py   # add OPENALEX_API_KEY for OpenAlex
+python3 find_new_homes.py           # registries; then the web search writes cache/newhome/web_result_*.csv
+python3 merge_new_homes.py
+python3 merge_data_check.py         # after the per-paper data check (cache/data147/data_result_*.csv)
+python3 build_catalog.py            # paper_catalog.csv and .xlsx
+```
+
+Link checks depend on the day and the network they run from: rerunning gives somewhat different
+numbers. `url_status.csv` records when each URL was checked.
