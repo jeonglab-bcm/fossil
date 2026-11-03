@@ -65,7 +65,7 @@ We opened the files for these and confirmed they hold the input data:
 | Paper | Method | Code status | Data in the PMC supplement |
 | --- | --- | --- | --- |
 | PMC1802094 (2007) | Boolean networks inferred with chi-square tests | site unreachable | toy data (18 time points × 8 genes), 43 simulated sets (7 × 40), yeast cell-cycle binary data, and the true Boolean functions as R code; under 30 kB |
-| PMC3322362 (2011) | RPISeq: RNA–protein interaction prediction from sequence | server unreachable | RPI2241 and RPI369 interaction pairs (PDB chains; 36 kB) |
+| PMC3322362 (2011) | RPISeq: RNA–protein interaction prediction from sequence | server unreachable; feature code and RPI2241 data (positives and negatives) later found in the lab's RPIMotif repository | RPI2241 and RPI369 interaction pairs (PDB chains; 36 kB) |
 | PMC2958853 (2010) | Scoring function for solubility mutagenesis | page unreachable | dataset of solubility mutants and cross-validation folds (311 kB; structures from PDB) |
 | PMC3027113 (2011) | NetSAP: disease-associated amino-acid substitutions | domain gone | training and independent datasets (791 kB), plus the trained models (4.9 MB) |
 | PMC1955748 (2007) | ASH protein structure alignment | page 404 | training set of CATH domain IDs (23 kB; structures from CATH) |
@@ -91,19 +91,29 @@ authors, or a page that cites the paper) and reachable now; its rows are in `new
 | Code is in the PMC supplement after all (RAR archive, binary, RData or scripts the automated scan missed) | 4 |
 | Possible home, not confirmed (successor tool, third-party copy, or not reachable from here) | 40 |
 | Registry entry only, and its homepage is dead too | 20 |
-| Not found anywhere | 143 |
+| Partly found: feature code and training data in a successor tool, the paper's own models not | 1 |
+| Not found anywhere | 142 |
 
 Where the moved software lives: github 54, lab-site 48, other 15, bundled 14, sourceforge 14, cran 9, bioconductor 8, pypi 4, bioconda 3, gitlab 2, bitbucket 1. "Bundled" means the method now
 ships inside a larger package (for example AME in the MEME Suite, Dynalign in RNAstructure); "other" includes Debian
 packages, the Google Code Archive and ModelDB. Papers not found are well-cited methods whose software has disappeared;
 in `paper_catalog.csv` they carry the tag `code:not-found-elsewhere`, and the moved ones `code:moved`.
 
+The partly found paper is RPISeq (PMC3322362). The searches above recorded it as not found. A later reproduction
+([PR #12](https://github.com/jeonglab-bcm/fossil/pull/12)) found the authors' successor tool,
+[Dobbs-Lab/RPIMotif](https://github.com/Dobbs-Lab/RPIMotif), which has RPISeq's feature code (`createARFF_test.pl`) and
+the RPI2241 training pairs with sequences, including the 2,241 negative pairs the paper never published. Its positives
+equal the paper's Additional File 2 pair for pair. Name-based searches miss this kind of home: the repository is named
+after a different tool and cites the paper only inside a script. Some of the 142 "not found" papers may have similar
+homes. The catalog tags this paper `code:partly-found`.
+
 Some links looked dead only because the journal's XML wrote "∼" (U+223C) or "˜" for the "~" in addresses such as
 `/~user/`. `extract.py` now normalizes these; 38 corrected URLs were checked again.
 
 ## Code gone, data still here (143 papers)
 
-For each paper whose software was not found anywhere, we read the paper to find what input data its main results came
+For each paper whose software was not found anywhere (142, plus RPISeq, whose code was only partly found later), we
+read the paper to find what input data its main results came
 from, and checked whether that data can still be obtained: PMC supplement files were downloaded and opened (inputs,
 not just results), cited accessions resolved, and named public datasets and data links fetched. Results are in
 `lost_software_data.csv` ([`merge_data_check.py`](merge_data_check.py)); the catalog has them as

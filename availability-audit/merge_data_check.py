@@ -1,5 +1,6 @@
 """Combine the data check of the papers whose software was not found anywhere (software_new_homes.csv,
-outcome "not found") into lost_software_data.csv.
+outcome "not found", or "partly found" when the paper's own models or tool are still missing) into
+lost_software_data.csv.
 
 The check was done by reading each paper: what input data its main results were computed from, and
 whether that data can still be obtained (PMC supplement files opened and inspected, repository
@@ -15,13 +16,33 @@ from collections import Counter
 
 ORDER = ["complete-in-pmc", "complete-public", "no-external-data", "partial", "results-only", "not-available"]
 
+# Corrections found after the data check, by reading the data that later turned up.
+CORRECTIONS = {
+    "PMC3322362": {
+        "data_needed": "RPI2241 and RPI369 RNA-protein pair benchmarks from PRIDB/PDB chains, with their negative pairs, "
+                       "and 5,166 mRNA-protein pairs from Hogan et al. 2008",
+        "where": "1471-2105-12-489-S2.TXT (2,241 positive pairs as PDB chain IDs); 1471-2105-12-489-S3.TXT (369 pairs); "
+                 "RPI2241 positives and negatives with sequences in github.com/Dobbs-Lab/RPIMotif Data/ (commit 9cfa951)",
+        "size_mb": "5.1",
+        "note": "Supplements checked: tab-delimited protein_chain/RNA_chain PDB IDs (e.g. 1drz_A 1drz_B), 2,241 and 369 rows. "
+                "The authors' RPIMotif repository has RPI2241 with sequences: its 2,241 positives equal S2 pair for pair, "
+                "and it has 2,241 negative pairs (none overlap the positives); with them, fossil PR #12 matched the paper's "
+                "RPI2241 SVM row. RPI369 negatives are not published anywhere (regenerate by the RPI2241 rule). "
+                "Third dataset (Hogan et al. 2008 PLoS Biol supplement) not checked; NPInter link in paper is gone (moved).",
+    },
+}
+
 
 def main():
-    lost = {r["pmcid"]: r for r in csv.DictReader(open("software_new_homes.csv")) if r["outcome"] == "not found"}
+    lost = {r["pmcid"]: r for r in csv.DictReader(open("software_new_homes.csv"))
+            if r["outcome"] == "not found" or r["outcome"].startswith("partly found")}
     checked = {}
     for path in sorted(glob.glob("cache/data147/data_result_*.csv")):
         for r in csv.DictReader(open(path)):
             checked[r["pmcid"]] = r
+    for pmcid, fix in CORRECTIONS.items():
+        if pmcid in checked:
+            checked[pmcid] = {**checked[pmcid], **fix}
     rows = []
     for pmcid, s in lost.items():
         c = checked.get(pmcid, {})

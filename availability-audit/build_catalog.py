@@ -42,8 +42,8 @@ COLUMNS = [  # (name, description)
     ("sample_outcome", "For the 150-paper software sample only: what happened to the paper's software"),
     ("new_home", "Where the software lives now, for papers with RCR >= 1 whose cited software link is dead"),
     ("new_home_status", "Outcome of the search for a new home (software_new_homes.csv)"),
-    ("lost_software_data", "For software not found anywhere: whether the paper's input data can still be obtained (lost_software_data.csv)"),
-    ("reproduction_readiness", "For software not found anywhere: high, medium or low readiness to reimplement from the paper and its data"),
+    ("lost_software_data", "For software not found anywhere (or only partly found): whether the paper's input data can still be obtained (lost_software_data.csv)"),
+    ("reproduction_readiness", "For software not found anywhere (or only partly found): high, medium or low readiness to reimplement from the paper and its data"),
     ("icite_citations", "Citations (NIH iCite)"),
     ("icite_rcr", "Relative Citation Ratio (iCite): citations per year relative to papers in the same field; 1.0 = NIH-funded median"),
     ("icite_nih_percentile", "RCR percentile among NIH-funded papers (iCite)"),
@@ -70,7 +70,8 @@ TAGS = [
     ("link:hijacked", "A link in the paper now goes to a gambling, crypto or porn site"),
     ("code:moved", "RCR >= 1, cited software link dead, and a verified live new home was found"),
     ("code:not-found-elsewhere", "RCR >= 1, cited software link dead, and no new home was found"),
-    ("reproduce:high-readiness ...", "Software not found anywhere; readiness to reimplement from the paper and its surviving data (high, medium, low)"),
+    ("code:partly-found", "RCR >= 1, cited software link dead; part of the code and data found in a successor tool, the paper's own models not"),
+    ("reproduce:high-readiness ...", "Software not found anywhere (or only partly found); readiness to reimplement from the paper and its surviving data (high, medium, low)"),
     ("cites:low", f"iCite RCR below {LOW_RCR} (about 30% of these papers; their median RCR is 0.48)"),
     ("cites:high", f"iCite RCR {HIGH_RCR} or more (about 13% of these papers)"),
     ("cites:none", "No citations in iCite"),
@@ -124,6 +125,8 @@ def main():
             tags.append("code:moved")
         elif home.get("outcome") == "not found":
             tags.append("code:not-found-elsewhere")
+        elif home.get("outcome", "").startswith("partly found"):
+            tags.append("code:partly-found")
         ld = lost.get(pmcid, {})
         if ld.get("readiness"):
             tags.append(f"reproduce:{ld['readiness']}-readiness")
@@ -146,7 +149,7 @@ def main():
             "data_supplement_mb": d.get("data_mb", ""), "input_data_captions": d.get("input_data_captions", ""),
             "live_repository_accessions": len(d["live_accessions"].split()) if d.get("live_accessions") else "",
             "accessions_not_resolving": a["accessions_not_resolving"], "sample_outcome": outcome,
-            "new_home": home.get("new_home", "") if home.get("outcome", "").startswith(("moved", "possible")) else "",
+            "new_home": home.get("new_home", "") if home.get("outcome", "").startswith(("moved", "possible", "partly")) else "",
             "new_home_status": home.get("outcome", ""),
             "lost_software_data": ld.get("data_status", ""), "reproduction_readiness": ld.get("readiness", ""),
             **{k: c.get(k, "") for k, _ in COLUMNS if k.startswith(("icite_", "europepmc_", "pmc_citing", "oa_", "mesh_"))},

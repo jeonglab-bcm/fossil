@@ -2,7 +2,8 @@
 
 These ten papers were picked as follows:
 - well cited (iCite RCR at least 1.9);
-- software not found anywhere (see `../software_new_homes.csv`);
+- software not found anywhere (see `../software_new_homes.csv`). PMC3322362 met this when it was chosen; its feature code and
+  RPI2241 data were later found in the authors' successor tool (see its row below);
 - input data still obtainable and small, rated high readiness in `../lost_software_data.csv`.
 
 For each paper we read the full text and listed every figure and table. For each item we checked whether its inputs
@@ -21,7 +22,7 @@ No item is regenerable exactly. Every paper depends on at least one of these:
 - an unpublished random split or seed;
 - a parameter the paper does not state.
 
-Of the 66 main-text result items, 60 are regenerable approximately and 6 are not.
+Of the 66 main-text result items, 61 are regenerable approximately and 5 are not.
 
 ## Ranking
 
@@ -38,14 +39,14 @@ Ordered by how much can be regenerated, how close it should come, and how much w
 | 7 | [PMC2349296](PMC2349296.md) Five protein–protein interaction corpora (2008) | 2.6 | 6 of 8 | ~1 day for co-occurrence; 1–2 weeks for RelEx | Only a third-party copy of the corpora survives: three match the paper, AIMed is close, BioInfer is a later conversion. The manual-annotation results (Figure 3, Table 5) were never released |
 | 8 | [PMC4331676](PMC4331676.md) DNA-binding proteins with PSSM distance transformation (2015) | 2.4 | 9 of 9 | 4–5 days after profiles | PSI-BLAST profiles must be rebuilt against today's NCBI nr (about 400 GB), and feature scaling is unstated. The paper's own accuracy and MCC do not follow from its sensitivity and specificity: a finding in itself |
 | 9 | [PMC4765871](PMC4765871.md) Gene-regulatory dynamics from single-cell snapshots (2015) | 2.4 | 8 of 8 | ~2 weeks | The Moignard 2013 data rebuild exactly (597 cells), and the model equations and kinetic parameters are given. Missing: simulation noise and time step, the MCMC and thermodynamic-integration schedule, GENIE3 settings, and start and end cells picked by eye |
-| 10 | [PMC3322362](PMC3322362.md) RPISeq: RNA–protein interactions from sequence (2011) | 10.1 | 2 of 5 | ~1 week | Negative pairs were never published. Another group using the same positives and its own negatives got accuracy 0.65 against the paper's 0.90. 181 of 563 PDB entries are now obsolete (still served). The NPInter evaluation set was never released |
+| 10 | [PMC3322362](PMC3322362.md) RPISeq: RNA–protein interactions from sequence (2011) | 10.1 | 3 of 5 | ~1 week | Corrected 2026-11-03: the authors' successor repository RPIMotif has the feature code and RPI2241's positives and negatives with sequences, and [PR #12](https://github.com/jeonglab-bcm/fossil/pull/12) matched the RPI2241 SVM row with them. RPI369's negatives were never published (another group using its own negatives got accuracy 0.65 against the paper's 0.90 on RPI2241). The NPInter evaluation set was never released, so only Figure 2C can be checked |
 
 ## What this suggests
 
 - **Best first targets:** PMC2735674 and PMC4015815. Both have intact data, small compute needs and published numbers
   to check against, and the most uncertain step in each is a single named gap.
 - **The fossil question:** PMC3322362 is the most cited of the ten, and it shows how a result can rest on data that
-  were never released. A reproduction would measure how much the reported accuracy depended on the unpublished
-  negative set.
+  are hard to find. The RPI2241 negatives turned up in a repository named after a different tool. RPI369's negatives
+  were never released, so its rows show how much the reported accuracy depends on the negative set.
 - **Self-consistency:** PMC4331676's own figures do not agree with each other, so a reproduction can say which of
   its numbers hold.

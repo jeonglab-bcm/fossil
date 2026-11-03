@@ -23,6 +23,19 @@ CODE_IN_SUPPLEMENT = {
 }
 
 
+# Part of the software found later, in a repository the name-based searches could not match: the
+# authors' successor tool ships the paper's feature code and training data, but not the paper's own
+# trained models or server.
+PARTLY_FOUND = {
+    "PMC3322362": ("https://github.com/Dobbs-Lab/RPIMotif",
+                   "the lab's RPIMotif repository (commit 9cfa951, 2015, GPL-2): createARFF_test.pl computes the paper's "
+                   "343 conjoint-triad and 256 RNA 4-mer features (\"conjoint triads (Muppirala et al. 2011)\"); "
+                   "Data/Positive_Fasta_RPI2241.txt equals Additional File 2 pair for pair, in order, and "
+                   "Data/Negative_Fasta_RPI2241.txt holds 2,241 negative pairs, all with sequences. "
+                   "No RPISeq models; RPI369 negatives absent. Found by the reproduction in fossil PR #12"),
+}
+
+
 def kind_of(url):
     return next((k for host, k in KIND if host in url), "lab-site")
 
@@ -51,6 +64,10 @@ def main():
             f, ev = CODE_IN_SUPPLEMENT[pmcid]
             row.update(outcome="moved, code is in the PMC supplement", new_home=f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/",
                        kind="pmc-supplement", source="supplement inspection", evidence=f"{f}; {ev}", note="")
+        elif pmcid in PARTLY_FOUND:
+            url, ev = PARTLY_FOUND[pmcid]
+            row.update(outcome="partly found: feature code and training data in a successor tool", new_home=url,
+                       kind=kind_of(url), source="reproduction attempt", evidence=ev, note=(w or {}).get("note", ""))
         elif live_reg:
             row.update(outcome="moved, live home found", new_home=r["new_home"], kind=kind_of(r["new_home"]),
                        source=r["where"], evidence=r["evidence"], note=r["registry"])
