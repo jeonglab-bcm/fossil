@@ -13,7 +13,7 @@ server it names no longer answers.
 
 | Folder | Content |
 | --- | --- |
-| [`figure-reproduction/`](figure-reproduction/) | RPISeq's features and its two classifiers, rebuilt in scikit-learn from the Methods' Weka 3.7 settings, rerun on RPI2241 and RPI369. Table 1 and Fig. 1 rebuilt, with Fig. 1 drawn on the published pixel grid and compared curve by curve; the SEN1 and U6 hubs of Fig. 2 tested; the arithmetic of Tables 2 and 3 checked. Nextflow pipeline. |
+| [`figure-reproduction/`](figure-reproduction/) | RPISeq's features and its two classifiers, rebuilt in scikit-learn from the paper's Methods text, rerun on RPI2241 and RPI369. Table 1 and Fig. 1 rebuilt, with Fig. 1 drawn on the published pixel grid and compared curve by curve; the SEN1 and U6 hubs of Fig. 2 tested; the arithmetic of Tables 2 and 3 checked. Nextflow pipeline. |
 
 Kept local and gitignored: `sources/` (the paper, Additional Files 1 to 3, the figure files and
 the downloaded datasets), `rpiseq-paper/` (an agent-readable copy of the paper built with the

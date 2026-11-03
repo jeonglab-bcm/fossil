@@ -1,17 +1,20 @@
-"""Encode RNA-protein pairs as RPISeq's 599 features and write a Weka ARFF file.
+"""Encode RNA-protein pairs as RPISeq's 599 features and write them as an ARFF file.
 
-The encoding follows "Usha's conjoint triads" in createARFF_test.pl of Dobbs-Lab/RPIMotif
-(Muppirala's code, reused in the lab's 2014 RPIMotif method) line by line:
+Built from the paper's Methods ("Alternative representations of protein and RNA sequences"):
 
-- protein: 343 counts of 3-mers over the 7-group alphabet {AGV}{ILFP}{YMTS}{HNQW}{RK}{DE}{C};
-- RNA: T becomes U, then 256 counts of 4-mers over A, U, C, G;
-- each block is scaled as (count - min) / max, Shen et al.'s normalization.
+- protein: the conjoint triad representation of Shen et al. (ref. 28). The 20 amino acids are
+  put in 7 groups, {A,G,V} {I,L,F,P} {Y,M,T,S} {H,N,Q,W} {R,K} {D,E} {C}, and the sequence is
+  described by the frequencies of its 343 (7 x 7 x 7) group 3-mers;
+- RNA: the frequencies of its 256 (4 x 4 x 4 x 4) 4-mers of A, C, G, U;
+- each block holds "normalized frequencies". The paper defers to ref. 28 for the
+  normalization; we use Shen et al.'s d = (f - min) / max over the block, which is also what
+  the authors' later published code (Dobbs-Lab/RPIMotif, createARFF_test.pl) computes.
 
-Two quirks of the Perl code are kept, because they change feature values:
-- its filter for letters outside the alphabets never matches (the pattern is a string that
-  includes the slashes), so an unknown letter stays in the sequence and is looked up as group 0
-  (A, G, V for proteins; A for RNA);
-- numbers are printed as Perl prints them, with 15 significant digits.
+Where the paper is silent:
+- a 3-mer or 4-mer containing a letter outside the alphabet (X, N, ...) is not counted. Only
+  RNAs have such letters in the RPI2241 files (65 of the 4,482 pairs, mostly N); no
+  protein does;
+- T in an RNA is read as U (21 pairs carry a T).
 
 Usage:
   python encode.py arff OUT.arff POS.rpi NEG.rpi [--rpi369 S3.txt]
@@ -32,30 +35,30 @@ for g, letters in enumerate(["AGV", "ILFP", "YMTS", "HNQW", "RK", "DE", "C"]):
 RNA_GROUPS = {"A": 0, "U": 1, "C": 2, "G": 3}
 
 
-def perl_num(x):
-    """A number as Perl's print writes it (%.15g)."""
-    return "%.15g" % x
+def kmer_features(seq, groups, k, size):
+    """Counts of the k-mers over `groups` (k-mers with an unknown letter are skipped),
+    normalized as (count - min) / max."""
+    counts = [0] * size
+    codes = [groups.get(c) for c in seq]
+    n = len(set(groups.values()))
+    for i in range(len(codes) - k + 1):
+        window = codes[i:i + k]
+        if None in window:
+            continue
+        idx = 0
+        for c in window:
+            idx = idx * n + c
+        counts[idx] += 1
+    lo, hi = min(counts), max(counts)
+    return [(c - lo) / hi if hi else 0.0 for c in counts]
 
 
 def protein_features(seq):
-    counts = [0] * 343
-    for i in range(len(seq) - 2):
-        k = PROTEIN_GROUPS.get(seq[i], 0) * 49 + PROTEIN_GROUPS.get(seq[i + 1], 0) * 7 + PROTEIN_GROUPS.get(seq[i + 2], 0)
-        counts[k] += 1
-    lo, hi = min(counts), max(counts)
-    return [(c - lo) / hi for c in counts]
+    return kmer_features(seq.upper(), PROTEIN_GROUPS, 3, 343)
 
 
 def rna_features(seq):
-    seq = seq.replace("T", "U")
-    counts = [0] * 256
-    for i in range(len(seq) - 3):
-        k = 0
-        for j in range(4):
-            k = k * 4 + RNA_GROUPS.get(seq[i + j], 0)
-        counts[k] += 1
-    lo, hi = min(counts), max(counts)
-    return [(c - lo) / hi for c in counts]
+    return kmer_features(seq.upper().replace("T", "U"), RNA_GROUPS, 4, 256)
 
 
 def features(protein, rna):
@@ -72,7 +75,7 @@ def header():
 
 def row(protein, rna, label):
     v = features(protein, rna)
-    return "{" + ",".join(f"{i} {perl_num(x)}" for i, x in enumerate(v)) + f",599 {label}" + "}\n"
+    return "{" + ",".join(f"{i} {x!r}" for i, x in enumerate(v)) + f",599 {label}" + "}\n"
 
 
 def read_rpi(path):

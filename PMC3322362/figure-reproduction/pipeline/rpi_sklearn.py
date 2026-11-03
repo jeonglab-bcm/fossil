@@ -1,13 +1,30 @@
-"""RPISeq's classifiers in scikit-learn: cross-validation with per-row predictions, and
-train-and-predict. Replaces the paper's Weka 3.7 with settings carried over from its Methods.
+"""RPISeq's two classifiers in scikit-learn, set up from the paper's Methods ("Machine Learning
+Algorithms"): cross-validation with per-row predictions, and train-and-predict.
 
-  RPISeq-RF:  RandomForestClassifier, 20 trees, 10 features per split, random_state 1.
-  RPISeq-SVM: SVC on a normalized polynomial kernel of exponent 2, C = 1.0, tolerance 0.001,
-              attributes scaled to [0, 1] on the training data, and a logistic model fitted to
-              the SVM outputs on the training data, as Weka's SMO does with -N 0 -M -V -1.
+RPISeq-SVM. The paper: SMO in Weka 3.7, "the normalized polykernel function of order 2 with
+epsilon = 1.0E-12", C = 1.0, tolerance T = 0.0010, and "the option to fit a logistic model to
+the output of the resulting SVM classifier to obtain the posterior probability of class".
+  - kernel: the polynomial kernel of degree 2 normalized to unit self-similarity,
+    K(x, y) = k(x, y) / sqrt(k(x, x) k(y, y)), with k scikit-learn's polynomial_kernel
+    (degree 2, its default coef0 = 0);
+  - SVC with C = 1.0 and tol = 0.001;
+  - the logistic model: an unregularized LogisticRegression fitted to the decision values of
+    "the resulting SVM classifier" on its own training data, the literal reading of the
+    sentence above. (scikit-learn's CalibratedClassifierCV instead fits it on held-out folds
+    of five other SVMs; that lowers RPI2241 SVM accuracy from 86.8% to 84.8%.);
+  - epsilon = 1.0E-12 is the round-off threshold of Weka's SMO solver; libsvm, which SVC runs,
+    has no such setting.
+  Features enter as encoded; the paper describes no further scaling.
 
-Folds are scikit-learn's StratifiedKFold (shuffled, random_state SEED), not Weka's, so
-per-fold results are not Weka's.
+RPISeq-RF. The paper: 20 trees, "10 features were evaluated at each node", each tree trained
+on examples "randomly sampled from the given training set", and "the majority vote of all the
+classifiers is returned as the RF prediction".
+  - RandomForestClassifier(n_estimators=20, max_features=10, bootstrap=True, random_state=1);
+  - P(interact) is the fraction of the 20 trees that vote "interact".
+
+A pair is predicted to interact when P >= 0.5, the threshold the paper states for Tables 2
+and 3 and Fig. 2C. Cross-validation is StratifiedKFold, 10 folds, shuffled with SEED; the paper
+says only "standard 10-fold cross-validation".
 
 Usage:
   python rpi_sklearn.py cv    rf|svm DATA.arff FOLDS SEED OUT_PREFIX
@@ -21,11 +38,11 @@ import sys
 
 import numpy as np
 import sklearn
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, precision_recall_fscore_support, roc_auc_score
+from sklearn.metrics.pairwise import polynomial_kernel
 from sklearn.model_selection import StratifiedKFold
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC
 
 
@@ -53,35 +70,37 @@ def load(path):
     return np.array(rows), np.array(y)
 
 
-def norm_poly(a, b):
-    """Weka's NormalizedPolyKernel with exponent 2 and no lower-order terms."""
-    k = (a @ b.T) ** 2
-    da = np.einsum("ij,ij->i", a, a) ** 2
-    db = np.einsum("ij,ij->i", b, b) ** 2
-    return k / np.sqrt(np.outer(da, db))
+def normalized_poly2(a, b):
+    """Polynomial kernel of order 2, normalized: k(x, y) / sqrt(k(x, x) k(y, y))."""
+    k = polynomial_kernel(a, b, degree=2, gamma=1.0, coef0=0.0)
+    ka = np.einsum("ij,ij->i", a, a) ** 2  # k(x, x) for each row, without the full matrix
+    kb = np.einsum("ij,ij->i", b, b) ** 2
+    return k / np.sqrt(np.outer(ka, kb))
 
 
 class RpiSvm:
     def fit(self, x, y):
-        self.scale = MinMaxScaler().fit(x)
-        self.x = self.scale.transform(x)
-        self.svm = SVC(C=1.0, kernel="precomputed", tol=0.001).fit(norm_poly(self.x, self.x), y)
-        out = self.svm.decision_function(norm_poly(self.x, self.x)).reshape(-1, 1)
-        self.logit = LogisticRegression(C=1e8, max_iter=10000).fit(out, y)
+        self.svm = SVC(C=1.0, kernel=normalized_poly2, tol=0.001).fit(x, y)
+        out = self.svm.decision_function(x).reshape(-1, 1)
+        self.logistic = LogisticRegression(C=np.inf, max_iter=10000).fit(out, y)
         return self
 
     def p_interact(self, x):
-        out = self.svm.decision_function(norm_poly(self.scale.transform(x), self.x)).reshape(-1, 1)
-        return self.logit.predict_proba(out)[:, 1]
+        out = self.svm.decision_function(x).reshape(-1, 1)
+        return self.logistic.predict_proba(out)[:, 1]
 
 
 class RpiRf:
     def fit(self, x, y):
-        self.rf = RandomForestClassifier(n_estimators=20, max_features=10, random_state=1).fit(x, y)
+        self.rf = RandomForestClassifier(n_estimators=20, max_features=10, bootstrap=True,
+                                         random_state=1).fit(x, y)
         return self
 
     def p_interact(self, x):
-        return self.rf.predict_proba(x)[:, 1]
+        # Fraction of trees voting "interact" (class 1).
+        one = list(self.rf.classes_).index(1)
+        votes = np.array([t.predict(x) == one for t in self.rf.estimators_])
+        return votes.mean(axis=0)
 
 
 def make(which):

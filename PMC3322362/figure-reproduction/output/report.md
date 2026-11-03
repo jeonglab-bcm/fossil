@@ -6,32 +6,32 @@ scikit-learn 1.9.1. RPI2241 negatives from the authors' lab (Dobbs-Lab/RPIMotif)
 
 | Dataset | Classifier | Paper | Ours | Seeds 1 to 10 | IPMiner negatives |
 | --- | --- | --- | --- | --- | --- |
-| RPI2241 | RF | 89.6, 0.89, 0.90, 0.90 | 89.8, 0.89, 0.91, 0.90 |  |  |
-| RPI2241 | SVM | 87.1, 0.87, 0.88, 0.87 | 87.1, 0.87, 0.88, 0.87 |  |  |
-| RPI369 | RF | 76.2, 0.75, 0.78, 0.77 | 69.8, 0.70, 0.70, 0.70 | 66.7–71.1, 0.65–0.7, 0.7–0.76, 0.69–0.72 | 71.4, 0.73, 0.67, 0.70 |
-| RPI369 | SVM | 72.8, 0.73, 0.73, 0.73 | 60.0, 0.60, 0.61, 0.61 | 60–62.7, 0.6–0.63, 0.59–0.63, 0.6–0.63 | 73.0, 0.72, 0.75, 0.73 |
+| RPI2241 | RF | 89.6, 0.89, 0.90, 0.90 | 90.2, 0.90, 0.91, 0.90 |  |  |
+| RPI2241 | SVM | 87.1, 0.87, 0.88, 0.87 | 86.8, 0.86, 0.87, 0.87 |  |  |
+| RPI369 | RF | 76.2, 0.75, 0.78, 0.77 | 69.8, 0.69, 0.72, 0.70 | 67.6–70.2, 0.65–0.7, 0.72–0.76, 0.69–0.72 | 70.5, 0.72, 0.67, 0.70 |
+| RPI369 | SVM | 72.8, 0.73, 0.73, 0.73 | 58.8, 0.59, 0.59, 0.59 | 58.8–63.7, 0.59–0.64, 0.57–0.64, 0.59–0.64 | 71.3, 0.70, 0.74, 0.72 |
 
 ## Fig. 1
 
 | Curve | Paper AUC | Our AUC | Ours within 2 px of published |
 | --- | --- | --- | --- |
-| RF RPI2241 | 0.97 | 0.9657 | 94.4% |
-| SVM RPI2241 | 0.92 | 0.9239 | 85.0% |
-| RF RPI369 | 0.85 | 0.7972 | 23.0% |
-| SVM RPI369 | 0.81 | 0.6621 | 1.1% |
+| RF RPI2241 | 0.97 | 0.9635 | 86.3% |
+| SVM RPI2241 | 0.92 | 0.9236 | 77.9% |
+| RF RPI369 | 0.85 | 0.7975 | 21.1% |
+| SVM RPI369 | 0.81 | 0.6626 | 1.6% |
 
-Published blue pixels within 2 px of ours: 98.8% of 970.
+Published blue pixels within 2 px of ours: 82.5% of 970.
 
-Published red pixels within 2 px of ours: 13.5% of 1345.
+Published red pixels within 2 px of ours: 9.8% of 1345.
 
 ## Fig. 2, hub partners predicted at P >= 0.5
 
 | Trained on | Classifier | SEN1 paper | SEN1 ours | U6 paper | U6 ours |
 | --- | --- | --- | --- | --- | --- |
-| RPI2241 | RF | 8 of 8 | 8 of 8 | 7 of 8 | 5 of 7 |
-| RPI2241 | SVM | 8 of 8 | 8 of 8 | 7 of 8 | 5 of 7 |
+| RPI2241 | RF | 8 of 8 | 7 of 8 | 7 of 8 | 5 of 7 |
+| RPI2241 | SVM | 8 of 8 | 8 of 8 | 7 of 8 | 6 of 7 |
 | RPI369 | RF | 4 of 8 | 6 of 8 | 6 of 8 | 4 of 7 |
-| RPI369 | SVM | 6 of 8 | 8 of 8 | 8 of 8 | 4 of 7 |
+| RPI369 | SVM | 6 of 8 | 7 of 8 | 8 of 8 | 4 of 7 |
 
 U6 (snR6): the paper counts 8 Sm-like partners; we test the 7 of Lsm2 to Lsm8.
 
