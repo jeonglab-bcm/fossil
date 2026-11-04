@@ -1,6 +1,8 @@
 name: Reproduce PMC4247685
 
-# Runs when a pull request (or a push to main) creates or changes results.json, or by hand.
+# A full rerun of the pipeline, started by hand from the Actions tab, checked against results.json.
+# Pull requests that change results.json are checked against the committed outputs instead
+# (results-check.yml), without a rerun.
 on:
   workflow_dispatch:
     inputs:
@@ -8,13 +10,6 @@ on:
         description: "Rerun both genetic-algorithm steps (about 2 h on 4 cores)"
         type: boolean
         default: false
-  pull_request:
-    paths:
-      - "PMC4247685/figure-reproduction/results.json"
-  push:
-    branches: [main]
-    paths:
-      - "PMC4247685/figure-reproduction/results.json"
 
 permissions:
   contents: read

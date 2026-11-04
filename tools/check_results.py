@@ -19,7 +19,12 @@ Writes a Markdown table to stdout (CI adds it to the job summary) and, with --re
 DIR/results-check.json and DIR/index.html, a page that draws each expected value against the
 observed one. Exits 1 if a value is missing or outside its tolerance.
 
+With --committed the values are read from the files committed beside results.json instead of a
+run, after the prefix rewrites in results.json's "committed_paths" (for a reproduction whose
+committed layout differs from its pipeline's output layout). Nothing is rerun.
+
 Usage:
+  python3 tools/check_results.py <results.json> --committed [--report DIR]
   python3 tools/check_results.py <results.json> <run output dir> [--report DIR]
   python3 tools/check_results.py <results.json> <run output dir> --update
       (writes the run's values into results.json as the new expected values)
@@ -72,8 +77,13 @@ def number(s):
     return int(v) if v.is_integer() and "." not in s and "e" not in s.lower() else v
 
 
-def observe(entry, run):
-    path = os.path.join(run, entry["file"])
+def observe(entry, run, rewrites=None):
+    rel = entry["file"]
+    for old, new in (rewrites or {}).items():
+        if rel.startswith(old):
+            rel = new + rel[len(old):]
+            break
+    path = os.path.join(run, rel)
     if not os.path.exists(path):
         raise Missing(f"{entry['file']} not written by the run")
     if entry.get("digest") == "sha256":
@@ -148,18 +158,25 @@ def fmt_tol(t):
 def main():
     ap = argparse.ArgumentParser(description="Check a reproduction's results.json against a fresh run of its pipeline.")
     ap.add_argument("results_json")
-    ap.add_argument("run_dir")
+    ap.add_argument("run_dir", nargs="?", help="a run's output directory (omit with --committed)")
+    ap.add_argument("--committed", action="store_true", help="read the files committed beside results.json")
     ap.add_argument("--report", help="directory for results-check.json and index.html")
     ap.add_argument("--update", action="store_true", help="write the run's values into results.json")
     args = ap.parse_args()
 
     with open(args.results_json) as f:
         spec = json.load(f)
+    if args.committed:
+        run_dir, rewrites, source = os.path.dirname(os.path.abspath(args.results_json)), spec.get("committed_paths", {}), "the committed files"
+    elif args.run_dir:
+        run_dir, rewrites, source = args.run_dir, {}, "this run"
+    else:
+        ap.error("give a run output directory or --committed")
     checked = []
     for e in spec["results"]:
         row = {k: e.get(k) for k in ("id", "label", "file", "expected", "tolerance")}
         try:
-            row["observed"] = observe(e, args.run_dir)
+            row["observed"] = observe(e, run_dir, rewrites)
             ok, gap = compare(e["expected"], row["observed"], e.get("tolerance"))
             row.update(status="pass" if ok else "fail", gap=gap)
         except (Missing, KeyError, ValueError) as err:
@@ -175,11 +192,12 @@ def main():
             f.write("\n")
         print(f"Updated {sum(r['status'] != 'missing' for r in checked)} expected values in {args.results_json}")
         return
+    observed_word = "Committed" if args.committed else "Observed"
 
     n_pass = sum(r["status"] == "pass" for r in checked)
     summary = f"{n_pass} of {len(checked)} results came back within tolerance."
-    lines = [f"## {spec['paper']}: results.json against this run", "", summary, "",
-             "| Result | Expected | Observed | Gap | Allowed | Status |", "| --- | --- | --- | --- | --- | --- |"]
+    lines = [f"## {spec['paper']}: results.json against {source}", "", summary, "",
+             f"| Result | Expected | {observed_word} | Gap | Allowed | Status |", "| --- | --- | --- | --- | --- | --- |"]
     for r in checked:
         status = {"pass": "within", "fail": "**outside**", "missing": f"**missing** ({r.get('why')})"}[r["status"]]
         gap = f"{r['gap']:+.3g}" if isinstance(r["gap"], (int, float)) else ""
@@ -189,7 +207,7 @@ def main():
 
     if args.report:
         os.makedirs(args.report, exist_ok=True)
-        meta = {"paper": spec["paper"], "title": spec.get("title", ""), "summary": summary,
+        meta = {"paper": spec["paper"], "title": spec.get("title", ""), "summary": summary, "source": source,
                 "commit": os.environ.get("GITHUB_SHA", "")[:12], "run": os.environ.get("GITHUB_RUN_ID", "")}
         with open(os.path.join(args.report, "results-check.json"), "w") as f:
             json.dump({"meta": meta, "results": checked}, f, indent=2, ensure_ascii=False)
@@ -207,6 +225,7 @@ def main():
                 f'<td><span class="state" data-status="{r["status"]}">{word}</span></td></tr>')
         data = json.dumps({"meta": meta, "results": checked}, ensure_ascii=False).replace("</", "<\\/")
         page = (page.replace("__PAPER__", html.escape(spec["paper"]))
+                    .replace("__OBSERVED__", observed_word)
                     .replace("__TITLE__", html.escape(spec.get("title", "")))
                     .replace("__SUMMARY__", html.escape(summary))
                     .replace("__ROWS__", "\n".join(rows))

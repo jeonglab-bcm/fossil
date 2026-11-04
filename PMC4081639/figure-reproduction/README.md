@@ -39,11 +39,11 @@ nextflow run PMC4081639/figure-reproduction/main.nf --outdir results
 
 The run writes the data, the renders, the comparison page and `results/report.md`. The report
 compares the run with the committed results. The run fails if Table 1 does not match the paper. The
-GitHub workflow `.github/workflows/reproduce.yml` does the same run on Ubuntu (x86_64).
+GitHub workflow `.github/workflows/reproduce.yml` does the same run on Ubuntu (x86_64), started from the Actions tab.
 
 `results.json` lists the results this reproduction stands on, with the tolerance each may move by.
-The workflow checks every rerun against it with `tools/check_results.py` (see the
-[top-level README](../../README.md#results-check)) and fails if a value moves outside its tolerance.
+A pull request that creates or changes it is checked against the committed outputs, and a full rerun
+started by hand is checked against the run (see the [top-level README](../../README.md#results-check)).
 
 ## Pipeline steps
 
