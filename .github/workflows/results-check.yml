@@ -2,7 +2,8 @@ name: Results check
 
 # A pull request that creates or changes a reproduction's results.json: compare it with the outputs
 # committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
-# the diffs and an overlay of each published figure with the committed render.
+# the diffs and an overlay of each published figure with the committed render. The reruns are in
+# reproduce*.yml.
 on:
   pull_request:
     paths:

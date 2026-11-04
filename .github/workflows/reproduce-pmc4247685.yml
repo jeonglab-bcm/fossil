@@ -1,8 +1,9 @@
 name: Reproduce PMC4247685
 
-# A full rerun of the pipeline, started by hand from the Actions tab, checked against results.json.
-# Pull requests that change results.json are checked against the committed outputs instead
-# (results-check.yml), without a rerun.
+# Reruns the pipeline and checks the run against results.json, on every pull request and push to
+# main that touches this reproduction or the checker, and by hand from the Actions tab.
+# The two genetic-algorithm steps (about 2 h) rerun only when started by hand with rerun_ga;
+# otherwise the run reads their committed outputs.
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +11,19 @@ on:
         description: "Rerun both genetic-algorithm steps (about 2 h on 4 cores)"
         type: boolean
         default: false
+  pull_request:
+    paths:
+      - "PMC4247685/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
+      - ".github/workflows/reproduce-pmc4247685.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4247685/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
+      - ".github/workflows/reproduce-pmc4247685.yml"
 
 permissions:
   contents: read
