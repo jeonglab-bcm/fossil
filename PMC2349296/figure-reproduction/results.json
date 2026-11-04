@@ -1,0 +1,385 @@
+{
+  "paper": "PMC2349296",
+  "title": "Pyysalo S, Airola A, Heimonen J, Björne J, Ginter F, Salakoski T. Comparative analysis of five protein-protein interaction corpora. BMC Bioinformatics 9(Suppl 3):S6 (2008).",
+  "about": "The results this reproduction stands on. CI reruns the pipeline and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update.",
+  "committed_paths": {
+    "data/co/": "output/",
+    "data/relex/": "output/",
+    "data/": "output/",
+    "results_table.csv": "output/results_table.csv",
+    "compare/": "output/compare/"
+  },
+  "results": [
+    {
+      "id": "corpus-sentences",
+      "label": "Corpora, sentences per corpus (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/co/corpus_counts.csv",
+      "column": "sentences",
+      "agg": "list",
+      "expected": [
+        1943,
+        1100,
+        145,
+        486,
+        77
+      ]
+    },
+    {
+      "id": "corpus-entities",
+      "label": "Corpora, entities per corpus (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/co/corpus_counts.csv",
+      "column": "entities",
+      "agg": "list",
+      "expected": [
+        4202,
+        4421,
+        405,
+        1117,
+        239
+      ]
+    },
+    {
+      "id": "corpus-interactions",
+      "label": "Corpora, interactions per corpus (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/co/corpus_counts.csv",
+      "column": "interactions",
+      "agg": "list",
+      "expected": [
+        991,
+        2534,
+        163,
+        335,
+        164
+      ]
+    },
+    {
+      "id": "t2-cells-match",
+      "label": "Table 2, cells equal to the paper at its printed precision",
+      "file": "results_table.csv",
+      "column": "match",
+      "where": {
+        "table": "T2"
+      },
+      "agg": "sum",
+      "expected": 14.0
+    },
+    {
+      "id": "t3-cells-match",
+      "label": "Table 3, cells equal to the paper at its printed precision",
+      "file": "results_table.csv",
+      "column": "match",
+      "where": {
+        "table": "T3"
+      },
+      "agg": "sum",
+      "expected": 25.0
+    },
+    {
+      "id": "t4-cells-match",
+      "label": "Table 4, cells equal to the paper at its printed precision",
+      "file": "results_table.csv",
+      "column": "match",
+      "where": {
+        "table": "T4"
+      },
+      "agg": "sum",
+      "expected": 7.0
+    },
+    {
+      "id": "t3-tokens-medpost",
+      "label": "Table 3, MedPost tokens per sentence (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "results_table.csv",
+      "column": "ours",
+      "where": {
+        "table": "T3",
+        "quantity": "tokens"
+      },
+      "agg": "list",
+      "tolerance": {
+        "abs": 0.0001
+      },
+      "expected": [
+        25.2069,
+        31.2755,
+        26.1034,
+        32.1626,
+        29.6104
+      ]
+    },
+    {
+      "id": "cooc-f-unfiltered",
+      "label": "Table 2, co-occurrence F (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/co/cooccurrence.csv",
+      "column": "F",
+      "where": {
+        "variant": "unfiltered"
+      },
+      "agg": "list",
+      "tolerance": {
+        "rel": 1e-09
+      },
+      "expected": [
+        0.29293526455808455,
+        0.4154098360655738,
+        0.546979865771812,
+        0.5815972222222222,
+        0.6639676113360323
+      ]
+    },
+    {
+      "id": "relex-f-unfiltered",
+      "label": "Table 2, RelEx F (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/relex/relex.csv",
+      "column": "F",
+      "where": {
+        "variant": "unfiltered"
+      },
+      "agg": "list",
+      "tolerance": {
+        "rel": 1e-09
+      },
+      "expected": [
+        0.4431407942238267,
+        0.40187891440501045,
+        0.6578073089700996,
+        0.5986394557823128,
+        0.7816901408450704
+      ]
+    },
+    {
+      "id": "cooc-f-filtered",
+      "label": "Table 4, co-occurrence F (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/co/cooccurrence.csv",
+      "column": "F",
+      "where": {
+        "variant": "filtered"
+      },
+      "agg": "list",
+      "tolerance": {
+        "rel": 1e-09
+      },
+      "expected": [
+        0.6983791402396053,
+        0.6535981428939902,
+        0.7817745803357314,
+        0.9357541899441342,
+        0.6639676113360323
+      ]
+    },
+    {
+      "id": "relex-f-filtered",
+      "label": "Table 4, RelEx F (AIMed, BioInfer, HPRD50, IEPA, LLL)",
+      "file": "data/relex/relex.csv",
+      "column": "F",
+      "where": {
+        "variant": "filtered"
+      },
+      "agg": "list",
+      "tolerance": {
+        "rel": 1e-09
+      },
+      "expected": [
+        0.6381322957198443,
+        0.42980742394641364,
+        0.72,
+        0.6888454011741683,
+        0.7816901408450704
+      ]
+    },
+    {
+      "id": "claim-method-gap-pts",
+      "label": "Text claim, ours: mean F gap between co-occurrence and RelEx, points (paper: 13)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "method_gap_pts"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 8.18657315187444
+    },
+    {
+      "id": "claim-relex-pairwise-pts",
+      "label": "Text claim, ours: mean RelEx F difference between corpora, points (paper: 19)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "relex_pairwise_pts"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 19.4857793525279
+    },
+    {
+      "id": "claim-relex-pairwise-filtered-pts",
+      "label": "Text claim, ours: mean RelEx F difference between filtered corpora, points (paper: 11)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "relex_pairwise_filtered_pts"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 15.7126627615494
+    },
+    {
+      "id": "claim-error-reduction-min-pct",
+      "label": "Text claim, ours: smallest cut in F error from co-occurrence to RelEx, % (paper: 21)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "error_reduction_min_pct"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": -2.31459961103299
+    },
+    {
+      "id": "claim-error-reduction-max-pct",
+      "label": "Text claim, ours: largest cut in F error from co-occurrence to RelEx, % (paper: 32)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "error_reduction_max_pct"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 35.0330901069065
+    },
+    {
+      "id": "claim-kendall-IEP-tau",
+      "label": "Text claim, ours: Kendall tau, interactions per entity pair against RelEx F",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "kendall_IEP_tau"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0.6
+    },
+    {
+      "id": "claim-kendall-IEP-p",
+      "label": "Text claim, ours: Kendall p, interactions per entity pair against RelEx F (paper: about 0.08)",
+      "file": "data/claims.csv",
+      "column": "ours",
+      "where": {
+        "statistic": "kendall_IEP_p"
+      },
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0.233333333333333
+    },
+    {
+      "id": "claims-from-published-tables",
+      "label": "Text claims recomputed from the paper's own tables (all 12)",
+      "file": "data/claims.csv",
+      "column": "published_tables",
+      "agg": "list",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": [
+        13.4,
+        19.4,
+        10.6,
+        23,
+        21.1267605633803,
+        32.3529411764706,
+        4,
+        1,
+        0.8,
+        0.0833333333333333,
+        -0.6,
+        0.233333333333333
+      ]
+    },
+    {
+      "id": "fig1-ours-within-24",
+      "label": "Fig. 1 drawn from our values, share of pixels within 24 grey levels of the paper's, %",
+      "file": "compare/figure-1-ours/report.json",
+      "path": "pixels_within_24_pct",
+      "tolerance": {
+        "abs": 0.3
+      },
+      "expected": 94.18
+    },
+    {
+      "id": "fig1-ours-chamfer",
+      "label": "Fig. 1 drawn from our values, mean distance to the paper's ink, px",
+      "file": "compare/figure-1-ours/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 1.476
+    },
+    {
+      "id": "fig1-published-values-within-24",
+      "label": "Fig. 1 drawn from the paper's values, share of pixels within 24 grey levels of the paper's, %",
+      "file": "compare/figure-1-published-values/report.json",
+      "path": "pixels_within_24_pct",
+      "tolerance": {
+        "abs": 0.3
+      },
+      "expected": 95.33
+    },
+    {
+      "id": "fig1-published-values-chamfer",
+      "label": "Fig. 1 drawn from the paper's values, mean distance to the paper's ink, px",
+      "file": "compare/figure-1-published-values/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 0.36
+    },
+    {
+      "id": "fig2-ours-within-24",
+      "label": "Fig. 2 drawn from our values, share of pixels within 24 grey levels of the paper's, %",
+      "file": "compare/figure-2-ours/report.json",
+      "path": "pixels_within_24_pct",
+      "tolerance": {
+        "abs": 0.3
+      },
+      "expected": 93.27
+    },
+    {
+      "id": "fig2-ours-chamfer",
+      "label": "Fig. 2 drawn from our values, mean distance to the paper's ink, px",
+      "file": "compare/figure-2-ours/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 1.268
+    },
+    {
+      "id": "fig2-published-values-within-24",
+      "label": "Fig. 2 drawn from the paper's values, share of pixels within 24 grey levels of the paper's, %",
+      "file": "compare/figure-2-published-values/report.json",
+      "path": "pixels_within_24_pct",
+      "tolerance": {
+        "abs": 0.3
+      },
+      "expected": 95.3
+    },
+    {
+      "id": "fig2-published-values-chamfer",
+      "label": "Fig. 2 drawn from the paper's values, mean distance to the paper's ink, px",
+      "file": "compare/figure-2-published-values/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 0.212
+    }
+  ]
+}

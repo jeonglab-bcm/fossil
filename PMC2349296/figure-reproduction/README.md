@@ -135,12 +135,16 @@ compiler, Perl and curl. On the Skyriver cluster, do not run it on the login nod
 from this folder: `sbatch run_skyriver.sbatch`. The Nextflow head then runs on `debugq` and
 every process is its own `defq15` job. The parser step takes up to 11 minutes and 3.8 GB per
 corpus. CI (`.github/workflows/reproduce-pmc2349296.yml`) runs the same pipeline on an x86_64
-`ubuntu-24.04` runner.
+`ubuntu-24.04` runner, on every pull request and push to main that touches this folder.
 
 The check step fails when co-occurrence or the Table 3 statistics differ from the paper at the
 printed precision on HPRD50, IEPA or LLL, when the MedPost token counts differ on any corpus,
 when the claims computed from the published tables differ from the paper's text, or when the
 run differs from the committed results in `output/`.
+
+`results.json` lists the results this reproduction stands on, with the tolerance each may move by.
+A pull request that creates or changes it is checked against the committed outputs, and every rerun
+is checked against the run (see the [top-level README](../../README.md#results-check)).
 
 ## Fitted, not measured
 
