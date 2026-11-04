@@ -1,0 +1,78 @@
+name: Results check
+
+# A pull request that creates or changes a reproduction's results.json: compare it with the outputs
+# committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
+# the diffs and an overlay of each published figure with the committed render.
+on:
+  pull_request:
+    paths:
+      - "PMC*/figure-reproduction/results.json"
+
+permissions:
+  contents: write        # the figure overlays go to the ci-assets branch
+  pull-requests: write   # the comment
+
+jobs:
+  find:
+    runs-on: ubuntu-24.04
+    outputs:
+      papers: ${{ steps.find.outputs.papers }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: find
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' \
+            | cut -d/ -f1 | sort -u | jq -R . | jq -cs .)
+          echo "papers=$papers" >> "$GITHUB_OUTPUT"
+          echo "results.json created or changed in: $papers"
+
+  check:
+    needs: find
+    if: needs.find.outputs.papers != '[]'
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        paper: ${{ fromJSON(needs.find.outputs.papers) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy scipy pillow
+
+      - name: Check results.json against the committed outputs
+        env:
+          PAPER: ${{ matrix.paper }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py "$PAPER/figure-reproduction/results.json" --committed --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR with the diffs and the figure overlays
+        if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository && hashFiles('results-check/results-check.json') != '' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PAPER: ${{ matrix.paper }}
+          BASE: ${{ github.base_ref }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: >
+          python3 tools/pr_comment.py "$PAPER" --check results-check/results-check.json --base "$BASE"
+          --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: ${{ matrix.paper }}-results-check
+          path: results-check

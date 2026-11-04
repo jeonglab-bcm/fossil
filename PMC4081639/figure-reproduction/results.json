@@ -1,0 +1,101 @@
+{
+  "paper": "PMC4081639",
+  "title": "Yu P, Shaw CA. An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function. Bioinformatics 30(11):1547-1554 (2014).",
+  "about": "The results this reproduction stands on. CI reruns the pipeline and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update.",
+  "committed_paths": {
+    "data/": "pipeline/"
+  },
+  "results": [
+    {
+      "id": "table1-psi-saliva",
+      "label": "Table 1, ψ for saliva",
+      "file": "data/table1_result.json",
+      "path": "saliva.psi",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.003891571021087254
+    },
+    {
+      "id": "table1-psi-throat",
+      "label": "Table 1, ψ for throat",
+      "file": "data/table1_result.json",
+      "path": "throat.psi",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.006394301991272327
+    },
+    {
+      "id": "table1-psi-tongue",
+      "label": "Table 1, ψ for tongue",
+      "file": "data/table1_result.json",
+      "path": "tongue.psi",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.008015722034311017
+    },
+    {
+      "id": "table1-psi-tonsils",
+      "label": "Table 1, ψ for tonsils",
+      "file": "data/table1_result.json",
+      "path": "tonsils.psi",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.01038770818208095
+    },
+    {
+      "id": "fig2-data",
+      "label": "Fig. 2 data, Eq. (6) in x86 arithmetic, byte for byte",
+      "file": "data/fig2_data.csv",
+      "digest": "sha256",
+      "expected": "cf1cff79dcc21965dd250fe50fa3a67a4af95f8b5e619971ca73ad967ab57c7b"
+    },
+    {
+      "id": "fig4-data",
+      "label": "Fig. 4 data, byte for byte",
+      "file": "data/fig4_data.csv",
+      "digest": "sha256",
+      "expected": "9304d98182d44d8d7a8d6b6bc037959111559841ce36f7da1d45e709734b9e10"
+    },
+    {
+      "id": "fig5-data",
+      "label": "Fig. 5 data, byte for byte",
+      "file": "data/fig5_data.csv",
+      "digest": "sha256",
+      "expected": "52fde30aa2fe61f2b593e43fbece85f39fee1d6665089b116d281d58c4404d69"
+    },
+    {
+      "id": "fig2-render",
+      "label": "Fig. 2 render, mean grey difference from the paper",
+      "file": "output/fig2.json",
+      "path": "score",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 8.02229412981898
+    },
+    {
+      "id": "fig4-render",
+      "label": "Fig. 4 render, mean grey difference from the paper",
+      "file": "output/fig4.json",
+      "path": "score",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 7.906679443097909
+    },
+    {
+      "id": "fig5-render",
+      "label": "Fig. 5 render, mean grey difference from the paper",
+      "file": "output/fig5.json",
+      "path": "score",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 4.516156670746634
+    }
+  ]
+}
