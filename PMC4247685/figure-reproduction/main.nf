@@ -1,4 +1,4 @@
-// Reproduce PMC4247685 (Curry 2014, GABi): Figs 2-5, the comparison page and a check report.
+// Reproduce PMC4247685 (Curry 2014, GABi): Figs 2-5, the comparison pages and a check report.
 // Run: nextflow run main.nf --outdir results [--python python3] [--sources DIR] [--rerun_ga] [--cores N]
 // The two genetic-algorithm runs (Fig. 2 benchmark, TCGA bicluster) take about an hour each on
 // 6 cores; by default the pipeline reads their committed outputs from data/ and --rerun_ga
@@ -29,6 +29,37 @@ process PAPER_MEASURE {
     """
     ${params.python} ${projectDir}/pipeline/paper_measure.py . paper_measure.json
     ${params.python} ${projectDir}/pipeline/fig2_measure.py figure-2.jpg fig2_published_boxes.json
+    """
+}
+
+process TRACE_PUBLISHED {
+    publishDir "${params.outdir}/data", mode: 'copy'
+    input:
+    path published
+    path measure
+    path clinical
+    output:
+    path 'paper_traced.json'
+    script:
+    """
+    ${params.python} ${projectDir}/pipeline/trace_published.py . ${measure} ${clinical} paper_traced.json
+    """
+}
+
+process COMPARE_DATA {
+    publishDir "${params.outdir}/site", mode: 'copy'
+    input:
+    path traced
+    path boxes
+    path scores
+    path fig3
+    path fig4
+    path clinical
+    output:
+    path 'compare-data.js'
+    script:
+    """
+    ${params.python} ${projectDir}/pipeline/compare_data.py . ${traced} compare-data.js
     """
 }
 
@@ -220,6 +251,10 @@ workflow {
         .mix(fig5.tests, fig5.clinical, fig34.summary, fig2.table, fig2.tests, measure.base, tcga.samples, scores, s2s3, block)
         .mix(Channel.fromPath("${pub}/*"))
         .collect()
+    // The expected-and-observed page: the paper's curves traced back into numbers, beside ours.
+    traced = TRACE_PUBLISHED(Channel.fromPath("${pub}/*").collect(), measure.base, fig5.clinical)
+    COMPARE_DATA(traced, measure.fig2, scores, fig34.fig3, fig34.fig4, fig5.clinical)
+
     BUILD_PAGE(everything)
     CHECK(everything)
 }

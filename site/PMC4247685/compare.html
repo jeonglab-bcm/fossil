@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GABi Expected and Observed</title>
+<meta name="description" content="Curry 2014, the GABi paper: every published curve traced back into numbers and laid on our rerun, with the gap between them.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../compare.css">
+<script src="compare-data.js" defer></script>
+<script src="../charts.js" defer></script>
+<script src="compare.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="container">
+    <a class="wordmark" href="../" aria-label="fossil, home">fossil</a>
+    <nav aria-label="Site"><a href="../#papers">The papers</a><a href="./">Figures</a><a href="implementation.html">Code analysis</a></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-head">
+    <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 id="hero-head">Expected against observed.</h1>
+        <p class="lead">Ink is what the paper printed. Green is what we got back.</p>
+        <div class="actions"><a class="btn btn--primary" href="./">See the figures side by side</a></div>
+      </div>
+      <nav class="label" aria-label="Figures on this page">
+        <span class="label-head"><span>Curry 2014</span><span>BMC Bioinformatics 15:355</span></span>
+        <span class="label-title">GABi</span>
+        <ol><li><a href="#fig-2"><span>Fig. 2</span><span class="v" data-v="partly">Partly agrees</span></a></li><li><a href="#fig-3"><span>Fig. 3</span><span class="v" data-v="partly">Partly agrees</span></a></li><li><a href="#fig-4"><span>Fig. 4</span><span class="v" data-v="differs">Differs</span></a></li><li><a href="#fig-5"><span>Fig. 5</span><span class="v" data-v="agrees">Agrees</span></a></li></ol>
+        <span class="label-stub">The paper’s curves are traced from its figures</span>
+      </nav>
+    </div>
+  </section>
+
+  <div class="container bench">
+    <div class="stations">
+
+      <section class="station surface" id="fig-2" aria-labelledby="fig-2-head">
+        <header class="station-head"><h2 id="fig-2-head">Fig. 2</h2><p class="caption">Seven methods, 40 datasets each. A bar is the middle half of the scores and the dot is the median.</p><span class="stamp" data-v="partly">Partly agrees</span></header>
+        <p class="legend"><span><span class="ln ln--exp"></span>Paper, read from its pixels</span><span><span class="ln ln--obs"></span>Our rerun</span></p>
+        <div class="panels panels--3">
+          <figure class="panel"><figcaption>block</figcaption><div class="chart" id="fig2-block"><p class="needs-js">The charts need JavaScript. The numbers are under Fig. 2 on the figures page.</p></div></figure>
+          <figure class="panel"><figcaption>cor</figcaption><div class="chart" id="fig2-cor"></div></figure>
+          <figure class="panel"><figcaption>highvar</figcaption><div class="chart" id="fig2-highvar"></div></figure>
+        </div>
+        <div class="station-foot"><dl class="dose" id="fig2-stats"></dl><p class="note">The shaded row is the method built for that structure. Hover a row, or tab to it, for its numbers.</p></div>
+      </section>
+
+      <section class="station surface" id="fig-3" aria-labelledby="fig-3-head">
+        <header class="station-head"><h2 id="fig-3-head">Fig. 3</h2><p class="caption">How closely the bicluster’s CpG sites move together, over each set of tumours.</p><span class="stamp" data-v="partly">Partly agrees</span></header>
+        <p class="legend"><span><span class="ln ln--exp"></span>Paper, traced</span><span><span class="ln ln--obs"></span>Ours, from TCGA</span><span><span class="sw sw--gap"></span>The gap</span></p>
+        <div class="panels">
+          <figure class="panel"><figcaption>Bicluster tumours</figcaption><div class="chart" id="fig3-bicluster" tabindex="0" aria-label="Fig. 3, bicluster tumours. Use the arrow keys to read values."><p class="needs-js">The charts need JavaScript.</p></div></figure>
+          <figure class="panel"><figcaption>Control set</figcaption><div class="chart" id="fig3-control" tabindex="0" aria-label="Fig. 3, control set. Use the arrow keys to read values."></div></figure>
+        </div>
+        <div class="station-foot"><dl class="dose" id="fig3-stats"></dl><p class="note">Each traced curve encloses an area of 1, as a density should, so the tracing holds. Ours peak lower in the bicluster and higher in the control set.</p></div>
+      </section>
+
+      <section class="station surface" id="fig-4" aria-labelledby="fig-4-head">
+        <header class="station-head"><h2 id="fig-4-head">Fig. 4</h2><p class="caption">Time until the cancer progressed, for each set of tumours.</p><span class="stamp" data-v="differs">Differs</span></header>
+        <p class="legend"><span><span class="ln ln--exp"></span>Paper, traced</span><span><span class="ln ln--obs"></span>Ours, from TCGA</span><span><span class="sw sw--gap"></span>The gap</span></p>
+        <div class="panels">
+          <figure class="panel"><figcaption>Bicluster tumours</figcaption><div class="chart" id="fig4-bicluster" tabindex="0" aria-label="Fig. 4, bicluster tumours. Use the arrow keys to read values."><p class="needs-js">The charts need JavaScript.</p></div></figure>
+          <figure class="panel"><figcaption>Control set</figcaption><div class="chart" id="fig4-control" tabindex="0" aria-label="Fig. 4, control set. Use the arrow keys to read values."></div></figure>
+        </div>
+        <div class="station-foot"><dl class="dose" id="fig4-stats"></dl><p class="note">The paper had 21 tumours on each side and ours has 146. In the paper the bicluster progresses later. In ours it progresses sooner.</p></div>
+      </section>
+
+      <section class="station surface" id="fig-5" aria-labelledby="fig-5-head">
+        <header class="station-head"><h2 id="fig-5-head">Fig. 5</h2><p class="caption">Time until the cancer progressed, for the 40 patients of Table S3.</p><span class="stamp" data-v="agrees">Agrees</span></header>
+        <p class="legend"><span><span class="ln ln--exp"></span>Paper, traced</span><span><span class="ln ln--obs"></span>Ours, from Table S3</span><span><span class="sw sw--gap"></span>The gap</span></p>
+        <div class="panels">
+          <figure class="panel"><figcaption>Most correlated tumours</figcaption><div class="chart" id="fig5-Group1" tabindex="0" aria-label="Fig. 5, most correlated tumours. Use the arrow keys to read values."><p class="needs-js">The charts need JavaScript.</p></div></figure>
+          <figure class="panel"><figcaption>Least correlated tumours</figcaption><div class="chart" id="fig5-Group2" tabindex="0" aria-label="Fig. 5, least correlated tumours. Use the arrow keys to read values."></div></figure>
+        </div>
+        <div class="station-foot"><dl class="dose" id="fig5-stats"></dl><p class="note">The paper drew this figure from its own table, so the two curves should be one. They are, which is also our check on the tracing.</p></div>
+      </section>
+
+      <section class="station surface printed" id="numbers" aria-labelledby="numbers-head">
+        <header class="station-head"><h2 id="numbers-head">The numbers in the text</h2></header>
+        <div class="split">
+          <div class="wide table-wrap">
+            <table class="record dense">
+              <thead><tr><th scope="col">Fig.</th><th scope="col">What</th><th scope="col" class="num">Paper</th><th scope="col" class="num">Ours</th></tr></thead>
+              <tbody>
+                <tr><td>3</td><td>Tumours in the bicluster</td><td class="num">21</td><td class="num">146</td></tr>
+                <tr><td>3</td><td>Tumours in the control set</td><td class="num">21</td><td class="num">146</td></tr>
+                <tr><td>3</td><td>CpG sites in the bicluster</td><td class="num">14,382</td><td class="num">3,682</td></tr>
+                <tr><td>4</td><td>Median months to progression, bicluster</td><td class="num">85.4</td><td class="num">11.5</td></tr>
+                <tr><td>4</td><td>Median months to progression, control set</td><td class="num">32</td><td class="num">22.3</td></tr>
+                <tr><td>4</td><td>Logrank p</td><td class="num">1 × 10<sup>−5</sup></td><td class="num">3 × 10<sup>−14</sup></td></tr>
+                <tr><td>5</td><td>Logrank p, progression</td><td class="num">0.15</td><td class="num">0.12</td></tr>
+                <tr><td>5</td><td>Logrank p, death</td><td class="num">0.1</td><td class="num">0.12</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="side"><p class="note">The paper’s column is its text on page 12. Ours comes from the same R tests run on the recovered data.</p></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p class="statement">Each paper comes back with its data, its code and its figures.</p>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685/figure-reproduction">The code on GitHub</a>
+      <a href="./">GABi figures</a>
+      <a href="implementation.html">GABi code analysis</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

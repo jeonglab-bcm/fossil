@@ -5,7 +5,9 @@ and ggplot2 for Fig. 2. Each render is mapped onto the published figure's pixel 
 alone, so the two images overlay directly and nothing inside the frame is fitted.
 
 Site: <https://jeonglab-bcm.github.io/fossil/PMC4247685/> (side by side, swipe, blink, overlay and
-difference views).
+difference views) and <https://jeonglab-bcm.github.io/fossil/PMC4247685/compare.html> (expected and
+observed: the paper's curves traced back into numbers and drawn on the same axes as ours, with the gap
+between them).
 
 ## Results
 
@@ -15,6 +17,7 @@ difference views).
 | Fig. 2 | Rerun of the synthetic benchmark: 40 new Algorithm 2 datasets per structure, GABi 0.1 with the S1 models, ISA, CC, Plaid and Bimax. cor: GABi.cor has the highest median (0.59, paper 0.64) and beats all six other methods (paired Wilcoxon p < 0.001). highvar: GABi.highvar beats five of six; Bimax has a higher median (p = 0.027). block: GABi.block's median is 0.02 against the paper's 0.40; Algorithm 2's offset is negative in 21 of 40 datasets, where the block model cannot see the block. |
 | Fig. 3 | Reconstructed. GABi with S1's dysregulation-vs-outcome model on the Table S3 probes in 477 high-grade TCGA OV tumours (UCSC Xena) finds 146 bicluster and 146 control tumours over 3,682 CpG sites (paper: 21, 21 and 14,382). The bicluster's sites co-vary more than the control set's, with the small negative mode near -0.55 the paper shows, but the peaks sit at 0.62 and 0.43 against the paper's about 0.8 and 0.25. |
 | Fig. 4 | Same reconstruction. Progression-free intervals differ strongly (logrank p = 3 × 10⁻¹⁴) but the other way from the paper: median 11.5 months for the bicluster against 22.3 for the control set (paper: 85.4 against 32). GABi's survival term uses a two-sided logrank p, so the search can land on either direction. |
+| Traced curves | The curves of Figs 3 to 5 read back from the published images (`trace_published.py`). Each traced density in Fig. 3 encloses an area of 1.000 and 1.001; the traced Fig. 5 curves sit 0.001 and 0.002 (mean gap) from Table S3's Kaplan-Meier curves. |
 | Tables S2 and S3 | Both list "the 14,382 CpG sites" of the bicluster but share 8,904. S3's probes co-vary in TCGA (mean \|r\| 0.27, like the shared probes); S2's own behave like random probes (0.10). The TCGA run uses S3's list. |
 
 ## Layout
@@ -39,7 +42,8 @@ nextflow run PMC4247685/figure-reproduction/main.nf --outdir results --rerun_ga 
 
 The run downloads Additional files 1 to 3 (Springer) and the TCGA OV data (UCSC Xena) and checks each
 file's SHA-256 (`--sources DIR` reuses local copies). It writes the data, the renders, the comparison
-page and `results/report.md`, and fails if Fig. 5 no longer matches the published figure. The GitHub
+pages and `results/report.md`, and fails if Fig. 5 no longer matches the published figure or the tracer
+no longer reads Figs 3 and 5 back within its checks. The GitHub
 workflow `.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubuntu.
 
 ## Pipeline steps
@@ -57,6 +61,8 @@ workflow `.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubunt
 | Figs 3 and 4 data | `make_fig34_data.R` | densities, groups, summary |
 | Renders | `plot_base.R`, `plot_fig2.R`, `align.py` | `output/fig*_ours.png`, `output/fig*.json` |
 | Comparison page | `build_page.py`, `page_template.html` | `site/PMC4247685/index.html` |
+| Traced curves | `trace_published.py` | `paper_traced.json`: the published curves of Figs 3 to 5 as numbers, and the tracer's two checks |
+| Expected and observed | `compare_data.py` | `site/PMC4247685/compare-data.js`, drawn by `site/PMC4247685/compare.html` with `site/charts.js` |
 | Check | `check_reproduction.py` | `report.md` |
 
 ## Limits
