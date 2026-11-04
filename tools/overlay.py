@@ -1,6 +1,6 @@
 """Overlay each published figure with this run's render of it, for the PR comment.
 
-A render (output/fig<N>_ours.png) sits on the published figure's pixel grid, so the two overlay
+A render (output/fig<N>_ours.png, or output/figures/ours-figure-<N>.png) sits on the published figure's pixel grid, so the two overlay
 directly. Ink is any pixel darker than INK. Where the paper's ink and ours lie within 2 px of each
 other the overlay is grey; ink only in the paper is drawn dark, ink only in this run green. The
 overlay is shrunk to at most WIDTH px wide, keeping a thin line visible.
@@ -20,6 +20,7 @@ from PIL import Image
 from scipy import ndimage
 
 INK = 150
+RENDERS = ("fig*_ours.png", "figures/ours-figure-*.png")  # the layouts the reproductions use
 WIDTH = 760
 GREY, PAPER_ONLY, OURS_ONLY = (196, 201, 198), (22, 46, 40), (0, 150, 95)
 
@@ -58,18 +59,18 @@ def shrink(classes, f):
     return pad.reshape(H, f, W, f).max(axis=(1, 3))
 
 
+def figure_number(path):
+    """The figure a render draws (fig2_ours.png or ours-figure-2.png: "2"), or None."""
+    m = re.fullmatch(r"fig(\d+)_ours\.png|ours-figure-(\d+)\.png", os.path.basename(path))
+    return (m.group(1) or m.group(2)) if m else None
+
+
 def main(pub_dir, run_out, out_dir):
     os.makedirs(out_dir, exist_ok=True)
     manifest = []
-    def order(p):
-        m = re.fullmatch(r"fig(\d+)_ours\.png", os.path.basename(p))
-        return int(m.group(1)) if m else 99
-
-    for r in sorted(glob.glob(os.path.join(run_out, "fig*_ours.png")), key=order):
-        m = re.fullmatch(r"fig(\d+)_ours\.png", os.path.basename(r))
-        if not m:
-            continue
-        n = m.group(1)
+    renders = [r for p in RENDERS for r in glob.glob(os.path.join(run_out, p)) if figure_number(r)]
+    for r in sorted(renders, key=lambda p: int(figure_number(p))):
+        n = figure_number(r)
         pubs = [p for p in glob.glob(os.path.join(pub_dir, f"figure-{n}.*")) if p.lower().endswith((".png", ".jpg", ".jpeg"))]
         if not pubs:
             continue
