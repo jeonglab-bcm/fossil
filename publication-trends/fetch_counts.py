@@ -1,0 +1,85 @@
+"""Count PubMed Central articles per year that mention each keyword group.
+
+Source: NCBI E-utilities esearch on db=pmc, which searches full text
+(including references). Terms are pinned to [All Fields] so PMC's automatic
+term mapping cannot widen them (e.g. "bioconductor" -> "bioconductor s").
+Writes counts.csv: year, group, query, count, total, share (blank before a group's START year).
+"""
+import csv
+import json
+import sys
+import time
+import urllib.parse
+import urllib.request
+from datetime import date
+
+EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+YEARS = range(2000, 2027)
+
+GROUPS = {
+    "GitHub + GitLab": '"github"[All Fields] OR "gitlab"[All Fields]',
+    "SourceForge": '"sourceforge"[All Fields]',
+    "NCBI GEO": '"gene expression omnibus"[All Fields] OR "ncbi geo"[All Fields]',
+    "Python + PyPI": ('("python"[All Fields] NOT ("snake"[All Fields] OR "snakes"[All Fields]'
+                      ' OR "boidae"[All Fields])) OR "pypi"[All Fields] OR "python package index"[All Fields]'),
+    "CRAN + Bioconductor": '"cran"[All Fields] OR "bioconductor"[All Fields]',
+    "Zenodo + figshare": '"zenodo"[All Fields] OR "figshare"[All Fields]',
+    "SRA / ENA": ('"sequence read archive"[All Fields] OR "ncbi sra"[All Fields]'
+                  ' OR "european nucleotide archive"[All Fields]'),
+    "Docker, Jupyter, Conda, Snakemake, Nextflow": (  # "docker" and "conda" need a software context
+        '("docker"[All Fields] AND ("container"[All Fields] OR "containers"[All Fields]'
+        ' OR "containerized"[All Fields] OR "dockerfile"[All Fields] OR "dockerhub"[All Fields]'
+        ' OR "docker hub"[All Fields]))'
+        ' OR ("conda"[All Fields] AND ("anaconda"[All Fields] OR "miniconda"[All Fields]'
+        ' OR "bioconda"[All Fields] OR "python"[All Fields] OR "conda-forge"[All Fields]'
+        ' OR "conda install"[All Fields]))'
+        ' OR "jupyter"[All Fields] OR "bioconda"[All Fields] OR "snakemake"[All Fields]'
+        ' OR "nextflow"[All Fields]'),
+}
+# Groups counted only from this year. The tools date from 2012 on (Docker 2013, Jupyter 2014,
+# Snakemake 2012, Nextflow 2013); earlier "docker" and "conda" hits are other things, such as
+# Molegro Virtual Docker (molecular docking), tail-docking tools, and Conda Laboratorios (Madrid).
+# Those products still appear later, hence the software-context terms on "docker" and "conda".
+START = {"Docker, Jupyter, Conda, Snakemake, Nextflow": 2012}
+
+
+def count(term):
+    url = EUTILS + "?" + urllib.parse.urlencode(
+        {"db": "pmc", "term": term, "retmax": 0, "retmode": "json"})
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(url, timeout=60) as r:
+                res = json.load(r)["esearchresult"]
+            if res.get("errorlist"):
+                raise RuntimeError(res["errorlist"])
+            time.sleep(0.4)  # stay under 3 requests/s without an API key
+            return int(res["count"])
+        except Exception as e:  # noqa: BLE001
+            print(f"retry {attempt + 1}: {e}", file=sys.stderr)
+            time.sleep(2 ** attempt)
+    raise RuntimeError(f"failed: {term}")
+
+
+def main(out="counts.csv"):
+    rows = []
+    for year in YEARS:
+        ydate = f"{year}[pdat]"
+        total = count(ydate)
+        for name, q in GROUPS.items():
+            if year < START.get(name, 0):  # not counted: blank, not zero
+                rows.append({"year": year, "group": name, "query": f"not counted before {START[name]}",
+                             "count": "", "total": total, "share": ""})
+                continue
+            n = count(f"({q}) AND {ydate}")
+            rows.append({"year": year, "group": name, "query": f"({q}) AND {ydate}",
+                         "count": n, "total": total, "share": n / total})
+            print(year, name, n, total, file=sys.stderr)
+    with open(out, "w", newline="") as f:
+        f.write(f"# PMC full-text counts, NCBI E-utilities, retrieved {date.today()}\n")
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:])

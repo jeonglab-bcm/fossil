@@ -1,0 +1,540 @@
+{
+  "paper": "PMC4081021",
+  "title": "Hasenauer J, Hasenauer C, Hucho T, Theis FJ. ODE constrained mixture modelling: a method for unraveling subpopulation structures and dynamics. PLoS Comput Biol 10(7):e1003686 (2014).",
+  "about": "The results this reproduction stands on. A run started by hand reruns the pipeline (with --refit) and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update. The refit entries expect the authors' saved optimum, so --update would replace it with ours.",
+  "committed_paths": {
+    "port_check.json": "output/port_check.json",
+    "refit/": "output/refit/"
+  },
+  "results": [
+    {
+      "id": "port-max-diff",
+      "label": "Python log-likelihood at the authors' 51 saved optima, largest |difference|",
+      "file": "port_check.json",
+      "path": "max_abs_diff_logL",
+      "tolerance": {
+        "abs": 0.002
+      },
+      "expected": 0.0008800217055977555
+    },
+    {
+      "id": "table1_cr1-h22-bic",
+      "label": "Table 1, scenario 1, M_H2,2 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "table1_cr1.comparison.model=H2,2.saved.BIC",
+      "expected": "-2.1854"
+    },
+    {
+      "id": "table1_cr1-h22-bic-refit",
+      "label": "Table 1, scenario 1, M_H2,2 BIC (selected model) (our refit)",
+      "file": "output/tables.json",
+      "path": "table1_cr1.comparison.model=H2,2.refit.BIC",
+      "expected": "-2.1854"
+    },
+    {
+      "id": "table1_cr1-h22-decision",
+      "label": "Table 1, scenario 1, M_H2,2 decision",
+      "file": "output/tables.json",
+      "path": "table1_cr1.comparison.model=H2,2.saved.decision",
+      "expected": "optimal"
+    },
+    {
+      "id": "table1_cr2-h22-bic",
+      "label": "Table 1, scenario 2, M_H2,2 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H2,2.saved.BIC",
+      "expected": "-13.991"
+    },
+    {
+      "id": "table1_cr2-h22-bic-refit",
+      "label": "Table 1, scenario 2, M_H2,2 BIC (selected model) (our refit)",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H2,2.refit.BIC",
+      "expected": "-13.991"
+    },
+    {
+      "id": "table1_cr2-h22-decision",
+      "label": "Table 1, scenario 2, M_H2,2 decision",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H2,2.saved.decision",
+      "expected": "optimal"
+    },
+    {
+      "id": "table1_cr1-h31-logl",
+      "label": "Table 1, scenario 1, M_H3,1 ℓ (paper prints 0.9911)",
+      "file": "output/tables.json",
+      "path": "table1_cr1.comparison.model=H3,1.saved.logL",
+      "expected": "0.9910"
+    },
+    {
+      "id": "table1_cr2-h11-rank",
+      "label": "Table 1, scenario 2, M_H1,1 rank (paper prints 12; its BICs give this)",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H1,1.saved.rank",
+      "expected": 10
+    },
+    {
+      "id": "table1_cr2-h12-rank",
+      "label": "Table 1, scenario 2, M_H1,2 rank (paper prints 10; its BICs give this)",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H1,2.saved.rank",
+      "expected": 11
+    },
+    {
+      "id": "table1_cr2-h13-rank",
+      "label": "Table 1, scenario 2, M_H1,3 rank (paper prints 11; its BICs give this)",
+      "file": "output/tables.json",
+      "path": "table1_cr2.comparison.model=H1,3.saved.rank",
+      "expected": 12
+    },
+    {
+      "id": "table2-h33-bic",
+      "label": "Table 2, M_H3,3 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "table2.comparison.model=H3,3.saved.BIC",
+      "expected": "7.2001"
+    },
+    {
+      "id": "table2-h33-decision",
+      "label": "Table 2, M_H3,3 decision",
+      "file": "output/tables.json",
+      "path": "table2.comparison.model=H3,3.saved.decision",
+      "expected": "optimal"
+    },
+    {
+      "id": "table2-h32-dbic",
+      "label": "Table 2, M_H3,2 ΔBIC",
+      "file": "output/tables.json",
+      "path": "table2.comparison.model=H3,2.saved.dBIC",
+      "expected": "2.189"
+    },
+    {
+      "id": "supp_table1_ngfa-h33-bic",
+      "label": "S1 Table 1, pathway model A, M_H3,3 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "supp_table1_ngfA.comparison.model=H3,3.saved.BIC",
+      "expected": "7.2001"
+    },
+    {
+      "id": "supp_table1_ngfb-h33-bic",
+      "label": "S1 Table 1, pathway model B, M_H3,3 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "supp_table1_ngfB.comparison.model=H3,3.saved.BIC",
+      "expected": "7.1965"
+    },
+    {
+      "id": "supp_table1_ngfc-h33-bic",
+      "label": "S1 Table 1, pathway model C, M_H3,3 BIC (selected model)",
+      "file": "output/tables.json",
+      "path": "supp_table1_ngfC.comparison.model=H3,3.saved.BIC",
+      "expected": "7.1830"
+    },
+    {
+      "id": "fig2-b-paper",
+      "label": "Fig. 2B, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig2.B.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig2-b-ours",
+      "label": "Fig. 2B, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig2.B.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig2-e-paper",
+      "label": "Fig. 2E, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig2.E.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.9819
+    },
+    {
+      "id": "fig2-e-ours",
+      "label": "Fig. 2E, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig2.E.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.8879
+    },
+    {
+      "id": "fig3-b-kinetic-0-paper",
+      "label": "Fig. 3B, kinetic, first subpopulation, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig3.B:kinetic_0.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.9998
+    },
+    {
+      "id": "fig3-b-kinetic-0-ours",
+      "label": "Fig. 3B, kinetic, first subpopulation, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig3.B:kinetic_0.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.9982
+    },
+    {
+      "id": "fig4-b-kinetic-0-paper",
+      "label": "Fig. 4B, kinetic, first subpopulation, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig4.B:kinetic_0.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.865
+    },
+    {
+      "id": "fig4-b-kinetic-0-ours",
+      "label": "Fig. 4B, kinetic, first subpopulation, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig4.B:kinetic_0.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.9996
+    },
+    {
+      "id": "fig5-b-paper",
+      "label": "Fig. 5B, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig5.B.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 0.9553
+    },
+    {
+      "id": "fig5-b-ours",
+      "label": "Fig. 5B, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig5.B.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig6-b-scatter-paper",
+      "label": "Fig. 6B scatter, share of the paper's traces within 4 px of ours",
+      "file": "output/comparison.json",
+      "path": "fig6.B:scatter.colours.all_traces.published_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig6-b-scatter-ours",
+      "label": "Fig. 6B scatter, share of our traces within 4 px of the paper's",
+      "file": "output/comparison.json",
+      "path": "fig6.B:scatter.colours.all_traces.ours_matched",
+      "tolerance": {
+        "abs": 0.01
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig5c-w1",
+      "label": "Fig. 5C, w₁ of M_H3,3 for pathway models A, B, C (%; paper 68.8, 71.5, 70.0)",
+      "file": "output/comparison.json",
+      "path": "fig5.C_w1_percent",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": [
+        68.8,
+        69.8,
+        70.0
+      ]
+    },
+    {
+      "id": "fig6-rho-control",
+      "label": "Fig. 6A, correlation of control cells (paper 0.895)",
+      "file": "output/comparison.json",
+      "path": "fig6.rho_control",
+      "tolerance": {
+        "abs": 0.0005
+      },
+      "expected": 0.8949
+    },
+    {
+      "id": "fig6-rho-stimulated",
+      "label": "Fig. 6B, correlation of stimulated cells (paper 0.696)",
+      "file": "output/comparison.json",
+      "path": "fig6.rho_stimulated",
+      "tolerance": {
+        "abs": 0.0005
+      },
+      "expected": 0.6963
+    },
+    {
+      "id": "fig6-weights",
+      "label": "Fig. 6B, mixture weights (%; paper 68.0, 32.0)",
+      "file": "output/comparison.json",
+      "path": "fig6.w_percent",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": [
+        68.04,
+        31.96
+      ]
+    },
+    {
+      "id": "refit-cr1-1norm",
+      "label": "Table 1 refit, scenario 1, 1norm: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__1norm.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 9806.035353664727
+    },
+    {
+      "id": "refit-cr1-1logn-mean",
+      "label": "Table 1 refit, scenario 1, 1logn_mean: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__1logn_mean.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 9785.492821838518
+    },
+    {
+      "id": "refit-cr1-1logn-median",
+      "label": "Table 1 refit, scenario 1, 1logn_median: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__1logn_median.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 9785.39104491697
+    },
+    {
+      "id": "refit-cr1-2norm-k1a",
+      "label": "Table 1 refit, scenario 1, 2norm_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2norm_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 10997.915393898065
+    },
+    {
+      "id": "refit-cr1-2logn-mean-k1a",
+      "label": "Table 1 refit, scenario 1, 2logn_mean_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_mean_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 11001.022641903044
+    },
+    {
+      "id": "refit-cr1-2logn-median-k1a",
+      "label": "Table 1 refit, scenario 1, 2logn_median_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_median_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 11000.807940041765
+    },
+    {
+      "id": "refit-cr1-2norm-k1b",
+      "label": "Table 1 refit, scenario 1, 2norm_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2norm_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 9910.491872247854
+    },
+    {
+      "id": "refit-cr1-2logn-mean-k1b",
+      "label": "Table 1 refit, scenario 1, 2logn_mean_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_mean_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 10012.828330117849
+    },
+    {
+      "id": "refit-cr1-2logn-median-k1b",
+      "label": "Table 1 refit, scenario 1, 2logn_median_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_median_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 9948.840851242927
+    },
+    {
+      "id": "refit-cr1-2norm-k2",
+      "label": "Table 1 refit, scenario 1, 2norm_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2norm_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 10086.981257606445
+    },
+    {
+      "id": "refit-cr1-2logn-mean-k2",
+      "label": "Table 1 refit, scenario 1, 2logn_mean_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_mean_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 10076.54037004087
+    },
+    {
+      "id": "refit-cr1-2logn-median-k2",
+      "label": "Table 1 refit, scenario 1, 2logn_median_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr1__2logn_median_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 10031.78250723009
+    },
+    {
+      "id": "refit-cr2-1norm",
+      "label": "Table 1 refit, scenario 2, 1norm: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__1norm.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 6954.577871800079
+    },
+    {
+      "id": "refit-cr2-1logn-mean",
+      "label": "Table 1 refit, scenario 2, 1logn_mean: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__1logn_mean.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 6923.024992656942
+    },
+    {
+      "id": "refit-cr2-1logn-median",
+      "label": "Table 1 refit, scenario 2, 1logn_median: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__1logn_median.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 6921.9479976153525
+    },
+    {
+      "id": "refit-cr2-2norm-k1a",
+      "label": "Table 1 refit, scenario 2, 2norm_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2norm_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7058.996920537582
+    },
+    {
+      "id": "refit-cr2-2logn-mean-k1a",
+      "label": "Table 1 refit, scenario 2, 2logn_mean_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_mean_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7069.222897456527
+    },
+    {
+      "id": "refit-cr2-2logn-median-k1a",
+      "label": "Table 1 refit, scenario 2, 2logn_median_k1a: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_median_k1a.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7067.758817592975
+    },
+    {
+      "id": "refit-cr2-2norm-k1b",
+      "label": "Table 1 refit, scenario 2, 2norm_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2norm_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 6990.224733041831
+    },
+    {
+      "id": "refit-cr2-2logn-mean-k1b",
+      "label": "Table 1 refit, scenario 2, 2logn_mean_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_mean_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7003.114516720591
+    },
+    {
+      "id": "refit-cr2-2logn-median-k1b",
+      "label": "Table 1 refit, scenario 2, 2logn_median_k1b: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_median_k1b.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 6997.024677034808
+    },
+    {
+      "id": "refit-cr2-2norm-k2",
+      "label": "Table 1 refit, scenario 2, 2norm_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2norm_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7024.626084221601
+    },
+    {
+      "id": "refit-cr2-2logn-mean-k2",
+      "label": "Table 1 refit, scenario 2, 2logn_mean_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_mean_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7026.801170858662
+    },
+    {
+      "id": "refit-cr2-2logn-median-k2",
+      "label": "Table 1 refit, scenario 2, 2logn_median_k2: best ℓ of 2,000 starts against the authors' optimum",
+      "file": "refit/cr2__2logn_median_k2.json",
+      "path": "best_logL",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 7020.813254300718
+    }
+  ]
+}

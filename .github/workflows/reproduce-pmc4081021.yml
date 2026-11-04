@@ -1,16 +1,10 @@
 name: Reproduce PMC4081021
 
+# A full rerun of the pipeline, started by hand from the Actions tab, checked against results.json.
+# Pull requests that change results.json are checked against the committed outputs instead
+# (results-check.yml), without a rerun.
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - "PMC4081021/figure-reproduction/**"
-      - ".github/workflows/reproduce-pmc4081021.yml"
-  push:
-    branches: [main]
-    paths:
-      - "PMC4081021/figure-reproduction/**"
-      - ".github/workflows/reproduce-pmc4081021.yml"
 
 permissions:
   contents: read
@@ -18,7 +12,8 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    # REFIT alone did not finish in 2 hours on the 4-core runner (it takes 7 minutes on 12 local cores).
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
 
@@ -40,6 +35,18 @@ jobs:
 
       - name: Run the Nextflow pipeline
         run: nextflow run PMC4081021/figure-reproduction/main.nf --outdir results --refit -ansi-log false
+
+      - name: Check results.json against this run
+        if: ${{ !cancelled() && hashFiles('PMC4081021/figure-reproduction/results.json') != '' }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC4081021/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() && hashFiles('PMC4081021/figure-reproduction/results.json') != '' }}
+        with:
+          name: pmc4081021-results-check
+          path: results-check
 
       - name: Write the check report to the job summary
         if: always()

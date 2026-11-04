@@ -79,6 +79,7 @@ are ported to Python and checked against the saved results:
 | `pipeline/figdata.py` | What each published panel plots, computed as in the authors' plotting scripts. |
 | `pipeline/` | The other scripts (Python, shell). |
 | `published/` | Figs 1 to 6 of the paper (PLOS original-size files, converted from TIFF to PNG) and Tables 1, 2 and S1 Table 1 as CSV, © 2014 Hasenauer et al., CC BY 4.0. |
+| `results.json` | The results this reproduction stands on, checked by `tools/check_results.py`. |
 | `output/` | `fig*_ours.png` (our panels, drawn with matplotlib), `fig*_overlay.png` (published faded, ours on top, at half the published resolution), `comparison.json`, `tables.json`, `port_check.json`, `optima_check.json`, `refit/` (one JSON per refitted model), `report.md`; `refit_ngfA_attempt.json` records the one-off blind refit of pathway model A described above (not part of the pipeline). |
 
 ## Run
@@ -96,7 +97,15 @@ The run downloads Code S1 from PMC's open-access copy on AWS, or from Europe PMC
 `pcbi.1003686.s001.zip`). On a 12-core machine it
 takes about 7 minutes without `--refit` and 14 with it; the refit runs on all cores. It writes the renders, the comparison, the tables
 and `results/report.md`, and fails if a check falls below its threshold. The GitHub workflow
-`.github/workflows/reproduce-pmc4081021.yml` does the same run, with `--refit`, on Ubuntu.
+`.github/workflows/reproduce-pmc4081021.yml` does the same run, with `--refit`, on Ubuntu when
+started by hand from the Actions tab. On GitHub's 4-core runner the refit is slow: it did not finish
+within 2 hours, so the workflow allows 6.
+
+`results.json` lists the 57 results this reproduction stands on, with the tolerance each may move
+by: the port, the selected models and the paper's errors in Tables 1, 2 and S1 Table 1, the pixel
+match of the main panels, Fig. 5C and Fig. 6's numbers, and the 24 refits of Table 1 against the
+authors' optima. The workflow checks every rerun against it with `tools/check_results.py` (see the
+[top-level README](../../README.md#results-check)) and fails if a value moves outside its tolerance.
 
 ## Pipeline steps
 
