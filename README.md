@@ -24,7 +24,7 @@ Figures for the papers are in [`figures/`](figures/).
 
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
-The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun each reproduction with Nextflow on every change.
+The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun a reproduction with Nextflow when its `results.json` is created or changed, or when started by hand.
 
 ## Results check
 
@@ -35,8 +35,9 @@ entry gives:
 - the value expected;
 - how far a rerun may stray from it.
 
-On every pull request that touches a reproduction, its workflow reruns the pipeline. Then
-`tools/check_results.py` compares each value from the run with `results.json`.
+When a pull request creates or changes a reproduction's `results.json`, its workflow reruns the
+pipeline. Then `tools/check_results.py` compares each value from the run with `results.json`. A
+change that leaves `results.json` alone does not start a run; start one by hand from the Actions tab.
 
 - The table goes into the job summary.
 - A page drawing each expected value against the observed one is uploaded as the

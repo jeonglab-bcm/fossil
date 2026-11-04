@@ -1,20 +1,15 @@
 name: Reproduce PMC4081639
 
+# Runs when a pull request (or a push to main) creates or changes results.json, or by hand.
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - "PMC4081639/figure-reproduction/**"
-      - "tools/check_results.py"
-      - "tools/results-report.html"
-      - ".github/workflows/reproduce.yml"
+      - "PMC4081639/figure-reproduction/results.json"
   push:
     branches: [main]
     paths:
-      - "PMC4081639/figure-reproduction/**"
-      - "tools/check_results.py"
-      - "tools/results-report.html"
-      - ".github/workflows/reproduce.yml"
+      - "PMC4081639/figure-reproduction/results.json"
 
 permissions:
   contents: read
