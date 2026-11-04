@@ -25,3 +25,30 @@ Figures for the papers are in [`figures/`](figures/).
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
 The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun each reproduction with Nextflow on every change.
+
+## Results check
+
+Each reproduction lists the results it stands on in `PMC…/figure-reproduction/results.json`. Each
+entry gives:
+
+- where the pipeline writes the value (a file under its output directory and a path into it);
+- the value expected;
+- how far a rerun may stray from it.
+
+On every pull request that touches a reproduction, its workflow reruns the pipeline. Then
+`tools/check_results.py` compares each value from the run with `results.json`.
+
+- The table goes into the job summary.
+- A page drawing each expected value against the observed one is uploaded as the
+  `<pmc>-results-check` artifact.
+- The job fails if a value is missing or outside its tolerance.
+
+```sh
+python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --report results-check
+python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --update   # after an intended change
+```
+
+Values come from JSON (`"path": "pfs.p"`, or `"fig3.panel=a.published_within_2px"` to pick a list
+item by a field), from CSV (`"column"`, `"where"`, `"agg"`), or as a file's SHA-256
+(`"digest": "sha256"`). A tolerance is `{"abs": …}`, `{"rel": …}` or both. Without one, the value
+must be equal. Timings and other values that depend on the machine are left out.

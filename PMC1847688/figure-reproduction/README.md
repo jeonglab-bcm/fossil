@@ -98,6 +98,10 @@ the data, the renders, the comparison and `results/report.md`, and fails if a re
 drops below its required match. The GitHub workflow `.github/workflows/reproduce-pmc1847688.yml`
 does the same run, with `--octave`, on Ubuntu.
 
+`results.json` lists the results this reproduction stands on, with the tolerance each may move by.
+The workflow checks every rerun against it with `tools/check_results.py` (see the
+[top-level README](../../README.md#results-check)) and fails if a value moves outside its tolerance.
+
 ## Pipeline steps
 
 | Step | Script | Output |

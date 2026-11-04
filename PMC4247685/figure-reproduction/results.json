@@ -1,0 +1,239 @@
+{
+  "paper": "PMC4247685",
+  "title": "Curry EWJ. A framework for generalized subspace pattern mining in high-dimensional datasets. BMC Bioinformatics 15:355 (2014).",
+  "about": "The results this reproduction stands on. CI reruns the pipeline and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update.",
+  "results": [
+    {
+      "id": "fig5-pfs-p",
+      "label": "Fig. 5, logrank p, progression-free",
+      "file": "data/fig5_tests.json",
+      "path": "pfs.p",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.120724485702736
+    },
+    {
+      "id": "fig5-os-p",
+      "label": "Fig. 5, logrank p, overall survival",
+      "file": "data/fig5_tests.json",
+      "path": "os.p",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.115331814271452
+    },
+    {
+      "id": "fig5-pfs-n",
+      "label": "Fig. 5, patients with a progression time, per group",
+      "file": "data/fig5_tests.json",
+      "path": "pfs.n",
+      "expected": [
+        18,
+        15
+      ]
+    },
+    {
+      "id": "fig5-pfs-median-1",
+      "label": "Fig. 5, median days to progression, most correlated",
+      "file": "data/fig5_tests.json",
+      "path": "pfs_median.Group1",
+      "expected": 487
+    },
+    {
+      "id": "fig5-pfs-median-2",
+      "label": "Fig. 5, median days to progression, least correlated",
+      "file": "data/fig5_tests.json",
+      "path": "pfs_median.Group2",
+      "expected": 359
+    },
+    {
+      "id": "fig5-ink-paper",
+      "label": "Fig. 5, share of the paper's curve pixels within 2 px of ours",
+      "file": "output/fig5.json",
+      "path": "published_ink_within_2px_of_ours",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig5-ink-ours",
+      "label": "Fig. 5, share of our curve pixels within 2 px of the paper's",
+      "file": "output/fig5.json",
+      "path": "our_ink_within_2px_of_published",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "fig2-best-block",
+      "label": "Fig. 2, highest median on block",
+      "file": "data/fig2_tests.json",
+      "path": "highest_median.block.ours",
+      "expected": "GABi.cor"
+    },
+    {
+      "id": "fig2-best-cor",
+      "label": "Fig. 2, highest median on cor",
+      "file": "data/fig2_tests.json",
+      "path": "highest_median.cor.ours",
+      "expected": "GABi.cor"
+    },
+    {
+      "id": "fig2-best-highvar",
+      "label": "Fig. 2, highest median on highvar",
+      "file": "data/fig2_tests.json",
+      "path": "highest_median.highvar.ours",
+      "expected": "Bimax"
+    },
+    {
+      "id": "fig2-median-block",
+      "label": "Fig. 2, median F.score of GABi.block on block",
+      "file": "data/fig2_boxes.csv",
+      "column": "ours_median",
+      "where": {
+        "structure": "block",
+        "method": "GABi.block"
+      },
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.0224797784282252
+    },
+    {
+      "id": "fig2-median-cor",
+      "label": "Fig. 2, median F.score of GABi.cor on cor",
+      "file": "data/fig2_boxes.csv",
+      "column": "ours_median",
+      "where": {
+        "structure": "cor",
+        "method": "GABi.cor"
+      },
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.588429752066116
+    },
+    {
+      "id": "fig2-median-highvar",
+      "label": "Fig. 2, median F.score of GABi.highvar on highvar",
+      "file": "data/fig2_boxes.csv",
+      "column": "ours_median",
+      "where": {
+        "structure": "highvar",
+        "method": "GABi.highvar"
+      },
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 0.104125382813907
+    },
+    {
+      "id": "fig3-bicluster",
+      "label": "Fig. 3, tumours in the bicluster",
+      "file": "data/fig34_summary.json",
+      "path": "bicluster_samples",
+      "expected": 146
+    },
+    {
+      "id": "fig3-control",
+      "label": "Fig. 3, tumours in the control set",
+      "file": "data/fig34_summary.json",
+      "path": "control_samples",
+      "expected": 146
+    },
+    {
+      "id": "fig3-sites",
+      "label": "Fig. 3, CpG sites in the bicluster",
+      "file": "data/fig34_summary.json",
+      "path": "features",
+      "expected": 3682
+    },
+    {
+      "id": "fig3-mode-bicluster",
+      "label": "Fig. 3, peak of the pair-wise correlations, bicluster",
+      "file": "data/fig34_summary.json",
+      "path": "pair_cor_mode.bicluster",
+      "tolerance": {
+        "rel": 0.0001
+      },
+      "expected": 0.615735690784754
+    },
+    {
+      "id": "fig3-mode-control",
+      "label": "Fig. 3, peak of the pair-wise correlations, control set",
+      "file": "data/fig34_summary.json",
+      "path": "pair_cor_mode.control",
+      "tolerance": {
+        "rel": 0.0001
+      },
+      "expected": 0.432725624036504
+    },
+    {
+      "id": "fig4-pfs-p",
+      "label": "Fig. 4, logrank p, progression-free",
+      "file": "data/fig34_summary.json",
+      "path": "pfs_logrank_p",
+      "tolerance": {
+        "rel": 0.001
+      },
+      "expected": 3.03230676656286e-14
+    },
+    {
+      "id": "fig4-median-bicluster",
+      "label": "Fig. 4, median months to progression, bicluster",
+      "file": "data/fig34_summary.json",
+      "path": "pfs_median_months.bicluster",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 11.5308804204993
+    },
+    {
+      "id": "fig4-median-control",
+      "label": "Fig. 4, median months to progression, control set",
+      "file": "data/fig34_summary.json",
+      "path": "pfs_median_months.control",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": 22.2733245729304
+    },
+    {
+      "id": "s2s3-shared",
+      "label": "Tables S2 and S3, CpG sites in both",
+      "file": "data/s2_s3_check.json",
+      "path": "shared",
+      "expected": 8904
+    },
+    {
+      "id": "s2s3-rows-equal",
+      "label": "Tables S2 and S3, rows equal until",
+      "file": "data/s2_s3_check.json",
+      "path": "rows_equal_until",
+      "expected": 520
+    },
+    {
+      "id": "s2s3-r-s3-only",
+      "label": "Tables S2 and S3, mean |r| in TCGA of the sites only in S3",
+      "file": "data/s2_s3_check.json",
+      "path": "tcga_mean_abs_r.s3_only",
+      "tolerance": {
+        "rel": 0.0001
+      },
+      "expected": 0.269611801438968
+    },
+    {
+      "id": "s2s3-r-s2-only",
+      "label": "Tables S2 and S3, mean |r| in TCGA of the sites only in S2",
+      "file": "data/s2_s3_check.json",
+      "path": "tcga_mean_abs_r.s2_only",
+      "tolerance": {
+        "rel": 0.0001
+      },
+      "expected": 0.101276625148325
+    }
+  ]
+}

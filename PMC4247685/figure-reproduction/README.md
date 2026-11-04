@@ -42,6 +42,10 @@ file's SHA-256 (`--sources DIR` reuses local copies). It writes the data, the re
 page and `results/report.md`, and fails if Fig. 5 no longer matches the published figure. The GitHub
 workflow `.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubuntu.
 
+`results.json` lists the results this reproduction stands on, with the tolerance each may move by.
+The workflow checks every rerun against it with `tools/check_results.py` (see the
+[top-level README](../../README.md#results-check)) and fails if a value moves outside its tolerance.
+
 ## Pipeline steps
 
 | Step | Script | Output |

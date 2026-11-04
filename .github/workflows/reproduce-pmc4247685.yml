@@ -10,11 +10,15 @@ on:
   pull_request:
     paths:
       - "PMC4247685/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
       - ".github/workflows/reproduce-pmc4247685.yml"
   push:
     branches: [main]
     paths:
       - "PMC4247685/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
       - ".github/workflows/reproduce-pmc4247685.yml"
 
 permissions:
@@ -57,6 +61,19 @@ jobs:
         run: >
           nextflow run PMC4247685/figure-reproduction/main.nf --outdir results -ansi-log false
           --cores 4 ${{ inputs.rerun_ga && '--rerun_ga' || '' }}
+
+      - name: Check results.json against this run
+        if: ${{ !cancelled() && hashFiles('PMC4247685/figure-reproduction/results.json') != '' }}
+        continue-on-error: ${{ inputs.rerun_ga == true }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() && hashFiles('PMC4247685/figure-reproduction/results.json') != '' }}
+        with:
+          name: pmc4247685-results-check
+          path: results-check
 
       - name: Write the check report to the job summary
         if: always()

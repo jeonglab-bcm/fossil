@@ -5,11 +5,15 @@ on:
   pull_request:
     paths:
       - "PMC1847688/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
       - ".github/workflows/reproduce-pmc1847688.yml"
   push:
     branches: [main]
     paths:
       - "PMC1847688/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
       - ".github/workflows/reproduce-pmc1847688.yml"
 
 permissions:
@@ -43,6 +47,18 @@ jobs:
 
       - name: Run the Nextflow pipeline
         run: nextflow run PMC1847688/figure-reproduction/main.nf --outdir results --octave -ansi-log false
+
+      - name: Check results.json against this run
+        if: ${{ !cancelled() && hashFiles('PMC1847688/figure-reproduction/results.json') != '' }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC1847688/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() && hashFiles('PMC1847688/figure-reproduction/results.json') != '' }}
+        with:
+          name: pmc1847688-results-check
+          path: results-check
 
       - name: Write the check report to the job summary
         if: always()
