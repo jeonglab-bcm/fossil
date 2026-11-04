@@ -26,8 +26,8 @@
       <div class="hero-text">
         <h1 id="hero-head">Fig. 5 came back the same.</h1>
         <p class="lead">We dig up old papers and get their data, code and figures working again.</p>
-        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">All three papers</a></div>
-        <p class="aside">Three papers dug up so far.</p>
+        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">All four papers</a></div>
+        <p class="aside">Four papers dug up so far.</p>
       </div>
       <figure class="signature">
         <div class="surface sig-card">
@@ -47,8 +47,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Three papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, one partly.</p>
+        <h2 id="index-head">Four papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, three partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -101,6 +101,27 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4081639/figure-reproduction/pipeline/table1_native.py">A fitter for Table 1</a> in Python</li>
                 </ul></td>
                 <td data-label="Verdict"><span class="stamp" data-v="agrees">Agrees</span></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2008-04-11">11 Apr 2008</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-03">3 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2349296</span>
+                  <a class="title" href="https://doi.org/10.1186/1471-2105-9-S3-S6">Comparative analysis of five protein-protein interaction corpora</a>
+                  <span class="journal">Pyysalo et al., BMC Bioinformatics</span>
+                  <span class="go"><a href="PMC2349296/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2349296">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The corpus conversion programs</li>
+                  <li>The paper’s BioInfer conversion</li>
+                  <li>The authors’ RelEx code</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2349296/figure-reproduction/pipeline/relex.py">RelEx in Python</a>, on Stanford Parser 1.5.1</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2349296/figure-reproduction/pipeline/extract_terms.py">RelEx’s 1,048 relation terms</a>, from an archived page</li>
+                  <li><a href="PMC2349296/">Tables 2 to 4 and Figs 1 and 2</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2007-03-26">26 Mar 2007</time></td>
@@ -159,6 +180,7 @@
       <a href="https://github.com/jeonglab-bcm/fossil">The code on GitHub</a>
       <a href="PMC4247685/">GABi figures</a>
       <a href="PMC4081639/">lldmn figures</a>
+      <a href="PMC2349296/">PPI corpora tables</a>
     </nav>
   </div>
 </footer>
