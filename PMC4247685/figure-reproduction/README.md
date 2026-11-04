@@ -43,8 +43,14 @@ nextflow run PMC4247685/figure-reproduction/main.nf --outdir results --rerun_ga 
 The run downloads Additional files 1 to 3 (Springer) and the TCGA OV data (UCSC Xena) and checks each
 file's SHA-256 (`--sources DIR` reuses local copies). It writes the data, the renders, the comparison
 pages and `results/report.md`, and fails if Fig. 5 no longer matches the published figure or the tracer
-no longer reads Figs 3 and 5 back within its checks. The GitHub
-workflow `.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubuntu.
+no longer reads Figs 3 and 5 back within its checks. The GitHub workflow
+`.github/workflows/reproduce-pmc4247685.yml` does the same run on Ubuntu, on every pull request and push
+to main that touches this folder. It reruns the genetic-algorithm steps only when started by hand with
+`rerun_ga`.
+
+`results.json` lists the results this reproduction stands on, with the tolerance each may move by.
+A pull request that creates or changes it is checked against the committed outputs, and every rerun
+is checked against the run (see the [top-level README](../../README.md#results-check)).
 
 ## Pipeline steps
 

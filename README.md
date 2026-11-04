@@ -24,4 +24,41 @@ Figures for the papers are in [`figures/`](figures/).
 
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
-The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun each reproduction with Nextflow on every change.
+The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun a reproduction with Nextflow on every pull request and push to main that touches it, and check the run against its `results.json`. They can also be started by hand from the Actions tab.
+
+## Results check
+
+Each reproduction lists the results it stands on in `PMC…/figure-reproduction/results.json`. Each
+entry gives:
+
+- where the pipeline writes the value (a file under its output directory and a path into it);
+- the value expected;
+- how far a rerun may stray from it.
+
+When a pull request creates or changes a reproduction's `results.json`, `.github/workflows/results-check.yml`
+compares it with the outputs committed in the same pull request. This check reruns nothing and takes seconds.
+It keeps one comment per reproduction on the pull request, with:
+
+- what the pull request changes in `results.json` (a diff of expected values);
+- any result that does not agree with the committed outputs (expected against committed);
+- the full table;
+- an overlay of each published figure with the committed render. Grey is where they agree within
+  2 px, dark is only in the paper, and green is only in the render. Only renders the pull request
+  changes are shown, or all of them when it adds `results.json`. The images live on the `ci-assets`
+  branch.
+
+The job fails if a value is missing or outside its tolerance. The rerun workflows check each run against
+`results.json` in the same way, so a pull request that changes a pipeline is checked against what
+its code produces, not only against the files committed with it.
+
+```sh
+python3 tools/check_results.py PMC4247685/figure-reproduction/results.json --committed               # against the committed outputs
+python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --report results-check   # against a run
+python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --update            # after an intended change
+```
+
+Values come from JSON (`"path": "pfs.p"`, or `"fig3.panel=a.published_within_2px"` to pick a list
+item by a field), from CSV (`"column"`, `"where"`, `"agg"`), or as a file's SHA-256
+(`"digest": "sha256"`). Paths are those of the pipeline's output directory; `"committed_paths"`
+maps them to the committed layout where the two differ. A tolerance is `{"abs": …}`, `{"rel": …}` or both. Without one, the value
+must be equal. Timings and other values that depend on the machine are left out.
