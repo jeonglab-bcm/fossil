@@ -2,6 +2,9 @@
   "paper": "PMC4247685",
   "title": "Curry EWJ. A framework for generalized subspace pattern mining in high-dimensional datasets. BMC Bioinformatics 15:355 (2014).",
   "about": "The results this reproduction stands on. CI reruns the pipeline and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update.",
+  "committed_paths": {
+    "site/": "../../site/PMC4247685/"
+  },
   "results": [
     {
       "id": "fig5-pfs-p",
@@ -234,6 +237,60 @@
         "rel": 0.0001
       },
       "expected": 0.101276625148325
+    },
+    {
+      "id": "traced-fig3-solid-area",
+      "label": "Traced curves, area under the paper's Fig. 3 bicluster density",
+      "file": "data/paper_traced.json",
+      "path": "check.fig3_solid_area",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 1.0002
+    },
+    {
+      "id": "traced-fig3-dashed-area",
+      "label": "Traced curves, area under the paper's Fig. 3 control density",
+      "file": "data/paper_traced.json",
+      "path": "check.fig3_dashed_area",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 1.0007
+    },
+    {
+      "id": "traced-fig5-solid-gap",
+      "label": "Traced curves, mean gap from the paper's Fig. 5 most-correlated curve to Table S3",
+      "file": "data/paper_traced.json",
+      "path": "check.fig5_solid_mean_gap_to_table_s3",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 0.0013
+    },
+    {
+      "id": "traced-fig5-dashed-gap",
+      "label": "Traced curves, mean gap from the paper's Fig. 5 least-correlated curve to Table S3",
+      "file": "data/paper_traced.json",
+      "path": "check.fig5_dashed_mean_gap_to_table_s3",
+      "tolerance": {
+        "abs": 0.001
+      },
+      "expected": 0.0018
+    },
+    {
+      "id": "traced-curves-bytes",
+      "label": "Traced curves of Figs 3 to 5, byte for byte",
+      "file": "data/paper_traced.json",
+      "digest": "sha256",
+      "expected": "df8b5b3e970dd18c53e4970fdb23731646e80b4349bd4376992c5c1c6a3e6873"
+    },
+    {
+      "id": "compare-data-bytes",
+      "label": "Expected-and-observed page data, byte for byte",
+      "file": "site/compare-data.js",
+      "digest": "sha256",
+      "expected": "43bcd2a729ad337ea2eaec4ab4feb5633387fc8fa5ed6cb70b55e0c80d7593f1"
     }
   ]
 }
