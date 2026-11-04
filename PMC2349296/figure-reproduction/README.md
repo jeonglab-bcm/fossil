@@ -48,24 +48,52 @@ difference marked, are in [`output/report.md`](output/report.md).
 
 ### The claims in the text
 
-`pipeline/claims.R` computes each summary number. From the published tables it returns the
-paper's numbers exactly (13.4, 19.4, 10.6 points; 21.1 to 32.4%; Kendall p = 0.083), so the
-arithmetic is identified.
+`pipeline/claims.R` computes each summary number three ways, with one code path:
 
-| Statistic | Paper | Ours | Ours with the paper's BioInfer row |
-| --- | --- | --- | --- |
-| Average F gap between the methods | 13 | 8.2 | 11.5 |
-| Average pairwise RelEx F difference between corpora | 19 | **19.5** | 19.2 |
-| … after filtering | 11 | 15.7 | 10.1 |
-| Relative reduction in F error, co-occurrence to RelEx | 21–32% | −2 to 35% | 4 to 35% |
-| Co-occurrence beats RelEx on every filtered corpus except LLL | yes | **yes** | yes |
-| Kendall p, I/EP against RelEx F | ≈ 0.08 | 0.23 | **0.083** |
-| Kendall p, sentences without interactions against RelEx F | n.s. | 0.82 | 0.23 |
+- **Ours** is our run. It is the reproduction, and the verdicts read only this column.
+- **Paper's tables** runs the same code on the paper's own Tables 2 and 4. It returns the paper's
+  text (13.4, 19.4, 10.6 points; 21.1 to 32.4%; Kendall p = 0.083). That shows we compute each
+  number the way the paper did. It checks the paper against itself, not against our run.
+- **Paper's BioInfer row** is our run with BioInfer's numbers replaced by the paper's. It shows how
+  much BioInfer matters. It takes one of the five corpora from the paper, so it moves toward the
+  paper by construction and is not evidence that we agree.
 
-The main claim holds: the same method's F varies by 19 points between corpora, more than the
-gap between a naive and an advanced method. The filtering and correlation claims depend on
-BioInfer. They come back when the paper's BioInfer row replaces the surviving copy's, and not
-otherwise. The 21% lower bound comes from IEPA, where our RelEx is 7 points below the paper's.
+A yes/no claim holds if it is true in our run, and "not significant" holds if p ≥ 0.05. A number
+holds if it rounds to the paper's printed value, is close if within 10% of it, and differs
+otherwise. `output/claims_verdicts.csv` holds the verdicts.
+
+| Claim | Paper | Ours | Verdict | Paper's BioInfer row |
+| --- | --- | --- | --- | --- |
+| RelEx varies more between corpora than between the methods | 19 vs 13 points | 19.5 vs 8.2 | **holds** | 19.2 vs 11.5 |
+| Co-occurrence beats RelEx on every filtered corpus except LLL | yes | yes | **holds** | yes |
+| Kendall p, sentences without interactions against RelEx F | not significant | 0.817 | **holds** | 0.233 |
+| Gap between the methods | 13 points | 8.2 | differs | 11.5 |
+| Between-corpus RelEx difference after filtering | 11 points | 15.7 | differs | 10.1 |
+| Smallest relative cut in F error, co-occurrence to RelEx | 21% | −2.3% | differs | 4.1% |
+| Largest relative cut in F error | 32% | 35.0% | close | 35.0% |
+| Kendall p, interactions per entity pair against RelEx F | about 0.08 | 0.233 | differs | 0.083 |
+
+The main claim holds: the same method's F varies by 19.5 points between corpora, more than the
+gap between a naive and an advanced method. The numbers that differ have two causes:
+
+- **BioInfer.** The surviving copy is a later conversion. It sets our smallest error cut
+  (−2.3%).
+- **Our rebuild of RelEx.** On HPRD50, IEPA and LLL the corpora are the paper's and co-occurrence
+  matches, yet RelEx matches none of the 9 RelEx cells of Table 2. On IEPA our RelEx F is 0.60
+  against 0.67. So even with the paper's BioInfer row the smallest error cut is 4.1% (set by
+  IEPA) against 21%, and the gap between the methods is 11.5 points against 13.
+
+| Corpus | Our copy of the corpus | Error cut, paper's tables | Ours | RelEx F, paper | Ours |
+| --- | --- | --- | --- | --- | --- |
+| AIMed | 12 sentences and self-interactions missing | 21.1% | 21.2% | 0.44 | 0.44 |
+| BioInfer | later conversion | 23.4% | −2.3% | 0.41 | 0.40 |
+| HPRD50 | the paper's | 31.1% | 24.5% | 0.69 | 0.66 |
+| IEPA | the paper's | 21.4% | 4.1% | 0.67 | 0.60 |
+| LLL | the paper's | 32.4% | 35.0% | 0.77 | 0.78 |
+
+With the paper's BioInfer row, the filtered difference (10.1 points) and the Kendall p (0.083)
+come near the paper's. That column takes BioInfer from the paper; our run gives 15.7 points and
+p = 0.233.
 
 ## What the code does, against the papers
 
@@ -112,7 +140,7 @@ figure-reproduction/
 │   ├── build_medpost.sh         builds MedPost's tokenizer and tagger
 │   ├── preprocess.py            MedPost input, token alignment, parser input, MedPost token counts
 │   ├── relex.py, extract_terms.py  RelEx reimplementation; Fundel et al.'s terms from the capture
-│   ├── claims.R                 summary numbers and Kendall tests (R cor.test)
+│   ├── claims.R                 summary numbers, Kendall tests (R cor.test), claim verdicts
 │   ├── figures.R                Figs 1 and 2 in base R
 │   ├── compare_figures.py       pixel comparison, overlay and difference images
 │   ├── fit_figures.py           fits the presentation parameters (params/)
@@ -140,7 +168,7 @@ corpus. CI (`.github/workflows/reproduce-pmc2349296.yml`) runs the same pipeline
 The check step fails when co-occurrence or the Table 3 statistics differ from the paper at the
 printed precision on HPRD50, IEPA or LLL, when the MedPost token counts differ on any corpus,
 when the claims computed from the published tables differ from the paper's text, or when the
-run differs from the committed results in `output/`.
+run (including the verdict on each claim) differs from the committed results in `output/`.
 
 `results.json` lists the results this reproduction stands on, with the tolerance each may move by.
 A pull request that creates or changes it is checked against the committed outputs, and every rerun
