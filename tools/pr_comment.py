@@ -40,7 +40,7 @@ def base_results(paper, base):
 
 def changed_renders(paper, base):
     r = git("diff", "--name-only", f"origin/{base}...HEAD", "--", f"{paper}/figure-reproduction/output", check=False)
-    return {os.path.basename(p).split("_")[0] for p in r.stdout.split() if p.endswith("_ours.png")}
+    return {f"fig{overlay.figure_number(p)}" for p in r.stdout.split() if overlay.figure_number(p)}
 
 
 def publish(src_dir, files, dest, message):
@@ -86,21 +86,20 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
     out.append("#### What this PR changes in results.json")
     if base_spec is None:
         out.append(f"This PR adds results.json, with {len(head_spec['results'])} results.")
-    else:
-        old = {e["id"]: e for e in base_spec["results"]}
-        new = {e["id"]: e for e in head_spec["results"]}
-        width = max([len(i) for i in list(old) + list(new)] + [4])
-        lines = []
-        for i, e in new.items():
-            if i not in old:
-                lines.append(f"+ {i:<{width}}  {fmt(e['expected'])}   (new)")
-            elif old[i].get("expected") != e.get("expected") or old[i].get("tolerance") != e.get("tolerance"):
-                lines.append(f"- {i:<{width}}  {fmt(old[i]['expected'])}   allowed {check_results.fmt_tol(old[i].get('tolerance'))}")
-                lines.append(f"+ {i:<{width}}  {fmt(e['expected'])}   allowed {check_results.fmt_tol(e.get('tolerance'))}")
-        for i, e in old.items():
-            if i not in new:
-                lines.append(f"- {i:<{width}}  {fmt(e['expected'])}   (removed)")
-        out.append(diff_block(lines) if lines else "No expected value changes.")
+    old = {e["id"]: e for e in (base_spec or {"results": []})["results"]}
+    new = {e["id"]: e for e in head_spec["results"]}
+    width = max([len(i) for i in list(old) + list(new)] + [4])
+    lines = []
+    for i, e in new.items():
+        if i not in old:
+            lines.append(f"+ {i:<{width}}  {fmt(e['expected'])}   (new)")
+        elif old[i].get("expected") != e.get("expected") or old[i].get("tolerance") != e.get("tolerance"):
+            lines.append(f"- {i:<{width}}  {fmt(old[i]['expected'])}   allowed {check_results.fmt_tol(old[i].get('tolerance'))}")
+            lines.append(f"+ {i:<{width}}  {fmt(e['expected'])}   allowed {check_results.fmt_tol(e.get('tolerance'))}")
+    for i, e in old.items():
+        if i not in new:
+            lines.append(f"- {i:<{width}}  {fmt(e['expected'])}   (removed)")
+    out.append(diff_block(lines) if lines else "No expected value changes.")
     out.append("")
 
     bad = [r for r in rows if r["status"] != "pass"]
