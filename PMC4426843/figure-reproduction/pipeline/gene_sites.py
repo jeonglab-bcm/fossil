@@ -1,6 +1,7 @@
 """Gene-level miRNA targets and site counts from miRanda per-pair summaries.
 
-Usage: python gene_sites.py MAP.tsv OUT.tsv PAIRS.tsv [PAIRS.tsv ...] [--sites max|sum|longest]
+Usage: python gene_sites.py MAP.tsv OUT.tsv PAIRS.tsv [PAIRS.tsv ...] [--sites max|sum|longest|sum_tx]
+       [--all-pairs]
 
 MAP.tsv: dedup_utrs.py output (uid -> transcripts and gene names).
 PAIRS.tsv: run_miranda.sh output, one line per miRNA-UTR pair with at least one site
@@ -19,6 +20,10 @@ Sites per (miRNA, gene) for the multi-hit algorithm, over the gene's passing UTR
   longest  sites on the longest passing UTR
   sum_tx   sites summed over the gene's passing transcripts (a UTR shared by k transcripts counts k times)
 
+--all-pairs counts sites on every pair miRanda reports (each site scoring >= 140), not only on pairs
+passing the thresholds above: a reading of the multi-hit algorithm in which the site counts, unlike
+the target genes, are not filtered (issue #33).
+
 OUT.tsv: mirna, gene, sites.
 """
 import csv
@@ -28,6 +33,8 @@ from collections import defaultdict
 
 def main(argv):
     mode = "max"
+    all_pairs = "--all-pairs" in argv
+    argv = [a for a in argv if a != "--all-pairs"]
     if "--sites" in argv:
         i = argv.index("--sites")
         mode = argv[i + 1]
@@ -45,7 +52,7 @@ def main(argv):
         for line in open(p):
             f = line.rstrip("\n").split("\t")
             m, u, tot_sc, tot_en = f[0], f[1], float(f[2]), float(f[3])
-            if not (tot_sc >= 155 and tot_en <= -20):
+            if not all_pairs and not (tot_sc >= 155 and tot_en <= -20):
                 continue
             n = len(f[9].split())
             for g in genes[u]:
