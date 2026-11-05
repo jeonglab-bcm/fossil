@@ -95,6 +95,10 @@ With the paper's BioInfer row, the filtered difference (10.1 points) and the Ken
 come near the paper's. That column takes BioInfer from the paper; our run gives 15.7 points and
 p = 0.233.
 
+**Result:** the main finding of the paper holds. Some summary values do not agree. Two
+causes explain these differences: the only surviving copy of BioInfer is a later conversion,
+and RelEx, which the authors did not release, had to be rebuilt.
+
 ## What the code does, against the papers
 
 - **Entity names inside words.** "p53-dependent": the paper does not say how such entities

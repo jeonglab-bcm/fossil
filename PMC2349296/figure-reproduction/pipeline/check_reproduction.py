@@ -28,6 +28,9 @@ from pathlib import Path
 
 CORPORA = ["AIMed", "BioInfer", "HPRD50", "IEPA", "LLL"]
 MATCHING = {"HPRD50", "IEPA", "LLL"}
+RESULT = ("the main finding of the paper holds. Some summary values do not agree. Two causes explain "
+          "these differences: the only surviving copy of BioInfer is a later conversion, and RelEx, "
+          "which the authors did not release, had to be rebuilt.")
 
 
 def read(path: Path) -> list[dict]:
@@ -170,6 +173,7 @@ def main():
     for k, r in claims.items():
         lines.append(f"| {k} | {r['paper_text'] or ''} | {float(r['published_tables']):.3g} | "
                      f"{float(r['ours']):.3g} | {float(r['ours_with_published_BioInfer']):.3g} |")
+    lines += ["", f"**Result:** {RESULT}"]
     lines += ["", "## Figures", "", "| Figure | Render | Mean abs. grey diff. | Pixels within ±24 | Chamfer (px) | Global shift |",
               "| --- | --- | --- | --- | --- | --- |"]
     for i in (1, 2):

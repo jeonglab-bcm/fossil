@@ -35,5 +35,9 @@ corpora have their own terms.
 | Fig. 3, Table 5 | Not reproduced | Need the authors' 250 sampled interactions and their manual labels, which were never released. |
 | Fig. 4 | Not applicable | An illustration of the RelEx rules. |
 
+**Result:** the main finding of the paper holds. Some summary values do not agree. Two causes
+explain these differences: the only surviving copy of BioInfer is a later conversion, and RelEx,
+which the authors did not release, had to be rebuilt.
+
 Kept local and gitignored: `sources/` (the paper's full text, figures and the downloads),
 `work/` (scratch runs and Slurm logs) and `.env/` (the conda environment with R and Python).

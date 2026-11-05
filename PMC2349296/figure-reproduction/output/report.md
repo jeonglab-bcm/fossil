@@ -89,6 +89,8 @@ Rule: a yes/no claim holds if true; "not significant" holds if p >= 0.05; a numb
 | kendall_noint_tau | NA | -0.6 | -0.2 | -0.6 |
 | kendall_noint_p | NA | 0.233 | 0.817 | 0.233 |
 
+**Result:** the main finding of the paper holds. Some summary values do not agree. Two causes explain these differences: the only surviving copy of BioInfer is a later conversion, and RelEx, which the authors did not release, had to be rebuilt.
+
 ## Figures
 
 | Figure | Render | Mean abs. grey diff. | Pixels within ±24 | Chamfer (px) | Global shift |
