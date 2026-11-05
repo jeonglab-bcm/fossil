@@ -47,6 +47,33 @@
 
 ## Claims in the text
 
+Our run is the reproduction; the verdict reads only that column: 3 of 8 claims hold, 1 close, 4 differ. *Paper's tables* runs the same code on the paper's own Tables 2 and 4: it checks that we compute each number the way the paper did, not that our run agrees. *Paper's BioInfer row* is our run with BioInfer's numbers replaced by the paper's: a sensitivity check that moves toward the paper by construction.
+
+| Claim | Paper | Ours | Verdict | Paper's tables | Paper's BioInfer row |
+| --- | --- | --- | --- | --- | --- |
+| RelEx varies more between corpora than between the methods | 19 vs 13 points | 19.5 vs 8.2 points | holds | 19.4 vs 13.4 points | 19.2 vs 11.5 points |
+| Co-occurrence beats RelEx on every filtered corpus except LLL | yes | yes | holds | yes | yes |
+| Kendall p, sentences without interactions against RelEx F | not significant | 0.817 | holds | 0.233 | 0.233 |
+| Gap between the methods | 13 points | 8.2 points | differs | 13.4 points | 11.5 points |
+| Between-corpus RelEx difference after filtering | 11 points | 15.7 points | differs | 10.6 points | 10.1 points |
+| Smallest relative cut in F error, co-occurrence to RelEx | 21% | -2.3% | differs | 21.1% | 4.1% |
+| Largest relative cut in F error | 32% | 35.0% | close | 32.4% | 35.0% |
+| Kendall p, interactions per entity pair against RelEx F | about 0.08 | 0.233 | differs | 0.083 | 0.083 |
+
+Rule: a yes/no claim holds if true; "not significant" holds if p >= 0.05; a number holds if it rounds to the paper's value, is close if within 10% of it, and differs otherwise.
+
+### Per corpus
+
+| Corpus | Our copy of the corpus | Error cut, paper's tables | Ours | RelEx F, paper | Ours |
+| --- | --- | --- | --- | --- | --- |
+| AIMed | 12 sentences and self-interactions missing | 21.1% | 21.2% | 0.44 | 0.44 |
+| BioInfer | later conversion | 23.4% | -2.3% | 0.41 | 0.40 |
+| HPRD50 | the paper's | 31.1% | 24.5% | 0.69 | 0.66 |
+| IEPA | the paper's | 21.4% | 4.1% | 0.67 | 0.60 |
+| LLL | the paper's | 32.4% | 35.0% | 0.77 | 0.78 |
+
+### All statistics
+
 | Statistic | Paper text | From published tables | Ours | Ours with the paper's BioInfer row |
 | --- | --- | --- | --- | --- |
 | method_gap_pts | 13 | 13.4 | 8.19 | 11.5 |
@@ -61,6 +88,8 @@
 | kendall_IEP_p | 0.08 | 0.0833 | 0.233 | 0.0833 |
 | kendall_noint_tau | NA | -0.6 | -0.2 | -0.6 |
 | kendall_noint_p | NA | 0.233 | 0.817 | 0.233 |
+
+**Result:** the main finding of the paper holds. Some summary values do not agree. Two causes explain these differences: the only surviving copy of BioInfer is a later conversion, and RelEx, which the authors did not release, had to be rebuilt.
 
 ## Figures
 

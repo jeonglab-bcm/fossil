@@ -108,9 +108,11 @@ process CLAIMS {
     output:
     path 'claims.csv', emit: claims
     path 'figure_values.csv', emit: values
+    path 'claims_verdicts.csv', emit: verdicts
+    path 'claims_by_corpus.csv', emit: by_corpus
     script:
     """
-    ${params.rscript} ${projectDir}/pipeline/claims.R ${projectDir}/pipeline/published_values.csv ${cooc} ${relex} ${table3} claims.csv figure_values.csv
+    ${params.rscript} ${projectDir}/pipeline/claims.R ${projectDir}/pipeline/published_values.csv ${cooc} ${relex} ${table3} claims.csv figure_values.csv claims_verdicts.csv claims_by_corpus.csv
     """
 }
 
@@ -146,6 +148,8 @@ process CHECK {
     path pre
     path relex
     path claims
+    path verdicts
+    path by_corpus
     path compare
     output:
     path 'report.md', emit: report
@@ -153,7 +157,7 @@ process CHECK {
     script:
     """
     mkdir run
-    cp ${cooc} ${table3} ${counts} ${relex} ${claims} run/
+    cp ${cooc} ${table3} ${counts} ${relex} ${claims} ${verdicts} ${by_corpus} run/
     cp ${pre}/tokens_medpost.csv run/
     cp -r ${compare} run/compare
     ${params.python} ${projectDir}/pipeline/check_reproduction.py run ${projectDir}/output ${projectDir}/pipeline/published_tables.csv .
@@ -166,6 +170,8 @@ process PAGE {
     path report
     path table
     path claims
+    path verdicts
+    path by_corpus
     path figures
     path compare
     path counts
@@ -174,7 +180,7 @@ process PAGE {
     script:
     """
     mkdir figs && cp ${figures} figs/
-    ${params.python} ${projectDir}/pipeline/build_page.py ${table} ${claims} figs ${compare} ${counts} ${projectDir}/published site/index.html
+    ${params.python} ${projectDir}/pipeline/build_page.py ${table} ${claims} ${verdicts} ${by_corpus} figs ${compare} ${counts} ${projectDir}/published site/index.html
     """
 }
 
@@ -187,6 +193,6 @@ workflow {
     rx = RELEX(mp.pre, parses.collect(), f.relex_page)
     cl = CLAIMS(co.cooc, rx, co.table3)
     fig = FIGURES(cl.values)
-    ck = CHECK(co.cooc, co.table3, co.counts, mp.pre, rx, cl.claims, fig.compare)
-    PAGE(ck.report, ck.table, cl.claims, fig.figures, fig.compare, co.counts)
+    ck = CHECK(co.cooc, co.table3, co.counts, mp.pre, rx, cl.claims, cl.verdicts, cl.by_corpus, fig.compare)
+    PAGE(ck.report, ck.table, cl.claims, cl.verdicts, cl.by_corpus, fig.figures, fig.compare, co.counts)
 }

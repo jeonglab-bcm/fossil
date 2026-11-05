@@ -4,15 +4,18 @@
 Usage: check_reproduction.py RUN_DIR COMMITTED_DIR PUBLISHED_TABLES.csv OUT_DIR
 
 RUN_DIR holds this run's cooccurrence.csv, table3.csv, tokens_medpost.csv, relex.csv,
-claims.csv, corpus_counts.csv and compare/figure-N/report.json. COMMITTED_DIR holds the same
+claims.csv, claims_verdicts.csv, claims_by_corpus.csv, corpus_counts.csv and
+compare/figure-N/report.json. COMMITTED_DIR holds the same
 files from the committed run (figure-reproduction/output).
 
 Exit status 1 when a claim that must hold fails:
   * co-occurrence P/R/F (Tables 2, 4) and the Table 3 statistics equal the paper at the printed
     precision on HPRD50, IEPA and LLL, whose unified versions match the paper's;
   * MedPost token counts equal Table 3 on all five corpora;
-  * the summary statistics computed from the published tables equal the paper's text;
-  * the run equals the committed results (RelEx counts, co-occurrence counts, claims).
+  * the summary statistics computed from the published tables equal the paper's text, and every
+    claim holds on the published tables;
+  * the run equals the committed results (RelEx counts, co-occurrence counts, claims, the claim
+    verdicts of our run).
 Everything else is reported.
 """
 
@@ -25,6 +28,9 @@ from pathlib import Path
 
 CORPORA = ["AIMed", "BioInfer", "HPRD50", "IEPA", "LLL"]
 MATCHING = {"HPRD50", "IEPA", "LLL"}
+RESULT = ("the main finding of the paper holds. Some summary values do not agree. Two causes explain "
+          "these differences: the only surviving copy of BioInfer is a later conversion, and RelEx, "
+          "which the authors did not release, had to be rebuilt.")
 
 
 def read(path: Path) -> list[dict]:
@@ -86,6 +92,11 @@ def main():
         if fmt(got, d) != fmt(v, d):
             failures.append(f"claim {k} from the published tables: {got:.4f}, paper {v}")
 
+    verdicts = read(run / "claims_verdicts.csv")
+    for r in verdicts:
+        if r["verdict_published_tables"] != "holds":
+            failures.append(f"claim {r['claim_id']} does not hold on the published tables")
+
     # regression against the committed run
     for name, keys in (("relex.csv", ("corpus", "variant", "tp", "fp", "fn")),
                        ("cooccurrence.csv", ("corpus", "variant", "tp", "fp", "fn", "EP")),
@@ -100,6 +111,11 @@ def main():
     b = {r["statistic"]: round(float(r["ours"]), 6) for r in read(committed / "claims.csv")}
     if a != b:
         failures.append("claims.csv differs from the committed results")
+    a = {r["claim_id"]: r["verdict"] for r in verdicts}
+    b = {r["claim_id"]: r["verdict"] for r in read(committed / "claims_verdicts.csv")}
+    if a != b:
+        failures.append("claim verdicts differ from the committed results: "
+                        + ", ".join(f"{k} {b.get(k)} -> {a.get(k)}" for k in sorted(set(a) | set(b)) if a.get(k) != b.get(k)))
 
     # report
     def count(table, method=None, corpora=CORPORA):
@@ -130,12 +146,34 @@ def main():
                 cells.append(f"{r['published']} / {r['ours_rounded']}{mark}")
             lines.append(f"| {c} | " + " | ".join(cells) + " |")
         lines.append("")
+    tally = {v: sum(r["verdict"] == v for r in verdicts) for v in ("holds", "close", "differs")}
     lines += ["## Claims in the text", "",
+              f"Our run is the reproduction; the verdict reads only that column: {tally['holds']} of {len(verdicts)} "
+              f"claims hold, {tally['close']} close, {tally['differs']} differ. *Paper's tables* runs the same code on "
+              "the paper's own Tables 2 and 4: it checks that we compute each number the way the paper did, not that "
+              "our run agrees. *Paper's BioInfer row* is our run with BioInfer's numbers replaced by the paper's: a "
+              "sensitivity check that moves toward the paper by construction.", "",
+              "| Claim | Paper | Ours | Verdict | Paper's tables | Paper's BioInfer row |",
+              "| --- | --- | --- | --- | --- | --- |"]
+    for r in verdicts:
+        lines.append(f"| {r['claim']} | {r['paper']} | {r['ours']} | {r['verdict']} | {r['published_tables']} | "
+                     f"{r['ours_with_published_BioInfer']} |")
+    lines += ["", "Rule: a yes/no claim holds if true; \"not significant\" holds if p >= 0.05; a number holds if it "
+              "rounds to the paper's value, is close if within 10% of it, and differs otherwise.", "",
+              "### Per corpus", "",
+              "| Corpus | Our copy of the corpus | Error cut, paper's tables | Ours | RelEx F, paper | Ours |",
+              "| --- | --- | --- | --- | --- | --- |"]
+    for r in read(run / "claims_by_corpus.csv"):
+        lines.append(f"| {r['corpus']} | {r['corpus_version']} | {float(r['error_reduction_pct_published']):.1f}% | "
+                     f"{float(r['error_reduction_pct_ours']):.1f}% | {float(r['relex_F_published']):.2f} | "
+                     f"{float(r['relex_F_ours']):.2f} |")
+    lines += ["", "### All statistics", "",
               "| Statistic | Paper text | From published tables | Ours | Ours with the paper's BioInfer row |",
               "| --- | --- | --- | --- | --- |"]
     for k, r in claims.items():
         lines.append(f"| {k} | {r['paper_text'] or ''} | {float(r['published_tables']):.3g} | "
                      f"{float(r['ours']):.3g} | {float(r['ours_with_published_BioInfer']):.3g} |")
+    lines += ["", f"**Result:** {RESULT}"]
     lines += ["", "## Figures", "", "| Figure | Render | Mean abs. grey diff. | Pixels within ±24 | Chamfer (px) | Global shift |",
               "| --- | --- | --- | --- | --- | --- |"]
     for i in (1, 2):

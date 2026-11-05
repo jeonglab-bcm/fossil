@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the comparison page for PMC2349296 from the pipeline outputs.
 
-Usage: build_page.py RESULTS_TABLE.csv CLAIMS.csv FIGS_DIR COMPARE_DIR CORPUS_COUNTS.csv PUBLISHED_DIR OUT.html
+Usage: build_page.py RESULTS_TABLE.csv CLAIMS.csv CLAIMS_VERDICTS.csv CLAIMS_BY_CORPUS.csv FIGS_DIR COMPARE_DIR CORPUS_COUNTS.csv PUBLISHED_DIR OUT.html
 FIGS_DIR holds ours-figure-{1,2}.png and published-values-figure-{1,2}.png (figures.R);
 COMPARE_DIR holds figure-{1,2}-{ours,published-values}/report.json (compare_figures.py).
 The page links ../results.css, the stylesheet the site's results pages share; images are embedded.
@@ -19,7 +19,7 @@ from pathlib import Path
 from PIL import Image
 
 HERE = Path(__file__).resolve().parent
-TABLE, CLAIMS, FIGS, CMP, COUNTS, PUB, OUT = map(Path, sys.argv[1:8])
+TABLE, CLAIMS, VERDICTS, BY_CORPUS, FIGS, CMP, COUNTS, PUB, OUT = map(Path, sys.argv[1:10])
 CORPORA = ["AIMed", "BioInfer", "HPRD50", "IEPA", "LLL"]
 MATCHING = ["HPRD50", "IEPA", "LLL"]
 esc = html.escape
@@ -151,22 +151,40 @@ def cnum(k, col, d=1):
     return f"{float(claims[k][col]):.{d}f}"
 
 
-CLAIM_ROWS = [
-    ("Average F gap between the two methods", "13 points", "method_gap_pts", 1),
-    ("Average pairwise RelEx F difference between corpora", "19 points", "relex_pairwise_pts", 1),
-    ("… after filtering", "11 points", "relex_pairwise_filtered_pts", 1),
-    ("Smallest relative reduction in F error, co-occurrence to RelEx", "21%", "error_reduction_min_pct", 1),
-    ("Largest relative reduction in F error", "32%", "error_reduction_max_pct", 1),
-    ("Kendall p, I/EP against RelEx F", "≈ 0.08", "kendall_IEP_p", 3),
-    ("Kendall p, sentences without interactions against RelEx F", "not significant", "kendall_noint_p", 3),
-]
+verdicts = read(VERDICTS)
+by_corpus = read(BY_CORPUS)
+tally = {v: sum(r["verdict"] == v for r in verdicts) for v in ("holds", "close", "differs")}
+CLAIMS_BASIS = f"{tally['holds']} of {len(verdicts)} hold, {tally['close']} close, {tally['differs']} differ"
+
+
+def minus(t):
+    return t.replace("-", "−")
+
+
 claim_body = "".join(
-    f"<tr><td>{esc(lab)}</td><td class=num>{esc(paper)}</td><td class=num>{cnum(k, 'published_tables', d)}</td>"
-    f"<td class=num><strong>{cnum(k, 'ours', d)}</strong></td><td class=num>{cnum(k, 'ours_with_published_BioInfer', d)}</td></tr>"
-    for lab, paper, k, d in CLAIM_ROWS)
-beats = "yes" if claims["cooc_beats_relex_filtered_all_but_LLL"]["ours"].startswith("1") else "no"
-claim_body += (f"<tr><td>Co-occurrence beats RelEx on every filtered corpus except LLL</td><td class=num>yes</td>"
-               f"<td class=num>yes</td><td class=num><strong>{beats}</strong></td><td class=num>yes</td></tr>")
+    f"<tr><td>{esc(r['claim'])}</td><td class=num>{esc(r['paper'])}</td>"
+    f"<td class=num><strong>{esc(minus(r['ours']))}</strong></td><td>{esc(r['verdict'])}</td>"
+    f"<td class=num>{esc(minus(r['published_tables']))}</td><td class=num>{esc(minus(r['ours_with_published_BioInfer']))}</td></tr>"
+    for r in verdicts)
+
+
+def pct(x):
+    return minus(f"{float(x):.1f}%")
+
+
+def lowest(col):
+    return min(by_corpus, key=lambda r: float(r[col]))
+
+
+lo_ours, lo_hyb = lowest("error_reduction_pct_ours"), lowest("error_reduction_pct_with_published_BioInfer")
+corpus_body = "".join(
+    f"<tr><td>{r['corpus']}</td><td>{esc(r['corpus_version']).replace('&#x27;', '’')}</td>"
+    f"<td class=num>{pct(r['error_reduction_pct_published'])}</td>"
+    f"<td class=num><strong>{pct(r['error_reduction_pct_ours'])}</strong></td>"
+    f"<td class=num>{float(r['relex_F_published']):.2f}</td><td class=num><strong>{float(r['relex_F_ours']):.2f}</strong></td></tr>"
+    for r in by_corpus)
+iepa = next(r for r in by_corpus if r["corpus"] == lo_hyb["corpus"])
+V = {r["claim_id"]: r for r in verdicts}
 
 EXTRA = f"""<section class="container after-bench" aria-labelledby="tables-head">
   <div class="station surface" id="tables">
@@ -181,12 +199,15 @@ EXTRA = f"""<section class="container after-bench" aria-labelledby="tables-head"
       <tr><td>Table 4, co-occurrence</td><td class=num>{agree('T4', 'cooc')}</td><td class=num>{agree('T4', 'cooc', MATCHING)}</td></tr>
       <tr><td>Table 4, RelEx</td><td class=num>{agree('T4', 'relex')}</td><td class=num>{agree('T4', 'relex', MATCHING)}</td></tr>
     </tbody></table></div>
-    <p class="note">Co-occurrence and the corpus statistics are arithmetic on the annotation, so where the corpus is the paper’s they come back exactly. AIMed’s surviving copy lacks 12 sentences and its self-interactions (about 5% of AIMed’s interactions in the paper), so its co-occurrence recall is 1.00, not 0.95. RelEx was never released; ours is rebuilt from the two papers’ descriptions and agrees within a few points.</p>
+    <p class="note">Co-occurrence and the corpus statistics are arithmetic on the annotation, so where the corpus is the paper’s they come back exactly. AIMed’s surviving copy lacks 12 sentences and its self-interactions (about 5% of AIMed’s interactions in the paper), so its co-occurrence recall is 1.00, not 0.95. RelEx was never released; ours is rebuilt from the two papers’ descriptions. Its F is within {100 * max_gap('T2', 'relex_F', MATCHING):.0f} points of the paper’s on the three matching corpora, but it matches {agree('T2', 'relex', MATCHING)} of their RelEx cells.</p>
   </div>
   <div class="station surface" id="claims">
-    <header class="station-head"><h2>The claims in the text</h2><p class="caption">The paper’s summary numbers, computed by the same code from the published tables, from our run, and from our run with the paper’s BioInfer row in place of ours.</p>{stamp("Partly agrees", "Rerun on the surviving corpora")}</header>
-    <div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Statistic</th><th scope="col" class=num>Paper</th><th scope="col" class=num>From the published tables</th><th scope="col" class=num>Ours</th><th scope="col" class=num>Ours, paper’s BioInfer row</th></tr></thead><tbody>{claim_body}</tbody></table></div>
-    <p class="note">The main claim holds: RelEx’s F-score varies by {cnum('relex_pairwise_pts', 'ours')} points on average between corpora in our run, more than the gap between the methods. The other numbers move with BioInfer, whose surviving copy is not the paper’s. With the paper’s BioInfer row, filtering cuts the between-corpus difference from {cnum('relex_pairwise_pts', 'ours_with_published_BioInfer')} to {cnum('relex_pairwise_filtered_pts', 'ours_with_published_BioInfer')} points (paper: 19 to 11) and the Kendall p is {cnum('kendall_IEP_p', 'ours_with_published_BioInfer', 3)}, as in the paper.</p>
+    <header class="station-head"><h2>The claims in the text</h2><p class="caption">The paper’s summary numbers. <b>Ours</b> is our run: it is the reproduction, and the verdict reads only that column. <b>Paper’s tables</b> runs the same code on the paper’s own Tables 2 and 4; it returns the paper’s text, which shows we compute each number the way the paper did, not that our run agrees. <b>Paper’s BioInfer row</b> is our run with BioInfer’s numbers replaced by the paper’s: it shows how much BioInfer matters, and moves toward the paper by construction.</p>{stamp("Partly agrees", CLAIMS_BASIS)}</header>
+    <div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Claim</th><th scope="col" class=num>Paper</th><th scope="col" class=num>Ours</th><th scope="col">Verdict</th><th scope="col" class=num>Paper’s tables</th><th scope="col" class=num>Paper’s BioInfer row</th></tr></thead><tbody>{claim_body}</tbody></table></div>
+    <p class="note">A yes/no claim holds if it is true in our run, and “not significant” holds if p ≥ 0.05. A number holds if it rounds to the paper’s value, is close if within 10% of it, and differs otherwise.</p>
+    <div class="table-wrap"><table class="record dense"><caption>Per corpus: relative cut in F error from co-occurrence to RelEx, and RelEx F</caption><thead><tr><th scope="col">Corpus</th><th scope="col">Our copy of the corpus</th><th scope="col" class=num>Error cut, paper’s tables</th><th scope="col" class=num>Ours</th><th scope="col" class=num>RelEx F, paper</th><th scope="col" class=num>Ours</th></tr></thead><tbody>{corpus_body}</tbody></table></div>
+    <p class="note">The main claim holds: in our run RelEx’s F varies by {cnum('relex_pairwise_pts', 'ours')} points between corpora, more than the {cnum('method_gap_pts', 'ours')}-point gap between the methods. The numbers that differ have two causes. BioInfer’s surviving copy is a later conversion, and it sets our smallest error cut ({pct(lo_ours['error_reduction_pct_ours'])}, {lo_ours['corpus']}). Our rebuild of RelEx is the other cause: on HPRD50, IEPA and LLL, whose corpora are the paper’s, it matches {agree('T2', 'relex', MATCHING)} of the paper’s RelEx cells in Table 2. On {iepa['corpus']}, co-occurrence F is the paper’s {float(iepa['cooc_F_published']):.2f}, but RelEx F is {float(iepa['relex_F_ours']):.2f} against {float(iepa['relex_F_published']):.2f}. So even with the paper’s BioInfer row the smallest error cut is {pct(lo_hyb['error_reduction_pct_with_published_BioInfer'])} ({lo_hyb['corpus']}) against 21%, and the gap between the methods is {cnum('method_gap_pts', 'ours_with_published_BioInfer')} points against 13. With the paper’s BioInfer row, the filtered difference ({V['relex_pairwise_filtered_pts']['ours_with_published_BioInfer']}) and the Kendall p ({V['kendall_IEP_p']['ours_with_published_BioInfer']}) come near the paper’s, but that column takes one corpus from the paper; our run gives {V['relex_pairwise_filtered_pts']['ours']} and {V['kendall_IEP_p']['ours']}.</p>
+    <p class="note"><strong>Result:</strong> the main finding of the paper holds. Some summary values do not agree. Two causes explain these differences: the only surviving copy of BioInfer is a later conversion, and RelEx, which the authors did not release, had to be rebuilt.</p>
   </div>
 </section>"""
 
@@ -213,7 +234,7 @@ RECOVERED = f"""<section class="notes" aria-labelledby="back-head">
         <li>The authors’ RelEx code, and the details of its chunking and negation list</li>
         <li>The 250 interactions behind Fig. 3 and Table 5, and their manual labels. Fig. 4 is an illustration</li>
       </ul>
-      <p class="so">Co-occurrence and the corpus statistics come back exactly where the corpus survives. RelEx comes back within a few points, and so does the main claim.</p>
+      <p class="so">Co-occurrence and the corpus statistics come back exactly where the corpus survives. RelEx, rebuilt, comes back up to {100 * max_gap('T2', 'relex_F', MATCHING):.0f} F points from the paper’s. The main claim holds; {tally['differs']} of the {len(verdicts)} claims in the text differ in our run.</p>
     </div>
   </div>
 </section>"""
@@ -223,8 +244,8 @@ items = [("fig-1", "Fig. 1", "Partly agrees"), ("fig-2", "Fig. 2", "Partly agree
 LABEL = "<ol>" + "".join(
     f'<li><a href="#{a}"><span>{esc(n)}</span><span class="v" data-v="{VCLASS[v]}">{esc(v)}</span></a></li>'
     for a, n, v in items) + "</ol>"
-LEDE = ("Co-occurrence and the corpus statistics came back exactly where the corpora survive. "
-        "A rebuilt RelEx lands within a few points, and the main claim holds.")
+LEDE = (f"Co-occurrence and the corpus statistics came back exactly where the corpora survive. "
+        f"A rebuilt RelEx lands up to {100 * max_gap('T2', 'relex_F', MATCHING):.0f} F points from the paper’s, and the main claim holds.")
 CLOSING = "We rebuild this page each time the pipeline runs."
 
 page = (HERE / "page_template.html").read_text()
