@@ -1,0 +1,97 @@
+name: Reproduce PMC4426843
+
+# Reruns the pipeline from the committed miRanda site tables and checks the run against
+# results.json, on every pull request and push to main that touches this reproduction or the
+# checker, and by hand from the Actions tab.
+#
+# The miRanda predictions (about 45 CPU hours) and the 22 empirical nulls (999,999 draws each,
+# about 6 hours on this runner) are too long for one job. The run resamples the nulls named in
+# RERUN, which must come back identical to the committed counts (same seed, same arithmetic on
+# x86_64), and reads the others from figure-reproduction/output/empirical. Start the workflow by hand
+# with rerun = all to resample every null. A --full run (miRanda included) is for the cluster.
+on:
+  workflow_dispatch:
+    inputs:
+      rerun:
+        description: "Nulls to resample (species:size, comma separated, or all)"
+        default: "Human:39,Human:1,Mouse:10"
+  pull_request:
+    paths:
+      - "PMC4426843/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
+      - ".github/workflows/reproduce-pmc4426843.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4426843/figure-reproduction/**"
+      - "tools/check_results.py"
+      - "tools/results-report.html"
+      - ".github/workflows/reproduce-pmc4426843.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install numpy==2.5.4 scipy==1.18.1 pillow==13.0.0 xlrd==2.0.2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.4.3"
+
+      - name: Install fonts (Liberation Sans stands in for Helvetica, as in the committed renders)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends fonts-liberation
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        env:
+          RERUN: ${{ github.event.inputs.rerun || 'Human:39,Human:1,Mouse:10' }}
+        run: nextflow run PMC4426843/figure-reproduction/main.nf --outdir results --rerun "$RERUN" -ansi-log false
+
+      - name: Resampled nulls equal the committed counts
+        env:
+          RERUN: ${{ github.event.inputs.rerun || 'Human:39,Human:1,Mouse:10' }}
+        run: |
+          for f in results/empirical/*.counts.tsv.gz; do
+            b=$(basename "$f")
+            cmp <(gunzip -c "$f") <(gunzip -c "PMC4426843/figure-reproduction/output/empirical/$b") && echo "$b identical" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: Check results.json against this run
+        if: ${{ !cancelled() && hashFiles('PMC4426843/figure-reproduction/results.json') != '' }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC4426843/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() && hashFiles('PMC4426843/figure-reproduction/results.json') != '' }}
+        with:
+          name: pmc4426843-results-check
+          path: results-check
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4426843-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

@@ -1,0 +1,251 @@
+{
+  "paper": "PMC4426843",
+  "title": "Bleazard T, Lamb JA, Griffiths-Jones S. Bias in microRNA functional enrichment analysis. Bioinformatics 31(10):1592-1598 (2015).",
+  "about": "The results this reproduction stands on. CI reruns the pipeline (resampling some nulls, reading the others from output/empirical) and checks each value with tools/check_results.py; after an intended change, rerun the pipeline and update the values with --update.",
+  "committed_paths": {
+    "": "output/"
+  },
+  "results": [
+    {
+      "id": "go-human-genes",
+      "label": "GO universe, human genes with a biological-process term (paper: 15,733)",
+      "file": "go_universe.json",
+      "path": "human_genes",
+      "expected": 15733
+    },
+    {
+      "id": "go-s1-sizes",
+      "label": "GO universe, S1 terms whose size equals ours (of 9,462)",
+      "file": "go_universe.json",
+      "path": "s1_term_sizes_equal",
+      "expected": 9462
+    },
+    {
+      "id": "s1-p-floor",
+      "label": "S1 hypergeometric P-values reproduced with floor(mean) (of 9,462)",
+      "file": "s1_check.json",
+      "path": "s1_p_agree_rel_1e-9.floor",
+      "expected": 9462
+    },
+    {
+      "id": "t1-from-s1",
+      "label": "Table 1 values equal at 3 digits, from S1's means (of 10)",
+      "file": "s1_check.json",
+      "path": "table1_rows_equal_at_3_digits_from_s1",
+      "expected": 10
+    },
+    {
+      "id": "t1-ours-top10",
+      "label": "Table 1 terms in our top 10 (of 10)",
+      "file": "s1_check.json",
+      "path": "table1_terms_in_our_top10",
+      "expected": 10
+    },
+    {
+      "id": "t1-ours-p",
+      "label": "Table 1, our P-values",
+      "file": "table1.csv",
+      "column": "our_p",
+      "agg": "list",
+      "tolerance": {
+        "rel": 1e-06
+      },
+      "expected": [
+        1.211052e-28,
+        1.208969e-24,
+        8.000003e-18,
+        4.339103e-17,
+        1.394233e-13,
+        1.949187e-13,
+        3.444673e-12,
+        9.354172e-12,
+        7.668302e-12,
+        1.222587e-11
+      ]
+    },
+    {
+      "id": "fig1-ion-mean",
+      "label": "Fig. 1, mean ion-transport targets of 39 random miRNAs (paper 250.60)",
+      "file": "s1_check.json",
+      "path": "ion_transport.our_mean",
+      "tolerance": {
+        "abs": 1e-09
+      },
+      "expected": 250.57190257190257
+    },
+    {
+      "id": "fig1-ion-p",
+      "label": "Fig. 1, hypergeometric P of that mean (paper 5.97e-07)",
+      "file": "s1_check.json",
+      "path": "ion_transport.our_p",
+      "tolerance": {
+        "rel": 1e-09
+      },
+      "expected": 5.965809059990394e-07
+    },
+    {
+      "id": "s3-pairs",
+      "label": "S3, study-gene target pairs found (of 155,795)",
+      "file": "targets_vs_s3.csv",
+      "column": "both",
+      "agg": "sum",
+      "expected": 155595.0
+    },
+    {
+      "id": "s3-extra",
+      "label": "S3, target genes of ours not in S3",
+      "file": "targets_vs_s3.csv",
+      "column": "only_ours",
+      "agg": "sum",
+      "expected": 0.0
+    },
+    {
+      "id": "s3-targets",
+      "label": "S3, our target genes per list (alphabetical)",
+      "file": "targets_vs_s3.csv",
+      "column": "our_targets",
+      "agg": "list",
+      "expected": [
+        1397,
+        4157,
+        12848,
+        6066,
+        729,
+        5180,
+        741,
+        1926,
+        5517,
+        445,
+        7293,
+        6872,
+        4782,
+        10521,
+        8708,
+        2490,
+        5056,
+        3470,
+        6942,
+        12404,
+        7793,
+        1525,
+        829,
+        10043,
+        9340,
+        7809,
+        957,
+        791,
+        8964
+      ]
+    },
+    {
+      "id": "t2-basic",
+      "label": "Table 2, significant terms, basic algorithm (Table 2 order)",
+      "file": "table2.csv",
+      "column": "ours_basic",
+      "agg": "list",
+      "expected": [
+        0,
+        0,
+        6010,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5550,
+        2499,
+        0,
+        0,
+        0,
+        3360,
+        2473,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "t2-multi",
+      "label": "Table 2, significant terms, multi-hit algorithm (Table 2 order)",
+      "file": "table2.csv",
+      "column": "ours_multi_hit",
+      "agg": "list",
+      "expected": [
+        0,
+        17,
+        1300,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        72,
+        0,
+        120,
+        266,
+        31,
+        0,
+        0,
+        842,
+        526,
+        192,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "s5-significant",
+      "label": "S5, significant terms (S5: 1,580)",
+      "file": "axonogenesis.json",
+      "path": "our_significant",
+      "expected": 1552
+    },
+    {
+      "id": "s5-both",
+      "label": "S5, terms significant in S5 and ours",
+      "file": "axonogenesis.json",
+      "path": "significant_in_both",
+      "expected": 1551
+    },
+    {
+      "id": "fig1-chamfer-ours",
+      "label": "Fig. 1, chamfer distance to the published figure, our run (px)",
+      "file": "compare/figure-1-ours/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 0.13
+    },
+    {
+      "id": "fig1-chamfer-pv",
+      "label": "Fig. 1, chamfer distance to the published figure, paper's bar heights (px)",
+      "file": "compare/figure-1-published-values/report.json",
+      "path": "chamfer_all_px",
+      "tolerance": {
+        "abs": 0.05
+      },
+      "expected": 0.126
+    }
+  ]
+}
