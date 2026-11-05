@@ -11,6 +11,7 @@ papers or their supplements.
 | [`PMC4247685`](PMC4247685/) | Curry EWJ. A framework for generalized subspace pattern mining in high-dimensional datasets. *BMC Bioinformatics* 15:355 (2014). [doi:10.1186/s12859-014-0355-5](https://doi.org/10.1186/s12859-014-0355-5) | Fig. 5 reproduced, Fig. 2 rerun, Figs 3 and 4 reconstructed from TCGA; implementation analysis |
 | [`PMC2349296`](PMC2349296/) | Pyysalo S, Airola A, Heimonen J, et al. Comparative analysis of five protein-protein interaction corpora. *BMC Bioinformatics* 9(Suppl 3):S6 (2008). [doi:10.1186/1471-2105-9-S3-S6](https://doi.org/10.1186/1471-2105-9-S3-S6) | Co-occurrence and Table 3 identical on HPRD50, IEPA and LLL; RelEx rebuilt (AIMed at the published values); Figs 1 and 2 redrawn; main claim holds, BioInfer differs (later corpus version) |
 | [`PMC4081639`](PMC4081639/) | Yu P, Shaw CA. An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function. *Bioinformatics* 30(11):1547–1554 (2014). [doi:10.1093/bioinformatics/btu079](https://doi.org/10.1093/bioinformatics/btu079) | Figs 2, 4, 5, 6 and Table 1 reproduced; implementation analysis |
+| [`PMC4426843`](PMC4426843/) | Bleazard T, Lamb JA, Griffiths-Jones S. Bias in microRNA functional enrichment analysis. *Bioinformatics* 31(10):1592–1598 (2015). [doi:10.1093/bioinformatics/btv023](https://doi.org/10.1093/bioinformatics/btv023) | miRanda predictions regenerated (99.87% of the published target lists); Fig. 1 and Table 1 reproduced; Table 2 basic algorithm reproduced, multi-hit counts differ; Table 3 (rice) not reproducible |
 
 Other analyses:
 
@@ -26,7 +27,7 @@ Figures for the papers are in [`figures/`](figures/).
 
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
-The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml`, `.github/workflows/reproduce-pmc1847688.yml` and `.github/workflows/reproduce-pmc4081021.yml` rerun a reproduction with Nextflow when started by hand from the Actions tab, and check the run against its `results.json`. `.github/workflows/reproduce-pmc2349296.yml` reruns its reproduction on changes to its figure-reproduction files or workflow, or when started by hand.
+The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml`, `.github/workflows/reproduce-pmc1847688.yml` and `.github/workflows/reproduce-pmc4081021.yml` rerun a reproduction with Nextflow when started by hand from the Actions tab, and check the run against its `results.json`. `.github/workflows/reproduce-pmc2349296.yml` reruns its reproduction on changes to its figure-reproduction files or workflow, or when started by hand. `.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843 from its committed miRanda predictions, resampling three of its 22 empirical nulls (all of them when started by hand with `rerun = all`).
 
 ## Results check
 

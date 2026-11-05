@@ -26,8 +26,8 @@
       <div class="hero-text">
         <h1 id="hero-head">Fig. 5 came back the same.</h1>
         <p class="lead">We dig up old papers and get their data, code and figures working again.</p>
-        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">All four papers</a></div>
-        <p class="aside">Four papers dug up so far.</p>
+        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">All five papers</a></div>
+        <p class="aside">Five papers dug up so far.</p>
       </div>
       <figure class="signature">
         <div class="surface sig-card">
@@ -47,8 +47,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Four papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, three partly.</p>
+        <h2 id="index-head">Five papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, four partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -58,6 +58,27 @@
               <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4426843</span>
+                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btv023">Bias in microRNA functional enrichment analysis</a>
+                  <span class="journal">Bleazard et al., Bioinformatics</span>
+                  <span class="go"><a href="PMC4426843/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4426843">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The authors’ empirical-test script</li>
+                  <li>The genome-wide miRanda predictions</li>
+                  <li>The rice pipeline (psRNATarget 2011, agriGO)</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4426843/figure-reproduction/pipeline/empirical.py">The empirical test</a> in Python, checked against S5</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4426843/figure-reproduction/pipeline/inputs">miRanda predictions</a> for miRBase 20 on Ensembl 75, 99.87% of S3</li>
+                  <li><a href="PMC4426843/">Fig. 1 and Tables 1 and 2</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; multi-hit counts differ</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-11-21">21 Nov 2014</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
@@ -181,6 +202,7 @@
       <a href="PMC4247685/">GABi figures</a>
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
+      <a href="PMC4426843/">miRNA enrichment figure</a>
     </nav>
   </div>
 </footer>
