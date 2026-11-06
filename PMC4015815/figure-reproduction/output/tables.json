@@ -1,0 +1,278 @@
+{
+ "table1_published": {
+  "SVM-DR": [
+   "0.919",
+   "0.715"
+  ],
+  "Monomer-dist": [
+   "0.919",
+   "0.508"
+  ],
+  "SVM-LA": [
+   "0.925",
+   "0.649"
+  ],
+  "SVM-Pairwise": [
+   "0.901",
+   "0.399"
+  ],
+  "SVM-DT": [
+   "0.948",
+   "0.800"
+  ],
+  "SVM-Top-n-gram": [
+   "0.907",
+   "0.696"
+  ],
+  "SVM-Top-n-gram-LSA": [
+   "0.939",
+   "0.767"
+  ],
+  "SVM-PDT-Profile": [
+   "0.950",
+   "0.740"
+  ],
+  "PseAACIndex-Porfile": [
+   "0.922",
+   "0.712"
+  ],
+  "BioSVM-2L": [
+   "0.927",
+   "0.888"
+  ],
+  "HHSearch": [
+   "0.915",
+   "0.990"
+  ]
+ },
+ "benchmark": {
+  "families": 54,
+  "sequences": 4352
+ },
+ "fig3": {
+  "SVM-DR": {
+   "0": [
+    0.862396,
+    0.316769,
+    54
+   ],
+   "10": [
+    0.898005,
+    0.482121,
+    54
+   ],
+   "20": [
+    0.900378,
+    0.47419,
+    54
+   ],
+   "40": [
+    0.910599,
+    0.472276,
+    54
+   ],
+   "50": [
+    0.911243,
+    0.473751,
+    54
+   ],
+   "60": [
+    0.912436,
+    0.479478,
+    54
+   ],
+   "80": [
+    0.914399,
+    0.485172,
+    54
+   ],
+   "100": [
+    0.917196,
+    0.487822,
+    54
+   ],
+   "150": [
+    0.918905,
+    0.497001,
+    54
+   ],
+   "200": [
+    0.919269,
+    0.503131,
+    54
+   ]
+  },
+  "SVM-DT": {
+   "0": [
+    0.910555,
+    0.416026,
+    54
+   ],
+   "10": [
+    0.945063,
+    0.664436,
+    54
+   ],
+   "20": [
+    0.946413,
+    0.668313,
+    54
+   ],
+   "40": [
+    0.948577,
+    0.671327,
+    54
+   ],
+   "50": [
+    0.947827,
+    0.670986,
+    54
+   ],
+   "60": [
+    0.947595,
+    0.674455,
+    54
+   ],
+   "80": [
+    0.948759,
+    0.676683,
+    54
+   ],
+   "100": [
+    0.949749,
+    0.673162,
+    54
+   ],
+   "150": [
+    0.950205,
+    0.673132,
+    54
+   ],
+   "200": [
+    0.950099,
+    0.676635,
+    54
+   ]
+  }
+ },
+ "table1_ours": {
+  "SVM-DR": {
+   "roc": 0.918905,
+   "roc50": 0.497001,
+   "families": 54,
+   "roc_3dp": "0.919",
+   "roc50_3dp": "0.497",
+   "family_2.5.1.3_roc": 0.844426,
+   "comparisons": {
+    "beats Monomer-dist (ROC50, ROC not lower)": "no",
+    "beats SVM-Pairwise (ROC50, ROC not lower)": "yes",
+    "within 1 point of SVM-LA (ROC)": "yes"
+   }
+  },
+  "SVM-DT": {
+   "roc": 0.950205,
+   "roc50": 0.673132,
+   "families": 54,
+   "roc_3dp": "0.950",
+   "roc50_3dp": "0.673",
+   "family_2.5.1.3_roc": 0.961065,
+   "comparisons": {
+    "beats every other profile method but SVM-PDT-Profile (ROC)": "yes",
+    "below SVM-PDT-Profile (ROC)": "no"
+   }
+  }
+ },
+ "dmax_plateau": {
+  "SVM-DR": {
+   "rise_0_to_100": 0.0548,
+   "range_100_to_200": 0.0021,
+   "plateau (range 100-200 below a tenth of the rise)": "yes"
+  },
+  "SVM-DT": {
+   "rise_0_to_100": 0.0392,
+   "range_100_to_200": 0.0005,
+   "plateau (range 100-200 below a tenth of the rise)": "yes"
+  }
+ },
+ "improvement_over_top_n_gram": {
+  "roc_points": 4.32,
+  "roc50_points": -2.29,
+  "note": "ours minus the SVM-Top-n-gram row the paper quotes (not rerun), in points"
+ },
+ "family_2513": {
+  "SVM-DT": 0.961065,
+  "SVM-DR": 0.844426,
+  "DT above DR": "yes"
+ },
+ "weights": {
+  "SVM-DR": {
+   "G,G": {
+    "composition_weight_d0": -13.895,
+    "d0_largest_magnitude": "no",
+    "share_positive_d1_150": 0.1867,
+    "mean_abs_d1_50": 7.182,
+    "mean_abs_d101_150": 3.696,
+    "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
+   },
+   "L,L": {
+    "composition_weight_d0": -51.351,
+    "d0_largest_magnitude": "yes",
+    "share_positive_d1_150": 0.1733,
+    "mean_abs_d1_50": 4.781,
+    "mean_abs_d101_150": 2.947,
+    "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
+   },
+   "top_two_pairs": [
+    "(G,G)",
+    "(L,L)"
+   ],
+   "top_two_are_GG_LL": "yes",
+   "rank_GG": 1,
+   "rank_LL": 2,
+   "l2_max": 78.09,
+   "G,G mostly positive": "no"
+  },
+  "SVM-DT": {
+   "G,G": {
+    "composition_weight_d0": -28.964,
+    "d0_largest_magnitude": "yes",
+    "share_positive_d1_150": 0.12,
+    "mean_abs_d1_50": 7.179,
+    "mean_abs_d101_150": 5.643,
+    "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
+   },
+   "L,L": {
+    "composition_weight_d0": -42.51,
+    "d0_largest_magnitude": "yes",
+    "share_positive_d1_150": 0.1133,
+    "mean_abs_d1_50": 5.015,
+    "mean_abs_d101_150": 2.736,
+    "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
+   },
+   "top_two_pairs": [
+    "(G,G)",
+    "(V,G)"
+   ],
+   "top_two_are_GG_LL": "no",
+   "rank_GG": 1,
+   "rank_LL": 6,
+   "l2_max": 92.04,
+   "G,G mostly positive": "no"
+  },
+  "DR more positive (G,G) than DT": "yes"
+ },
+ "arithmetic": {
+  "improvement_roc_points": 4.1,
+  "improvement_roc50_points": 10.4,
+  "SVM-DR": {
+   "beats Monomer-dist (ROC50, ROC not lower)": "yes",
+   "beats SVM-Pairwise (ROC50, ROC not lower)": "yes",
+   "within 1 point of SVM-LA (ROC)": "yes"
+  },
+  "SVM-DT": {
+   "beats every other profile method but SVM-PDT-Profile (ROC)": "yes",
+   "below SVM-PDT-Profile (ROC)": "yes"
+  },
+  "all_claims_come_back": "yes"
+ }
+}

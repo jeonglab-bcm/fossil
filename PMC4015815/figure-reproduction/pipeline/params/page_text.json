@@ -1,0 +1,26 @@
+{
+  "lede": "A 2014 method turns a protein into counts of residue pairs at each distance and hands them to an SVM. Its software is gone. We ported the SVM from its C source and ran it again on the same benchmark. SVM-DR came back: its Table 1 ROC, nine of ten points of Fig. 3, and its discriminant weights in Figs 4B, 5C and 5D. SVM-DT needs profiles from a database that no longer exists. It came back close, not the same.",
+  "matched_intro": "The figures were drawn with tools we do not have, so we keep the published frame, ticks, labels and legends and draw only the data, at sizes measured from the figure. Fig. 3 points sit on an axis map fitted to the tick marks. Fig. 4 cells take the grey of the published colour bar. Fig. 5 bars sit at x = d + 1, where the published bars are.",
+  "matched": [
+    [
+      "Our run",
+      "The 54 SCOP 1.53 families of Liao and Noble, the feature vectors of the paper's Eq. 1 and 2, and Gist 2.3 ported from its C source with its default settings."
+    ],
+    [
+      "One change to Gist",
+      "Identical sequences can give a normalized kernel value one rounding step above 1, which Gist sets to 0. That breaks training. We set it to 1, and the published weights come back."
+    ],
+    [
+      "Profiles",
+      "PSI-BLAST 2.17 against the lab's 2016 nrdb90, 3 iterations, E = 0.001, as in their later Pse-in-One 2.0. The paper's own database and settings are not known."
+    ],
+    [
+      "Reading the views",
+      "Overlay: ink is the paper only, light green is the reproduction only, dark green is both. Difference: darker means a larger grey difference."
+    ]
+  ],
+  "claims_line": "The main claim holds: pair distances add to a position-independent baseline, and SVM-DR comes back as published. The claims that do not match trace to the ROC50 definition and to the regenerated profiles.",
+  "closing": "SVM-DR came back from the paper alone, all but its ROC50. SVM-DT came back close; its profiles are gone.",
+  "roc50_note": "Our ROC matches the paper's at every dMAX, so our rankings of the test proteins agree with the authors'. ROC50 is computed from those same rankings, so the gap comes from how the paper computed ROC50, not from the method. With the standard definition (Gribskov and Robinson's area up to the first 50 false positives) we get {dr50} for SVM-DR and {dt50} for SVM-DT. Three other readings were tested and none gives the paper's values (see the README's ROC50 section).",
+  "dt_note": "SVM-DT is rerun on regenerated profiles: the paper's 2014 profile database no longer exists, so we used the lab's 2016 nrdb90 with the PSI-BLAST settings from its 2017 code. Everything after the profiles is the code that reproduces SVM-DR's panels almost exactly, so the SVM-DT differences come from the input profiles, not the method. Its overall ROC still comes back close ({dt_roc} against {dt_paper}). These items are marked Re-measured."
+}

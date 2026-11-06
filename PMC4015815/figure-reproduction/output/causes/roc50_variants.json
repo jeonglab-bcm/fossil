@@ -1,0 +1,37 @@
+{
+ "SVM-DR": {
+  "families": 54,
+  "means": {
+   "gribskov": 0.497,
+   "tpr_at_50": 0.6624,
+   "first_50_fps": 0.497
+  },
+  "roc_n_search": {
+   "50": 0.497,
+   "100": 0.6138,
+   "150": 0.677,
+   "200": 0.72,
+   "250": 0.7529
+  }
+ },
+ "SVM-DT": {
+  "families": 54,
+  "means": {
+   "gribskov": 0.6731,
+   "tpr_at_50": 0.8177,
+   "first_50_fps": 0.6731
+  },
+  "roc_n_search": {
+   "50": 0.6731,
+   "100": 0.7594,
+   "150": 0.7959,
+   "200": 0.8188,
+   "250": 0.836
+  }
+ },
+ "published": {
+  "SVM-DR": 0.715,
+  "SVM-DT": 0.8
+ },
+ "about": "ROC50 under other readings of 'the area under the ROC curve up to the first 50 false positives', from the dMAX 150 test discriminants (roc50_variants.py and a search over n of ROC_n); hypothesis tests, not part of the pipeline."
+}
