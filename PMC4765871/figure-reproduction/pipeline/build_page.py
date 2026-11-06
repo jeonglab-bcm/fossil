@@ -19,12 +19,13 @@ HERE = Path(__file__).resolve().parent
 esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
-FIGS = {"2": "fig2.d", "4": "fig4.", "5": "fig5.g", "6": "fig6.right", "9": "fig9."}
+FIGS = {"2": "fig2.d", "4": "fig4.", "5": "fig5.g", "6": "fig6.right", "7": "fig7.b", "9": "fig9."}
 CAPTIONS = {
     "2": "Fig. 2D. Fit of the AND gate (green) and OR gate (red) FFL models to the gZ pseudo time series.",
     "4": "Fig. 4. Predictions of the inferred FFL (red) against noisy data from the perturbed true system (dots).",
     "5": "Fig. 5, right. Pseudo time series of gA to gD along one toggle switch branch, coloured by pseudo time.",
     "6": "Fig. 6, right. The selected gC model (red) on the gC series of the two branches where gA is high.",
+    "7": "Fig. 7B. Diffusion map of the 597 haematopoietic cells, coloured by cell type. Our three components are projected onto the page by the linear map that best matches the cell-type centres.",
     "9": "Fig. 9. Selected models (red) on the haematopoietic pseudo time series (circles): GATA2 on the CLP pathway, GFI1 and GFI1B on the GMP pathway.",
 }
 
