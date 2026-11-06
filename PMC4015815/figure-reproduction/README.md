@@ -89,7 +89,7 @@ doubles K/(√K·√K) comes out 1 + 2⁻⁵² for some of them (279 pairs at dM
 0 makes the kernel indefinite. At dMAX = 0 the updates then diverge to NaN, and Gist's loop
 never ends, so the published run cannot have done this. We cap those values at 1. The capped
 kernel gives the published weights (Fig. 4B Spearman 0.9999, Fig. 5C–D bars r ≥ 0.9997); Gist's
-rule gives weights 1.3 times too large (Spearman 0.954, r 0.85 and 0.76;
+rule gives weights 1.3 times too large (Spearman 0.963, r 0.85 and 0.76;
 `output/causes/weight_scale_dr.json`). A 32-bit x87 build of Gist, which keeps these values at
 exactly 1, would behave like the cap.
 

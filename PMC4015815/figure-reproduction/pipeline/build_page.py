@@ -46,11 +46,19 @@ def b64(path: Path) -> str:
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
+def word(item):
+    """The label shown for an item: its computed verdict, or "Re-measured" for an item whose
+    cause is the regenerated SVM-DT profiles (data_differs), so the page uses one label for
+    those items, as the READMEs do. The stamp colour still follows the computed verdict."""
+    if (item.get("cause") or {}).get("category") == "data_differs":
+        return "Re-measured"
+    return WORDS[item["verdict"]]
+
+
 def stamp(ids, basis):
-    vs = [ITEMS[i]["verdict"] for i in ids]
     order = ["differs", "inconclusive", "partly", "agrees", "exact"]
-    worst = min(vs, key=order.index)
-    return (f'<span class="stamp" data-v="{STAMP[worst]}">{esc(WORDS[worst])}'
+    worst = min((ITEMS[i] for i in ids), key=lambda it: order.index(it["verdict"]))
+    return (f'<span class="stamp" data-v="{STAMP[worst["verdict"]]}">{esc(word(worst))}'
             f'<small>{esc(basis)}</small></span>')
 
 
@@ -91,6 +99,8 @@ def pix(i):
 # ---- Figure 3
 s3 = F3["series"]
 t1 = T["table1_ours"]
+DT_NOTE = TEXT["dt_note"].format(dt_roc=t1["SVM-DT"]["roc_3dp"], dt_paper=T["table1_published"]["SVM-DT"][0])
+ROC50_NOTE = TEXT["roc50_note"].format(dr50=t1["SVM-DR"]["roc50_3dp"], dt50=t1["SVM-DT"]["roc50_3dp"])
 stats3 = []
 for name, iid in (("SVM-DR", "fig3.dr"), ("SVM-DT", "fig3.dt")):
     if iid in ITEMS and ITEMS[iid]["method"] == "pixels":
@@ -104,10 +114,9 @@ for name, iid in (("SVM-DR", "fig3.dr"), ("SVM-DT", "fig3.dt")):
 note3 = ("Mean ROC over the 54 families at each dMAX, ours drawn as the paper's markers on its own "
          "axes; frame, ticks and legend are the published pixels. "
          + " ".join(f"{k} at dMAX 150: {v['roc']:.4f} (paper {T['table1_published'][k][0]})."
-                    for k, v in t1.items()))
+                    for k, v in t1.items()) + " " + DT_NOTE)
 st3, f3 = station(3, "Fig. 3", "Average ROC of SVM-DR and SVM-DT against the distance threshold dMAX.",
-                  [i for i in ("fig3.dr", "fig3.dt") if i in ITEMS and ITEMS[i]["method"] != "none"],
-                  "Mean ROC per dMAX", stats3, note3)
+                  ["fig3.dr"], "SVM-DR mean ROC per dMAX; SVM-DT re-measured", stats3, note3)
 
 # ---- Figure 4
 p4 = F4["panels"]
@@ -121,10 +130,10 @@ for key, iid in (("A", "fig4.a"), ("B", "fig4.b")):
                (f"({key}) maximum, ours / paper", f"{e['our_max']:.0f} / {e['published_max']:.0f}"),
                (f"({key}) rank of (G,G), (L,L)", f"{e['our_rank_GG']}, {e['our_rank_LL']} (paper 1, 2)")]
 note4 = ("Cells filled with the published colour bar's grey for our L2 norm, on the paper's scale. "
-         "The published cells are read back through the same bar.")
+         "The published cells are read back through the same bar. " + DT_NOTE)
 st4, f4 = station(4, "Fig. 4", "L2 norm of the discriminant weights of each pair, family 2.5.1.3: "
-                  "(A) Top-1-gram pairs, SVM-DT; (B) residue pairs, SVM-DR.", ids4,
-                  "Cell greys within 24", stats4, note4)
+                  "(A) Top-1-gram pairs, SVM-DT; (B) residue pairs, SVM-DR.", ["fig4.b"],
+                  "Panel B, cell greys within 24; panel A re-measured", stats4, note4)
 
 # ---- Figure 5
 stats5, ids5 = [], []
@@ -137,9 +146,10 @@ for key in "ABCD":
                    f"r {e['correlation_x2_149']:.2f}, scale {e['published_scale_on_ours']:.2f}"))
 note5 = ("Our weights drawn as bars at x = d + 1, where the published bars sit (the correlation "
          "with the published bars is highest at that offset in every panel). Scale is the "
-         "least-squares factor of the published bars on ours; it is reported, not applied.")
+         "least-squares factor of the published bars on ours; it is reported, not applied. " + DT_NOTE)
 st5, f5 = station(5, "Fig. 5", "Discriminant weights of (G,G) and (L,L) against distance, family 2.5.1.3.",
-                  ids5, "Bars within 2 px", stats5, note5)
+                  ["fig5.c", "fig5.d"], "Panels C and D, bars within 2 px; A and B re-measured",
+                  stats5, note5)
 
 STATIONS = st3 + st4 + st5
 FIGS_JS = [f3, f4, f5]
@@ -159,12 +169,14 @@ for c in claims:
     vals = "; ".join(f"{f['name']}: {f['expected']} / {f['observed']}" for f in fs)
     crow += (f"<tr><td>{esc(c['label'])}</td><td>{esc(vals)}</td>"
              f"<td><span class=\"stamp\" data-v=\"{STAMP.get(c['verdict'], 'partly')}\">"
-             f"{esc(WORDS[c['verdict']])}</span></td></tr>")
+             f"{esc(word(c))}</span></td></tr>")
 CLAIM_LINE = TEXT["claims_line"]
 EXTRA = f"""<section class="container after-bench" aria-labelledby="tables-head">
   <div class="station surface" id="tables">
-    <header class="station-head"><h2 id="tables-head">Table 1</h2><p class="caption">Average ROC and ROC50 over the 54 families. Our run for SVM-DR and SVM-DT at dMAX = 150; the other rows are quoted by the paper from earlier work and were not rerun.</p>{stamp([i for i in ("table1.dr", "table1.dt") if i in ITEMS and ITEMS[i]['method'] != 'none'], "At the printed precision")}</header>
+    <header class="station-head"><h2 id="tables-head">Table 1</h2><p class="caption">Average ROC and ROC50 over the 54 families. Our run for SVM-DR and SVM-DT at dMAX = 150; the other rows are quoted by the paper from earlier work and were not rerun.</p>{stamp(["table1.dr"], "SVM-DR at the printed precision; SVM-DT re-measured")}</header>
     <div class="table-wrap"><table class="record dense"><caption>Table 1 (paper ROC, ROC50; ours ROC, ROC50)</caption><thead><tr><th scope="col">Method</th><th scope="col" class=num>Paper ROC</th><th scope="col" class=num>Paper ROC50</th><th scope="col" class=num>Ours ROC</th><th scope="col" class=num>Ours ROC50</th></tr></thead><tbody>{rows}</tbody></table></div>
+    <p class="note">{esc(ROC50_NOTE)}</p>
+    <p class="note">{esc(DT_NOTE)}</p>
     <div class="table-wrap"><table class="record dense"><caption>Claims in the text (paper / ours)</caption><thead><tr><th scope="col">Claim</th><th scope="col">Values</th><th scope="col">Verdict</th></tr></thead><tbody>{crow}</tbody></table></div>
     <p class="note">{esc(CLAIM_LINE)}</p>
   </div>
@@ -186,7 +198,7 @@ MATCHED = "".join(f'<div class="row"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>'
                   for k, v in TEXT["matched"])
 LABEL = "<ol>" + "".join(
     f'<li><a href="#{a}"><span>{esc(k)}</span><span class="v" data-v="{STAMP.get(ITEMS[i]["verdict"], "none")}">'
-    f'{esc(WORDS[ITEMS[i]["verdict"]])}</span></a></li>'
+    f'{esc(word(ITEMS[i]))}</span></a></li>'
     for a, k, i in [("tables", "Table 1, SVM-DR", "table1.dr"), ("tables", "Table 1, SVM-DT", "table1.dt"),
                     ("fig-3", "Fig. 3, SVM-DR", "fig3.dr"), ("fig-3", "Fig. 3, SVM-DT", "fig3.dt"),
                     ("fig-4", "Fig. 4A", "fig4.a"), ("fig-4", "Fig. 4B", "fig4.b"),
