@@ -45,9 +45,12 @@ def bar_lut(g, bar, vmax):
 
 
 def grey_to_value(grey, lut):
+    # Many bar rows share a grey (452 rows, 245 greys). Each grey maps to the mean value of its
+    # rows, so the map does not depend on how a sort orders ties (that differs between machines).
     lg, lv = lut
-    order = np.argsort(lg)
-    return np.interp(grey, lg[order], lv[order])
+    ug, inv = np.unique(lg, return_inverse=True)
+    uv = np.bincount(inv, weights=lv) / np.bincount(inv)
+    return np.interp(grey, ug, uv)
 
 
 def value_to_grey(v, lut):
