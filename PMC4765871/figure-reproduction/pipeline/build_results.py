@@ -200,6 +200,15 @@ def main(run, figs, pubdata, out):
                         + [{"name": f"score {m}", "expected": f"{pub_scores[m]:.2f}", "observed": r(ours6[m], 3)}
                            for m in ["D-", "D+", "A-", "and(A+,D-)", "and(A+,D+)", "or(A+,D-)", "or(A+,D+)"] if m in pub_scores],
                         {"abs": 0.05}))
+    a18 = sorted((x["aic"] for x in T["fig18"]), reverse=True)
+    I.add("supp.fig18", "figure", "reconstructed", "values",
+          values=values([{"name": "best model for gD", "expected": "and(A+,C-)", "observed": T["fig18_best"]},
+                         {"name": "every other model at least 400 AIC units behind (paper: -589 against below -1000)",
+                          "expected": "yes", "observed": yesno(a18[0] - a18[1] >= 400)}]))
+    I.add("supp.wanderlust_dims", "value", "reconstructed", "values",
+          values=values([{"name": "correlation of pseudo times, high against low dimension (%)", "expected": "92",
+                          "observed": r(100 * T["wanderlust_low_vs_high"]["mean_corr"], 1)}], {"printed": True}))
+    I.add("supp.robustness", "value", "none", "none")
     fig_px("fig6.right.top", "fig6", "fig6.top")
     fig_px("fig6.right.bottom", "fig6", "fig6.bottom")
     t6 = PV["toggle_table6"]

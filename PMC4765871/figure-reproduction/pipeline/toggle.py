@@ -36,6 +36,7 @@ K = sim.PAR["toggle"]["kinetics"]
 TRUE_VEC = [K["alpha"], K["lambda"], K["kp"], K["hp"], K["km"], K["hm"]]
 G = ["A", "B", "C", "D", "E", "F"]
 FIG6 = ["D-", "D+", "A-", "and(A+,D-)", "and(A+,D+)", "or(A+,D-)", "or(A+,D+)"]
+FIG18 = ["C-", "C+", "A-", "and(A+,C-)", "and(A+,C+)", "or(A+,C-)", "or(A+,C+)"]  # supp. Fig. 18, target gD
 NOISE = {"none": None, "add20": ("add", 20.0), "add40": ("add", 40.0), "mul0.04": ("mul", 0.04),
          "mul0.12": ("mul", 0.12)}
 
@@ -200,6 +201,20 @@ def main():
                                        "sign": (int(np.sign(R[G.index(g), 2])) if abs(R[G.index(g), 2]) > 0.5 else 0)}
                                    for g in ins}
         res[f"edges_{thr}"] = int((W > thr).sum())
+    # supp. 1.3: Wanderlust on the data against Wanderlust on the first four diffusion components,
+    # ten replicates on two branches (starts among the ten cells nearest the start cell)
+    Y4, _ = geo.diffusion_map(Xo, P["sigma"], n_comp=4)
+    cors = []
+    for bi, b in enumerate(("C", "D")):
+        cells = np.array(main_ds["geom"]["branches"][b]["cells"])
+        d = ((main_ds["Y"][cells] - main_ds["Y"][main_ds["geom"]["start"]]) ** 2).sum(1)
+        for r, s0 in enumerate(np.argsort(d)[:10]):
+            kw = dict(l=P["wanderlust_l"], k=P["wanderlust_l"] // 3, num_graphs=P["num_graphs"],
+                      num_landmarks=P["num_landmarks"], seed=P["seed"] + 500 + 10 * bi + r)
+            th, _ = geo.wanderlust(Xo[cells], int(s0), **kw)
+            tl, _ = geo.wanderlust(Y4[cells], int(s0), **kw)
+            cors.append(float(np.corrcoef(th, tl)[0, 1]))
+    res["wanderlust_low_vs_high"] = {"mean_corr": float(np.mean(cors)), "corrs": cors}
     br = res["geometry"]["branches"]
     res["branches"] = sorted(br)
     save_npz(out / "toggle_data.npz", Xo=Xo, X=main_ds["X"], ta=main_ds["ta"], ts=main_ds["ts"],
@@ -243,6 +258,8 @@ def main():
         t7 = sorted(set(m.replace("B+D-", "B+,D-") for m in t7))
         for i, m in enumerate(t7):
             jobs.append((m, [(main_ds, "C", AB, None)], None, P["seed"] + 100 + i, False))
+        for i, m in enumerate(FIG18):
+            jobs.append((m, [(main_ds, "D", AB, None)], None, P["seed"] + 400 + i, False))
         tijobs = [(m, [(main_ds, "C", AB, None)], P["seed"] + 300 + i)
                   for i, m in enumerate(["and(A+,D-)", "and(or(A+,B-),D-)"])]
         with Pool(a.cpus) as pool:
@@ -251,7 +268,7 @@ def main():
             fl, ti = r1.get(), r2.get()
         n6 = len(FIG6)
         fits = {"fig6": fl[:n6], "joint": fl[n6], "noise": dict(zip(dsets, fl[n6 + 1:n6 + 1 + len(dsets)])),
-                "table7": fl[n6 + 1 + len(dsets):], "ti": ti}
+                "table7": fl[n6 + 1 + len(dsets):-len(FIG18)], "fig18": fl[-len(FIG18):], "ti": ti}
         (out / "toggle_fits.json").write_text(json.dumps(fits))
 
     f6 = fits["fig6"]
@@ -260,6 +277,9 @@ def main():
     res["fig6"] = [{"model": f["model"], "aic": f["aic"], "bic": f["bic"],
                     "score": float((f["aic"] - m_) / (aics - m_).max())} for f in f6]
     res["fig6_best"] = max(f6, key=lambda f: f["aic"])["model"]
+    f18 = fits["fig18"]
+    res["fig18"] = [{"model": f["model"], "aic": f["aic"], "bic": f["bic"]} for f in f18]
+    res["fig18_best"] = max(f18, key=lambda f: f["aic"])["model"]
     j = fits["joint"]
     res["joint"] = {"map": dict(zip(j["names"], j["map"])), "mean": dict(zip(j["names"], j["mean"]))}
     res["joint_rel_error_mean"], res["joint_rel_error_mean_each"] = rel_error(j["mean"])

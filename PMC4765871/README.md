@@ -62,6 +62,9 @@ at the printed precision, or gives the share of the published line within 2 px o
 | Fig. 5, gC series | inconclusive | 46.67% within 2 px (pass 90.0%, best control 47.9%) | Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours. |
 | Fig. 5, gD series | partly | 54.56% within 2 px (pass 90.0%, best control 53.2%) | Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours. |
 | Fig. 6, model scores for gC | partly | 4 of 8 fields as printed | AND(gA+, gD-) is best, as in the paper. The other scores differ: gD alone and the OR gate score 0.83 against the paper's 0.57 and 0.56, probably because their AIC gap to the best model is relatively smaller in our 837 observations. |
+| Supp. Fig. 18 and text: the same for gD | agrees | 2 of 2 fields as printed | Assumed: Toggle switch system noise sigma_s = 6 (time step 0.01); Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960; GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target |
+| Supp. 1.3: Wanderlust in low and high dimension, 92% | differs | 0 of 1 fields as printed | Our pseudo times on the data and on four diffusion components correlate at 99.2%, closer than the paper's 92%. The paper does not say how its correlation is computed or which replicates it pairs. |
+| Supp. 2.2.3, 2.2.4 and 2.2.7: further robustness runs | not attempted | not attempted | Not attempted. The runs with noise 200 and 300, Nn from 5 to 30, forward and backward start cells, three sampling functions and 200 cells rest on start cells picked by eye (supp. Fig. 22) and on sampling functions shown only as plots (supp. Fig. 26). |
 | Fig. 6, gC fit, branch C | inconclusive | 14.98% within 2 px (pass 90.0%, best control 19.9%) | Our gC series is another random draw, drawn on the published axis by rank; the fitted curve rises later than the published one. |
 | Fig. 6, gC fit, branch D | inconclusive | 18.28% within 2 px (pass 90.0%, best control 20.4%) | As for the top panel: another draw, and a pulse at another pseudo time. |
 | Supp. Table 6, errors under observation noise | differs | 0 of 5 fields as printed | Our errors under observation noise scatter from 6.9 to 37.8% around the paper's 5.1 to 9.1%, with the same weak prior as our main fit. |
@@ -74,7 +77,7 @@ at the printed precision, or gives the share of the published line within 2 px o
 | Fig. 7B, diffusion map by cell type | inconclusive | 25.59% within 2 px (pass 90.0%, best control 25.7%) | The shape comes back (the four arms and the cell-type order), but the camera of the 3D view is fitted and our component order differs; doubling sigma scores as well, so the comparison cannot pin sigma down. |
 | Fig. 7C, GENIE3 network (w > 0.08) | partly | 28 of 31 fields as printed | 28 of the 30 published edges come back and one edge is extra. All three differences lie within 0.002 of the 0.08 threshold: PU.1 to LMO2 0.0799, TEL to LDB1 0.0782, GFI1B to GATA2 0.0807. Which side of the threshold they fall on depends on the random trees. |
 | Supp. Fig. 29, six correlations | partly | 5 of 6 fields as printed | Five of the six correlations come back at the printed precision; r(GFI1, GFI1B) is -0.4056 against -0.40. |
-| Supp. 2.3.1, branch clustering errors | differs | 0 of 3 fields as printed | The paper picked the start and end cells by eye; ours are the tips of the embedding. Our GMP branch takes in 54 CLP cells of its 176. |
+| Supp. 2.3.1, branch clustering errors | differs | 0 of 3 fields as printed | The paper picked the start and end cells by eye; ours are the tips of the embedding. Our GMP branch takes in 55 cells of other pathways (54 CLP, 1 PreMegE) of its 176. |
 | Supp. Table 8, GATA2 models (CLP) | differs | 0 of 20 fields as printed | Our AIC values scale with our 958 observations (3 replicates of about 360 cells, after outlier removal) against the paper's about 115 points per series. Our best GATA2 model is and(GFI1, NFE2), the paper's new prediction, but SCL alone ranks last. |
 | Supp. Table 9, GFI1 models (GMP) | differs | 0 of 6 fields as printed | Our best GFI1 model is GATA2 alone, which the paper ranks worst; our GMP ordering does not give GFI1 the clean low-to-high switch of supp. Fig. 28. |
 | Supp. Table 9, GFI1B models (GMP) | differs | 0 of 6 fields as printed | Our best GFI1B model is or(GATA2, GFI1), with only GFI1 effective; the paper finds GATA2 and GFI1 each on their own. |
@@ -85,19 +88,20 @@ at the printed precision, or gives the share of the published line within 2 px o
 | Fig. 9, GFI1 with input GFI1B | differs | 3.11% within 2 px (pass 90.0%, best control 3.5%) | Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one. |
 | Fig. 9, GFI1B with input GATA2 | differs | 5.94% within 2 px (pass 90.0%, best control 16.6%) | Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one. |
 | Fig. 9, GFI1B with input GFI1 | differs | 5.80% within 2 px (pass 90.0%, best control 21.2%) | Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one. |
-| Fig. 9, points per series | differs | 0 of 3 fields as printed | The published series have 102 to 115 points; ours keep all cells of a pathway. |
+| Fig. 9, points per series | differs | 0 of 3 fields as printed | The published series have 102 to 115 points; ours keep all cells of a pathway except the outliers removed (304 of 360 for GATA2 on CLP). |
 | Claims recomputed from the paper's own numbers | agrees | 4 of 4 fields as printed, 3 paper errors | Assumed: Values read off the 600 dpi render of the vector figure |
 
-2 exact, 3 agrees, 16 partly, 12 inconclusive, 14 differs, 5 not attempted; 37 open causes.
+2 exact, 4 agrees, 16 partly, 12 inconclusive, 15 differs, 6 not attempted; 38 open causes.
 
 ### Claims in the text
 
 Each claim is a `text.*` item, compared with our run. `text.arithmetic` first recomputes the claims
-from the paper's own numbers: three do not come back from them (14.5% from supp. Table 4 gives
-14.6%; 17% from Fig. 3's modes gives 23.1%; 6.8% from Fig. 1H gives 6.6%), and are recorded as
-slips in the paper. The supplement's sensitivity runs (a tighter prior, more noise, another time
-scale) are tests of causes in `results.json`, never agreement: for example, a ten times tighter
-prior on lambda gives 7.2% for the toggle switch, but our run gives 20.3%.
+from the paper's own numbers. 17% does not come back from Fig. 3's modes (they give 23.1%), a likely
+error in the paper. 14.5% comes back from supp. Table 4 as 14.59% (truncated, not rounded) and
+6.8% from the peaks of Fig. 1H as 6.6%; both are recorded as small slips. Our own sensitivity runs
+(`figure-reproduction/output/sensitivity.json`: a tighter prior, more noise, another time scale) are
+tests of causes, never agreement: a ten times tighter prior on lambda gives 7.2% for the toggle
+switch, but our run gives 20.3%.
 
 - FFL logic (partly): best model by AIC: paper or(gX+,gY-), ours or(gX+,gY-); second model by AIC: paper or(gX-,gY+), ours or(gX-,gY+); third model by AIC: paper and(gX+,gY-), ours or(gX-,gY-).
 - FFL Bayes factors (partly): R(OR/AND) > 100: paper yes, ours yes; R(OR, gX+ gY- / OR, gX- gY+) > 100: paper yes, ours yes; log p(D|M) of OR, gX+ gY-: paper -385, ours -2331.0; log p(D|M) of OR, gX- gY+: paper -400, ours -2338.0.
@@ -105,7 +109,7 @@ prior on lambda gives 7.2% for the toggle switch, but our run gives 20.3%.
 - Parameter errors (differs, differs, differs): FFL 28.1% (paper 17), with the informative prior 28.0% (paper 14.5); toggle 20.3% (paper 6.8).
 - Haematopoietic network (partly): SCL activates GATA2 (CLP): paper yes, ours no; GFI1 inhibits GATA2 (CLP): paper yes, ours yes; AND(GFI1, NFE2) on GATA2 (CLP): paper yes, ours yes; GFI1B inhibits GFI1 (GMP): paper yes, ours no; GATA2 regulates GFI1 (GMP): paper no, ours yes; GFI1 inhibits GFI1B (GMP): paper yes, ours yes; GATA2 activates GFI1B (GMP): paper yes, ours no.
 
-The paper's main claim holds on the simulated data: the OR gate wins for the feed-forward loop and AND(gA+, gD-) wins for gC. Its error figures and its haematopoietic network do not come back; the causes are the unstated informative prior, pseudo time scale and noise settings, and the unstated choice of cells and orderings on the GMP and CLP pathways.
+The paper's main claim holds on the simulated data: the OR gate wins for the feed-forward loop, and AND(gA+, gD-) wins for gC among Fig. 6's seven models (among supp. Table 7's 94, a model with gB wins). The parameter errors do not come back, and the refined network of Fig. 8 comes back only in part (3 of 7 edges); the causes are the unstated informative prior, pseudo time scale and noise settings, and the unstated choice of cells and orderings on the GMP and CLP pathways.
 
 
 Kept local and gitignored: `sources/` (the paper, its supplement and their text), `work/`
