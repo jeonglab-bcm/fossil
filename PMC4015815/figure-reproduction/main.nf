@@ -22,14 +22,13 @@ params.profiles = false
 params.workers = 4
 params.seed = 1
 
-def P = "${projectDir}/pipeline"
 
 process FETCH {
     output:
     path 'downloads'
     script:
     """
-    bash ${P}/fetch_inputs.sh downloads ${params.profiles ? 'full' : 'light'} ${params.sources ?: ''}
+    bash ${projectDir}/pipeline/fetch_inputs.sh downloads ${params.profiles ? 'full' : 'light'} ${params.sources ?: ''}
     """
 }
 
@@ -42,7 +41,7 @@ process FIGURES_CHECK {
     path 'figures_check.json'
     script:
     """
-    ${params.python} ${P}/extract_figures.py ${downloads}/PMC4015815.1.pdf ${projectDir}/published figures_check.json
+    ${params.python} ${projectDir}/pipeline/extract_figures.py ${downloads}/PMC4015815.1.pdf ${projectDir}/published figures_check.json
     """
 }
 
@@ -55,12 +54,12 @@ process PORT_CHECK {
     path 'port_check.json'
     script:
     """
-    ${params.python} ${P}/port_check.py ${downloads}/gist/gist-2.3/doc port_check.json
+    ${params.python} ${projectDir}/pipeline/port_check.py ${downloads}/gist/gist-2.3/doc port_check.json
     """
 }
 
 process PROFILES {
-    publishDir "${params.outdir}/profiles", mode: 'copy', pattern: '{top1_nrdb90_i3.fasta.gz,top1_stats.json}'
+    publishDir "${params.outdir}", mode: 'copy', pattern: '{top1_nrdb90_i3.fasta.gz,top1_stats.json}'
     cpus params.workers
     input:
     path downloads
@@ -70,9 +69,9 @@ process PROFILES {
     script:
     """
     PSIBLAST=\$PWD/${downloads}/blast/ncbi-blast-2.17.0+/bin/psiblast \\
-      bash ${P}/run_psiblast.sh ${downloads}/scop.1.53.1e-25.fasta \\
+      bash ${projectDir}/pipeline/run_psiblast.sh ${downloads}/scop.1.53.1e-25.fasta \\
       \$PWD/${downloads}/psein1/Pse-in-One-2.0/psiblast/nrdb90/nrdb90 psiblast ${task.cpus} 3 0.001
-    ${params.python} ${P}/top1.py ${downloads}/scop.1.53.1e-25.fasta psiblast/pssm top1.fasta top1_stats.json
+    ${params.python} ${projectDir}/pipeline/top1.py ${downloads}/scop.1.53.1e-25.fasta psiblast/pssm top1.fasta top1_stats.json
     gzip -n -9 top1.fasta && mv top1.fasta.gz top1_nrdb90_i3.fasta.gz
     """
 }
@@ -88,10 +87,10 @@ process SWEEP {
     def seqs = method == 'dr' ? 'residues' : "top1:top1.fasta"
     """
     ${method == 'dt' ? "gunzip -c ${top1} > top1.fasta" : ''}
-    ${params.python} ${P}/run_sweep.py --fasta ${downloads}/scop.1.53.1e-25.fasta \\
+    ${params.python} ${projectDir}/pipeline/run_sweep.py --fasta ${downloads}/scop.1.53.1e-25.fasta \\
       --membership ${downloads}/all_seq_fam_membership.txt --sequences ${seqs} \\
       --dmax ${params.dmax} --seed ${params.seed} --workers ${task.cpus} --out fresh.csv
-    ${params.python} ${P}/merge_sweep.py fresh.csv ${projectDir}/output/sweep_${method}.csv sweep_${method}.csv
+    ${params.python} ${projectDir}/pipeline/merge_sweep.py fresh.csv ${projectDir}/output/sweep_${method}.csv sweep_${method}.csv
     """
 }
 
@@ -106,7 +105,7 @@ process WEIGHTS {
     def seqs = method == 'dr' ? 'residues' : "top1:top1.fasta"
     """
     ${method == 'dt' ? "gunzip -c ${top1} > top1.fasta" : ''}
-    ${params.python} ${P}/discriminant_weights.py --fasta ${downloads}/scop.1.53.1e-25.fasta \\
+    ${params.python} ${projectDir}/pipeline/discriminant_weights.py --fasta ${downloads}/scop.1.53.1e-25.fasta \\
       --membership ${downloads}/all_seq_fam_membership.txt --sequences ${seqs} \\
       --family ${family} --dmax 150 --seed ${params.seed} --out weights_${method}_${family}.json
     """
@@ -118,20 +117,20 @@ process FIGURES {
     path sweeps
     path weights
     output:
-    path '{fig*.png,fig*.json,tables.json,fig3_published.json,fig5_published.json}', emit: all
+    path '{fig*.png,fig*.json,tables.json}', emit: all
     path 'compare', emit: compare
     script:
     """
     PUB=${projectDir}/published
-    ${params.python} ${P}/figure3_axes.py \$PUB/figure-3.png fig3_published.json
-    ${params.python} ${P}/figure3.py \$PUB/figure-3.png fig3_published.json sweep_dr.csv sweep_dt.csv .
-    ${params.python} ${P}/figure4.py \$PUB/figure-4.png weights_dt_2.5.1.3.json weights_dr_2.5.1.3.json . \\
+    ${params.python} ${projectDir}/pipeline/figure3_axes.py \$PUB/figure-3.png fig3_published.json
+    ${params.python} ${projectDir}/pipeline/figure3.py \$PUB/figure-3.png fig3_published.json sweep_dr.csv sweep_dt.csv .
+    ${params.python} ${projectDir}/pipeline/figure4.py \$PUB/figure-4.png weights_dt_2.5.1.3.json weights_dr_2.5.1.3.json . \\
       weights_dr_2.5.1.1.json weights_dt_2.5.1.1.json
-    ${params.python} ${P}/figure5_read.py \$PUB/figure-5.png fig5_published.json
-    ${params.python} ${P}/figure5.py \$PUB/figure-5.png fig5_published.json weights_dt_2.5.1.3.json weights_dr_2.5.1.3.json .
-    ${params.python} ${P}/tables.py sweep_dr.csv sweep_dt.csv weights_dr_2.5.1.3.json weights_dt_2.5.1.3.json tables.json
+    ${params.python} ${projectDir}/pipeline/figure5_read.py \$PUB/figure-5.png fig5_published.json
+    ${params.python} ${projectDir}/pipeline/figure5.py \$PUB/figure-5.png fig5_published.json weights_dt_2.5.1.3.json weights_dr_2.5.1.3.json .
+    ${params.python} ${projectDir}/pipeline/tables.py sweep_dr.csv sweep_dt.csv weights_dr_2.5.1.3.json weights_dt_2.5.1.3.json tables.json
     for f in 3 4 5; do
-      ${params.python} ${P}/compare_figure.py --published \$PUB/figure-\$f.png --render fig\${f}_ours.png \\
+      ${params.python} ${projectDir}/pipeline/compare_figure.py --published \$PUB/figure-\$f.png --render fig\${f}_ours.png \\
         --out compare/figure-\$f --published-grey 255 --render-grey 255
     done
     """
@@ -146,8 +145,8 @@ process RESULTS {
     script:
     """
     mkdir run && cp ${outputs} run/
-    ${params.python} ${P}/build_results.py run ${projectDir}/results_notes.json results.json
-    ${params.python} ${P}/check_results.py results.json --write --skip-files
+    ${params.python} ${projectDir}/pipeline/build_results.py run ${projectDir}/results_notes.json results.json
+    ${params.python} ${projectDir}/pipeline/check_results.py results.json --write --skip-files
     """
 }
 
@@ -161,7 +160,7 @@ process CHECK {
     script:
     """
     mkdir run && cp ${outputs} run/ && cp -r ${compare} run/compare
-    ${params.python} ${P}/check_reproduction.py run ${projectDir}/output report.md
+    ${params.python} ${projectDir}/pipeline/check_reproduction.py run ${projectDir}/output report.md
     """
 }
 
@@ -174,7 +173,7 @@ process PAGE {
     script:
     """
     mkdir run && cp ${outputs} run/
-    ${params.python} ${P}/build_page.py run ${projectDir}/published site/index.html
+    ${params.python} ${projectDir}/pipeline/build_page.py run ${projectDir}/published site/index.html
     """
 }
 
@@ -182,12 +181,12 @@ workflow {
     dl = FETCH()
     figs_ok = FIGURES_CHECK(dl)
     port = PORT_CHECK(dl)
-    top1 = params.profiles ? PROFILES(dl).top1 : Channel.value(file("${P}/inputs/top1_nrdb90_i3.fasta.gz"))
+    top1 = params.profiles ? PROFILES(dl).top1 : Channel.value(file("${projectDir}/pipeline/inputs/top1_nrdb90_i3.fasta.gz"))
     sweeps = SWEEP(Channel.of('dr', 'dt').combine(dl).combine(top1))
     jobs = Channel.of(['dr', '2.5.1.3'], ['dt', '2.5.1.3'], ['dr', '2.5.1.1'], ['dt', '2.5.1.1'])
     w = WEIGHTS(jobs.combine(dl).combine(top1))
     figs = FIGURES(sweeps.map { it[1] }.collect(), w.collect())
-    outputs = figs.all.flatten().mix(figs_ok, port).collect()
+    outputs = figs.all.flatten().mix(figs_ok, port, sweeps.map { it[1] }, w).collect()
     res = RESULTS(outputs)
     all = outputs.mix(res).collect()
     CHECK(all, figs.compare)

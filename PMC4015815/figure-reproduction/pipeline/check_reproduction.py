@@ -34,7 +34,8 @@ def main(run_dir, committed, report):
     ok &= rc == 0
     lines += ["## results.json", "", out.strip(), ""]
     rc, out = run([sys.executable, os.path.join(HERE, "compare_runs.py"), run_dir, committed, "--pixel-tol", "1",
-                   "--ignore", "site/*", "report.md", "compare/*", "profiles/*"])
+                   "--ignore", "site/*", "report.md", "compare/*", "causes/*", "top1_stats.json",
+                   "top1_nrdb90_i3.fasta.gz"])
     ok &= rc == 0
     lines += ["## This run against the committed output/", "", out.strip(), ""]
     lines.append("Check passed." if ok else "Check FAILED.")
