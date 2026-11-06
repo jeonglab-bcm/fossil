@@ -1,0 +1,47 @@
+{
+ "about": "Simulation settings. Kinetics are the paper's (supp. Tables 3 and 5). Everything else is our choice, read from supp. Figs 12, 16 and 19 where possible; see results.json assumptions.",
+ "ffl": {
+  "kinetics": {
+   "alpha": 100,
+   "lambda": 0.25,
+   "kp": 400,
+   "hp": 20,
+   "km": 200,
+   "hm": 10
+  },
+  "n_cells": 300,
+  "seed": 4765871,
+  "dt": 0.01,
+  "sigma_s": 2.0,
+  "initial": [
+   320.0,
+   0.0,
+   400.0
+  ],
+  "gx_low": 300.0,
+  "gx_high": 1000.0,
+  "gx_rate": 0.1429,
+  "stop_gx": 960.0,
+  "t_max": 200.0
+ },
+ "toggle": {
+  "kinetics": {
+   "alpha": 250,
+   "lambda": 0.25,
+   "kp": 400,
+   "hp": 20,
+   "km": 200,
+   "hm": 2
+  },
+  "n_cells": 400,
+  "seed": 4765872,
+  "dt": 0.01,
+  "sigma_s": 6.0,
+  "stop_late": 960.0,
+  "t_max": 400.0
+ },
+ "noise_from_figures": {
+  "ffl": "supp. Fig. 12: stationary SD of gY near 400 for t >= 32 in the four cells: 2.3, 3.5, 9.3 (still rising), 2.2; sigma_s = SD * sqrt(2 lambda) = 1.5-2.5",
+  "toggle": "supp. Fig. 16: stationary SD of the losing genes near 0 (last quarter, detrended): 6.1-11.3; sigma_s = SD * sqrt(2 lambda) = 4.3-7.6, median about 6"
+ }
+}

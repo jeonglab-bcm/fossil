@@ -47,8 +47,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Five papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, four partly.</p>
+        <h2 id="index-head">Six papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, five partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -58,6 +58,27 @@
               <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2015-06-10">10 Jun 2015</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-06">6 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4765871</span>
+                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btv257">Reconstructing gene regulatory dynamics from high-dimensional single-cell snapshot data</a>
+                  <span class="journal">Ocone et al., Bioinformatics</span>
+                  <span class="go"><a href="PMC4765871/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4765871">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The authors’ C++ and Matlab code</li>
+                  <li>The MCMC settings and the informative prior</li>
+                  <li>Which cells make the blood cell pseudo time series</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4765871/figure-reproduction/pipeline">The whole framework</a> in Python</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4765871/figure-reproduction/pipeline/params/simulation.json">The simulation noise</a>, read from the supplement’s traces</li>
+                  <li><a href="PMC4765871/">Figs 2 to 9</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The logic gates come back; the error figures differ</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
@@ -183,6 +204,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC4765871/">Snapshot dynamics figures</a>
     </nav>
   </div>
 </footer>
