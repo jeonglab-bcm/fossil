@@ -1,0 +1,73 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "2e39c41f-e889-4e4c-b548-d37b5459af88",
+  "transcript": "2e39c41f-e889-4e4c-b548-d37b5459af88.jsonl",
+  "generated_at": "2026-11-06T20:27:26+00:00",
+  "started_at": "2026-11-06T18:21:14+00:00",
+  "ended_at": "2026-11-06T20:27:08+00:00",
+  "wall_clock_minutes": 125.9,
+  "models": [
+    "claude-haiku-5-5",
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 3,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 237,
+  "tool_calls": 272,
+  "tool_calls_by_name": {
+    "Bash": 215,
+    "Read": 29,
+    "Write": 19,
+    "Edit": 3,
+    "Agent": 2,
+    "TaskStop": 2,
+    "Skill": 1,
+    "ToolSearch": 1
+  },
+  "tokens": {
+    "input": 482,
+    "cache_creation": 609507,
+    "cache_read": 95238643,
+    "output": 312434,
+    "thinking": 128096,
+    "total": 96161066
+  },
+  "subagents": {
+    "transcripts": 2,
+    "assistant_responses": 19,
+    "tool_calls": 19,
+    "tokens": {
+      "input": 38,
+      "cache_creation": 119294,
+      "cache_read": 1250282,
+      "output": 21880,
+      "thinking": 11116,
+      "total": 1391494
+    }
+  },
+  "tokens_all": {
+    "input": 520,
+    "cache_creation": 728801,
+    "cache_read": 96488925,
+    "output": 334314,
+    "thinking": 139212,
+    "total": 97552560
+  },
+  "prompts": [
+    {
+      "at": "2026-11-06T18:24:01.996Z",
+      "text": "<bash-input>git -C ~/Paper2Repro-installed log --oneline -1.</bash-input>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-06T18:24:02.908Z",
+      "text": "<bash-stdout></bash-stdout><bash-stderr>fatal: '1.': not a non-negative integer\n</bash-stderr>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-06T18:27:00.592Z",
+      "text": "Reproduce PMC4765871 (https://doi.org/10.1093/bioinformatics/btv257) with the /paper2repro skill. Follow its definition of done. Open one pull request at the end to address issue #23 of this repo. Any heavy-duty job should not be run on the login node of this server. Follow the documentation of the server and read the limits of the partitions in this repo: https://gist.github.com/sasidharPasupuleti/714ebcf07f68c628d69fa5c245666b71",
+      "mid_turn": false
+    }
+  ]
+}
