@@ -53,14 +53,21 @@ def main():
                          "--markdown", "--root", str(PAPER)], capture_output=True, text=True)
     if md.returncode:
         sys.exit(md.stdout + md.stderr)
-    table = md.stdout.strip()
+    table = md.stdout.strip() + (
+        "\n\nFor values that depend on the random split (Tables 2 and 3, Fig. 2 values, the logistic AUCs, the DeLong P) "
+        "\"exact\" and \"fields as printed\" mean every value lies within two standard deviations of our median over 10 "
+        "splits, not equal at printed precision: the paper's split is unpublished.")
     main_ok = ITEMS["text.delong"]["verdict"] in ("exact", "agrees")
     t2 = count("table2")
-    claims = ("The main claim holds: on both schemes the SVM's AUC equals the logistic regression's and the DeLong "
-              "test finds no difference. " if main_ok else "The main claim does not hold on our run. ")
-    claims += (f"Table 2 agrees for {t2[0]} of {t2[1]} kernels; the polynomial kernels differ "
-               "(an unstated setting, item table2), and the scheme I 10-fold CV and test PPV of Table 3 differ "
-               "(open, item table3.schemeI).")
+    tb = json.loads((PAPER / "figure-reproduction/output/tables.json").read_text())
+    m = tb["mlr"]
+    diff = max(abs(m[s]["svm_minus_mlr_auc"]["median"]) for s in ["I", "II"])
+    claims = ((f"The main claim holds: on both schemes the median AUCs of the SVM and the logistic regression differ by "
+               f"{diff:.4f} or less, and the DeLong test finds no difference in {10 - m['I']['reps_significant_0_05']} "
+               f"and {10 - m['II']['reps_significant_0_05']} of 10 splits. ") if main_ok else "The main claim does not hold on our run. ")
+    claims += (f"Table 2 agrees for {t2[0]} of {t2[1]} kernels: the polynomial kernels come back better than published, "
+               "as an untuned polynomial model explains (item table2); the scheme I 10-fold CV and test PPV of Table 3 "
+               "differ, cause open (item table3.schemeI).")
     for p in [PAPER / "README.md", PAPER / "figure-reproduction/README.md"]:
         t = p.read_text()
         t = fill(t, "RESULTS", table)

@@ -1,0 +1,1929 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC2850872",
+    "title": "Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes",
+    "citation": "Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. BMC Medical Informatics and Decision Making 10:16 (2010)",
+    "doi": "10.1186/1472-6947-10-16",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-08",
+    "pipeline": "PMC2850872/figure-reproduction/main.nf",
+    "command": "nextflow run PMC2850872/figure-reproduction/main.nf --outdir results",
+    "search_command": "nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search",
+    "environment": {
+      "python": "3.13.18 (committed outputs); 3.12 in CI",
+      "numpy": "2.1.3",
+      "scipy": "1.14.1",
+      "pandas": "2.2.3",
+      "scikit-learn": "1.5.2",
+      "joblib": "1.4.2",
+      "pillow": "11.0.0",
+      "nextflow (CI)": "26.04.3",
+      "R R": "4.3.3",
+      "R survey": "4.5",
+      "R pROC": "1.19.1",
+      "R e1071": "1.7.17"
+    },
+    "inputs": [
+      {
+        "name": "DEMO.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/DEMO.xpt",
+        "sha256": "a17bd1ebfd6007b8dc93f16259cb090678eb6c467a39363b7e932bba15febf89"
+      },
+      {
+        "name": "DIQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/DIQ.xpt",
+        "sha256": "85f1816a9d1809290012c2e58741f266ef811a63e51f75f7856538593c89cf7d"
+      },
+      {
+        "name": "BMX.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/BMX.xpt",
+        "sha256": "6b9bc4d998c0004fc42b213cc7f5bf347df937707f46d6d25fab926723a60500"
+      },
+      {
+        "name": "BPQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/BPQ.xpt",
+        "sha256": "38d0e06bfbe8d01b2fe7af8d18622960fe7a21dd78312bbee7123df21af8c574"
+      },
+      {
+        "name": "BPX.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/BPX.xpt",
+        "sha256": "ab99dc870f4d5fbec80642ad4b72bde73cb50d0ae630f01c9e74de5a309759f4"
+      },
+      {
+        "name": "MCQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/MCQ.xpt",
+        "sha256": "3bf45a296282a80baa23b4651c655cf422a235a08a142aa2ab5dd7ca963a2e5a"
+      },
+      {
+        "name": "PAQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/PAQ.xpt",
+        "sha256": "e256a0fe7fdc99fcd7fd23245b82b2aea84586ed3a65767c08b10ee68f96b8fa"
+      },
+      {
+        "name": "PH.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/PH.xpt",
+        "sha256": "a411b8d188450a945adce0a12397325acbc60381df6cdb7618befbc94c90ad4f"
+      },
+      {
+        "name": "SMQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/SMQ.xpt",
+        "sha256": "fb1505ea08e310a5cb703ccae0e220aede3da812674e9e53f832fe76e31c2ce3"
+      },
+      {
+        "name": "ALQ.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/ALQ.xpt",
+        "sha256": "7164f56e28c150b4218014f72b40735a5ca901686726a9215effc29209b68c9c"
+      },
+      {
+        "name": "LAB10AM.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/1999/DataFiles/LAB10AM.xpt",
+        "sha256": "2482ce90ca5fef01397508a6300ca3190c9a7fccb82f9fefe383a0c25353a932"
+      },
+      {
+        "name": "DEMO_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/DEMO_B.xpt",
+        "sha256": "6458dc2307cee244ab6ba26f70ec78c7b842ffc68e668bc43f0ab6b9737937d9"
+      },
+      {
+        "name": "DIQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/DIQ_B.xpt",
+        "sha256": "795aece6fa9a755744a4c1171cfce827fc3798ac4a4a04c894facac8176efb61"
+      },
+      {
+        "name": "BMX_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/BMX_B.xpt",
+        "sha256": "55715d4387960f88e48a2adf44da0b270a83290b1edf7c8e4ecc0eb2c29c59cf"
+      },
+      {
+        "name": "BPQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/BPQ_B.xpt",
+        "sha256": "c11d1a051c6a9da5f57ed946ea1a3636640eddf7efcbcf73283081f76e3fea63"
+      },
+      {
+        "name": "BPX_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/BPX_B.xpt",
+        "sha256": "d4214e708ccd12816a00e681f310e1e0eca14ac933c3b1cab21b1e000b871ad8"
+      },
+      {
+        "name": "MCQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/MCQ_B.xpt",
+        "sha256": "6e31c8d78e1ab0d1aaa8f012411641d6b51bc9601c2237d999d0acdddd04de01"
+      },
+      {
+        "name": "PAQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/PAQ_B.xpt",
+        "sha256": "c03073bb2e50ac4a97b588947fd4b4783a3b5c43da07a9d9a53f0879ec0b9229"
+      },
+      {
+        "name": "PH_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/PH_B.xpt",
+        "sha256": "fc190c716226078e3c07dd9faf62346e51b5200c98f6bb6b986c22d5fca0e8a4"
+      },
+      {
+        "name": "SMQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/SMQ_B.xpt",
+        "sha256": "179d7ad46de9478824d475de0e6425f474b34dd4798066a552acd31b89f07fde"
+      },
+      {
+        "name": "ALQ_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/ALQ_B.xpt",
+        "sha256": "ed2f90b82e1d9dc87ada702c2fb3f11c7f53942bd5a7a6d7463c209b894e3765"
+      },
+      {
+        "name": "L10AM_B.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2001/DataFiles/L10AM_B.xpt",
+        "sha256": "cd729b26a2b3d720dca02efb858721455ff5e534450931cb6927cbd2bfd00ea6"
+      },
+      {
+        "name": "DEMO_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/DEMO_C.xpt",
+        "sha256": "2a2fdb88263337bfa06f0516bfb419631595f0a0ee88fb96069bed13d1857c6f"
+      },
+      {
+        "name": "DIQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/DIQ_C.xpt",
+        "sha256": "e64a1db590d733c812359abb0da6fdc3f20860ec3f89aec24442df994e90befe"
+      },
+      {
+        "name": "BMX_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/BMX_C.xpt",
+        "sha256": "b3d3e431b5964ea8b5807035044322fcf32f3878d814d4a844204e51c793f090"
+      },
+      {
+        "name": "BPQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/BPQ_C.xpt",
+        "sha256": "b31db89674d59073106581ed41c265c387a70000dce0cb984a865e82cd9b63a0"
+      },
+      {
+        "name": "BPX_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/BPX_C.xpt",
+        "sha256": "4df5a7dbd9e3b882b34ad516e80d09abbd0688a46d011711e7f9cdecf53ece36"
+      },
+      {
+        "name": "MCQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/MCQ_C.xpt",
+        "sha256": "42487737067c5dbdf533bb91b5f752d1fff1dfa9eed91c7ae54ab5e49b65b019"
+      },
+      {
+        "name": "PAQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/PAQ_C.xpt",
+        "sha256": "085928dcff32acc98efc8d1d30eeceb022b56d6ab565e0572251a325a576c765"
+      },
+      {
+        "name": "PH_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/PH_C.xpt",
+        "sha256": "4765432fb6884d61147683e51c24a13ad4376c711f9dc8194fb4f0f68756c9ea"
+      },
+      {
+        "name": "SMQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/SMQ_C.xpt",
+        "sha256": "fbfe1e4b286ab43fdc3fd84c3830bb241b8b5ca84b3ab5902b8808e4136efc2c"
+      },
+      {
+        "name": "ALQ_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/ALQ_C.xpt",
+        "sha256": "e223a963ad4470e1a2e0dd1561b55a3fa91781dab3b46f5017f9eb1f62d0ced9"
+      },
+      {
+        "name": "L10AM_C.xpt",
+        "url": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2003/DataFiles/L10AM_C.xpt",
+        "sha256": "d2d24e6eb04b4fa55753e410603a00e07a69990f009918e3da9e45917514dbf7"
+      }
+    ]
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "items": [
+    {
+      "id": "table1",
+      "label": "Table 1, people per diabetes category",
+      "kind": "table",
+      "source": "public_data",
+      "assumptions": [
+        {
+          "what": "Glucose counts only for people who fasted at least 8 hours (PHAFSTHR >= 8), the NHANES rule for the fasting weights",
+          "source": "our_choice",
+          "sensitivity": "At 6, 7 or 9 hours the fasting groups move by 1 to 7 people; 6 hours comes closest (5 people off in all) but is no NHANES rule, and no rule gives all three published counts (table1.json, definition_variants)"
+        },
+        {
+          "what": "'Borderline' (DIQ010 = 3) counts as not diagnosed; 'don't know' on family history or hypertension counts as no",
+          "source": "our_choice",
+          "sensitivity": "Borderline as diagnosed gives 1,444 diagnosed; borderline excluded loses 27 undiagnosed; 'don't know' as missing gives 1,229 diagnosed (table1.json)"
+        },
+        {
+          "what": "Table 1 counts are complete cases on the scheme I variables (the scheme I totals are the category sums)",
+          "source": "paper",
+          "sensitivity": "Without the complete-case rule diagnosed diabetes is 1,525"
+        },
+        {
+          "what": "Physical activity is PAD320, moderate activity in the past 30 days (yes/no); 'unable' is missing",
+          "source": "found_by_search",
+          "sensitivity": "Searched PAD020, PAQ100, PAD200, PAD320 and PAQ180: PAD320 leaves 1,717 and 3,210 scheme II cases and non-cases (paper 1,709 and 3,206); the next best, PAD020, 1,725 and 3,218 (table1.json, pa_variants)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Diagnosed diabetes comes back exactly (1,266). The fasting groups are 1, 5 and 5 people off (196, 1,571, 3,272 against 195, 1,576, 3,277), so the scheme I non-cases are 10 off and the scheme II totals 8 and 4 off. No fasting, borderline or missing-value rule we tried closes the gap. The glucose files we used carry revision dates of September 2009 (1999-2000) and March 2007 (2001-2002); whether the authors' copy differed could not be tested.",
+        "evidence": [
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A different minimum fasting time",
+            "test": "cohort.py, definition_variants: no limit, 6, 7, 8, 9 hours",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Borderline answers counted as diagnosed, or excluded",
+            "test": "cohort.py, definition_variants",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "'Don't know' answers dropped as missing",
+            "test": "cohort.py, definition_variants",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The glucose files were revised after the authors' download",
+            "test": "Wayback copies of LAB10AM and L10AM_B from 2015 are listed but could not be fetched from this environment; CDC's documentation gives last revisions of September 2009 and March 2007",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Diagnosed diabetes",
+            "expected": "1266",
+            "observed": "1266"
+          },
+          {
+            "name": "Undiagnosed diabetes",
+            "expected": "195",
+            "observed": "196"
+          },
+          {
+            "name": "Pre-diabetes",
+            "expected": "1576",
+            "observed": "1571"
+          },
+          {
+            "name": "No diabetes",
+            "expected": "3277",
+            "observed": "3272"
+          },
+          {
+            "name": "Scheme I cases",
+            "expected": "1461",
+            "observed": "1462"
+          },
+          {
+            "name": "Scheme I non-cases",
+            "expected": "4853",
+            "observed": "4843"
+          },
+          {
+            "name": "Scheme II cases",
+            "expected": "1709",
+            "observed": "1717"
+          },
+          {
+            "name": "Scheme II non-cases",
+            "expected": "3206",
+            "observed": "3210"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, test AUC of the four kernels",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "10 random 80/20 splits (seeds 0 to 9); ours is the median, and a value agrees within two standard deviations over the splits",
+          "source": "our_choice",
+          "sensitivity": "The paper's split is unpublished; one split moves an AUC by about one standard deviation (0.01 to 0.02)"
+        },
+        {
+          "what": "Weight, height and waist divided by 200, BMI by 100; yes/no coded 1/-1",
+          "source": "our_choice",
+          "sensitivity": "The paper gives only age / 100"
+        },
+        {
+          "what": "Polynomial kernel degree 3 and coef0 0, sigmoid coef0 0 (LIBSVM defaults)",
+          "source": "our_choice",
+          "sensitivity": "Not given in the paper"
+        },
+        {
+          "what": "Fits inside the grid search stop after 1,000,000 iterations (LIBSVM 2.89 had no limit)",
+          "source": "our_choice",
+          "sensitivity": "On split 0 of scheme I, the linear kernel's search with LIBSVM 3's 10,000,000 limit chose the same C"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Six of the eight AUCs lie within two standard deviations of our median over 10 splits; the paper's scheme I linear, RBF and sigmoid AUCs sit in the upper part of our range. Both polynomial kernels differ: with grid.py's search ours are 0.05 higher (0.8175 and 0.7158 against 0.7655 and 0.6673), and none of our 20 polynomial fits comes as low. Run at LIBSVM's defaults with no search (C = 1, gamma = 1/8 or 1/10), the polynomial kernel gives 0.782 and 0.690, and both published values fall within two standard deviations: the paper's polynomial model was most likely not tuned.",
+        "evidence": [
+          "figure-reproduction/output/table2_reps.csv",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Polynomial kernel with LIBSVM's default gamma, only C searched",
+            "test": "hypotheses.py H1, splits 0 and 1: mean AUC 0.808 and 0.722 (ours 0.802 and 0.723); C absorbs gamma for a homogeneous polynomial",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Features scaled to [-1, 1] by svm-scale instead of fixed divisors",
+            "test": "hypotheses.py H2, splits 0 and 1: polynomial 0.805 and 0.728, RBF 0.819 and 0.742 (ours 0.802, 0.723, 0.822, 0.739)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Polynomial of degree 2",
+            "test": "hypotheses.py H3, splits 0 and 1: 0.827 and 0.738, further from the paper",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Polynomial kernel at LIBSVM's defaults (C = 1, gamma = 1 / number of features), no search",
+            "test": "hypotheses.py H4, all 10 splits: median 0.782 (SD 0.012) and 0.690 (SD 0.013); the paper's 0.7655 and 0.6673 lie within two SDs",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      },
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Scheme I, linear",
+            "expected": "0.8332",
+            "observed": "0.8244",
+            "tolerance": {
+              "abs": 0.0205
+            },
+            "our_range": [
+              "0.8136",
+              "0.8496"
+            ],
+            "our_sd": 0.0103
+          },
+          {
+            "name": "Scheme I, polynomial",
+            "expected": "0.7655",
+            "observed": "0.8175",
+            "tolerance": {
+              "abs": 0.0187
+            },
+            "our_range": [
+              "0.7977",
+              "0.8286"
+            ],
+            "our_sd": 0.0094
+          },
+          {
+            "name": "Scheme I, RBF",
+            "expected": "0.8347",
+            "observed": "0.8253",
+            "tolerance": {
+              "abs": 0.0151
+            },
+            "our_range": [
+              "0.8149",
+              "0.8389"
+            ],
+            "our_sd": 0.0076
+          },
+          {
+            "name": "Scheme I, sigmoid",
+            "expected": "0.8341",
+            "observed": "0.8232",
+            "tolerance": {
+              "abs": 0.0213
+            },
+            "our_range": [
+              "0.8128",
+              "0.8505"
+            ],
+            "our_sd": 0.0107
+          },
+          {
+            "name": "Scheme II, linear",
+            "expected": "0.7318",
+            "observed": "0.7317",
+            "tolerance": {
+              "abs": 0.0295
+            },
+            "our_range": [
+              "0.7085",
+              "0.7599"
+            ],
+            "our_sd": 0.0148
+          },
+          {
+            "name": "Scheme II, polynomial",
+            "expected": "0.6673",
+            "observed": "0.7158",
+            "tolerance": {
+              "abs": 0.0309
+            },
+            "our_range": [
+              "0.6767",
+              "0.7251"
+            ],
+            "our_sd": 0.0154
+          },
+          {
+            "name": "Scheme II, RBF",
+            "expected": "0.7259",
+            "observed": "0.7299",
+            "tolerance": {
+              "abs": 0.0307
+            },
+            "our_range": [
+              "0.7066",
+              "0.7595"
+            ],
+            "our_sd": 0.0153
+          },
+          {
+            "name": "Scheme II, sigmoid",
+            "expected": "0.7273",
+            "observed": "0.7314",
+            "tolerance": {
+              "abs": 0.0303
+            },
+            "our_range": [
+              "0.7075",
+              "0.7614"
+            ],
+            "our_sd": 0.0151
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3.schemeI",
+      "label": "Table 3, scheme I (RBF kernel): test, training and 10-fold CV",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "The training row is the whole training set, the set whose prevalence the row's PPV and NPV imply",
+          "source": "paper",
+          "sensitivity": "On the balanced sample our median PPV would be about 0.74 against the paper's 0.4550"
+        },
+        {
+          "what": "10-fold CV reuses the C and gamma of the split's grid search",
+          "source": "our_choice",
+          "sensitivity": "The paper does not say whether it searched again inside the folds"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "9 of 15 values agree. The training row agrees in full, and four of five test values. The paper's test PPV is higher than any of our splits give (0.4926 against our median 0.4522 and highest 0.4811). Its 10-fold CV values are all below ours, and all but specificity lie outside our split range (AUC 0.8242 against our median 0.8347 and lowest 0.8247), although its test and training AUCs do not.",
+        "evidence": [
+          "figure-reproduction/output/table3_reps.csv",
+          "figure-reproduction/output/tables.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The paper's test set had a higher prevalence than a 20% share of each Table 1 group",
+            "test": "Prevalence implied by the paper's test PPV and NPV: 0.239 against 0.231 (text.arithmetic). Our median sensitivity and specificity at prevalence 0.239 give PPV 0.464, still below the paper's 0.4926 less our tolerance (0.4658)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's values come from an ordinary random split, like ours",
+            "test": "Range over our 10 splits (table3_reps.csv): the 10-fold CV AUC, sensitivity, PPV and NPV of the paper lie outside it; the test values lie inside it except PPV",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "test sensitivity",
+            "expected": "0.7715",
+            "observed": "0.7928",
+            "tolerance": {
+              "abs": 0.0433
+            },
+            "our_range": [
+              "0.7397",
+              "0.8082"
+            ],
+            "our_sd": 0.0217
+          },
+          {
+            "name": "test specificity",
+            "expected": "0.7503",
+            "observed": "0.7128",
+            "tolerance": {
+              "abs": 0.0389
+            },
+            "our_range": [
+              "0.6849",
+              "0.7593"
+            ],
+            "our_sd": 0.0194
+          },
+          {
+            "name": "test PPV",
+            "expected": "0.4926",
+            "observed": "0.4522",
+            "tolerance": {
+              "abs": 0.0268
+            },
+            "our_range": [
+              "0.4352",
+              "0.4811"
+            ],
+            "our_sd": 0.0134
+          },
+          {
+            "name": "test NPV",
+            "expected": "0.9127",
+            "observed": "0.9196",
+            "tolerance": {
+              "abs": 0.0125
+            },
+            "our_range": [
+              "0.9063",
+              "0.9259"
+            ],
+            "our_sd": 0.0063
+          },
+          {
+            "name": "test AUC",
+            "expected": "0.8347",
+            "observed": "0.8253",
+            "tolerance": {
+              "abs": 0.0151
+            },
+            "our_range": [
+              "0.8149",
+              "0.8389"
+            ],
+            "our_sd": 0.0076
+          },
+          {
+            "name": "training sensitivity",
+            "expected": "0.7938",
+            "observed": "0.8030",
+            "tolerance": {
+              "abs": 0.0179
+            },
+            "our_range": [
+              "0.7889",
+              "0.8162"
+            ],
+            "our_sd": 0.009
+          },
+          {
+            "name": "training specificity",
+            "expected": "0.7169",
+            "observed": "0.7218",
+            "tolerance": {
+              "abs": 0.0231
+            },
+            "our_range": [
+              "0.7053",
+              "0.7481"
+            ],
+            "our_sd": 0.0115
+          },
+          {
+            "name": "training PPV",
+            "expected": "0.4550",
+            "observed": "0.4669",
+            "tolerance": {
+              "abs": 0.0171
+            },
+            "our_range": [
+              "0.4554",
+              "0.4860"
+            ],
+            "our_sd": 0.0086
+          },
+          {
+            "name": "training NPV",
+            "expected": "0.9211",
+            "observed": "0.9238",
+            "tolerance": {
+              "abs": 0.0048
+            },
+            "our_range": [
+              "0.9198",
+              "0.9271"
+            ],
+            "our_sd": 0.0024
+          },
+          {
+            "name": "training AUC",
+            "expected": "0.8383",
+            "observed": "0.8387",
+            "tolerance": {
+              "abs": 0.0039
+            },
+            "our_range": [
+              "0.8354",
+              "0.8421"
+            ],
+            "our_sd": 0.002
+          },
+          {
+            "name": "10-fold CV sensitivity",
+            "expected": "0.7765",
+            "observed": "0.8027",
+            "tolerance": {
+              "abs": 0.0136
+            },
+            "our_range": [
+              "0.7940",
+              "0.8150"
+            ],
+            "our_sd": 0.0068
+          },
+          {
+            "name": "10-fold CV specificity",
+            "expected": "0.7027",
+            "observed": "0.7178",
+            "tolerance": {
+              "abs": 0.0138
+            },
+            "our_range": [
+              "0.7009",
+              "0.7256"
+            ],
+            "our_sd": 0.0069
+          },
+          {
+            "name": "10-fold CV PPV",
+            "expected": "0.4388",
+            "observed": "0.4621",
+            "tolerance": {
+              "abs": 0.0086
+            },
+            "our_range": [
+              "0.4522",
+              "0.4669"
+            ],
+            "our_sd": 0.0043
+          },
+          {
+            "name": "10-fold CV NPV",
+            "expected": "0.9130",
+            "observed": "0.9233",
+            "tolerance": {
+              "abs": 0.0038
+            },
+            "our_range": [
+              "0.9210",
+              "0.9263"
+            ],
+            "our_sd": 0.0019
+          },
+          {
+            "name": "10-fold CV AUC",
+            "expected": "0.8242",
+            "observed": "0.8347",
+            "tolerance": {
+              "abs": 0.0077
+            },
+            "our_range": [
+              "0.8247",
+              "0.8375"
+            ],
+            "our_sd": 0.0039
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3.schemeII",
+      "label": "Table 3, scheme II (linear kernel): test, training and 10-fold CV",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "The training row is the balanced sample, the set whose prevalence the row's PPV implies",
+          "source": "paper",
+          "sensitivity": "The row's NPV implies the whole training set instead (text.arithmetic)"
+        },
+        {
+          "what": "10-fold CV reuses the C and gamma of the split's grid search",
+          "source": "our_choice",
+          "sensitivity": "The paper does not say whether it searched again inside the folds"
+        }
+      ],
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "test sensitivity",
+            "expected": "0.7359",
+            "observed": "0.7070",
+            "tolerance": {
+              "abs": 0.0441
+            },
+            "our_range": [
+              "0.6647",
+              "0.7318"
+            ],
+            "our_sd": 0.022
+          },
+          {
+            "name": "test specificity",
+            "expected": "0.6254",
+            "observed": "0.6542",
+            "tolerance": {
+              "abs": 0.0356
+            },
+            "our_range": [
+              "0.6231",
+              "0.6869"
+            ],
+            "our_sd": 0.0178
+          },
+          {
+            "name": "test PPV",
+            "expected": "0.5061",
+            "observed": "0.5168",
+            "tolerance": {
+              "abs": 0.032
+            },
+            "our_range": [
+              "0.5055",
+              "0.5553"
+            ],
+            "our_sd": 0.016
+          },
+          {
+            "name": "test NPV",
+            "expected": "0.8195",
+            "observed": "0.8042",
+            "tolerance": {
+              "abs": 0.0255
+            },
+            "our_range": [
+              "0.7846",
+              "0.8274"
+            ],
+            "our_sd": 0.0127
+          },
+          {
+            "name": "test AUC",
+            "expected": "0.7318",
+            "observed": "0.7317",
+            "tolerance": {
+              "abs": 0.0295
+            },
+            "our_range": [
+              "0.7085",
+              "0.7599"
+            ],
+            "our_sd": 0.0148
+          },
+          {
+            "name": "training sensitivity",
+            "expected": "0.7092",
+            "observed": "0.7114",
+            "tolerance": {
+              "abs": 0.0079
+            },
+            "our_range": [
+              "0.7045",
+              "0.7154"
+            ],
+            "our_sd": 0.0039
+          },
+          {
+            "name": "training specificity",
+            "expected": "0.6590",
+            "observed": "0.6583",
+            "tolerance": {
+              "abs": 0.0219
+            },
+            "our_range": [
+              "0.6310",
+              "0.6645"
+            ],
+            "our_sd": 0.011
+          },
+          {
+            "name": "training PPV",
+            "expected": "0.6729",
+            "observed": "0.6750",
+            "tolerance": {
+              "abs": 0.0135
+            },
+            "our_range": [
+              "0.6595",
+              "0.6785"
+            ],
+            "our_sd": 0.0068
+          },
+          {
+            "name": "training NPV",
+            "expected": "0.8087",
+            "observed": "0.6932",
+            "tolerance": {
+              "abs": 0.0082
+            },
+            "our_range": [
+              "0.6853",
+              "0.6988"
+            ],
+            "our_sd": 0.0041
+          },
+          {
+            "name": "training AUC",
+            "expected": "0.7393",
+            "observed": "0.7390",
+            "tolerance": {
+              "abs": 0.0147
+            },
+            "our_range": [
+              "0.7253",
+              "0.7488"
+            ],
+            "our_sd": 0.0073
+          },
+          {
+            "name": "10-fold CV sensitivity",
+            "expected": "0.7059",
+            "observed": "0.7068",
+            "tolerance": {
+              "abs": 0.0116
+            },
+            "our_range": [
+              "0.6983",
+              "0.7199"
+            ],
+            "our_sd": 0.0058
+          },
+          {
+            "name": "10-fold CV specificity",
+            "expected": "0.6589",
+            "observed": "0.6544",
+            "tolerance": {
+              "abs": 0.0092
+            },
+            "our_range": [
+              "0.6452",
+              "0.6620"
+            ],
+            "our_sd": 0.0046
+          },
+          {
+            "name": "10-fold CV PPV",
+            "expected": "0.5293",
+            "observed": "0.5236",
+            "tolerance": {
+              "abs": 0.0066
+            },
+            "our_range": [
+              "0.5163",
+              "0.5270"
+            ],
+            "our_sd": 0.0033
+          },
+          {
+            "name": "10-fold CV NPV",
+            "expected": "0.8054",
+            "observed": "0.8066",
+            "tolerance": {
+              "abs": 0.0058
+            },
+            "our_range": [
+              "0.8035",
+              "0.8134"
+            ],
+            "our_sd": 0.0029
+          },
+          {
+            "name": "10-fold CV AUC",
+            "expected": "0.7357",
+            "observed": "0.7339",
+            "tolerance": {
+              "abs": 0.0084
+            },
+            "our_range": [
+              "0.7263",
+              "0.7392"
+            ],
+            "our_sd": 0.0042
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "training NPV",
+            "category": "paper_error",
+            "evidence": [
+              "figure-reproduction/output/tables.json (paper_arithmetic)",
+              "PPV implies 0.4973 and NPV implies 0.3490: no one set gives both"
+            ]
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1",
+      "kind": "figure",
+      "source": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A schematic of a separating hyperplane in a higher-dimensional space; there is nothing to recompute.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC2850872/figure/F1/"
+        ],
+        "status": "explained"
+      },
+      "method": "none",
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2.a",
+      "label": "Fig. 2a, ROC curves of scheme I (pixels, split 0)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "The paper's curve comes from one unpublished random split. Two random splits differ by about as much as a curve moved 0.03 in sensitivity (12 px here): the near-miss control at +0.03 scores as well as our split 0, so a 2 px score cannot tell them apart. Fig. 2a in data units (fig2.a.values) compares the published curve with the spread of ours over 10 splits instead.",
+        "evidence": [
+          "figure-reproduction/output/fig2_comparison.json",
+          "figure-reproduction/output/roc_at_fpr_reps.csv"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A different split moves the curve by more than the 2 px tolerance",
+            "test": "Standard deviation over our 10 splits of the sensitivity at fixed false-positive rates (roc_at_fpr_reps.csv): 0.003 to 0.04, that is 1 to 16 px",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      },
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": null,
+        "published_near_ours": 0.3373,
+        "ours_near_published": 0.2806,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "scheme II curve",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "age alone",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "sensitivity -0.03",
+            "kind": "near_miss",
+            "score": 0.0014
+          },
+          {
+            "name": "sensitivity +0.03",
+            "kind": "near_miss",
+            "score": 0.3178
+          }
+        ],
+        "per_trace": {
+          "svm": {
+            "published_near_ours": 0.3795454545454545,
+            "ours_near_published": 0.2805755395683453
+          },
+          "mlr": {
+            "published_near_ours": 0.31163434903047094,
+            "ours_near_published": 0.3484626647144949
+          }
+        }
+      },
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig2.b",
+      "label": "Fig. 2b, ROC curves of scheme II (pixels, split 0)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "As for Fig. 2a: one unpublished split, and a different split moves the curve by more than the 2 px tolerance; ours beats the controls but reaches only 21%. Fig. 2b in data units (fig2.b.values) compares the published curve with the spread of ours.",
+        "evidence": [
+          "figure-reproduction/output/fig2_comparison.json",
+          "figure-reproduction/output/roc_at_fpr_reps.csv"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A different split moves the curve by more than the 2 px tolerance",
+            "test": "Standard deviation over our 10 splits of the sensitivity at fixed false-positive rates (roc_at_fpr_reps.csv): 0.003 to 0.04, that is 1 to 16 px",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      },
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": null,
+        "published_near_ours": 0.3099,
+        "ours_near_published": 0.2142,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "scheme I curve",
+            "kind": "wrong_input",
+            "score": 0.1448
+          },
+          {
+            "name": "age alone",
+            "kind": "wrong_input",
+            "score": 0.0229
+          },
+          {
+            "name": "sensitivity -0.03",
+            "kind": "near_miss",
+            "score": 0.1394
+          },
+          {
+            "name": "sensitivity +0.03",
+            "kind": "near_miss",
+            "score": 0.0768
+          }
+        ],
+        "per_trace": {
+          "svm": {
+            "published_near_ours": 0.24144144144144145,
+            "ours_near_published": 0.21418439716312057
+          },
+          "mlr": {
+            "published_near_ours": 0.3611859838274933,
+            "ours_near_published": 0.365296803652968
+          }
+        }
+      },
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2.a.values",
+      "label": "Fig. 2a, sensitivity at nine false-positive rates (SVM and logistic regression)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "Published sensitivities read off the figure: the median row of the trace in the columns at 1 - specificity 0.1 to 0.9, mapped by the tick marks; none where the trace has ended",
+          "source": "read_from_figure",
+          "sensitivity": "Tick fit residual under 0.5 px, that is 0.002 in sensitivity; the trace is 1 to 2 px wide"
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "14 of 17 points agree (the published SVM curve ends before 0.9). The published SVM curve runs above every one of our 10 splits between 1 - specificity 0.3 and 0.5 (sensitivity 0.843, 0.908, 0.951 against our highest 0.829, 0.901, 0.935), as its AUC 0.8347 sits near the top of our range; the logistic curve agrees at all nine points. The paper's split is unpublished.",
+        "evidence": [
+          "figure-reproduction/output/roc_at_fpr_reps.csv",
+          "figure-reproduction/output/fig2_comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The sensitivities were read off the figure wrongly",
+            "test": "Tick fit residual 0.45 px (0.002 in sensitivity) on both axes; the overlay puts the read points on the trace",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's curve is one random split like ours",
+            "test": "Our 10 splits span 0.774 to 0.829 at 1 - specificity 0.3; the paper's 0.843 lies just outside",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.1",
+            "expected": "0.452",
+            "observed": "0.4658",
+            "tolerance": {
+              "abs": 0.0642
+            },
+            "our_range": [
+              "0.4384",
+              "0.5342"
+            ],
+            "our_sd": 0.0321
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.2",
+            "expected": "0.698",
+            "observed": "0.6798",
+            "tolerance": {
+              "abs": 0.0484
+            },
+            "our_range": [
+              "0.6507",
+              "0.7295"
+            ],
+            "our_sd": 0.0242
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.3",
+            "expected": "0.843",
+            "observed": "0.8031",
+            "tolerance": {
+              "abs": 0.0278
+            },
+            "our_range": [
+              "0.7740",
+              "0.8288"
+            ],
+            "our_sd": 0.0139
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.4",
+            "expected": "0.908",
+            "observed": "0.8767",
+            "tolerance": {
+              "abs": 0.0211
+            },
+            "our_range": [
+              "0.8699",
+              "0.9007"
+            ],
+            "our_sd": 0.0106
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.5",
+            "expected": "0.951",
+            "observed": "0.9298",
+            "tolerance": {
+              "abs": 0.0131
+            },
+            "our_range": [
+              "0.9144",
+              "0.9349"
+            ],
+            "our_sd": 0.0065
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.6",
+            "expected": "0.969",
+            "observed": "0.9606",
+            "tolerance": {
+              "abs": 0.0169
+            },
+            "our_range": [
+              "0.9452",
+              "0.9692"
+            ],
+            "our_sd": 0.0085
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.7",
+            "expected": "0.983",
+            "observed": "0.9795",
+            "tolerance": {
+              "abs": 0.0188
+            },
+            "our_range": [
+              "0.9521",
+              "0.9863"
+            ],
+            "our_sd": 0.0094
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.8",
+            "expected": "0.997",
+            "observed": "0.9880",
+            "tolerance": {
+              "abs": 0.0107
+            },
+            "our_range": [
+              "0.9795",
+              "0.9966"
+            ],
+            "our_sd": 0.0054
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.1",
+            "expected": "0.439",
+            "observed": "0.4743",
+            "tolerance": {
+              "abs": 0.0662
+            },
+            "our_range": [
+              "0.3904",
+              "0.5000"
+            ],
+            "our_sd": 0.0331
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.2",
+            "expected": "0.691",
+            "observed": "0.6747",
+            "tolerance": {
+              "abs": 0.0649
+            },
+            "our_range": [
+              "0.6473",
+              "0.7568"
+            ],
+            "our_sd": 0.0325
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.3",
+            "expected": "0.826",
+            "observed": "0.7997",
+            "tolerance": {
+              "abs": 0.049
+            },
+            "our_range": [
+              "0.7705",
+              "0.8493"
+            ],
+            "our_sd": 0.0245
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.4",
+            "expected": "0.891",
+            "observed": "0.8801",
+            "tolerance": {
+              "abs": 0.0296
+            },
+            "our_range": [
+              "0.8596",
+              "0.9144"
+            ],
+            "our_sd": 0.0148
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.5",
+            "expected": "0.946",
+            "observed": "0.9384",
+            "tolerance": {
+              "abs": 0.0186
+            },
+            "our_range": [
+              "0.9212",
+              "0.9521"
+            ],
+            "our_sd": 0.0093
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.6",
+            "expected": "0.973",
+            "observed": "0.9623",
+            "tolerance": {
+              "abs": 0.0165
+            },
+            "our_range": [
+              "0.9521",
+              "0.9795"
+            ],
+            "our_sd": 0.0082
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.7",
+            "expected": "0.985",
+            "observed": "0.9795",
+            "tolerance": {
+              "abs": 0.0133
+            },
+            "our_range": [
+              "0.9692",
+              "0.9897"
+            ],
+            "our_sd": 0.0067
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.8",
+            "expected": "0.993",
+            "observed": "0.9914",
+            "tolerance": {
+              "abs": 0.0102
+            },
+            "our_range": [
+              "0.9829",
+              "0.9966"
+            ],
+            "our_sd": 0.0051
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.9",
+            "expected": "1.000",
+            "observed": "0.9966",
+            "tolerance": {
+              "abs": 0.0051
+            },
+            "our_range": [
+              "0.9932",
+              "1.0000"
+            ],
+            "our_sd": 0.0025
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2.b.values",
+      "label": "Fig. 2b, sensitivity at nine false-positive rates (SVM and logistic regression)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "Published sensitivities read off the figure: the median row of the trace in the columns at 1 - specificity 0.1 to 0.9, mapped by the tick marks; none where the trace has ended",
+          "source": "read_from_figure",
+          "sensitivity": "Tick fit residual under 0.5 px, that is 0.002 in sensitivity; the trace is 1 to 2 px wide"
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "16 of 18 points agree. The published logistic curve starts lower than all of our splits (sensitivity 0.231 at 1 - specificity 0.1 against our lowest 0.257), and the published SVM curve runs just above all of them at 0.8 (0.983 against our highest 0.980). The paper's split is unpublished.",
+        "evidence": [
+          "figure-reproduction/output/roc_at_fpr_reps.csv",
+          "figure-reproduction/output/fig2_comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The sensitivities were read off the figure wrongly",
+            "test": "Tick fit residual 0.42 px on both axes; the overlay puts the read points on the trace",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's curve is one random split like ours",
+            "test": "Our 10 splits' range (roc_at_fpr_reps.csv) holds the published value at 16 of 18 points; the other two lie just outside it",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.1",
+            "expected": "0.263",
+            "observed": "0.2915",
+            "tolerance": {
+              "abs": 0.0423
+            },
+            "our_range": [
+              "0.2536",
+              "0.3207"
+            ],
+            "our_sd": 0.0212
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.2",
+            "expected": "0.465",
+            "observed": "0.4854",
+            "tolerance": {
+              "abs": 0.08
+            },
+            "our_range": [
+              "0.4286",
+              "0.5656"
+            ],
+            "our_sd": 0.04
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.3",
+            "expected": "0.652",
+            "observed": "0.6516",
+            "tolerance": {
+              "abs": 0.0567
+            },
+            "our_range": [
+              "0.6122",
+              "0.6997"
+            ],
+            "our_sd": 0.0284
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.4",
+            "expected": "0.764",
+            "observed": "0.7493",
+            "tolerance": {
+              "abs": 0.0491
+            },
+            "our_range": [
+              "0.7318",
+              "0.8076"
+            ],
+            "our_sd": 0.0245
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.5",
+            "expected": "0.831",
+            "observed": "0.8397",
+            "tolerance": {
+              "abs": 0.0326
+            },
+            "our_range": [
+              "0.8047",
+              "0.8630"
+            ],
+            "our_sd": 0.0163
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.6",
+            "expected": "0.895",
+            "observed": "0.8819",
+            "tolerance": {
+              "abs": 0.0359
+            },
+            "our_range": [
+              "0.8484",
+              "0.9009"
+            ],
+            "our_sd": 0.018
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.7",
+            "expected": "0.940",
+            "observed": "0.9315",
+            "tolerance": {
+              "abs": 0.0208
+            },
+            "our_range": [
+              "0.9242",
+              "0.9563"
+            ],
+            "our_sd": 0.0104
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.8",
+            "expected": "0.983",
+            "observed": "0.9679",
+            "tolerance": {
+              "abs": 0.0108
+            },
+            "our_range": [
+              "0.9621",
+              "0.9796"
+            ],
+            "our_sd": 0.0054
+          },
+          {
+            "name": "SVM, sensitivity at 1 - specificity 0.9",
+            "expected": "0.994",
+            "observed": "0.9840",
+            "tolerance": {
+              "abs": 0.0132
+            },
+            "our_range": [
+              "0.9738",
+              "0.9971"
+            ],
+            "our_sd": 0.0066
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.1",
+            "expected": "0.231",
+            "observed": "0.2974",
+            "tolerance": {
+              "abs": 0.04
+            },
+            "our_range": [
+              "0.2566",
+              "0.3149"
+            ],
+            "our_sd": 0.02
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.2",
+            "expected": "0.476",
+            "observed": "0.4840",
+            "tolerance": {
+              "abs": 0.064
+            },
+            "our_range": [
+              "0.4490",
+              "0.5394"
+            ],
+            "our_sd": 0.032
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.3",
+            "expected": "0.650",
+            "observed": "0.6647",
+            "tolerance": {
+              "abs": 0.0677
+            },
+            "our_range": [
+              "0.6152",
+              "0.7289"
+            ],
+            "our_sd": 0.0338
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.4",
+            "expected": "0.774",
+            "observed": "0.7551",
+            "tolerance": {
+              "abs": 0.0495
+            },
+            "our_range": [
+              "0.7318",
+              "0.7930"
+            ],
+            "our_sd": 0.0247
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.5",
+            "expected": "0.838",
+            "observed": "0.8367",
+            "tolerance": {
+              "abs": 0.0388
+            },
+            "our_range": [
+              "0.8076",
+              "0.8746"
+            ],
+            "our_sd": 0.0194
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.6",
+            "expected": "0.906",
+            "observed": "0.8805",
+            "tolerance": {
+              "abs": 0.0378
+            },
+            "our_range": [
+              "0.8455",
+              "0.9067"
+            ],
+            "our_sd": 0.0189
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.7",
+            "expected": "0.956",
+            "observed": "0.9359",
+            "tolerance": {
+              "abs": 0.0228
+            },
+            "our_range": [
+              "0.9242",
+              "0.9592"
+            ],
+            "our_sd": 0.0114
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.8",
+            "expected": "0.973",
+            "observed": "0.9708",
+            "tolerance": {
+              "abs": 0.009
+            },
+            "our_range": [
+              "0.9621",
+              "0.9796"
+            ],
+            "our_sd": 0.0045
+          },
+          {
+            "name": "logistic regression, sensitivity at 1 - specificity 0.9",
+            "expected": "0.989",
+            "observed": "0.9840",
+            "tolerance": {
+              "abs": 0.0113
+            },
+            "our_range": [
+              "0.9796",
+              "0.9971"
+            ],
+            "our_sd": 0.0057
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.mlr_auc",
+      "label": "Text: logistic regression AUCs 0.8319 and 0.7335",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions": [
+        {
+          "what": "Logistic regression weighted by the six-year NHANES examination weights, fitted to the whole training set; point estimates as SUDAAN would give",
+          "source": "our_choice",
+          "sensitivity": "Unweighted, the median AUC moves by under 0.005 (tables.json, auc_unweighted)"
+        }
+      ],
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Scheme I, logistic regression AUC",
+            "expected": "0.8319",
+            "observed": "0.8263",
+            "tolerance": {
+              "abs": 0.0215
+            },
+            "our_range": [
+              "0.8123",
+              "0.8496"
+            ],
+            "our_sd": 0.0108
+          },
+          {
+            "name": "Scheme II, logistic regression AUC",
+            "expected": "0.7335",
+            "observed": "0.7340",
+            "tolerance": {
+              "abs": 0.0289
+            },
+            "our_range": [
+              "0.7127",
+              "0.7614"
+            ],
+            "our_sd": 0.0144
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.delong",
+      "label": "Text: SVM and logistic regression do not differ (DeLong P 0.3672 and 0.6718)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Scheme I, DeLong P",
+            "expected": "0.3672",
+            "observed": "0.4676",
+            "tolerance": {
+              "abs": 0.68
+            },
+            "our_range": [
+              "0.0057",
+              "0.9749"
+            ],
+            "our_sd": 0.34
+          },
+          {
+            "name": "Scheme I, SVM and logistic AUCs differ at P < 0.05",
+            "expected": "no",
+            "observed": "no",
+            "our_splits_significant": "2 of 10"
+          },
+          {
+            "name": "Scheme II, DeLong P",
+            "expected": "0.6718",
+            "observed": "0.3476",
+            "tolerance": {
+              "abs": 0.6567
+            },
+            "our_range": [
+              "0.0259",
+              "0.9246"
+            ],
+            "our_sd": 0.3283
+          },
+          {
+            "name": "Scheme II, SVM and logistic AUCs differ at P < 0.05",
+            "expected": "no",
+            "observed": "no",
+            "our_splits_significant": "2 of 10"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.best_kernel",
+      "label": "Text and Table 2: best and worst kernel per scheme",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Scheme I, best kernel by test AUC",
+            "expected": "RBF",
+            "observed": "RBF"
+          },
+          {
+            "name": "Scheme II, best kernel by test AUC",
+            "expected": "linear",
+            "observed": "linear"
+          },
+          {
+            "name": "Scheme I, worst kernel (polynomial)",
+            "expected": "polynomial",
+            "observed": "polynomial"
+          },
+          {
+            "name": "Scheme II, worst kernel (polynomial)",
+            "expected": "polynomial",
+            "observed": "polynomial"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "The paper's own numbers: Table 1 sums and the prevalences Table 3 implies",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Table 1, scheme I cases = diagnosed + undiagnosed",
+            "expected": "1461",
+            "observed": "1461"
+          },
+          {
+            "name": "Table 1, scheme I non-cases = pre-diabetes + no diabetes",
+            "expected": "4853",
+            "observed": "4853"
+          },
+          {
+            "name": "Table 3 test AUC = Table 2 best kernel (both schemes)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "Table 3 scheme I test: prevalence implied by PPV (test set)",
+            "expected": "0.2314",
+            "observed": "0.2391",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme I test: prevalence implied by NPV (test set)",
+            "expected": "0.2314",
+            "observed": "0.2390",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme I training: prevalence implied by PPV (training set)",
+            "expected": "0.2314",
+            "observed": "0.2294",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme I training: prevalence implied by NPV (training set)",
+            "expected": "0.2314",
+            "observed": "0.2295",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme I cv10: prevalence implied by PPV (training folds)",
+            "expected": "0.2314",
+            "observed": "0.2304",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme I cv10: prevalence implied by NPV (training folds)",
+            "expected": "0.2314",
+            "observed": "0.2305",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II test: prevalence implied by PPV (test set)",
+            "expected": "0.3477",
+            "observed": "0.3428",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II test: prevalence implied by NPV (test set)",
+            "expected": "0.3477",
+            "observed": "0.3428",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II training: prevalence implied by PPV (balanced sample)",
+            "expected": "0.5000",
+            "observed": "0.4973",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II training: prevalence implied by NPV (balanced sample)",
+            "expected": "0.5000",
+            "observed": "0.3490",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II cv10: prevalence implied by PPV (training folds)",
+            "expected": "0.3477",
+            "observed": "0.3521",
+            "tolerance": {
+              "abs": 0.01
+            }
+          },
+          {
+            "name": "Table 3 scheme II cv10: prevalence implied by NPV (training folds)",
+            "expected": "0.3477",
+            "observed": "0.3512",
+            "tolerance": {
+              "abs": 0.01
+            }
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "Table 3 scheme II training: prevalence implied by NPV (balanced sample)",
+            "category": "paper_error",
+            "evidence": [
+              "figure-reproduction/output/tables.json (paper_arithmetic)",
+              "PPV implies 0.4973 and NPV implies 0.3490: no one set gives both"
+            ]
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "r_check",
+      "label": "Our method against R (survey::svyglm, pROC, e1071) on split 0",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "On split 0: logistic coefficients equal to survey::svyglm within 6.9e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "package",
+      "label": "Python package diabclass and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "diabclass 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 15,
+    "exact": 5,
+    "agrees": 2,
+    "partly": 6,
+    "inconclusive": 1,
+    "differs": 0,
+    "not_attempted": 1,
+    "open_causes": 4
+  }
+}

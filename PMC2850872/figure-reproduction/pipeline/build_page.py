@@ -29,7 +29,8 @@ t1 = json.loads((RUN / "table1.json").read_text())
 fig = json.loads((RUN / "fig2_comparison.json").read_text())
 items = {i["id"]: i for i in res["items"]}
 
-STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
+# Split-dependent values agree within two SDs of our median, never at printed precision: no "Exact" stamp.
+STAMP = {"exact": ("agrees", "Agrees"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
 KN = {"linear": "Linear", "poly": "Polynomial", "rbf": "RBF", "sigmoid": "Sigmoid"}
 
@@ -233,11 +234,11 @@ MATCHED = "".join(f'<div class="row"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' f
 ])
 
 v_main = verdict("text.delong")
-CLAIM = ("The main claim holds: the SVM discriminates as well as logistic regression on both schemes. "
-         if v_main in ("exact", "agrees") else
-         "The main claim holds in part. ")
-CLAIM += ("Our AUCs run a little below the paper’s; the paper’s single split, the unnamed variables and the "
-          "polynomial kernel’s unstated settings are the causes we could test (see the README).")
+CLAIM = ("The main claim holds: on both schemes the SVM discriminates as well as the logistic regression, and the DeLong "
+         f"test finds no difference in {reps - mlr['I']['reps_significant_0_05']} and {reps - mlr['II']['reps_significant_0_05']} of {reps} splits. "
+         if v_main in ("exact", "agrees") else "The main claim does not hold on our run. ")
+CLAIM += ("The polynomial kernels come back better than published, as an untuned model would explain; the scheme I "
+          "10-fold CV and test PPV stay apart, cause open.")
 CLOSING = "The SVM and the logistic regression tie, as the paper found, on data anyone can still download."
 
 page = (HERE / "page_template.html").read_text()

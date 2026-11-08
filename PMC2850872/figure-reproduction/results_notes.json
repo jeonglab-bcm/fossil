@@ -13,12 +13,14 @@
   "search_command": "nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search",
   "inputs_list": "PMC2850872/figure-reproduction/pipeline/inputs/nhanes_files.tsv",
   "environment": {
-   "python": "3.12",
+   "python": "3.13.18 (committed outputs); 3.12 in CI",
    "numpy": "2.1.3",
    "scipy": "1.14.1",
    "pandas": "2.2.3",
    "scikit-learn": "1.5.2",
-   "pillow": "11.0.0"
+   "joblib": "1.4.2",
+   "pillow": "11.0.0",
+   "nextflow (CI)": "26.04.3"
   }
  },
  "session": {
@@ -111,13 +113,34 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "Six of the eight AUCs lie within two standard deviations of our median over 10 splits; the paper's linear, RBF and sigmoid AUCs for scheme I sit in the upper part of our range (0.8136 to 0.8505). Both polynomial kernels differ: ours are 0.05 higher (0.8175 and 0.7158 against 0.7655 and 0.6673), and none of our 20 polynomial fits comes as low as the paper's. The paper gives neither the polynomial degree nor coef0; the variants we tested are in hypotheses.json.",
+    "summary": "Six of the eight AUCs lie within two standard deviations of our median over 10 splits; the paper's scheme I linear, RBF and sigmoid AUCs sit in the upper part of our range. Both polynomial kernels differ: with grid.py's search ours are 0.05 higher (0.8175 and 0.7158 against 0.7655 and 0.6673), and none of our 20 polynomial fits comes as low. Run at LIBSVM's defaults with no search (C = 1, gamma = 1/8 or 1/10), the polynomial kernel gives 0.782 and 0.690, and both published values fall within two standard deviations: the paper's polynomial model was most likely not tuned.",
     "evidence": [
      "figure-reproduction/output/table2_reps.csv",
      "figure-reproduction/output/hypotheses.json"
     ],
-    "hypotheses": [],
-    "status": "open"
+    "hypotheses": [
+     {
+      "hypothesis": "Polynomial kernel with LIBSVM's default gamma, only C searched",
+      "test": "hypotheses.py H1, splits 0 and 1: mean AUC 0.808 and 0.722 (ours 0.802 and 0.723); C absorbs gamma for a homogeneous polynomial",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Features scaled to [-1, 1] by svm-scale instead of fixed divisors",
+      "test": "hypotheses.py H2, splits 0 and 1: polynomial 0.805 and 0.728, RBF 0.819 and 0.742 (ours 0.802, 0.723, 0.822, 0.739)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Polynomial of degree 2",
+      "test": "hypotheses.py H3, splits 0 and 1: 0.827 and 0.738, further from the paper",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Polynomial kernel at LIBSVM's defaults (C = 1, gamma = 1 / number of features), no search",
+      "test": "hypotheses.py H4, all 10 splits: median 0.782 (SD 0.012) and 0.690 (SD 0.013); the paper's 0.7655 and 0.6673 lie within two SDs",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
    }
   },
   "table3.schemeI": {
