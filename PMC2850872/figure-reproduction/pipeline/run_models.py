@@ -76,7 +76,8 @@ def main():
         g = pd.read_csv(partial)
         done = {(r.scheme, int(r.rep), r.kernel): (r.C, r.gamma, r.cv_accuracy) for r in g.itertuples()}
 
-    grid_rows, auc_rows, t3_rows, mlr_rows, roc_rows = [], [], [], [], []
+    grid_rows, auc_rows, t3_rows, mlr_rows, roc_rows, band_rows = [], [], [], [], [], []
+    fgrid = np.round(np.arange(0.1, 0.95, 0.1), 1)
     for scheme in ["I", "II"]:
         s, X, y = scheme_data(d, scheme)
         for rep in range(a.reps):
@@ -132,8 +133,16 @@ def main():
                              "n_test_noncases": int((y[te] != 1).sum()),
                              "n_train_cases": int((y[tr] == 1).sum()),
                              "n_train_noncases": int((y[tr] != 1).sum())})
+            # Sensitivity at fixed false-positive rates, for Figure 2's comparison in data units.
+            for model, score in [("svm", sc), ("mlr", p)]:
+                fpr, tpr = dc.roc_curve(y[te], score)
+                for f in fgrid:
+                    band_rows.append({"scheme": scheme, "rep": rep, "model": model, "fpr": f,
+                                      "tpr": float(np.interp(f, fpr, tpr))})
             if rep == 0:
-                for model, score in [("svm", sc), ("mlr", p)]:
+                # Negative control for Figure 2: age alone as the score.
+                age = s.age.values[te]
+                for model, score in [("svm", sc), ("mlr", p), ("age", age)]:
                     fpr, tpr = dc.roc_curve(y[te], score)
                     roc_rows += [{"scheme": scheme, "model": model, "fpr": f, "tpr": t}
                                  for f, t in zip(fpr, tpr)]
@@ -159,6 +168,7 @@ def main():
     pd.DataFrame(t3_rows).to_csv(out / "table3_reps.csv", index=False, float_format="%.6f")
     pd.DataFrame(mlr_rows).to_csv(out / "mlr_reps.csv", index=False, float_format="%.6f")
     pd.DataFrame(roc_rows).to_csv(out / "roc_rep0.csv", index=False, float_format="%.6f")
+    pd.DataFrame(band_rows).to_csv(out / "roc_at_fpr_reps.csv", index=False, float_format="%.6f")
 
 
 if __name__ == "__main__":

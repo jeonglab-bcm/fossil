@@ -1,143 +1,141 @@
 <!-- Generated from tutorial.ipynb by check_package.py --write. Do not edit by hand. -->
 
-# example-method tutorial
+# diabclass tutorial
 
-`example-method` estimates the doubling time of each well from OD600 growth curves. It keeps the readings inside an OD window (the exponential phase), fits log(OD) against time, and reports the growth rate, the doubling time and the R² of the fit.
+`diabclass` classifies people as likely to have diabetes (or pre-diabetes) from simple variables that need no laboratory test: family history, age, race and ethnicity, weight, height, waist, BMI and hypertension (plus sex and physical activity for pre-diabetes). It trains a support vector machine (LIBSVM, through scikit-learn) on all cases and an equal number of randomly drawn non-cases, chooses C and gamma by LIBSVM's `grid.py` search, and scores people by the SVM decision value. It also fits the survey-weighted logistic regression the paper compares against, and the DeLong test of the two AUCs.
 
-This is the Paper2Repro package template. In a real package, cite the paper here:
-
-> <Authors>. <Title>. *<Journal>* <volume>:<pages> (<year>). doi:<doi>
+The method is from Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes. *BMC Medical Informatics and Decision Making* 10:16 (2010). [doi:10.1186/1472-6947-10-16](https://doi.org/10.1186/1472-6947-10-16). The authors' web tool, "Diabetes Classifier", is gone; this package is rebuilt from the paper's text.
 
 ## 1. Install
 
-Install the package from its folder in the repository:
-
 ```bash
-pip install "git+https://github.com/<owner>/<repo>#subdirectory=<paper-id>/package"
+pip install "git+https://github.com/jeonglab-bcm/fossil#subdirectory=PMC2850872/package"
 ```
-
-Or with uv:
-
-```bash
-uv pip install "git+https://github.com/<owner>/<repo>#subdirectory=<paper-id>/package"
-```
-
-It needs Python 3.10 or later. This notebook was run in a fresh environment with the package installed from its wheel. Check the version:
 
 ```python
-import example_method as em
+import diabclass as dc
 
-print("example-method", em.__version__)
+print("diabclass", dc.__version__)
 ```
 
 ```text
-example-method 0.1.0
+diabclass 0.1.0
 ```
 
 ## 2. The example input
 
-The package ships a small example: OD600 every 0.5 h from 0 to 10 h for three growing wells (A1, A2, A3) and a blank well (B1). `em.example_path()` returns its location. The data are synthetic; `data/README.md` says how they were made.
+The package ships 440 adults from NHANES 1999-2004 (public domain), coded for classification scheme I (diabetes, diagnosed or undiagnosed, against everyone else). The 200 training rows are already balanced (100 cases, 100 non-cases); the 240 test rows hold 60 cases and 180 non-cases. `weight_mec6` is the six-year NHANES examination weight.
 
 ```python
-path = em.example_path("growth_curves.csv")
-lines = path.read_text().splitlines()
-print(len(lines) - 1, "readings; columns:", lines[0])
-print("\n".join(lines[1:6]))
+path = dc.example_path("nhanes_example.csv")
+rows = dc.read_records(path)
+train = [r for r in rows if r["set"] == "train"]
+test = [r for r in rows if r["set"] == "test"]
+print(len(rows), "rows; columns:", ", ".join(rows[0]))
+for r in rows[:3]:
+    print(r)
 ```
 
 ```text
-84 readings; columns: well,time_h,od600
-A1,0.0,0.01
-A1,0.5,0.014142135623730952
-A1,1.0,0.02
-A1,1.5,0.028284271247461905
-A1,2.0,0.04
+440 rows; columns: id, set, case, family_history, age, race, weight, height, waist, bmi, hypertension, weight_mec6
+{'id': '1', 'set': 'train', 'case': '1', 'family_history': '1', 'age': '65', 'race': 'mexican_american', 'weight': '88.5', 'height': '176.9', 'waist': '104.2', 'bmi': '28.28', 'hypertension': '0', 'weight_mec6': '1296.6'}
+{'id': '2', 'set': 'train', 'case': '1', 'family_history': '1', 'age': '46', 'race': 'mexican_american', 'weight': '69.4', 'height': '148.6', 'waist': '94.5', 'bmi': '31.43', 'hypertension': '1', 'weight_mec6': '2443.1'}
+{'id': '3', 'set': 'train', 'case': '1', 'family_history': '0', 'age': '68', 'race': 'mexican_american', 'weight': '67.2', 'height': '149.1', 'waist': '99.3', 'bmi': '30.23', 'hypertension': '1', 'weight_mec6': '845.9'}
 ```
 
 ## 3. Run the method
 
-`read_curves` reads the CSV into one series per well. `doubling_times` fits each well. The window sets which readings count as exponential growth.
+`encode` codes the variables into [-1, 1] as the paper does (race as -1, -0.5, 0, 0.5, 1; age / 100; the other measurements divided by a fixed number). `SVMClassifier` balances the training set and fits the SVM. Here C and gamma are given (C = 2, gamma = 2, an RBF kernel) so that the result can be compared with an independent run; leave them out and the classifier runs `grid.py`'s search instead.
 
 ```python
-curves = em.read_curves(path)
-results = em.doubling_times(curves, window=(0.05, 0.5))
+X_train, y_train = dc.encode(train, "I"), dc.labels(train)
+X_test, y_test = dc.encode(test, "I"), dc.labels(test)
 
+svm = dc.SVMClassifier("rbf", C=2, gamma=2, tol=1e-5).fit(X_train, y_train)
+score = svm.decision_function(X_test)
+m = dc.classification_metrics(y_test, score, cutoff=0)
+print(f"SVM test AUC {m['auc']:.4f}; at cutoff 0: sensitivity {m['sensitivity']:.4f}, "
+      f"specificity {m['specificity']:.4f}, PPV {m['ppv']:.4f}, NPV {m['npv']:.4f}")
 
-def show(value, spec):
-    return "n/a" if value is None else format(value, spec)
-
-
-print(f"{'well':<5}{'points':>7}{'rate (1/h)':>12}{'doubling (h)':>14}{'R2':>10}")
-for r in results:
-    print(
-        f"{r['well']:<5}{r['n_points']:>7}{show(r['growth_rate_per_h'], '.4f'):>12}"
-        f"{show(r['doubling_time_h'], '.4f'):>14}{show(r['r_squared'], '.6f'):>10}"
-    )
+w = [float(r["weight_mec6"]) for r in train]
+beta = dc.weighted_logistic(X_train, y_train, w)
+p = dc.logistic_probability(X_test, beta)
+d = dc.delong_test(y_test, score, p)
+print(f"logistic regression test AUC {d['auc2']:.4f}; DeLong p = {d['p']:.4f}")
 ```
 
 ```text
-well  points  rate (1/h)  doubling (h)        R2
-A1         7      0.6931        1.0000  1.000000
-A2        10      0.4621        1.5000  1.000000
-A3        11      0.3466        2.0000  1.000000
-B1         0         n/a           n/a       n/a
+SVM test AUC 0.7907; at cutoff 0: sensitivity 0.6833, specificity 0.7167, PPV 0.4457, NPV 0.8716
+logistic regression test AUC 0.8026; DeLong p = 0.6446
 ```
 
-B1 has no estimate: none of its readings lie inside the window.
+A search over a small grid (the full `grid.py` grid, 11 x 10 points with 5-fold cross-validation, takes about a minute on this example):
+
+```python
+g = dc.grid_search(X_train, y_train, "rbf", log2c=[-1, 1, 3], log2g=[1, -1, -3], seed=0)
+print(f"best C = {g.C:g}, gamma = {g.gamma:g}, 5-fold CV accuracy {g.cv_accuracy:.3f}")
+```
+
+```text
+best C = 0.5, gamma = 0.5, 5-fold CV accuracy 0.675
+```
 
 ## 4. Compare with the expected output
 
-The expected output ships with the package. It comes from the formula that generated the input, not from this package, so a match is a real check.
+The expected output was computed in R by `scripts/expected_from_r.R`, independently of this package: the SVM with `e1071` (LIBSVM's C++ code), the logistic regression with `survey::svyglm`, and the AUCs and DeLong test with `pROC`.
 
 ```python
-import math
+import json
 
-expected = em.read_results(em.example_path("growth_curves_expected.csv"))
+import numpy as np
 
+with open(dc.example_path("nhanes_example_expected.json")) as f:
+    e = json.load(f)
+dv = np.array([float(r["decision_value"]) for r in dc.read_records(dc.example_path("nhanes_example_expected_svm.csv"))])
 
-def same(a, b):
-    if a is None or b is None:
-        return a is b
-    return math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-12)
-
-
-keys = ("growth_rate_per_h", "doubling_time_h", "r_squared")
-matches = sum(
-    o["well"] == e["well"] and o["n_points"] == e["n_points"] and all(same(o[k], e[k]) for k in keys)
-    for o, e in zip(results, expected)
-)
-print(f"{matches} of {len(expected)} wells match the expected output")
-assert matches == len(expected)
+checks = {
+    "SVM decision values (240, within 1e-4)": np.allclose(score, dv, atol=1e-4, rtol=0),
+    "logistic coefficients (9, within 1e-8)": np.allclose(beta, e["beta"], atol=1e-8, rtol=0),
+    "SVM AUC": abs(m["auc"] - e["auc_svm"]) < 1e-12,
+    "logistic AUC": abs(d["auc2"] - e["auc_logistic"]) < 1e-12,
+    "DeLong p (within 1e-9)": abs(d["p"] - e["delong_p"]) < 1e-9,
+}
+for k, v in checks.items():
+    print("match" if v else "DIFFERS", k)
+print(f"{sum(checks.values())} of {len(checks)} checks match the expected output")
+assert all(checks.values())
 ```
 
 ```text
-4 of 4 wells match the expected output
+match SVM decision values (240, within 1e-4)
+match logistic coefficients (9, within 1e-8)
+match SVM AUC
+match logistic AUC
+match DeLong p (within 1e-9)
+5 of 5 checks match the expected output
 ```
 
 ## 5. From the command line
 
-The same method runs as `example-method`. Without `-o` it writes the CSV to standard output.
+`diabclass` trains on the rows with `set` = train and writes the decision value of each test row. It prints the kernel, C, gamma and the test AUC to standard error.
 
 ```python
-!example-method "{path}" --window 0.05 0.5
+!diabclass "{path}" --C 2 --gamma 2 -o decision_values.csv
+print(open("decision_values.csv").read().splitlines()[:4])
 ```
 
 ```text
-well,n_points,growth_rate_per_h,doubling_time_h,r_squared
-A1,7,0.6931471805599453,1.0,0.9999999999999999
-A2,10,0.46209812037329684,1.5,0.9999999999999997
-A3,11,0.34657359027997264,2.0,1.0
-B1,0,,,
+kernel rbf, C 2, gamma 2, test AUC 0.7905
+['id,decision_value,case', '201,1.05168354,1', '202,1.073647995,1', '203,-0.7757049716,1']
 ```
 
 ## 6. Your own data
 
-- **Input:** a CSV with columns `well`, `time_h` and `od600`, one row per reading. Other columns are ignored.
-- **Window:** `window=(low, high)` in Python or `--window LOW HIGH` on the command line. Choose the OD range where your curves grow exponentially.
-- **Output:** one row per well with `n_points` (readings inside the window), `growth_rate_per_h`, `doubling_time_h` and `r_squared`. Empty values mean no estimate: fewer than three readings in the window, or no growth.
+- **Input:** a CSV with one person per row and the columns `family_history` (1/0), `age` (years), `race` (`nh_white`, `nh_black`, `mexican_american`, `other`, `other_hispanic`), `weight` (kg), `height` (cm), `waist` (cm), `bmi` (kg/m²) and `hypertension` (1/0, ever told of high blood pressure). Scheme II adds `sex` (male/female) and `physical_activity` (1/0). Add `set` (train/test) and, for training rows, `case` (1/0) for the command line.
+- **Options:** `kernel` (the paper found RBF best for scheme I and linear for scheme II); `C` and `gamma` (leave out to search); `seed` for the balanced sample and the folds; `cutoff` for `classification_metrics` (0 by default, as in the paper).
+- **Output:** the decision value: positive means classified as a case. Higher values mean more likely a case; move the cutoff to trade sensitivity for specificity.
+- The divisors for weight, height, waist and BMI (200, 200, 200, 100) are our choice; the paper gives only age / 100.
 
-```bash
-example-method my_plate.csv --window 0.05 0.5 -o doubling_times.csv
-```
+## 7. The reproduction
 
-To see the method on the paper's own data, with the comparison against the published figures, open the reproduction: `<link to the paper folder>`.
+The paper's full analysis (Tables 1 to 3 and Figure 2, from the NHANES files) is rerun by the pipeline in [`PMC2850872/figure-reproduction`](https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872/figure-reproduction); the results page is at <https://jeonglab-bcm.github.io/fossil/PMC2850872/>.

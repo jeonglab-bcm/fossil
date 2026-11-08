@@ -1,0 +1,233 @@
+{
+  "paper": "PMC2850872",
+  "title": "Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes. BMC Medical Informatics and Decision Making 10:16 (2010).",
+  "about": "The results this reproduction stands on, as the pipeline writes them. CI reruns the pipeline (with the committed grid search) and checks each value with tools/check_results.py; after an intended change, rerun and update the values with --update. The verdicts against the paper are in ../results.json.",
+  "committed_paths": {
+    "": "output/"
+  },
+  "results": [
+    {
+      "id": "t1-diagnosed",
+      "label": "Table 1, diagnosed diabetes (paper 1,266)",
+      "file": "table1.json",
+      "path": "ours.diagnosed",
+      "expected": 0
+    },
+    {
+      "id": "t1-undiagnosed",
+      "label": "Table 1, undiagnosed diabetes (paper 195)",
+      "file": "table1.json",
+      "path": "ours.undiagnosed",
+      "expected": 0
+    },
+    {
+      "id": "t1-prediabetes",
+      "label": "Table 1, pre-diabetes (paper 1,576)",
+      "file": "table1.json",
+      "path": "ours.prediabetes",
+      "expected": 0
+    },
+    {
+      "id": "t1-none",
+      "label": "Table 1, no diabetes (paper 3,277)",
+      "file": "table1.json",
+      "path": "ours.none",
+      "expected": 0
+    },
+    {
+      "id": "t1-scheme_II_cases",
+      "label": "Table 1, scheme II cases (paper 1,709)",
+      "file": "table1.json",
+      "path": "ours.scheme_II_cases",
+      "expected": 0
+    },
+    {
+      "id": "t1-scheme_II_noncases",
+      "label": "Table 1, scheme II non-cases (paper 3,206)",
+      "file": "table1.json",
+      "path": "ours.scheme_II_noncases",
+      "expected": 0
+    },
+    {
+      "id": "t2-I-linear",
+      "label": "Table 2, scheme I linear, median test AUC over 10 splits (paper 0.8332)",
+      "file": "tables.json",
+      "path": "table2.I.linear.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-I-poly",
+      "label": "Table 2, scheme I poly, median test AUC over 10 splits (paper 0.7655)",
+      "file": "tables.json",
+      "path": "table2.I.poly.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-I-rbf",
+      "label": "Table 2, scheme I rbf, median test AUC over 10 splits (paper 0.8347)",
+      "file": "tables.json",
+      "path": "table2.I.rbf.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-I-sigmoid",
+      "label": "Table 2, scheme I sigmoid, median test AUC over 10 splits (paper 0.8341)",
+      "file": "tables.json",
+      "path": "table2.I.sigmoid.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-II-linear",
+      "label": "Table 2, scheme II linear, median test AUC over 10 splits (paper 0.7318)",
+      "file": "tables.json",
+      "path": "table2.II.linear.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-II-poly",
+      "label": "Table 2, scheme II poly, median test AUC over 10 splits (paper 0.6673)",
+      "file": "tables.json",
+      "path": "table2.II.poly.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-II-rbf",
+      "label": "Table 2, scheme II rbf, median test AUC over 10 splits (paper 0.7259)",
+      "file": "tables.json",
+      "path": "table2.II.rbf.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "t2-II-sigmoid",
+      "label": "Table 2, scheme II sigmoid, median test AUC over 10 splits (paper 0.7273)",
+      "file": "tables.json",
+      "path": "table2.II.sigmoid.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "mlr-I",
+      "label": "Scheme I, median logistic regression AUC (paper 0.8319)",
+      "file": "tables.json",
+      "path": "mlr.I.auc.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "delong-I",
+      "label": "Scheme I, median DeLong P (paper 0.3672)",
+      "file": "tables.json",
+      "path": "mlr.I.delong_p.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "delong-sig-I",
+      "label": "Scheme I, splits with DeLong P < 0.05 (of 10)",
+      "file": "tables.json",
+      "path": "mlr.I.reps_significant_0_05",
+      "expected": 0
+    },
+    {
+      "id": "rbeta-I",
+      "label": "Scheme I, largest difference from survey::svyglm's coefficients",
+      "file": "r_check.json",
+      "path": "I.beta_max_abs_diff",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "fig2-I-svm",
+      "label": "Fig. 2, scheme I, published SVM trace within 2 px of ours (split 0)",
+      "file": "fig2_comparison.json",
+      "path": "panels.I.models.svm.published_near_ours",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "mlr-II",
+      "label": "Scheme II, median logistic regression AUC (paper 0.7335)",
+      "file": "tables.json",
+      "path": "mlr.II.auc.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "delong-II",
+      "label": "Scheme II, median DeLong P (paper 0.6718)",
+      "file": "tables.json",
+      "path": "mlr.II.delong_p.median",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "delong-sig-II",
+      "label": "Scheme II, splits with DeLong P < 0.05 (of 10)",
+      "file": "tables.json",
+      "path": "mlr.II.reps_significant_0_05",
+      "expected": 0
+    },
+    {
+      "id": "rbeta-II",
+      "label": "Scheme II, largest difference from survey::svyglm's coefficients",
+      "file": "r_check.json",
+      "path": "II.beta_max_abs_diff",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "fig2-II-svm",
+      "label": "Fig. 2, scheme II, published SVM trace within 2 px of ours (split 0)",
+      "file": "fig2_comparison.json",
+      "path": "panels.II.models.svm.published_near_ours",
+      "tolerance": {
+        "abs": 1e-06
+      },
+      "expected": 0
+    },
+    {
+      "id": "pkg",
+      "label": "Package check passed",
+      "file": "package.json",
+      "path": "passed",
+      "expected": 0
+    }
+  ]
+}

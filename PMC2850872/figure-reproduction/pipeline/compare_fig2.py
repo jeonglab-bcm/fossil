@@ -1,6 +1,6 @@
 """Figure 2: our ROC curves drawn on the published pixel grid, scored both ways, with controls.
 
-Usage: compare_fig2.py PUBLISHED.jpg ROC_REP0.csv OUTDIR [--controls CONTROLS.csv]
+Usage: compare_fig2.py PUBLISHED.jpg ROC_REP0.csv OUTDIR
 
 The published figure (473 x 841 px, two panels) is mapped to data from its tick marks alone
 (least squares over the 11 ticks of each axis; residuals recorded). Published traces are split
@@ -74,6 +74,29 @@ def masks(gray, p, c):
     return inside, black, grey
 
 
+FGRID = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+
+
+def read_tpr(trace, fallback, c):
+    """Sensitivity of a published trace at each false-positive rate of FGRID: the median row of its
+    pixels in the columns within 1 px of that rate (within 2 px, then the black trace, where the grey
+    curve is hidden under the black one)."""
+    ax, bx, ay, by = c
+    out = []
+    for f in FGRID:
+        x = int(round(ax * f + bx))
+        rows = []
+        for m, w in ((trace, 1), (trace, 2), (fallback, 1)):
+            if m is None:
+                continue
+            rows = np.flatnonzero(m[:, x - w:x + w + 1].any(axis=1))
+            if len(rows):
+                break
+        # None where the published trace has ended (Excel stops the SVM curve at sensitivity 1).
+        out.append(round(float((np.median(rows) - by) / ay), 4) if len(rows) else None)
+    return out
+
+
 def score(pub, ours, inside, exclude=None):
     ours = ours & inside
     d_ours = ndimage.distance_transform_edt(~ours)
@@ -89,14 +112,12 @@ def main():
     ap.add_argument("published")
     ap.add_argument("roc")
     ap.add_argument("outdir")
-    ap.add_argument("--controls", help="CSV with scheme, model, fpr, tpr of the one-variable controls")
     a = ap.parse_args()
     out = Path(a.outdir)
     out.mkdir(parents=True, exist_ok=True)
     rgb = np.asarray(Image.open(a.published).convert("RGB"))
     gray = np.asarray(Image.open(a.published).convert("L")).astype(int)
     roc = pd.read_csv(a.roc)
-    ctrl = pd.read_csv(a.controls) if a.controls else None
 
     report = {"tolerance_px": TOL, "image_px": [gray.shape[1], gray.shape[0]], "panels": {}}
     ours_img = rgb.copy()
@@ -119,16 +140,16 @@ def main():
             ro = roc[(roc.scheme == other) & (roc.model == model)]
             controls.append({"name": f"scheme {other} curve", "kind": "wrong_input",
                              "score": min(score(pub, draw_curve(gray.shape, c, ro.fpr, ro.tpr), inside, excl))})
-            if ctrl is not None:
-                rc = ctrl[(ctrl.scheme == scheme)]
-                controls.append({"name": "age alone", "kind": "wrong_input",
-                                 "score": min(score(pub, draw_curve(gray.shape, c, rc.fpr, rc.tpr), inside, excl))})
+            rc = roc[(roc.scheme == scheme) & (roc.model == "age")]
+            controls.append({"name": "age alone", "kind": "wrong_input",
+                             "score": min(score(pub, draw_curve(gray.shape, c, rc.fpr, rc.tpr), inside, excl))})
             for dt in (-0.03, 0.03):
                 t2 = np.clip(r.tpr + dt, 0, 1)
                 t2.iloc[0] = 0.0
                 controls.append({"name": f"sensitivity {dt:+.2f}", "kind": "near_miss",
                                  "score": min(score(pub, draw_curve(gray.shape, c, r.fpr, t2), inside, excl))})
-            panel["models"][model] = {"published_near_ours": pn, "ours_near_published": on,
+            panel["models"][model] = {"published_tpr_at_fpr": dict(zip(map(str, FGRID), read_tpr(pub, black if model == "mlr" else None, c))),
+                                      "published_near_ours": pn, "ours_near_published": on,
                                       "published_px": int(pub.sum()), "ours_px": int((ours & inside).sum()),
                                       "controls": controls}
         report["panels"][scheme] = panel
