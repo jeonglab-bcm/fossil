@@ -12,23 +12,12 @@
 //            and everything else is recomputed.
 // --sources  a folder with local copies of the NHANES .xpt files.
 
-params.outdir = 'results'
-params.python = 'python3'
-params.rscript = 'Rscript'
-params.sources = null
-params.search = false
-params.reps = 10
-params.jobs = 4
-
-def P = "${projectDir}/pipeline"
-def ROOT = "${projectDir}/../.."
-
 process FETCH {
     output:
     path 'downloads'
     script:
     """
-    bash ${P}/fetch_inputs.sh downloads ${params.sources ?: ''}
+    bash ${projectDir}/pipeline/fetch_inputs.sh downloads ${params.sources ?: ''}
     """
 }
 
@@ -41,7 +30,7 @@ process COHORT {
     path 'table1.json', emit: table1
     script:
     """
-    ${params.python} ${P}/cohort.py ${downloads} .
+    ${params.python} ${projectDir}/pipeline/cohort.py ${downloads} .
     """
 }
 
@@ -59,7 +48,7 @@ process MODELS {
     script:
     def grid = params.search ? '' : "--grid ${projectDir}/output/grid.csv"
     """
-    PYTHONWARNINGS=ignore ${params.python} ${P}/run_models.py ${analytic} . --reps ${params.reps} --jobs ${params.jobs} ${grid}
+    PYTHONWARNINGS=ignore ${params.python} ${projectDir}/pipeline/run_models.py ${analytic} . --reps ${params.reps} --jobs ${params.jobs} ${grid}
     """
 }
 
@@ -72,7 +61,7 @@ process R_CHECK {
     path 'r_check.json'
     script:
     """
-    ${params.rscript} ${P}/r_check.R . r_check.json
+    ${params.rscript} ${projectDir}/pipeline/r_check.R . r_check.json
     """
 }
 
@@ -84,7 +73,7 @@ process FIG2 {
     path 'fig2_*'
     script:
     """
-    ${params.python} ${P}/compare_fig2.py ${projectDir}/published/figure-2.jpg ${roc} .
+    ${params.python} ${projectDir}/pipeline/compare_fig2.py ${projectDir}/published/figure-2.jpg ${roc} .
     """
 }
 
@@ -98,7 +87,7 @@ process TABLES {
     path 'tables.json'
     script:
     """
-    ${params.python} ${P}/make_tables.py . tables.json
+    ${params.python} ${projectDir}/pipeline/make_tables.py . tables.json
     """
 }
 
@@ -108,7 +97,7 @@ process PACKAGE {
     path 'package.json'
     script:
     """
-    ${params.python} ${ROOT}/tools/paper2repro/check_package.py ${projectDir}/../package --json package.json || true
+    ${params.python} ${projectDir}/../../tools/paper2repro/check_package.py ${projectDir}/../package --json package.json || true
     test -s package.json
     """
 }
@@ -118,6 +107,7 @@ process RESULTS {
     input:
     path tables
     path table1
+    path reps
     path fig
     path rcheck
     path pkg
@@ -125,8 +115,8 @@ process RESULTS {
     path 'results.json'
     script:
     """
-    ${params.python} ${P}/make_results.py ${projectDir}/results_notes.json . results.json
-    ${params.python} ${ROOT}/tools/paper2repro/check_results.py results.json --write --skip-files
+    ${params.python} ${projectDir}/pipeline/make_results.py ${projectDir}/results_notes.json . results.json
+    ${params.python} ${projectDir}/../../tools/paper2repro/check_results.py results.json --write --skip-files
     """
 }
 
@@ -138,7 +128,7 @@ process CHECK {
     path 'report.md'
     script:
     """
-    ${params.python} ${P}/check_reproduction.py run ${projectDir}/output ${projectDir}/../results.json report.md
+    ${params.python} ${projectDir}/pipeline/check_reproduction.py run ${projectDir}/output ${projectDir}/../results.json report.md
     """
 }
 
@@ -150,7 +140,7 @@ process BUILD_PAGE {
     path 'index.html'
     script:
     """
-    ${params.python} ${P}/build_page.py run ${projectDir}/published index.html
+    ${params.python} ${projectDir}/pipeline/build_page.py run ${projectDir}/published index.html
     """
 }
 
@@ -162,8 +152,8 @@ workflow {
     f = FIG2(m.roc)
     t = TABLES(c.table1, m.reps, m.grid)
     k = PACKAGE()
-    res = RESULTS(t, c.table1, f, r, k)
-    all = c.analytic.mix(c.table1, m.reps.flatten(), m.grid, m.roc, r, f.flatten(), t, k, res).collect()
-    CHECK(all)
-    BUILD_PAGE(all)
+    res = RESULTS(t, c.table1, m.reps, f, r, k)
+    outs = c.analytic.mix(c.table1, m.reps.flatten(), m.grid, m.roc, r, f.flatten(), t, k, res).collect()
+    CHECK(outs)
+    BUILD_PAGE(outs)
 }
