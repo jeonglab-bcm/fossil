@@ -22,7 +22,6 @@ its Java code, which was never released; the paper's random split.
 | [`figure-reproduction/`](figure-reproduction/) | Table 1 from NHANES; Tables 2 and 3, Figure 2 and the claims in the text over 10 random splits. Nextflow pipeline. |
 | [`package/`](package/) | `diabclass`, the method as a Python package, with an executed [tutorial](package/tutorial/TUTORIAL.md): `pip install "git+https://github.com/jeonglab-bcm/fossil#subdirectory=PMC2850872/package"`. |
 | [`results.json`](results.json) | Every figure, table and claim of the paper, with its computed verdict. |
-| [`session/`](session/) | The ledger of the session that made this reproduction. |
 
 Results page: <https://jeonglab-bcm.github.io/fossil/PMC2850872/>
 
