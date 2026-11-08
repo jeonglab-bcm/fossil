@@ -71,7 +71,7 @@ From `check_results.py ../results.json --markdown` on the committed run:
 | DR features | Counts of residues (distance 0) and of ordered residue pairs at distances 1..dMAX; 20 + 400 dMAX dimensions (Eq. 1–2, Fig. 2) | `features.py`. x/X residues (529 of 560,022) are not counted, alone or in a pair. Pse-in-One 2.0's `dr_method` (the lab's 2017 code) counts the same way. |
 | DT features | The same on the Top-1-gram sequence: the most frequent amino acid of each column of a PSI-BLAST frequency profile against "a non-redundant database" | `run_psiblast.sh` and `top1.py`: BLAST+ 2.17.0, 3 iterations, E = 0.001, against the lab's 2016 nrdb90 (Pse-in-One 2.0), the largest "weighted observed percentage" per column, ties to the first in ARNDCQEGHILKMFPSTWYV order. These settings come from Pse-in-One 2.0's `profile.py`, not from the paper. |
 | SVM | Gist 2.3, default parameters | `gist_port.py`: Gist 2.3's `gist-train-svm` and `gist-classify` with no options, ported line by line (normalized linear kernel + 10, 2-norm soft margin with diagonal factor 0.1, Jaakkola's coordinate updates in drand48 order, convergence 1e-6, weights written with `%.4g`). One change, below. |
-| Scores | ROC and ROC50 per family, averaged | `roc.py`: Gribskov and Robinson's ROC_n with n = all negatives and n = 50. |
+| Scores | ROC and ROC50 per family, averaged | `roc.py`: Gribskov and Robinson's ROC_n with n = all negatives and n = 50. `roc_on_cut_list` (not reported) is the reading that fits the paper's ROC50; see ROC50 below. |
 | dMAX | "between 0 and the longest sequence"; 150 for the results | 0, 10, 20, 40, 50, 60, 80, 100, 150, 200: Figure 3's markers. |
 | Weights | w = M α (Eq. 3); L2 norm per pair; family 2.5.1.3 | `discriminant_weights.py`: α = Gist's signed weights as written, M = raw count vectors, w summed over training rows. |
 
@@ -116,10 +116,31 @@ exactly 1, would behave like the cap.
 Our ROC agrees at every dMAX for SVM-DR, but our ROC50 (Gribskov and Robinson's normalized area to
 the first 50 false positives, the paper's wording) is 0.497 against 0.715. Tested
 (`output/causes/roc50_variants.json`): the true-positive rate at the 50th false positive (0.662),
-the seed (0.4973) and ROC_n for other n. ROC_200 gives 0.720 for SVM-DR; for SVM-DT, whose ROC
-also differs, 0.819 against 0.800. We do not know how the paper computed ROC50. Because the
-paper's other rows are quoted from papers that may define ROC50 differently again, comparisons on
-ROC50 (the gain over SVM-Top-n-gram, SVM-DR against Monomer-dist) are not settled here either.
+the seed (0.4973), ROC_n for other n, and the area to a false positive rate of 0.1 or 0.5 (0.632,
+0.853). ROC_200 gives 0.720 for SVM-DR; for SVM-DT, whose ROC also differs, 0.819 against 0.800.
+
+One reading fits both published values without a free parameter: an ordinary ROC computed on the
+ranking cut at the 50th false positive (`roc.roc_on_cut_list`). That is the same area to 50 false
+positives, divided by the true positives found there instead of by all positives, so positives
+ranked below the cut drop out. It gives 0.712 for SVM-DR (paper 0.715) and 0.790 for SVM-DT
+(paper 0.800), and with it the paper's ROC50 comparisons come back: SVM-DR above Monomer-dist
+(0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what running
+an ordinary ROC routine, such as Gist's `gist-score-svm`, on a list cut at 50 false positives
+would give. We treat it as unconfirmed: it was found after about ten readings were tried, the
+paper gives no ROC50 code and no per-family values, and SVM-DT runs on other profiles. Our
+reported ROC50 stays the stated definition. Because the paper's other rows are quoted from papers
+that may define ROC50 differently again, comparisons on ROC50 are not settled here either.
+
+| ROC50 reading, dMAX 150 | SVM-DR | SVM-DT |
+| --- | --- | --- |
+| Paper | 0.715 | 0.800 |
+| Gribskov and Robinson, divided by all positives (reported) | 0.497 | 0.673 |
+| Ordinary ROC on the ranking cut at the 50th false positive | 0.712 | 0.790 |
+| ROCR `fpr.stop = 50/N`, not divided by `fpr.stop` | 0.031 | 0.039 |
+| True-positive rate at the 50th false positive | 0.662 | 0.818 |
+| ROC_200 | 0.720 | 0.819 |
+| Area to FPR 0.1, divided by 0.1 | 0.632 | 0.759 |
+| Area to FPR 0.5, divided by 0.5 | 0.853 | 0.909 |
 
 
 ## Layout

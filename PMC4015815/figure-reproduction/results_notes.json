@@ -604,7 +604,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "ROC comes back exactly (0.919); ROC50 does not (0.497 against 0.715). Our ROC matches at every dMAX, so the rankings agree; the gap is in how ROC50 was computed, which the paper's one-line definition does not settle.",
+    "summary": "ROC comes back exactly (0.919); ROC50 does not (0.497 against 0.715). Our ROC matches at every dMAX, so the rankings agree; the gap is in how ROC50 was computed, which the paper's one-line definition does not settle. One non-standard reading fits both published values: an ordinary ROC on the ranking cut at the 50th false positive (0.712 and 0.790); it is unconfirmed.",
     "evidence": [
      "figure-reproduction/output/causes/roc50_variants.json",
      "figure-reproduction/output/tables.json"
@@ -629,6 +629,16 @@
       "hypothesis": "The printed values behave like ROC_n with a larger n",
       "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.819 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
       "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "result": "rejected"
      }
     ],
     "status": "open"
@@ -706,6 +716,16 @@
      {
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
       "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      }
     ],
@@ -1174,6 +1194,16 @@
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
       "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "result": "rejected"
      }
     ],
     "status": "open"
@@ -1598,7 +1628,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "SVM-DR beats SVM-Pairwise and is within a point of SVM-LA. 'Outperforms Monomer-dist' rests on ROC50 (both rows print ROC 0.919), and our ROC50 (0.497) is computed differently from the paper's (see Table 1).",
+    "summary": "SVM-DR beats SVM-Pairwise and is within a point of SVM-LA. 'Outperforms Monomer-dist' rests on ROC50 (both rows print ROC 0.919), and our ROC50 (0.497) is computed differently from the paper's (see Table 1). With the stated definition SVM-DR is just below Monomer-dist (0.497 against 0.508); with the reading that fits the paper's ROC50 (ROC on the ranking cut at the 50th false positive) it is above (0.712), but Monomer-dist's 0.508 comes from another group's code.",
     "evidence": [
      "figure-reproduction/output/causes/roc50_variants.json"
     ],
@@ -1622,6 +1652,16 @@
       "hypothesis": "The printed values behave like ROC_n with a larger n",
       "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.819 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
       "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "result": "rejected"
      }
     ],
     "status": "open"

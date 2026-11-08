@@ -24,3 +24,21 @@ def roc_n(scores, positive, n=None):
 
 def roc_scores(scores, positive):
     return roc_n(scores, positive), roc_n(scores, positive, 50)
+
+
+def roc_on_cut_list(scores, positive, n=50):
+    """Ordinary ROC computed on the ranked list cut at the n-th false positive.
+
+    Keeps the top of the ranking down to the n-th highest-scoring negative and scores that sublist
+    with roc_n(n = all its negatives). The positives ranked below the cut drop out, so the area
+    to n false positives is divided by the true positives found there instead of by P. Not the
+    stated ROC50 definition; it fits the paper's Table 1 ROC50 values (roc50_variants.py).
+    """
+    scores = np.asarray(scores, dtype=float)
+    positive = np.asarray(positive, dtype=bool)
+    neg = np.sort(scores[~positive])[::-1]
+    n = min(n, len(neg))
+    keep = scores >= neg[n - 1]          # everything ranked at or above the n-th negative
+    if not (positive & keep).any():
+        return 0.0
+    return roc_n(scores[keep], positive[keep])
