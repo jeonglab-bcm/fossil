@@ -81,3 +81,24 @@ the search runs only when the workflow is started by hand with `search = true`.
 ## Limits
 
 <!--LIMITS-->
+- **One split against ten.** The paper reports one random split; ours are the median and spread of ten. A value
+  agrees when the paper's lies within two standard deviations of our median, the range one split lands in
+  about 95% of the time. The DeLong P varies so much between splits (0.006 to 0.97 for scheme I) that its
+  field agrees trivially; the call that matters is whether P falls below 0.05, which it does in 2 of 10
+  splits for each scheme.
+- **Choices the paper does not make.** The NHANES items for family history (`MCQ250A`), hypertension
+  (`BPQ020`) and physical activity (`PAD320`, chosen by the scheme II totals), the divisors for weight,
+  height, waist and BMI, the polynomial kernel's degree and coef0, and the survey weight are ours. Each is an
+  assumption in `../results.json`.
+- **Grid search.** Fits inside the search stop at 1,000,000 iterations; LIBSVM 2.89 had no limit. On
+  split 0 of scheme I the linear kernel's search with a 10,000,000 limit chose the same C.
+- **LIBSVM version.** scikit-learn 1.5.2 wraps a modified LIBSVM 3.x; the paper used a LIBSVM release of
+  2009. `r_check.R` shows that `e1071`'s LIBSVM gives the same test AUC with the same C and gamma.
+- **SUDAAN.** Not available. Its point estimates equal a weighted maximum-likelihood fit, which we check
+  against `survey::svyglm`; the AUC and the DeLong test use only the point estimates.
+- **Figure 2 pixels.** At 473 × 841 px a 2 px tolerance is 0.005 in sensitivity, smaller than the
+  difference between two random splits, so the pixel items cannot single out the paper's split. The
+  data-unit items `fig2.a.values` and `fig2.b.values` carry the comparison.
+- **Nextflow.** The session that built this ran the pipeline's steps by hand with the same commands;
+  the workflow runs `main.nf` itself.
+<!--/LIMITS-->
