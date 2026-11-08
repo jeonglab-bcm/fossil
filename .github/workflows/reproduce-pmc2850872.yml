@@ -7,13 +7,13 @@ name: Reproduce PMC2850872
 # The pull-request run downloads the NHANES files, rebuilds the cohort, refits every model of the
 # 10 splits with the C and gamma of the committed grid search (output/grid.csv), checks our method
 # against R (survey, pROC, e1071), checks the package, and fails if anything differs from the
-# committed outputs or results.json. About 10 minutes. grid.py's search itself (about 3 hours on
+# committed outputs or results.json. About 10 minutes. grid.py's search itself (about 80 minutes on
 # 4 cores) runs only when started by hand with search = true.
 on:
   workflow_dispatch:
     inputs:
       search:
-        description: "Also rerun grid.py's search for C and gamma (about 3 hours)"
+        description: "Also rerun grid.py's search for C and gamma (about 80 minutes)"
         type: boolean
         default: false
   pull_request:
@@ -34,7 +34,7 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: ${{ inputs.search && 360 || 40 }}
+    timeout-minutes: ${{ inputs.search && 240 || 40 }}
     steps:
       - uses: actions/checkout@v4
 

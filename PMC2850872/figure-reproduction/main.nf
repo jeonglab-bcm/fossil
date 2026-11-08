@@ -7,7 +7,7 @@
 // Run (from the repository root):
 //   nextflow run PMC2850872/figure-reproduction/main.nf --outdir results [--search] [--sources DIR]
 //
-// --search   rerun grid.py's search for C and gamma on every split and kernel (about 3 hours on
+// --search   rerun grid.py's search for C and gamma on every split and kernel (about 80 minutes on
 //            4 cores). Without it the C and gamma of the committed run (output/grid.csv) are used
 //            and everything else is recomputed.
 // --sources  a folder with local copies of the NHANES .xpt files.

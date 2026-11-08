@@ -80,7 +80,7 @@ R with `survey`, `pROC`, `e1071` and `jsonlite`, uv, Java 21 and Nextflow 26.04.
 
 ```sh
 nextflow run PMC2850872/figure-reproduction/main.nf --outdir results            # about 10 minutes
-nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search   # with grid.py's search, about 3 hours on 4 cores
+nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search   # with grid.py's search, about 80 minutes on 4 cores
 ```
 
 The first run uses the C and gamma of the committed search (`output/grid.csv`) and recomputes everything

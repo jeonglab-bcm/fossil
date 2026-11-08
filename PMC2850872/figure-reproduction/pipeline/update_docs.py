@@ -96,7 +96,7 @@ def main():
     if "reproduce-pmc2850872.yml" not in t:
         t = t.replace("`.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843",
                       "`.github/workflows/reproduce-pmc2850872.yml` reruns PMC2850872 on changes to its folder, "
-                      "refitting every model from the committed grid search (the search itself, about 3 hours, only "
+                      "refitting every model from the committed grid search (the search itself, about 80 minutes, only "
                       "when started by hand with `search = true`). `.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843")
     readme.write_text(t)
 
