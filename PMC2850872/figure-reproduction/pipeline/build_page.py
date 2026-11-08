@@ -159,7 +159,7 @@ t1_body = "".join(row([esc(lab), n(pap_t1[k]), f"<strong>{n(ours_t1[k])}</strong
 
 
 def spread(st):
-    return f"<strong>{st['median']:.4f}</strong> <small>({st['min']:.3f} to {st['max']:.3f})</small>"
+    return f"<strong>{st['median']:.4f}</strong><br><small>{st['min']:.3f} to {st['max']:.3f}</small>"
 
 
 t2_body = "".join(row([f"Scheme {s}"] + [f"{t2[s][k]['paper']} / {spread(t2[s][k])}" for k in ["linear", "poly", "rbf", "sigmoid"]])
