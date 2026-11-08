@@ -29,7 +29,7 @@ def main(rundir, committed, results, report):
     ok &= code == 0
     # package.json holds timings and temporary paths; it is checked by its own `passed` flag.
     code, out = run([sys.executable, str(TOOLS / "compare_runs.py"), str(rundir), committed,
-                     "--atol", "2e-6", "--ignore", "package.json", "results.json", "report.md", "site/*"])
+                     "--atol", "2e-6", "--ignore", "package.json", "results.json", "hypotheses.json", "report.md", "site/*"])
     lines += ["## Fresh run against the committed outputs", "", out.strip(), ""]
     ok &= code == 0
     fresh = json.loads((rundir / "results.json").read_text())

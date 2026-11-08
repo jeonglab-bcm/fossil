@@ -76,7 +76,7 @@ the search runs only when the workflow is started by hand with `search = true`.
 7. `CHECK`: `check_results.py` passes, the run equals the committed outputs (`compare_runs.py`, numbers to 2e-6) and `results.json`; `report.md`.
 8. `BUILD_PAGE`: `site/index.html`, copied to `site/PMC2850872/`.
 
-`package.json` holds timings and temporary paths and is checked by its `passed` flag only.
+`package.json` holds timings and temporary paths and is checked by its `passed` flag only. `output/hypotheses.json` is not written by the pipeline: it records the hypothesis tests behind the Table 2 cause (`pipeline/hypotheses.py`, about 30 minutes on 4 cores).
 
 ## Limits
 

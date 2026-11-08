@@ -99,7 +99,7 @@ def main(notes_path, rundir, out):
                 if v is None:
                     continue
                 x = band[(band.scheme == s) & (band.model == m) & (band.fpr.round(1) == float(f))].tpr
-                st = {"paper": f"{min(v, 1.0):.2f}", "median": float(x.median()), "sd": float(x.std(ddof=1)),
+                st = {"paper": f"{min(v, 1.0):.3f}", "median": float(x.median()), "sd": float(x.std(ddof=1)),
                       "min": float(x.min()), "max": float(x.max())}
                 fields.append(spread_field(f"{mname}, sensitivity at 1 - specificity {f}", st))
         add(f"fig2.{panel}.values", method="values", values={"fields": fields})

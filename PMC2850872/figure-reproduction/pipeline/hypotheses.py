@@ -6,6 +6,8 @@ H1  The polynomial kernel ran with LIBSVM's default gamma (1 / number of feature
 H2  Features were scaled to [-1, 1] by svm-scale (min-max over the training sample), not divided by
     fixed numbers: RBF and polynomial kernels, full grid search.
 H3  The polynomial kernel had degree 2 instead of LIBSVM's default 3 (C and gamma searched).
+H4  The polynomial kernel ran at LIBSVM's defaults, C = 1 and gamma = 1 / number of features, with no
+    search (all 10 splits; fast). `--only h4` adds it to an existing OUT.json.
 
 Each gives the test AUC per split next to ours (GRID.csv's C and gamma, the pipeline's coding).
 The record is committed as output/hypotheses.json and cited by the causes in results_notes.json.
@@ -53,7 +55,13 @@ def main():
     ap.add_argument("out")
     ap.add_argument("--splits", type=int, default=3)
     ap.add_argument("--jobs", type=int, default=4)
+    ap.add_argument("--only", choices=["h4"])
     a = ap.parse_args()
+    if a.only == "h4":
+        rec = json.load(open(a.out))
+        rec["h4_poly_defaults"] = h4(pd.read_csv(a.analytic))
+        json.dump(rec, open(a.out, "w"), indent=1)
+        return
     d = pd.read_csv(a.analytic)
     grid = pd.read_csv(a.grid)
     G = [2.0**g for g in dc.GRID_LOG2G]
@@ -92,8 +100,28 @@ def main():
     summary = {sch: {c: round(float(df[df.scheme == sch][c].mean()), 4) for c in df.columns if c not in ("scheme", "rep")}
                for sch in ["I", "II"]}
     json.dump({"about": "Hypothesis tests for the Table 2 gaps (hypotheses.py); mean test AUC over splits",
-               "splits": a.splits, "mean": summary, "per_split": rows},
+               "splits": a.splits, "mean": summary, "per_split": rows, "h4_poly_defaults": h4(d)},
               open(a.out, "w"), indent=1)
+
+
+def h4(d):
+    """H4 on all 10 splits: test AUC of the polynomial kernel at LIBSVM's defaults."""
+    out = {}
+    for scheme in ["I", "II"]:
+        col = f"scheme_{scheme}_case"
+        s = d[d[col].notna()].reset_index(drop=True)
+        X = dc.encode(s.to_dict("records"), scheme)
+        y = np.where(s[col] == 1, 1, -1)
+        aucs = []
+        for rep in range(10):
+            tr, te = dc.split_train_test(y, s.category, 0.2, seed=rep)
+            bal = tr[dc.undersample(y[tr], seed=rep)]
+            aucs.append(fit_auc(X[bal], y[bal], X[te], y[te], kernel="poly", C=1.0, gamma=1.0 / X.shape[1]))
+        a = np.array(aucs)
+        out[scheme] = {"median": round(float(np.median(a)), 4), "sd": round(float(a.std(ddof=1)), 4),
+                       "min": round(float(a.min()), 4), "max": round(float(a.max()), 4),
+                       "per_split": [round(float(x), 6) for x in a]}
+    return out
 
 
 if __name__ == "__main__":
