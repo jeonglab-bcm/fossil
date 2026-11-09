@@ -20,7 +20,7 @@ nextflow run PMC4331676/figure-reproduction/main.nf --outdir results
 sbatch PMC4331676/figure-reproduction/run_skyriver.sbatch
 
 # Everything, the PSSMs included: PSI-BLAST for 1,261 chains against UniRef100 2014_01
-# (about 40 CPU hours). Build the database first, as below.
+# (about 200 CPU hours). Build the database first, as below.
 sbatch PMC4331676/figure-reproduction/run_skyriver.sbatch --blastdb /path/to/uniref100 --blast /path/to/ncbi-blast-2.16.0+/bin
 ```
 

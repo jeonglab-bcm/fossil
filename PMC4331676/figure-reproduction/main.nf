@@ -6,7 +6,7 @@
 //   nextflow run PMC4331676/figure-reproduction/main.nf --outdir results [--sources DIR]
 //
 // The PSSMs come from PSI-BLAST against UniRef100 release 2014_01 (22 GB of downloads, about
-// 40 CPU hours); they are committed packed in output/pssm/. Without --blastdb the pipeline starts
+// 200 CPU hours); they are committed packed in output/pssm/. Without --blastdb the pipeline starts
 // from them. On a cluster, --blastdb DB --blast BIN_DIR reruns PSI-BLAST and blastp first
 // (-profile skyriver; see README.md). Everything after the PSSMs (about 15 CPU minutes) is rerun
 // every time, the sensitivity variants included.

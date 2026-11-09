@@ -2,7 +2,7 @@ name: Reproduce PMC4331676
 
 # Reruns the PMC4331676 pipeline (Xu et al. 2015, SVM-PSSM-DT) on pull requests and pushes to main
 # that touch it, and by hand from the Actions tab. The run starts from the committed PSSMs
-# (PSI-BLAST against UniRef100 2014_01 needs a 22 GB download and about 40 CPU hours; it runs on a
+# (PSI-BLAST against UniRef100 2014_01 needs a 22 GB download and about 200 CPU hours; it runs on a
 # cluster with --blastdb), recomputes every grid search, jackknife, cross validation, model, figure,
 # score and results.json, checks the pssmdt package from a fresh install, and fails if anything
 # differs from the committed outputs or a rule of results.json breaks.
