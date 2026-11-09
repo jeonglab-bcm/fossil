@@ -12,28 +12,31 @@ Every verdict is computed by `pipeline/check_results.py` from the numbers in `..
 is generated from it. 38 results: 2 exact, 6 agree, 14 partly agree, 5 inconclusive, 6 differ, 5 not attempted.
 
 - **Main claim (exact, 9 of 9 comparisons).** The gated SPCH-SVM beats the local SVM in leave-one-out and in CV,
-  on cysteines and on histidines; the AUC differences exceed the sum of the two standard errors.
+  on cysteines and on histidines; overall the AUC differences exceed the sum of the two standard errors (on LOO
+  histidines alone they do not: 0.017 against 0.025).
 - **LOO (partly).** AUC 0.893 ± 0.007 and 0.913 ± 0.007 (paper 0.895 ± 0.007, 0.914 ± 0.006); AURPC 0.678 and
   0.709 (paper 0.590 and 0.633).
 - **CV (partly).** AUC 0.852 and 0.877 (paper 0.867, 0.890); AURPC 0.494 and 0.552 (paper 0.428, 0.500).
 - **SPCHDE-SVM (partly).** D and E AUCs in LOO 0.74 ± 0.03 and 0.70 ± 0.06, as printed; in CV 0.70 and 0.63
   (paper 0.73, 0.65). Zn4 chains are the easiest at protein level and SPCHDE beats SPCH on Zn3 chains (exact).
 - **Tables 1 to 3 and Fig. 2 (partly).** 450 sites in 295 chains against 464 in 305. The 11 multiple-site-type
-  counts of Table 1 come back exactly; the other counts are short, mostly in Zn4.
-- **Fig. 1 (agrees).** 95% and 87% of the published curves lie within 2 px of ours; the best controls reach
-  62% and 47%.
+  counts of Table 1 come back exactly; the other counts are short, mostly in Zn4 (Zn3 is one over).
+- **Fig. 1 (agrees).** 95% and 87% of our curves lie within 2 px of the published ones (96% and 99% the other
+  way); the best controls reach 62% and 47%.
 - **Figs 3 to 6 (partly, inconclusive or differs).** Our curves are drawn on the published axes; 8% to 39% of the
   published curve lies within 2 px of ours.
 - **Human proteome (differs).** About 2,010 (SE 101) zinc proteins from a stratified sample of 300, against 2,833.
-- **Figs 8 and 9 (differs).** The same four cysteines of NP_060357.1 rank highest, at lower probabilities.
+- **Figs 8 and 9 (differs).** The same four cysteines of NP_060357.1 rank highest, at lower probabilities; in
+  Fig. 9 the last two come back at 0.98 and 0.95 (paper 0.99), the first two lower.
 - **Later structures (agree).** PDB 5ZLQ (2018) binds zinc with exactly the four cysteines of Fig. 8, Cys65
   included; 2HD5 shows the CX2CX43CX2C site predicted for the UBP family (Fig. 9).
 - **Not attempted.** Fig. 7 and the 350/100 counts (they need Andreini et al. 2006's paywalled reliability
   levels), the two homology-model renderings, and the authors' code (lost).
 
 The paper's main claim holds: the gated predictor beats the local one in both tests, on cysteines and on
-histidines, by more than the error bars. The AURPCs, the proteome count and the single probabilities do not come
-back; the causes are our 2010 profiles in place of the lost 2005 ones and the Platt constants tuned on those.
+histidines, and overall by more than the error bars. The AURPCs, the proteome count and the single probabilities
+do not come back; the likely causes, still open, are our 2010 profiles in place of the lost 2005 ones and the
+Platt constants tuned on those.
 
 ## What the code does against the paper
 
@@ -63,8 +66,8 @@ this, because no Zn1 site can hold it.
 
 **Figs 3 to 6.** The published curves are vector drawings; `extract_published_curves.py` reads them out of the PDF.
 The printed AURPCs sit 0.031 to 0.034 below the area under the paper's own curves (LOO 0.624 and 0.666, CV
-0.462 and 0.531). On our curves, average precision, the trapezoid and the drawn area differ by 0.002 or less, and
-fold-averaging changes nothing. So the gap is not an estimator choice we could find.
+0.462 and 0.531). On our curves, average precision, the trapezoid and the drawn area differ by 0.002 or less on the C and H
+panels (at most 0.007, CV histidines), and fold-averaging changes nothing. So the gap is not an estimator choice we could find.
 
 **Proteome.** The SPCH-SVM trained on all CV chains calls 81 of the 100 sampled proteins that both methods called,
 4 of 50 that only Andreini et al. called, 10 of 50 that only the paper's predictor called, and 0 of 100 others.

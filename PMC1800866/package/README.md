@@ -53,7 +53,7 @@ Other functions: `semipattern_kernel` (Eq. 1 computed directly), `aurpc`, `auc_w
 
 ## Limits
 
-The bundled training set is small and meant for the tutorial. For real use, train on the paper's 2,458 chains (`PMC1800866/figure-reproduction/output/profiles/pdb_profiles.npz` with Additional file 1). The parameters were tuned by the authors on 2005 profiles; profiles from another database shift the margins, so the Platt constants may be off.
+The bundled training set is small and meant for the tutorial. For real use, train on the 2,458 chains of the paper's Additional file 1 (`PMC1800866/figure-reproduction/output/profiles/pdb_profiles.npz` with Additional file 1). The parameters were tuned by the authors on 2005 profiles; profiles from another database shift the margins, so the Platt constants may be off.
 
 ## Licence
 

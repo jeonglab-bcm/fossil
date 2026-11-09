@@ -123,7 +123,7 @@ czib_NP_060357.1,102,C,0.0643,0.0000,0.0643,1
 ## 6. Your own data
 
 - **Profiles:** run `psiblast -query protein.fa -db <protein database> -num_iterations 3 -out_ascii_pssm protein.pssm -save_pssm_after_last_round`. The reproduction used UniRef100 release 2010_01; the paper used NCBI nr of 2005.
-- **Training data:** the bundled set is small. For real predictions train on the paper's 2,458 chains: `PMC1800866/figure-reproduction/output/profiles/pdb_profiles.npz` with the labels of Additional file 1 (`spsvm.read_table`; positions mapped to today's SEQRES in `output/predictions/candidates.tsv`).
+- **Training data:** the bundled set is small. For real predictions train on the 2,458 chains of the paper's Additional file 1: `PMC1800866/figure-reproduction/output/profiles/pdb_profiles.npz` with the labels of Additional file 1 (`spsvm.read_table`; positions mapped to today's SEQRES in `output/predictions/candidates.tsv`).
 - **Options:** `SPSVM("CHDE")` adds aspartate and glutamate; `min_weight` (0.015 in the paper) skips residues with too few aligned sequences; the protein call uses `predict_protein(probs, threshold=0.7, min_residues=3)`.
 - **Output:** `local`, `semipattern` and `gated` probabilities per residue. The gated one is the prediction.
 
