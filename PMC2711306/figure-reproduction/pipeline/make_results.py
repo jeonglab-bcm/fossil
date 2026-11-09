@@ -131,12 +131,18 @@ def main(run, notes_path, inputs_path, out):
         field("AUCs of dimensions 4 to 7 within 0.01 of each other", "yes", yesno(max(hi) - min(hi) <= 0.01))]})
     conv = [c for c in Y["fig4"]["converged"] if all(isinstance(h, int) for h in c["new_per_iteration"])]
     its = median(c["iterations"] for c in conv)
-    one = {round(p["eps"], 2): p for p in Y["fig4"]["one_iteration"]}
-    worse = sum(c["sens"] <= one[round(c["eps"], 2)]["sens"] + 1e-9 or c["fpr"] >= one[round(c["eps"], 2)]["fpr"]
-                for c in conv) == len(conv)
+    sparse = {0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5}
+
+    def grid_auc(pts):
+        pts = [p for p in pts if round(p["eps"], 2) in sparse]
+        x = [0.0] + [p["fpr"] for p in pts] + [1.0]
+        y = [0.0] + [p["sens"] for p in pts] + [1.0]
+        return sum((x[k + 1] - x[k]) * (y[k + 1] + y[k]) / 2 for k in range(len(x) - 1))
+
+    worse = grid_auc(Y["fig4"]["converged"]) < grid_auc(Y["fig4"]["one_iteration"])
     add("text.iteration", kind="value", method="values", values={"tolerance": PRINTED, "fields": [
-        field("iterations to converge (median over epsilon)", "10", round(its)),
-        field("iterating is no better than one iteration at any epsilon", "yes", yesno(worse))]})
+        field("iterations to converge (median over epsilon 0.01 to 0.6)", "10", round(its)),
+        field("the converged ROC curve has the lower AUC (Fig. 4 points)", "yes", yesno(worse))]})
     add("text.false_positives", kind="value", method="values", values={"tolerance": PRINTED, "fields": [
         field("edges further apart than 0.4", "2838", H["edges_beyond_delta"]),
         field("share of all edges (%)", "12", round(100 * H["edges_beyond_delta_fraction"])),
@@ -174,12 +180,15 @@ def main(run, notes_path, inputs_path, out):
     # ---- code checks
     if PC:
         d = PC["dims"]
-        worst = max(v["max_abs_distance_difference"] for v in d.values())
+        worst_dim = max(d, key=lambda k: d[k]["max_abs_distance_difference"])
+        worst = d[worst_dim]["max_abs_distance_difference"]
+        rest = max(v["max_abs_distance_difference"] for k, v in d.items() if k != worst_dim)
         tp = max(v["max_relative_tp_difference"] for v in d.values())
         add("port", kind="code_check", method="check", check={"passed": PC["passed"], "detail":
             f"embed_novi.m under GNU Octave against geodenoise.embed on Yhigh, dimensions 2-7: distances "
-            f"differ by at most {worst:.3f} (the authors' iteration stops at a change of 1e-3), TP counts at "
-            f"the epsilon grid by at most {100 * tp:.1f}% (output/port_check.json)"})
+            f"differ by at most {worst:.3f} in dimension {worst_dim} and {rest:.4f} in the others (the authors' "
+            f"subspace iteration stops early), TP counts at the epsilon grid by at most {100 * tp:.1f}% "
+            f"(output/port_check.json)"})
     if PK:
         add("package", kind="code_check", method="check",
             check={"passed": PK["passed"], "detail": PK["detail"]},

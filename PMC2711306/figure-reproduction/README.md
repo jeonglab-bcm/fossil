@@ -58,12 +58,12 @@ built by `pipeline/build_page.py` from `results.json`.
 | Iteration (Fig. 4) | Add the predictions and re-embed until convergence | Re-embed until no new pair is predicted; when the graph becomes so dense that the leading eigenvalues are not positive (epsilon >= 0.7), every pair is predicted |
 | Deletions (Fig. 5) | Remove 500 to 3,000 random edges and recover them | Embed the largest component of what is left (the method's rule); deleted edges cut off from it stay false negatives; mean of 10 deletions per size |
 | Algorithm 2 | Three-Gaussian EM mixtures for edges and non-edges, posterior with a prior, CS >= 0.975 within distance 0.4 | As `assign_scores.m` and `EM.m`: 18,000 distances drawn with replacement from each class, EM started from 30 of the first 100 values, stopped when the log-likelihood (checked every 10 iterations) changes by less than 0.01, P(edge) = 0.001, scores divided by the largest |
-| Validation | HPRD (release not named), BioGRID 2.0.50, GO (release not named), KEGG March 2009, CiteXplorer | BioGRID 2.0.50; HPRD release 9 (2010, Pathway Commons 2); GOA human release 70 (February 2009, the closest of releases 67-74 to the paper's counts); current KEGG; CiteXplorer not attempted |
+| Validation | HPRD (release not named), BioGRID 2.0.50, GO (release not named), KEGG March 2009, CiteXplorer | BioGRID 2.0.50; HPRD release 9 (2010, Pathway Commons 2); GOA human release 70 (February 2009; of releases 67-74 the closest on the pairs sharing a term); current KEGG; CiteXplorer not attempted |
 
 The method itself is the package [`../package`](../package) (`geodenoise`); the pipeline imports
 it. The port check runs the authors' `embed_novi.m` under GNU Octave 10.3 (with shims for `dist`
 from the Neural Network Toolbox and `mvnpdf` from the Statistics Toolbox) on Yhigh in dimensions 2
-to 7: distances differ by at most 0.018 and the ROC counts at the epsilon grid by at most 0.9%.
+to 7: distances differ by at most 0.018 in dimension 4 and 0.0033 in the others, and the ROC counts at the epsilon grid by at most 0.9%.
 
 ## Layout
 
