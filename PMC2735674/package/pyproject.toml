@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+# Name the distribution and the import package after the method, not the paper ID.
+name = "blmdti"
+version = "0.1.0"
+description = "Bipartite local models for drug-target interaction prediction (Bleakley and Yamanishi 2009)."
+readme = "README.md"
+# Implemented from the paper's text: the repository's licence. Ported from the authors' code: that code's licence.
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil (jeonglab-bcm)" }]
+# Compatible ranges with the tested versions as floors, for example "numpy>=2.1,<3".
+# Exact pins belong in the reproduction pipeline's requirements.txt, not here.
+dependencies = ["numpy>=1.26,<3", "scipy>=1.11,<2", "scikit-learn>=1.3,<2"]
+
+[project.scripts]
+blmdti = "blmdti.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2735674"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2735674/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blmdti"]

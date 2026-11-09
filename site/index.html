@@ -47,8 +47,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Five papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, four partly.</p>
+        <h2 id="index-head">Six papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, five partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -58,6 +58,27 @@
               <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2009-07-15">15 Jul 2009</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-09">9 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2735674</span>
+                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btp433">Supervised prediction of drug&ndash;target interactions using bipartite local models</a>
+                  <span class="journal">Bleakley and Yamanishi, Bioinformatics</span>
+                  <span class="go"><a href="PMC2735674/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2735674">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The authors&rsquo; MATLAB code</li>
+                  <li>The project page with the prediction lists</li>
+                  <li>Three settings the paper never printed</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2735674/package">blmdti</a>, the method as a Python package, with a <a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2735674/package/tutorial/TUTORIAL.md">tutorial</a></li>
+                  <li><a href="PMC2735674/">Tables 1 to 5 and Figs 1 and 2</a> against the paper</li>
+                  <li>The ten top nuclear receptor predictions, in the same order</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">Fig. 1 and the predictions came back; some printed values differ</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
@@ -183,6 +204,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC2735674/">Drug&ndash;target tables</a>
     </nav>
   </div>
 </footer>
