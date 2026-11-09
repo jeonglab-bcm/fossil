@@ -129,8 +129,13 @@ def main():
             ws, _ = dense_summary(d, wpos)
             ws["grid"] = grid_points(d, wpos, wP, wN, [e for e in EPS_GRID if e <= d.max() + 0.1])
             res["wrong_truth"]["dims"][str(dim)] = ws
-        keep = np.unique(np.r_[np.linspace(0, thr.size - 1, 3000).astype(int)])
-        dense_rows += [(dim, float(thr[k]), int(tp[k]), int(fp[k])) for k in keep]
+        # counts at fixed distances (not at fixed indices, which shift with rounding noise)
+        ds = np.sort(d)
+        ps = np.cumsum(pos[np.argsort(d, kind="stable")])
+        for t in np.round(np.linspace(0, 1.5, 1501), 3):
+            k = int(np.searchsorted(ds, t, side="right"))
+            ntp = int(ps[k - 1]) if k else 0
+            dense_rows.append((dim, float(t), ntp, k - ntp))
         if dim == 5:  # Fig. 1A: densities after embedding in 5 dimensions
             f_edge, f_non = gd.learn_densities(net, D, size=net.m, rng=SEED)
             xs = np.linspace(0, 1.4, 1401)
@@ -196,7 +201,7 @@ def main():
     with open(out / "roc_dense.csv", "w") as f:
         f.write("dim,threshold,tp,fp\n")
         for r in dense_rows:
-            f.write(f"{r[0]},{r[1]:.6f},{r[2]},{r[3]}\n")
+            f.write(f"{r[0]},{r[1]:.3f},{r[2]},{r[3]}\n")
 
 
 if __name__ == "__main__":

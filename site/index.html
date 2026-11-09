@@ -124,6 +124,27 @@
                 <td data-label="Verdict"><span class="stamp" data-v="agrees">Agrees</span></td>
               </tr>
               <tr>
+                <td class="date" data-label="Published"><time datetime="2009-08-07">7 Aug 2009</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-09">9 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2711306</span>
+                  <a class="title" href="https://doi.org/10.1371/journal.pcbi.1000454">Geometric de-noising of protein-protein interaction networks</a>
+                  <span class="journal">Kuchaiev et al., PLoS Computational Biology</span>
+                  <span class="go"><a href="PMC2711306/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2711306">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The authors’ web page and Matlab code (kuchaev.com/Denoising)</li>
+                  <li>Collins et al.’s full PE scores, the yeast test data</li>
+                  <li>HPRD of 2009, KEGG of March 2009, CiteXplorer</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li>The Matlab code and the PE scores, from the Wayback Machine</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2711306/package/tutorial/TUTORIAL.md">geodenoise</a>, the method in Python, checked against the Matlab</li>
+                  <li><a href="PMC2711306/">Figs 1 to 5 and Table S1</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; counts behind the 0.975 cut vary with the EM fit</span></td>
+              </tr>
+              <tr>
                 <td class="date" data-label="Published"><time datetime="2008-04-11">11 Apr 2008</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-03">3 Nov 2026</time></td>
                 <td data-label="Paper">
@@ -183,6 +204,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC2711306/">PPI de-noising figures</a>
     </nav>
   </div>
 </footer>

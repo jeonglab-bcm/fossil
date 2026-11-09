@@ -67,8 +67,11 @@ def main():
     new = hi[~hi["is_edge"]]
     with open(out / "predictions.tsv", "w") as f:
         f.write("protein_a\tprotein_b\tdistance\tscore\n")
-        for r in new:
-            f.write(f"{net.nodes[r['i']]}\t{net.nodes[r['j']]}\t{r['distance']:.6f}\t{r['score']:.6f}\n")
+        # sorted by the score as written, then by name: ties must not depend on rounding noise
+        rows = sorted(((-round(float(r["score"]), 6), net.nodes[r["i"]], net.nodes[r["j"]], float(r["distance"]))
+                       for r in new))
+        for negs, a, b, dist in rows:
+            f.write(f"{a}\t{b}\t{dist:.6f}\t{-negs:.6f}\n")
     fp = gd.candidate_false_positives(net, D)
     with open(out / "false_positive_candidates.tsv", "w") as f:
         f.write("protein_a\tprotein_b\tdistance\n")
