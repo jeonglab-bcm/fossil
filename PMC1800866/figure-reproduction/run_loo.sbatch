@@ -1,6 +1,6 @@
 #!/bin/bash
 # The leave-one-out of Figs 3 and 5 on the Skyriver cluster: one SVM pair fitted per held-out chain
-# (1,868 chains for the SPCH-SVM, 1,972 for the SPCHDE-SVM; about 30 CPU hours in all).
+# (1,868 chains for the SPCH-SVM, 1,975 for the SPCHDE-SVM; about 30 CPU hours in all).
 # Submit from the repository root after `run_svm.py prepare` has written $SVM (default PMC1800866/work/svm):
 #   sbatch PMC1800866/figure-reproduction/run_loo.sbatch
 # then merge:  python PMC1800866/figure-reproduction/pipeline/run_svm.py merge CH $SVM  (and CHDE)

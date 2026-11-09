@@ -11,7 +11,7 @@
 // package check and results.json, and compares the run with the committed outputs.
 // --full also downloads the 2,314 PDB entries (about 1 GB) and parses them again. Two slow steps run
 // outside this pipeline, on the cluster: the PSI-BLAST profiles (run_profiles.sbatch, about 60 CPU
-// hours) and the leave-one-out (run_loo.sbatch, 3,840 SVM fits, about 30 CPU hours), whose outputs
+// hours) and the leave-one-out (run_loo.sbatch, 3,843 SVM fits, about 30 CPU hours), whose outputs
 // are committed in output/profiles and output/predictions.
 
 params.outdir = 'results'

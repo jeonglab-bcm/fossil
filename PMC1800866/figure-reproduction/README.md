@@ -112,7 +112,7 @@ The slow steps run on the cluster and their outputs are committed:
 sbatch PMC1800866/figure-reproduction/run_profiles.sbatch   # PSI-BLAST: database, 2,458 + 392 profiles (about 60 CPU hours)
 python PMC1800866/figure-reproduction/pipeline/run_svm.py prepare <S1 dir> PMC1800866/figure-reproduction/output/struct/chains.tsv \
        PMC1800866/figure-reproduction/output/profiles/pdb_profiles.npz PMC1800866/work/svm
-sbatch PMC1800866/figure-reproduction/run_loo.sbatch        # 3,840 SVM fits (about 30 CPU hours)
+sbatch PMC1800866/figure-reproduction/run_loo.sbatch        # 3,843 SVM fits (about 30 CPU hours)
 python PMC1800866/figure-reproduction/pipeline/run_svm.py merge CH PMC1800866/work/svm   # and CHDE
 ```
 

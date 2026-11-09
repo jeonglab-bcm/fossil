@@ -4,7 +4,7 @@ name: Reproduce PMC1800866
 # request and push to main that touches this reproduction, and by hand from the Actions tab.
 #
 # The run reads the committed PSI-BLAST profiles (output/profiles, about 60 CPU hours on the cluster)
-# and leave-one-out predictions (output/predictions/loo_*.tsv, 3,840 SVM fits, about 30 CPU hours);
+# and leave-one-out predictions (output/predictions/loo_*.tsv, 3,843 SVM fits, about 30 CPU hours);
 # it recomputes the site analysis, Figs 1 and 2, the five-fold CV of both models (about 6 minutes),
 # Figs 3 to 6, the proteome sample scan, the package check and results.json. Those two slow steps
 # run on the cluster with run_profiles.sbatch and run_loo.sbatch.
