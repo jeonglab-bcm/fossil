@@ -299,6 +299,22 @@ def fig2(pub_img, weights, outdir):
     over.convert("RGB").save(Path(outdir) / "fig2_overlay.png")
 
 
+def tpr_gaps(img, fig, name, cur):
+    """Published TPR (median of the curve's pixels in a 1.2-point FPR column) against ours, at set FPRs."""
+    m, _ = masks(img, fig)
+    g = GRID[fig]
+    ys, xs = np.nonzero(m[name])
+    fpr = (xs - g["x0"]) / (g["x100"] - g["x0"]) * 100
+    tpr = (ys - g["y0"]) / (g["y100"] - g["y0"]) * 100
+    out = []
+    for b in (5, 10, 15, 20, 25, 30, 40, 50, 60):
+        sel = np.abs(fpr - b) < 0.6
+        if sel.any():
+            p, o = float(np.median(tpr[sel])), float(np.interp(b, cur[0], cur[1]))
+            out.append({"fpr": b, "published_tpr": round(p, 1), "our_tpr": round(o, 1), "ours_minus_published": round(o - p, 1)})
+    return out
+
+
 def main(pubdir, run, lou_json, pubvals_json, outdir):
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
@@ -333,6 +349,8 @@ def main(pubdir, run, lou_json, pubvals_json, outdir):
 
     fig1(pub["fig1"], json.loads((run / "lg_sweep.json").read_text()), pubvals, out)
     fig2(pub["fig2"], json.loads((run / "weights.json").read_text()), out)
+    for fig in ("fig3", "fig4"):
+        scores[fig]["PSSM-DT"]["tpr_gap"] = tpr_gaps(pub[fig], fig, "PSSM-DT", ours3["PSSM-DT"])
     (out / "scores.json").write_text(json.dumps(scores, indent=1) + "\n")
     for f, d in scores.items():
         for n, r in d.items():

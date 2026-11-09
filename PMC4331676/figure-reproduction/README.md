@@ -100,8 +100,8 @@ the colour bar's 150 and our tallest bar is the tallest published bar.
 - The 2014 nr is gone, so no profile is the paper's. UniRef100 and UniRef90 of January 2014 move the
   PSSM-DT jackknife by half a point; how far the paper's nr would move it is unknown.
 - The comparator encodings and the two rebuilt predictors are "in-house implementations" known only
-  by citation. Ours follow the definitions of Lou et al. 2014 and score higher than the paper's, which
-  shrinks the paper's main margin.
+  by citation. Ours follow the definitions of Lou et al. 2014 and mostly score higher than the paper's,
+  which shrinks the paper's main margin.
 - The homology filter of the independent test cannot run as written and the paper does not say how
   many chains it removed; PDB186 does not come back with any filter we tried.
 - PMC's figures are 600 px JPEGs; a 2 px tolerance is about half a percentage point on the ROC axes.

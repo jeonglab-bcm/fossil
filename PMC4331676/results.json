@@ -268,7 +268,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "explained",
-        "summary": "Our curve has the published level (ACC 0.76 to 0.79, MCC 0.53 to 0.59) and is as flat, but single values move by up to 0.02 between 5-fold splits, more than most gaps to the paper.",
+        "summary": "Our curve has the published level (ACC 0.76 to 0.79, MCC 0.53 to 0.59) and is as flat, but between 5-fold splits single ACC values move by up to 0.02 and MCC values by up to 0.04, more than most gaps to the paper.",
         "evidence": [
           "figure-reproduction/output/run/lg_sweep.json (ACC_seeds and MCC_seeds: five splits per LG)"
         ],
@@ -322,7 +322,8 @@
         "status": "open",
         "summary": "No split of ours puts the optimum at LG 5: the best LG is 7, 6, 8, 6 and 7 on five splits, and LG 5 is within 0.02 ACC of the best on every split. The paper's peak at LG 5 is a 0.016 rise over LG 4 that our runs do not show.",
         "evidence": [
-          "figure-reproduction/output/run/lg_sweep.json"
+          "figure-reproduction/output/run/lg_sweep.json",
+          "figure-reproduction/output/sensitivity.json (lg_uniref90)"
         ],
         "hypotheses": [
           {
@@ -332,7 +333,7 @@
           },
           {
             "hypothesis": "The protein database",
-            "test": "The UniRef90 run's best LG is 12 (split seed 0)",
+            "test": "LG sweep with UniRef90 2014_01 PSSMs (sensitivity.json, lg_uniref90): best LG is not 5",
             "result": "rejected"
           }
         ]
@@ -1246,20 +1247,21 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our largest pair weights are (G,G), (G,D), (G,P) and (N,P); (R,R), (R,P), (P,R) and (A,R) rank 326, 333, 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself ranks (A,R) about eighth.",
+        "summary": "Our largest pair weights are (G,G), (G,D), (G,P) and (N,P). (R,R) and (R,P) have no positive descriptor weight at all (pair weight 0, tied last), and (P,R) and (A,R) rank 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself puts (R,R), (P,R) and (R,P) on top and (A,R) eighth (published_values.json, fig2).",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (fig2_weights)",
-          "figure-reproduction/output/run/weights.json"
+          "figure-reproduction/output/run/weights.json",
+          "figure-reproduction/output/run/published_values.json (fig2)"
         ],
         "hypotheses": [
           {
             "hypothesis": "Unscaled features in Eq. 12",
-            "test": "Ranks of RR, RP, PR, AR: 326, 333, 143, 190",
+            "test": "Ranks of (P,R) and (A,R) with unscaled features: 143 and 190; (R,R) and (R,P) still without a positive weight",
             "result": "rejected"
           },
           {
             "hypothesis": "The opposite sign convention (LIBSVM labels the first class it reads +1)",
-            "test": "Ranks: 169, 11, 103, 318",
+            "test": "With the other sign (R,P) ranks 11, (R,R) 169, (P,R) 103, (A,R) 318",
             "result": "rejected"
           },
           {
@@ -1290,7 +1292,7 @@
           {
             "name": "lg with the largest (R,R) weight",
             "expected": "4",
-            "observed": "4"
+            "observed": "none (no positive weight)"
           },
           {
             "name": "lg with the largest (A,R) weight",
@@ -1323,20 +1325,21 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our largest pair weights are (G,G), (G,D), (G,P) and (N,P); (R,R), (R,P), (P,R) and (A,R) rank 326, 333, 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself ranks (A,R) about eighth.",
+        "summary": "Our (R,R) descriptor weights are negative at every lg, so (R,R) has no positive weight to peak; (A,R) peaks at lg 4, not 5. (R,R) and (R,P) have no positive descriptor weight at all (pair weight 0, tied last), and (P,R) and (A,R) rank 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself puts (R,R), (P,R) and (R,P) on top and (A,R) eighth (published_values.json, fig2).",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (fig2_weights)",
-          "figure-reproduction/output/run/weights.json"
+          "figure-reproduction/output/run/weights.json",
+          "figure-reproduction/output/run/published_values.json (fig2)"
         ],
         "hypotheses": [
           {
             "hypothesis": "Unscaled features in Eq. 12",
-            "test": "Ranks of RR, RP, PR, AR: 326, 333, 143, 190",
+            "test": "Ranks of (P,R) and (A,R) with unscaled features: 143 and 190; (R,R) and (R,P) still without a positive weight",
             "result": "rejected"
           },
           {
             "hypothesis": "The opposite sign convention (LIBSVM labels the first class it reads +1)",
-            "test": "Ranks: 169, 11, 103, 318",
+            "test": "With the other sign (R,P) ranks 11, (R,R) 169, (P,R) 103, (A,R) 318",
             "result": "rejected"
           },
           {
@@ -1351,7 +1354,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "differs"
     },
     {
       "id": "fig2.c",
@@ -1375,19 +1378,14 @@
             "observed": "AR1, PR3, PR4, RR1, RR2"
           },
           {
-            "name": "occurrences touching DNA (4.5 A)",
+            "name": "occurrences in the DNA-binding region (residues within 4.5 A of DNA, our definition)",
             "expected": "5",
             "observed": "4"
           },
           {
-            "name": "occurrences not touching DNA",
+            "name": "occurrences outside it",
             "expected": "0",
             "observed": "1"
-          },
-          {
-            "name": "(R,R) lg 1 within 4.5 A of DNA",
-            "expected": "yes",
-            "observed": "no"
           }
         ],
         "exceptions": [
@@ -1408,7 +1406,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "explained",
-        "summary": "The five occurrences come back; the text gives three of their lags off by one ((R,R) lg 3 for lg 2, (P,R) lg 2 and 3 for lg 3 and 4). Whether all five lie in the DNA-binding region depends on how the region is drawn, which the paper does not say: by contact with the DNA in the crystal structure, (R,R) lg 1 (R25, R26) is 13.2 A away, so four are in and one is out; by the span of contacts, all five are in.",
+        "summary": "The five occurrences come back; the text gives three of their lags off by one ((R,R) lg 3 for lg 2, (P,R) lg 2 and 3 for lg 3 and 4). Whether all five lie in the DNA-binding region depends on how the region is drawn, which the paper does not say: by contact with the DNA in the crystal structure, (R,R) lg 1 (R25, R26), which the text calls very close to the DNA, is 13.2 A away, so four are in and one is out; by the span of contacts, all five are in.",
         "evidence": [
           "figure-reproduction/output/run/akh.json"
         ]
@@ -1444,10 +1442,10 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our PSSM-DT curve stays within 2.2 points of true positive rate of the published one (AUC 86.34 against 86.50): equal at 5 and 40% false positives, 1 to 2 points lower between 15 and 30%, where our specificity is lower. At 2 px that is enough to clear the wrong-input control by only a little. Same causes as Table 1.",
+        "summary": "Our PSSM-DT curve stays within about 2 points of true positive rate of the published one (AUC 86.34 against 86.50), lowest between 15 and 30% false positives, where our specificity is lower (scores.json, tpr_gap). At 2 px that clears the wrong-input control by only a little. Same causes as Table 1.",
         "evidence": [
-          "figure-reproduction/output/run/benchmark_decisions.json",
-          "figure-reproduction/output/figures/fig3_overlay.png"
+          "figure-reproduction/output/figures/scores.json (tpr_gap)",
+          "figure-reproduction/output/run/benchmark_decisions.json"
         ],
         "hypotheses": [
           {
@@ -1515,7 +1513,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our ACC encoding is the one comparator that comes close: AUC 81.02 against 81.90, ACC 73.49 against 73.77, and its curve runs near the published one. The other comparators lie above theirs. The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -1576,7 +1574,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -1637,7 +1635,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -1698,7 +1696,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -1759,10 +1757,10 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our PSSM-DT curve stays within 2.2 points of true positive rate of the published one (AUC 86.34 against 86.50): equal at 5 and 40% false positives, 1 to 2 points lower between 15 and 30%, where our specificity is lower. At 2 px that is enough to clear the wrong-input control by only a little. Same causes as Table 1.",
+        "summary": "Our PSSM-DT curve stays within about 2 points of true positive rate of the published one (AUC 86.34 against 86.50), lowest between 15 and 30% false positives, where our specificity is lower (scores.json, tpr_gap). At 2 px that clears the wrong-input control by only a little. Same causes as Table 1.",
         "evidence": [
-          "figure-reproduction/output/run/benchmark_decisions.json",
-          "figure-reproduction/output/figures/fig3_overlay.png"
+          "figure-reproduction/output/figures/scores.json (tpr_gap)",
+          "figure-reproduction/output/run/benchmark_decisions.json"
         ],
         "hypotheses": [
           {
@@ -1830,7 +1828,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -1891,7 +1889,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Our comparator curves lie above the published ones, as the AUCs of Table 2 do (for example AvePscore-20 85.68 against 81.40). The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (encodings)",
           "figure-reproduction/output/run/benchmark.json"
@@ -2300,7 +2298,7 @@
           {
             "field": "ACC gain over DBPPred (points)",
             "category": "paper_error",
-            "evidence": "figure-reproduction/output/run/arithmetic.json: Table 4 gives 80.00 - 76.90 = 3.10"
+            "evidence": "figure-reproduction/output/run/arithmetic.json: Table 4 gives 80.00 - 76.90 = 3.10; the third decimal of 3.105 has no source"
           },
           {
             "field": "MCC gain over DBPPred",
@@ -2387,9 +2385,9 @@
     "items": 34,
     "exact": 2,
     "agrees": 6,
-    "partly": 7,
+    "partly": 6,
     "inconclusive": 3,
-    "differs": 10,
+    "differs": 11,
     "not_attempted": 6,
     "open_causes": 18
   }

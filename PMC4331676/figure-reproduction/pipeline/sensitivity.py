@@ -22,6 +22,9 @@ discriminant weights of the full-benchmark model with scaled or unscaled feature
 either sign taken as "DNA-binding", for the raw and the logistic PSSM, and from the plain
 difference of the class means of the features.
 
+For Fig. 1 the LG sweep (5-fold cross validation, split seed 0, a grid search per LG) is repeated
+with the UniRef90 PSSMs.
+
 For Table 2 the four comparator encodings are rerun (grid search and jackknife) on the UniRef90
 PSSMs, and on the raw scores instead of the logistic ones. For Table 4 the PDB186 test is also
 repeated with the UniRef90 PSSMs, with and without the 25 % filter.
@@ -149,6 +152,14 @@ def main():
         enc[e]["raw_scores"] = run(raw, y, a.jobs)["jackknife"]
         print(e, enc[e], flush=True)
     res["encodings"] = enc
+    lg90 = []
+    for lg in range(1, 15):
+        Xs = pssmdt.scale(features(D90, i90, "PSSM-DT", lg))
+        g, dec = grid(Xs, D90["label"][i90], a.jobs)
+        m = pssmdt.metrics(D90["label"][i90], dec)
+        lg90.append({"LG": lg, "ACC": round(m["ACC"] / 100, 4), "MCC": round(m["MCC"], 4)})
+    res["lg_uniref90"] = {"sweep": lg90, "best_LG_ACC": max(lg90, key=lambda r: r["ACC"])["LG"]}
+    print("lg_uniref90", res["lg_uniref90"], flush=True)
     Path(a.out).write_text(json.dumps(res, indent=1) + "\n")
 
 

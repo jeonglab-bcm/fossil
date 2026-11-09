@@ -102,15 +102,18 @@ def main(run, figs, sens_path, removed_path, pkg_path, notes_path, out):
     obs["fig2.a"] = [{"name": f"({p[0]},{p[1]}) among the four pairs with the largest weight", "observed": yes(p in top4)}
                      for p in ("RR", "RP", "PR", "AR")]
     pw = w["paper_top4_by_lg"]
-    obs["fig2.b"] = [{"name": "lg with the largest (R,R) weight", "observed": str(1 + max(range(5), key=lambda l: pw["RR"][l]))},
-                     {"name": "lg with the largest (A,R) weight", "observed": str(1 + max(range(5), key=lambda l: pw["AR"][l]))}]
+    def peak(p):  # the paper counts only positive descriptor weights
+        if max(pw[p]) <= 0:
+            return "none (no positive weight)"
+        return str(1 + max(range(5), key=lambda l: pw[p][l]))
+    obs["fig2.b"] = [{"name": "lg with the largest (R,R) weight", "observed": peak("RR")},
+                     {"name": "lg with the largest (A,R) weight", "observed": peak("AR")}]
     occ = akh["occurrences"]
     obs["fig2.c"] = [
         {"name": "occurrences of the four pairs (lg 1 to 5) on 1AKH chain A", "observed": str(len(occ))},
         {"name": "occurrences listed (pair and lg)", "observed": ", ".join(sorted(akh["descriptors"]))},
-        {"name": "occurrences touching DNA (4.5 A)", "observed": str(akh["in_binding_region"])},
-        {"name": "occurrences not touching DNA", "observed": str(akh["outside_binding_region"])},
-        {"name": "(R,R) lg 1 within 4.5 A of DNA", "observed": yes(any(o["pair"] == "RR" and o["lg"] == 1 and o["contacts_dna"] for o in occ))},
+        {"name": "occurrences in the DNA-binding region (residues within 4.5 A of DNA, our definition)", "observed": str(akh["in_binding_region"])},
+        {"name": "occurrences outside it", "observed": str(akh["outside_binding_region"])},
     ]
 
     items = []
