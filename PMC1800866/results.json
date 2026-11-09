@@ -1,0 +1,3165 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC1800866",
+    "title": "Predicting zinc binding at the proteome level",
+    "citation": "Passerini A, Andreini C, Menchetti S, Rosato A, Frasconi P. Predicting zinc binding at the proteome level. BMC Bioinformatics 8:39 (2007)",
+    "doi": "10.1186/1471-2105-8-39",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-09",
+    "pipeline": "PMC1800866/figure-reproduction/main.nf",
+    "command": "nextflow run PMC1800866/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "PMC1800866.1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1800866.1/PMC1800866.1.pdf",
+        "sha256": "f9dae84eca95f300d2595f128c272e195f38c520e4d9237954931b8d44c06ca6"
+      },
+      {
+        "name": "1471-2105-8-39-S1.tgz",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1800866.1/1471-2105-8-39-S1.tgz",
+        "sha256": "c8cbfaea9e6ceb1b1d061ffa3e888c42bc28e3c861072b1a09eb8313c8c338a0"
+      },
+      {
+        "name": "1471-2105-8-39-S3.TXT",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1800866.1/1471-2105-8-39-S3.TXT",
+        "sha256": "94cd0f633b892fb4e13eed43ed1c62c06617b46985ff91a96bc7288ac3398848"
+      },
+      {
+        "name": "protein.fa.gz (RefSeq Build 35.1)",
+        "url": "https://ftp.ncbi.nlm.nih.gov/genomes/archive/old_refseq/Homo_sapiens/ARCHIVE/BUILD.35.1/protein/protein.fa.gz",
+        "sha256": "abdfa114fc60b84f9d9be7ad1f6edfcd893968f7e8c8a28fa69097d73b417a6e"
+      },
+      {
+        "name": "uniref2010_01.tar.gz",
+        "url": "https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2010_01/uniref/uniref2010_01.tar.gz",
+        "sha256": "37a9d0a3c12dcc01c8a7513c0a0ff350b966366ba1311a9f65fa98b82e9173ce"
+      },
+      {
+        "name": "ncbi-blast-2.17.0+-x64-linux.tar.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.17.0/ncbi-blast-2.17.0+-x64-linux.tar.gz",
+        "sha256": "3888112d8207831aa47371d93583c601f058f88b5db22dc782438b039a3a411b"
+      }
+    ],
+    "environment": {
+      "python": "3.12",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "pillow": "13.0.0",
+      "pymupdf": "2.1",
+      "gemmi": "0.7.5",
+      "blast+": "2.17.0",
+      "nextflow": "25.04.6"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "items": [
+    {
+      "id": "table1",
+      "label": "Table 1, zinc site types",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Zn1 sites",
+            "expected": "37",
+            "observed": 36
+          },
+          {
+            "name": "Zn1 chains",
+            "expected": "20",
+            "observed": 19
+          },
+          {
+            "name": "Zn2 sites",
+            "expected": "65",
+            "observed": 63
+          },
+          {
+            "name": "Zn2 chains",
+            "expected": "53",
+            "observed": 51
+          },
+          {
+            "name": "Zn3 sites",
+            "expected": "123",
+            "observed": 124
+          },
+          {
+            "name": "Zn3 chains",
+            "expected": "106",
+            "observed": 107
+          },
+          {
+            "name": "Zn4 sites",
+            "expected": "239",
+            "observed": 227
+          },
+          {
+            "name": "Zn4 chains",
+            "expected": "175",
+            "observed": 167
+          },
+          {
+            "name": "Any sites",
+            "expected": "464",
+            "observed": 450
+          },
+          {
+            "name": "Any chains",
+            "expected": "305",
+            "observed": 295
+          },
+          {
+            "name": "chains with site types {1,2}",
+            "expected": "14",
+            "observed": 14
+          },
+          {
+            "name": "chains with site types {1,3}",
+            "expected": "9",
+            "observed": 9
+          },
+          {
+            "name": "chains with site types {1,4}",
+            "expected": "3",
+            "observed": 3
+          },
+          {
+            "name": "chains with site types {2,3}",
+            "expected": "21",
+            "observed": 21
+          },
+          {
+            "name": "chains with site types {2,4}",
+            "expected": "4",
+            "observed": 4
+          },
+          {
+            "name": "chains with site types {3,4}",
+            "expected": "8",
+            "observed": 8
+          },
+          {
+            "name": "chains with site types {1,2,3}",
+            "expected": "7",
+            "observed": 7
+          },
+          {
+            "name": "chains with site types {1,2,4}",
+            "expected": "1",
+            "observed": 1
+          },
+          {
+            "name": "chains with site types {1,3,4}",
+            "expected": "0",
+            "observed": 0
+          },
+          {
+            "name": "chains with site types {2,3,4}",
+            "expected": "2",
+            "observed": 2
+          },
+          {
+            "name": "chains with site types {1,2,3,4}",
+            "expected": "0",
+            "observed": 0
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Sites from today's mmCIF files of the 296 zinc chains of Additional file 1; a site is a zinc ion with at least one side-chain donor (C SG, H ND1/NE2, D OD1/OD2, E OE1/OE2, N OD1/ND2, Q OE1/NE2) of the chain within 3 A; asymmetric unit only",
+          "source": "our_choice",
+          "sensitivity": "Counting every N, O, S atom gives 452 sites but 29 ligands outside Table 2's six residue types and 3 of 11 multiple-type counts off; side-chain donors give all 11."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "We count 450 sites in 295 chains against 464 in 305. Additional file 1 lists 296 of the 305 zinc chains, and in one of those (1H79) the metal is now modelled as iron. The deficit sits almost all in Zn4 (12 sites, 8 chains). With the donor atoms restricted to side chains of C, H, D, E, N and Q, the multiple-site-type counts of Table 1 come back exactly.",
+        "evidence": [
+          "figure-reproduction/output/sites/tables.json",
+          "figure-reproduction/output/struct/chains.tsv",
+          "figure-reproduction/README.md#tables-1-3-and-figs-1-2"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Every N, O or S atom within 3 A counts as a donor (backbone and other residues included)",
+            "test": "analyze_sites.py with donors=any",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Only the side-chain donors of the six residue types of Table 2 count",
+            "test": "analyze_sites.py default",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 9 chains missing from Additional file 1 carry the missing sites",
+            "test": "deficit by site type: Zn4 -12 sites, Zn2 -2, Zn1 -1, Zn3 +1, all but Zn3 short; the chains cannot be identified",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "PDB entries changed since 2005",
+            "test": "1H79: the 4-Cys metal of the supplement's ZN_1588_A is now FE2; 1AW5 Cys219 is now beyond 3 A",
+            "result": "supported"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, ligand residues by site type",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "C Zn4 Na",
+            "expected": "663",
+            "observed": 625
+          },
+          {
+            "name": "C Zn4 fa",
+            "expected": "69.3",
+            "observed": 68.8
+          },
+          {
+            "name": "C Zn4 fs",
+            "expected": "91.8",
+            "observed": 91.2
+          },
+          {
+            "name": "C Zn3 Na",
+            "expected": "45",
+            "observed": 46
+          },
+          {
+            "name": "C Zn3 fa",
+            "expected": "12.2",
+            "observed": 12.4
+          },
+          {
+            "name": "C Zn3 fs",
+            "expected": "6.2",
+            "observed": 6.7
+          },
+          {
+            "name": "C Zn2 Na",
+            "expected": "10",
+            "observed": 10
+          },
+          {
+            "name": "C Zn2 fa",
+            "expected": "7.7",
+            "observed": 7.9
+          },
+          {
+            "name": "C Zn2 fs",
+            "expected": "1.4",
+            "observed": 1.5
+          },
+          {
+            "name": "C Zn1 Na",
+            "expected": "4",
+            "observed": 4
+          },
+          {
+            "name": "C Zn1 fa",
+            "expected": "10.8",
+            "observed": 11.1
+          },
+          {
+            "name": "C Zn1 fs",
+            "expected": "0.6",
+            "observed": 0.6
+          },
+          {
+            "name": "C All",
+            "expected": "722",
+            "observed": 685
+          },
+          {
+            "name": "H Zn4 Na",
+            "expected": "220",
+            "observed": 211
+          },
+          {
+            "name": "H Zn4 fa",
+            "expected": "23.0",
+            "observed": 23.2
+          },
+          {
+            "name": "H Zn4 fs",
+            "expected": "45.7",
+            "observed": 44.5
+          },
+          {
+            "name": "H Zn3 Na",
+            "expected": "194",
+            "observed": 196
+          },
+          {
+            "name": "H Zn3 fa",
+            "expected": "52.6",
+            "observed": 52.7
+          },
+          {
+            "name": "H Zn3 fs",
+            "expected": "40.3",
+            "observed": 41.4
+          },
+          {
+            "name": "H Zn2 Na",
+            "expected": "59",
+            "observed": 59
+          },
+          {
+            "name": "H Zn2 fa",
+            "expected": "45.4",
+            "observed": 46.8
+          },
+          {
+            "name": "H Zn2 fs",
+            "expected": "12.3",
+            "observed": 12.4
+          },
+          {
+            "name": "H Zn1 Na",
+            "expected": "8",
+            "observed": 8
+          },
+          {
+            "name": "H Zn1 fa",
+            "expected": "21.6",
+            "observed": 22.2
+          },
+          {
+            "name": "H Zn1 fs",
+            "expected": "1.7",
+            "observed": 1.7
+          },
+          {
+            "name": "H All",
+            "expected": "481",
+            "observed": 474
+          },
+          {
+            "name": "D Zn4 Na",
+            "expected": "48",
+            "observed": 48
+          },
+          {
+            "name": "D Zn4 fa",
+            "expected": "5.0",
+            "observed": 5.3
+          },
+          {
+            "name": "D Zn4 fs",
+            "expected": "27.6",
+            "observed": 28.1
+          },
+          {
+            "name": "D Zn3 Na",
+            "expected": "83",
+            "observed": 83
+          },
+          {
+            "name": "D Zn3 fa",
+            "expected": "22.5",
+            "observed": 22.3
+          },
+          {
+            "name": "D Zn3 fs",
+            "expected": "47.7",
+            "observed": 48.5
+          },
+          {
+            "name": "D Zn2 Na",
+            "expected": "30",
+            "observed": 27
+          },
+          {
+            "name": "D Zn2 fa",
+            "expected": "23.1",
+            "observed": 21.4
+          },
+          {
+            "name": "D Zn2 fs",
+            "expected": "17.2",
+            "observed": 15.8
+          },
+          {
+            "name": "D Zn1 Na",
+            "expected": "13",
+            "observed": 13
+          },
+          {
+            "name": "D Zn1 fa",
+            "expected": "35.1",
+            "observed": 36.1
+          },
+          {
+            "name": "D Zn1 fs",
+            "expected": "7.5",
+            "observed": 7.6
+          },
+          {
+            "name": "D All",
+            "expected": "174",
+            "observed": 171
+          },
+          {
+            "name": "E Zn4 Na",
+            "expected": "18",
+            "observed": 17
+          },
+          {
+            "name": "E Zn4 fa",
+            "expected": "1.9",
+            "observed": 1.9
+          },
+          {
+            "name": "E Zn4 fs",
+            "expected": "17.5",
+            "observed": 16.8
+          },
+          {
+            "name": "E Zn3 Na",
+            "expected": "46",
+            "observed": 46
+          },
+          {
+            "name": "E Zn3 fa",
+            "expected": "12.5",
+            "observed": 12.4
+          },
+          {
+            "name": "E Zn3 fs",
+            "expected": "44.7",
+            "observed": 45.5
+          },
+          {
+            "name": "E Zn2 Na",
+            "expected": "28",
+            "observed": 28
+          },
+          {
+            "name": "E Zn2 fa",
+            "expected": "21.5",
+            "observed": 22.2
+          },
+          {
+            "name": "E Zn2 fs",
+            "expected": "27.2",
+            "observed": 27.7
+          },
+          {
+            "name": "E Zn1 Na",
+            "expected": "11",
+            "observed": 10
+          },
+          {
+            "name": "E Zn1 fa",
+            "expected": "29.7",
+            "observed": 27.8
+          },
+          {
+            "name": "E Zn1 fs",
+            "expected": "10.7",
+            "observed": 9.9
+          },
+          {
+            "name": "E All",
+            "expected": "103",
+            "observed": 101
+          },
+          {
+            "name": "N Zn4 Na",
+            "expected": "5",
+            "observed": 5
+          },
+          {
+            "name": "N Zn4 fa",
+            "expected": "0.5",
+            "observed": 0.6
+          },
+          {
+            "name": "N Zn4 fs",
+            "expected": "83.3",
+            "observed": 100.0
+          },
+          {
+            "name": "N Zn3 Na",
+            "expected": "0",
+            "observed": 0
+          },
+          {
+            "name": "N Zn3 fa",
+            "expected": "0.0",
+            "observed": 0.0
+          },
+          {
+            "name": "N Zn3 fs",
+            "expected": "0.0",
+            "observed": 0.0
+          },
+          {
+            "name": "N Zn2 Na",
+            "expected": "1",
+            "observed": 0
+          },
+          {
+            "name": "N Zn2 fa",
+            "expected": "0.8",
+            "observed": 0.0
+          },
+          {
+            "name": "N Zn2 fs",
+            "expected": "16.7",
+            "observed": 0.0
+          },
+          {
+            "name": "N Zn1 Na",
+            "expected": "0",
+            "observed": 0
+          },
+          {
+            "name": "N Zn1 fa",
+            "expected": "0.0",
+            "observed": 0.0
+          },
+          {
+            "name": "N Zn1 fs",
+            "expected": "0.0",
+            "observed": 0.0
+          },
+          {
+            "name": "N All",
+            "expected": "6",
+            "observed": 5
+          },
+          {
+            "name": "Q Zn4 Na",
+            "expected": "2",
+            "observed": 2
+          },
+          {
+            "name": "Q Zn4 fa",
+            "expected": "0.2",
+            "observed": 0.2
+          },
+          {
+            "name": "Q Zn4 fs",
+            "expected": "33.3",
+            "observed": 33.3
+          },
+          {
+            "name": "Q Zn3 Na",
+            "expected": "1",
+            "observed": 1
+          },
+          {
+            "name": "Q Zn3 fa",
+            "expected": "0.3",
+            "observed": 0.3
+          },
+          {
+            "name": "Q Zn3 fs",
+            "expected": "16.7",
+            "observed": 16.7
+          },
+          {
+            "name": "Q Zn2 Na",
+            "expected": "2",
+            "observed": 2
+          },
+          {
+            "name": "Q Zn2 fa",
+            "expected": "1.5",
+            "observed": 1.6
+          },
+          {
+            "name": "Q Zn2 fs",
+            "expected": "33.3",
+            "observed": 33.3
+          },
+          {
+            "name": "Q Zn1 Na",
+            "expected": "1",
+            "observed": 1
+          },
+          {
+            "name": "Q Zn1 fa",
+            "expected": "2.7",
+            "observed": 2.8
+          },
+          {
+            "name": "Q Zn1 fs",
+            "expected": "16.7",
+            "observed": 16.7
+          },
+          {
+            "name": "Q All",
+            "expected": "6",
+            "observed": 6
+          },
+          {
+            "name": "Total Zn4",
+            "expected": "956",
+            "observed": 908
+          },
+          {
+            "name": "Total Zn3",
+            "expected": "369",
+            "observed": 372
+          },
+          {
+            "name": "Total Zn2",
+            "expected": "130",
+            "observed": 126
+          },
+          {
+            "name": "Total Zn1",
+            "expected": "37",
+            "observed": 36
+          },
+          {
+            "name": "Total All",
+            "expected": "1492",
+            "observed": 1442
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "C Zn4 fa",
+            "category": "paper_error",
+            "evidence": "663 / 956 = 69.35%, printed 69.3; every other fa and fs cell of Table 2 rounds to nearest (figure-reproduction/output/sites/arithmetic.json)"
+          }
+        ]
+      },
+      "cause": {
+        "category": "data_differs",
+        "summary": "Same sites as Table 1: 1,442 ligands against 1,492, short mostly in Zn4 cysteines (625 against 663), which the missing chains would hold.",
+        "evidence": [
+          "figure-reproduction/output/sites/tables.json",
+          "figure-reproduction/output/struct/chains.tsv",
+          "figure-reproduction/README.md#tables-1-3-and-figs-1-2"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Every N, O or S atom within 3 A counts as a donor (backbone and other residues included)",
+            "test": "analyze_sites.py with donors=any",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Only the side-chain donors of the six residue types of Table 2 count",
+            "test": "analyze_sites.py default",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 9 chains missing from Additional file 1 carry the missing sites",
+            "test": "deficit by site type: Zn4 -12 sites, Zn2 -2, Zn1 -1, Zn3 +1, all but Zn3 short; the chains cannot be identified",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "PDB entries changed since 2005",
+            "test": "1H79: the 4-Cys metal of the supplement's ZN_1588_A is now FE2; 1AW5 Cys219 is now beyond 3 A",
+            "result": "supported"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, binding-site patterns",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "[CHDE] x(.) [CHDE] x(.) [CHDE] x(.) [CHDE]",
+            "expected": "232",
+            "observed": 220
+          },
+          {
+            "name": "[CH] x(.) [CH] x(.) [CH] x(.) [CH]",
+            "expected": "196",
+            "observed": 185
+          },
+          {
+            "name": "[CHDE] x(0-7) [CHDE] x(.) [CHDE] x(0-7) [CHDE]",
+            "expected": "161",
+            "observed": 155
+          },
+          {
+            "name": "[CHDE] x(0-7) [CHDE] x(>7) [CHDE] x(0-7) [CHDE]",
+            "expected": "141",
+            "observed": 135
+          },
+          {
+            "name": "[CHDE] x(.) [CHDE] x(.) [CHDE]",
+            "expected": "122",
+            "observed": 123
+          },
+          {
+            "name": "[C] x(.) [C] x(.) [C] x(.) [C]",
+            "expected": "85",
+            "observed": 79
+          },
+          {
+            "name": "[CHDE] x(.) [CHDE]",
+            "expected": "62",
+            "observed": 61
+          },
+          {
+            "name": "[CHDE] x(0-7) [CHDE] x(>7) [CHDE]",
+            "expected": "55",
+            "observed": 55
+          },
+          {
+            "name": "[CH] x(.) [CH] x(.) [CH]",
+            "expected": "37",
+            "observed": 38
+          },
+          {
+            "name": "[CHDE] x(>7) [CHDE] x(0-7) [CHDE]",
+            "expected": "24",
+            "observed": 25
+          },
+          {
+            "name": "[CH] x(.) [CH]",
+            "expected": "21",
+            "observed": 21
+          },
+          {
+            "name": "[CHDE] x(0-7) [CHDE] x(>7) [CHDE] x(>7) [CHDE]",
+            "expected": "17",
+            "observed": 17
+          },
+          {
+            "name": "[CHDE] x(>7) [CHDE] x(0-7) [CHDE] x(0-7) [CHDE]",
+            "expected": "16",
+            "observed": 14
+          },
+          {
+            "name": "[DE] x(.) [DE]",
+            "expected": "15",
+            "observed": 14
+          },
+          {
+            "name": "[DE] x(.) [DE] x(.) [DE]",
+            "expected": "10",
+            "observed": 10
+          },
+          {
+            "name": "[CHDE] x(>7) [CHDE] x(>7) [CHDE] x(0-7) [CHDE]",
+            "expected": "10",
+            "observed": 8
+          },
+          {
+            "name": "[CHDE] x(0-7) [CHDE] x(0-7) [CHDE] x(>7) [CHDE]",
+            "expected": "8",
+            "observed": 7
+          },
+          {
+            "name": "[DE] x(.) [DE] x(.) [DE] x(.) [DE]",
+            "expected": "1",
+            "observed": 1
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "A site matches a pattern when its ligands, in sequence order, have the pattern's residue types and gaps (gap = residues between, 'short' 0-7); [CHDE] x(0-7) [CHDE] x(.) [CHDE] x(0-7) [CHDE] is SLS or SSS",
+          "source": "our_choice",
+          "sensitivity": "Counting the 'x(.)' pattern as SLS only gives 135 against 161; with SSS added, 155."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Same sites as Table 1. 6 of 18 counts are equal; the four-ligand patterns are short by 6 to 12, as the Zn4 sites are.",
+        "evidence": [
+          "figure-reproduction/output/sites/tables.json",
+          "figure-reproduction/output/struct/chains.tsv",
+          "figure-reproduction/README.md#tables-1-3-and-figs-1-2"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Every N, O or S atom within 3 A counts as a donor (backbone and other residues included)",
+            "test": "analyze_sites.py with donors=any",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Only the side-chain donors of the six residue types of Table 2 count",
+            "test": "analyze_sites.py default",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 9 chains missing from Additional file 1 carry the missing sites",
+            "test": "deficit by site type: Zn4 -12 sites, Zn2 -2, Zn1 -1, Zn3 +1, all but Zn3 short; the chains cannot be identified",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "PDB entries changed since 2005",
+            "test": "1H79: the 4-Cys metal of the supplement's ZN_1588_A is now FE2; 1AW5 Cys219 is now beyond 3 A",
+            "result": "supported"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig1.a",
+      "label": "Fig. 1a, P(X bound | Y bound) by separation",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": null,
+        "published_near_ours": 0.9636,
+        "ours_near_published": 0.9536,
+        "controls": [
+          {
+            "name": "CHDE residues (another residue set)",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "all residues",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "separation as index difference (off by one)",
+            "kind": "near_miss",
+            "score": 0.6247
+          },
+          {
+            "name": "(a) read as P(bound | a bound residue within d)",
+            "kind": "near_miss",
+            "score": 0.1859
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.1897
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.0923
+          }
+        ],
+        "threshold": 0.85
+      },
+      "assumptions": [
+        {
+          "what": "Residues: the C and H of the zinc chains; separation d: the number of residues between X and Y; P(X|Y) over the pairs within d",
+          "source": "read_from_figure",
+          "sensitivity": "The prior is then 0.305 (published line at 0.309). Reading d as the index difference scores 62%; P(X bound | some bound residue within d) scores 19%; C, H, D and E residues score 0%."
+        },
+        {
+          "what": "Axes from the JPEG: boxes x 46-271 and 362-587, y 49-256; log10 x from 1 to 1000; y 0.1-1 (a) and 0.1-0.6 (b)",
+          "source": "read_from_figure",
+          "sensitivity": "Tick labels only; nothing inside the box is fitted."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures12/fig1_ours.png",
+        "figure-reproduction/output/figures12/fig1_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1.b",
+      "label": "Fig. 1b, correlation of binding states by separation",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": null,
+        "published_near_ours": 0.9914,
+        "ours_near_published": 0.8712,
+        "controls": [
+          {
+            "name": "CHDE residues (another residue set)",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "all residues",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "separation as index difference (off by one)",
+            "kind": "near_miss",
+            "score": 0.4261
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.4736
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.2196
+          }
+        ],
+        "threshold": 0.85
+      },
+      "assumptions": [
+        {
+          "what": "As Fig. 1a: C and H residues of the zinc chains, separation = residues between, Pearson correlation over the pairs within d",
+          "source": "read_from_figure",
+          "sensitivity": "Index difference: 43%; x 1.05: 47%."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures12/fig1_ours.png",
+        "figure-reproduction/output/figures12/fig1_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig2.a",
+      "label": "Fig. 2a, semi-pattern coverage of sites",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Overall covered",
+            "expected": "338",
+            "observed": 328
+          },
+          {
+            "name": "Overall not covered",
+            "expected": "126",
+            "observed": 122
+          },
+          {
+            "name": "Zn4 covered",
+            "expected": "227",
+            "observed": 215
+          },
+          {
+            "name": "Zn4 not covered",
+            "expected": "12",
+            "observed": 12
+          },
+          {
+            "name": "Zn3 covered",
+            "expected": "86",
+            "observed": 88
+          },
+          {
+            "name": "Zn3 not covered",
+            "expected": "37",
+            "observed": 36
+          },
+          {
+            "name": "Zn2 covered",
+            "expected": "25",
+            "observed": 25
+          },
+          {
+            "name": "Zn2 not covered",
+            "expected": "40",
+            "observed": 38
+          },
+          {
+            "name": "Zn1 covered",
+            "expected": "0",
+            "observed": 0
+          },
+          {
+            "name": "Zn1 not covered",
+            "expected": "37",
+            "observed": 36
+          }
+        ]
+      },
+      "assumptions": [],
+      "cause": {
+        "category": "data_differs",
+        "summary": "The not-covered bars come back within 2; the covered bars are short by the sites missing from Table 1 (Zn4 215 against 227).",
+        "evidence": [
+          "figure-reproduction/output/sites/tables.json",
+          "figure-reproduction/output/struct/chains.tsv",
+          "figure-reproduction/README.md#tables-1-3-and-figs-1-2"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Every N, O or S atom within 3 A counts as a donor (backbone and other residues included)",
+            "test": "analyze_sites.py with donors=any",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Only the side-chain donors of the six residue types of Table 2 count",
+            "test": "analyze_sites.py default",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 9 chains missing from Additional file 1 carry the missing sites",
+            "test": "deficit by site type: Zn4 -12 sites, Zn2 -2, Zn1 -1, Zn3 +1, all but Zn3 short; the chains cannot be identified",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "PDB entries changed since 2005",
+            "test": "1H79: the 4-Cys metal of the supplement's ZN_1588_A is now FE2; 1AW5 Cys219 is now beyond 3 A",
+            "result": "supported"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/figures12/fig2_ours.png",
+        "figure-reproduction/output/figures12/fig2_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2.b",
+      "label": "Fig. 2b, semi-pattern coverage of chains",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Overall covered",
+            "expected": "261",
+            "observed": 253
+          },
+          {
+            "name": "Overall not covered",
+            "expected": "44",
+            "observed": 42
+          },
+          {
+            "name": "Zn4 covered",
+            "expected": "168",
+            "observed": 160
+          },
+          {
+            "name": "Zn4 not covered",
+            "expected": "7",
+            "observed": 7
+          },
+          {
+            "name": "Zn3 covered",
+            "expected": "85",
+            "observed": 86
+          },
+          {
+            "name": "Zn3 not covered",
+            "expected": "21",
+            "observed": 21
+          },
+          {
+            "name": "Zn2 covered",
+            "expected": "35",
+            "observed": 34
+          },
+          {
+            "name": "Zn2 not covered",
+            "expected": "18",
+            "observed": 17
+          },
+          {
+            "name": "Zn1 covered",
+            "expected": "13",
+            "observed": 13
+          },
+          {
+            "name": "Zn1 not covered",
+            "expected": "7",
+            "observed": 6
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "A chain is covered when any of its sites holds [CHDE] x(0-7) [CHDE] and is counted under every site type it has",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 2b shows 13 covered Zn1 chains though no Zn1 site can hold the pattern; counting per site type instead gives 0."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Within 2 of every bar except Zn4 covered (160 against 168), where the missing Zn4 chains are.",
+        "evidence": [
+          "figure-reproduction/output/sites/tables.json",
+          "figure-reproduction/output/struct/chains.tsv",
+          "figure-reproduction/README.md#tables-1-3-and-figs-1-2"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Every N, O or S atom within 3 A counts as a donor (backbone and other residues included)",
+            "test": "analyze_sites.py with donors=any",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Only the side-chain donors of the six residue types of Table 2 count",
+            "test": "analyze_sites.py default",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 9 chains missing from Additional file 1 carry the missing sites",
+            "test": "deficit by site type: Zn4 -12 sites, Zn2 -2, Zn1 -1, Zn3 +1, all but Zn3 short; the chains cannot be identified",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "PDB entries changed since 2005",
+            "test": "1H79: the 4-Cys metal of the supplement's ZN_1588_A is now FE2; 1AW5 Cys219 is now beyond 3 A",
+            "result": "supported"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/figures12/fig2_ours.png",
+        "figure-reproduction/output/figures12/fig2_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.a",
+      "label": "Fig. 3a, Leave-one-out, residue level, C and H",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.0824,
+        "ours_near_published": 0.0932,
+        "controls": [
+          {
+            "name": "Fig. 4a curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0535
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0024
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.0969
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.2203
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.0649
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig3_ours.png",
+        "figure-reproduction/output/evaluation/fig3_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig3.b",
+      "label": "Fig. 3b, Leave-one-out, residue level, C",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1177,
+        "ours_near_published": 0.1367,
+        "controls": [
+          {
+            "name": "Fig. 4b curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.155
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0013
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.0491
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1893
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.156
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig3_ours.png",
+        "figure-reproduction/output/evaluation/fig3_overlay.png"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3.c",
+      "label": "Fig. 3c, Leave-one-out, residue level, H",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1452,
+        "ours_near_published": 0.1732,
+        "controls": [
+          {
+            "name": "Fig. 4c curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0121
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0077
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1037
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1324
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.097
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig3_ours.png",
+        "figure-reproduction/output/evaluation/fig3_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4.a",
+      "label": "Fig. 4a, Five-fold CV, residue level, C and H",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1408,
+        "ours_near_published": 0.1492,
+        "controls": [
+          {
+            "name": "Fig. 3a curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.052
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0024
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1338
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1332
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.1335
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig4_ours.png",
+        "figure-reproduction/output/evaluation/fig4_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4.b",
+      "label": "Fig. 4b, Five-fold CV, residue level, C",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1203,
+        "ours_near_published": 0.1342,
+        "controls": [
+          {
+            "name": "Fig. 3b curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0545
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0011
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.087
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.2155
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.0944
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig4_ours.png",
+        "figure-reproduction/output/evaluation/fig4_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig4.c",
+      "label": "Fig. 4c, Five-fold CV, residue level, H",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.3921,
+        "ours_near_published": 0.3919,
+        "controls": [
+          {
+            "name": "Fig. 3c curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0525
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0049
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1674
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.3219
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.3079
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig4_ours.png",
+        "figure-reproduction/output/evaluation/fig4_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig5.a",
+      "label": "Fig. 5a, Leave-one-out, protein level, all chains",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1514,
+        "ours_near_published": 0.1848,
+        "controls": [
+          {
+            "name": "Fig. 6a curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0786
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0015
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1059
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.0939
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.1275
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig5_ours.png",
+        "figure-reproduction/output/evaluation/fig5_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig5.b",
+      "label": "Fig. 5b, Leave-one-out, protein level, by site type",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.2184,
+        "ours_near_published": 0.2029,
+        "controls": [
+          {
+            "name": "Fig. 6b curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.1186
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.1276
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1636
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1774
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.1807
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig5_ours.png",
+        "figure-reproduction/output/evaluation/fig5_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig5.c",
+      "label": "Fig. 5c, Leave-one-out, protein level, Zn3, SPCH against SPCHDE",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.143,
+        "ours_near_published": 0.147,
+        "controls": [
+          {
+            "name": "Fig. 6c curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0636
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0255
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1407
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1305
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.1284
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig5_ours.png",
+        "figure-reproduction/output/evaluation/fig5_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig6.a",
+      "label": "Fig. 6a, Five-fold CV, protein level, all chains",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.142,
+        "ours_near_published": 0.1488,
+        "controls": [
+          {
+            "name": "Fig. 5a curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0487
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0017
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.0869
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1738
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.0662
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig6_ours.png",
+        "figure-reproduction/output/evaluation/fig6_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig6.b",
+      "label": "Fig. 6b, Five-fold CV, protein level, by site type",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.2335,
+        "ours_near_published": 0.2473,
+        "controls": [
+          {
+            "name": "Fig. 5b curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.1051
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.1196
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.1611
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.2385
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.2327
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig6_ours.png",
+        "figure-reproduction/output/evaluation/fig6_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig6.c",
+      "label": "Fig. 6c, Five-fold CV, protein level, Zn3, SPCH against SPCHDE",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.1913,
+        "ours_near_published": 0.2482,
+        "controls": [
+          {
+            "name": "Fig. 5c curves in place of these",
+            "kind": "wrong_input",
+            "score": 0.0418
+          },
+          {
+            "name": "random scores at the same share of positives",
+            "kind": "wrong_input",
+            "score": 0.0616
+          },
+          {
+            "name": "recall shifted by 0.02",
+            "kind": "near_miss",
+            "score": 0.096
+          },
+          {
+            "name": "precision x 0.95",
+            "kind": "near_miss",
+            "score": 0.1631
+          },
+          {
+            "name": "precision x 1.05",
+            "kind": "near_miss",
+            "score": 0.206
+          }
+        ],
+        "threshold": 0.9
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "A chain's score is its third-highest gated probability; for (b) and (c) the positives are the zinc chains with a site of that type and the negatives all chains without zinc; site types from our Table 1 analysis",
+          "source": "our_choice",
+          "sensitivity": "Not stated in the paper."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The residue-level probabilities behind these curves come from our profiles (see Figs 3 and 4); the chain call and the site types are as the text describes.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/evaluation/fig6_ours.png",
+        "figure-reproduction/output/evaluation/fig6_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig7",
+      "label": "Fig. 7, previously known human zinc proteins retrieved, by reliability level",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Needs the reliability level of each of the 3,207 proteins of Andreini et al. 2006, which is only in that paper's paywalled Supporting Information (HTTP 403 to a scripted client). Additional file 3 gives only yes or no.",
+        "evidence": [
+          "https://doi.org/10.1021/pr050361j"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig8.probabilities",
+      "label": "Fig. 8, predicted probabilities of the four cysteines of NP_060357.1",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Cys31 (NP_060357.1 Cys33)",
+            "expected": "0.90",
+            "observed": 0.81
+          },
+          {
+            "name": "Cys34 (NP_060357.1 Cys36)",
+            "expected": "0.98",
+            "observed": 0.82
+          },
+          {
+            "name": "Cys65 (NP_060357.1 Cys67)",
+            "expected": "0.67",
+            "observed": 0.48
+          },
+          {
+            "name": "Cys68 (NP_060357.1 Cys70)",
+            "expected": "0.82",
+            "observed": 0.54
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "SPCH-SVM trained on all chains of the five CV folds; the paper's model numbering is two lower than NP_060357.1 (its Cys31 is Cys33)",
+          "source": "our_choice",
+          "sensitivity": "The numbering follows from the CX2CX30C spacing of NP_060357.1 and the paper's CX(2)C ... Cys65, Cys68."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Our probabilities rank the same four cysteines highest (0.81, 0.82, 0.48 and 0.54; the paper 0.90, 0.98, 0.67 and 0.82) but run lower, as across the proteome, so only two pass 0.7 and the protein is not called; with refitted Platt constants 0.85, 0.86, 0.56 and 0.62.",
+        "evidence": [
+          "figure-reproduction/output/proteome/proteome.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Sampling error of the 300-protein sample",
+            "test": "standard error of the stratified estimate: 101",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The Platt constants of Additional file 1 do not fit margins from our profiles",
+            "test": "A and B refitted to our held-out CV margins (local 2.95 and -0.18, semi-pattern 3.23 and 0.19, against 2.63 and -0.50, 3.27 and -0.08): estimate 2,223 (SE 94), Fig. 8 probabilities 0.85, 0.86, 0.56, 0.62 (sensitivity_platt_refit in proteome.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Profiles of human proteins from a 2010 database differ from the 2005 ones more than PDB chains do",
+            "test": "not testable without the 2005 nr",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/proteome/proteome.json"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig8.structure",
+      "label": "Fig. 8, homology model of NP_060357.1",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A rendered homology model (Modeller 6v2 on PDB 1ZSO); it shows that the cysteines are close, which the crystal structure 5ZLQ of the same protein, released in 2018, now shows directly (item later.czib).",
+        "evidence": [
+          "figure-reproduction/published/figure-8.jpg"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig9.probabilities",
+      "label": "Fig. 9, predicted probabilities of the four cysteines of the XP_374396 UCH domain",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Cys140 (XP_374396.2 Cys372)",
+            "expected": "0.99",
+            "observed": 0.54
+          },
+          {
+            "name": "Cys143 (XP_374396.2 Cys375)",
+            "expected": "0.99",
+            "observed": 0.81
+          },
+          {
+            "name": "Cys187 (XP_374396.2 Cys419)",
+            "expected": "0.99",
+            "observed": 0.98
+          },
+          {
+            "name": "Cys190 (XP_374396.2 Cys422)",
+            "expected": "0.99",
+            "observed": 0.95
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "The domain numbering of Fig. 9 is 232 lower than XP_374396.2 (CX2CX43CX2C at Cys372-Cys422)",
+          "source": "read_from_figure",
+          "sensitivity": "The only CX2CX43CX2C of the protein."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The last two cysteines come back at 0.98 and 0.95 (paper 0.99); the first two are lower (0.54 and 0.81), as our probabilities are across the proteome.",
+        "evidence": [
+          "figure-reproduction/output/proteome/proteome.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Sampling error of the 300-protein sample",
+            "test": "standard error of the stratified estimate: 101",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The Platt constants of Additional file 1 do not fit margins from our profiles",
+            "test": "A and B refitted to our held-out CV margins (local 2.95 and -0.18, semi-pattern 3.23 and 0.19, against 2.63 and -0.50, 3.27 and -0.08): estimate 2,223 (SE 94), Fig. 8 probabilities 0.85, 0.86, 0.56, 0.62 (sensitivity_platt_refit in proteome.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Profiles of human proteins from a 2010 database differ from the 2005 ones more than PDB chains do",
+            "test": "not testable without the 2005 nr",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/proteome/proteome.json"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig9.structure",
+      "label": "Fig. 9, homology model of the XP_374396 UCH domain",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A rendered homology model whose template the paper does not name; the zinc site it shows is confirmed by the later structure of a family member (item later.usp).",
+        "evidence": [
+          "figure-reproduction/published/figure-9.jpg"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.dataset",
+      "label": "Text, evaluation sets (305 + 2,369 chains; LOO 230 + 1,949; 38 removed from CV)",
+      "kind": "value",
+      "source": "supplement_values",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "zinc chains",
+            "expected": "305",
+            "observed": 296
+          },
+          {
+            "name": "chains without metal",
+            "expected": "2369",
+            "observed": 2162
+          },
+          {
+            "name": "LOO zinc chains",
+            "expected": "230",
+            "observed": 221
+          },
+          {
+            "name": "LOO chains without metal",
+            "expected": "1949",
+            "observed": 1756
+          },
+          {
+            "name": "CV zinc chains",
+            "expected": "305",
+            "observed": 296
+          },
+          {
+            "name": "CV chains without metal (2,369 - 38)",
+            "expected": "2331",
+            "observed": 2132
+          }
+        ]
+      },
+      "cause": {
+        "category": "data_differs",
+        "summary": "Additional file 1 lists only chains with at least one C, H, D or E residue that passed the profile filter (its README says so), so it has fewer chains than the text: 296 and 2,162 against 305 and 2,369.",
+        "evidence": [
+          "Additional file 1, README: 'the number of chains and residues within each chain actually employed in the procedure vary because of the filtering procedure'"
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Text claims recomputed from the paper's own tables and Additional file 3",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "29 of 29 claims come back from the paper's own tables and Additional file 3 (Table 2 fa has one rounding slip: C in Zn4, 663/956 = 69.35%, printed 69.3)"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.loo",
+      "label": "Text, Leave-one-out: AURPC and AUC of the local and gated predictors",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "local AURPC",
+            "expected": "0.590",
+            "observed": 0.678
+          },
+          {
+            "name": "gated AURPC",
+            "expected": "0.633",
+            "observed": 0.709
+          },
+          {
+            "name": "local AUC",
+            "expected": "0.895",
+            "observed": 0.893
+          },
+          {
+            "name": "local AUC SE",
+            "expected": "0.007",
+            "observed": 0.007
+          },
+          {
+            "name": "gated AUC",
+            "expected": "0.914",
+            "observed": 0.913
+          },
+          {
+            "name": "gated AUC SE",
+            "expected": "0.006",
+            "observed": 0.007
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        },
+        {
+          "what": "AURPC as average precision over the pooled predictions (all LOO chains; the five CV test folds); AUC standard error by Hanley-McNeil",
+          "source": "our_choice",
+          "sensitivity": "Trapezoid and fold-averaged AURPC differ from it by at most 0.002 on our curves."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The AUCs come back within 0.002 and the standard errors at the printed 0.007; our AURPCs are higher (0.678 and 0.709 against 0.590 and 0.633). Our profiles are not the paper's; the printed AURPCs are also 0.033 below the area under the paper's own curves.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.cv",
+      "label": "Text, Five-fold CV: AURPC and AUC of the local and gated predictors",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "local AURPC",
+            "expected": "0.428",
+            "observed": 0.494
+          },
+          {
+            "name": "gated AURPC",
+            "expected": "0.500",
+            "observed": 0.552
+          },
+          {
+            "name": "local AUC",
+            "expected": "0.867",
+            "observed": 0.852
+          },
+          {
+            "name": "local AUC SE",
+            "expected": "0.007",
+            "observed": 0.007
+          },
+          {
+            "name": "gated AUC",
+            "expected": "0.890",
+            "observed": 0.877
+          },
+          {
+            "name": "gated AUC SE",
+            "expected": "0.006",
+            "observed": 0.007
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Descriptor: the 20 weighted observed percentages divided by 100, information per position in bits and relative weight as printed by PSI-BLAST, a flag that is 1 outside the chain; no other scaling",
+          "source": "our_choice",
+          "sensitivity": "With percentages left at 0-100 the Gaussian width 0.1 of Additional file 1 would make every kernel value zero; this scale is the one that fits the published widths."
+        },
+        {
+          "what": "scikit-learn 1.9.1 SVC (LIBSVM) with an RBF kernel on explicit feature maps; one C for both classes; Platt constants of Additional file 1, not refitted",
+          "source": "our_choice",
+          "sensitivity": "The semi-pattern kernel of Eq. 1 is the dot product of the feature map exactly (package test). Class weights are not stated in the paper."
+        },
+        {
+          "what": "Supplement positions mapped to today's SEQRES; 15 chains need an offset (remediation added or removed leading residues); 28 of 13,837 LOO residues (16 whose letter differs and 12 of two chains that no longer exist) are left out",
+          "source": "our_choice",
+          "sensitivity": "0.2% of the residues."
+        },
+        {
+          "what": "AURPC as average precision over the pooled predictions (all LOO chains; the five CV test folds); AUC standard error by Hanley-McNeil",
+          "source": "our_choice",
+          "sensitivity": "Trapezoid and fold-averaged AURPC differ from it by at most 0.002 on our curves."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Our AURPCs are higher (0.494 and 0.552 against 0.428 and 0.500) and our AUCs lower (0.852 and 0.877 against 0.867 and 0.890). Our profiles are not the paper's; the printed AURPCs are also 0.031 below the area under the paper's own curves.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.main_claim",
+      "label": "Text, main claim: the gated SP-SVM beats the local SVM, significantly",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "LOO, gated AURPC above local",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, gated AUC above local",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, AUC difference larger than the two SEs",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, gated above local on C",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, gated above local on H",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, cysteines better predicted than histidines",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, gated AURPC above local",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, gated AUC above local",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, AUC difference larger than the two SEs",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "AURPC as average precision over the pooled predictions (all LOO chains; the five CV test folds); AUC standard error by Hanley-McNeil",
+          "source": "our_choice",
+          "sensitivity": "Trapezoid and fold-averaged AURPC differ from it by at most 0.002 on our curves."
+        },
+        {
+          "what": "'Significant' read as the two AUCs differing by more than the sum of their standard errors (the paper gives the SEs as its evidence)",
+          "source": "our_choice",
+          "sensitivity": "A paired test would be stricter in the other direction; not run."
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "text.de_auc",
+      "label": "Text, SPCHDE-SVM: AUC on aspartate and glutamate",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "LOO D AUC",
+            "expected": "0.74",
+            "observed": 0.74
+          },
+          {
+            "name": "LOO D SE",
+            "expected": "0.03",
+            "observed": 0.03
+          },
+          {
+            "name": "LOO E AUC",
+            "expected": "0.70",
+            "observed": 0.7
+          },
+          {
+            "name": "LOO E SE",
+            "expected": "0.06",
+            "observed": 0.06
+          },
+          {
+            "name": "CV D AUC",
+            "expected": "0.73",
+            "observed": 0.7
+          },
+          {
+            "name": "CV D SE",
+            "expected": "0.03",
+            "observed": 0.03
+          },
+          {
+            "name": "CV E AUC",
+            "expected": "0.65",
+            "observed": 0.63
+          },
+          {
+            "name": "CV E SE",
+            "expected": "0.05",
+            "observed": 0.05
+          },
+          {
+            "name": "LOO, D better than random (AUC - 2 SE above 0.5)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, E better than random",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, D better than random",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, E better than random",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "D and E candidates are the supplement's (already filtered by Pr(D)+Pr(E) >= 0.8 on the paper's profiles); D/E semi-patterns kept for gaps 1-3 only",
+          "source": "paper",
+          "sensitivity": "Our profiles are not used to filter, so the candidate set is the paper's."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The profiles are not the paper's: the 2005 nr is gone, so ours come from UniRef100 of 2010 with unstated PSI-BLAST settings, and the SVM and Platt parameters tuned on the old profiles were kept. The labels, folds and residues are the paper's own.",
+        "evidence": [
+          "figure-reproduction/output/evaluation/evaluation.json",
+          "figure-reproduction/README.md#figs-3-6"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The printed AURPC is the area under the drawn curve",
+            "test": "Area under the published curves (read from the PDF): LOO 0.624 and 0.666, CV 0.462 and 0.531, all 0.031-0.034 above the printed 0.590, 0.633, 0.428, 0.500; on our curves the drawn area and average precision differ by 0.002 or less",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed AURPC averages the five CV folds",
+            "test": "Fold-averaged average precision of our CV: 0.493 and 0.551, pooled 0.494 and 0.552",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Residues lost in the mapping to today's SEQRES",
+            "test": "28 of 13,837 LOO residues (0.2%) dropped",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.protein_level",
+      "label": "Text, protein level: Zn4 easiest; SPCHDE better than SPCH only on Zn3",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "LOO, Zn4 chains easiest",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, Zn4 chains easiest",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "LOO, SPCHDE above SPCH on Zn3 chains",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "CV, SPCHDE above SPCH on Zn3 chains",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "'Easiest' and 'better' compared by the area under our protein-level curves",
+          "source": "our_choice",
+          "sensitivity": "The paper compares the curves by eye."
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "text.proteome",
+      "label": "Text, human proteome scan (RefSeq Build 35.1)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "zinc-binding chains predicted",
+            "expected": "2833",
+            "observed": 2010
+          },
+          {
+            "name": "of the 3,207 previous ones, not confirmed",
+            "expected": "965",
+            "observed": 1314
+          },
+          {
+            "name": "new predictions (about 600)",
+            "expected": "600",
+            "observed": 118
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "Estimated from a stratified random sample of 300 of the 27,960 proteins (100, 50, 50 and 100 from the four flag groups of Additional file 3, seed 1); candidates are C and H with profile relative weight >= 0.015",
+          "source": "our_choice",
+          "sensitivity": "The standard errors of the estimates are in proteome.json; a full scan needs about 4,000 CPU hours of PSI-BLAST."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Our predictor calls fewer human proteins: in the sample it recovers 81 of the 100 proteins both methods called and 10 of the 50 only the SPCH-SVM called, so the estimate is 2,010 (SE 101) against 2,833. Refitting the Platt constants to our own CV margins raises it to 2,223 (SE 94); the rest is open.",
+        "evidence": [
+          "figure-reproduction/output/proteome/proteome.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Sampling error of the 300-protein sample",
+            "test": "standard error of the stratified estimate: 101",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The Platt constants of Additional file 1 do not fit margins from our profiles",
+            "test": "A and B refitted to our held-out CV margins (local 2.95 and -0.18, semi-pattern 3.23 and 0.19, against 2.63 and -0.50, 3.27 and -0.08): estimate 2,223 (SE 94), Fig. 8 probabilities 0.85, 0.86, 0.56, 0.62 (sensitivity_platt_refit in proteome.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Profiles of human proteins from a 2010 database differ from the 2005 ones more than PDB chains do",
+            "test": "not testable without the 2005 nr",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.examples",
+      "label": "Text, examples: ubiquitin-specific proteases and ADAM-TS",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "USP chains with a predicted CX2CX(43-50)CX2C (about 50)",
+            "expected": "50",
+            "observed": 2
+          },
+          {
+            "name": "ADAM-TS: mean probability of the third histidine of HX3HX5H",
+            "expected": "0.32",
+            "observed": 0.21
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSI-BLAST (BLAST+ 2.17.0), 3 iterations, other settings default (inclusion E-value 0.002), against UniRef100 release 2010_01 (9,808,438 sequences): the 2005 NCBI nr is not archived and the paper gives no settings",
+          "source": "our_choice",
+          "sensitivity": "Not varied (a second database means another 60 CPU hours of PSI-BLAST). The tuned SVM and Platt parameters of Additional file 1 were kept although they were fitted on 2005 profiles."
+        },
+        {
+          "what": "USP: the 65 Build 35.1 proteins named 'ubiquitin specific protease/peptidase', a motif counted when all four cysteines are above 0.7; ADAM-TS: the 26 proteins named for disintegrin/ADAMTS and thrombospondin motifs, first HX3HX5H with all three H candidates",
+          "source": "our_choice",
+          "sensitivity": "The paper does not say how it selected the families."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Only 2 of the 65 proteases get all four cysteines of a CX2CX(43-50)CX2C above 0.7 (38 are called zinc-binding); in ADAM-TS the third histidine is low (mean 0.21, against 0.32) and the first two are above 0.7 in 15 of 25. Our probabilities run lower, as in the proteome count.",
+        "evidence": [
+          "figure-reproduction/output/proteome/proteome.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Sampling error of the 300-protein sample",
+            "test": "standard error of the stratified estimate: 101",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The Platt constants of Additional file 1 do not fit margins from our profiles",
+            "test": "A and B refitted to our held-out CV margins (local 2.95 and -0.18, semi-pattern 3.23 and 0.19, against 2.63 and -0.50, 3.27 and -0.08): estimate 2,223 (SE 94), Fig. 8 probabilities 0.85, 0.86, 0.56, 0.62 (sensitivity_platt_refit in proteome.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Profiles of human proteins from a 2010 database differ from the 2005 ones more than PDB chains do",
+            "test": "not testable without the 2005 nr",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.reliability",
+      "label": "Text, the 350 and 100 previously known chains not retrieved; 53% and 76%",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "These counts need the per-protein reliability levels of Andreini et al. 2006 (as Fig. 7).",
+        "evidence": [
+          "https://doi.org/10.1021/pr050361j"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "later.czib",
+      "label": "Later structure: zinc site of NP_060357.1 (CZIB) in PDB 5ZLQ",
+      "kind": "code_check",
+      "source": "public_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "5ZLQ (2018) binds zinc with Cys33, Cys36, Cys67, Cys70 of NP_060357.1, the paper's Cys31, Cys34, Cys65 and Cys68 (CX2CX30C), Cys65 included"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "later.usp",
+      "label": "Later structure: CX2CX43CX2C zinc site of a UBP-family protease in PDB 2HD5",
+      "kind": "code_check",
+      "source": "public_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "2HD5 (USP2, 2006) binds zinc with Cys334, Cys337, Cys381, Cys384: a CX2CX43CX2C site, as predicted for the UBP family"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "authors_code",
+      "label": "The authors' predictor (Zinc Finder, C++)",
+      "kind": "code_check",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The project page (zincfinder.dsi.unifi.it) now returns a 'Resource not found' page and no copy of the code was found; the method is implemented from the paper's text.",
+        "evidence": [
+          "availability-audit/reproduction_plans/PMC1800866.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package spsvm and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "spsvm 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 38,
+    "exact": 2,
+    "agrees": 6,
+    "partly": 14,
+    "inconclusive": 5,
+    "differs": 6,
+    "not_attempted": 5,
+    "open_causes": 24
+  }
+}
