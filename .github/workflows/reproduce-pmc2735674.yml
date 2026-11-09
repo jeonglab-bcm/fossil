@@ -62,9 +62,7 @@ jobs:
           version: "25.04.6"
 
       - name: Run the Nextflow pipeline
-        run: >
-          nextflow run PMC2735674/figure-reproduction/main.nf --outdir results --cpus 4
-          -ansi-log false ${{ inputs.full && '--full' || '' }}
+        run: nextflow run PMC2735674/figure-reproduction/main.nf --outdir results --cpus 4 -ansi-log false ${{ inputs.full && '--full' || '' }}
 
       - name: Write the check report to the job summary
         if: always()
