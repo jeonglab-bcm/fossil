@@ -140,8 +140,10 @@ def main(run, notes_path, inputs_path, out):
     add("text.false_positives", kind="value", method="values", values={"tolerance": PRINTED, "fields": [
         field("edges further apart than 0.4", "2838", H["edges_beyond_delta"]),
         field("share of all edges (%)", "12", round(100 * H["edges_beyond_delta_fraction"])),
-        field("edges sharing a CC term (%)", "72", round(100 * fpv["edges_sharing_cc_fraction"])),
-        field("candidates sharing a CC term (%)", "66", round(100 * fpv["candidates_sharing_cc_fraction"]))]})
+        field("edges sharing a CC term, of those with both proteins annotated (%)", "72",
+              round(100 * fpv["edges_sharing_cc_fraction_of_annotated"])),
+        field("candidates sharing a CC term, of those annotated (%)", "66",
+              round(100 * fpv["candidates_sharing_cc_fraction_of_annotated"]))]})
     add("text.high_confidence", kind="value", method="values", values={"tolerance": PRINTED, "fields": [
         field("pairs with CS >= 0.975", "1685", m["high"]),
         field("of them edges", "1434", m["high_edges"]),

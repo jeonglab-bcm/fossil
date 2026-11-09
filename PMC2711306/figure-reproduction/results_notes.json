@@ -76,19 +76,20 @@
       ],
       "cause": {
         "category": "nondeterminism",
-        "summary": "The fitted densities depend on the random training sample and EM start: over our 20 seeds the edge peak moves between 0.15 and 0.22. The embedding itself agrees (2,837 edges beyond 0.4 against 2,838).",
+        "summary": "The edge density comes back (peak at 0.20-0.21 over 20 seeds, as published); the non-edge density depends on the random training sample and EM start: its middle component's mean moves between 0.39 and 0.62 over 20 seeds. The embedding itself agrees (2,837 edges beyond 0.4 against 2,838).",
         "evidence": [
-          "figure-reproduction/output/human.json"
+          "figure-reproduction/output/run/human.json",
+          "figure-reproduction/output/fig1_overlay.png"
         ],
         "hypotheses": [
           {
             "hypothesis": "A different HumanBG network",
-            "test": "Our largest component has 7,514 proteins and 23,378 edges against 7,513 and 23,372; the count of edges beyond 0.4 is 2,837 against 2,838",
+            "test": "Our largest component has 7,514 proteins and 23,378 edges against 7,513 and 23,372; 2,837 edges lie beyond 0.4 against 2,838",
             "result": "rejected"
           },
           {
             "hypothesis": "The EM fit varies with the random sample and start",
-            "test": "Refit with 20 seeds (output/human.json, runs): the component means move by up to 0.07",
+            "test": "Refit with 20 seeds (human.json, runs): the non-edge middle component moves between 0.39 and 0.62, the edge peak stays at 0.20-0.21",
             "result": "supported"
           }
         ],
@@ -272,7 +273,7 @@
           },
           {
             "hypothesis": "The EM fit varies with the seed",
-            "test": "20 seeds (human.json): the non-edge component means move by up to 0.2",
+            "test": "20 seeds (human.json): the non-edge middle component's mean moves between 0.39 and 0.62",
             "result": "supported"
           }
         ],
@@ -313,7 +314,11 @@
       "cause": {
         "category": "not_a_result",
         "summary": "Values quoted from other papers; the paper's own row (90% and 85%) is the item text.yeast_performance.",
-        "status": "explained"
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/published/figure-1.png",
+          "https://doi.org/10.1371/journal.pcbi.1000454.t001"
+        ]
       }
     },
     "tableS1": {
@@ -491,7 +496,10 @@
       "cause": {
         "category": "not_a_result",
         "summary": "An input definition; we use it to build HumanBG.",
-        "status": "explained"
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/pipeline/params/physical_systems.txt"
+        ]
       }
     },
     "text.networks": {
@@ -532,23 +540,24 @@
       ],
       "cause": {
         "category": "data_differs",
-        "summary": "AUC 0.93 (printed 0.9) and sensitivity 90.6% at 85% specificity (printed 90%) match to the printed figure; precision at recall 0.35 is 0.143 against 'about 0.15'.",
+        "summary": "AUC 0.932 (printed 0.9) comes back. Sensitivity at 85% specificity is 90.6% against 90%, within the few-percent difference of the counts (fig2.labels). 'Precision about 0.15 at recall about 0.35' rounds the paper's own dimension 7 marker at epsilon 0.2 (Fig. 3: 0.142 at 0.335); ours at that epsilon is 0.144 at 0.319, and 0.143 at recall exactly 0.35.",
         "evidence": [
-          "figure-reproduction/output/yeast.json"
+          "figure-reproduction/output/run/yeast.json",
+          "figure-reproduction/published/figure-3.png"
         ],
         "hypotheses": [
           {
-            "hypothesis": "The paper reads precision off its markers (dimension 7, epsilon 0.3: recall 0.32, precision 0.142)",
-            "test": "Our dimension 7 marker at epsilon 0.3 has precision 0.119 at recall 0.64; at 0.25, 0.136 at 0.49",
-            "result": "rejected"
+            "hypothesis": "The text rounds its own Fig. 3 marker at epsilon 0.2",
+            "test": "Published marker 0.142 at recall 0.335 (read from the figure); ours 0.144 at 0.319",
+            "result": "supported"
           },
           {
-            "hypothesis": "Positives differ slightly (5,356 against about 5,296)",
-            "test": "fig2.labels counts within 6%",
-            "result": "inconclusive"
+            "hypothesis": "Sensitivity differs by the count difference",
+            "test": "TP counts differ from the paper's labels by up to 3.7% (fig2.labels)",
+            "result": "supported"
           }
         ],
-        "status": "open"
+        "status": "explained"
       }
     },
     "text.dimensions": {
@@ -565,7 +574,27 @@
       "assumptions": [
         "settings",
         "low_confidence"
-      ]
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The paper gives no stopping rule. Ours (stop when no new pair is predicted) takes 6 to 14 iterations, median 8, against 'about 10, depending on the network and the dimension'. The converged curve lies just under the first, as printed.",
+        "evidence": [
+          "figure-reproduction/output/run/yeast.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Stop when no new pair is predicted, counting the last check",
+            "test": "Median 8 over epsilon 0.01-0.6 (range 6-14)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Count only the rounds that add pairs",
+            "test": "One fewer: median 7",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
     },
     "text.false_positives": {
       "label": "Candidate false positives (text)",
@@ -575,10 +604,11 @@
         "goa"
       ],
       "cause": {
-        "category": "undocumented_setting",
-        "summary": "2,837 edges beyond 0.4 (printed 2,838, 12%). The shares sharing a CC term (72% and 66%) need a denominator the paper does not give: of all edges we get 54% and 49%, of edges with both proteins annotated our values are in validate.json.",
+        "category": "data_differs",
+        "summary": "2,837 edges beyond 0.4 against 2,838: our HumanBG has 6 more edges. The shares sharing a CC term are taken over edges whose two proteins both have a CC term (72% and 66%, as printed); over all edges they would be 54% and 49%.",
         "evidence": [
-          "figure-reproduction/output/validate.json"
+          "figure-reproduction/output/run/validate.json",
+          "figure-reproduction/output/run/network_counts.json"
         ],
         "hypotheses": [
           {
@@ -588,11 +618,11 @@
           },
           {
             "hypothesis": "Shares of edges with both proteins annotated with a CC term",
-            "test": "validate.json, *_of_annotated",
-            "result": "inconclusive"
+            "test": "72.2% and 66.4%",
+            "result": "supported"
           }
         ],
-        "status": "open"
+        "status": "explained"
       }
     },
     "text.high_confidence": {
@@ -689,7 +719,10 @@
       "cause": {
         "category": "data_unavailable",
         "summary": "CiteXplorer was retired; its successor (Europe PMC) indexes a different, larger literature, so a count today does not test the 2009 one.",
-        "status": "explained"
+        "status": "explained",
+        "evidence": [
+          "https://www.ebi.ac.uk/citexplore/ (retired; succeeded by Europe PMC)"
+        ]
       }
     },
     "port": {
