@@ -172,7 +172,7 @@
       ],
       "cause": {
         "category": "nondeterminism",
-        "summary": "The edge density comes back (peak at 0.20-0.21 over 20 seeds, as published); the non-edge density depends on the random training sample and EM start: its middle component's mean moves between 0.39 and 0.62 over 20 seeds. The embedding itself agrees (2,837 edges beyond 0.4 against 2,838).",
+        "summary": "The edge peak sits where it is published (0.20-0.21 over 20 seeds), but neither curve passes the mark (71% and 75% within 2 px): the non-edge density moves with the random training sample and EM start (its middle component's mean between 0.39 and 0.62 over 20 seeds). The embedding itself agrees (2,837 edges beyond 0.4 against 2,838).",
         "evidence": [
           "figure-reproduction/output/run/human.json",
           "figure-reproduction/output/fig1_overlay.png"
@@ -333,7 +333,7 @@
       ],
       "cause": {
         "category": "data_differs",
-        "summary": "Every count is within 6% of the paper's with Collins et al.'s own scores, and within 1.4% with BioGRID's copy of their high-confidence set. Neither copy has the paper's Yhigh (1,004 proteins and 8,323 edges against 1,004 and 8,319, or 1,002 and 8,313), and the low-confidence cut is inferred.",
+        "summary": "Every count is within 6% of the paper's with Collins et al.'s own scores, and within 0.9% with BioGRID's copy of their high-confidence set. Neither copy has the paper's Yhigh (1,004 proteins and 8,323 edges against 1,004 and 8,319, or 1,002 and 8,313), and the low-confidence cut is inferred.",
         "evidence": [
           "figure-reproduction/output/network_counts.json",
           "figure-reproduction/output/fig2_label_hypotheses.json"
@@ -346,7 +346,7 @@
           },
           {
             "hypothesis": "Yhigh is BioGRID's copy of the Collins set (1,002 proteins, 8,313 edges)",
-            "test": "Rerun dimension 7 on it: TP within 0.8% and FP within 1.4% of the paper's labels, closer than the Collins scores but not equal (output/run/fig2_label_hypotheses.json)",
+            "test": "Rerun dimension 7 on it: TP and FP within 0.9% of the paper's labels, closer than the Collins scores (up to 5.4%) but not equal (output/run/fig2_label_hypotheses.json)",
             "result": "inconclusive"
           },
           {
@@ -598,7 +598,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "The 500 to 2,000 curves come back; the published 3,000 curve is much lower (AUC about 0.90) than any of ours (0.950 to 0.960 over 10 deletions).",
+        "summary": "Only the 500-edge curve passes the mark (90.5% within 2 px); 1,000 and 2,000 lie close (45% and 75%), and the published 3,000 curve is much lower (AUC about 0.90) than ours (0.950 to 0.960 over 10 deletions, dimension 5).",
         "evidence": [
           "figure-reproduction/output/figures.json",
           "figure-reproduction/output/yeast.json"
@@ -606,8 +606,8 @@
         "hypotheses": [
           {
             "hypothesis": "Every protein is embedded, including those the deletions cut off",
-            "test": "Dimension 4, first deletion of each size: cut-off proteins collapse to one point and the curves start at 1-specificity 0.1 to 0.3 (yeast.json, fig5_all_nodes_auc_dim4_first_repeat)",
-            "result": "rejected"
+            "test": "Dimension 4, first deletion of each size: AUC 0.94, 0.91, 0.91 and 0.89 for 500 to 3,000 (yeast.json, fig5_all_nodes_auc_dim4_first_repeat): the 3,000 value is near the published one, but the cut-off proteins collapse to one point and the curves start far from the published markers",
+            "result": "inconclusive"
           },
           {
             "hypothesis": "Positives and negatives within the largest component only",
@@ -682,20 +682,21 @@
       ],
       "cause": {
         "category": "metric_resolution",
-        "summary": "On this axis (0 to 0.12) every plausible density is a flat line near 0.003 with a spike at 0: the densities fitted to Yhigh score as well as ours, so the pixel comparison cannot tell them apart.",
+        "summary": "Ours lies on the published points over 92% of them, far above the Yhigh densities (10%), but the same curve 5% higher scores as well (93.5%): on this axis (0 to 0.12) the comparison cannot resolve a 5% change in amplitude.",
         "evidence": [
+          "figure-reproduction/output/figures.json",
           "figure-reproduction/output/figS1_overlay.png"
         ],
         "hypotheses": [
           {
-            "hypothesis": "Our density differs from the published one",
-            "test": "Overlay: ours lies on the published points within 2 px over 92% of them; the Yhigh control does too",
-            "result": "inconclusive"
-          },
-          {
             "hypothesis": "The figure plots p(dist|edge) x P(edge) with P(edge) = 0.001",
             "test": "At 0.2 the published value is 0.003 = 3 (Fig. 1B) x 0.001",
             "result": "supported"
+          },
+          {
+            "hypothesis": "Our density is the published one up to a few percent",
+            "test": "Ours 92.0% within 2 px; y x 1.05 93.5%, y x 0.95 90.4%; Yhigh densities 10.0%",
+            "result": "inconclusive"
           }
         ],
         "status": "explained"
@@ -755,10 +756,10 @@
       ],
       "cause": {
         "category": "nondeterminism",
-        "summary": "The non-edge density depends on the random training sample and EM start; ours runs 3% above the published curve beyond 0.3, and the Yhigh densities happen to fall closer.",
+        "summary": "The shape comes back (ours 47.7% and 38.2% within 2 px, the Yhigh densities 1.2%), but the non-edge density moves with the random training sample and EM start, and the curve 5% higher scores better (43.5%): the published fit differs from ours by a few percent of amplitude.",
         "evidence": [
           "figure-reproduction/output/figS2_overlay.png",
-          "figure-reproduction/output/human.json"
+          "figure-reproduction/output/run/human.json"
         ],
         "hypotheses": [
           {
@@ -834,19 +835,20 @@
       ],
       "cause": {
         "category": "metric_resolution",
-        "summary": "Outside the spike at 0 the score is a smooth curve near 0.1 for any of the fitted densities; the comparison cannot tell ours from the Yhigh control.",
+        "summary": "Ours lies on the published points over 89% of them, above the Yhigh densities (48%), but the posterior without division by its maximum and the curve 5% lower score as well (90.1%, 89.4%): the comparison cannot tell which of the two the figure shows.",
         "evidence": [
-          "figure-reproduction/output/figS3_overlay.png"
+          "figure-reproduction/output/figS3_overlay.png",
+          "figure-reproduction/output/figures.json"
         ],
         "hypotheses": [
           {
             "hypothesis": "The published figure shows the posterior without division by its maximum",
-            "test": "Drawn as a control (posterior): it scores as well as the score",
+            "test": "Drawn as a control: 90.1% against ours 89.2%",
             "result": "inconclusive"
           },
           {
-            "hypothesis": "Our score differs from the published one",
-            "test": "Overlay within 2 px over 89% of the published points; the Yhigh control 90%",
+            "hypothesis": "The figure shows our score",
+            "test": "89.2% within 2 px; Yhigh control 48.2%",
             "result": "inconclusive"
           }
         ],
@@ -908,7 +910,7 @@
       ],
       "cause": {
         "category": "nondeterminism",
-        "summary": "Our run predicts 369 new pairs, including 247 of the 251 published ones (the other 4 involve proteins our HumanBG lacks). The count depends on the width of the EM spike at distance 0: over 20 seeds it is 253 to 386.",
+        "summary": "Our run predicts 369 new pairs, including 247 of the 251 published ones (the other 4 involve proteins our HumanBG lacks). The count depends on the width of the EM spike at distance 0: over 20 seeds it is 253 to 386, and our seed (2009) gives the 19th highest of the 20.",
         "evidence": [
           "figure-reproduction/output/human.json",
           "figure-reproduction/output/predictions.tsv"
@@ -966,7 +968,7 @@
         {
           "what": "HPRD release 9 (April 2010, Pathway Commons 2 v3) stands in for the unnamed 2009 release (34,119 interactions)",
           "source": "our_choice",
-          "sensitivity": "A later release can only add pairs."
+          "sensitivity": "A later release adds and drops pairs: on the paper's own 251 pairs it finds 11 against 12."
         },
         {
           "what": "The training sample and the EM start use our seed 2009 (the authors' Matlab used rand without a fixed state)",
@@ -1023,7 +1025,7 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         },
         {
           "what": "The training sample and the EM start use our seed 2009 (the authors' Matlab used rand without a fixed state)",
@@ -1080,7 +1082,7 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         },
         {
           "what": "The training sample and the EM start use our seed 2009 (the authors' Matlab used rand without a fixed state)",
@@ -1189,7 +1191,7 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         }
       ],
       "cause": {
@@ -1423,12 +1425,12 @@
         },
         "fields": [
           {
-            "name": "iterations to converge (median over epsilon)",
+            "name": "iterations to converge (median over epsilon 0.01 to 0.6)",
             "expected": "10",
             "observed": 8
           },
           {
-            "name": "iterating is no better than one iteration at any epsilon",
+            "name": "the converged ROC curve has the lower AUC (Fig. 4 points)",
             "expected": "yes",
             "observed": "yes"
           }
@@ -1448,7 +1450,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "The paper gives no stopping rule. Ours (stop when no new pair is predicted) takes 6 to 14 iterations, median 8, against 'about 10, depending on the network and the dimension'. The converged curve lies just under the first, as printed.",
+        "summary": "The paper gives no stopping rule. Ours (stop when no new pair is predicted) takes 6 to 14 iterations over epsilon 0.01 to 0.6, median 8, against 'about 10, depending on the network and the dimension' (from 0.7 the graph fills up and the embedding collapses after 2). The converged ROC curve lies just under the first, as printed (AUC on the drawn points 0.904 against 0.916).",
         "evidence": [
           "figure-reproduction/output/run/yeast.json"
         ],
@@ -1510,7 +1512,7 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         }
       ],
       "cause": {
@@ -1635,7 +1637,7 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         }
       ],
       "cause": {
@@ -1717,12 +1719,12 @@
         {
           "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
           "source": "found_by_search",
-          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278; release 70 and 71 are closest (6,292)."
+          "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
         },
         {
           "what": "HPRD release 9 (April 2010, Pathway Commons 2 v3) stands in for the unnamed 2009 release (34,119 interactions)",
           "source": "our_choice",
-          "sensitivity": "A later release can only add pairs."
+          "sensitivity": "A later release adds and drops pairs: on the paper's own 251 pairs it finds 11 against 12."
         },
         {
           "what": "Current KEGG pathways stand in for the March 2009 release (205 human pathways; now 372)",
@@ -1898,7 +1900,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "embed_novi.m under GNU Octave against geodenoise.embed on Yhigh, dimensions 2-7: distances differ by at most 0.018 (the authors' iteration stops at a change of 1e-3), TP counts at the epsilon grid by at most 0.9% (output/port_check.json)"
+        "detail": "embed_novi.m under GNU Octave against geodenoise.embed on Yhigh, dimensions 2-7: distances differ by at most 0.018 in dimension 4 and 0.0033 in the others (the authors' subspace iteration stops early), TP counts at the epsilon grid by at most 0.9% (output/port_check.json)"
       },
       "verdict": "agrees"
     },
