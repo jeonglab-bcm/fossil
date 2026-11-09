@@ -30,6 +30,7 @@ Install the method: `pip install "git+https://github.com/jeonglab-bcm/fossil#sub
 
 ## Results
 
+<!--RESULTS:start-->
 | Item | Verdict | Measure | Why |
 | --- | --- | --- | --- |
 | Fig. 1A, densities of Yhigh distances in 5 dimensions | agrees | 97.61% within 2 px (pass 91.4%, best control 89.4%) |  |
@@ -59,14 +60,16 @@ Install the method: `pip install "git+https://github.com/jeonglab-bcm/fossil#sub
 | GO background counts of Text S1 (HumanBG proteins annotated, pairs sharing a term) | differs | 0 of 4 fields as printed | GOA release 70 gives 6,292 annotated proteins against 6,278 (0.2%) and 5,877 against 5,864; the exact release and filters are not given. |
 | The paper's Table S1 through our validation code (BioGRID 2.0.50, HPRD, GO, KEGG) | partly | 3 of 8 fields as printed | BioGRID 2.0.50 and the GO 'sharing' counts come back as printed; the annotated counts are one short (GO release), HPRD one short (release 9 for the 2009 release), KEGG far higher (current KEGG). |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios) | exact | 13 of 13 fields as printed, 4 paper errors |  |
-| 32 of 251 predictions co-mentioned in PubMed abstracts (CiteXplorer) | not attempted | not attempted | CiteXplorer was retired; its successor (Europe PMC) indexes a different, larger literature, so a count today does not test the 2009 one. |OK results.json: {"items": 30, "exact": 1, "agrees": 6, "partly": 8, "inconclusive": 3, "differs": 9, "not_attempted": 3, "open_causes": 5}
+| 32 of 251 predictions co-mentioned in PubMed abstracts (CiteXplorer) | not attempted | not attempted | CiteXplorer was retired; its successor (Europe PMC) indexes a different, larger literature, so a count today does not test the 2009 one. |
 | Port against the authors' Matlab embedding (embed_novi.m under GNU Octave) | agrees | embed_novi.m under GNU Octave against geodenoise.embed on Yhigh, dimensions 2-7: distances differ by at most 0.018 (the authors' iteration stops at a change of 1e-3), TP counts at the epsilon grid by at most 0.9% (output/port_check.json) |  |
 | Python package geodenoise and its tutorial | agrees | geodenoise 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
 1 exact, 6 agrees, 8 partly, 3 inconclusive, 9 differs, 3 not attempted; 5 open causes.
+<!--RESULTS:end-->
 
 ## Claims in the text
 
+<!--CLAIMS:start-->
 | Claim | Kind | Paper | Ours | Verdict |
 | --- | --- | --- | --- | --- |
 | Network sizes in the text: HumanBG proteins | ours | 7930 | 7792 | partly |
@@ -106,10 +109,10 @@ Install the method: `pip install "git+https://github.com/jeonglab-bcm/fossil#sub
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): pairs among 7,513 HumanBG proteins (Text S1 M) | arithmetic check (the paper's own numbers) | 28218828 | 28218828 | exact |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): pairs among 6,278 GO BP/CC-annotated proteins (M) | arithmetic check (the paper's own numbers) | 19703503 | 19703503 | exact |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): pairs among 5,864 GO BP-annotated proteins (M) | arithmetic check (the paper's own numbers) | 17190316 | 17190316 | exact |
-| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): HPRD p-value, Text S1 (12 of 251, K = 34,119) | arithmetic check (the paper's own numbers) | 7.5e-8 | 7.5e-16 | exact |
-| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): HPRD p-value, main text | arithmetic check (the paper's own numbers) | 7e-8 | 7e-16 | exact |
-| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): GO BP or CC p-value (105 of 159) | arithmetic check (the paper's own numbers) | 7.26e-8 | 3.38e-13 | exact |
-| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): GO BP p-value (55 of 129) | arithmetic check (the paper's own numbers) | 1.4e-8 | 6.2e-27 | exact |
+| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): HPRD p-value, Text S1 (12 of 251, K = 34,119) | arithmetic check (the paper's own numbers) | 7.5e-8 | 7.5e-16 | paper error |
+| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): HPRD p-value, main text | arithmetic check (the paper's own numbers) | 7e-8 | 7e-16 | paper error |
+| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): GO BP or CC p-value (105 of 159) | arithmetic check (the paper's own numbers) | 7.26e-8 | 3.38e-13 | paper error |
+| Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): GO BP p-value (55 of 129) | arithmetic check (the paper's own numbers) | 1.4e-8 | 6.2e-27 | paper error |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): annotated pairs, 251 - 92 | arithmetic check (the paper's own numbers) | 159 | 159 | exact |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): share of GO-annotated predictions sharing a term (%) | arithmetic check (the paper's own numbers) | 66 | 66 | exact |
 | Claims recomputed from the paper's own numbers (Text S1 p-values, ratios): high-confidence pairs, 1,434 edges + 251 new | arithmetic check (the paper's own numbers) | 1685 | 1685 | exact |
@@ -123,6 +126,7 @@ Install the method: `pip install "git+https://github.com/jeonglab-bcm/fossil#sub
 | 32 of 251 predictions co-mentioned in PubMed abstracts (CiteXplorer) | ours | | not attempted | not_attempted |
 
 The paper's main claim holds: the embedding recovers Collins' low-confidence yeast edges with AUC 0.93 and finds the human predictions of Table S1 (247 of 251). Some counts differ; the causes are the random EM fit behind the 0.975 cut, the later GO, HPRD and KEGG releases, and copies of the yeast data that differ from the paper's by a few edges.
+<!--CLAIMS:end-->
 
 Kept local and gitignored: `sources/` (the paper, its supplement, the authors' code, downloads),
 `work/` (scratch runs and Slurm logs), `.venv/` and `.octave/` (the Python and Octave environments).
