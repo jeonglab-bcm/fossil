@@ -22,6 +22,8 @@ def main(committed, out):
                 refs.append((f["name"], f["observed_from"], f.get("expected")))
         if "pixels_from" in it:
             fpath, _, p = it["pixels_from"].partition(":")
+            if p.startswith("panels."):  # tools/check_results.py splits paths at dots: use the list form
+                p = "panel_list.id=" + p[len("panels."):].replace(".", "")
             for k in ("published_near_ours", "ours_near_published"):
                 refs.append((k.replace("_", " "), f"{fpath}:{p}.{k}", None))
         for name, ref, paper in refs:

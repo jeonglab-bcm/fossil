@@ -260,6 +260,9 @@ def main(pred, sites_tsv, pub_json, pdf, out):
             ctl.append((f"precision x {f:.2f}", "near_miss", [scale_precision(c, f) for c in ours.values()]))
         res["panels"][key] = score_panel(key, ours, published, ctl)
 
+    # The same scores as a list with dot-free ids, for tools/check_results.py (whose paths split at dots).
+    res["panel_list"] = [dict(id=k.replace(".", ""), **v) for k, v in res["panels"].items()]
+
     for fig, panels in (("fig3", "abc"), ("fig4", "abc"), ("fig5", "abc"), ("fig6", "abc")):
         draw_figure(fig, panels, curves, published, pdf, out)
     with open(out / "curves.json", "w") as f:

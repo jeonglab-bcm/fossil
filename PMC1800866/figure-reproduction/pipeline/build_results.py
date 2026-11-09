@@ -27,7 +27,11 @@ def lookup(run, ref):
     i = 0
     while i < len(parts):
         if isinstance(obj, list):
-            obj = obj[int(parts[i])]
+            if "=" in parts[i]:  # key=value picks the list item whose key equals value
+                k, v = parts[i].split("=", 1)
+                obj = next(x for x in obj if str(x.get(k)) == v)
+            else:
+                obj = obj[int(parts[i])]
             i += 1
             continue
         # keys may contain dots ("fig3.a", "CHDE Zn3.area"): take the longest key that exists
