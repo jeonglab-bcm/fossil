@@ -2,36 +2,38 @@
   "schema": "paper2repro/session-ledger/v1",
   "session_id": "266fa43b-6721-40cf-a90f-32e8b7dfa79d",
   "transcript": "266fa43b-6721-40cf-a90f-32e8b7dfa79d.jsonl",
-  "generated_at": "2026-11-09T20:17:21+00:00",
+  "generated_at": "2026-11-09T20:51:02+00:00",
   "started_at": "2026-11-09T16:06:59+00:00",
-  "ended_at": "2026-11-09T20:17:04+00:00",
-  "wall_clock_minutes": 250.1,
+  "ended_at": "2026-11-09T20:50:43+00:00",
+  "wall_clock_minutes": 283.7,
   "models": [
     "claude-haiku-5-5",
     "claude-opus-5-5"
   ],
-  "human_prompts": 3,
+  "human_prompts": 4,
   "mid_turn_prompts": 0,
-  "assistant_responses": 270,
-  "tool_calls": 291,
+  "assistant_responses": 288,
+  "tool_calls": 308,
   "tool_calls_by_name": {
-    "Bash": 249,
+    "Bash": 263,
     "Read": 18,
     "Write": 13,
     "WebSearch": 3,
     "Agent": 2,
     "ToolSearch": 2,
     "TaskStop": 2,
+    "ReadNotifications": 2,
     "Skill": 1,
-    "Edit": 1
+    "Edit": 1,
+    "Monitor": 1
   },
   "tokens": {
-    "input": 546,
-    "cache_creation": 1748662,
-    "cache_read": 101821857,
-    "output": 260600,
-    "thinking": 83843,
-    "total": 103831665
+    "input": 584,
+    "cache_creation": 1761843,
+    "cache_read": 113007251,
+    "output": 268572,
+    "thinking": 84460,
+    "total": 115038250
   },
   "subagents": {
     "transcripts": 2,
@@ -47,12 +49,12 @@
     }
   },
   "tokens_all": {
-    "input": 596,
-    "cache_creation": 1869678,
-    "cache_read": 103418583,
-    "output": 281758,
-    "thinking": 93571,
-    "total": 105570615
+    "input": 634,
+    "cache_creation": 1882859,
+    "cache_read": 114603977,
+    "output": 289730,
+    "thinking": 94188,
+    "total": 116777200
   },
   "prompts": [
     {
@@ -68,6 +70,11 @@
     {
       "at": "2026-11-09T20:15:29.662Z",
       "text": "Try again",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-09T20:49:53.149Z",
+      "text": "<task-notification>\n<task-id>bb1sh92fl</task-id>\n<summary>Monitor event: \"CI checks on PR #38\"</summary>\n<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>\n</task-notification>",
       "mid_turn": false
     }
   ]

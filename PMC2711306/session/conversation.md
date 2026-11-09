@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-09T20:17:04+00:00 |
-| Wall clock | 250.1 min |
+| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-09T20:50:43+00:00 |
+| Wall clock | 283.7 min |
 | Models | claude-haiku-5-5, claude-opus-5-5 |
-| Human prompts | 3 (0 sent mid-turn) |
-| Assistant responses (API calls) | 270 + 24 in subagents |
-| Tool calls | 291 + 24 in subagents |
-| Tokens: input / cache write / cache read / output | 596 / 1,869,678 / 103,418,583 / 281,758 |
-| Tokens: total (incl. subagents) | 105,570,615 |
+| Human prompts | 4 (0 sent mid-turn) |
+| Assistant responses (API calls) | 288 + 24 in subagents |
+| Tool calls | 308 + 24 in subagents |
+| Tokens: input / cache write / cache read / output | 634 / 1,882,859 / 114,603,977 / 289,730 |
+| Tokens: total (incl. subagents) | 116,777,200 |
 
 ## Conversation
 
@@ -960,3 +960,77 @@ The CI command passes from a clean clone: 28 of 28 files agree, in 3.7 minutes. 
 - `Bash` cd ~/fossil-issue17; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --help | head -20; ls -t ~/.claude/projects/-home-sofias-fossil/*.jsonl | he
 
 - `Bash` cd ~/fossil-issue17; ls ~/.claude/projects/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d* -d; python3 ~/.claude/skills/paper2repro/scripts/session_le
+
+- `Bash` cd ~/fossil-issue17; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --transcript ~/.claude/projects/-home-sofias-fossil/266fa43b-6721-40cf-a90f-
+
+- `Bash` cd ~/fossil-issue17; python3 -c " import json; l=json.load(open('PMC2711306/session/ledger.json')) for k in ['wall_clock_minutes','human_prompts','mid_turn_prom
+
+- `Bash` cd ~/fossil-issue17; git add PMC2711306/session; git commit -q -m "PMC2711306: session ledger Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com> Claude-Ses
+
+### Claude · 2026-11-09 20:18:34
+
+Pushed. `main` gained PR #35 meanwhile, so I'm merging it in to settle any conflicts in the shared README and front page.
+
+- `Bash` cd ~/fossil-issue17; git merge -q --no-edit origin/main 2>&1 | tail -5; git status --short | grep -E "^(UU|AA|DU|UD)"
+
+- `Bash` cd ~/fossil-issue17; for f in .gitignore README.md site/index.html; do echo "=== $f"; awk '/^<<<<<<< /,/^>>>>>>> /' $f | cut -c1-220; done
+
+### Claude · 2026-11-09 20:18:50
+
+All conflicts are additive (each side added its own paper). Keeping both, and joining the two workflow sentences in the README.
+
+- `Bash` cd ~/fossil-issue17; python3 - <<'EOF' import re ours_sentence=" `.github/workflows/reproduce-pmc2711306.yml` reruns PMC2711306 on changes to its folder or work
+
+- `Bash` cd ~/fossil-issue17; git push -q 2>&1 | tail -1; S=/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/scratchpad; { cat <<'EOF' ## Geom
+
+### Claude · 2026-11-09 20:19:48
+
+PR #38 is open. Watching its CI checks.
+
+- `Monitor` CI checks on PR #38
+
+### Claude · 2026-11-09 20:19:55
+
+While CI runs, posting the self-review comment the skill asks for (unreproduced items, risks, fitted settings, fixed mistakes, open checks).
+
+- `Bash` S=/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/scratchpad; cat > $S/review.md <<'EOF' ## Self-review **Items not reproduced** 1. 
+
+- `ReadNotifications` 
+
+- `Bash` cd ~/.claude/projects/-home-sofias-fossil/memory; python3 - <<'EOF' p='pmc2711306-reproduction.md'; s=open(p).read() s=s.replace("Issue #17, started 2026-11-09 
+
+- `Bash` cd ~/.claude/projects/-home-sofias-fossil/memory; grep -n "PMC2711306" MEMORY.md; sed -i 's/1788-2236 pairs over seeds (paper 1685)/1,679-2,361 pairs over 20 se
+
+### Claude · 2026-11-09 20:20:29
+
+Memory updated. Waiting on the CI checks for PR #38.
+
+- `ReadNotifications` 
+
+- `Bash` /cm/shared/apps/gh/2.86.0/usr/bin/gh pr checks 38 --repo jeonglab-bcm/fossil 2>&1 | head
+
+### Claude · 2026-11-09 20:20:40
+
+CI is running the `reproduce` job. Waiting for it to finish.
+
+- `Bash` GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh; until $GH pr checks 38 --repo jeonglab-bcm/fossil --json bucket 2>/dev/null | jq -e 'length>0 and all(.bucket!="pending
+
+### Claude · 2026-11-09 20:20:45
+
+I'll report once CI finishes.
+
+### User · 2026-11-09 20:49:53
+
+<task-notification>
+<task-id>bb1sh92fl</task-id>
+<summary>Monitor event: "CI checks on PR #38"</summary>
+<event>[Monitor expired after 30m with no events delivered. Re-arm it if you still need the watch — and widen the filter if silence was unexpected.]</event>
+</task-notification>
+
+- `Bash` /cm/shared/apps/gh/2.86.0/usr/bin/gh pr checks 38 --repo jeonglab-bcm/fossil 2>&1 | head; /cm/shared/apps/gh/2.86.0/usr/bin/gh run view 42691915183 --repo jeong
+
+### Claude · 2026-11-09 20:50:16
+
+CI passed in 4 min 53 s. Pushing the final session ledger (the `session/` folder is outside the workflow's trigger paths, so CI won't rerun).
+
+- `Bash` pkill -f "gh pr checks 38" 2>/dev/null; cd ~/fossil-issue17; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --transcript ~/.claude/projects/-hom
