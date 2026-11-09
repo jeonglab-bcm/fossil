@@ -1,0 +1,110 @@
+{
+ "schema": "paper2repro/session-ledger/v1",
+ "session_id": "208344d4-82e9-5f88-8020-08917a45c417",
+ "transcript": "208344d4-82e9-5f88-8020-08917a45c417.jsonl",
+ "generated_at": "2026-11-09T18:49:07+00:00",
+ "started_at": "2026-11-06T05:55:06+00:00",
+ "ended_at": "2026-11-09T18:49:05+00:00",
+ "wall_clock_minutes": 5094.0,
+ "models": [
+  "[model]"
+ ],
+ "human_prompts": 4,
+ "mid_turn_prompts": 2,
+ "assistant_responses": 490,
+ "tool_calls": 511,
+ "tool_calls_by_name": {
+  "Bash": 374,
+  "Write": 29,
+  "ReadNotifications": 21,
+  "Read": 17,
+  "mcp__github__pull_request_read": 15,
+  "TaskUpdate": 13,
+  "Monitor": 9,
+  "ToolSearch": 8,
+  "TaskCreate": 8,
+  "mcp__github__issue_read": 3,
+  "Edit": 2,
+  "mcp__claude-code-remote__send_later": 2,
+  "mcp__github__get_job_logs": 2,
+  "Skill": 1,
+  "TaskStop": 1,
+  "mcp__github__list_repository_collaborators": 1,
+  "mcp__github__create_pull_request": 1,
+  "mcp__claude-code-remote__subscribe_pr_activity": 1,
+  "mcp__github__add_issue_comment": 1,
+  "mcp__github__update_pull_request": 1,
+  "mcp__claude-code-remote__get_session": 1
+ },
+ "tokens": {
+  "input": 1050,
+  "cache_creation": 4239911,
+  "cache_read": 200334619,
+  "output": 362027,
+  "thinking": 120889,
+  "total": 204937607
+ },
+ "subagents": {
+  "transcripts": 0,
+  "assistant_responses": 0,
+  "tool_calls": 0,
+  "tokens": {
+   "input": 0,
+   "cache_creation": 0,
+   "cache_read": 0,
+   "output": 0,
+   "thinking": 0,
+   "total": 0
+  }
+ },
+ "tokens_all": {
+  "input": 1050,
+  "cache_creation": 4239911,
+  "cache_read": 200334619,
+  "output": 362027,
+  "thinking": 120889,
+  "total": 204937607
+ },
+ "prompts": [
+  {
+   "at": "2026-11-06T05:55:06.570Z",
+   "text": "```\nRead https://github.com/jeonglab-bcm/Paper2Repro and install the paper2agent skill\nfrom skills/paper2agent for Claude Code.\n\nUse the paper2agent skill (its Paper2Repro component) to reproduce the computed\nfigures and tables of this paper. Compare each one with the published figure\npixel by pixel and deliver a rerunnable pipeline.\n\nPaper and supplement: https://pmc.ncbi.nlm.nih.gov/articles/PMC4015815/\nOutput directory: PMC4015815\n\n```",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-06T05:57:35.723Z",
+   "text": "and this is related with https://github.com/jeonglab-bcm/fossil/issues/16",
+   "mid_turn": true
+  },
+  {
+   "at": "2026-11-06T09:18:56.151Z",
+   "text": "and this is related with https://github.com/jeonglab-bcm/fossil/issues/16",
+   "mid_turn": true
+  },
+  {
+   "at": "2026-11-06T12:02:17.873Z",
+   "text": "Yes then ask Sofia to review",
+   "mid_turn": false
+  }
+ ],
+ "cost_state": {
+  "totalCostUSD": 65.58421180000003,
+  "totalDuration": 19059734,
+  "totalAPIDuration": 3906055,
+  "modelUsage": {
+   "[model]": {
+    "inputTokens": 6836,
+    "outputTokens": 286058,
+    "thinkingTokens": 94885,
+    "cacheReadInputTokens": 166979099,
+    "cacheCreationInputTokens": 3304986,
+    "cacheCreationEphemeral5mInputTokens": 0,
+    "cacheCreationEphemeral1hInputTokens": 3304986,
+    "webSearchRequests": 0,
+    "costUSD": 65.58421180000003
+   }
+  },
+  "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+ },
+ "system_notifications": 32
+}
