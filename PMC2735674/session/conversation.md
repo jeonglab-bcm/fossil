@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-09T16:23:40+00:00 / 2026-11-09T20:41:16+00:00 |
-| Wall clock | 257.6 min |
+| Started / ended (UTC) | 2026-11-09T16:23:40+00:00 / 2026-11-09T20:55:55+00:00 |
+| Wall clock | 272.3 min |
 | Models | claude-opus-5, claude-opus-5-5 |
-| Human prompts | 16 (0 sent mid-turn) |
-| Assistant responses (API calls) | 405 + 47 in subagents |
-| Tool calls | 392 + 49 in subagents |
-| Tokens: input / cache write / cache read / output | 878 / 1,761,544 / 140,172,978 / 278,685 |
-| Tokens: total (incl. subagents) | 142,214,085 |
+| Human prompts | 17 (0 sent mid-turn) |
+| Assistant responses (API calls) | 463 + 47 in subagents |
+| Tool calls | 449 + 49 in subagents |
+| Tokens: input / cache write / cache read / output | 994 / 1,805,329 / 171,698,902 / 300,388 |
+| Tokens: total (incl. subagents) | 173,805,613 |
 
 ## Conversation
 
@@ -1277,3 +1277,184 @@ The clean-clone run has started. Waiting for it and for Actions.
 The exact CI command passes from a clean clone of the pushed branch in 77 seconds: 24 of 24 outputs agree. Checking whether Actions has recovered.
 
 - `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run list --limit 4 --json createdAt,headBranch,name --jq '.[] | .createdAt + " 
+
+- `Bash` python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --out /home/sofias/fossil-issue15/PMC2735674/session --session-id cf9e897e-e17c-47f0-810d-d4fc3fa
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 -c " import json;d=json.load(open('PMC2735674/session/ledger.json')) for p in d['prompts']: print(p['at'], repr(p['tex
+
+- `Bash` cd /home/sofias/fossil-issue15 && git add PMC2735674/session && git commit -q -m "PMC2735674: session ledger Co-Authored-By: Claude Opus 5 <noreply@anthropic.co
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && python3 - <<'PY' import pathlib, re p = pathlib.Path("/tmp/claude-264982/-home-sofi
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc2735674-blm" --jq .total_
+
+- `TaskStop` 
+
+- `Monitor` GitHub Actions run for PR 39
+
+### Claude · 2026-11-09 20:42:48
+
+PR [#39](https://github.com/jeonglab-bcm/fossil/pull/39) is open for issue #15. Everything in the definition of done is in place except CI, which GitHub has not started.
+
+**The reproduction** (19 items in `results.json`, every verdict computed, no open causes): 2 exact, 6 agree, 8 partly, 1 differs, 2 not attempted.
+
+- **Fig. 1 agrees on all four networks.** It is vector art in the PDF, so the published curves were read as numbers: 15–19 of 20 recall points within 0.01 precision for most curves, against at most 6 for another network's curves on the same panel.
+- **Tables 1–4 partly:** 29 of 96 printed values to the digit, 78 within one point. BLMt and m(BLMd,BLMt) come back exactly on several networks; the gap sits on the rebuilt comparison method's AUPR.
+- **Table 5 partly:** all ten published pairs in our top ten, five at the same rank, the five tied Isotretinoin pairs in the paper's own order.
+- **`blmdti`**, the method as a Python package the pipeline calls, passes from a fresh install: 12 tests and an executed tutorial.
+
+**Three settings the paper never printed** had to be found, each recorded with its sensitivity: the score of a local model with no positive example (calibrated on nuclear receptors, then used unchanged), standardizing the two scores before `max` (this also fixed the nearest-neighbour aggregate rows, a different method, which is what makes it convincing), and the regularization of the kernel-regression solve.
+
+**Heavy work ran on Slurm**, never the login node: the 1.5 million SVM fits as job arrays on `defq15`, and the pipeline itself inside an allocation. The default run takes 51 seconds because the three large networks' score matrices are committed.
+
+**CI has not started.** GitHub Actions has created no workflow run for this branch, and none anywhere in the repository since 20:19 UTC, so it is not the new workflow file. I ran the workflow's exact command instead from a clean clone of the pushed branch on a compute node, with a fresh environment built from `requirements.txt` and the package: it passed in 1 min 17 s with 24 of 24 outputs equal to the committed ones. The PR records this, and I am watching for the run so I can drive it to green.
+
+### User · 2026-11-09 20:42:52
+
+<task-notification>
+<task-id>bd9ijifqi</task-id>
+<tool-use-id>toolu_01WxeuBxwc5phKPDHek9Dq8p</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/bd9ijifqi.output</output-file>
+<status>completed</status>
+<summary>Background command "sleep 120; cd /home/sofias/fossil-issue15 &amp;&amp; grep -E "files agree|ERROR|Completed" PMC2735674/work/clean_ci_1578918.out | tail -4; sacct -j 1578918 --format=State,Elapsed -n | head -1" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc2735674-blm" --jq .total_
+
+- `Bash` cd /home/sofias/fossil-issue15 && ls figures/ | head; grep -o 'href="[^"]*css"' site/PMC2735674/index.html | sort -u
+
+- `Bash` curl -s --max-time 30 "https://web.archive.org/cdx/search/cdx?url=web.kuicr.kyoto-u.ac.jp/supp/yoshi/drugtarget/nr_admat_dgc.txt&output=txt" | head -3
+
+### Claude · 2026-11-09 20:43:39
+
+The Wayback Machine has byte-stable captures of the benchmark files. Adding them as the fallback mirror the definition of done asks for.
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && for f in nr_admat_dgc.txt nr_simmat_dc.txt e_admat_dgc.txt; do s=$(curl -s --max-time 40 "https://web.archive.org/w
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && for s in e ic gpcr nr; do for k in admat_dgc simmat_dc simmat_dg; do f=${s}_${k}.txt; n=$(curl -s --max-time 25 "ht
+
+### Claude · 2026-11-09 20:44:33
+
+All twelve files have Wayback captures. Adding a per-file fallback to the fetch script and verifying it reproduces the checksums.
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && python3 - <<'PY' import pathlib p = pathlib.Path("figure-reproduction/pipeline/fetch_inputs.sh"); t = p.read_text()
+
+### Claude · 2026-11-09 20:45:06
+
+Verifying the fallback path itself works (not just the primary).
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674/work/fetchtest && bash -c ' source /dev/stdin <<"EOF" wayback() { local stamp stamp=$(curl -fsS --retry 2 --max-time 6
+
+### Claude · 2026-11-09 20:45:32
+
+The Wayback fallback returns byte-identical files. Committing it with a README note.
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && rm -rf work/fetchtest && python3 - <<'PY' import pathlib p = pathlib.Path("figure-reproduction/README.md"); t = p.r
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc2735674-blm" --jq .total_
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run list --limit 3 --json createdAt,headBranch,event,name --jq '.[] | .createdA
+
+### Claude · 2026-11-09 20:46:29
+
+The difference from the workflows that do run is my use of `inputs` in `timeout-minutes`, which is undefined on a pull request. Fixing both `inputs` references.
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib p = pathlib.Path(".github/workflows/reproduce-pmc2735674.yml"); t = p.read_text() t = t.replac
+
+- `Bash` cd /home/sofias/fossil-issue15 && git add -A && git commit -q -m "PMC2735674: do not read workflow_dispatch inputs on a pull request timeout-minutes referred to
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && sleep 60; $GH api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc2735674-blm" --
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && SHA=$(git rev-parse HEAD) && $GH api "repos/jeonglab-bcm/fossil/commits/$SHA/check-
+
+### Claude · 2026-11-09 20:49:17
+
+Found it: the PR is in conflict with `main` (another reproduction merged meanwhile), and GitHub creates no `pull_request` run while the merge commit can't be computed. Resolving.
+
+- `Bash` cd /home/sofias/fossil-issue15 && git fetch -q origin main && git merge origin/main --no-edit 2>&1 | tail -5; git status --short | grep -E "^(UU|AA|DU|UD)"
+
+- `Bash` cd /home/sofias/fossil-issue15 && git diff --diff-filter=U .gitignore | head -30
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib, re p = pathlib.Path(".gitignore"); t = p.read_text() t = t.replace("""<<<<<<< HEAD # PMC27356
+
+- `Bash` cd /home/sofias/fossil-issue15 && sed -n 10,40p README.md
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib p = pathlib.Path("README.md"); t = p.read_text() start = t.index("<<<<<<< HEAD") mid = t.index
+
+- `Bash` cd /home/sofias/fossil-issue15 && sed -n 58,105p site/index.html
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib p = pathlib.Path("site/index.html"); t = p.read_text() # First conflict: the table row. Keep b
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib p = pathlib.Path("site/index.html"); t = p.read_text() t = t.replace("""<<<<<<< HEAD <a href="
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib, re p = pathlib.Path("site/index.html"); t = p.read_text() t = t.replace('<h2 id="index-head">
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 -c " import html.parser,pathlib class P(html.parser.HTMLParser): def __init__(self): super().__init__(); self.stack=[]
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 -c " import pathlib t=pathlib.Path('site/index.html').read_text() for tag in ('tr','td','section','div','ul','li'): pr
+
+### Claude · 2026-11-09 20:50:57
+
+Markup balances (7 paper rows, 6 columns each). Committing the merge.
+
+- `Bash` cd /home/sofias/fossil-issue15 && git commit -q --no-edit -m "Merge origin/main into pmc2735674-blm PMC4015815 landed on main meanwhile. The front page keeps bo
+
+### Claude · 2026-11-09 20:51:56
+
+That was it — the conflict blocked run creation. CI is now running.
+
+- `Monitor` CI run on PR 39 to completion
+
+- `Bash` cd /home/sofias/fossil-issue15 && python3 - <<'PY' import pathlib p = pathlib.Path("/tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/
+
+- `Bash` sleep 180; cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH pr checks 39 2>&1 | head -3; $GH run view 42696904325 --json status,
+
+- `Bash` cat /tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/b3qhk9mpb.output 2>/dev/null
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42696904325 --json status,conclusion,jobs --jq '.status + " " + (.conc
+
+- `Bash` sleep 240; cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42696904325 --json status,conclusion --jq '.status + " " + 
+
+- `Bash` cat /tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/b0fcx6jfd.output 2>/dev/null
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH pr checks 39 2>&1 | head -3
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42696904325 --log-failed 2>/dev/null | tail -30
+
+### Claude · 2026-11-09 20:53:14
+
+The only difference is the runner's Python patch version recorded in `results.json`. Making the check compare results rather than machine facts.
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && python3 - <<'PY' import pathlib p = pathlib.Path("figure-reproduction/pipeline/check_reproduction.py"); t = p.read_
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && cp -r work/run work/run_backup 2>/dev/null; .venv/bin/python figure-reproduction/pipeline/check_reproduction.py wor
+
+- `Bash` cd /home/sofias/fossil-issue15/PMC2735674 && rm -rf work/run_backup && python3 - <<'PY' import pathlib p = pathlib.Path("figure-reproduction/README.md"); t = p.
+
+- `Monitor` CI rerun 42697332660 to completion
+
+- `Bash` cd /home/sofias/fossil-issue15 && git log --oneline origin/main..HEAD | cat; git log --oneline -1
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH pr checks 39 2>&1 | head -2; $GH run view 42697332660 --json status,conclusion 
+
+### Claude · 2026-11-09 20:54:48
+
+The CI rerun is in progress; I'll report as soon as it lands.
+
+- `Bash` sleep 200; cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42697332660 --json status,conclusion --jq '.status + " " + 
+
+- `Bash` cat /tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/beelttr3f.output 2>/dev/null
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH pr checks 39 2>&1 | head -2
+
+- `Bash` sleep 300; cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42697332660 --json status,conclusion --jq '.status + " " + 
+
+- `Bash` cat /tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/bcb48p62c.output 2>/dev/null
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42697332660 --json status,conclusion,startedAt --jq '.status + " " + (
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && until [ "$($GH run view 42697332660 --json status --jq .status)" = "completed" ]; d
+
+- `Bash` cat /tmp/claude-264982/-home-sofias-fossil/cf9e897e-e17c-47f0-810d-d4fc3fadf6bb/tasks/bkd0u59i6.output 2>/dev/null; cd /home/sofias/fossil-issue15 && GH=/cm/sha
+
+- `Bash` cd /home/sofias/fossil-issue15 && GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh && $GH run view 42697332660 2>&1 | head -20
