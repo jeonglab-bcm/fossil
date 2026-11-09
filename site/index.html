@@ -47,8 +47,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Five papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, four partly.</p>
+        <h2 id="index-head">Six papers, figure by figure</h2>
+        <p>Newest first. One agrees with its paper, five partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -58,6 +58,27 @@
               <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2015-02-06">6 Feb 2015</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-09">9 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4331676</span>
+                  <a class="title" href="https://doi.org/10.1186/1752-0509-9-S1-S10">Identifying DNA-binding proteins by combining support vector machine and PSSM distance transformation</a>
+                  <span class="journal">Xu et al., BMC Systems Biology</span>
+                  <span class="go"><a href="PMC4331676/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4331676">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The SVM-PSSM-DT web server</li>
+                  <li>The 2014 protein database behind the profiles</li>
+                  <li>The in-house DNA-Prot and iDNA-Prot</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4331676/package/tutorial/TUTORIAL.md">PSSM-DT as a Python package</a>, with a tutorial</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4331676/figure-reproduction/output/pssm">Profiles of all 1,261 chains</a> against UniRef 2014</li>
+                  <li><a href="PMC4331676/">Tables 1 to 4 and Figs 1 to 5</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">PSSM-DT comes back within 2 points on the benchmark</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
@@ -183,6 +204,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC4331676/">DNA-binding protein tables</a>
     </nav>
   </div>
 </footer>
