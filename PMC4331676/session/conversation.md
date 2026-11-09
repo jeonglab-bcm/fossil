@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-09T16:04:15+00:00 / 2026-11-09T20:29:52+00:00 |
-| Wall clock | 265.6 min |
+| Started / ended (UTC) | 2026-11-09T16:04:15+00:00 / 2026-11-09T21:50:14+00:00 |
+| Wall clock | 346.0 min |
 | Models | claude-opus-5-5 |
 | Human prompts | 2 (0 sent mid-turn) |
-| Assistant responses (API calls) | 252 + 16 in subagents |
-| Tool calls | 261 + 17 in subagents |
-| Tokens: input / cache write / cache read / output | 542 / 2,923,439 / 69,842,969 / 237,418 |
-| Tokens: total (incl. subagents) | 73,004,368 |
+| Assistant responses (API calls) | 289 + 16 in subagents |
+| Tool calls | 300 + 17 in subagents |
+| Tokens: input / cache write / cache read / output | 616 / 5,457,220 / 86,367,249 / 257,452 |
+| Tokens: total (incl. subagents) | 92,082,537 |
 
 ## Conversation
 
@@ -832,3 +832,141 @@ Committed. Now the session ledger. Other sessions share this project folder, so 
 - `Bash` cd /home/sofias/fossil-issue22; python3 /home/sofias/.claude/skills/paper2repro/scripts/session_ledger.py --help | head -15
 
 - `Bash` cd /home/sofias/fossil-issue22; python3 /home/sofias/.claude/skills/paper2repro/scripts/session_ledger.py --session-id 408ec8e5-797c-4a58-b9e5-16300108fb2b --pr
+
+- `Bash` cd /home/sofias/fossil-issue22; ls /home/sofias/.claude/projects/-home-sofias-fossil/408ec8e5-797c-4a58-b9e5-16300108fb2b* -d; python3 /home/sofias/.claude/skil
+
+### Claude · 2026-11-09 20:30:12
+
+Ledger written (counts show 2 "human prompts": the kickoff and the skill's expansion). Committing, pushing and opening the pull request.
+
+- `Bash` cd /home/sofias/fossil-issue22; git add PMC4331676/session && git commit -q -m "PMC4331676: session ledger Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.co
+
+- `Bash` S=/tmp/claude-264982/-home-sofias-fossil/408ec8e5-797c-4a58-b9e5-16300108fb2b/scratchpad; { cat <<'EOF' ## Identifying DNA-binding proteins by SVM and PSSM dist
+
+### Claude · 2026-11-09 20:31:10
+
+Before opening the PR, checking my "about 40 CPU hours" PSI-BLAST estimate against Slurm's accounting.
+
+- `Bash` for j in 1575120 1575315; do sacct -j $j -X -n -o ElapsedRaw,AllocCPUS | awk -v j=$j '{s+=$1*$2; if($1>m)m=$1} END{printf "%s alloc CPU-h %.0f, longest task %.1
+
+### Claude · 2026-11-09 20:31:19
+
+Allocated CPU time was ~190 CPU-hours for UniRef100 (~110 for UniRef90), not 40. Correcting that everywhere and the login-node wording.
+
+- `Bash` cd /home/sofias/fossil-issue22; grep -rln "40 CPU hours" --include=*.md --include=*.nf --include=*.yml --include=*.json . .github | grep -v "/work/\|/sources/";
+
+- `Bash` cd /home/sofias/fossil-issue22; sed -n 8,10p PMC4331676/figure-reproduction/main.nf; sed -i '9s/^\/\/ 40 CPU hours)/\/\/ 200 CPU hours)/' PMC4331676/figure-repr
+
+- `Bash` cd /home/sofias/fossil-issue22; grep -o "(PSI-BLAST against UniRef100 2014_01, about [0-9]* CPU hours)" README.md; grep -n "40 CPU\|200 CPU" README.md | cut -c1
+
+- `Bash` cd /home/sofias/fossil-issue22; git add -A README.md PMC4331676 .github && git commit -q -m "PMC4331676: PSI-BLAST cost from Slurm accounting (about 200 CPU hou
+
+### Claude · 2026-11-09 20:32:01
+
+PR #40 is open. Watching CI.
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; for i in $(seq 1 90); do s=$(gh pr checks 40 2>/dev/null); if [ -n "$s" ] &
+
+### Claude · 2026-11-09 20:42:10
+
+While CI runs, posting the self-review on the PR, as the skill asks.
+
+- `Bash` cat > /tmp/claude-264982/-home-sofias-fossil/408ec8e5-797c-4a58-b9e5-16300108fb2b/scratchpad/review.md <<'EOF' ## Self-review **Results that did not come back.*
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; until ! gh pr checks 40 2>/dev/null | grep -q "pending"; do sleep 30; done;
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; gh run list --branch pmc4331676-pssm-dt --limit 5; gh pr view 40 --json mer
+
+### Claude · 2026-11-09 20:42:46
+
+No CI ran: the PR conflicts with `main`, which moved while I worked (GitHub runs no pull_request workflows on conflicting PRs). Merging `origin/main` in and resolving.
+
+- `Bash` cd /home/sofias/fossil-issue22; git fetch -q origin; git log --oneline HEAD..origin/main | head; git merge origin/main 2>&1 | tail -5; git status --short | grep
+
+- `Bash` cd /home/sofias/fossil-issue22; git diff --name-only --diff-filter=U; for f in .gitignore README.md site/index.html; do echo "=== $f"; awk '/^<<<<<<< /,/^>>>>>>
+
+### Claude · 2026-11-09 20:43:06
+
+Both sides add a paper (PMC4015815 landed on main). Keeping both everywhere; checking the README sentence conflict in full.
+
+- `Bash` cd /home/sofias/fossil-issue22; awk '/^<<<<<<< /,/^>>>>>>> /' README.md | sed -n '5,20p' | fold -w 200 | grep -n "4331676\|4015815"; grep -n "papers, figure by 
+
+- `Bash` cd /home/sofias/fossil-issue22; python3 - <<'EOF' import re def resolve(path, combine): s=open(path).read() pat=re.compile(r"<<<<<<< HEAD\n(.*?)=======\n(.*?)>>
+
+- `Bash` cd /home/sofias/fossil-issue22; grep -o 'data-label="Verdict"><span class="stamp" data-v="[a-z]*"' site/index.html | sort | uniq -c; git add .gitignore README.m
+
+### Claude · 2026-11-09 20:43:43
+
+Mergeable now. Watching CI.
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; sleep 30; until gh pr checks 40 >/dev/null 2>&1 && ! gh pr checks 40 2>/dev
+
+- `TaskStop` 
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; gh pr checks 40; gh run list --branch pmc4331676-pssm-dt --limit 3
+
+### Claude · 2026-11-09 20:54:01
+
+CI is running (10 min so far). Waiting for it to finish.
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; gh run watch 42695697086 --exit-status --interval 30 >/dev/null 2>&1; gh ru
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; gh run view 42695697086 --log-failed 2>/dev/null | grep -E "differs|Error|E
+
+- `Bash` cd /home/sofias/fossil-issue22/PMC4331676; grep -n "tol=1e-3" package/src/pssmdt/svm.py figure-reproduction/pipeline/*.py
+
+- `Bash` cd /home/sofias/fossil-issue22/PMC4331676; python3 - <<'EOF' p='package/src/pssmdt/svm.py'; s=open(p).read() s=s.replace('''# LIBSVM grid.py defaults''','''# St
+
+### Claude · 2026-11-09 20:56:32
+
+The tutorial's saved outputs include a decision value, so re-executing the tutorial in parallel.
+
+- `Bash` cd /home/sofias/fossil-issue22/PMC4331676; srun -p defq610 -c 4 --mem 8G -t 60 bash -c 'export PATH=/home/sofias/.local/bin:$PATH; .env/bin/python figure-reprod
+
+- `Bash` until ! squeue -j 1579361 -h | grep -q .; do sleep 15; done; cd /home/sofias/fossil-issue22; grep "Submitted process > PACKAGE\|elapsed" PMC4331676/work/logs/ne
+
+### Claude · 2026-11-09 21:05:42
+
+As expected with a changed tolerance, the outputs moved slightly (4th digit). Checking that no headline number or verdict moved before installing them.
+
+- `Bash` cd /home/sofias/fossil-issue22; W=/home/sofias/fossil-issue22/work/3b/f45fd11dbff8ec798083029e7e1900; python3 - <<'EOF' import json new=json.load(open('/home/so
+
+### Claude · 2026-11-09 21:05:52
+
+No verdict or printed value changed; only 4th-digit details moved. Installing the outputs, then re-checking every number the cause texts cite.
+
+- `Bash` cd /home/sofias/fossil-issue22; W=/home/sofias/fossil-issue22/work/3b/f45fd11dbff8ec798083029e7e1900; R=PMC4331676/work/nf/results5; O=PMC4331676/figure-reprodu
+
+### Claude · 2026-11-09 21:06:09
+
+One cited number moved: unfiltered PDB186 AUC with UniRef90 profiles is now 87.46 (was 87.47). Fixing it everywhere it's cited.
+
+- `Bash` cd /home/sofias/fossil-issue22; grep -rln "87\.47" PMC4331676 README.md site --include=*.json --include=*.md --include=*.html | grep -v "/work/\|/sources/"; gre
+
+- `Bash` cd /home/sofias/fossil-issue22; rm -rf PMC4331676/work/nf/results6; OUTDIR=/home/sofias/fossil-issue22/PMC4331676/work/nf/results6 sbatch --wait PMC4331676/figu
+
+### Claude · 2026-11-09 21:13:07
+
+Only the intended text differs. Installing `results.json`, then one final run that must PASS and that produces the page and report.
+
+- `Bash` cd /home/sofias/fossil-issue22; cp /home/sofias/fossil-issue22/work/58/2a43c3a7de4ed8e2dd690848f36f4a/results.json PMC4331676/results.json; rm -rf PMC4331676/wo
+
+- `Bash` cd /home/sofias/fossil-issue22; grep -o ".\{80\}87\.47.\{40\}" site/PMC4331676/index.html | head -2
+
+### Claude · 2026-11-09 21:19:03
+
+Final run PASSES (26 of 26). Documenting the solver-tolerance choice in the README's methods table, then committing and pushing.
+
+- `Bash` cd /home/sofias/fossil-issue22; python3 - <<'EOF' p='PMC4331676/figure-reproduction/README.md'; s=open(p).read() s=s.replace("LIBSVM's default grid (log2 C -5..
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; sleep 20; id=$(gh run list --branch pmc4331676-pssm-dt --limit 1 --json dat
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; until [ "$(gh run view 42701393547 --json status -q .status)" = "completed"
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; gh run view 42701393547 --log-failed 2>/dev/null | grep -E "\| [^|]* \| dif
+
+- `Bash` cd /home/sofias/fossil-issue22/PMC4331676/figure-reproduction/pipeline; python3 - <<'EOF' p='check_reproduction.py'; s=open(p).read() s=s.replace('''* the fresh
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; sleep 30; id=$(gh run list --branch pmc4331676-pssm-dt --limit 1 --json dat
+
+- `Bash` export PATH=/cm/shared/apps/gh/2.86.0/usr/bin:$PATH; cd /home/sofias/fossil-issue22; until [ "$(gh run view 42703740054 --json status -q .status)" = "completed"
