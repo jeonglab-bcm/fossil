@@ -39,15 +39,31 @@ f80e101f284934b85c5dc7601ecaca2cc86c62a946141b2587f3ac8482c9a7c1  nr_simmat_dc.t
 b2c81d3fade1defa1cbeff55c819155ab211370227a58380a28f70f7313a93d5  PMC2735674.1.pdf
 EOF
 
+# The Kyoto page is the only place that serves the benchmark files. Every one of them is also in
+# the Wayback Machine, whose `id_` captures are byte for byte the original, so a capture is the
+# fallback when the page does not answer. The checksum check at the end covers both routes.
+wayback() {  # wayback <original url> <file>
+  local stamp
+  stamp=$(curl -fsS --retry 2 --max-time 60 \
+    "https://web.archive.org/cdx/search/cdx?url=${1#http://}&output=txt&filter=statuscode:200&limit=1" \
+    | awk '{print $2}')
+  [ -n "$stamp" ] || return 1
+  curl -fsSL --retry 2 --max-time 120 -o "$2" "https://web.archive.org/web/${stamp}id_/$1"
+}
+
 get() {  # get <url> <file>
   if [ -n "$SOURCES" ]; then
     local found
     found=$(find "$SOURCES" -name "$2" -print -quit)
     [ -n "$found" ] || { echo "not in $SOURCES: $2" >&2; exit 1; }
     cp "$found" "$2"
-  else
-    curl -fsSL --retry 3 --retry-delay 5 -o "$2" "$1"
+    return
   fi
+  if curl -fsSL --retry 3 --retry-delay 5 --max-time 300 -o "$2" "$1"; then
+    return
+  fi
+  echo "falling back to the Wayback Machine for $2" >&2
+  wayback "$1" "$2"
 }
 
 for set in e ic gpcr nr; do

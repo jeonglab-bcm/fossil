@@ -110,7 +110,7 @@ sbatch --array=0-23 --export=ALL,DATASET=e,METHOD=blmt figure-reproduction/run_s
 
 | Process | Does |
 | --- | --- |
-| `FETCH` | Downloads the twelve benchmark files and the article PDF, checks the SHA-256 of each. |
+| `FETCH` | Downloads the twelve benchmark files and the article PDF, from the Kyoto page or, if it does not answer, from the Wayback Machine, and checks the SHA-256 of each. |
 | `SCORES` | The six score matrices of each dataset: BLMd, BLMt, KRMd, KRMt, NNd, NNt. |
 | `PUBLISHED` | Reads Figure 1's four panels out of the PDF as curves, and renders it at 600 dpi. |
 | `TABLES` | Tables 1 to 4: twelve rows of AUC and AUPR each, against the printed values. |
@@ -124,6 +124,10 @@ sbatch --array=0-23 --export=ALL,DATASET=e,METHOD=blmt figure-reproduction/run_s
 
 ## Limits
 
+- The benchmark files come from one page. The Kyoto supplement page is the primary source and
+  the Wayback Machine is the fallback: every one of the twelve files has a capture, and an `id_`
+  capture is byte for byte the original, so the checksums pass either way. `--sources DIR` reuses
+  local copies instead.
 - The score matrices of the enzyme, ion channel and GPCR datasets are committed under
   `output/scores` and read by the default run. A full recompute needs `--full`, which the CI
   workflow runs only when started by hand.
