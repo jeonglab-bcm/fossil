@@ -37,7 +37,9 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: ${{ inputs.full && 600 || 45 }}
+    # The default run takes about 2 minutes; a full recompute (full = true) takes hours, so the
+    # limit is set for that case and the default run never comes near it.
+    timeout-minutes: 600
     steps:
       - uses: actions/checkout@v4
 
@@ -62,7 +64,7 @@ jobs:
           version: "25.04.6"
 
       - name: Run the Nextflow pipeline
-        run: nextflow run PMC2735674/figure-reproduction/main.nf --outdir results --cpus 4 -ansi-log false ${{ inputs.full && '--full' || '' }}
+        run: nextflow run PMC2735674/figure-reproduction/main.nf --outdir results --cpus 4 -ansi-log false ${{ github.event.inputs.full == 'true' && '--full' || '' }}
 
       - name: Write the check report to the job summary
         if: always()
