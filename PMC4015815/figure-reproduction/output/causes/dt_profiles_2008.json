@@ -1,0 +1,102 @@
+{
+ "about": "SVM-DT on two builds of the Top-1-gram profiles, against the paper. 3-iteration: PSI-BLAST 3 iterations, E = 0.001 (the lab's Pse-in-One 2.0 settings), Top-1-gram = largest weighted observed percentage (top1.py). 2008 method: the paper's ref. [28] (Liu et al. 2008): PSI-BLAST defaults with 10 iterations, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10 (profile2008.py). Both against the lab's 2016 nrdb90 with BLAST+ 2.17.0, same Gist port, seed 1 and clip rule. The 2008-method profiles are the pipeline's SVM-DT input.",
+ "inputs": {
+  "3_iteration": "pipeline/inputs/top1_nrdb90_i3.fasta.gz",
+  "2008_method": "pipeline/inputs/top1_nrdb90_i10_2008.fasta.gz"
+ },
+ "top1_equal_to_residue": {
+  "3_iteration": 0.5784,
+  "2008_method": 0.4937
+ },
+ "mean_roc_by_dmax": {
+  "paper_fig3": {
+   "0": 0.908,
+   "10": 0.9356,
+   "20": 0.942,
+   "40": 0.942,
+   "50": 0.9418,
+   "60": 0.9432,
+   "80": 0.9454,
+   "100": 0.9458,
+   "150": 0.9479,
+   "200": 0.9473
+  },
+  "3_iteration": {
+   "0": 0.9106,
+   "10": 0.9451,
+   "20": 0.9464,
+   "40": 0.9486,
+   "50": 0.9478,
+   "60": 0.9476,
+   "80": 0.9488,
+   "100": 0.9497,
+   "150": 0.9502,
+   "200": 0.9501
+  },
+  "2008_method": {
+   "0": 0.929,
+   "10": 0.9493,
+   "20": 0.9526,
+   "40": 0.9525,
+   "50": 0.9534,
+   "60": 0.953,
+   "80": 0.9538,
+   "100": 0.9555,
+   "150": 0.957,
+   "200": 0.9567
+  }
+ },
+ "table1_dmax150": {
+  "paper": {
+   "roc": 0.948,
+   "roc50": 0.8
+  },
+  "3_iteration": {
+   "roc": 0.9502,
+   "roc50_stated": 0.6731,
+   "roc50_cut_list": 0.7903
+  },
+  "2008_method": {
+   "roc": 0.957,
+   "roc50_stated": 0.7197,
+   "roc50_cut_list": 0.8376
+  }
+ },
+ "family_2.5.1.3_roc_dmax150": {
+  "paper": 0.993,
+  "3_iteration": 0.9611,
+  "2008_method": 0.9926
+ },
+ "figures_family_2.5.1.3": {
+  "paper": {
+   "fig4a_rank_LL": 2,
+   "fig4a_rank_GG": 1
+  },
+  "3_iteration": {
+   "fig4a_spearman": 0.7702,
+   "fig4a_cells_within_24": 0.7325,
+   "fig4a_rank_LL": 6,
+   "fig4a_rank_GG": 1,
+   "fig5a_r_x2_149": 0.39,
+   "fig5b_r_x2_149": 0.2833,
+   "fig5a_bar_ends_within_2px": 0.1284,
+   "fig5b_bar_ends_within_2px": 0.1081
+  },
+  "2008_method": {
+   "fig4a_spearman": 0.8752,
+   "fig4a_cells_within_24": 0.825,
+   "fig4a_rank_LL": 2,
+   "fig4a_rank_GG": 1,
+   "fig5a_r_x2_149": 0.5824,
+   "fig5b_r_x2_149": 0.4977,
+   "fig5a_bar_ends_within_2px": 0.1014,
+   "fig5b_bar_ends_within_2px": 0.1014
+  }
+ },
+ "per_family_roc_dmax150": {
+  "families_higher_with_2008": 34,
+  "families_lower": 17,
+  "families": 54
+ },
+ "reading": "The 2008-method profiles bring the family-level SVM-DT results to the paper: family 2.5.1.3's ROC (0.993 against the paper's 0.993), its Fig. 4A heatmap (Spearman 0.875 against 0.770, (L,L) second as published) and its Fig. 5A-B bars (r 0.58 and 0.50 against 0.39 and 0.28), though the bar heights still do not come back (10% of bar ends within 2 px, against 13% and 11%). The 54-family means move the other way: about 0.01 ROC above the paper at every dMAX (0.957 against 0.948 at 150), and the cut-list ROC50 0.838 against 0.800. So the profile method was part of the difference, and what remains sits in the means: our 2016 nrdb90 and BLAST+ 2.17.0 are not the paper's (it names only 'a non-redundant database', and the copy the lab used is not available), which is untested."
+}
