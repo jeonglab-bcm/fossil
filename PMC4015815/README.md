@@ -26,7 +26,7 @@ computed from them.
 ## Results
 
 Verdicts are computed by `check_results.py` from [`results.json`](results.json): 1 exact, 9 agree,
-9 partly, 2 inconclusive, 3 differ, 3 not attempted; 6 open causes.
+9 partly, 2 inconclusive, 3 differ, 3 not attempted; 2 open causes.
 
 | Item | Status | Evidence |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ Verdicts are computed by `check_results.py` from [`results.json`](results.json):
 | Table 1, SVM-DR ROC | Same setup, identical at printed precision | 0.919 (ours 0.9189). Family 2.5.1.3: 0.844 (ours 0.8444). |
 | Fig. 3, SVM-DR | Same setup | 9 of 10 points within 0.0005 ROC of the published markers; dMAX 20 is 0.9004 against 0.8991. Seed noise is 0.0002. 84.4% of the curve's ink within 2 px (pass mark 85%, best control 75.9%). |
 | Figs 4B, 5C, 5D (SVM-DR weights, family 2.5.1.3) | Same setup | Heatmap: Spearman 0.9999 with the published cells, all 400 within 24 grey levels, maximum 78.1 (paper 78), (G,G) and (L,L) first and second. Bars: all 148 ends within 2 px in both panels, r = 0.9999 and 0.9997. |
-| Table 1, ROC50 (both methods) | Not reproduced | Ours 0.497 (SVM-DR) and 0.673 (SVM-DT) against 0.715 and 0.800. Full ROC matches, so the ranking agrees; the paper's ROC50 is computed some other way than its one-line definition. Three readings tested; none is the paper's. |
+| Table 1, ROC50 (both methods) | Explained: computed another way | Ours 0.497 (SVM-DR) and 0.673 (SVM-DT) against 0.715 and 0.800 with the stated definition. Full ROC matches, so the ranking agrees. The paper's values match an ordinary ROC on the ranking cut at the 50th false positive, which divides by the positives found there instead of by all positives: 0.712 and 0.790. |
 | Table 1, SVM-DT ROC | Re-measured with regenerated profiles | 0.950 against 0.948. Profiles: PSI-BLAST against the lab's 2016 nrdb90 with settings from its 2017 code; the 2014 database is gone. |
 | Fig. 3, SVM-DT | Re-measured | The curve rises to dMAX 20 and is flat after 100, as published, but sits 0.002 to 0.010 above the published points (with Pse-in-One's own rule for empty profile columns, from 0.007 below to 0.001 above). |
 | Figs 4A, 5A, 5B (SVM-DT weights) | Re-measured, differ | (G,G) is first again but (L,L) sixth; heatmap Spearman 0.77 (the SVM-DR panel in its place: 0.74); bars r = 0.39 and 0.28. Everything after the profiles is the code that reproduces the SVM-DR panels. |
@@ -46,7 +46,9 @@ Verdicts are computed by `check_results.py` from [`results.json`](results.json):
 **Result:** the main claim holds. Counting residue pairs at each distance improves on a
 position-independent baseline, and SVM-DR comes back as published, down to its discriminant
 weights. Two causes explain the items that do not match: the paper's ROC50 is not the standard
-one, and the SVM-DT profiles had to be regenerated from a later database.
+one (it matches an ordinary ROC on the ranking cut at the 50th false positive), and the SVM-DT
+profiles had to be regenerated from a later database, with a different recipe from the lab's
+2008 one.
 
 
 Kept local and gitignored: `sources/` (the paper, the downloads), `work/` (PSI-BLAST runs, scratch

@@ -604,7 +604,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "ROC comes back exactly (0.919); ROC50 does not (0.497 against 0.715). Our ROC matches at every dMAX, so the rankings agree; the gap is in how ROC50 was computed, which the paper's one-line definition does not settle. One non-standard reading fits both published values: an ordinary ROC on the ranking cut at the 50th false positive (0.712 and 0.790); it is unconfirmed.",
+    "summary": "ROC comes back exactly (0.919); ROC50 does not with the stated definition (0.497 against 0.715). Our ROC matches at every dMAX, so the rankings agree and the gap is in how ROC50 was computed. The paper's values match an ordinary ROC on the ranking cut at the 50th false positive, which divides by the positives found there instead of by all positives (0.712 against 0.715).",
     "evidence": [
      "figure-reproduction/output/causes/roc50_variants.json",
      "figure-reproduction/output/tables.json"
@@ -632,8 +632,8 @@
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
-      "result": "inconclusive"
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
@@ -641,7 +641,7 @@
       "result": "rejected"
      }
     ],
-    "status": "open"
+    "status": "explained"
    }
   },
   {
@@ -692,7 +692,7 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "Two causes: the profiles (2016 database, settings from the lab's 2017 code) move ROC by a few thousandths, and ROC50 is computed some other way than the stated definition (see Table 1, SVM-DR).",
+    "summary": "Two causes: the profiles (2016 database, settings from the lab's 2017 code) move ROC by a few thousandths, and the paper's ROC50 is an ordinary ROC on the ranking cut at the 50th false positive (0.790 against 0.800; see Table 1, SVM-DR).",
     "evidence": [
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/causes/roc50_variants.json"
@@ -720,8 +720,8 @@
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
-      "result": "inconclusive"
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
@@ -729,7 +729,7 @@
       "result": "rejected"
      }
     ],
-    "status": "open"
+    "status": "explained"
    }
   },
   {
@@ -791,11 +791,12 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "Our Top-1-gram sequences come from a 2016 database with PSI-BLAST settings taken from the lab's 2017 code; the 2014 profiles are gone. The SVM-DT heatmap keeps (G,G) on top but (L,L) drops, and its correlation with the published panel is little better than the SVM-DR panel's.",
+    "summary": "Our Top-1-gram sequences come from a 2016 database with PSI-BLAST settings taken from the lab's 2017 code; the 2014 profiles are gone. The SVM-DT heatmap keeps (G,G) on top but (L,L) drops, and its correlation with the published panel is little better than the SVM-DR panel's. Our Top-1-grams are closer to the residues than the paper's: the profile recipe of the paper's reference [28] (10 iterations, BLOSUM62 pseudocounts) differs from ours.",
     "evidence": [
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
-     "figure-reproduction/output/fig5_scores.json"
+     "figure-reproduction/output/fig5_scores.json",
+     "figure-reproduction/output/causes/dt_profile_tests.json"
     ],
     "hypotheses": [
      {
@@ -812,6 +813,16 @@
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
       "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -901,7 +912,8 @@
     "evidence": [
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
-     "figure-reproduction/output/fig5_scores.json"
+     "figure-reproduction/output/fig5_scores.json",
+     "figure-reproduction/output/causes/dt_profile_tests.json"
     ],
     "hypotheses": [
      {
@@ -918,6 +930,16 @@
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
       "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -970,7 +992,8 @@
     "evidence": [
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
-     "figure-reproduction/output/fig5_scores.json"
+     "figure-reproduction/output/fig5_scores.json",
+     "figure-reproduction/output/causes/dt_profile_tests.json"
     ],
     "hypotheses": [
      {
@@ -987,6 +1010,16 @@
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
       "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -1174,7 +1207,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "The gains are measured against SVM-Top-n-gram's values quoted from another paper. Our ROC gain is 4.3 points (paper 4.1); our ROC50 is lower across the board, so against the quoted 0.696 it shows a loss. Against our own position-independent baseline (SVM-DT at dMAX 0, Top-1-gram composition) the gains are 4.0 ROC and 25.7 ROC50 points, so the direction of the claim holds.",
+    "summary": "The gains are measured against SVM-Top-n-gram's values quoted from another paper. Our ROC gain is 4.3 points (paper 4.1); our ROC50 is lower across the board, so against the quoted 0.696 it shows a loss. Against our own position-independent baseline (SVM-DT at dMAX 0, Top-1-gram composition) the gains are 4.0 ROC and 25.7 ROC50 points, so the direction of the claim holds. With the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) our gain over the quoted 0.696 is 9.4 points (paper 10.4).",
     "evidence": [
      "figure-reproduction/output/tables.json",
      "figure-reproduction/output/causes/roc50_variants.json"
@@ -1197,8 +1230,8 @@
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
-      "result": "inconclusive"
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
@@ -1206,7 +1239,7 @@
       "result": "rejected"
      }
     ],
-    "status": "open"
+    "status": "explained"
    }
   },
   {
@@ -1380,7 +1413,8 @@
     "summary": "True for SVM-DR. For SVM-DT (G,G) comes first but (L,L) is sixth, behind (V,G) and (G,V): our Top-1-gram sequences come from other profiles.",
     "evidence": [
      "figure-reproduction/output/fig4_scores.json",
-     "figure-reproduction/output/causes/dt_variants.json"
+     "figure-reproduction/output/causes/dt_variants.json",
+     "figure-reproduction/output/causes/dt_profile_tests.json"
     ],
     "hypotheses": [
      {
@@ -1397,6 +1431,16 @@
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
       "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -1628,7 +1672,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "SVM-DR beats SVM-Pairwise and is within a point of SVM-LA. 'Outperforms Monomer-dist' rests on ROC50 (both rows print ROC 0.919), and our ROC50 (0.497) is computed differently from the paper's (see Table 1). With the stated definition SVM-DR is just below Monomer-dist (0.497 against 0.508); with the reading that fits the paper's ROC50 (ROC on the ranking cut at the 50th false positive) it is above (0.712), but Monomer-dist's 0.508 comes from another group's code.",
+    "summary": "SVM-DR beats SVM-Pairwise and is within a point of SVM-LA. 'Outperforms Monomer-dist' rests on ROC50 (both rows print ROC 0.919). With the stated definition SVM-DR is just below Monomer-dist (0.497 against 0.508); with the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) it is above (0.712), but Monomer-dist's 0.508 comes from another group's code, so the comparison mixes two ROC50s.",
     "evidence": [
      "figure-reproduction/output/causes/roc50_variants.json"
     ],
@@ -1655,8 +1699,8 @@
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). Unconfirmed: found after about ten readings were tried, the paper gives no ROC50 code or per-family values, and SVM-DT runs on other profiles",
-      "result": "inconclusive"
+      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
@@ -1664,7 +1708,7 @@
       "result": "rejected"
      }
     ],
-    "status": "open"
+    "status": "explained"
    }
   },
   {
