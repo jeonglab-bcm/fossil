@@ -15,6 +15,11 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.svm import SVC
 
+# Stopping tolerance of the LIBSVM solver. LIBSVM's default (1e-3) stops early enough that
+# last-bit differences in the kernel between CPUs move decision values in the 4th digit; 1e-6
+# reports the optimum itself, the same on every machine.
+TOL = 1e-6
+
 # LIBSVM grid.py defaults
 LOG2C = tuple(range(-5, 16, 2))
 LOG2G = tuple(range(3, -16, -2))
@@ -46,7 +51,7 @@ def rbf(D2: np.ndarray, gamma: float) -> np.ndarray:
 
 
 def _svc(C: float) -> SVC:
-    return SVC(C=C, kernel="precomputed", cache_size=500, tol=1e-3)
+    return SVC(C=C, kernel="precomputed", cache_size=500, tol=TOL)
 
 
 def cv_decision(K: np.ndarray, y: np.ndarray, C: float, folds: int | None = 5,
@@ -134,7 +139,7 @@ class PSSMDTClassifier:
     def fit(self, X: np.ndarray, y: np.ndarray) -> "PSSMDTClassifier":
         self.ref_ = np.asarray(X, dtype=np.float64)
         Xs = scale(self.ref_)
-        self.model_ = SVC(C=self.C, kernel="rbf", gamma=self.gamma, tol=1e-3).fit(Xs, np.asarray(y))
+        self.model_ = SVC(C=self.C, kernel="rbf", gamma=self.gamma, tol=TOL).fit(Xs, np.asarray(y))
         self.Xs_ = Xs
         return self
 

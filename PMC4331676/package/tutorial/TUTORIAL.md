@@ -152,7 +152,7 @@ print(pssmdt.metrics(y[train], clf.decision_function(X[train])))
 ```
 
 ```text
-decision value for 1AKHA: -0.0886
+decision value for 1AKHA: -0.0885
 {'TP': 3, 'TN': 4, 'FP': 0, 'FN': 0, 'SN': 100.0, 'SP': 100.0, 'ACC': 100.0, 'MCC': 1.0, 'AUC': 100.0}
 ```
 

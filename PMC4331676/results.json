@@ -1149,7 +1149,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.47 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
           "figure-reproduction/output/run/independent.json"
@@ -1167,7 +1167,7 @@
           },
           {
             "hypothesis": "No effective homology filter",
-            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.47 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
             "result": "inconclusive"
           }
         ]
@@ -1478,23 +1478,23 @@
       "pixels": {
         "tolerance_px": 2.0,
         "published_near_ours": 0.5981,
-        "ours_near_published": 0.7057,
+        "ours_near_published": 0.7067,
         "threshold": 0.75,
         "controls": [
           {
             "name": "our AvePscore-20 curve",
             "kind": "wrong_input",
-            "score": 0.5462
+            "score": 0.5457
           },
           {
             "name": "TPR + 3 points",
             "kind": "near_miss",
-            "score": 0.3312
+            "score": 0.3317
           },
           {
             "name": "TPR - 3 points",
             "kind": "near_miss",
-            "score": 0.2804
+            "score": 0.2809
           }
         ]
       },
@@ -1538,14 +1538,14 @@
       },
       "pixels": {
         "tolerance_px": 2.0,
-        "published_near_ours": 0.6957,
-        "ours_near_published": 0.6373,
+        "published_near_ours": 0.6942,
+        "ours_near_published": 0.6366,
         "threshold": 0.75,
         "controls": [
           {
             "name": "our PSSM-DT curve",
             "kind": "wrong_input",
-            "score": 0.2844
+            "score": 0.2859
           },
           {
             "name": "TPR + 3 points",
@@ -1555,7 +1555,7 @@
           {
             "name": "TPR - 3 points",
             "kind": "near_miss",
-            "score": 0.1056
+            "score": 0.1065
           }
         ]
       },
@@ -1600,7 +1600,7 @@
       "pixels": {
         "tolerance_px": 2.0,
         "published_near_ours": 0.0991,
-        "ours_near_published": 0.1604,
+        "ours_near_published": 0.1612,
         "threshold": 0.75,
         "controls": [
           {
@@ -1616,7 +1616,7 @@
           {
             "name": "TPR - 3 points",
             "kind": "near_miss",
-            "score": 0.3536
+            "score": 0.355
           }
         ]
       },
@@ -1661,7 +1661,7 @@
       "pixels": {
         "tolerance_px": 2.0,
         "published_near_ours": 0.1532,
-        "ours_near_published": 0.1372,
+        "ours_near_published": 0.137,
         "threshold": 0.75,
         "controls": [
           {
@@ -1733,7 +1733,7 @@
           {
             "name": "TPR + 3 points",
             "kind": "near_miss",
-            "score": 0.0052
+            "score": 0.0053
           },
           {
             "name": "TPR - 3 points",
@@ -1809,7 +1809,7 @@
           {
             "name": "TPR - 3 points",
             "kind": "near_miss",
-            "score": 0.2785
+            "score": 0.2791
           }
         ]
       },
@@ -1915,7 +1915,7 @@
       "pixels": {
         "tolerance_px": 2.0,
         "published_near_ours": 0.1378,
-        "ours_near_published": 0.1674,
+        "ours_near_published": 0.1669,
         "threshold": 0.75,
         "controls": [
           {
@@ -1931,7 +1931,7 @@
           {
             "name": "TPR - 3 points",
             "kind": "near_miss",
-            "score": 0.2504
+            "score": 0.2519
           }
         ]
       },
@@ -1950,7 +1950,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.47 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
           "figure-reproduction/output/run/independent.json"
@@ -1968,7 +1968,7 @@
           },
           {
             "hypothesis": "No effective homology filter",
-            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.47 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
             "result": "inconclusive"
           }
         ]
@@ -2310,7 +2310,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.47 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
         "evidence": [
           "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
           "figure-reproduction/output/run/independent.json"
@@ -2328,7 +2328,7 @@
           },
           {
             "hypothesis": "No effective homology filter",
-            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.47 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
             "result": "inconclusive"
           }
         ]

@@ -20,7 +20,7 @@ import numpy as np
 from joblib import Parallel, delayed
 
 import pssmdt
-from pssmdt.svm import LOG2C, LOG2G, cv_decision, rbf, sq_dists
+from pssmdt.svm import LOG2C, LOG2G, TOL, cv_decision, rbf, sq_dists
 
 ENCODINGS = ["PSSM-DT", "PSSM-SDT", "PSSM-DDT", "AvePscore-20", "AvePscore-400", "Pscore-100", "ACC"]
 LG = 5
@@ -65,7 +65,7 @@ def grid(X, y, jobs, seed=SEED):
 def _loo_one(K, y, C, i):
     tr = np.delete(np.arange(len(y)), i)
     from sklearn.svm import SVC
-    m = SVC(C=C, kernel="precomputed", tol=1e-3).fit(K[np.ix_(tr, tr)], y[tr])
+    m = SVC(C=C, kernel="precomputed", cache_size=500, tol=TOL).fit(K[np.ix_(tr, tr)], y[tr])
     return float(m.decision_function(K[i:i + 1, tr])[0])
 
 
