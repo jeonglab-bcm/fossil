@@ -91,12 +91,12 @@ def _objective(w, sign, K):
 def _optimize(w, sign, K, state, conv, threshold, cap):
     """optimize_weights(): conv = [prev_objective, iteration] (the statics of converged()).
 
-    cap: per-item box constraint (positive_constraint / negative_constraint), all 0 for none.
+    cap: per-item box constraint (positive_constraint / negative_constraint); 0 means no cap for
+    that item's class. Gist 2.3 (compute-weights.c, update_weight) turns the cap on for both
+    classes once either constraint is set, so with only one set it clamps the other class's
+    weights to 0; the port caps each class only by its own constraint. With both set (Gist's
+    sample run) or neither (Gist's default, used here) the two agree.
     """
-    constrain = False
-    for i in range(cap.shape[0]):
-        if cap[i] != 0.0:
-            constrain = True
     n = w.shape[0]
     perm = np.arange(n)
     current = 0
@@ -124,7 +124,7 @@ def _optimize(w, sign, K, state, conv, threshold, cap):
                 nw /= nw
             else:
                 nw /= kii
-            if constrain and nw > cap[i]:
+            if cap[i] != 0.0 and nw > cap[i]:
                 nw = cap[i]
             elif nw < 0.0:
                 nw = 0.0
@@ -144,6 +144,12 @@ CLIP_CAP = 1
 
 @njit(cache=True)
 def _normalize(Kraw, self_rows, self_cols, clip):
+    """Normalize a test-by-train kernel (rows: test, columns: train) and add the constant.
+
+    A value above 1 is capped at 1 ("cap") or set to 0 ("gist"). Gist's normalize_kernel_matrix
+    keeps 1 where the row index equals the column index even here, where that is not a diagonal;
+    the port does not, so under "gist" every such value is 0.
+    """
     nr, nc = Kraw.shape
     out = np.empty((nr, nc))
     for r in range(nr):
@@ -159,7 +165,7 @@ def _normalize(Kraw, self_rows, self_cols, clip):
             else:
                 v = v / (rs * np.sqrt(cd))
                 if np.isnan(v) or v > 1.0:
-                    v = 1.0 if (r == c or clip == CLIP_CAP) else 0.0
+                    v = 1.0 if clip == CLIP_CAP else 0.0
             out[r, c] = (v + 10.0) * 1.0
     return out
 

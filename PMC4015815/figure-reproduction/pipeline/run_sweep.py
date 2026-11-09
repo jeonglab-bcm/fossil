@@ -10,6 +10,7 @@ discriminants from the printed weights (gist_port.classify).
 """
 import argparse
 import csv
+import hashlib
 import multiprocessing as mp
 import os
 import time
@@ -81,6 +82,9 @@ def main():
 
     names, seqs, families, codes = features.load_benchmark(a.fasta, a.membership)
     seqs = load_sequences(a.sequences, names, seqs)
+    # Which sequences the rows were trained on (residues or one set of Top-1-grams), so a merge
+    # with committed rows can check they come from the same input.
+    fingerprint = hashlib.sha256("\n".join(seqs).encode()).hexdigest()[:12]
     enc = [features.encode(s) for s in seqs]
     _CODES, _FAMILIES, _SEED, _SAVE = codes, families, a.seed, a.save_weights
     _CLIP = gist_port.CLIP_CAP if a.clip == "cap" else gist_port.CLIP_GIST
@@ -102,11 +106,12 @@ def main():
             r["dmax"] = d
             r["seed"] = a.seed
             r["clip"] = a.clip
+            r["input"] = fingerprint
         rows += res
         print(f"dMAX={d}: mean ROC {np.mean([r['roc'] for r in res]):.4f} "
               f"ROC50 {np.mean([r['roc50'] for r in res]):.4f} ({time.time() - t0:.0f} s)",
               flush=True)
-    keys = ["dmax", "seed", "clip", "family", "roc", "roc50", "n_train", "n_pos_train", "n_test",
+    keys = ["dmax", "seed", "clip", "input", "family", "roc", "roc50", "n_train", "n_pos_train", "n_test",
             "n_pos_test", "iterations", "support_vectors", "seconds"]
     with open(a.out, "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=keys)
