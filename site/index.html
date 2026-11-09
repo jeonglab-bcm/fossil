@@ -59,6 +59,26 @@
             </thead>
             <tbody>
               <tr>
+                <td class="date" data-label="Published"><time datetime="2014-01-24">24 Jan 2014</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-06">6 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4015815</span>
+                  <a class="title" href="https://doi.org/10.1186/1471-2105-15-S2-S3">Using distances between Top-n-gram and residue pairs for protein remote homology detection</a>
+                  <span class="journal">Liu et al., BMC Bioinformatics</span>
+                  <span class="go"><a href="PMC4015815/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4015815">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The DistanceSVM package and server</li>
+                  <li>The 2014 PSI-BLAST profiles and their database</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4015815/figure-reproduction/pipeline/gist_port.py">Gist 2.3 in Python</a>, checked against Gist’s own run</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4015815/figure-reproduction/pipeline/features.py">The SVM-DR and SVM-DT features</a></li>
+                  <li><a href="PMC4015815/">Table 1 and Figs 3 to 5</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; SVM-DT profiles rebuilt</span></td>
+              </tr>
+              <tr>
                 <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
                 <td data-label="Paper">
@@ -183,6 +203,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC4015815/">Remote homology figures</a>
     </nav>
   </div>
 </footer>
