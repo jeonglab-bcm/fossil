@@ -9,9 +9,11 @@
 //             Figures 4-5 use 150. Without 0 in the list the dMAX = 0 points are read from the
 //             committed sweep (output/sweep_*.csv): Gist's coordinate ascent needs tens of
 //             thousands of passes on the composition-only kernel (hours of CPU).
-// --profiles  regenerate the PSI-BLAST profiles (nrdb90 of 2016, 3 iterations, E = 0.001; about
-//             4 CPU hours) instead of reading the committed Top-1-gram sequences
-//             (pipeline/inputs/top1_nrdb90_i3.fasta.gz, written by this step).
+// --profiles  regenerate the Top-1-gram profiles the way the paper's ref. [28] built them (PSI-BLAST
+//             against the 2016 nrdb90, default settings with 10 iterations, then profile2008.py;
+//             about 20 CPU hours) instead of reading the committed Top-1-gram sequences
+//             (pipeline/inputs/top1_nrdb90_i10_2008.fasta.gz, written by this step). The earlier
+//             3-iteration profiles (top1_nrdb90_i3.fasta.gz, top1.py) are kept as a cause test.
 // --sources   a folder with local copies of the downloads (see pipeline/fetch_inputs.sh).
 
 params.outdir = 'results'
@@ -59,20 +61,21 @@ process PORT_CHECK {
 }
 
 process PROFILES {
-    publishDir "${params.outdir}", mode: 'copy', pattern: '{top1_nrdb90_i3.fasta.gz,top1_stats.json}'
+    publishDir "${params.outdir}", mode: 'copy', pattern: '{top1_nrdb90_i10_2008.fasta.gz,top1_stats.json}'
     cpus params.workers
     input:
     path downloads
     output:
-    path 'top1_nrdb90_i3.fasta.gz', emit: top1
+    path 'top1_nrdb90_i10_2008.fasta.gz', emit: top1
     path 'top1_stats.json'
     script:
     """
     PSIBLAST=\$PWD/${downloads}/blast/ncbi-blast-2.17.0+/bin/psiblast \\
       bash ${projectDir}/pipeline/run_psiblast.sh ${downloads}/scop.1.53.1e-25.fasta \\
-      \$PWD/${downloads}/psein1/Pse-in-One-2.0/psiblast/nrdb90/nrdb90 psiblast ${task.cpus} 3 0.001
-    ${params.python} ${projectDir}/pipeline/top1.py ${downloads}/scop.1.53.1e-25.fasta psiblast/pssm top1.fasta top1_stats.json
-    gzip -n -9 top1.fasta && mv top1.fasta.gz top1_nrdb90_i3.fasta.gz
+      \$PWD/${downloads}/psein1/Pse-in-One-2.0/psiblast/nrdb90/nrdb90 psiblast ${task.cpus} 10 default align
+    ${params.python} ${projectDir}/pipeline/profile2008.py ${downloads}/scop.1.53.1e-25.fasta psiblast/aln \
+      top1.fasta top1_stats.json --workers ${task.cpus}
+    gzip -n -9 top1.fasta && mv top1.fasta.gz top1_nrdb90_i10_2008.fasta.gz
     """
 }
 
@@ -181,7 +184,7 @@ workflow {
     dl = FETCH()
     figs_ok = FIGURES_CHECK(dl)
     port = PORT_CHECK(dl)
-    top1 = params.profiles ? PROFILES(dl).top1 : Channel.value(file("${projectDir}/pipeline/inputs/top1_nrdb90_i3.fasta.gz"))
+    top1 = params.profiles ? PROFILES(dl).top1 : Channel.value(file("${projectDir}/pipeline/inputs/top1_nrdb90_i10_2008.fasta.gz"))
     sweeps = SWEEP(Channel.of('dr', 'dt').combine(dl).combine(top1))
     jobs = Channel.of(['dr', '2.5.1.3'], ['dt', '2.5.1.3'], ['dr', '2.5.1.1'], ['dt', '2.5.1.1'])
     w = WEIGHTS(jobs.combine(dl).combine(top1))

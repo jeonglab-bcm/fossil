@@ -22,11 +22,12 @@ $py "$P/port_check.py" "$D/gist/gist-2.3/doc" "$out/port_check.json"
 
 if [ "$profiles" = profiles ]; then
   PSIBLAST=$D/blast/ncbi-blast-2.17.0+/bin/psiblast bash "$P/run_psiblast.sh" "$D/scop.1.53.1e-25.fasta" \
-    "$D/psein1/Pse-in-One-2.0/psiblast/nrdb90/nrdb90" psiblast "$workers" 3 0.001
-  $py "$P/top1.py" "$D/scop.1.53.1e-25.fasta" psiblast/pssm top1.fasta "$out/top1_stats.json"
-  gzip -n -9 -c top1.fasta > "$out/top1_nrdb90_i3.fasta.gz"
+    "$D/psein1/Pse-in-One-2.0/psiblast/nrdb90/nrdb90" psiblast "$workers" 10 default align
+  $py "$P/profile2008.py" "$D/scop.1.53.1e-25.fasta" psiblast/aln top1.fasta "$out/top1_stats.json" \
+    --workers "$workers"
+  gzip -n -9 -c top1.fasta > "$out/top1_nrdb90_i10_2008.fasta.gz"
 else
-  gunzip -c "$P/inputs/top1_nrdb90_i3.fasta.gz" > top1.fasta
+  gunzip -c "$P/inputs/top1_nrdb90_i10_2008.fasta.gz" > top1.fasta
 fi
 
 for m in dr dt; do

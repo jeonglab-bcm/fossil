@@ -8,7 +8,7 @@
   "license": "CC BY 2.0"
  },
  "run": {
-  "date": "2026-11-06",
+  "date": "2026-11-09",
   "pipeline": "PMC4015815/figure-reproduction/main.nf",
   "command": "nextflow run PMC4015815/figure-reproduction/main.nf --outdir results",
   "inputs": [
@@ -219,9 +219,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "outputs": [
@@ -230,8 +230,9 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "The SVM-DT curve rises and flattens as published, but our profiles are not the paper's; the points sit up to a few thousandths of ROC from the published ones.",
+    "summary": "The SVM-DT curve rises and flattens as published but sits 0.008 to 0.021 ROC above the published points (0.957 against 0.948 at dMAX 150). Our profiles follow the paper's ref. [28] but come from the lab's 2016 nrdb90, while the paper names only 'a non-redundant database' and its copy is not available. The 3-iteration profiles gave 0.950 at dMAX 150 (output/causes/dt_profiles_2008.json).",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/fig5_scores.json"
@@ -244,12 +245,12 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      }
     ],
@@ -528,15 +529,16 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "The SVM-DT curve rises and flattens as published, but our profiles are not the paper's; the points sit up to a few thousandths of ROC from the published ones.",
+    "summary": "The SVM-DT curve rises and flattens as published but sits 0.008 to 0.021 ROC above the published points (0.957 against 0.948 at dMAX 150). Our profiles follow the paper's ref. [28] but come from the lab's 2016 nrdb90, while the paper names only 'a non-redundant database' and its copy is not available. The 3-iteration profiles gave 0.950 at dMAX 150 (output/causes/dt_profiles_2008.json).",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/fig5_scores.json"
@@ -549,12 +551,12 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      }
     ],
@@ -612,12 +614,12 @@
     "hypotheses": [
      {
       "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
-      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.673 (tables.json)",
+      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
-      "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      },
      {
@@ -627,17 +629,17 @@
      },
      {
       "hypothesis": "The printed values behave like ROC_n with a larger n",
-      "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.819 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
+      "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.855 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
       "result": "inconclusive"
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
       "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
-      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      }
     ],
@@ -685,47 +687,48 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "Two causes: the profiles (2016 database, settings from the lab's 2017 code) move ROC by a few thousandths, and the paper's ROC50 is an ordinary ROC on the ranking cut at the 50th false positive (0.790 against 0.800; see Table 1, SVM-DR).",
+    "summary": "ROC 0.957 against 0.948: with profiles built as in the paper's ref. [28] our SVM-DT sits about 0.01 above the paper at every dMAX while family 2.5.1.3 comes back (0.993); our 2016 nrdb90 is not the paper's database. ROC50: the stated definition gives 0.720; the paper's values match an ordinary ROC on the ranking cut at the 50th false positive (see Table 1, SVM-DR), which gives 0.838 here, above 0.800 as ROC is above 0.948.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/causes/roc50_variants.json"
     ],
     "hypotheses": [
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
-      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.673 (tables.json)",
+      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
-      "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
       "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
-      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      }
     ],
@@ -780,9 +783,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "outputs": [
@@ -791,8 +794,9 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "Our Top-1-gram sequences come from a 2016 database with PSI-BLAST settings taken from the lab's 2017 code; the 2014 profiles are gone. The SVM-DT heatmap keeps (G,G) on top but (L,L) drops, and its correlation with the published panel is little better than the SVM-DR panel's. Our Top-1-grams are closer to the residues than the paper's: the profile recipe of the paper's reference [28] (10 iterations, BLOSUM62 pseudocounts) differs from ours.",
+    "summary": "Our Top-1-gram profiles follow the paper's ref. [28] (10 PSI-BLAST iterations, BLOSUM62 pseudocounts) but come from the lab's 2016 nrdb90; the 2014 profiles are gone. The heatmap keeps (G,G) first and (L,L) second as published and correlates 0.875 with the published panel (Spearman; 0.770 with the earlier 3-iteration profiles), but cell values still differ.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/fig5_scores.json",
@@ -806,22 +810,22 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
-      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
       "result": "supported"
      },
      {
-      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
-      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
       "result": "inconclusive"
      }
     ],
@@ -897,9 +901,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "outputs": [
@@ -908,8 +912,9 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "As Fig. 4A: our SVM-DT weights come from other profiles. The ladder shape and the mostly negative signs come back; the bar heights do not.",
+    "summary": "As Fig. 4A: our SVM-DT weights come from profiles built as in ref. [28] on another database. The ladder shape and the mostly negative signs come back and the bars follow the published ones more closely (r 0.58; 0.39 with the 3-iteration profiles), but the bar heights do not.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/fig5_scores.json",
@@ -923,22 +928,22 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
-      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
       "result": "supported"
      },
      {
-      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
-      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
       "result": "inconclusive"
      }
     ],
@@ -977,9 +982,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "outputs": [
@@ -988,8 +993,9 @@
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "As Fig. 4A: our SVM-DT weights come from other profiles. The ladder shape and the mostly negative signs come back; the bar heights do not.",
+    "summary": "As Fig. 4A: our SVM-DT weights come from profiles built as in ref. [28] on another database. The ladder shape and the mostly negative signs come back and the bars follow the published ones more closely (r 0.50; 0.28 with the 3-iteration profiles), but the bar heights do not.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/fig5_scores.json",
@@ -1003,22 +1009,22 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
-      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
       "result": "supported"
      },
      {
-      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
-      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
       "result": "inconclusive"
      }
     ],
@@ -1200,42 +1206,43 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "The gains are measured against SVM-Top-n-gram's values quoted from another paper. Our ROC gain is 4.3 points (paper 4.1); our ROC50 is lower across the board, so against the quoted 0.696 it shows a loss. Against our own position-independent baseline (SVM-DT at dMAX 0, Top-1-gram composition) the gains are 4.0 ROC and 25.7 ROC50 points, so the direction of the claim holds. With the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) our gain over the quoted 0.696 is 9.4 points (paper 10.4).",
+    "summary": "The gains are measured against SVM-Top-n-gram's values quoted from another paper. Our gains are 5.0 ROC points (paper 4.1) and 2.4 ROC50 points with the stated definition (paper 10.4); with the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) 14.2 points. Our SVM-DT sits above the paper in both ROC and ROC50 (profiles from the 2016 nrdb90). Against our own position-independent baseline (SVM-DT at dMAX 0, Top-1-gram composition) the gains are 2.8 ROC and 19.9 ROC50 points, so the direction of the claim holds.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/tables.json",
      "figure-reproduction/output/causes/roc50_variants.json"
     ],
     "hypotheses": [
      {
       "hypothesis": "The distances add to a position-independent Top-1-gram baseline",
-      "test": "Our SVM-DT at dMAX 150 against our SVM-DT at dMAX 0: +4.0 ROC, +25.7 ROC50 points (tables.json fig3.SVM-DT)",
+      "test": "Our SVM-DT at dMAX 150 against our SVM-DT at dMAX 0: +2.8 ROC, +19.9 ROC50 points (tables.json fig3.SVM-DT)",
       "result": "supported"
      },
      {
       "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
-      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.673 (tables.json)",
+      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
-      "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
       "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
-      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      }
     ],
@@ -1285,15 +1292,16 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "SVM-DR comes back (0.844); SVM-DT is 0.961 against 0.993, from other profiles. It still beats SVM-DR on this family by a wide margin.",
+    "summary": "Both come back: SVM-DR 0.844 and SVM-DT 0.993 with profiles built as in the paper's ref. [28]. With the earlier 3-iteration profiles SVM-DT was 0.961 (output/causes/dt_profiles_2008.json).",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json"
     ],
     "hypotheses": [
@@ -1304,12 +1312,12 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      }
     ],
@@ -1354,9 +1362,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ]
   },
@@ -1403,15 +1411,16 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "True for SVM-DR. For SVM-DT (G,G) comes first but (L,L) is sixth, behind (V,G) and (G,V): our Top-1-gram sequences come from other profiles.",
+    "summary": "True for both. For SVM-DT (G,G) and (L,L) are the top two with profiles built as in the paper's ref. [28]; with the earlier 3-iteration profiles (L,L) was sixth, behind (V,G) and (G,V) (output/causes/dt_profiles_2008.json).",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/fig4_scores.json",
      "figure-reproduction/output/causes/dt_variants.json",
      "figure-reproduction/output/causes/dt_profile_tests.json"
@@ -1424,22 +1433,22 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
-      "test": "58% of our Top-1-gram positions equal the query residue, and our Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json)",
+      "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
       "result": "supported"
      },
      {
-      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations against EBI's nrdb90 and target frequencies with BLOSUM62 pseudocounts",
-      "test": "Pseudocount limit only: a column holding only the query residue takes BLOSUM62's best partner, which changes only M (to L). Applied to our Top-1-grams (3,681 positions), it raises Fig. 4A Spearman from 0.770 to 0.837 and lightens the M row and column from 24 / 30 to 15 / 15 (paper 11 / 12.5); the Fig. 5A-B bars do not improve (r 0.39 to 0.39, 0.28 to 0.21). The full rebuild (profile2008.py) has not been run yet (output/causes/dt_profile_tests.json)",
+      "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+      "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
       "result": "inconclusive"
      }
     ],
@@ -1507,9 +1516,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ]
   },
@@ -1567,9 +1576,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ]
   },
@@ -1618,9 +1627,9 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ]
   },
@@ -1679,12 +1688,12 @@
     "hypotheses": [
      {
       "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
-      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.673 (tables.json)",
+      "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
-      "test": "SVM-DR 0.662, SVM-DT 0.818 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      },
      {
@@ -1694,17 +1703,17 @@
      },
      {
       "hypothesis": "The printed values behave like ROC_n with a larger n",
-      "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.819 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
+      "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.855 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
       "result": "inconclusive"
      },
      {
       "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
-      "test": "SVM-DR 0.712 (paper 0.715), SVM-DT 0.790 (paper 0.800) at dMAX 150, no free parameter (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT 9.4 points above SVM-Top-n-gram (paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+      "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
       "result": "supported"
      },
      {
       "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
-      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.909; FPR 0.1: 0.632 and 0.759 at dMAX 150 (output/causes/roc50_variants.json)",
+      "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
       "result": "rejected"
      }
     ],
@@ -1749,15 +1758,16 @@
      "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
     },
     {
-     "what": "PSI-BLAST profiles from the lab's 2016 nrdb90 (Pse-in-One 2.0), 3 iterations, E = 0.001, BLAST+ 2.17.0; Top-1-gram = largest weighted observed percentage, an all-zero column giving the query residue",
+     "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
      "source": "found_by_search",
-     "sensitivity": "The paper names only 'a non-redundant database'. With Pse-in-One's rule for all-zero columns (A) the mean ROC at dMAX 150 is 0.9412 instead of 0.9502; with log-odds scores 0.9413 (output/causes/dt_variants.json)"
+     "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
     }
    ],
    "cause": {
     "category": "data_differs",
-    "summary": "Our SVM-DT reaches ROC 0.9502, above every quoted profile method including SVM-PDT-Profile (0.950) by 0.0002; with Pse-in-One's Top-1-gram rule it is 0.9412, below it. The ranking against SVM-PDT-Profile turns on the profiles.",
+    "summary": "Our SVM-DT reaches ROC 0.957, above every quoted profile method including SVM-PDT-Profile (0.950), where the paper's 0.948 is below it. Our SVM-DT sits about 0.01 above the paper at every dMAX (profiles from the 2016 nrdb90), enough to change this ranking. With the 3-iteration profiles it was 0.9502, above SVM-PDT-Profile by 0.0002.",
     "evidence": [
+     "figure-reproduction/output/causes/dt_profiles_2008.json",
      "figure-reproduction/output/causes/dt_variants.json"
     ],
     "hypotheses": [
@@ -1768,12 +1778,12 @@
      },
      {
       "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
-      "test": "Rerun at dMAX 150 with that rule (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      },
      {
       "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
-      "test": "Rerun at dMAX 150 (output/causes/dt_variants.json)",
+      "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
       "result": "rejected"
      }
     ],

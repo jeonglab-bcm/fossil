@@ -104,53 +104,53 @@
   },
   "SVM-DT": {
    "0": [
-    0.910555,
-    0.416026,
+    0.928974,
+    0.52018,
     54
    ],
    "10": [
-    0.945063,
-    0.664436,
+    0.949258,
+    0.709542,
     54
    ],
    "20": [
-    0.946413,
-    0.668313,
+    0.952601,
+    0.715802,
     54
    ],
    "40": [
-    0.948577,
-    0.671327,
+    0.952508,
+    0.719091,
     54
    ],
    "50": [
-    0.947827,
-    0.670986,
+    0.953417,
+    0.724049,
     54
    ],
    "60": [
-    0.947595,
-    0.674455,
+    0.952983,
+    0.723925,
     54
    ],
    "80": [
-    0.948759,
-    0.676683,
+    0.953792,
+    0.719924,
     54
    ],
    "100": [
-    0.949749,
-    0.673162,
+    0.955503,
+    0.720195,
     54
    ],
    "150": [
-    0.950205,
-    0.673132,
+    0.956996,
+    0.719667,
     54
    ],
    "200": [
-    0.950099,
-    0.676635,
+    0.956681,
+    0.718557,
     54
    ]
   }
@@ -170,12 +170,12 @@
    }
   },
   "SVM-DT": {
-   "roc": 0.950205,
-   "roc50": 0.673132,
+   "roc": 0.956996,
+   "roc50": 0.719667,
    "families": 54,
-   "roc_3dp": "0.950",
-   "roc50_3dp": "0.673",
-   "family_2.5.1.3_roc": 0.961065,
+   "roc_3dp": "0.957",
+   "roc50_3dp": "0.720",
+   "family_2.5.1.3_roc": 0.992568,
    "comparisons": {
     "beats every other profile method but SVM-PDT-Profile (ROC)": "yes",
     "below SVM-PDT-Profile (ROC)": "no"
@@ -189,18 +189,18 @@
    "plateau (range 100-200 below a tenth of the rise)": "yes"
   },
   "SVM-DT": {
-   "rise_0_to_100": 0.0392,
-   "range_100_to_200": 0.0005,
+   "rise_0_to_100": 0.0265,
+   "range_100_to_200": 0.0015,
    "plateau (range 100-200 below a tenth of the rise)": "yes"
   }
  },
  "improvement_over_top_n_gram": {
-  "roc_points": 4.32,
-  "roc50_points": -2.29,
+  "roc_points": 5.0,
+  "roc50_points": 2.37,
   "note": "ours minus the SVM-Top-n-gram row the paper quotes (not rerun), in points"
  },
  "family_2513": {
-  "SVM-DT": 0.961065,
+  "SVM-DT": 0.992568,
   "SVM-DR": 0.844426,
   "DT above DR": "yes"
  },
@@ -234,29 +234,29 @@
   },
   "SVM-DT": {
    "G,G": {
-    "composition_weight_d0": -28.964,
+    "composition_weight_d0": -36.386,
     "d0_largest_magnitude": "yes",
-    "share_positive_d1_150": 0.12,
-    "mean_abs_d1_50": 7.179,
-    "mean_abs_d101_150": 5.643,
+    "share_positive_d1_150": 0.08,
+    "mean_abs_d1_50": 8.414,
+    "mean_abs_d101_150": 5.77,
     "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
    },
    "L,L": {
-    "composition_weight_d0": -42.51,
+    "composition_weight_d0": -40.959,
     "d0_largest_magnitude": "yes",
-    "share_positive_d1_150": 0.1133,
-    "mean_abs_d1_50": 5.015,
-    "mean_abs_d101_150": 2.736,
+    "share_positive_d1_150": 0.14,
+    "mean_abs_d1_50": 5.722,
+    "mean_abs_d101_150": 3.744,
     "ladder (mean |w| at d 1-50 above d 101-150)": "yes"
    },
    "top_two_pairs": [
     "(G,G)",
-    "(V,G)"
+    "(L,L)"
    ],
-   "top_two_are_GG_LL": "no",
+   "top_two_are_GG_LL": "yes",
    "rank_GG": 1,
-   "rank_LL": 6,
-   "l2_max": 92.04,
+   "rank_LL": 2,
+   "l2_max": 103.41,
    "G,G mostly positive": "no"
   },
   "DR more positive (G,G) than DT": "yes"

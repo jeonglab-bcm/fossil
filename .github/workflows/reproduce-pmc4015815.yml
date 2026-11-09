@@ -8,7 +8,7 @@ name: Reproduce PMC4015815
 # Pull requests and pushes train at dMAX = 10..200 and read the dMAX = 0 points from the committed
 # sweep: on the composition-only kernel Gist's coordinate ascent needs tens of thousands of passes
 # (about 2 CPU hours). Start the workflow by hand with dmax_zero = true to train those as well.
-# The PSI-BLAST profiles (about 4 CPU hours against the 2016 nrdb90) are read from the committed
+# The PSI-BLAST profiles (about 20 CPU hours: 10 iterations against the 2016 nrdb90) are read from the committed
 # Top-1-gram sequences; rerun them with `--profiles` on a larger machine.
 on:
   workflow_dispatch:
