@@ -17,6 +17,7 @@ files themselves, which the default run does not rewrite, are left out of it.
 
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
@@ -66,10 +67,20 @@ def main() -> int:
                 shutil.copy(run_output / name, fresh / name)
             if (committed / name).is_file():
                 shutil.copy(committed / name, old / name)
-        shutil.copy(results, fresh / "results.json")
+        # results.json records the versions of the runtime and the libraries. Those are facts
+        # about the machine, not results, and a runner's patch version differs from ours, so they
+        # are reported below and left out of the comparison.
+        environments = {}
         committed_results = committed.parent.parent / "results.json"
-        if committed_results.is_file():
-            shutil.copy(committed_results, old / "results.json")
+        for label, source, folder in (
+            ("fresh", Path(results), fresh),
+            ("committed", committed_results, old),
+        ):
+            if not source.is_file():
+                continue
+            payload = json.loads(source.read_text())
+            environments[label] = payload.get("run", {}).pop("environment", {})
+            (folder / "results.json").write_text(json.dumps(payload, indent=1) + "\n")
         code, out = run(
             [
                 sys.executable,
@@ -87,6 +98,22 @@ def main() -> int:
         lines += ["## Fresh run against the committed outputs", "", out.strip(), ""]
         ok &= code == 0
 
+    if environments:
+        names = sorted({k for e in environments.values() for k in e})
+        lines += [
+            "## Environment",
+            "",
+            "Recorded in results.json and left out of the comparison above.",
+            "",
+            "| Package | Fresh run | Committed |",
+            "| --- | --- | --- |",
+            *[
+                f"| {name} | {environments.get('fresh', {}).get(name, '-')} |"
+                f" {environments.get('committed', {}).get(name, '-')} |"
+                for name in names
+            ],
+            "",
+        ]
     lines += [
         "## Run",
         "",

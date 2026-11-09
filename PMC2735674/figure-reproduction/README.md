@@ -119,7 +119,7 @@ sbatch --array=0-23 --export=ALL,DATASET=e,METHOD=blmt figure-reproduction/run_s
 | `CLAIMS` | The statements of Section 4, from the paper's own tables and from our run. |
 | `PACKAGE` | Builds the package, installs it in a fresh environment, runs its tests and its tutorial. |
 | `RESULTS` | Merges the numbers with the notes into `results.json` and computes the verdicts. |
-| `CHECK` | Fails on a broken rule or any difference from the committed outputs; writes `report.md`. |
+| `CHECK` | Fails on a broken rule or any difference from the committed outputs; writes `report.md`. The versions `results.json` records are facts about the machine, so they are reported in the check and left out of the comparison. |
 | `BUILD_PAGE` | The results page from `results.json`. |
 
 ## Limits
