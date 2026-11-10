@@ -69,7 +69,7 @@ def observed(run, field):
 def main(run, out):
     notes = json.load(open(NOTES))
     res = {"schema": "paper2repro/results/v1", "paper": notes["paper"], "run": notes["run"],
-           "session": {"ledger": "session/ledger.json"}, "items": []}
+           "session": {"ledger": "session/ledger.json"}, "skill": notes["skill"], "items": []}
     for it in notes["items"]:
         it = copy.deepcopy(it)
         if "values" in it:
