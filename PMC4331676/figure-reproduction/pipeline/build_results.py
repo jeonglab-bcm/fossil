@@ -150,7 +150,7 @@ def main(run, figs, sens_path, removed_path, pkg_path, notes_path, out):
         items.append(it)
 
     res = {"schema": "paper2repro/results/v1", "paper": notes["paper"], "run": notes["run"],
-           "session": {"ledger": "session/ledger.json"}, "items": items}
+           "skill": notes["skill"], "session": {"ledger": "session/ledger.json"}, "items": items}
     Path(out).write_text(json.dumps(res, indent=1, ensure_ascii=False) + "\n")
     r = subprocess.run([sys.executable, str(HERE / "check_results.py"), out, "--write", "--skip-files"],
                        capture_output=True, text=True)
