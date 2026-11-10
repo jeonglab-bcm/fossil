@@ -169,7 +169,7 @@ def main(notes_path, rundir, out):
              and abs(rc[s]["e1071_auc"] - rc[s]["auc_svm_r"]) < 0.002 for s in ["I", "II"])
     add("r_check", method="check", check={"passed": ok, "detail": (
         "On split 0: logistic coefficients equal to survey::svyglm within "
-        f"{max(rc[s]['beta_max_abs_diff'] for s in ['I', 'II']):.1e}; DeLong P equal to pROC::roc.test within "
+        f"{max(rc[s]['beta_max_abs_diff'] for s in ['I', 'II']):.0e}; DeLong P equal to pROC::roc.test within "
         f"{max(abs(rc[s]['delong_p_r'] - mlr_rep0(tb, s, 'delong_p')) for s in ['I', 'II']):.1e}; "
         "SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma "
         + ", ".join(f"{rc[s]['e1071_auc']:.4f} against {rc[s]['auc_svm_r']:.4f}" for s in ["I", "II"]))})
