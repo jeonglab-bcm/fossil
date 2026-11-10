@@ -199,7 +199,7 @@ def main(run, notes_path, inputs_path, out):
            "run": {"date": str(date.today()), "pipeline": "PMC2711306/figure-reproduction/main.nf",
                    "command": "nextflow run PMC2711306/figure-reproduction/main.nf --outdir results",
                    "inputs": inputs["inputs"], "environment": inputs["environment"]},
-           "session": {"ledger": "session/ledger.json"}, "items": items}
+           "session": {"ledger": "session/ledger.json"}, "skill": N["skill"], "items": items}
     json.dump(res, open(out, "w"), indent=1, ensure_ascii=False)
     r = subprocess.run([sys.executable, str(HERE / "check_results.py"), out, "--write", "--skip-files"],
                        capture_output=True, text=True)
