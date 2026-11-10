@@ -1,0 +1,76 @@
+name: Reproduce PMC1800866
+
+# Reruns the pipeline and checks it against results.json and the committed outputs, on every pull
+# request and push to main that touches this reproduction, and by hand from the Actions tab.
+#
+# The run reads the committed PSI-BLAST profiles (output/profiles, about 60 CPU hours on the cluster)
+# and leave-one-out predictions (output/predictions/loo_*.tsv, 3,843 SVM fits, about 30 CPU hours);
+# it recomputes the site analysis, Figs 1 and 2, the five-fold CV of both models (about 6 minutes),
+# Figs 3 to 6, the proteome sample scan, the package check and results.json. Those two slow steps
+# run on the cluster with run_profiles.sbatch and run_loo.sbatch.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC1800866/figure-reproduction/**"
+      - "PMC1800866/package/**"
+      - "PMC1800866/results.json"
+      - ".github/workflows/reproduce-pmc1800866.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC1800866/figure-reproduction/**"
+      - "PMC1800866/package/**"
+      - "PMC1800866/results.json"
+      - ".github/workflows/reproduce-pmc1800866.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the paper's package
+        run: pip install -r PMC1800866/figure-reproduction/requirements.txt ./PMC1800866/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC1800866/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Check results.json against this run
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC1800866/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc1800866-reproduction
+          path: |
+            results
+            results-check
+            .nextflow.log
+          include-hidden-files: true
