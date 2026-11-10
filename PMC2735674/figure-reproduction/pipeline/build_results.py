@@ -218,6 +218,7 @@ def main() -> int:
             "environment": environment,
         },
         "session": notes["session"],
+        "skill": notes["skill"],
         "items": items,
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
