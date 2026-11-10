@@ -67,6 +67,9 @@ it in `PMC…/figure-reproduction/results.json`. Sessions write it with the skil
 fails when a pull request adds a paper, or changes a paper's `results.json`, without a block whose
 version is a `paper2repro-v…` tag of Paper2Repro.
 
+The same job checks that the front page's Paper2Repro column matches each paper's block. The
+column is written by `tools/site_versions.py --write`, never by hand.
+
 ```sh
 python3 tools/check_skill.py --all                 # every paper
 python3 tools/check_skill.py --base origin/main    # what this branch adds or changes
