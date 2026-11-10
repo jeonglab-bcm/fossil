@@ -362,6 +362,7 @@ def main(run, figs, pubdata, out):
                    "environment": {"python": ".".join(platform.python_version_tuple()[:2]), "numpy": np.__version__, "scipy": scipy.__version__,
                                    "scikit-learn": sklearn.__version__, "numba": numba.__version__}},
            "session": {"ledger": "session/ledger.json"},
+           "skill": NOTES["skill"],
            "items": I.items}
     missing = set(NOTES["items"]) - {i["id"] for i in I.items}
     if missing:
