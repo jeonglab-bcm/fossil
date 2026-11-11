@@ -1,0 +1,74 @@
+name: Reproduce PMC1274252
+
+# Reruns the PMC1274252 pipeline (PROSPECTR disease-gene prioritization, Adie et al. 2005) and checks
+# it: the archived training and test sets and Weka 3.4.3 downloaded and checksummed, Weka's ADTree
+# rerun with the download page's recipe, the Python port checked against it, every table and figure
+# recomputed, the package check, check_results.py on the fresh results.json, and the fresh run against
+# the committed output/ (compare_runs.py). About 10 minutes.
+#
+# Start it by hand with weka_versions = true to also run Weka 3.4.1, 3.4.2 and 3.4.4 and compare
+# them with 3.4.3 (a few minutes more); otherwise the committed comparison is used.
+on:
+  workflow_dispatch:
+    inputs:
+      weka_versions:
+        description: "Also run Weka 3.4.1, 3.4.2 and 3.4.4"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC1274252/figure-reproduction/**"
+      - "PMC1274252/package/**"
+      - ".github/workflows/reproduce-pmc1274252.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC1274252/figure-reproduction/**"
+      - "PMC1274252/package/**"
+      - ".github/workflows/reproduce-pmc1274252.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC1274252/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC1274252/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.weka_versions && '--weka_versions' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc1274252-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

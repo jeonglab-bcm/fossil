@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "prospectr-adtree"
+version = "0.1.0"
+description = "PROSPECTR disease-gene prioritisation (Adie et al. 2005) and a port of Weka 3.4's alternating decision tree learner."
+readme = "README.md"
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = []
+
+[project.scripts]
+prospectr-adtree = "prospectr_adtree.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC1274252"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC1274252/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/prospectr_adtree"]

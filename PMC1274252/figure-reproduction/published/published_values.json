@@ -1,0 +1,62 @@
+{
+ "_note": "Numbers printed in Adie et al. (2005), transcribed by hand from the text, the tables and the figures (Figure 1 bar labels read from the authors' original PNG, 12859_2004_380_MOESM2_ESM.png). Strings keep the printed precision.",
+ "table2": {
+  "gene_length_kb": {"control": "19", "disease": "27", "p_bound": 0.001},
+  "cdna_length_bp": {"control": "2126", "disease": "2442", "p_bound": 0.001},
+  "protein_length_aa": {"control": "383", "disease": "494", "p_bound": 0.001},
+  "utr3_length_bp": {"control": "446", "disease": "488", "p_bound": 0.01},
+  "exons": {"control": "8", "disease": "10", "p_bound": 0.001},
+  "distance_to_neighbour_kb": {"control": "46", "disease": "52", "p_bound": 0.01},
+  "mouse_brh_identity_pct": {"control": "80", "disease": "87", "p_bound": 0.001},
+  "signal_peptide_pct": {"control": "17", "disease": "35", "p_bound": 0.0001, "test": "chi-squared"},
+  "cpg5_pct": {"control": "12", "disease": "16", "p_bound": 0.028, "test": "chi-squared"}
+ },
+ "table3": {
+  "training": {"accuracy": "67", "precision": "65", "recall": "77", "auc": "0.75", "kappa": "0.35"},
+  "cv10": {"accuracy": "63", "precision": "62", "recall": "70", "auc": "0.70", "kappa": "0.27"},
+  "hgmd": {"accuracy": "64.5", "precision": "63", "recall": "71", "auc": "0.69", "kappa": "0.29"},
+  "oligogenic": {"accuracy": "65", "precision": "63", "recall": "72", "auc": "0.76", "kappa": "0.31"}
+ },
+ "text_rates": {
+  "training": {"recall": "77", "fp_rate": "42", "n_control": 1084, "n_disease": 1084},
+  "cv10": {"recall": "70", "fp_rate": "43"},
+  "hgmd": {"recall": "71", "tp": "478", "fp_rate": "42", "fp": "282", "n_control": 675, "n_disease": 675},
+  "oligogenic": {"recall": "72", "tp": "39", "fp_rate": "41", "fp": "22", "n_control": 54, "n_disease": 54}
+ },
+ "table4": {
+  "signal_peptide": "23", "mouse_identity": "21", "utr3_length": "12", "exons": "7", "rat_identity": "7",
+  "worm_identity": "6", "gc": "6", "cds_length": "5", "gene_length": "4", "mouse_ka": "3", "paralog_identity": "2"
+ },
+ "phylogenetic_share": "34",
+ "length_only": {"recall": "69", "fp_rate": "51"},
+ "spearman_gene_size": {"distance_to_neighbour": "0.69", "exons": "0.71", "utr3_length": "0.35"},
+ "figure1": {
+  "_bins": "x labels: the upper end of each of the first nine bars, the last bar '>' the cap",
+  "a": {"feature": "gene_length", "unit": "kb", "labels": ["24","49","74","99","124","149","174","199","224",">249"], "cap": 249000,
+        "disease": ["47","19","8","6","3","3","1","1","1","6"], "normal": ["55","16","7","5","2","2","1","1","0","5"]},
+  "b": {"feature": "residue_length", "unit": "aa", "labels": ["157","314","471","628","786","943","1100","1257","1414",">1572"], "cap": 1572,
+        "disease": ["6","17","22","18","11","5","3","3","2","9"], "normal": ["13","26","20","12","8","5","3","3","1","4"]},
+  "c": {"feature": "mouse_identity", "unit": "%", "labels": ["9","19","29","39","49","59","68","78","88",">96"], "cap": 96,
+        "disease": ["5","0","0","0","1","1","5","14","26","45"], "normal": ["31","0","0","0","1","2","4","8","18","33"]},
+  "d": {"feature": "mouse_dn", "unit": "", "labels": [".03",".06",".08",".11",".14",".17",".19",".22",".25",">.28"], "cap": 0.28,
+        "disease": ["20","23","16","11","8","6","4","1","1","5"], "normal": ["27","18","14","10","7","4","3","3","1","8"]},
+  "e": {"feature": "exons", "unit": "", "labels": ["3","6","9","12","16","19","22","25","28",">32"], "cap": 32,
+        "disease": ["11","16","17","15","12","8","3","4","2","8"], "normal": ["25","19","15","12","9","8","3","2","1","4"]},
+  "f": {"feature": "len_3utr", "unit": "bp", "labels": ["289","579","868","1158","1445","1737","2027","2316","2606",">2896"], "cap": 2896,
+        "disease": ["36","19","12","7","7","4","2","2","1","6"], "normal": [null,"15","9","8","6","5","3","2","1","5"],
+        "_note": "the first 'normal' bar runs off the top of the axis and carries no label"}
+ },
+ "lopez_bigas": {"n": 260, "prospectr_pct": "72", "prospectr_n": "189", "lb_pct": "47", "lb_n": "123",
+                 "prospectr_genome_pct": "44", "lb_genome_pct": "31", "prospectr_kappa": "0.282", "lb_kappa": "0.158"},
+ "artificial_loci": {
+  "hgmd": {"n": 675, "avg_genes": "202", "top5": ["68", "10"], "top10": ["125", "18"], "top50": ["510", "75"], "top75": ["639", "94"]},
+  "omim": {"n": 1084, "avg_genes": "198", "top5": ["171", "15"], "top50": ["873", "80"]},
+  "pocus": {"n": 219, "avg_genes": "209", "top5": ["29", "13.4"], "top50": ["172", "79"]},
+  "fig4_caption_training_top30": "56"
+ },
+ "enrichment": {"abstract": {"2": "77", "5": "37", "20": "11"}, "conclusion": {"2": "77", "5": "37", "25": "11"}},
+ "mutation_types": {"substitution": ["297", "75"], "gross": ["55", "54"], "micro": ["27", "77"]},
+ "whole_genome": {"over_075": "97", "over_075_known": "36", "over_075_known_pct": "33", "known_genes": "19,500",
+                  "known_disease_pct": "9", "under_03": "4,357", "under_03_known_pct": "0.8", "under_03_known": "35",
+                  "af1_genes": "61", "af1_candidates": "9", "af1_candidates_pct": "15"}
+}
