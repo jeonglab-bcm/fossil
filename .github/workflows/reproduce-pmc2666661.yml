@@ -1,0 +1,83 @@
+name: Reproduce PMC2666661
+
+# Reruns the PMC2666661 pipeline (random forest importance under LD, Meng et al. 2009) and checks it:
+# check_results.py on the fresh results.json, a few simulation replicates rerun from scratch against
+# the committed per-replicate statistics, the package check, and the fresh run against the
+# committed output/ (compare_runs.py).
+#
+# The full simulation studies (about 150 CPU hours) do not run here: they ran on a cluster with
+# `main.nf --full -profile skyriver`, and their per-replicate statistics are committed in output/sim.
+# Start the workflow by hand with port_check = true to also build Breiman and Cutler's Fortran
+# Random Forests 5.1 and check the port against it, and the haplotype EM against haplo.stats
+# (about 40 minutes more).
+on:
+  workflow_dispatch:
+    inputs:
+      port_check:
+        description: "Also check the port against the Fortran program and haplo.stats"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2666661/figure-reproduction/**"
+      - "PMC2666661/package/**"
+      - ".github/workflows/reproduce-pmc2666661.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2666661/figure-reproduction/**"
+      - "PMC2666661/package/**"
+      - ".github/workflows/reproduce-pmc2666661.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2666661/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - name: Install gfortran, R and haplo.stats (port check only)
+        if: ${{ inputs.port_check }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran r-base
+          sudo Rscript -e 'install.packages("haplo.stats", repos = "https://cloud.r-project.org")'
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2666661/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.port_check && '--port_check' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2666661-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
