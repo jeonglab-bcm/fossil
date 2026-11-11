@@ -155,6 +155,7 @@ process CHECKS {
         PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/haplo_check.py ${params.rscript} checks/haplo_check.json --reps 3
         PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/fortran_expected.py ${downloads}/prog.f ${projectDir}/../package/src/rfld/data/h4m4_r1.csv checks/h4m4_r1_expected.csv --workdir fe
         PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/rf1_variants.py checks/rf1_variants.json --reps 30
+        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/hap_variants.py checks/hap_variants.json --reps 30
         """
     else
         """

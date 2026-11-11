@@ -35,11 +35,14 @@ __all__ = ["grow_forest", "r2_matrix"]
 
 
 @njit(cache=True)
-def _gini_best_subset(tcc0, tcc1, lcat, pdo, critmax):
+def _gini_best_subset(tcc0, tcc1, lcat, pdo, critmax, ordered):
     """Best subset split of one categorical variable (prog.f catmax). Returns (crit, subset) with
-    subset = 0 when no subset beats critmax."""
+    subset = 0 when no subset beats critmax. An ordered variable is split only at thresholds
+    (codes 0..t to the left), as prog.f splits a numeric variable."""
     best_sub = 0
-    for sub in range(1, (1 << (lcat - 1))):
+    nsub = lcat - 1 if ordered else (1 << (lcat - 1)) - 1
+    for k in range(1, nsub + 1):
+        sub = ((1 << k) - 1) if ordered else k
         l0 = 0.0
         l1 = 0.0
         for c in range(lcat):
@@ -65,7 +68,7 @@ def _gini_best_subset(tcc0, tcc1, lcat, pdo, critmax):
 
 
 @njit(cache=True)
-def _grow_tree(X, y, ncat, mtry, ld, use_ld, jin,
+def _grow_tree(X, y, ncat, ordered, mtry, ld, use_ld, jin,
                bestvar, bestsub, left, right, status, nodeclass, used, drop_self):
     """Grow one tree on the in-bag cases (jin > 0). Fills the node arrays and returns the number
     of nodes. status: 1 split, -1 terminal."""
@@ -140,7 +143,7 @@ def _grow_tree(X, y, ncat, mtry, ld, use_ld, jin,
                     tcc0[c] += jin[i]
                 else:
                     tcc1[c] += jin[i]
-            crit, sub = _gini_best_subset(tcc0, tcc1, lcat, pdo, critmax)
+            crit, sub = _gini_best_subset(tcc0, tcc1, lcat, pdo, critmax, ordered[v])
             if sub != 0:
                 critmax = crit
                 msplit = v
@@ -231,7 +234,7 @@ def _predict_one(X, i, perm_var, perm_row, bestvar, bestsub, left, right, status
 
 
 @njit(cache=True)
-def _forest(X, y, ncat, ntree, mtry, ld, use_ld, seed, drop_self):
+def _forest(X, y, ncat, ordered, ntree, mtry, ld, use_ld, seed, drop_self):
     np.random.seed(seed)
     n, p = X.shape
     nrnodes = 2 * n + 1
@@ -256,7 +259,7 @@ def _forest(X, y, ncat, ntree, mtry, ld, use_ld, seed, drop_self):
             if k >= n:
                 k = n - 1
             jin[k] += 1
-        _grow_tree(X, y, ncat, mtry, ld, use_ld, jin,
+        _grow_tree(X, y, ncat, ordered, mtry, ld, use_ld, jin,
                    bestvar, bestsub, left, right, status, nodeclass, used, drop_self)
         nout = 0
         rightc = 0
@@ -312,7 +315,7 @@ def r2_matrix(X: np.ndarray) -> np.ndarray:
 
 
 def grow_forest(X, y, *, ntree=5000, mtry=35, revised_tree=False, ld_threshold=0.5,
-                ncat=None, seed=1, r2=None, drop_self=False):
+                ncat=None, seed=1, r2=None, drop_self=False, ordered=None):
     """Grow a forest and return its importances.
 
     Parameters
@@ -325,6 +328,8 @@ def grow_forest(X, y, *, ntree=5000, mtry=35, revised_tree=False, ld_threshold=0
     ncat : number of declared categories of each variable (default: max code + 1, at least 2).
     seed : random seed; the same inputs and seed give the same forest.
     r2 : optional precomputed (p, p) r^2 matrix (default: r2_matrix(X)).
+    ordered : optional boolean per column: split that column only at thresholds of its codes, as
+        Random Forests 5.1 splits a numeric variable (default: every column categorical).
     drop_self : RF1 only; also drop the variable just used from the tree's pool, so that every
         variable splits at most one node per tree (a reading of the paper we tested and rejected;
         see the reproduction's README).
@@ -357,7 +362,10 @@ def grow_forest(X, y, *, ntree=5000, mtry=35, revised_tree=False, ld_threshold=0
         ld = np.ascontiguousarray(np.asarray(r2) > ld_threshold)
     else:
         ld = np.zeros((1, 1), np.bool_)
-    imp_sum, tv, votes = _forest(X, y, ncat, int(ntree), int(mtry), ld, bool(revised_tree), int(seed),
+    ordered = np.zeros(p, np.bool_) if ordered is None else np.ascontiguousarray(ordered, dtype=np.bool_)
+    if ordered.shape != (p,):
+        raise ValueError("ordered must give one flag per column")
+    imp_sum, tv, votes = _forest(X, y, ncat, ordered, int(ntree), int(mtry), ld, bool(revised_tree), int(seed),
                                  bool(drop_self and revised_tree))
     with np.errstate(invalid="ignore", divide="ignore"):
         im1 = np.where(tv > 0, 100.0 * imp_sum / np.maximum(tv, 1), 0.0)

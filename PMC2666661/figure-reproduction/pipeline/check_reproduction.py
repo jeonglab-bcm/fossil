@@ -22,10 +22,11 @@ EXPECTED = ["published_values.json", "table1.json", "summary.json", "comparison.
             "figures/fig1_ours.png", "figures/fig1_overlay.png", "figures/fig2_ours.png", "figures/fig2_overlay.png",
             "figures/fig3_ours.png", "figures/fig3_overlay.png", "figures/fig4_ours.png", "figures/fig4_overlay.png",
             "figures/fig5_ours.png", "figures/fig5_overlay.png", "figures/fig6_ours.png", "figures/fig6_overlay.png",
-            "checks/port_check.json", "checks/haplo_check.json", "package.json"]
+            "checks/port_check.json", "checks/haplo_check.json", "checks/rf1_variants.json",
+            "checks/hap_variants.json", "checks/h4m4_r1_expected.csv", "package.json"]
 # package.json holds timings and temporary paths (its pass/fail is in results.json, which is compared);
 # sim_check.json is this run's own record. The committed checks/ are copied in unless --port_check.
-IGNORE = ["package.json", "sim_check.json", "checks/*"]
+IGNORE = ["package.json", "sim_check.json", "checks/*", "sim/*", "sim/other/*"]
 
 
 def run(cmd):
