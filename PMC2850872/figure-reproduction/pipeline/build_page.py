@@ -66,12 +66,18 @@ def matches(f, it):
     return abs(a - b) <= allowed
 
 
+def word(iid):
+    """The stamp's word; a verdict a reviewer set says so."""
+    w = STAMP.get(verdict(iid), ("", "Not attempted"))[1]
+    return w + " on review" if items[iid].get("review") else w
+
+
 def stamp(iid, basis=None):
     v = verdict(iid)
     if v not in STAMP:
         return ""
-    cls, word = STAMP[v]
-    return f'<span class="stamp" data-v="{cls}">{esc(word)}<small>{esc(basis or measure(iid))}</small></span>'
+    cls, word_ = STAMP[v][0], word(iid)
+    return f'<span class="stamp" data-v="{cls}">{esc(word_)}<small>{esc(basis or measure(iid))}</small></span>'
 
 
 def b64(path: Path) -> str:
@@ -109,7 +115,7 @@ LABEL_ROWS = [("tables", "Table 1", "table1"), ("tables", "Table 2", "table2"),
               ("tables", "Table 3, scheme I", "table3.schemeI"), ("tables", "Table 3, scheme II", "table3.schemeII"),
               ("fig-2", "Fig. 2a values", "fig2.a.values"), ("fig-2", "Fig. 2b values", "fig2.b.values"),
               ("claims", "Claims", "text.delong")]
-LABEL = "".join(f'<a class="label-row" href="#{a}"><span>{esc(k)}</span><span>{esc(STAMP.get(verdict(i), ("", "Not attempted"))[1])}, {esc(measure(i))}</span></a>'
+LABEL = "".join(f'<a class="label-row" href="#{a}"><span>{esc(k)}</span><span>{esc(word(i))}, {esc(measure(i))}</span></a>'
                 for a, k, i in LABEL_ROWS)
 
 pub_path = PUB / "figure-2.jpg"

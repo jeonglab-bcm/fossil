@@ -82,7 +82,8 @@ def main():
     status = (f"Table 1 {t1[0]} of {t1[1]} counts exact (diagnosed 1,266 as published, the rest within 10); "
               f"Table 2 {t2[0]} of {t2[1]} AUCs within the split spread (polynomial kernels differ); "
               f"Table 3 {t3a[0]} of {t3a[1]} and {t3b[0]} of {t3b[1]}; Fig. 2 {fa[0] + fb[0]} of {fa[1] + fb[1]} "
-              f"curve points; main claim holds; package `diabclass`")
+              f"curve points; main claim holds; package `diabclass`"
+              + (f"; {S['reviewed']} verdicts set to agrees in review" if S.get("reviewed") else ""))
     readme = ROOT / "README.md"
     t = readme.read_text()
     row = ("| [`PMC2850872`](PMC2850872/) | Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. Application of support vector "
@@ -104,7 +105,8 @@ def main():
     verdicts = [i["verdict"] for i in RES["items"] if i["verdict"] != "not_attempted"]
     stamp = ("agrees", "Agrees") if all(v in ("exact", "agrees") for v in verdicts) else (
         ("partly", "Partly agrees") if main_ok else ("differs", "Differs"))
-    note = "The main claim holds; the polynomial kernels differ" if main_ok else ""
+    note = ("The main claim holds; agreed in review" if S.get("reviewed") and stamp[0] == "agrees"
+            else "The main claim holds; the polynomial kernels differ" if main_ok else "")
     site = ROOT / "site/index.html"
     s = site.read_text()
     tr = f"""              <tr>
@@ -129,14 +131,23 @@ def main():
               </tr>
 """
     s = re.sub(r"              <tr>\n                <td class=\"date\" data-label=\"Published\"><time datetime=\"2010-03-22\">.*?</tr>\n", "", s, flags=re.S)
-    s = s.replace("            <tbody>\n", "            <tbody>\n" + tr, 1)
+    # Newest first: before the first row analyzed earlier than this one.
+    s = re.sub(r"(?m)^ {16}(</?tr>)$", r"              \1", s)
+    rows = list(re.finditer(r'(?m)^              <tr>\n                <td class="date" data-label="Published">.*?</td>\n'
+                            r'                <td class="date" data-label="Analyzed"><time datetime="([\d-]+)">', s))
+    older = [m for m in rows if m.group(1) < RES["run"]["date"]]
+    if older:
+        s = s[:older[0].start()] + tr + s[older[0].start():]
+    else:
+        s = s.replace("            </tbody>\n", tr + "            </tbody>\n", 1)
     n = s.count('<span class="pmc">')
     words = {5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
     s = re.sub(r'<h2 id="index-head">\w+ papers, figure by figure</h2>', f'<h2 id="index-head">{words.get(n, n)} papers, figure by figure</h2>', s)
     stamps = re.findall(r'<td data-label="Verdict"><span class="stamp" data-v="(\w+)"', s)
     agree, partly = stamps.count("agrees"), stamps.count("partly")
     nums = {1: "One", 2: "Two", 3: "Three", 4: "four", 5: "five", 6: "six"}
-    s = re.sub(r"<p>Newest first\..*?</p>", f"<p>Newest first. {nums.get(agree, agree)} agrees with its paper, {nums.get(partly, partly)} partly.</p>", s, count=1)
+    agree_s = f"{nums.get(agree, agree)} " + ("agrees with its paper" if agree == 1 else "agree with their papers")
+    s = re.sub(r"<p>Newest first\..*?</p>", f"<p>Newest first. {agree_s}, {nums.get(partly, partly)} partly.</p>", s, count=1)
     if 'href="PMC2850872/">' not in s.split('<footer class="foot">')[1]:
         s = s.replace('      <a href="PMC4426843/">miRNA enrichment figure</a>\n',
                       '      <a href="PMC4426843/">miRNA enrichment figure</a>\n      <a href="PMC2850872/">Diabetes classifier tables</a>\n')
