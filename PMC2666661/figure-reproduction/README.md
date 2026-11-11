@@ -16,9 +16,9 @@ else of the paper is in this folder, and no code of Breiman and Cutler's Random 
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
-| Table 1 | exact | 33 of 33 values recomputed from the model parameters; H2M3's GRR prints 5.22 for 5.227 (a rounding slip) |
-| Fig. 1, mean IM | agrees | 40 of 40 bars within Monte Carlo error (e.g. RF0:IM0 0.306 against 0.302 with 4 LD.rSNPs; RF1:IM1 1.355 against 1.373) |
-| Fig. 2, share above the noise | agrees | 36 of 36; the other 4 bars are two series the figure swaps (with the labels exchanged all 10 agree) |
+| Table 1 | exact | 33 of 35 values recomputed from the model parameters; H2M3's two GRRs print 5.22 for 5.227 (a rounding slip, excepted) |
+| Fig. 1, mean IM | agrees | 40 of 40 bars within Monte Carlo error (e.g. RF0:IM0 0.311 against 0.302 with 4 LD.rSNPs; RF1:IM1 1.416 against 1.373) |
+| Fig. 2, share above the noise | agrees | 36 of 40; the 4 misses are two series the figure swaps (with the labels exchanged all 10 agree) |
 | Fig. 3, top-X curves | agrees or partly | 120 of 122 points; the two misses sit where a curve jumps within one X step |
 | Fig. 4, mean IM with haplotypes | partly | 30 of 33; the paper's 11 PRED.rHAP bars are one value repeated (0.654); rHAP at r² = 0 is 0.565 against our 0.736 |
 | Fig. 5, share above the noise | partly | 28 of 33; at r² ≤ 0.4 the paper's true haplotypes reach 40-45%, ours 72-76% |
@@ -26,7 +26,7 @@ else of the paper is in this folder, and no code of Breiman and Cutler's Random 
 | Main claim: RF0:IM1 steadiest under LD | partly | Holds for H4M4 and 5 of the 6 other models; not for H1M1 |
 | Other claims of the text | 10 exact, 2 partly, 1 differs | "RF0:IM1 steadier than RF1:IM1" also fails for H1M1; Fig. 2's "RF1:IM0 most stable" follows the swapped labels; "RF0 beats RF1" in Fig. 3 is within Monte Carlo error |
 | Claims against the paper's own figures | agrees | 12 of 14 follow from the published values; the Discussion's "predicted haplotypes in between" does not fit Fig. 5, and Fig. 6b at r² = 0 contradicts Fig. 5 |
-| Port and phasing | agrees | rfld differs from the Fortran original no more than from itself (1.01×); EM matches haplo.stats to 1e-5 |
+| Port and phasing | agrees | rfld differs from the Fortran original about as much as from itself with another seed (1.01×); EM matches haplo.stats to 1e-5 (frequencies) and 1e-4 (posteriors) |
 | Tables 2-4 (AD data) | not attempted | The TGen genotypes were only released by request; the "7 of 17" count follows from Table 4 |
 
 The main claim holds: with SNPs in LD, the original importance of a risk SNP falls, the revised importance on the
@@ -113,9 +113,9 @@ took about 150 CPU hours on the cluster; it ran as Slurm arrays of the same scri
 - **Unstated settings.** R (any value from 0.1 to just below 1 gives identical forests here; R = 0.02 is in
   `summary.json`); whether H4M4's LD models share their data (we build them incrementally; the independent run,
   `snp_independent`, also gives Fig. 1 40 of 40); how the cases and controls were drawn; the three free haplotype
-  frequencies (two rules run; same results).
-- **The paper's RF1 bars at no LD** are about 10% above RF0 in Figs 1 and 2. RF1 cannot change a forest with no SNPs
-  in LD, so ours equal RF0 there; a low R and a once-per-tree rule both lower the importance instead
+  frequencies (two rules run, T-T = G-C being the "equal SNP frequencies" rule; nearly the same results: Fig. 5 27 of 33 against 28).
+- **The paper's RF1 bars at no LD** are about 10% above RF0 in Fig. 1 and 3-4% in Fig. 2. RF1 cannot change a forest with no SNPs
+  in LD, so ours equal RF0 there; a low R lowers IM0 (0.92 of RF0) and leaves IM1 unchanged, and a once-per-tree rule lowers both (0.94 and 0.80)
   (`output/checks/rf1_variants.json`). A separate set of simulated replicates for RF1 would explain it; the bars are
   within tolerance either way.
 - **Error bars.** The paper does not say what they show; they are 2.4 (Fig. 1) and 2.2 (Fig. 4) times our standard

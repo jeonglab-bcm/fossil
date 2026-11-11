@@ -39,17 +39,17 @@ rfld genotypes.csv --revised-tree --ld-threshold 0.5 -o importance.csv
 
 The [tutorial](tutorial/TUTORIAL.md) runs both forests on the bundled example and checks them against the Fortran program.
 
-Also in the package: the paper's simulation models (`MODELS`, `DESIGNS`, `LD_MODELS`, `snp_dataset`, `haplotype_dataset`, `haplotype_frequencies`, `table1_statistics`) and two-SNP haplotype phasing (`haplotype_em`, `phase_posterior`, `sample_haplotype_pairs`), which match haplo.stats' `haplo.em` to 1e-5.
+Also in the package: the paper's simulation models (`MODELS`, `DESIGNS`, `LD_MODELS`, `snp_dataset`, `haplotype_dataset`, `haplotype_frequencies`, `table1_statistics`) and two-SNP haplotype phasing (`haplotype_em`, `phase_posterior`, `sample_haplotype_pairs`), which match haplo.stats' `haplo.em` to 1e-5 (frequencies) and 1e-4 (phase posteriors).
 
 ## How it was checked
 
-- RF0 against the unmodified Fortran program on 20 simulated data sets: the importances differ from Fortran's by 1.01 times as much as two runs of `rfld` with different seeds differ from each other, and the mean risk-SNP importance differs by z = 0.08.
+- RF0 against the unmodified Fortran program on 20 simulated data sets: the importances differ from Fortran's about as much (1.01 times) as two runs of `rfld` with different seeds differ from each other, and the mean risk-SNP importance differs by z = 0.08.
 - RF1 against our own patch of the Fortran program (the paper's revised program is lost): 1.01 times, z = 0.07.
 - The phasing against haplo.stats 1.9.9.1 on 66 simulated data sets.
 
 ## Limits
 
-- The paper does not give the threshold R. For perfect proxies (r² = 1) any R from about 0.05 to just below 1 gives the same forests; a low R also drops noise SNPs that correlate by chance and changes the results.
+- The paper does not give the threshold R. For perfect proxies (r² = 1) any R from 0.1 (above the largest chance r² among the paper's noise SNPs in our replicates, 0.090) to just below 1 gives the same forests; a low R also drops noise SNPs that correlate by chance and changes the results.
 - Large data: the forest keeps the genotypes in memory and grows trees on one core.
 
 ## Licence
