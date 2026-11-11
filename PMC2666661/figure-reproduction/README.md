@@ -110,7 +110,7 @@ took about 150 CPU hours on the cluster; it ran as Slurm arrays of the same scri
   two runs of 100 replicates differ by about 1.4 standard errors. Values are compared at 3 combined standard errors
   plus a pixel; a wrong input (another LD model, IM0 and IM1 swapped, the neighbouring curve) gets fewer values
   within than ours in every figure (`output/comparison.json`, `controls`).
-- **Unstated settings.** R (any value from 0.1 to just below 1 gives identical forests here; R = 0.02 is in
+- **Unstated settings.** R (no chance r² among the independent SNPs reached 0.1 in any replicate, maximum 0.090, so any value from 0.1 to just below 1 gives identical forests here; R = 0.02 is in
   `summary.json`); whether H4M4's LD models share their data (we build them incrementally; the independent run,
   `snp_independent`, also gives Fig. 1 40 of 40); how the cases and controls were drawn; the three free haplotype
   frequencies (two rules run, T-T = G-C being the "equal SNP frequencies" rule; nearly the same results: Fig. 5 27 of 33 against 28).
