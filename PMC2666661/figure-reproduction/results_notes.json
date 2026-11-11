@@ -1,0 +1,824 @@
+{
+ "paper": {
+  "id": "PMC2666661",
+  "title": "Performance of random forest when SNPs are in linkage disequilibrium",
+  "citation": "Meng YA, Yu Y, Cupples LA, Farrer LA, Lunetta KL. Performance of random forest when SNPs are in linkage disequilibrium. BMC Bioinformatics 10:78 (2009)",
+  "doi": "10.1186/1471-2105-10-78",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-11",
+  "pipeline": "PMC2666661/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2666661/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "1471-2105-10-78-1.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-1.jpg",
+    "sha256": "7894cb05ecad9c9e958dbb6d08187589dd7d257c0c992321311625080ced3dd1"
+   },
+   {
+    "name": "1471-2105-10-78-2.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-2.jpg",
+    "sha256": "4eeda617ad384b6f4a127b96d96dfe79f6b03e8ae2d59f4f47e0b02c41987e36"
+   },
+   {
+    "name": "1471-2105-10-78-3.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-3.jpg",
+    "sha256": "806352f160a510cbc74cc0c09efb76ad4f617e9d82c67635dc73dc936241e8e7"
+   },
+   {
+    "name": "1471-2105-10-78-4.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-4.jpg",
+    "sha256": "cc4c6fe9aaffdb89fa7606a7b6a1d1d15a7a342521b9d74d91ffc3bbdba3ef41"
+   },
+   {
+    "name": "1471-2105-10-78-5.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-5.jpg",
+    "sha256": "b74cb7f34756a4f178b131d6d99ae6ce1bf669bb5164b203d8b3bd27f48417f4"
+   },
+   {
+    "name": "1471-2105-10-78-6.jpg",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2666661.1/1471-2105-10-78-6.jpg",
+    "sha256": "4437adb9ffc45f3c678aab797e6825a93ecc1b61f5a1e2f81b64e693c4666868"
+   },
+   {
+    "name": "prog.f (Random Forests 5.1, port check only)",
+    "url": "https://www.stat.berkeley.edu/~breiman/RandomForests/cc_examples/prog.f",
+    "sha256": "a985f3a0bef2b4f270c6d3064039ff086bd45c613fde3c72e5d72a156f72f09b"
+   }
+  ],
+  "environment": {
+   "python": "3.12",
+   "numpy": "2.2.6",
+   "numba": "0.61.2",
+   "scipy": "1.15.3",
+   "pillow": "11.2.1",
+   "gfortran": "11.4.0",
+   "R": "4.4.3",
+   "haplo.stats": "1.9.9.1",
+   "nextflow": "25.04.6"
+  }
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, K, GRRs and lambda_s of the seven genetic models",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "table1.json",
+   "values": {
+    "tolerance": {
+     "printed": true
+    },
+    "exceptions": [
+     {
+      "field": "H2M3 GRR het",
+      "category": "paper_error",
+      "evidence": "The model gives 5.2266 (5.2255 with the allele frequency that makes lambda_s = 9 exactly, 0.12503); both round to 5.23, not the printed 5.22 (output/table1.json)."
+     },
+     {
+      "field": "H2M3 GRR hom",
+      "category": "paper_error",
+      "evidence": "As for het: the model has equal het and hom GRRs here (q1 = q2), 5.2266."
+     }
+    ]
+   }
+  },
+  {
+   "id": "table5",
+   "label": "Table 5, the 13 LD models",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A design table: it defines the LD models the simulation uses (rfld.LD_MODELS).",
+    "status": "explained",
+    "evidence": [
+     "package/src/rfld/simulate.py"
+    ]
+   }
+  },
+  {
+   "id": "fig1",
+   "label": "Fig. 1, mean IM of the risk SNPs (40 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig1",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "RF1 threshold R = 0.5 (the paper does not give it)",
+     "source": "our_choice",
+     "sensitivity": "LD SNPs are perfect proxies (r2 = 1) and noise SNPs correlate by chance up to r2 of about 0.03-0.05, so every R from about 0.05 to just below 1 gives the same forests. R = 0.02 also drops chance-correlated noise SNPs; it is in summary.json as RF1(R=0.02) and lowers the risk SNPs' IM0 (see the RF1 cause of Fig. 1)."
+    },
+    {
+     "what": "The 13 LD models of a replicate are built on the same n0 data set (incremental), for H4M4 as for the other models",
+     "source": "our_choice",
+     "sensitivity": "The paper says it built the other models incrementally; for H4M4 its wording is ambiguous, and its Figs 1-2 n series fall too smoothly for independent data sets. Each LD model on its own data (snp_independent in summary.json) changes no conclusion: Fig. 1 also comes back 40 of 40."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig1_ours.png",
+    "figure-reproduction/output/figures/fig1_overlay.png"
+   ]
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, share of replicates with all risk SNPs above the noise (40 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig2",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "RF1 threshold R = 0.5 (the paper does not give it)",
+     "source": "our_choice",
+     "sensitivity": "LD SNPs are perfect proxies (r2 = 1) and noise SNPs correlate by chance up to r2 of about 0.03-0.05, so every R from about 0.05 to just below 1 gives the same forests. R = 0.02 also drops chance-correlated noise SNPs; it is in summary.json as RF1(R=0.02) and lowers the risk SNPs' IM0 (see the RF1 cause of Fig. 1)."
+    },
+    {
+     "what": "The 13 LD models of a replicate are built on the same n0 data set (incremental), for H4M4 as for the other models",
+     "source": "our_choice",
+     "sensitivity": "The paper says it built the other models incrementally; for H4M4 its wording is ambiguous, and its Figs 1-2 n series fall too smoothly for independent data sets. Each LD model on its own data (snp_independent in summary.json) changes no conclusion: Fig. 1 also comes back 40 of 40."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig2_ours.png",
+    "figure-reproduction/output/figures/fig2_overlay.png"
+   ]
+  },
+  {
+   "id": "fig3.a",
+   "label": "Fig. 3a, top X curves by LD.rSNPs, RF0:IM0 and RF0:IM1",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig3.a",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "RF1 threshold R = 0.5 (the paper does not give it)",
+     "source": "our_choice",
+     "sensitivity": "LD SNPs are perfect proxies (r2 = 1) and noise SNPs correlate by chance up to r2 of about 0.03-0.05, so every R from about 0.05 to just below 1 gives the same forests. R = 0.02 also drops chance-correlated noise SNPs; it is in summary.json as RF1(R=0.02) and lowers the risk SNPs' IM0 (see the RF1 cause of Fig. 1)."
+    },
+    {
+     "what": "The 13 LD models of a replicate are built on the same n0 data set (incremental), for H4M4 as for the other models",
+     "source": "our_choice",
+     "sensitivity": "The paper says it built the other models incrementally; for H4M4 its wording is ambiguous, and its Figs 1-2 n series fall too smoothly for independent data sets. Each LD model on its own data (snp_independent in summary.json) changes no conclusion: Fig. 1 also comes back 40 of 40."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig3_ours.png",
+    "figure-reproduction/output/figures/fig3_overlay.png"
+   ]
+  },
+  {
+   "id": "fig3.b",
+   "label": "Fig. 3b, rSNPs with and without their LD.rSNPs, 1 and 4 per rSNP",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig3.b",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "RF1 threshold R = 0.5 (the paper does not give it)",
+     "source": "our_choice",
+     "sensitivity": "LD SNPs are perfect proxies (r2 = 1) and noise SNPs correlate by chance up to r2 of about 0.03-0.05, so every R from about 0.05 to just below 1 gives the same forests. R = 0.02 also drops chance-correlated noise SNPs; it is in summary.json as RF1(R=0.02) and lowers the risk SNPs' IM0 (see the RF1 cause of Fig. 1)."
+    },
+    {
+     "what": "The 13 LD models of a replicate are built on the same n0 data set (incremental), for H4M4 as for the other models",
+     "source": "our_choice",
+     "sensitivity": "The paper says it built the other models incrementally; for H4M4 its wording is ambiguous, and its Figs 1-2 n series fall too smoothly for independent data sets. Each LD model on its own data (snp_independent in summary.json) changes no conclusion: Fig. 1 also comes back 40 of 40."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig3_ours.png",
+    "figure-reproduction/output/figures/fig3_overlay.png"
+   ]
+  },
+  {
+   "id": "fig3.c",
+   "label": "Fig. 3c, the four RF/IM combinations, 1 and 4 LD.rSNPs",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig3.c",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "RF1 threshold R = 0.5 (the paper does not give it)",
+     "source": "our_choice",
+     "sensitivity": "LD SNPs are perfect proxies (r2 = 1) and noise SNPs correlate by chance up to r2 of about 0.03-0.05, so every R from about 0.05 to just below 1 gives the same forests. R = 0.02 also drops chance-correlated noise SNPs; it is in summary.json as RF1(R=0.02) and lowers the risk SNPs' IM0 (see the RF1 cause of Fig. 1)."
+    },
+    {
+     "what": "The 13 LD models of a replicate are built on the same n0 data set (incremental), for H4M4 as for the other models",
+     "source": "our_choice",
+     "sensitivity": "The paper says it built the other models incrementally; for H4M4 its wording is ambiguous, and its Figs 1-2 n series fall too smoothly for independent data sets. Each LD model on its own data (snp_independent in summary.json) changes no conclusion: Fig. 1 also comes back 40 of 40."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig3_ours.png",
+    "figure-reproduction/output/figures/fig3_overlay.png"
+   ]
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, mean IM of risk SNPs, true and predicted risk haplotypes (33 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig4",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "Haplotype frequencies for each r2: G-T fixed at 0.287 and the ratio T-T : G-C kept at the empirical 0.113 : 0.030 (the paper fixes G-T but does not say how it set the other three)",
+     "source": "our_choice",
+     "sensitivity": "The other rule we ran (T-T = G-C, equal SNP allele frequencies) is a near-miss control in comparison.json."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig4_ours.png",
+    "figure-reproduction/output/figures/fig4_overlay.png"
+   ]
+  },
+  {
+   "id": "fig5",
+   "label": "Fig. 5, share of replicates with all risk variables above the noise (33 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig5",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "Haplotype frequencies for each r2: G-T fixed at 0.287 and the ratio T-T : G-C kept at the empirical 0.113 : 0.030 (the paper fixes G-T but does not say how it set the other three)",
+     "source": "our_choice",
+     "sensitivity": "The other rule we ran (T-T = G-C, equal SNP allele frequencies) is a near-miss control in comparison.json."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig5_ours.png",
+    "figure-reproduction/output/figures/fig5_overlay.png"
+   ]
+  },
+  {
+   "id": "fig6.a",
+   "label": "Fig. 6a, top X curves of the risk SNPs (both, and the best of each pair)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig6.a",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "Haplotype frequencies for each r2: G-T fixed at 0.287 and the ratio T-T : G-C kept at the empirical 0.113 : 0.030 (the paper fixes G-T but does not say how it set the other three)",
+     "source": "our_choice",
+     "sensitivity": "The other rule we ran (T-T = G-C, equal SNP allele frequencies) is a near-miss control in comparison.json."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig6_ours.png",
+    "figure-reproduction/output/figures/fig6_overlay.png"
+   ]
+  },
+  {
+   "id": "fig6.b",
+   "label": "Fig. 6b, top X curves of true and predicted haplotypes",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig6.b",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "Haplotype frequencies for each r2: G-T fixed at 0.287 and the ratio T-T : G-C kept at the empirical 0.113 : 0.030 (the paper fixes G-T but does not say how it set the other three)",
+     "source": "our_choice",
+     "sensitivity": "The other rule we ran (T-T = G-C, equal SNP allele frequencies) is a near-miss control in comparison.json."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig6_ours.png",
+    "figure-reproduction/output/figures/fig6_overlay.png"
+   ]
+  },
+  {
+   "id": "fig6.c",
+   "label": "Fig. 6c, the four codings at r2 = 0 and 0.9",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig6.c",
+   "assumptions": [
+    {
+     "what": "Published bar heights, error bars and curve points read off the PMC figure JPEGs (600 px wide) through each axis's tick marks",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fits within 0.4 px; one pixel is 0.006 IM in Fig. 1, 0.003 in Fig. 2 and about 0.005 in Figs 3-6, and is added to every tolerance. Curve points where another curve hides the series are not read."
+    },
+    {
+     "what": "IM is printed as 100 x the mean decrease in accuracy over trees, as Random Forests 5.1 writes it; Eq. 1 of the paper has a factor 2/T",
+     "source": "authors_code",
+     "sensitivity": "With the factor 2 every IM doubles: our no-LD RF0:IM0 would be 1.31 against the published 0.64, outside the tolerance (0.13). Without it, 0.65."
+    },
+    {
+     "what": "Haplotype frequencies for each r2: G-T fixed at 0.287 and the ratio T-T : G-C kept at the empirical 0.113 : 0.030 (the paper fixes G-T but does not say how it set the other three)",
+     "source": "our_choice",
+     "sensitivity": "The other rule we ran (T-T = G-C, equal SNP allele frequencies) is a near-miss control in comparison.json."
+    },
+    {
+     "what": "Cases are the first 250 affected and controls the first 250 unaffected people drawn from the population model (Lunetta et al. 2004 do not say how the samples were drawn)",
+     "source": "our_choice",
+     "sensitivity": "Not tested; drawing controls from the whole population would add about 10% affected people to the controls of H4M4 (K = 0.098)."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig6_ours.png",
+    "figure-reproduction/output/figures/fig6_overlay.png"
+   ]
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, r2 of three imputed SNPs with rs4420638 (TGen data)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "The TGen Alzheimer GWAS genotypes (Reiman et al. 2007) were only ever released through a request form; no public copy or accession exists.",
+    "evidence": [
+     "https://web.archive.org/web/20100802000000*/tgen.org/research/neuro_gab2.cfm",
+     "https://web.archive.org/web/20150320110011/https://tgen.org/home/research/research-divisions/neurogenomics/supplementary-data/gab2-alleles-modify-alzheimers-risk.aspx",
+     "https://dss.niagads.org/datasets/ng00028/"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's download page survives in the Wayback Machine",
+      "test": "CDX query for tgen.org/neurogenomics* (2014-2025 captures)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2007-2012 download page (neuro_gab2.cfm) was archived with its files",
+      "test": "Wayback captures of 2010-2012",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "dbGaP or NIAGADS holds the data",
+      "test": "dbGaP E-utilities search for TGen/Reiman/GAB2; NIAGADS dataset list NG00020-NG00095",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3",
+   "label": "Table 3, IM and rank of rs4420638 (TGen data)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "The TGen Alzheimer GWAS genotypes (Reiman et al. 2007) were only ever released through a request form; no public copy or accession exists.",
+    "evidence": [
+     "https://web.archive.org/web/20100802000000*/tgen.org/research/neuro_gab2.cfm",
+     "https://web.archive.org/web/20150320110011/https://tgen.org/home/research/research-divisions/neurogenomics/supplementary-data/gab2-alleles-modify-alzheimers-risk.aspx",
+     "https://dss.niagads.org/datasets/ng00028/"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's download page survives in the Wayback Machine",
+      "test": "CDX query for tgen.org/neurogenomics* (2014-2025 captures)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2007-2012 download page (neuro_gab2.cfm) was archived with its files",
+      "test": "Wayback captures of 2010-2012",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "dbGaP or NIAGADS holds the data",
+      "test": "dbGaP E-utilities search for TGen/Reiman/GAB2; NIAGADS dataset list NG00020-NG00095",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, top 11 SNPs and single-SNP p-values (TGen data)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "The TGen Alzheimer GWAS genotypes (Reiman et al. 2007) were only ever released through a request form; no public copy or accession exists.",
+    "evidence": [
+     "https://web.archive.org/web/20100802000000*/tgen.org/research/neuro_gab2.cfm",
+     "https://web.archive.org/web/20150320110011/https://tgen.org/home/research/research-divisions/neurogenomics/supplementary-data/gab2-alleles-modify-alzheimers-risk.aspx",
+     "https://dss.niagads.org/datasets/ng00028/"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's download page survives in the Wayback Machine",
+      "test": "CDX query for tgen.org/neurogenomics* (2014-2025 captures)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2007-2012 download page (neuro_gab2.cfm) was archived with its files",
+      "test": "Wayback captures of 2010-2012",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "dbGaP or NIAGADS holds the data",
+      "test": "dbGaP E-utilities search for TGen/Reiman/GAB2; NIAGADS dataset list NG00020-NG00095",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.im0_decreases",
+   "label": "Text: the original IM of the risk SNPs falls as LD.rSNPs are added, under all models",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.im0_decreases",
+   "models": true
+  },
+  {
+   "id": "text.rf0_rf1_im0_close",
+   "label": "Text: RF0:IM0 and RF1:IM0 differ very little for a fixed number of LD.rSNPs (Fig. 1)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.rf0_rf1_im0_close"
+  },
+  {
+   "id": "text.rf0im1_steadier_than_rf1im1",
+   "label": "Text: RF0:IM1 is steadier than RF1:IM1 as LD.rSNPs are added, under all models",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.rf0im1_steadier_than_rf1im1",
+   "models": true
+  },
+  {
+   "id": "text.rf1im1_inflated",
+   "label": "Text: RF1:IM1 is inflated as LD.rSNPs are added",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.rf1im1_inflated",
+   "models": true
+  },
+  {
+   "id": "text.main_rf0im1_most_stable",
+   "label": "Main claim: the revised IM with the original RF (RF0:IM1) is the most stable under LD",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.main_rf0im1_most_stable",
+   "models": true
+  },
+  {
+   "id": "text.ldn_little_effect",
+   "label": "Discussion: SNPs in LD with noise SNPs have little effect (data not shown)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.ldn_little_effect"
+  },
+  {
+   "id": "text.fig2_rf1im0_most_stable",
+   "label": "Text: in Fig. 2, the revised RF with the original IM (RF1:IM0) is the most stable",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig2_rf1im0_most_stable"
+  },
+  {
+   "id": "text.fig2_rf1im1_best",
+   "label": "Discussion: in Fig. 2, RF1:IM1 performs best and improves with more LD.rSNPs",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig2_rf1im1_best"
+  },
+  {
+   "id": "text.fig3_ld_low_then_high",
+   "label": "Text: with LD.rSNPs the top-X share is lower for small X (8) and higher for X >= 20 (30)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig3_ld_low_then_high"
+  },
+  {
+   "id": "text.fig3_rf0_beats_rf1",
+   "label": "Text: for a fixed number of LD.rSNPs, RF0 beats RF1 in Fig. 3",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig3_rf0_beats_rf1"
+  },
+  {
+   "id": "text.fig4_order",
+   "label": "Text: mean IM rHAP > PRED.rHAP > rSNP in general, the gap closing as r2 rises (Fig. 4)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig4_order"
+  },
+  {
+   "id": "text.fig4_rsnp_rises",
+   "label": "Text: the IM of the risk SNPs rises with LD between them (Fig. 4)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig4_rsnp_rises"
+  },
+  {
+   "id": "text.fig5_rsnp_rises",
+   "label": "Text: the share above the noise rises with LD between the risk SNPs (Fig. 5)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.fig5_rsnp_rises"
+  },
+  {
+   "id": "text.pred_between",
+   "label": "Discussion: predicted haplotypes perform between risk SNPs and true haplotypes (Fig. 5)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim": "text.pred_between"
+  },
+  {
+   "id": "text.ad_missed",
+   "label": "Text: 7 of the 17 top SNPs would be missed by single-SNP tests (TGen data)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "Needs the TGen genotypes (Tables 2-4). The count itself follows from Table 4 (text.arithmetic): 7 of 17.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own figures and tables",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "comparison.json"
+  },
+  {
+   "id": "port",
+   "label": "Port against Breiman and Cutler's Fortran Random Forests 5.1",
+   "kind": "code_check",
+   "source": "port",
+   "method": "check",
+   "check_from": "port_check.json"
+  },
+  {
+   "id": "port.haplo",
+   "label": "Haplotype EM against haplo.stats (R)",
+   "kind": "code_check",
+   "source": "port",
+   "method": "check",
+   "check_from": "haplo_check.json"
+  },
+  {
+   "id": "package",
+   "label": "Python package rfld and its tutorial",
+   "kind": "code_check",
+   "source": "port",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differ, {not_attempted} not attempted.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1",
+    [
+     "fig1"
+    ]
+   ],
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3.a",
+     "fig3.b",
+     "fig3.c"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4"
+    ]
+   ],
+   [
+    "fig-5",
+    "Fig. 5",
+    [
+     "fig5"
+    ]
+   ],
+   [
+    "fig-6",
+    "Fig. 6",
+    [
+     "fig6.a",
+     "fig6.b",
+     "fig6.c"
+    ]
+   ],
+   [
+    "items",
+    "Table 1",
+    [
+     "table1"
+    ]
+   ]
+  ],
+  "items_caption": "TBD",
+  "claims_line": "TBD",
+  "came_back": [
+   [
+    "a",
+    "b"
+   ]
+  ],
+  "buried": [
+   "x"
+  ],
+  "matched_intro": "TBD",
+  "matched": [
+   [
+    "a",
+    "b"
+   ]
+  ],
+  "closing": "TBD"
+ }
+}
