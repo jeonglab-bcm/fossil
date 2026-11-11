@@ -24,16 +24,16 @@ params.full = false
 params.port_check = false
 params.rscript = 'Rscript'
 
-def pipe = "${projectDir}/pipeline"
-def committed = "${projectDir}/output"
-def pkgsrc = "${projectDir}/../package/src"
+params.pipe = "${projectDir}/pipeline"
+params.committed = "${projectDir}/output"
+params.pkgsrc = "${projectDir}/../package/src"
 
 process FETCH {
     output:
     path 'downloads'
     script:
     """
-    bash ${pipe}/fetch_inputs.sh downloads ${params.sources ? '--sources ' + params.sources : ''} ${params.port_check ? '--port-check' : ''}
+    bash ${params.pipe}/fetch_inputs.sh downloads ${params.sources ? '--sources ' + params.sources : ''} ${params.port_check ? '--port-check' : ''}
     """
 }
 
@@ -45,7 +45,7 @@ process READ_PUBLISHED {
     path 'published_values.json'
     script:
     """
-    ${params.python} ${pipe}/read_published.py ${downloads} published_values.json
+    ${params.python} ${params.pipe}/read_published.py ${downloads} published_values.json
     """
 }
 
@@ -55,7 +55,7 @@ process TABLE1 {
     path 'table1.json'
     script:
     """
-    PYTHONPATH=${pkgsrc} ${params.python} ${pipe}/table1.py table1.json
+    PYTHONPATH=${params.pkgsrc} ${params.python} ${params.pipe}/table1.py table1.json
     """
 }
 
@@ -70,7 +70,7 @@ process SNP_CHUNK {
     def rs = model == 'H4M4' ? '--R 0.5 0.02' : '--R 0.5'
     """
     mkdir -p out
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/snp_study.py run out --model ${model} --ld-model ${ld} --reps ${reps} --ld-data ${lddata} ${rs}
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/snp_study.py run out --model ${model} --ld-model ${ld} --reps ${reps} --ld-data ${lddata} ${rs}
     mv out snp_${model}_${lddata}_${ld}_${reps}
     """
 }
@@ -84,7 +84,7 @@ process HAP_CHUNK {
     script:
     """
     mkdir -p out
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/hap_study.py run out --r2 ${r2} --reps ${reps} --rule ${rule}
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/hap_study.py run out --r2 ${r2} --reps ${reps} --rule ${rule}
     mv out hap_${rule}_${r2}_${reps}
     """
 }
@@ -97,7 +97,7 @@ process REDUCE {
     path 'sim'
     script:
     """
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/reduce_chunks.py . sim
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/reduce_chunks.py . sim
     """
 }
 
@@ -106,7 +106,7 @@ process SIM_COMMITTED {
     path 'sim'
     script:
     """
-    mkdir sim && cp -r ${committed}/sim/. sim/
+    mkdir sim && cp -r ${params.committed}/sim/. sim/
     """
 }
 
@@ -118,7 +118,7 @@ process SIM_CHECK {
     path 'sim_check.json'
     script:
     """
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/sim_check.py ${sim} sim_check.json || true
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/sim_check.py ${sim} sim_check.json || true
     """
 }
 
@@ -133,11 +133,11 @@ process SUMMARY {
     path 'figures', emit: figures
     script:
     """
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/summarize.py aggregate ${sim}/snp.json ${sim}/hap.json ${sim}/other ${sim}/snp_independent.json summary.json
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/compare.py ${published} summary.json comparison.json
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/summarize.py aggregate ${sim}/snp.json ${sim}/hap.json ${sim}/other ${sim}/snp_independent.json summary.json
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/compare.py ${published} summary.json comparison.json
     mkdir -p downloads && cp ${projectDir}/published/figure-*.jpg downloads/
     for n in 1 2 3 4 5 6; do cp downloads/figure-\$n.jpg downloads/1471-2105-10-78-\$n.jpg; done
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/render.py downloads ${published} summary.json figures
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/render.py downloads ${published} summary.json figures
     """
 }
 
@@ -151,15 +151,15 @@ process CHECKS {
     if (params.port_check)
         """
         mkdir checks
-        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/port_check.py ${downloads}/prog.f checks/port_check.json --workdir pc
-        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/haplo_check.py ${params.rscript} checks/haplo_check.json --reps 3
-        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/fortran_expected.py ${downloads}/prog.f ${projectDir}/../package/src/rfld/data/h4m4_r1.csv checks/h4m4_r1_expected.csv --workdir fe
-        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/rf1_variants.py checks/rf1_variants.json --reps 30
-        PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/hap_variants.py checks/hap_variants.json --reps 30
+        PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/port_check.py ${downloads}/prog.f checks/port_check.json --workdir pc
+        PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/haplo_check.py ${params.rscript} checks/haplo_check.json --reps 3
+        PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/fortran_expected.py ${downloads}/prog.f ${projectDir}/../package/src/rfld/data/h4m4_r1.csv checks/h4m4_r1_expected.csv --workdir fe
+        PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/rf1_variants.py checks/rf1_variants.json --reps 30
+        PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/hap_variants.py checks/hap_variants.json --reps 30
         """
     else
         """
-        mkdir checks && cp ${committed}/checks/* checks/
+        mkdir checks && cp ${params.committed}/checks/* checks/
         """
 }
 
@@ -169,7 +169,7 @@ process PACKAGE {
     path 'package.json'
     script:
     """
-    ${params.python} ${pipe}/check_package.py ${projectDir}/../package --json package.json || true
+    ${params.python} ${params.pipe}/check_package.py ${projectDir}/../package --json package.json || true
     """
 }
 
@@ -192,9 +192,9 @@ process RESULTS {
     """
     mkdir run && cp -r ${published} ${table1} ${summary} ${comparison} ${figures} ${sim_check} ${checks} ${package_json} run/
     cp ${checks}/port_check.json ${checks}/haplo_check.json run/
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/build_results.py run results.json
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/check_reproduction.py results.json run ${committed} report.md ${params.full ? '--full' : ''}
-    PYTHONPATH=${pkgsrc}:${pipe} ${params.python} ${pipe}/build_page.py results.json run ${projectDir}/published site/index.html
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/build_results.py run results.json
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/check_reproduction.py results.json run ${params.committed} report.md ${params.full ? '--full' : ''}
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/build_page.py results.json run ${projectDir}/published site/index.html
     """
 }
 
@@ -214,8 +214,8 @@ workflow {
         ['empirical_ratio', 'equal_snp_freq'].each { rule ->
             (0..10).each { i -> (0..9).each { c -> hapTasks << [rule, String.format('%.1f', 0.1 * i), "${10 * c}-${10 * c + 9}"] } }
         }
-        snp = SNP_CHUNK(Channel.fromList(snpTasks))
-        hap = HAP_CHUNK(Channel.fromList(hapTasks))
+        snp = SNP_CHUNK(channel.fromList(snpTasks))
+        hap = HAP_CHUNK(channel.fromList(hapTasks))
         sim = REDUCE(snp.mix(hap).collect())
     } else {
         sim = SIM_COMMITTED()
