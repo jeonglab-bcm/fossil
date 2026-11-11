@@ -77,7 +77,7 @@ For values that depend on the random split (Tables 2 and 3, Fig. 2 values, the l
 
 ## Run
 
-From the repository root, with Python 3.12 (`pip install -r PMC2850872/figure-reproduction/requirements.txt ./PMC2850872/package`),
+From the repository root, with Python 3.13.18 (`pip install -r PMC2850872/figure-reproduction/requirements.txt ./PMC2850872/package`),
 R with `survey`, `pROC`, `e1071` and `jsonlite`, uv, Java 21 and Nextflow 26.04.3:
 
 ```sh
