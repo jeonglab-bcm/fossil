@@ -1,0 +1,612 @@
+{
+ "paper": {
+  "id": "PMC2813257",
+  "title": "Recombination Rate and Selection Strength in HIV Intra-patient Evolution",
+  "citation": "Neher RA, Leitner T. Recombination rate and selection strength in HIV intra-patient evolution. PLoS Comput Biol 6(1):e1000660 (2010).",
+  "doi": "10.1371/journal.pcbi.1000660",
+  "license": "CC0 1.0 (Creative Commons Public Domain declaration)"
+ },
+ "run": {
+  "date": "2026-11-12",
+  "pipeline": "PMC2813257/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2813257/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "GenBank AF137629-AF138703, AF204402-AF204670, AY449806-AY450055, AY450056-AY450257 (1,753 HIV-1 env C2-V5 clones)",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&rettype=gb",
+    "sha256": null
+   },
+   {
+    "name": "set1_clinical_data.txt (LANL special interest set 1, visit numbers to months)",
+    "url": "https://raw.githubusercontent.com/neherlab/synmut/master/data/longitudinal/Shankarappa/set1_clinical_data.txt",
+    "sha256": "8659bb7cdfdbd96b841dd0b827bf285c0df53e4b635048280518d48ffab4ed89"
+   },
+   {
+    "name": "set1_Shriner.fasta (212 Shriner 2004 clones, used only in the hypothesis tests)",
+    "url": "https://raw.githubusercontent.com/neherlab/synmut/master/data/longitudinal/Shankarappa/set1_Shriner.fasta",
+    "sha256": "150846c036f2dfd18c80095d8b143b32d7286690e67cc94290021ec0db42ab82"
+   },
+   {
+    "name": "muscle3.6_src.tar.gz (MUSCLE 3.6, public domain, built from source)",
+    "url": "https://drive5.com/muscle/downloads3.6/muscle3.6_src.tar.gz",
+    "sha256": "32b818a51f421e1d687f513dc31374a330470950151a5e7df961e64781699431"
+   }
+  ],
+  "environment": {
+   "python": "3.12.15",
+   "numpy": "2.2.6",
+   "scipy": "1.15.3",
+   "matplotlib": "3.10.3",
+   "biopython": "1.85",
+   "muscle": "3.6 (built from source)",
+   "nextflow": "25.04.6"
+  }
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "fig1",
+   "label": "Fig. 1, how recombination makes the missing haplotype",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A drawing of two sites and four haplotypes. It shows no data.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/published/pcbi.1000660.g001.png"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig2.a",
+   "label": "Fig. 2A, missing haplotype against distance",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "assumptions": [
+    {
+     "what": "Seven distance bins of 76.6 bp, from 0 to 536 bp. The paper does not give the bins; the published points sit at 38, 114, 190, 267, 343, 420 and 496 bp.",
+     "source": "read_from_figure",
+     "sensitivity": "Six or eight bins move each point by up to 0.02, below the error bars of the outer bins."
+    },
+    {
+     "what": "Distance is the number of alignment columns between the two sites.",
+     "source": "our_choice",
+     "sensitivity": "Counting only ungapped consensus columns shortens the longest distances by about 10 percent and moves no point by more than 0.01."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig2a_ours.png",
+    "figure-reproduction/output/figures/fig2a_overlay.png"
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "The recombinant curve matches the published one to 300 bp and then stays 0.03 to 0.06 low, and the other-haplotype curve runs 0.02 to 0.08 high. Both follow from an alignment and a sequence set that are not exactly the paper's.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The distance bins are wrong.",
+      "test": "Six, seven and eight bins over 0 to 536 bp: the top bin stays between 0.288 and 0.292 and the other-haplotype rise stays at 0.055.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The alignment differs. MUSCLE 3.6 as its 2005 ia32 binary and as a build of its own source give different alignments.",
+      "test": "Both run end to end: 9,295 against 9,621 qualifying pairs, c2 5.65e-05 against 4.06e-05 and rho 1.25e-05 against 9.79e-06.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The paper used the whole LANL special interest set 1, which holds 212 Shriner 2004 sequences for patients 2, 3, 7, 8 and 9 outside its accession list.",
+      "test": "Added them and reran: 14,366 pairs, <M pA pB> 1.33 and rho 6.4e-06, further from the paper.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "fig2.b",
+   "label": "Fig. 2B, missing haplotype against distance times time, with the fit",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "assumptions": [
+    {
+     "what": "Bins of 8,000 bp x generations. The paper does not give them; the published points sit at 4,000, 12,000, 20,000 and so on.",
+     "source": "read_from_figure",
+     "sensitivity": "At 6,000 the fit gives c2 = 3.6e-05 and rho = 8.9e-06; at 10,000, c2 = 4.2e-05 and rho = 1.0e-05."
+    },
+    {
+     "what": "The squared residuals are weighted by the relative uncertainty 1 / sqrt(counts) rather than by the error bar p / sqrt(counts).",
+     "source": "our_choice",
+     "sensitivity": "Weighting by the error bar gives c0 = 0.075, c1 = 0.240, c2 = 7.3e-05 and rho = 1.6e-05, and a bootstrap spread ten times the paper's."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig2b_ours.png",
+    "figure-reproduction/output/figures/fig2b_overlay.png"
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "Seven of the nine points sit inside the published error bars; two (28,000 and 44,000 bp x generations) are 0.04 and 0.06 low. The bins hold 100 to 1,000 pairs, so single pairs moving in or out of the biallelic and gapless set shift them.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The bin width is wrong.",
+      "test": "6,000 and 10,000 bp x generations: c2 3.6e-05 and 4.2e-05, rho 8.9e-06 and 1.0e-05.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The alignment differs.",
+      "test": "The 2005 MUSCLE binary moves the two missing points from 0.256 to 0.264 and from 0.294 to 0.304, still short of the published 0.299 and 0.354.",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.fit",
+   "label": "Fig. 2B legend and Methods: c0, c1, c2 and <M pA pB>",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "c1 comes back (0.261 against 0.26) and c0 misses by 0.006 (0.106 against 0.10). c2 is 4.06e-05 against 4.39e-05. <M pA pB> is 1.19 against 0.93, and that one gap sets the rate: with the paper's 0.93 our fit gives rho 1.3e-05.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "<M pA pB> uses another sample size or another pair of alleles.",
+      "test": "All four combinations of M at t_i or t_i+1 with the minor alleles or the missing haplotype's alleles, and min(M): 1.04, 1.19, 1.35, 1.41 and 1.60. None reaches 0.93.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The squared residuals are weighted by the error bar p/sqrt(counts) rather than by 1/sqrt(counts).",
+      "test": "Weighting by the error bar gives c0 0.075, c1 0.240 and c2 7.3e-05, further from the paper, and a bootstrap standard deviation of 11e-05 against the paper's 0.55e-05.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The sequence set differs.",
+      "test": "Adding the 212 Shriner sequences raises <M pA pB> to 1.33.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.rho",
+   "label": "Abstract and Eq. 3: rho = 1.4 +- 0.6 x 10^-5 per site and generation",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "rho = 9.8e-06 against 1.4e-05, inside the paper's own one standard deviation. Our bootstrap standard deviation is 0.39e-05 against 0.55e-05. The gap in the rate follows from <M pA pB> (1.19 against 0.93): with the paper's value our fit gives 1.3e-05.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "<M pA pB> uses another convention.",
+      "test": "Five conventions, 1.04 to 1.60; none reaches 0.93. With the paper's 0.93 our fit gives rho 1.3e-05.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The alignment differs.",
+      "test": "The 2005 MUSCLE binary gives rho 1.25e-05 and a bootstrap standard deviation of 0.56e-05, both close to the paper's 1.4e-05 and 0.6e-05. It moves toward the paper but does not close the gap.",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.bootstrap",
+   "label": "Fig. 3, the printed mean, median and standard deviation of the bootstrap",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "assumptions": [
+    {
+     "what": "The bootstrap seed. The paper gives none; we use numpy's default_rng(0) and 500 resamples of the 11 patients.",
+     "source": "our_choice",
+     "sensitivity": "Seeds 1 to 5 move the mean by less than 4 percent and the standard deviation by less than 8 percent."
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "Our bootstrap sits at mean 0.92e-05, median 0.83e-05 and standard deviation 0.39e-05, against 1.51, 1.38 and 0.55. The distribution has the paper's shape and spread but a lower centre, which follows from rho itself.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The seed matters.",
+      "test": "Seeds 0 to 5: the mean stays between 9.13e-06 and 9.41e-06, the standard deviation between 3.38e-06 and 4.06e-06.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The alignment differs.",
+      "test": "The 2005 MUSCLE binary gives mean 1.17e-05, median 1.07e-05 and standard deviation 0.56e-05, against the paper's 1.51, 1.38 and 0.55. It moves toward the paper but does not close the gap.",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, bootstrap distribution of the recombination rate",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "assumptions": [
+    {
+     "what": "30 histogram bins from 0 to 30 x 10^-6, read from the published bar edges.",
+     "source": "read_from_figure",
+     "sensitivity": "20 bins is one of the controls below."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig3_ours.png",
+    "figure-reproduction/output/figures/fig3_overlay.png"
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "The histogram has the published shape, a single peak with a long right tail, but sits about 0.6e-05 to the left, so only a quarter of the published ink falls within 2 px of ours. The pixel score cannot separate that shift from the wrong-input control, so the three printed statistics are the comparison that counts.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The bin count is wrong.",
+      "test": "20 bins against 30: the pixel score moves from 0.269 to 0.258.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The distribution itself is shifted, as its printed statistics are.",
+      "test": "The 2005 MUSCLE alignment moves the mean from 0.92e-05 to 1.17e-05 and the median to 1.07e-05.",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, cumulative distributions of the rate of allele frequency change",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "assumptions": [
+    {
+     "what": "A site is synonymous or non-synonymous by putting its two alleles into the consensus codon of the earlier sample. The paper does not say which codon background it used.",
+     "source": "our_choice",
+     "sensitivity": "Using each sequence's own codon changes the class of under 2 percent of the observations."
+    }
+   ],
+   "outputs": [
+    "figure-reproduction/output/figures/fig4_ours.png",
+    "figure-reproduction/output/figures/fig4_overlay.png"
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "15 of the 18 readable points of the three cumulative curves match within two standard errors. The three misses are each under 0.03 of probability, at the steepest part of the curves, where reading the published line and our sampling noise are both largest.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The synonymous and non-synonymous classes use another codon background.",
+      "test": "The consensus of the later sample instead of the earlier one: 2,533 against 2,541 non-synonymous observations and a share above 0.002 per generation of 0.159 against 0.159.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The three misses are sampling noise.",
+      "test": "Each is under 0.03 of probability and inside three standard errors of a share on our counts.",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.selection",
+   "label": "Results: 15% of non-synonymous polymorphisms change faster than 0.002 per generation",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "data_differs",
+    "summary": "16 percent of non-synonymous polymorphisms change faster than 0.002 per generation, against the paper's 15; the fastest change is 0.011 against 0.01; the selection coefficient of the top 15 percent is 0.0083 against 0.008. The synonymous distribution without hitch-hiking reaches 0.0041 per generation, where the paper reports none beyond 0.003.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The hitch-hiking filter is read wrongly (100 bp, faster than 0.002 per generation).",
+      "test": "Windows of 50, 100, 150 and 200 bp leave 392, 195, 123 and 71 observations with fastest rates 0.0052, 0.0041, 0.0022 and 0.0020. Only 150 bp or more brings the tail below 0.003, and the paper states 100 bp.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The classification of synonymous sites differs.",
+      "test": "The consensus of the later sample changes 8 of 3,601 observations and leaves the tail in place.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.ks",
+   "label": "Results: the two Kolmogorov-Smirnov p values",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "data_differs",
+    "summary": "The first p value comes back (7.6e-14, below 1e-13) and the Kolmogorov-Smirnov D matches at 0.14. The second is 3.6e-21 against the paper's bound of 1e-25, because our synonymous set without hitch-hiking holds 194 observations and D is 0.36.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our filtered set is too small to reach 1e-25.",
+      "test": "195 observations at D = 0.36 give 3.6e-21. The paper prints neither count.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The filter removes too much.",
+      "test": "A 50 bp window leaves 392 observations and gives 1.6e-24, still above 1e-25; a 150 bp window leaves 123 and gives 4.8e-22.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.other_haplotypes",
+   "label": "Results: the other-haplotype curve does not rise with distance",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "data_differs",
+    "summary": "Our other-haplotype curve is flat against the recombinant curve, as the paper says, but it rises by 0.054 over 500 bp where the published one falls by 0.041. The rise is about four of its own error bars.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The bins are wrong.",
+      "test": "Six, seven and eight bins: the rise stays at 0.055.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The alignment differs; this curve counts nucleotides at t_i+1 that were not seen at t_i, which gaps turn into new alleles.",
+      "test": "The 2005 MUSCLE alignment gives a rise of 0.053, the same within the error bars.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Discussion numbers recomputed from the paper's own rho",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check"
+  },
+  {
+   "id": "text.derived",
+   "label": "Discussion: factor below template switching, coinfection, sweep region, distance between sweeps",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Three of the four numbers come back: coinfection 0.065 against 0.1, the sweep region 222 bp against 200, the distance between sweeping loci 444 bp against 400. Our rho is below the template switching rate by a factor of 31 rather than 20, which is our rho and not the arithmetic: the paper's own rho gives 21.4 (see text.arithmetic).",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our formulas differ from the paper's.",
+      "test": "All four come back from the paper's own rho = 1.4e-05.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gap is rho itself.",
+      "test": "With rho = 1.4e-05 every number matches.",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.cutoff",
+   "label": "Methods: the allele-count cutoff at 2 or 4 gives similar results",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "With the cutoff at two alleles rho is 1.3e-05, within a factor of 1.4 of our 9.8e-06, so the paper's statement holds there. With the cutoff at four the fit runs into its bound (c1 = 1.0, c2 = 5.4e-06) and gives 4.1e-06: 3,570 pairs do not pin the saturation. The paper gives no numbers for either.",
+    "evidence": [
+     "PMC2813257/figure-reproduction/output/studies.json",
+     "PMC2813257/figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The fit needs other starting values.",
+      "test": "Three starts, (0.05, 0.1, 1e-05), (0.1, 0.25, 4e-05) and (0.3, 0.3, 1e-04), all reach c0 0.115, c1 1.0 and c2 5.4e-06.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The cutoff at four leaves too few pairs for this fit.",
+      "test": "3,570 pairs against 9,621; the outer bins hold 5 to 15 pairs.",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "port",
+   "label": "The authors' scripts",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The analysis scripts were never released. The paper says only that scripting and plotting were done in Python with NumPy and Matplotlib, and no archive, laboratory page or later repository of the group holds them.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/51"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package hivrecomb and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differs, {not_attempted} not attempted. The lost Python scripts were rewritten from the paper's text, the 1,753 env clones were fetched from GenBank and realigned with MUSCLE 3.6, and both analyses were run again.",
+  "label_rows": [
+   [
+    "fig-2a",
+    "Fig. 2A",
+    [
+     "fig2.a"
+    ]
+   ],
+   [
+    "fig-2b",
+    "Fig. 2B",
+    [
+     "fig2.b"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4"
+    ]
+   ],
+   [
+    "items",
+    "The rate",
+    [
+     "text.rho"
+    ]
+   ],
+   [
+    "items",
+    "Selection",
+    [
+     "text.selection"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, number and claim of the paper. A point of Figure 2 agrees when it is inside the published error bar plus ours; a point of Figure 4 when it is within two standard errors.",
+  "claims_line": "The paper's two findings come back. Recombination rises with the distance between sites and with elapsed time, and the rate is 9.8e-06 per site and generation against the paper's 1.4e-05, inside its own standard deviation. About 16 percent of non-synonymous polymorphisms change faster than 0.002 per generation, against the paper's 15, and the synonymous ones do not. The rate sits low because our average M pA pB is 1.19 where the paper reports 0.93; no averaging convention we tried gives 0.93.",
+  "came_back": [
+   [
+    "Fig. 2A",
+    "The rise from 0.14 at 38 bp to 0.32, and a flat curve for the haplotypes recombination cannot build."
+   ],
+   [
+    "Fig. 2B",
+    "Seven of the nine points inside the published error bars, and a fit of 0.106 + 0.261 (1 - exp(-4.06e-05 x)) against the published 0.10 + 0.26 (1 - exp(-4.39e-05 x))."
+   ],
+   [
+    "Fig. 4",
+    "15 of the 18 readable points of the three cumulative curves."
+   ],
+   [
+    "Selection",
+    "16 percent of non-synonymous polymorphisms faster than 0.002 per generation, a fastest change of 0.011, and a selection coefficient of 0.0083 for the top sixth."
+   ],
+   [
+    "The scripts",
+    "The method as the Python package hivrecomb, written from the paper's text and checked against a brute-force enumeration."
+   ]
+  ],
+  "buried": [
+   "The average M pA pB: the paper reports 0.93, and the five conventions we tried give 1.04 to 1.60.",
+   "The bins of Figure 2, the fit's weights and start values and the bootstrap seed: none is stated, so they were read from the published panels.",
+   "Which sequences were used: adding the 212 Shriner 2004 clones that LANL's set 1 holds beyond the paper's accession list moves the rate further away, so they were left out.",
+   "The second Kolmogorov-Smirnov p value: 3.6e-21 against the paper's bound of 1e-25, on 195 observations."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Data",
+    "1,753 HIV-1 env C2-V5 clones of 11 patients from the paper's four GenBank accession ranges, with the sampling month from the clone name and, for patients 4 and 10, from LANL's clinical file."
+   ],
+   [
+    "Alignment",
+    "Translate, align each patient with MUSCLE 3.6 built from its own source, put the codons back."
+   ],
+   [
+    "Recombination",
+    "Pairs of biallelic gapless sites with three of four haplotypes and each allele seen three times; does the fourth turn up at the next sample?"
+   ],
+   [
+    "The rate",
+    "Weighted least squares fit of c0 + c1 (1 - exp(-c2 d dt)), then rho = c1 c2 / (M pA pB - c0), with 500 resamples of the patients."
+   ],
+   [
+    "Selection",
+    "The rate of allele frequency change at each site, classed by the consensus codon, with the paper's 100 bp hitch-hiking filter and a Kolmogorov-Smirnov test."
+   ]
+  ],
+  "closing": "Reproduced on 2026-11-12 from the paper's own accession ranges. Everything here is generated by the pipeline from results.json."
+ }
+}

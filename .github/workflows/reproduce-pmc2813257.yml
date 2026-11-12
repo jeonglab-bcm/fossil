@@ -1,0 +1,74 @@
+name: Reproduce PMC2813257
+
+# Reruns the PMC2813257 pipeline (recombination rate and selection strength in HIV, Neher and
+# Leitner 2010) and checks it: the 1,753 GenBank clones are fetched again, MUSCLE 3.6 is built from
+# its source, each patient is realigned, both analyses run, the four panels are drawn and scored,
+# results.json is rebuilt and checked, the package is installed and its tutorial rerun, and the
+# fresh run is compared with the committed output/ (compare_runs.py).
+#
+# Start the workflow by hand with studies = true to also run the hypothesis tests behind the causes
+# in results.json (about 15 minutes more).
+on:
+  workflow_dispatch:
+    inputs:
+      studies:
+        description: "Also run the hypothesis tests behind the causes"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2813257/figure-reproduction/**"
+      - "PMC2813257/package/**"
+      - ".github/workflows/reproduce-pmc2813257.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2813257/figure-reproduction/**"
+      - "PMC2813257/package/**"
+      - ".github/workflows/reproduce-pmc2813257.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2813257/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2813257/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.studies && '--studies' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2813257-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
