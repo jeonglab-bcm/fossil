@@ -52,6 +52,9 @@ jobs:
 
       - name: Install R packages
         run: |
+          # CRAN as of 2024-04-01 (the snapshot the committed outputs and tutorial were made with):
+          # newer knitr formats the rendered tutorial differently
+          echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/noble/2024-04-01"), HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version$platform, R.version$arch, R.version$os)))' >> ~/.Rprofile
           Rscript -e 'install.packages("BiocManager")'
           Rscript -e 'BiocManager::install(version = "3.18", ask = FALSE, update = FALSE)'
           Rscript -e 'BiocManager::install(c("multtest", "qvalue", "limma"), ask = FALSE, update = FALSE)'

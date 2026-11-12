@@ -38,20 +38,20 @@ the published panel's own axes) and no wrong or near-miss version scores as well
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
-| Fig. 1, p-value densities | agrees (null), partly (alternative) | The three null curves within 0.001; under the alternative the no-filter and fold-change curves within 0.002, the variance-filter curve up to 0.54 apart (open) |
-| Fig. 2, filter statistics of one data set | partly, 1 inconclusive | Our data set 1 against the paper's unseeded one; the deciles agree (variance median 5.106 against 5.104) |
+| Fig. 1, p-value densities | agrees (null), partly (alternative) | The three null curves within 0.001; under the alternative the no-filter and fold-change curves within 0.002 for p from 0.01 (0.004 below), the variance-filter curve up to 0.71 apart (0.54 for p from 0.01; open) |
+| Fig. 2, filter statistics of one data set | partly, 1 inconclusive | Our data set 1 against the paper's unseeded one; the deciles from 10% to 90% agree within 2% (variance median 5.17 against 5.10) |
 | Fig. 3, pi0 against fraction removed | agrees | 98.8%; every point within 0.004 once the caption's swapped signal and variance labels are put back |
 | Fig. 4, achieved FDR | 1 agrees, 3 partly | Every point but one within 0.004; the paper draws fold change at x = 0.99 at 0.0201 for three methods, which its own Fig. 3 rules out. Without that point all four panels pass |
 | Fig. 5, power against BH level | partly | Within 0.016 (open: more than Monte Carlo error) |
-| Fig. 6, FDR-bias test | inconclusive | Box medians back (0.50, 0.45, ..., 0.01 against 0.51, 0.46, ..., 0.01) from data without the noise term; 10 of 11 test labels back |
+| Fig. 6, FDR-bias test | inconclusive; test labels partly | Box medians back (0.50, 0.45, ..., 0.01 against 0.51, 0.46, ..., 0.01) from data without the noise term; 10 of 11 test labels back |
 | Fig. 7, leukemia achieved FDR | inconclusive | One random subset per size; 71 of 90 published points within the range of our 20 other subsets |
-| Figures S2, S3 (power) | 2 agree, 5 partly | As Fig. 5 |
+| Figures S2, S3 (power) | 2 agree, 5 partly | As Fig. 5 (S3 fold change within 0.050); S2 BY partly because 5% of its small power is below the 2 px resolution |
 | Figure S4 (bias test, three filters) | 1 differs, 2 inconclusive | One data set: the FDR lines differ by sampling noise |
 | Figure S5 (leukemia power) | differs | The paper's power is higher (0.65 against 0.48 at n = 24); three causes ruled out |
 | Figure S6 (Wilcoxon) | partly (FDR), inconclusive (power) | FDR within 0.006 but for the x = 0.99 point; our power 5% higher (open) |
-| Figures S8, S9 (filtering after the correction) | partly or inconclusive | How "situation C" filters the selected list is not stated; two readings ruled out |
+| Figures S8, S9 and the section 13 claims (filtering after the correction) | partly or inconclusive | How "situation C" filters the selected list is not stated; two readings ruled out |
 | Figures S1, S7 | not attempted | S1 is a raster scatter of one unseeded data set; S7's bootFDR and permFDR settings are not given |
-| Claims in the text | 5 exact, 2 partly | 22 rules; 18 hold on the paper's own figure values. Three sentences and Fig. 3's caption contradict the paper's own figures (excepted) |
+| Claims in the text | 6 exact, 1 partly (leukemia), 1 agrees | 22 rules; 18 hold on the paper's own figure values. The four that do not: the text's "signal worst" (against the curves as the caption labels them), variance "always" losing power, the leukemia "signal and variance no effect on power", and fold change the "only" filter gaining power before correction. Separately, "4000 non-null features" (1000) and 7/33 printed as 20% are arithmetic slips (excepted) |
 | Package `filterfdr` | agrees | R CMD check OK, 109 test expectations pass, the tutorial reruns unchanged |
 
 What came back and how:
@@ -65,7 +65,7 @@ What came back and how:
 - **Fig. 1** needs the pooled within-group variance as the variance filter, not the variance of all samples
   the text defines (which leaves null p-values uniform), and thresholds set under the null.
 - **Fig. 6** was drawn from data without the noise term; Figure S4 from data with it. Our test with the
-  smallest BH-adjusted p-value per permutation and a one-sided final test gives both.
+  smallest BH-adjusted p-value per permutation and a one-sided final test gives the box medians of both.
 
 The main finding holds: the fold-change filter biases the FDR and raises power, and the signal and variance
 filters do not bias it; the test flags the fold-change filter at 10% removed. Three sentences overstate the

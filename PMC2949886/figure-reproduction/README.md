@@ -39,7 +39,7 @@ caption swaps two curves; the power gaps of Figs 5, S2, S5 and S6 are open.
 
 `pipeline/published.py` opens the authors' original figure files (R 2.10.0 and cairo PDFs) and the figure
 pages of Additional File 1. Each panel's pixel-to-data map is fitted to its tick marks and printed labels (the
-largest residual is 0.002 data units); each series is found by line style and colour, so its plotted values
+largest residual is 0.0009 data units); each series is found by line style and colour, so its plotted values
 come back as numbers (`output/published_values.json`). Fig. 7 and Figure S5 are drawn as segments between
 markers; their points are read from the lines through the segments.
 
@@ -81,7 +81,7 @@ From the repository root, with R 4.3.3 (multtest, qvalue, limma, jsonlite, knitr
 Python 3.12 with `requirements.txt`, and Nextflow:
 
 ```sh
-nextflow run PMC2949886/figure-reproduction/main.nf --outdir results          # about 15 min
+nextflow run PMC2949886/figure-reproduction/main.nf --outdir results          # about 2 min on 4 cores; 10 min in CI
 nextflow run PMC2949886/figure-reproduction/main.nf --outdir results --full   # all 1000 data sets again
 sbatch PMC2949886/figure-reproduction/run_skyriver.sbatch --full                # on Skyriver
 ```
@@ -106,8 +106,8 @@ chunks. `--full` simulates all of them again (44 tasks of about a minute each).
 
 - Seeds are not given, so the single-data-set figures (2, 6, S4) and the leukemia subsets (7, S5) can only agree
   in distribution; their verdicts are mostly partly or inconclusive for that reason.
-- The published power is a little higher than ours in Figs 5, S2 and S6 (up to 0.016) and clearly higher in
-  Figure S5; the causes are open (see `../results.json`).
+- The published power is a little higher than ours in Figs 5 and S2 (up to 0.016) and clearly higher in Figure
+  S5, and about 5% lower in Figure S6; the causes are open (see `../results.json`).
 - Figure S7 (bootFDR, permFDR) is not attempted: the implementations and their settings are not given.
 - The first author's SSPA code was read, not run, in this session: our simulation follows its formulas and its
   order of random draws.

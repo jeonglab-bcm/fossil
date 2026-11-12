@@ -51,10 +51,11 @@ Fig. 1.
 
 - The example's rejections, achieved FDR and power equal those of an independent base-R computation
   (`t.test`, `quantile`, `p.adjust`): 12 of 12 rows.
-- `pvalue_density_filtered` matches 95 of 95 values read from the authors' original Fig. 1 within 0.01.
+- `pvalue_density_filtered` matches 95 of 95 values read from the authors' original Fig. 1 within 0.01, on the
+  five curves it reproduces (the alternative's variance-filter curve, which does not come back, is left out).
 - The simulation follows the first author's `SSPA::rbitri` and `SSPA::simdat` (same formulas, same order of
   random draws); this was checked by reading SSPA's code, not by running it.
-- The reproduction rebuilds Figs 1 to 7 and Figures S2 to S9 with the package; see its results page.
+- The reproduction rebuilds Figs 1 to 7 and Figures S2 to S6, S8 and S9 with the package; see its results page.
 
 ## Limits
 

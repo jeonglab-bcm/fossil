@@ -128,7 +128,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "The no-filter and fold-change curves match the published ones within 0.002; the variance-filter curve does not: ours removes more small p-values (published 2.00 against ours 1.33 at p = 0.005, and up to 0.54 apart).",
+    "summary": "The no-filter and fold-change curves match the published ones within 0.002 for p from 0.01 (0.004 below); the variance-filter curve does not: ours removes more small p-values (published 2.00 against ours 1.33 at p = 0.005; up to 0.71 apart, 0.54 for p from 0.01).",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/fig1.json"
@@ -194,7 +194,7 @@
    ],
    "cause": {
     "category": "nondeterminism",
-    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles from 10% to 90% agree within 2% (the variance median 5.17 against 5.10).",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/one_sd0.1.json"
@@ -255,7 +255,7 @@
    ],
    "cause": {
     "category": "nondeterminism",
-    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles from 10% to 90% agree within 2% (the variance median 5.17 against 5.10).",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/one_sd0.1.json"
@@ -316,12 +316,12 @@
     {
      "what": "The variance panel's x axis is 19 S_Z^2 (the sum of squared deviations), not S_Z^2",
      "source": "read_from_figure",
-     "sensitivity": "Our 19 S_Z^2 deciles match the published grey lines (median 5.106 against 5.104); S_Z^2 would put all of the mass below 1. Display only: the filter cut does not depend on the scale."
+     "sensitivity": "Our 19 S_Z^2 deciles match the published grey lines within 2% (median 5.17 against 5.10); S_Z^2 would put all of the mass below 1. Display only: the filter cut does not depend on the scale."
     }
    ],
    "cause": {
     "category": "nondeterminism",
-    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles from 10% to 90% agree within 2% (the variance median 5.17 against 5.10).",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/one_sd0.1.json"
