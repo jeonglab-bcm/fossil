@@ -1,0 +1,157 @@
+{
+ "source": "Adie et al. (2005) BMC Bioinformatics 6:55, Figure 2, read node by node from the published figure",
+ "legend": "negative = more likely a disease gene, positive = less likely",
+ "root": 0.0,
+ "nodes": [
+  {
+   "id": 1,
+   "parent": null,
+   "label": "Mouse homology % identity >= 41.082%",
+   "feature": "mouse_identity",
+   "op": ">=",
+   "threshold": 41.082,
+   "no": 0.827,
+   "yes": -0.163
+  },
+  {
+   "id": 2,
+   "parent": null,
+   "label": "Is a signal peptide (as predicted by sigpep)",
+   "feature": "signal_peptide",
+   "op": "==",
+   "threshold": 1,
+   "no": 0.114,
+   "yes": -0.315
+  },
+  {
+   "id": 3,
+   "parent": null,
+   "label": "Mouse homology % identity >= 95.129%",
+   "feature": "mouse_identity",
+   "op": ">=",
+   "threshold": 95.129,
+   "no": -0.036,
+   "yes": 0.151
+  },
+  {
+   "id": 4,
+   "parent": null,
+   "label": "Number of exons > 32",
+   "feature": "exons",
+   "op": ">",
+   "threshold": 32,
+   "no": 0.029,
+   "yes": -0.594
+  },
+  {
+   "id": 5,
+   "parent": null,
+   "label": "Gene length >= 997bp",
+   "feature": "gene_length",
+   "op": ">=",
+   "threshold": 997,
+   "no": 0.818,
+   "yes": -0.026
+  },
+  {
+   "id": 6,
+   "parent": null,
+   "label": "Gene length >= 563bp",
+   "feature": "gene_length",
+   "op": ">=",
+   "threshold": 563,
+   "no": 0.792,
+   "yes": -0.014
+  },
+  {
+   "id": 7,
+   "parent": 5,
+   "label": "Best paralog % id >= 78.5%",
+   "feature": "paralog_identity",
+   "op": ">=",
+   "threshold": 78.5,
+   "no": 0.344,
+   "yes": -0.422
+  },
+  {
+   "id": 8,
+   "parent": 5,
+   "label": "Rat homolog % identity >= 58.981%",
+   "feature": "rat_identity",
+   "op": ">=",
+   "threshold": 58.981,
+   "no": 0.205,
+   "yes": -0.044
+  },
+  {
+   "id": 9,
+   "parent": 5,
+   "label": "Length of 3' UTR >= 647bp",
+   "feature": "utr3_length",
+   "op": ">=",
+   "threshold": 647,
+   "no": -0.087,
+   "yes": 0.108
+  },
+  {
+   "id": 10,
+   "parent": 5,
+   "label": "CDS length >= 704bp",
+   "feature": "cds_length",
+   "op": ">=",
+   "threshold": 704,
+   "no": 0.2,
+   "yes": -0.034
+  },
+  {
+   "id": 11,
+   "parent": 5,
+   "label": "Human to Mouse Ka >= 0.195",
+   "feature": "mouse_ka",
+   "op": ">=",
+   "threshold": 0.195,
+   "no": -0.02,
+   "yes": 0.271
+  },
+  {
+   "id": 12,
+   "parent": 8,
+   "label": "Mouse homolog % identity >= 60.387%",
+   "feature": "mouse_identity",
+   "op": ">=",
+   "threshold": 60.387,
+   "no": -0.492,
+   "yes": 0.015
+  },
+  {
+   "id": 13,
+   "parent": 8,
+   "label": "Worm homolog % identity >= 54.221%",
+   "feature": "worm_identity",
+   "op": ">=",
+   "threshold": 54.221,
+   "no": 0.027,
+   "yes": -0.334
+  },
+  {
+   "id": 14,
+   "parent": 10,
+   "label": "GC content >= 37.5%",
+   "feature": "gc",
+   "op": ">=",
+   "threshold": 37.5,
+   "no": 0.213,
+   "yes": -0.038
+  },
+  {
+   "id": 15,
+   "parent": 6,
+   "label": "Gene length >- 896bp (printed so; read as >=)",
+   "feature": "gene_length",
+   "op": ">=",
+   "threshold": 896,
+   "no": -0.57,
+   "yes": 0.008
+  }
+ ]
+}

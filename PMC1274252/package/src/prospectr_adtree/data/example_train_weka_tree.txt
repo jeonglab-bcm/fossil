@@ -1,0 +1,36 @@
+Alternating decision tree:
+
+: -0.201
+|  (1)gene_length < 13494: 0.607
+|  |  (4)len_3utr < 205.5: 0.849
+|  |  (4)len_3utr >= 205.5: -0.15
+|  |  |  (5)mouse_identity < 79.8: 0.2
+|  |  |  (5)mouse_identity >= 79.8: -1.154
+|  (1)gene_length >= 13494: -0.482
+|  |  (2)mouse_identity < 40.15: 0.887
+|  |  (2)mouse_identity >= 40.15: -0.491
+|  |  (3)len_3utr < 838.5: 0.278
+|  |  (3)len_3utr >= 838.5: -1.295
+|  (6)gene_length < 4499.5: 1.03
+|  (6)gene_length >= 4499.5: -0.153
+|  |  (10)exons < 6.5: 0.211
+|  |  (10)exons >= 6.5: -0.309
+|  |  (12)len_3utr < 838.5: 0.116
+|  |  |  (13)gene_length < 15782.5: 0.317
+|  |  |  (13)gene_length >= 15782.5: -0.266
+|  |  |  (14)len_3utr < 387: -0.194
+|  |  |  (14)len_3utr >= 387: 0.311
+|  |  (12)len_3utr >= 838.5: -0.503
+|  (7)len_3utr < 74: 0.766
+|  (7)len_3utr >= 74: -0.033
+|  (8)mouse_identity < 84: 0.105
+|  (8)mouse_identity >= 84: -0.669
+|  (9)sigpep = 0: 0.141
+|  (9)sigpep = 1: -0.456
+|  (11)gene_length < 103948: 0.097
+|  (11)gene_length >= 103948: -0.869
+|  (15)len_3utr < 114: 0.496
+|  (15)len_3utr >= 114: -0.065
+Legend: -ve = disease, +ve = normal
+Tree size (total number of nodes): 46
+Leaves (number of predictor nodes): 31

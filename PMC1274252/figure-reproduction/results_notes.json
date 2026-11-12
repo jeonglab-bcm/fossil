@@ -1,0 +1,1309 @@
+{
+ "paper": {
+  "id": "PMC1274252",
+  "title": "Speeding disease gene discovery by sequence based candidate prioritization",
+  "citation": "Adie EA, Adams RR, Evans KL, Porteous DJ, Pickard BS. Speeding disease gene discovery by sequence based candidate prioritization. BMC Bioinformatics 6:55 (2005)",
+  "doi": "10.1186/1471-2105-6-55",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-11",
+  "pipeline": "PMC1274252/figure-reproduction/main.nf",
+  "command": "nextflow run PMC1274252/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "omim_trainingset.arff",
+    "url": "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff",
+    "sha256": "a0ae11c7699fa2e59723674739b3fe40a207d756156a9b5c55758e1ea4a04a74"
+   },
+   {
+    "name": "hgmd_testset.arff",
+    "url": "https://web.archive.org/web/20060930234008/http://www.genetics.med.ed.ac.uk/prospectr/hgmd_testset.arff",
+    "sha256": "b318539e240ad0e183d10b51ff9f95da56957ca73f86d5ea00f10858ee243e52"
+   },
+   {
+    "name": "pocus_testset.arff",
+    "url": "https://web.archive.org/web/20060930234153/http://www.genetics.med.ed.ac.uk/prospectr/pocus_testset.arff",
+    "sha256": "f2f4c6240bddbbd29c728461135ee0b70e09cf1713c5b6596e5e684dd9fce349"
+   },
+   {
+    "name": "download.shtml",
+    "url": "https://web.archive.org/web/20060118010809/http://www.genetics.med.ed.ac.uk/prospectr/download.shtml",
+    "sha256": "513494a01519d5f6f4a32cacbd5504b2d309df2b9febb76107c1762b3265e739"
+   },
+   {
+    "name": "dump.tab",
+    "url": "https://web.archive.org/web/20050427084936/http://www.genetics.med.ed.ac.uk/prospectr/downloads/dump.tab",
+    "sha256": "cb98eb81ae728f472f065fcc78b4db7f8ecf4c84e8395e217042e7b3e1afc703"
+   },
+   {
+    "name": "1471-2105-6-55-S1.xls (Additional File 1)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1274252.1/1471-2105-6-55-S1.xls",
+    "sha256": "b17a1a511ba0beda1907e410767bb03fa09e4f8067bde378d8b4949bec827e94"
+   },
+   {
+    "name": "weka-3-4-3.zip",
+    "url": "https://downloads.sourceforge.net/project/weka/weka-3-4/3.4.3/weka-3-4-3.zip",
+    "sha256": "4fa0aa43f8faefdb029d7fd30294eee95f5bc0b330d9d48b4f5c8fb371fb8068"
+   },
+   {
+    "name": "figure-1.png, figure-3.png, figure-4.png (the authors' figure files, BMC additional files 2, 4 and 5)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-6-55/MediaObjects/12859_2004_380_MOESM2_ESM.png",
+    "sha256": "committed in figure-reproduction/published"
+   },
+   {
+    "name": "figure-2.jpg (BMC's 1200 x 1050 rendering of the authors' EPS)",
+    "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-6-55/MediaObjects/12859_2004_Article_380_Fig2_HTML.jpg",
+    "sha256": "committed in figure-reproduction/published"
+   }
+  ],
+  "environment": {
+   "python": "3.12",
+   "numpy": "2.1.3",
+   "scipy": "1.14.1",
+   "pillow": "11.0.0",
+   "xlrd": "2.0.1",
+   "weka": "3.4.3",
+   "java": "21 (Temurin) in CI; OpenJDK 11 on Skyriver",
+   "nextflow": "26.04.3 in CI; 25.04.6 on Skyriver"
+  }
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1 (the feature set)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "Table 1 lists the 23 features offered to Weka and their sources; it has no result to recompute.",
+    "status": "explained",
+    "evidence": [
+     "paper, Table 1"
+    ]
+   }
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, medians and tests, disease against control genes",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table2",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set, a random sample of the paper's ~18,000 controls",
+     "source": "our_choice",
+     "sensitivity": "medians of a 1,080-gene sample move by a few percent between samples"
+    },
+    {
+     "what": "Mouse BRH identity includes the genes with no mouse homolog (0), as Table 1 enters them",
+     "source": "paper",
+     "sensitivity": "without the zeros both medians are 87"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "Every difference the paper calls significant is significant in the archived training set, and the disease-gene medians of gene length (27 k), exons (10), mouse identity (87%) and signal peptides (36% against 35%) come back. Most control medians are lower (mouse identity is 81 against 80): the archived controls are 1,080 genes, not the paper's ~18,000, from a 2006 Ensembl build.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The control median differs because the archived controls are a different, smaller sample",
+      "test": "Disease medians, from (mostly) the same OMIM genes, against control medians",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.distance_cpg",
+   "label": "Table 2, distance to the neighbouring gene and 5' CpG islands",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The archived sets have neither feature, and without gene IDs they cannot be rebuilt for the same genes.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ]
+   }
+  },
+  {
+   "id": "fig1.a",
+   "label": "Fig. 1A, gene length histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.a",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1a_ours.png",
+    "figure-reproduction/output/figures/fig1a_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.b",
+   "label": "Fig. 1B, protein length histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.b",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1b_ours.png",
+    "figure-reproduction/output/figures/fig1b_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.c",
+   "label": "Fig. 1C, mouse BRH % identity histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.c",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1c_ours.png",
+    "figure-reproduction/output/figures/fig1c_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.d",
+   "label": "Fig. 1D, mouse Ka histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.d",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1d_ours.png",
+    "figure-reproduction/output/figures/fig1d_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.e",
+   "label": "Fig. 1E, number of exons histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.e",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1e_ours.png",
+    "figure-reproduction/output/figures/fig1e_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.f",
+   "label": "Fig. 1F, 3' UTR length histograms (bar labels)",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig1.f",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig1f_ours.png",
+    "figure-reproduction/output/figures/fig1f_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Ten bars of width cap/10 from 0, each (lo, hi], the last holding everything above the ninth edge; the cap is the last x label",
+     "source": "read_from_figure",
+     "sensitivity": "leaving out the values above the cap, or the tenth bin, changes at most 1 of 20 matches per panel (analysis.json fig1.*.sensitivity)"
+    },
+    {
+     "what": "Bar labels are truncated percentages (each panel's labels add up to 94-98%)",
+     "source": "read_from_figure",
+     "sensitivity": "rounding instead matches as many or fewer bars in five of six panels"
+    },
+    {
+     "what": "Control genes: the 1,080 'normal' genes of the archived training set",
+     "source": "our_choice",
+     "sensitivity": "see Table 2"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The shapes come back; single bars differ by a few points because the archived training set is not the paper's gene set (1,080 controls, not ~18,000; a 2006 Ensembl build).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another binning or rounding rule closes the gap",
+      "test": "Three binnings and two rounding rules (analysis.json fig1.*.sensitivity)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "The disease bars (mostly the same OMIM genes) match more often than the control bars",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, the 15-rule alternating decision tree",
+   "kind": "figure",
+   "source": "port",
+   "method": "values",
+   "fields_from": "fig2",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outputs": [
+    "figure-reproduction/output/figures/fig2_ours.png",
+    "figure-reproduction/output/figures/fig2_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Weka 3.4.3 ADTree with -B 15 -E -1 (z-pure search), the command on PROSPECTR's download page",
+     "source": "authors_code",
+     "sensitivity": "Weka 3.4.1 to 3.4.4 build the same tree"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "Retrained on the archived training set, the recipe puts rules on mouse identity, signal peptide, gene length and exon number at the root, as Figure 2 does, with other thresholds and values (exons > 31 against > 32); the other 11 rules differ. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another Weka 3.4 release builds another tree",
+      "test": "Weka 3.4.1, 3.4.2, 3.4.3 and 3.4.4 on the same recipe (output/checks/weka_versions.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2006 files' extra features (expression, isoelectric point, amino-acid composition, more species) push the paper's rules out",
+      "test": "Retrain on the Table 1 features only, with CDS length added (prepare.py; analysis.json fig2_table1_features)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The archived features carry the same signal as the paper's, so the published tree scores them as Table 3 says",
+      "test": "Score the archived sets with the Figure 2 tree (items table3.training, table3.hgmd, table3.oligogenic)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.spearman",
+   "label": "Text: Spearman correlations of gene size with exon number and 3' UTR length",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "text.spearman",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "0.70 and 0.39 on the archived training set against 0.71 and 0.35; the paper does not say on which genes it computed them, and the archived genes are not its genes.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ]
+   }
+  },
+  {
+   "id": "text.spearman_distance",
+   "label": "Text: Spearman correlation of gene size with the distance to the nearest gene (0.69)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The archived sets have no distance feature.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ]
+   }
+  },
+  {
+   "id": "table3.training",
+   "label": "Table 3, training set (the published tree on the archived set), with the text's rates",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table3.training",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "The tree is Figure 2 read node by node; 'Start' is 0 (balanced training set); exons > 32 and every other rule >= as printed",
+     "source": "paper",
+     "sensitivity": "none: the printed tree is complete"
+    },
+    {
+     "what": "CDS length = cDNA length - 3' UTR - 5' UTR (the archived sets have no CDS length)",
+     "source": "our_choice",
+     "sensitivity": "CDS rule fires the same way for all but a few genes (3 x protein length + 3 gives the same split)"
+    },
+    {
+     "what": "The archived paralog identity, 0 for every gene, is read as unknown, as Table 1 enters genes without a paralog",
+     "source": "our_choice",
+     "sensitivity": "read as 0, rule 7 sends every gene to +0.344: training recall falls to 37% and accuracy to 62.7%"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The published tree on the archived sets gives accuracy, AUC and kappa close to Table 3 but calls more genes disease (higher recall, more false positives). The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paralog feature read as 0 explains the gap",
+      "test": "Score with paralog identity 0 instead of unknown (analysis.json fig2tree.paralog_zero)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The archived features come from a later Ensembl build than the paper's EnsMart 22.1",
+      "test": "Relation names and feature lists of the ARFFs (64 features; hgmd/pocus filtered with Remove-R5-6,67-69) against Table 1",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.hgmd",
+   "label": "Table 3, HGMD test set (the published tree on the archived set), with the text's counts",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table3.hgmd",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "The tree is Figure 2 read node by node; 'Start' is 0 (balanced training set); exons > 32 and every other rule >= as printed",
+     "source": "paper",
+     "sensitivity": "none: the printed tree is complete"
+    },
+    {
+     "what": "CDS length = cDNA length - 3' UTR - 5' UTR (the archived sets have no CDS length)",
+     "source": "our_choice",
+     "sensitivity": "CDS rule fires the same way for all but a few genes (3 x protein length + 3 gives the same split)"
+    },
+    {
+     "what": "The archived paralog identity, 0 for every gene, is read as unknown, as Table 1 enters genes without a paralog",
+     "source": "our_choice",
+     "sensitivity": "read as 0, rule 7 sends every gene to +0.344: training recall falls to 37% and accuracy to 62.7%"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The published tree on the archived sets gives accuracy, AUC and kappa close to Table 3 but calls more genes disease (higher recall, more false positives). The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paralog feature read as 0 explains the gap",
+      "test": "Score with paralog identity 0 instead of unknown (analysis.json fig2tree.paralog_zero)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The archived features come from a later Ensembl build than the paper's EnsMart 22.1",
+      "test": "Relation names and feature lists of the ARFFs (64 features; hgmd/pocus filtered with Remove-R5-6,67-69) against Table 1",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.oligogenic",
+   "label": "Table 3, oligogenic test set (the published tree on the archived set), with the text's counts",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table3.oligogenic",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "The tree is Figure 2 read node by node; 'Start' is 0 (balanced training set); exons > 32 and every other rule >= as printed",
+     "source": "paper",
+     "sensitivity": "none: the printed tree is complete"
+    },
+    {
+     "what": "CDS length = cDNA length - 3' UTR - 5' UTR (the archived sets have no CDS length)",
+     "source": "our_choice",
+     "sensitivity": "CDS rule fires the same way for all but a few genes (3 x protein length + 3 gives the same split)"
+    },
+    {
+     "what": "The archived paralog identity, 0 for every gene, is read as unknown, as Table 1 enters genes without a paralog",
+     "source": "our_choice",
+     "sensitivity": "read as 0, rule 7 sends every gene to +0.344: training recall falls to 37% and accuracy to 62.7%"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The published tree on the archived sets gives accuracy, AUC and kappa close to Table 3 but calls more genes disease (higher recall, more false positives). The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs. On the oligogenic set it finds 39 disease genes and calls 22 controls disease, the counts the text gives, but of 50 + 50 genes, not 54 + 54.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paralog feature read as 0 explains the gap",
+      "test": "Score with paralog identity 0 instead of unknown (analysis.json fig2tree.paralog_zero)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The archived features come from a later Ensembl build than the paper's EnsMart 22.1",
+      "test": "Relation names and feature lists of the ARFFs (64 features; hgmd/pocus filtered with Remove-R5-6,67-69) against Table 1",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.cv10",
+   "label": "Table 3, 10-fold cross-validation (retrained, Weka's folds), with the text's rates",
+   "kind": "table",
+   "source": "port",
+   "method": "values",
+   "fields_from": "table3.cv10",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Weka's default cross-validation seed (1) and stratified folds, as the Explorer uses",
+     "source": "our_choice",
+     "sensitivity": "another seed moves accuracy by about a point"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "Cross-validation on the archived training set gives 67% accuracy (63% in the paper), AUC 0.74 (0.70) and kappa 0.33 (0.27): the archived features separate the classes better than the paper's did. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another Weka 3.4 release builds another tree",
+      "test": "Weka 3.4.1, 3.4.2, 3.4.3 and 3.4.4 on the same recipe (output/checks/weka_versions.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The extra 2006 features add the gain",
+      "test": "Cross-validate on the Table 1 features only (analysis.json runs.table1.sets.cv10: 65.1%, AUC 0.72, kappa 0.30)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.retrained.training",
+   "label": "Table 3, training set, tree retrained with the download page's recipe",
+   "kind": "table",
+   "source": "port",
+   "method": "values",
+   "fields_from": "table3.retrained.training",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The retrained tree is another tree (Fig. 2 item), so its rates differ; it fits the archived training set better than the paper's tree fit its own. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another Weka 3.4 release builds another tree",
+      "test": "Weka 3.4.1, 3.4.2, 3.4.3 and 3.4.4 on the same recipe (output/checks/weka_versions.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2006 files' extra features (expression, isoelectric point, amino-acid composition, more species) push the paper's rules out",
+      "test": "Retrain on the Table 1 features only, with CDS length added (prepare.py; analysis.json fig2_table1_features)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.retrained.hgmd",
+   "label": "Table 3, HGMD test set, tree retrained with the download page's recipe",
+   "kind": "table",
+   "source": "port",
+   "method": "values",
+   "fields_from": "table3.retrained.hgmd",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The retrained tree is another tree (Fig. 2 item), so its rates differ; it fits the archived training set better than the paper's tree fit its own. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another Weka 3.4 release builds another tree",
+      "test": "Weka 3.4.1, 3.4.2, 3.4.3 and 3.4.4 on the same recipe (output/checks/weka_versions.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2006 files' extra features (expression, isoelectric point, amino-acid composition, more species) push the paper's rules out",
+      "test": "Retrain on the Table 1 features only, with CDS length added (prepare.py; analysis.json fig2_table1_features)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.retrained.oligogenic",
+   "label": "Table 3, oligogenic test set, tree retrained with the download page's recipe",
+   "kind": "table",
+   "source": "port",
+   "method": "values",
+   "fields_from": "table3.retrained.oligogenic",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The retrained tree is another tree (Fig. 2 item), so its rates differ; it fits the archived training set better than the paper's tree fit its own. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another Weka 3.4 release builds another tree",
+      "test": "Weka 3.4.1, 3.4.2, 3.4.3 and 3.4.4 on the same recipe (output/checks/weka_versions.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 2006 files' extra features (expression, isoelectric point, amino-acid composition, more species) push the paper's rules out",
+      "test": "Retrain on the Table 1 features only, with CDS length added (prepare.py; analysis.json fig2_table1_features)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3.a",
+   "label": "Fig. 3A, ROC curve, training set (the published tree on the archived set)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig3.a",
+   "outputs": [
+    "figure-reproduction/output/figures/fig3a_ours.png",
+    "figure-reproduction/output/figures/fig3a_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Red points are Weka's threshold-curve points and the green line their convex hull",
+     "source": "read_from_figure",
+     "sensitivity": "the points alone carry most of the score; the hull adds the line pixels"
+    }
+   ]
+  },
+  {
+   "id": "fig3.b",
+   "label": "Fig. 3B, ROC curve, HGMD test set (the published tree on the archived set)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig3.b",
+   "outputs": [
+    "figure-reproduction/output/figures/fig3b_ours.png",
+    "figure-reproduction/output/figures/fig3b_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Red points are Weka's threshold-curve points and the green line their convex hull",
+     "source": "read_from_figure",
+     "sensitivity": "the points alone carry most of the score; the hull adds the line pixels"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "status": "explained",
+    "summary": "The pixel score cannot confirm this panel: ours scores 0.52 and two controls score higher (the retrained tree 0.62, ours shifted by +0.02 in FP rate 0.61). Only the AUC agrees (0.693 against Table 3's 0.69; the published points read back give 0.692). The archived HGMD set has 713 + 713 genes, the paper's 675 + 675.",
+    "evidence": [
+     "figure-reproduction/output/figures.json (fig3.b)",
+     "figure-reproduction/output/analysis.json (runs.main.sets.hgmd.auc_disease)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our curve is off by a shift in FP rate",
+      "test": "Shift ours by +-0.02: scores fall to 0.61 and 0.52, ours is 0.53",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Another model on the same data draws the same curve",
+      "test": "The retrained tree's curve scores 0.62, higher than ours",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3.c",
+   "label": "Fig. 3C, ROC curve, oligogenic test set (the published tree on the archived set)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig3.c",
+   "outputs": [
+    "figure-reproduction/output/figures/fig3c_ours.png",
+    "figure-reproduction/output/figures/fig3c_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Red points are Weka's threshold-curve points and the green line their convex hull",
+     "source": "read_from_figure",
+     "sensitivity": "the points alone carry most of the score; the hull adds the line pixels"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "Same shape and hull; the points sit on another grid because the archived oligogenic set has 50 + 50 genes (steps of 2%), the paper's 54 + 54 (1.85%). AUC 0.767 against Table 3's 0.76 (the published points read back give 0.770).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff",
+     "figure-reproduction/output/figures.json (fig3.c)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The set sizes differ",
+      "test": "Count the archived instances (50 + 50) against the text (54 + 54)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, share of each feature in the score of genes called disease (published tree)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table4",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "A feature's contribution is the absolute value of the sum of its rules' values for the gene, as a share of the sum over features; averaged over genes the tree calls disease (Results: 'percentage contribution of each feature to the final score ... averaged out over all genes predicted as likely to be involved in disease')",
+     "source": "paper",
+     "sensitivity": "rounded or truncated, the caption's wording (absolute value of each rule, disease genes) matches 3 of 11; the six readings match 2 to 9 (analysis.json table4_hits)"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "With the published tree on the archived training set, 5 of 11 shares match at printed precision and 9 of 11 if the shares are truncated, as several of the paper's percentages are (75.6% printed as 75%). Mouse identity is 22.9% (21%) and paralog identity 0% (2%): the archived paralog identities are all 0, so rule 7 never fires.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (table4_variants)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The missing paralog values move the shares",
+      "test": "Paralog identity is 0 for all 2,160 archived genes (analysis.json); the paralog rule's 2% has nowhere to come from",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.node_count",
+   "label": "Text: 10- and 20-rule trees perform worse than 15 (cross-validated, retrained)",
+   "kind": "value",
+   "source": "port",
+   "method": "values",
+   "fields_from": "text.node_count",
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "On the archived training set the 20-rule tree is worse than 15 on accuracy and AUC, and the 10-rule tree worse on AUC but not on accuracy (67.0% against 66.6%). The paper gives no numbers ('details not shown').",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (variants)"
+    ]
+   }
+  },
+  {
+   "id": "text.length_only",
+   "label": "Text: a 15-rule tree on gene and protein length alone (69% found, 51% misclassified)",
+   "kind": "value",
+   "source": "port",
+   "method": "values",
+   "fields_from": "text.length_only",
+   "cause": {
+    "category": "data_differs",
+    "status": "open",
+    "summary": "Retrained on gene_length and residue_length of the archived training set, the tree finds 84% of disease genes and calls 58% of controls disease, against 69% and 51%: it puts the threshold elsewhere. Accuracy is 62.8% against the paper's (69 + 49) / 2 = 59%.",
+    "hypotheses": [
+     {
+      "hypothesis": "'Misclassification' means the share of all genes misclassified, not of controls",
+      "test": "Our misclassified share of all genes is 37%, not 51%",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper used protein length in another unit or cDNA length",
+      "test": "The archived residue_length is in amino acids, like Table 1's protein length; cDNA length is a separate feature",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The gene sets differ",
+      "test": "Not testable without the paper's genes",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.lopez_bigas",
+   "label": "Text: comparison with Lopez-Bigas and Ouzounis on 260 HGMD genes (72% against 47%; kappa 0.282 against 0.158)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The 260 genes were not published and the archived HGMD set has no gene IDs.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ]
+   }
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4 and the artificial-loci numbers (HGMD, OMIM and POCUS targets in 30 Mb loci)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "Needs the target genes' IDs, every gene's position and every gene's score; the archived sets have no IDs and the genome-wide dump is a later model. Fig. 4 is read back to check the text's numbers against it (text.arithmetic).",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff",
+     "figure-reproduction/output/figures.json (fig4)"
+    ]
+   }
+  },
+  {
+   "id": "text.mutation_types",
+   "label": "Text: substitutions, gross lesions and micro-lesions (75%, 54%, 77%)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "Needs HGMD's mutation records for the test genes; HGMD needs registration, its 2003 release is not public and the archived set has no gene IDs.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (inputs)",
+     "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
+    ]
+   }
+  },
+  {
+   "id": "text.whole_genome",
+   "label": "Text: genome-wide scores (97 genes over 0.75, 4,357 under 0.3, ~44% called disease), from the authors' dump.tab",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "text.whole_genome",
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "The authors' own genome-wide dump (captured 2005-04-27) has 2 genes over 0.75 and 5,155 under 0.3, and none of Additional File 1's genes over 0.75: it comes from another model than Figure 2. Its raw scores reach 3.25, more than the Figure 2 tree can give (3.015).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (genome)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "dump.tab was scored with the Figure 2 tree",
+      "test": "Highest raw score in dump.tab (3.25) against the highest the printed tree can reach (3.015)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "supp1",
+   "label": "Additional File 1, the 61 top-scoring genes not known in disease",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "Scoring every Ensembl gene with the published tree needs every gene's features from EnsMart 22.1 and HomoloGene, which were not archived (the Ensembl 22 mart folder is empty); the archived dump is another model. The file's own numbers are checked in text.arithmetic and text.normalisation.",
+    "status": "explained",
+    "evidence": [
+     "https://ftp.ensembl.org/pub/release-22/",
+     "figure-reproduction/output/analysis.json (genome)"
+    ]
+   }
+  },
+  {
+   "id": "text.normalisation",
+   "label": "Text: the normalisation 1/(1 + γ^α), 'γ = Euler's constant'",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "normalisation",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "The scores follow 1/(1 + e^α): 'Euler's constant' is Euler's number e, not the Euler-Mascheroni constant γ.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (genome)"
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own numbers and figures",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "arithmetic",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "Most claims follow from the paper's own numbers and figures. Slips: 36 of 97 is 37%, not ~33%; 29 of 219 is 13.2%, not 13.4%; the abstract's 'twenty-fold 11% of the time' is the conclusion's 25-fold (Fig. 4 at the top 4% reads 11.0%, at the top 5% 12.4%); and the kappas of the Lopez-Bigas comparison (0.282, 0.158) do not follow from the rates the text gives (0.287, 0.163). The abstract's five-fold 37% reads 38.6% off Fig. 4, just outside the 1.5-point reading margin.",
+    "evidence": [
+     "figure-reproduction/output/results.json (text.arithmetic)"
+    ]
+   }
+  },
+  {
+   "id": "port",
+   "label": "Port of Weka 3.4's ADTree (prospectr_adtree) against Weka 3.4.3",
+   "kind": "code_check",
+   "source": "port",
+   "method": "check",
+   "check_from": "port"
+  },
+  {
+   "id": "port.weka_versions",
+   "label": "Weka 3.4.1, 3.4.2 and 3.4.4 against 3.4.3 on the download page's recipe",
+   "kind": "code_check",
+   "source": "authors_code",
+   "method": "check",
+   "check_from": "weka_versions"
+  },
+  {
+   "id": "package",
+   "label": "Python package prospectr_adtree and its tutorial",
+   "kind": "code_check",
+   "source": "port",
+   "method": "check",
+   "check_from": "package",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {inconclusive} inconclusive, {differs} differ, {not_attempted} not attempted. PROSPECTR's Perl scorer is lost, but its training and test sets survive in the Wayback Machine. Run on them, the paper's own tree gives Table 3's training accuracy (67.2% against 67%) and Fig. 3A's curve.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1",
+    [
+     "fig1.a",
+     "fig1.b",
+     "fig1.c",
+     "fig1.d",
+     "fig1.e",
+     "fig1.f"
+    ]
+   ],
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3.a",
+     "fig3.b",
+     "fig3.c"
+    ]
+   ],
+   [
+    "items",
+    "Table 2",
+    [
+     "table2"
+    ]
+   ],
+   [
+    "items",
+    "Table 3",
+    [
+     "table3.training",
+     "table3.cv10",
+     "table3.hgmd",
+     "table3.oligogenic"
+    ]
+   ],
+   [
+    "items",
+    "Table 4",
+    [
+     "table4"
+    ]
+   ],
+   [
+    "items",
+    "Weka port",
+    [
+     "port"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, table and claim of the paper. Values match when they are within half a unit of the last printed digit. The archived sets are a 2006 version of the paper's sets, so most values cannot match exactly.",
+  "claims_line": "The main claim holds on the surviving data: the published tree separates disease genes from controls about as well as Table 3 says (training accuracy 67.2% against 67%; HGMD 63.0% against 64.5%; oligogenic 67% against 65%). The differences come from the archived sets, which are a later version of the paper's; six of 58 claims in the paper's own arithmetic do not follow (text.arithmetic).",
+  "came_back": [
+   [
+    "Table 3",
+    "The published tree on the archived training set: 67.2% accuracy, AUC 0.744 and kappa 0.34 (paper 67%, 0.75, 0.35)."
+   ],
+   [
+    "Fig. 3A",
+    "The training-set ROC curve of the published tree lies on the published one."
+   ],
+   [
+    "Table 4",
+    "Five of eleven feature shares at printed precision, nine if the shares are truncated, from the published tree."
+   ],
+   [
+    "Weka",
+    "The download page's recipe rerun in Weka 3.4.3, and Weka's ADTree ported to Python with identical trees and scores."
+   ],
+   [
+    "The program",
+    "PROSPECTR's tree as the Python package prospectr_adtree."
+   ]
+  ],
+  "buried": [
+   "The paper's own gene lists: the archived ARFFs carry no gene IDs and hold 1,080, 713 and 50 disease genes, not 1,084, 675 and 54.",
+   "Fig. 4 and the artificial loci, the Lopez-Bigas comparison and the mutation types: they need gene IDs, HGMD records or positions that were never published.",
+   "Additional File 1 and the genome-wide numbers: the archived score dump comes from another model, and EnsMart 22.1 was not archived."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Classifier",
+    "Weka 3.4.3's ADTree, -B 15 -E -1, the command on PROSPECTR's archived download page."
+   ],
+   [
+    "Scorer",
+    "Figure 2's 15 rules; unknown features skip their rules; a negative score means disease-like."
+   ],
+   [
+    "Normalisation",
+    "1/(1 + e^score); the paper's 'Euler's constant' is e."
+   ],
+   [
+    "Statistics",
+    "Accuracy, precision, recall, AUC and kappa as Weka 3.4.3 computes them, 10-fold folds as the Explorer draws them."
+   ],
+   [
+    "Data",
+    "PROSPECTR's own training and test ARFFs, captured by the Wayback Machine in 2006."
+   ]
+  ],
+  "closing": "PROSPECTR's tree came back from its figure, and its data from the Wayback Machine."
+ }
+}

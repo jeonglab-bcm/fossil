@@ -1,0 +1,66 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "3b0315c7-c402-458a-bdd8-75a89f4454f7",
+  "transcript": "3b0315c7-c402-458a-bdd8-75a89f4454f7.jsonl",
+  "generated_at": "2026-11-12T00:40:39+00:00",
+  "started_at": "2026-11-11T22:57:27+00:00",
+  "ended_at": "2026-11-12T00:40:25+00:00",
+  "wall_clock_minutes": 103.0,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 1,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 184,
+  "tool_calls": 198,
+  "tool_calls_by_name": {
+    "Bash": 167,
+    "Read": 21,
+    "Write": 8,
+    "Skill": 1,
+    "Agent": 1
+  },
+  "tokens": {
+    "input": 368,
+    "cache_creation": 468271,
+    "cache_read": 56493467,
+    "output": 215522,
+    "thinking": 69321,
+    "total": 57177628
+  },
+  "subagents": {
+    "transcripts": 1,
+    "assistant_responses": 14,
+    "tool_calls": 14,
+    "tokens": {
+      "input": 28,
+      "cache_creation": 85935,
+      "cache_read": 831442,
+      "output": 12983,
+      "thinking": 7404,
+      "total": 930388
+    }
+  },
+  "tokens_all": {
+    "input": 396,
+    "cache_creation": 554206,
+    "cache_read": 57324909,
+    "output": 228505,
+    "thinking": 76725,
+    "total": 58108016
+  },
+  "prompts": [
+    {
+      "at": "2026-11-11T22:57:40.349Z",
+      "text": "Reproduce PMC1274252 (https://doi.org/10.1186/1471-2105-6-55) with the /paper2repro skill. Follow its definition of done. Open one pull request at the end to address issue #49 of this repo. Any heavy-duty job should not be run on the login node of this server. Follow the documentation of the server and read the limits of the partitions in this repo: https://gist.github.com/sasidharPasupuleti/714ebcf07f68c628d69fa5c245666b71",
+      "mid_turn": false
+    }
+  ],
+  "cost_state": {
+    "totalCostUSD": 0,
+    "totalDuration": 47499,
+    "totalAPIDuration": 0,
+    "modelUsage": {},
+    "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+  }
+}
