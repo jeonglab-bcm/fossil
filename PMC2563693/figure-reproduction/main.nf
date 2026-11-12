@@ -26,7 +26,9 @@ params.committed = "${projectDir}/output"
 params.annotation = "${projectDir}/annotation"
 params.pkgsrc = "${projectDir}/../package/src"
 
-def py = { -> "PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} -W ignore" }
+def py() {
+    return "PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} -W ignore"
+}
 
 process FETCH {
     output:
