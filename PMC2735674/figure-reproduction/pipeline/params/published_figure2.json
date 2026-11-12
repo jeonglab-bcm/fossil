@@ -1,0 +1,55 @@
+{
+ "_source": "Figure 2 of Bleakley and Yamanishi (2009), read off the published figure at 600 dpi. Circles are drugs, squares are target proteins, solid edges are known interactions and dashed edges are some of the 20 highest scoring predictions. The figure's layout and its choice of sub-network are manual, so only the nodes and the edges are read, not any geometry.",
+ "_reading_notes": "Read at 600 dpi and at a 4x enlargement of the published raster. The long dashed edge that reaches hsa:6095 from the upper right ends at the drug node D01132, not at D00348: the enlargement shows it stopping at that circle. The dashed edge that runs beside the known edge D01132-hsa:6096 comes from D00348. The three asterisks sit between crossing dashed edges and cannot be assigned to one edge each with confidence, so they are not compared. The thin solid edges are too dense to trace one by one: they are read as every known interaction among the drawn nodes, which the comparison reports as a count rather than as a matched edge list.",
+ "drugs": [
+  "D00040",
+  "D00094",
+  "D00316",
+  "D00348",
+  "D01132",
+  "D01441"
+ ],
+ "targets": [
+  "hsa:190",
+  "hsa:5914",
+  "hsa:5915",
+  "hsa:5916",
+  "hsa:6095",
+  "hsa:6096",
+  "hsa:6097",
+  "hsa:6256",
+  "hsa:6257",
+  "hsa:6258"
+ ],
+ "predicted_edges": [
+  [
+   "D00094",
+   "hsa:6095"
+  ],
+  [
+   "D00348",
+   "hsa:5915"
+  ],
+  [
+   "D00348",
+   "hsa:5916"
+  ],
+  [
+   "D00348",
+   "hsa:6256"
+  ],
+  [
+   "D00348",
+   "hsa:6258"
+  ],
+  [
+   "D00348",
+   "hsa:6096"
+  ],
+  [
+   "D01132",
+   "hsa:6095"
+  ]
+ ],
+ "known_edges_rule": "all_known_interactions_among_the_drawn_nodes"
+}
