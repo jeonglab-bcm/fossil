@@ -1,0 +1,2598 @@
+{
+ "paper": {
+  "id": "PMC4765871",
+  "title": "Reconstructing gene regulatory dynamics from high-dimensional single-cell snapshot data",
+  "citation": "Ocone A, Haghverdi L, Mueller NS, Theis FJ. Reconstructing gene regulatory dynamics from high-dimensional single-cell snapshot data. Bioinformatics 31(12):i89-i96 (2015)",
+  "doi": "10.1093/bioinformatics/btv257",
+  "license": "CC BY-NC 4.0"
+ },
+ "date": "2026-11-06",
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.3.0",
+  "tag": "paper2repro-v0.3.0",
+  "commit": "0e010bce478e2edf00a4e89d6a9d542301f51d98",
+  "modified": null,
+  "source": "transcript",
+  "note": "The skill text loaded in the reproduction session (2026-11-06) matches the skill folder tagged paper2repro-v0.3.0; the installed skill was at this commit."
+ },
+ "items": {
+  "fig1": {
+   "label": "Fig. 1 (diagram)",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the framework. Its panels B to D and H reuse toggle switch results, scored in Fig. 1H, Figs 5 and 6 and supp. Fig. 6.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/published/figure-1.png"
+    ]
+   }
+  },
+  "fig1.h": {
+   "label": "Fig. 1H, toggle switch posterior means",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Informative prior on lambda: Gaussian, mean 0.25 (the true value), SD 0.025",
+     "source": "our_choice"
+    },
+    {
+     "what": "Values read off the 600 dpi render of the vector figure",
+     "source": "read_from_figure",
+     "sensitivity": "Tick labels and peak positions read to about 2% of the tick spacing."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our prior on lambda (SD 0.025) does not hold lambda at 0.25: its posterior mean is 0.34, and alpha (357) moves with it. kappa+ comes within 1% of Fig. 1H, the other three parameters within 7%.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Joint gC/gD fit with SD 0.0025: the posterior-mean error is 7.2% (output/sensitivity.json), close to the paper's 6.8%. This is a test of the cause, not our result.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Observation noise sets the error",
+      "test": "The supp. Table 6 runs give errors from 6.9 to 37.8% with no trend in the noise level; the paper also finds none.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.toggle_error": {
+   "label": "Toggle switch: mean relative error about 6.8%",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Informative prior on lambda: Gaussian, mean 0.25 (the true value), SD 0.025",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our posterior means give 20.3%. With a prior ten times tighter the same fit gives 7.2%, so the paper's prior was most likely much tighter than ours; the paper does not give it.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Joint gC/gD fit with SD 0.0025: the posterior-mean error is 7.2% (output/sensitivity.json), close to the paper's 6.8%. This is a test of the cause, not our result.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Observation noise sets the error",
+      "test": "The supp. Table 6 runs give errors from 6.9 to 37.8% with no trend in the noise level; the paper also finds none.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig2.a": {
+   "label": "Fig. 2A, gZ ordered worst",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ]
+  },
+  "fig2.b": {
+   "label": "Fig. 2B (FFL structures)",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A schematic of the I1-FFL with AND and OR gates.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/published/figure-2.png"
+    ]
+   }
+  },
+  "fig2.c": {
+   "label": "Fig. 2C, 3D snapshot",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "A 3D scatter of the 300 simulated cells; the camera of the view is not recoverable and the cells are a different random draw. The same cells are scored in Fig. 2A and 2D.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/run/ffl_data.npz"
+    ]
+   }
+  },
+  "fig2.d": {
+   "label": "Fig. 2D, OR gate fit (red)",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our cells are a new random draw and our Wanderlust ordering widens the gZ pulse, so the fitted curves lie off the published ones by more than 2 px over most of their length.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig2.d.and": {
+   "label": "Fig. 2D, AND gate fit (green)",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "As for the OR fit: a new draw of cells and a wider gZ pulse.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.fig13": {
+   "label": "Supp. Fig. 13, FFL GENIE3 weights and correlations",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target",
+     "source": "found_by_search",
+     "sensitivity": "Grid: random forests or extra-trees, sqrt(p) or all inputs. On the qPCR data at w > 0.08, extra-trees gives 29 edges, 28 of Fig. 7C's 30; random forests give 54 edges with 24 in Fig. 7C (sqrt(p)) or 56 with 26 (all inputs) (output/sensitivity.json)."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The weights and correlations come from another random draw of 300 cells; GENIE3's weights also depend on its settings.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.fig14": {
+   "label": "Supp. Fig. 14, AIC and BIC of the 12 FFL models",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The AIC and BIC values scale with the number of observations and the likelihood SD, neither of which the paper gives (its BIC minus AIC implies about 100 to 150 observations; we fit 900). The ranking is the comparison that counts.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.ffl_bayes_factor": {
+   "label": "FFL: Bayes factors above 100",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Thermodynamic integration over 31 temperatures t_i = (i/30)^5, 3,000 burn-in and 6,000 samples each",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Both Bayes factors exceed 100 as in the paper; the log evidences themselves scale with the number of observations and the likelihood SD, which the paper does not give.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.ffl_error": {
+   "label": "FFL: mean relative error about 17%",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our MAP estimates put alpha and lambda about 35% low with their ratio near the truth, as the paper reports for Fig. 3; the Hill coefficients come out lower than the paper's, which moves the mean error.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Refit with SD 0.0025 instead of 0.025: lambda goes to 0.24 and the error to 22.5%, not 14.5% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.ffl_error_informative": {
+   "label": "FFL: 14.5% with an informative prior",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Informative prior on lambda: Gaussian, mean 0.25 (the true value), SD 0.025",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our informative prior (SD 0.025) does not move lambda against 900 observations; the paper's lambda of 0.249 implies a much tighter prior or fewer observations.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Refit with SD 0.0025 instead of 0.025: lambda goes to 0.24 and the error to 22.5%, not 14.5% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.ffl_ratio": {
+   "label": "FFL: alpha/lambda exactly 400",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our ratio comes back 3% below 400, not exactly 400.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig3": {
+   "label": "Fig. 3, FFL posterior modes",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Values read off the 600 dpi render of the vector figure",
+     "source": "read_from_figure",
+     "sensitivity": "Tick labels and peak positions read to about 2% of the tick spacing."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "alpha, lambda, kappa+ and kappa- come back within 5% of the paper's modes (alpha 63.7 against 62.9, lambda 0.164 against 0.1575); the Hill coefficients do not (h+ 10.1 against 16.4, h- 7.0 against 12.1). The posteriors are narrow, so the 2% tolerance tests the point estimates.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.table4": {
+   "label": "Supp. Table 4, FFL parameter modes",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Informative prior on lambda: Gaussian, mean 0.25 (the true value), SD 0.025",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Table 4's gZ values need lambda near 0.249, which our prior does not reach (see the informative-prior item).",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Refit with SD 0.0025 instead of 0.025: lambda goes to 0.24 and the error to 22.5%, not 14.5% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig4.deletion": {
+   "label": "Fig. 4, gY deletion",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our time axis ends at T_f = 44 (the mean time for gX to pass 960), the published one at 68, and our estimated lambda is 0.17, so the predicted transients are slower and shorter.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig4.knockdown": {
+   "label": "Fig. 4, knockdown",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "As for the deletion: a shorter time axis and a smaller estimated lambda.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig4.simultaneous": {
+   "label": "Fig. 4, simultaneous perturbations",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "As for the deletion: a shorter time axis and a smaller estimated lambda, which blunts the fast peak.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.fig4": {
+   "label": "FFL: predictions fit the perturbed system",
+   "assumptions": [
+    {
+     "what": "FFL input gX(t): logistic growth from 320 towards 1000 with rate 1/7 and a floor at 300, with the system noise; the paper says only 'a sigmoid-shape stochastic function'",
+     "source": "read_from_figure",
+     "sensitivity": "Set from supp. Fig. 12 (gX from about 320 at t = 0 to 960 at t of about 45). Not varied; the stopping times it gives (mean 44.3) match supp. Fig. 12."
+    },
+    {
+     "what": "FFL system noise sigma_s = 2 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of gY in supp. Fig. 12 is 2.2 to 3.5, so sigma_s = SD * sqrt(2 lambda) = 1.5 to 2.5. At sigma_s = 5 and 10 the inverted-sign OR model fits as well as the true one (output/sensitivity.json)."
+    },
+    {
+     "what": "Pseudo time scaled to [0, T_f], T_f the mean stopping time (44.3), for the fits; Figs 2 and 4 are drawn on the paper's axes",
+     "source": "our_choice"
+    },
+    {
+     "what": "Initial value of each fitted series: the GP emulator of the target at t = 0; likelihood SD: the GP noise SD of the target series",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The deletion prediction fits (R^2 above 0.8); the knockdown and the simultaneous perturbation do not, because our lambda (0.17) slows the fast transients.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The FFL system noise is wrong",
+      "test": "Refit on data simulated with sigma_s = 10: the true OR model scores log L -3904.4, the inverted OR -3805.8 and AND -3825.9, and the error rises to 90.9% (output/sensitivity.json). More noise does not bring the paper's numbers back.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The pseudo time scale sets the rates",
+      "test": "Refit with pseudo time on [0, 100], the axis of Fig. 2D: the error is 40.1% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our random draw of cells is unlucky",
+      "test": "The same seed gives the same draw; with sigma_s = 5 (another draw) the OR model's error is 30.0% (output/sensitivity.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.fig6": {
+   "label": "Supp. Fig. 6, four significant eigenvalues",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    }
+   ]
+  },
+  "fig5.left": {
+   "label": "Fig. 5, left (3D branch)",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "A 3D view of one diffusion map branch coloured by pseudo time; the camera is not recoverable. The branch's series are scored in Fig. 5, right.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/run/toggle_data.npz"
+    ]
+   }
+  },
+  "fig5.gA": {
+   "label": "Fig. 5, gA series",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/scores.json",
+     "figure-reproduction/output/fig5_overlay.png"
+    ]
+   }
+  },
+  "fig5.gB": {
+   "label": "Fig. 5, gB series",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/scores.json",
+     "figure-reproduction/output/fig5_overlay.png"
+    ]
+   }
+  },
+  "fig5.gC": {
+   "label": "Fig. 5, gC series",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/scores.json",
+     "figure-reproduction/output/fig5_overlay.png"
+    ]
+   }
+  },
+  "fig5.gD": {
+   "label": "Fig. 5, gD series",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "Our cells are another random draw, so our dots cannot fall on the published ones; the branch length (about 140 cells) and the shape of each series come back, but a 1.5 shift of pseudo time scores about as well as ours.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/scores.json",
+     "figure-reproduction/output/fig5_overlay.png"
+    ]
+   }
+  },
+  "fig5.medians": {
+   "label": "Fig. 5, series medians in data units",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Published medians read from the coloured dot pixels of the 600 dpi render of Fig. 5, converted to data units with the axis calibration in params/panels.json",
+     "source": "read_from_figure",
+     "sensitivity": "The same reading applied to our render gives 16 matches; our medians computed from the cell values give 15 (output/fig5_tests.json)."
+    },
+    {
+     "what": "Medians over seven 20-unit bins of pseudo time, from the coloured dot pixels of each panel, read alike from the published render and ours; a bin matches within 2 sqrt(2) bootstrap SEs of our bin median, the spread of a new random draw of cells",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "16 of 28 bin medians fall within the spread of a new random draw, and none when another gene's series stands in for ours. The misses lie on the rising and falling stretches, where a small difference in how fast pseudo time runs moves the median most.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Reading medians from the rendered dots biases them",
+      "test": "Our medians read from our render match in 16 bins, those computed from our cell values in 15 (output/fig5_tests.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our pseudo time runs at another speed",
+      "test": "Stretching our pseudo time axis by 4% raises the matches from 15 to 20 of 28; no stretch from 0.85 to 1.15 does better (output/fig5_tests.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The margin leaves out the spread between Wanderlust replicates",
+      "test": "Widening the margin by the SD of each bin median over our three replicates leaves 16 matches (output/fig5_tests.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig6.left": {
+   "label": "Fig. 6, model scores for gC",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target",
+     "source": "found_by_search",
+     "sensitivity": "Grid: random forests or extra-trees, sqrt(p) or all inputs. On the qPCR data at w > 0.08, extra-trees gives 29 edges, 28 of Fig. 7C's 30; random forests give 54 edges with 24 in Fig. 7C (sqrt(p)) or 56 with 26 (all inputs) (output/sensitivity.json)."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "AND(gA+, gD-) is best, as in the paper. The other scores differ: gD alone and the OR gate score 0.83 against the paper's 0.57 and 0.56, probably because their AIC gap to the best model is relatively smaller in our 837 observations.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "supp.wanderlust_dims": {
+   "label": "Supp. 1.3: Wanderlust in low and high dimension, 92%",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our pseudo times on the data and on four diffusion components correlate at 99.2%, closer than the paper's 92%; the paper's conclusion, that the two are very similar, holds. The paper does not say how its correlation is computed or which replicates it pairs.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Observation noise lowers the agreement",
+      "test": "The same comparison on data with additive noise 20 and 80 gives 99.1% and 99.2% (output/sensitivity.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Different start cells",
+      "test": "Our ten replicates start at the ten cells nearest the start cell; their correlations range from 99.1% to 99.3%.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.robustness": {
+   "label": "Supp. 2.2.3, 2.2.4 and 2.2.7: further robustness runs",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Not attempted. The runs with noise 200 and 300, Nn from 5 to 30, forward and backward start cells, three sampling functions and 200 cells rest on start cells picked by eye (supp. Fig. 22) and on sampling functions shown only as plots (supp. Fig. 26).",
+    "status": "explained",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4765871/"
+    ]
+   }
+  },
+  "supp.fig18": {
+   "label": "Supp. Fig. 18 and text: the same for gD",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target",
+     "source": "found_by_search",
+     "sensitivity": "Grid: random forests or extra-trees, sqrt(p) or all inputs. On the qPCR data at w > 0.08, extra-trees gives 29 edges, 28 of Fig. 7C's 30; random forests give 54 edges with 24 in Fig. 7C (sqrt(p)) or 56 with 26 (all inputs) (output/sensitivity.json)."
+    }
+   ]
+  },
+  "fig6.right.top": {
+   "label": "Fig. 6, gC fit, branch C",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our gC series is another random draw, drawn on the published axis by rank; the fitted curve rises earlier than the published one (see the curves in data units).",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "fig6.right.bottom": {
+   "label": "Fig. 6, gC fit, branch D",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "As for the top panel: another draw, and a pulse at another pseudo time.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "fig6.right.curves": {
+   "label": "Fig. 6, gC fits in data units",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Published fits read from the vector drawing of Fig. 6, converted to data units with the axis calibration in params/panels.json",
+     "source": "read_from_figure",
+     "sensitivity": "The field closest to its margin (branch C at pseudo time 60) lies 7.9 units, 0.6% of the y range, outside it; every other field is at least 9 units from its margin's edge."
+    },
+    {
+     "what": "A value matches within the skill's near-miss sizes: 5% of the published value plus 1% of the y range for heights, 1% of the x range for the pseudo time of the maximum",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "5 of 16 values match: the end of both curves and branch D's value at pseudo time 60. Our fits rise earlier than the paper's (at pseudo time 20, 104 and 118 against 30 and 21), and branch D's pulse peaks at 49 instead of 68.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "supp.table6": {
+   "label": "Supp. Table 6, errors under observation noise",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Informative prior on lambda: Gaussian, mean 0.25 (the true value), SD 0.025",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our errors under observation noise scatter from 6.9 to 37.8% around the paper's 5.1 to 9.1%, with the same weak prior as our main fit.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The informative prior on lambda was much tighter than ours",
+      "test": "Joint gC/gD fit with SD 0.0025: the posterior-mean error is 7.2% (output/sensitivity.json), close to the paper's 6.8%. This is a test of the cause, not our result.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Observation noise sets the error",
+      "test": "The supp. Table 6 runs give errors from 6.9 to 37.8% with no trend in the noise level; the paper also finds none.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.table1": {
+   "label": "Supp. Table 1, clustering errors",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Low-dimensional clustering beats high-dimensional clustering at both noise levels, as in the paper, but our errors are about twice the paper's. The start and end cells were picked by eye in the paper, and its six regions are defined by plots we cannot read exactly.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Another start cell",
+      "test": "Our start is the cell with the lowest late genes; the paper's forward and backward starts (supp. 2.2.4) change its error by a few points only.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "supp.fig17": {
+   "label": "Supp. Figs 17 and 25, inputs of gC",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target",
+     "source": "found_by_search",
+     "sensitivity": "Grid: random forests or extra-trees, sqrt(p) or all inputs. On the qPCR data at w > 0.08, extra-trees gives 29 edges, 28 of Fig. 7C's 30; random forests give 54 edges with 24 in Fig. 7C (sqrt(p)) or 56 with 26 (all inputs) (output/sensitivity.json)."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "GENIE3 on our draw keeps the inputs of supp. Figs 17 and 25 only in part; the weights depend on the draw and on GENIE3's settings.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "GENIE3's settings",
+      "test": "The extra-trees setting that reproduces Fig. 7C is used here too; no other setting was tried on the toggle data.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "supp.table7": {
+   "label": "Supp. Table 7, 94 gC models",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Thermodynamic integration over 31 temperatures t_i = (i/30)^5, 3,000 burn-in and 6,000 samples each",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "and(or(gA+, gB-), gD-) wins on BIC, AIC and the Bayes factor in our run; the paper's BIC and Bayes factor favour and(gA+, gD-). gB does not collapse out of our fit.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "gB adds nothing and wins by chance",
+      "test": "Thermodynamic integration gives the gB model a log evidence 61 higher; chance cannot do that.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.haem_cells": {
+   "label": "597 cells after quality control",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    }
+   ]
+  },
+  "fig7.a": {
+   "label": "Fig. 7A (lineage diagram)",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A schematic of the haematopoietic lineages.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/published/figure-7.png"
+    ]
+   }
+  },
+  "supp.fig32": {
+   "label": "Supp. Fig. 32A, maximum of <d>",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    }
+   ]
+  },
+  "fig7.b": {
+   "label": "Fig. 7B, diffusion map by cell type",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Diffusion map sigma = 10^0.9 = 7.94; supp. Table 10 prints 100.9",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 32A has the maximum of <d> at log10 sigma = 0.9, and so does our curve. Cell-type agreement of 10 nearest neighbours: 0.66 at 10^0.9, 0.60 at 100.9, 0.60 at half and 0.68 at double."
+    },
+    {
+     "what": "Fig. 7B view: the linear map of our three diffusion components onto the page that best sends each cell type's centroid to the published one",
+     "source": "found_by_search",
+     "sensitivity": "Fitted on 5 centroids (8 parameters). The controls are fitted the same way, so the fit itself cannot pass a wrong embedding."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The shape comes back (the four arms and the cell-type order), but the camera of the 3D view is fitted and our component order differs; doubling sigma scores as well, so the comparison cannot pin sigma down.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Sigma is 100.9 as supp. Table 10 prints",
+      "test": "Embedding with sigma = 100.9, projected the same way: 2.6% within 2 px, against 25.6% at 10^0.9.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Sigma is half of ours",
+      "test": "Embedding with sigma = 3.97: 11.6% within 2 px.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Sigma is twice ours",
+      "test": "Embedding with sigma = 15.9: 25.7% within 2 px, as good as ours.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "fig7.c": {
+   "label": "Fig. 7C, GENIE3 network (w > 0.08)",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "GENIE3 with extra-trees, sqrt(p) candidate inputs per split, 1,000 trees, weights normalised per target",
+     "source": "found_by_search",
+     "sensitivity": "Grid: random forests or extra-trees, sqrt(p) or all inputs. On the qPCR data at w > 0.08, extra-trees gives 29 edges, 28 of Fig. 7C's 30; random forests give 54 edges with 24 in Fig. 7C (sqrt(p)) or 56 with 26 (all inputs) (output/sensitivity.json)."
+    },
+    {
+     "what": "Fig. 7C edges transcribed by hand from the 600 dpi render (30 directed edges)",
+     "source": "read_from_figure",
+     "sensitivity": "Arrowheads read at 600 dpi; a misread direction would move one field."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "28 of the 30 published edges come back and one edge is extra. All three differences lie within 0.002 of the 0.08 threshold: PU.1 to LMO2 0.0799, TEL to LDB1 0.0782, GFI1B to GATA2 0.0807. Which side of the threshold they fall on depends on the random trees.",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/run/haem.json"
+    ]
+   }
+  },
+  "supp.fig29": {
+   "label": "Supp. Fig. 29, six correlations",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "Five of the six correlations come back at the printed precision; r(GFI1, GFI1B) is -0.4056 against -0.40.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "A different expression scale",
+      "test": "Pearson r is the same on CT and on 20 - CT; the undetected value 15 is Moignard's.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "A different cell set",
+      "test": "Our QC gives the paper's 597 cells and per-type counts; the other five correlations match, so the cells are very likely the same.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "supp.branch_errors": {
+   "label": "Supp. 2.3.1, branch clustering errors",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Diffusion map sigma = 10^0.9 = 7.94; supp. Table 10 prints 100.9",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 32A has the maximum of <d> at log10 sigma = 0.9, and so does our curve. Cell-type agreement of 10 nearest neighbours: 0.66 at 10^0.9, 0.60 at 100.9, 0.60 at half and 0.68 at double."
+    },
+    {
+     "what": "Start and end cells by farthest-point sampling among dense cells (5 tips); the start is the tip with the highest GATA2 minus GATA1; ends are named by the cell types near them",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The paper picked the start and end cells by eye; ours are the tips of the embedding. Our GMP branch takes in 55 cells of other pathways (54 CLP, 1 PreMegE) of its 176.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Other tips",
+      "test": "Tip sets with 4, 5 and 6 tips and density cuts 0.95 and 0.97: only 5 tips at 0.97 reach all three pathways.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Sigma 100.9",
+      "test": "The embedding with sigma = 100.9 separates the cell types less well (10-NN agreement 0.60 against 0.66).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.table8": {
+   "label": "Supp. Table 8, GATA2 models (CLP)",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our AIC values scale with our 958 observations (3 replicates of about 360 cells, after outlier removal) against the paper's about 115 points per series. Our best GATA2 model is and(GFI1, NFE2), the paper's new prediction, but SCL alone ranks last.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.table9.GFI1": {
+   "label": "Supp. Table 9, GFI1 models (GMP)",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our best GFI1 model is GATA2 alone, which the paper ranks worst; our GMP ordering does not give GFI1 the clean low-to-high switch of supp. Fig. 28.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "supp.table9.GFI1B": {
+   "label": "Supp. Table 9, GFI1B models (GMP)",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our best GFI1B model is or(GATA2, GFI1), with only GFI1 effective; the paper finds GATA2 and GFI1 each on their own.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig8": {
+   "label": "Fig. 8, refined subnetwork",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "GFI1 inhibiting GATA2, AND(GFI1, NFE2) on GATA2 and GFI1 inhibiting GFI1B come back; the SCL edge, the GFI1B edge on GFI1 and the GATA2 edge on GFI1B do not.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GATA2_SCL": {
+   "label": "Fig. 9, GATA2 with input SCL",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GATA2_GFI1": {
+   "label": "Fig. 9, GATA2 with input GFI1",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GATA2_and": {
+   "label": "Fig. 9, GATA2 with AND(GFI1, NFE2)",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GFI1_GFI1B": {
+   "label": "Fig. 9, GFI1 with input GFI1B",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GFI1B_GATA2": {
+   "label": "Fig. 9, GFI1B with input GATA2",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.GFI1B_GFI1": {
+   "label": "Fig. 9, GFI1B with input GFI1",
+   "assumptions": [
+    {
+     "what": "CT = Ct - mean(Ct of Ubc, Polr2a), Ct > 27 set to 28 first, undetected set to 15 (Moignard et al. 2013, Methods)",
+     "source": "paper"
+    },
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    },
+    {
+     "what": "Outlier removal: majority of detected cells in a moving window of 22 to 28 cells (scaled by n/120), the first window size that splits the series in two; undetected values replaced by N(15, SD of the detected CT); log expression = 20 - CT",
+     "source": "our_choice"
+    },
+    {
+     "what": "Input interpolators: linear interpolation of a 9-cell running mean",
+     "source": "our_choice"
+    },
+    {
+     "what": "Edge signs from supp. Fig. 29 (right): SCL+, NFE2+, GFI1- on GATA2; GATA2-, GFI1B- on GFI1; GATA2+, GFI1- on GFI1B",
+     "source": "paper"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Our series has three times as many cells and a different ordering, so the fitted step sits elsewhere and the curve lies off the published one.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Wanderlust orders the qPCR cells badly in 18 dimensions",
+      "test": "Spearman correlation of pseudo time with the order HSC, LMPP, GMP or CLP: 0.11 (GMP) and 0.23 (CLP) in 18 dimensions, 0.13 and 0.28 with cosine distance, 0.81 and 0.46 on the three diffusion components. The paper runs Wanderlust in 18 dimensions, as we do.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal changes the selected models",
+      "test": "A first run removed the minority state when no window split a series in two; it selected GFI1B alone for GFI1 and GATA2 for GFI1B. Keeping all cells (the committed run) selects GATA2 for GFI1 and or(GATA2, GFI1) for GFI1B. Neither matches supp. Tables 8 and 9.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "fig9.points": {
+   "label": "Fig. 9, points per series",
+   "assumptions": [
+    {
+     "what": "Pseudo time of the haematopoietic series: the cell's rank, spread over 0 to 120",
+     "source": "read_from_figure",
+     "sensitivity": "The published Fig. 9 points sit at integer pseudo times on a 0 to 120 axis. We use all pathway cells (about 360) where the paper has 102 to 115 points; not varied."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The published series have 102 to 115 points; ours keep all cells of a pathway except the outliers removed (304 of 360 for GATA2 on CLP).",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's series use fewer cells",
+      "test": "The published Fig. 9 has 115 (CLP) and 102 or 109 (GMP) points at integer pseudo times; the pathways have 360 and 361 cells. Which cells were kept is not stated, so this cannot be tested.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Outlier removal took the rest",
+      "test": "Our removal drops at most a few dozen cells per series, not two thirds.",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  "text.arithmetic": {
+   "label": "Claims recomputed from the paper's own numbers",
+   "assumptions": [
+    {
+     "what": "Values read off the 600 dpi render of the vector figure",
+     "source": "read_from_figure",
+     "sensitivity": "Tick labels and peak positions read to about 2% of the tick spacing."
+    }
+   ],
+   "exceptions": [
+    {
+     "field": "14.5% from supp. Table 4 (gZ)",
+     "category": "paper_error",
+     "evidence": "The six gZ modes of supp. Table 4 against the true values of supp. Table 3 give 3.03, 0.40, 4.28, 29.22, 32.13 and 18.52%, mean 14.59%: 14.6, printed as 14.5 (truncated, not rounded)."
+    },
+    {
+     "field": "17% from the modes of Fig. 3",
+     "category": "paper_error",
+     "evidence": "The posterior modes of Fig. 3 (alpha 62.9, lambda 0.1575, kappa+ 412.05, h+ 16.38, kappa- 245.2, h- 12.08, read against its tick labels) give a mean relative error of 23.1%, not 17%. Reading errors of 2% of a tick spacing move it by less than 0.1 points."
+    },
+    {
+     "field": "6.8% from the posteriors of Fig. 1H",
+     "category": "paper_error",
+     "evidence": "The peaks of Fig. 1H (alpha 249.4, lambda 0.2466, kappa+ 414.57, h+ 16.05, kappa- 190.25, h- 1.8065) give 6.59%. The posteriors are narrower than 0.1% of their values, so their means equal their peaks to the precision that matters."
+    }
+   ]
+  }
+ },
+ "page": {
+  "lede": "The authors' code is gone, so we rebuilt the whole framework from the paper and its supplement and ran it again. Of {items} results, {exact} came back exactly, {agrees} agree, {partly} partly agree, {inconclusive} cannot be told apart, {differs} differ and {not_attempted} are diagrams or 3D views we did not redraw.",
+  "label_rows": [
+   [
+    "fig-2",
+    "Fig. 2D",
+    [
+     "fig2.d",
+     "fig2.d.and"
+    ]
+   ],
+   [
+    "items",
+    "FFL logic",
+    [
+     "supp.fig14",
+     "text.ffl_bayes_factor"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4.deletion",
+     "fig4.knockdown",
+     "fig4.simultaneous"
+    ]
+   ],
+   [
+    "fig-6",
+    "Toggle logic",
+    [
+     "fig6.left",
+     "supp.table7"
+    ]
+   ],
+   [
+    "items",
+    "597 cells",
+    [
+     "text.haem_cells"
+    ]
+   ],
+   [
+    "items",
+    "Fig. 7C network",
+    [
+     "fig7.c"
+    ]
+   ],
+   [
+    "items",
+    "Fig. 8 edges",
+    [
+     "fig8"
+    ]
+   ],
+   [
+    "fig-9",
+    "Fig. 9",
+    [
+     "fig9.GATA2_SCL",
+     "fig9.GATA2_GFI1",
+     "fig9.GATA2_and",
+     "fig9.GFI1_GFI1B",
+     "fig9.GFI1B_GATA2",
+     "fig9.GFI1B_GFI1"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure panel, table and number of the paper we compared, in the paper's order. Paper and ours are both shown; the verdict is computed from them.",
+  "claims_line": "The paper's main claim holds on the simulated data: the OR gate wins for the feed-forward loop, and AND(gA+, gD-) wins for gC among Fig. 6's seven models (among supp. Table 7's 94, a model with gB wins). The parameter errors do not come back, and the refined network of Fig. 8 comes back only in part (3 of 7 edges); the causes are the unstated informative prior, pseudo time scale and noise settings, and the unstated choice of cells and orderings on the GMP and CLP pathways.",
+  "came_back": [
+   [
+    "The cells",
+    "Moignard's quality control on their Supplementary Table 3 leaves exactly the paper's 597 cells and its five per-type counts."
+   ],
+   [
+    "The kernel width",
+    "Supplementary Table 10 prints 100.9 for the qPCR data. Its Figure 32A puts the best width at 10 to the power 0.9, and so does our curve. 100.9 flattens the map."
+   ],
+   [
+    "The network",
+    "GENIE3 with extra-trees gives 29 edges above 0.08, and 28 of them are the 30 of Fig. 7C."
+   ],
+   [
+    "The noise",
+    "The supplement's own traces give the system noise: 2 for the feed-forward loop and about 6 for the toggle switch."
+   ],
+   [
+    "The feed-forward loop logic",
+    "AIC and thermodynamic integration pick the OR gate with gX activating and gY repressing, by Bayes factors far above 100."
+   ],
+   [
+    "Fig. 3's odd rates",
+    "Our MAP estimates put alpha near 64 and lambda near 0.16, as Fig. 3 does: both about 35% below the truth."
+   ],
+   [
+    "The toggle switch map",
+    "Four eigenvalues stand out and the cells form an X with four branches, as in supp. Fig. 6 and Fig. 1B."
+   ]
+  ],
+  "buried": [
+   "The authors' C++ and Matlab code",
+   "Which cells make the paper's haematopoietic pseudo time series (102 to 115 points, against about 360 cells per pathway)",
+   "The likelihood variance, the chain lengths, the temperature ladder and the informative prior's width",
+   "The start and end cells the authors picked by eye",
+   "The camera of the 3D views in Figs 2C and 5"
+  ],
+  "matched_intro": "The paper's figures are vector drawings. We read each panel's axes from its tick labels in the PDF and draw our curves on the same pixel grid at 600 dpi, in the published colours. A score is the share of the published line within 2 px of ours, and of ours within 2 px of the published line; the smaller counts.",
+  "matched": [
+   [
+    "Our run",
+    "The two simulated systems, rerun from their equations with noise read from the supplement's traces, and the Moignard 2013 qPCR data. Diffusion maps, Wanderlust, GENIE3, the ODE models, MCMC and thermodynamic integration rebuilt in Python."
+   ],
+   [
+    "Axes",
+    "One linear map per axis from the tick labels of the vector figure; the plotted curves and points read out of the same PDF give the paper's numbers where it prints none."
+   ],
+   [
+    "Fitted, not data",
+    "The view of Fig. 7B (a linear projection of our three components that sends each cell type's centre to the published one) and GENIE3's tree method (from a grid of four)."
+   ],
+   [
+    "Controls",
+    "Each panel is also scored with a wrong input (another panel's curve) and near misses (a 1% shift, amplitude x 1.05). A panel agrees only when ours beats them and passes 90%."
+   ],
+   [
+    "Reading the views",
+    "On this page the overlay is drawn in the browser: ink is the paper only, light green is ours only, dark green is both. Difference: darker means a larger grey-level difference. The overlay PNGs in the repository use red for the paper and cyan for ours."
+   ]
+  ],
+  "closing": "The framework comes back from the paper alone. The logic gates it picks on the simulated data come back; its error figures and the refined blood cell network do not, because the settings behind them were never written down."
+ }
+}
