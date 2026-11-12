@@ -52,6 +52,21 @@ def load_patients(alndir):
     return out
 
 
+def round_floats(obj, digits: int = 6):
+    """Round every float to ``digits`` significant digits before writing.
+
+    The fits converge to about one part in 1e8, which differs between BLAS builds; the pipeline's
+    check compares numbers to a relative 1e-9, and nothing here is read beyond three digits.
+    """
+    if isinstance(obj, float):
+        return float(f"%.{digits}g" % obj)
+    if isinstance(obj, dict):
+        return {k: round_floats(v, digits) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [round_floats(v, digits) for v in obj]
+    return obj
+
+
 def series(binned):
     return {
         "centers": binned.centers.tolist(),
@@ -173,7 +188,7 @@ def main(argv=None) -> int:
         np.save(out / f"rates_{name}.npy", np.sort(arr))
 
     with open(out / "analysis.json", "w") as f:
-        json.dump(res, f, indent=1, sort_keys=True)
+        json.dump(round_floats(res), f, indent=1, sort_keys=True)
     print(f"pairs {res['recombination']['pairs']}, rho {fit.rho:.3g}, "
           f"observations ns/syn {(~syn).sum()}/{syn.sum()}", file=sys.stderr)
     return 0
