@@ -1,0 +1,86 @@
+name: Reproduce PMC2949886
+
+# Reruns the PMC2949886 pipeline (filtering, FDR and power, van Iterson et al. 2010) and checks it:
+# data sets 1-50 of the simulation rerun from scratch against the committed chunk, every figure
+# redrawn and scored from the committed chunk sums, the single-data-set analyses (Figs 2, 6, S4),
+# Fig. 1 and the leukemia analysis (Figs 7, S5) rerun in full, the R package checked, and the run
+# compared with the committed output/ (compare_runs.py).
+# Start the workflow by hand with full = true to simulate all 1000 data sets again (both noise
+# readings, about 40 CPU minutes on four cores).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Simulate all 1000 data sets again"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2949886/figure-reproduction/**"
+      - "PMC2949886/package/**"
+      - ".github/workflows/reproduce-pmc2949886.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2949886/figure-reproduction/**"
+      - "PMC2949886/package/**"
+      - ".github/workflows/reproduce-pmc2949886.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2949886/figure-reproduction/requirements.txt
+
+      # The committed outputs were made with R 4.3.3 and Bioconductor 3.18; the same versions here
+      # let the rerun match them to 1e-6.
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3.3"
+          use-public-rspm: true
+
+      - name: Install R packages
+        run: |
+          Rscript -e 'install.packages("BiocManager")'
+          Rscript -e 'BiocManager::install(version = "3.18", ask = FALSE, update = FALSE)'
+          Rscript -e 'BiocManager::install(c("multtest", "qvalue", "limma"), ask = FALSE, update = FALSE)'
+          Rscript -e 'install.packages(c("jsonlite", "knitr", "markdown", "testthat"))'
+          Rscript -e 'for (p in c("multtest", "qvalue", "limma", "jsonlite", "knitr", "markdown", "testthat")) cat(p, as.character(packageVersion(p)), "\n")'
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2949886/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2949886-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

@@ -1,0 +1,2250 @@
+{
+ "paper": {
+  "id": "PMC2949886",
+  "title": "Filtering, FDR and power",
+  "citation": "van Iterson M, Boer JM, Menezes RX. Filtering, FDR and power. BMC Bioinformatics 11:450 (2010)",
+  "doi": "10.1186/1471-2105-11-450",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-12",
+  "pipeline": "PMC2949886/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2949886/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "MOESM1.PDF (Additional File 1)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM1_ESM.PDF",
+    "sha256": "34643ddb210f4495cd5babeab6f271e6c09e26ca16a2a99406bd356869dc2ae7"
+   },
+   {
+    "name": "MOESM2.pdf (authors' original Fig. 1)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM2_ESM.pdf",
+    "sha256": "284517aa0b144553eb1819e0dc8547a2055cd9ca4a82ab789890f6c5db41ca30"
+   },
+   {
+    "name": "MOESM3.pdf (Fig. 2)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM3_ESM.pdf",
+    "sha256": "d47b7743d2daf4d4fd184ac12acae1912a208ea949dd3cf77d95a9100a42f958"
+   },
+   {
+    "name": "MOESM4.pdf (Fig. 3)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM4_ESM.pdf",
+    "sha256": "9070034e7af84f5d470a6dd7a5344350655a5f08f1d4d6a2b8074e480592230f"
+   },
+   {
+    "name": "MOESM5.pdf (Fig. 4)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM5_ESM.pdf",
+    "sha256": "f4e6f03774e040284d655ce583bacfec5d1a42886f69d9bef52d36a972884111"
+   },
+   {
+    "name": "MOESM6.pdf (Fig. 5)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM6_ESM.pdf",
+    "sha256": "1cf2424a1e2a59cbab4debea2fd691e149bd6d19c4ce7d643b2b8c053b531668"
+   },
+   {
+    "name": "MOESM7.pdf (Fig. 6)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM7_ESM.pdf",
+    "sha256": "792468bde749045d4addd852f3cfc76c268a6c83ef9a0bbb3367c653e9ebb066"
+   },
+   {
+    "name": "MOESM8.pdf (Fig. 7)",
+    "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-11-450/MediaObjects/12859_2010_3907_MOESM8_ESM.pdf",
+    "sha256": "4f1815f55741fb9042add314cd7da6aa55f54741f84370dc72b26b66ed95cdcc"
+   },
+   {
+    "name": "GSE13425_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE13nnn/GSE13425/matrix/GSE13425_series_matrix.txt.gz",
+    "sha256": "1f76cbe1b1c88f39fa468ebddb5e0773693c99cb889651d5d5ffe6208ddf81a2"
+   }
+  ],
+  "environment": {
+   "R": "4.3.3",
+   "Bioconductor": "3.18",
+   "multtest": "2.58.0",
+   "qvalue": "2.34.0",
+   "limma": "3.58.1",
+   "python": "3.12",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "pymupdf": "2.1",
+   "pillow": "13.0.0",
+   "nextflow": "25.04.6"
+  }
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "fig1.null",
+   "label": "Fig. 1, null hypothesis",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig1:null",
+   "assumptions": [
+    {
+     "what": "The variance filter is the pooled within-group variance Sp^2 (the text's W_V is the variance of all samples S_Z^2)",
+     "source": "found_by_search",
+     "sensitivity": "Under the null, S_Z^2 is independent of T and leaves the p-value density flat at 1; the published dotted curve falls to 0 at p = 0. With Sp^2 the three curves match the published ones within 0.001 (density units). S_Z^2 is a near-miss control."
+    },
+    {
+     "what": "Each filter removes 25% of the null features",
+     "source": "paper",
+     "sensitivity": "None."
+    }
+   ]
+  },
+  {
+   "id": "fig1.alternative",
+   "label": "Fig. 1, alternative hypothesis",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig1:alternative",
+   "assumptions": [
+    {
+     "what": "delta = 1 is the noncentrality of the t statistic",
+     "source": "found_by_search",
+     "sensitivity": "With delta read as a group difference of 1 (noncentrality 1.58) the no-filter curve misses by up to 3.8; with the noncentrality the no-filter and fold-change curves match within 0.002. A near-miss control."
+    },
+    {
+     "what": "The thresholds are set under the null and used under the alternative",
+     "source": "found_by_search",
+     "sensitivity": "Thresholds set under the alternative itself move the fold-change curve by up to 0.52. A near-miss control."
+    },
+    {
+     "what": "The variance filter is Sp^2, as for the null panel",
+     "source": "found_by_search",
+     "sensitivity": "See fig1.null."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The no-filter and fold-change curves match the published ones within 0.002; the variance-filter curve does not: ours removes more small p-values (published 2.00 against ours 1.33 at p = 0.005, and up to 0.54 apart).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/fig1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The variance filter is S_Z^2, the text's W_V",
+      "test": "fig1.json total_variance: max difference 2.83",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The threshold is set under the alternative itself",
+      "test": "Sp^2 has the same distribution under both hypotheses, so the curve does not move",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "delta is the group difference, not the noncentrality",
+      "test": "fig1.json alternative_mean1: the no-filter curve is then off by 3.8",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.foldchange",
+   "label": "Fig. 2, fold change",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig2:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Our data set 1 stands for the paper's data set 'chosen at random'",
+     "source": "our_choice",
+     "sensitivity": "Any data set; the histograms differ by sampling noise."
+    },
+    {
+     "what": "Bins are the published histogram's breaks (pretty(range, 50)); lines are counts per hypothesis over m times the bin width",
+     "source": "read_from_figure",
+     "sensitivity": "Display only."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "A data set with noise SD 0.01 instead",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Heights off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.signal",
+   "label": "Fig. 2, signal",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig2:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Our data set 1 stands for the paper's data set 'chosen at random'",
+     "source": "our_choice",
+     "sensitivity": "Any data set; the histograms differ by sampling noise."
+    },
+    {
+     "what": "Bins are the published histogram's breaks (pretty(range, 50)); lines are counts per hypothesis over m times the bin width",
+     "source": "read_from_figure",
+     "sensitivity": "Display only."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "A data set with noise SD 0.01 instead",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Heights off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.variance",
+   "label": "Fig. 2, variance",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig2:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Our data set 1 stands for the paper's data set 'chosen at random'",
+     "source": "our_choice",
+     "sensitivity": "Any data set; the histograms differ by sampling noise."
+    },
+    {
+     "what": "Bins are the published histogram's breaks (pretty(range, 50)); lines are counts per hypothesis over m times the bin width",
+     "source": "read_from_figure",
+     "sensitivity": "Display only."
+    },
+    {
+     "what": "The variance panel's x axis is 19 S_Z^2 (the sum of squared deviations), not S_Z^2",
+     "source": "read_from_figure",
+     "sensitivity": "Our 19 S_Z^2 deciles match the published grey lines (median 5.106 against 5.104); S_Z^2 would put all of the mass below 1. Display only: the filter cut does not depend on the scale."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One simulated data set 'chosen at random'; its seed is not given, so the histograms differ by sampling noise. The deciles agree (the variance median 5.106 against 5.104).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "A data set with noise SD 0.01 instead",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Heights off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig3:main",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Best filter: (pi0 - x)/(1 - x) (Additional File 1, section 5); random filter: features removed at random",
+     "source": "paper",
+     "sensitivity": "None."
+    }
+   ]
+  },
+  {
+   "id": "fig4.bh",
+   "label": "Fig. 4, Benjamini-Hochberg",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig4:BH",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Every point but the last lies within 0.004 of the published curve. The paper draws the fold-change filter at x = 0.99 at 0.0201 for BH, aBH and BY alike (one false positive among the 50 features left), while its own Fig. 3 puts pi0 at 0.0019 there (0.1 null features); ours is 0.0024.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The x = 0.99 point alone keeps the score under the mark",
+      "test": "Score the panel with the points up to x = 0.9 only (comparison.json, score_x_up_to_0.9)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "1000 data sets give a standard error of about 0.0005",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.abh",
+   "label": "Fig. 4, adaptive BH",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig4:aBH",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "aBH is multtest's two-stage procedure of Benjamini, Krieger and Yekutieli (2006, the paper's reference 5), proc = 'TSBH'",
+     "source": "our_choice",
+     "sensitivity": "multtest's 'ABH' (Benjamini and Hochberg 2000) gives 0.056 instead of 0.054 at x = 0."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Every point but the last lies within 0.004 of the published curve. The paper draws the fold-change filter at x = 0.99 at 0.0201 for BH, aBH and BY alike (one false positive among the 50 features left), while its own Fig. 3 puts pi0 at 0.0019 there (0.1 null features); ours is 0.0024.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The x = 0.99 point alone keeps the score under the mark",
+      "test": "Score the panel with the points up to x = 0.9 only (comparison.json, score_x_up_to_0.9)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "1000 data sets give a standard error of about 0.0005",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.by",
+   "label": "Fig. 4, Benjamini-Yekutieli",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig4:BY",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Every point but the last lies within 0.004 of the published curve. The paper draws the fold-change filter at x = 0.99 at 0.0201 for BH, aBH and BY alike (one false positive among the 50 features left), while its own Fig. 3 puts pi0 at 0.0019 there (0.1 null features); ours is 0.0024.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The x = 0.99 point alone keeps the score under the mark",
+      "test": "Score the panel with the points up to x = 0.9 only (comparison.json, score_x_up_to_0.9)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "1000 data sets give a standard error of about 0.0005",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.qvalue",
+   "label": "Fig. 4, q-value",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig4:qvalue",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "q-value with qvalue 2.34.0 defaults (lambda 0.05 to 0.95, smoother); points with too few features for the pi0 smoother (x = 0.99) are left out, as in the published figure",
+     "source": "our_choice",
+     "sensitivity": "The paper used qvalue 1.19.1 and does not give lambda."
+    }
+   ]
+  },
+  {
+   "id": "fig5.foldchange",
+   "label": "Fig. 5, fold change",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig5:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "BH levels 0, 0.05, ..., 0.95 and 0.99, and fractions 0 to 0.9 and 0.99 (11 curves)",
+     "source": "read_from_figure",
+     "sensitivity": "The caption says 0 to 0.9; the figure has 11 curves and 21 levels."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.signal",
+   "label": "Fig. 5, signal",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig5:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "BH levels 0, 0.05, ..., 0.95 and 0.99, and fractions 0 to 0.9 and 0.99 (11 curves)",
+     "source": "read_from_figure",
+     "sensitivity": "The caption says 0 to 0.9; the figure has 11 curves and 21 levels."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.variance",
+   "label": "Fig. 5, variance",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig5:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "BH levels 0, 0.05, ..., 0.95 and 0.99, and fractions 0 to 0.9 and 0.99 (11 curves)",
+     "source": "read_from_figure",
+     "sensitivity": "The caption says 0 to 0.9; the figure has 11 curves and 21 levels."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6",
+   "label": "Fig. 6",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "fig6:foldchange",
+   "assumptions": [
+    {
+     "what": "Fig. 6 is drawn from a data set without the noise term (normal data)",
+     "source": "found_by_search",
+     "sensitivity": "Grid: noise SD 0, 0.01, 0.1. Box medians with no noise: 0.50, 0.45, ..., 0.05, 0.01 (published 0.51, 0.46, ..., 0.05, 0.01); with SD 0.1 they are 0.66, 0.59, 0.53, ... (as in Figure S4). SD 0.1 and 0.01 are near-miss controls."
+    },
+    {
+     "what": "Our data set 1 and permutation seed 10^6 + 1",
+     "source": "our_choice",
+     "sensitivity": "The FDR lines are of one data set."
+    },
+    {
+     "what": "Per permutation, Q is the smallest BH-adjusted p-value of the features left in; the final Kolmogorov-Smirnov test is one-sided (Q smaller than uniform)",
+     "source": "paper",
+     "sensitivity": "Additional File 1, section 9.1 states the one-sided alternative. A two-sided KS per permutation gives Q near 0 at every x (rejected)."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "With no noise term the box medians come back (0.50, 0.45, ..., 0.01 against 0.51, 0.46, ..., 0.01), but our quartiles sit about 3% low and the FDR lines are of another data set; the same boxes 5% larger score as well as ours.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "The data set has the noise term with SD 0.1, as in Figure S4",
+      "test": "Near-miss control sd0.1",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Noise SD 0.01",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig7",
+   "label": "Fig. 7",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "pixels",
+   "pixels_from": "fig7:main",
+   "assumptions": [
+    {
+     "what": "The 44 TEL-AML1 samples are GEO's 43 'TEL-AML1' and the one 'TEL-AML1 (+hyperdiploidy)'",
+     "source": "our_choice",
+     "sensitivity": "GEO lists 43 + 1; the paper says 44."
+    },
+    {
+     "what": "All 22,277 probe sets of the series matrix (vsn and median polish, as submitted); limma 3.58.1; truth = BH 5% on all 88 samples (3397 probe sets)",
+     "source": "our_choice",
+     "sensitivity": "The paper does not give the limma version. Truth from all 190 samples with a subtype factor gives 3306 probe sets and mean FDR 0.066 to 0.077 at x = 0 (against 0.064 to 0.068)."
+    },
+    {
+     "what": "One random subset per size, drawn with set.seed(size)",
+     "source": "our_choice",
+     "sensitivity": "Over 20 other draws the achieved FDR at x = 0 has SD 0.016 to 0.020 per draw. Another draw is a near-miss control."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One random subset of each size, as in the paper, whose draws are not given. 71 of the 90 published points lie within the range of our 20 other subsets.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/leukemia.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The published curves are one draw from the same subset distribution",
+      "test": "Share of published points within the range of 20 other draws (comparison.json)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS1",
+   "label": "Figure S1 (scatter plots of the filter statistics)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "A raster scatter plot of one unseeded data set: its points cannot be read back, and the claim it illustrates (little association between the filter statistics) has no number to compare.",
+    "evidence": [
+     "Additional File 1, page 10"
+    ],
+    "status": "explained",
+    "hypotheses": []
+   }
+  },
+  {
+   "id": "figS2.bh",
+   "label": "Figure S2, Benjamini-Hochberg",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS2:BH",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS2.abh",
+   "label": "Figure S2, adaptive BH",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS2:aBH",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "aBH is multtest's two-stage procedure of Benjamini, Krieger and Yekutieli (2006, the paper's reference 5), proc = 'TSBH'",
+     "source": "our_choice",
+     "sensitivity": "multtest's 'ABH' (Benjamini and Hochberg 2000) gives 0.056 instead of 0.054 at x = 0."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS2.by",
+   "label": "Figure S2, Benjamini-Yekutieli",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS2:BY",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "BY power is about 0.02, so 5% more or less moves the curve by less than the 2 px tolerance: the score (99.7%) cannot reach a mark above the near-miss controls (99.5%).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The panel cannot resolve amplitude",
+      "test": "Near-miss controls amp1.05 and amp0.95 score 99.5%",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS2.qvalue",
+   "label": "Figure S2, q-value",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS2:qvalue",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "q-value with qvalue 2.34.0 defaults (lambda 0.05 to 0.95, smoother); points with too few features for the pi0 smoother (x = 0.99) are left out, as in the published figure",
+     "source": "our_choice",
+     "sensitivity": "The paper used qvalue 1.19.1 and does not give lambda."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS3.foldchange",
+   "label": "Figure S3, fold change",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS3:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The power curves lie within about 0.016 of the published ones, more than the Monte Carlo error (about 0.001) allows; the achieved FDR of the same runs (Fig. 4) matches within 0.004.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01 (the other reading of N(0, 0.01))",
+      "test": "Near-miss control sd0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of our 1000 data sets",
+      "test": "Standard error of mean power about 0.001",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "aBH and q-value variants",
+      "test": "BH panels differ as much as aBH and q-value panels",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS3.signal",
+   "label": "Figure S3, signal",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS3:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ]
+  },
+  {
+   "id": "figS3.variance",
+   "label": "Figure S3, variance",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS3:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    }
+   ]
+  },
+  {
+   "id": "figS4.variance",
+   "label": "Figure S4, variance",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS4:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Our data set 1 (noise SD 0.1) and permutation seed 10^6 + 1",
+     "source": "our_choice",
+     "sensitivity": "The FDR lines and boxes are of one data set."
+    },
+    {
+     "what": "aBH is multtest's two-stage procedure of Benjamini, Krieger and Yekutieli (2006, the paper's reference 5), proc = 'TSBH'",
+     "source": "our_choice",
+     "sensitivity": "multtest's 'ABH' (Benjamini and Hochberg 2000) gives 0.056 instead of 0.054 at x = 0."
+    },
+    {
+     "what": "q-value with qvalue 2.34.0 defaults (lambda 0.05 to 0.95, smoother); points with too few features for the pi0 smoother (x = 0.99) are left out, as in the published figure",
+     "source": "our_choice",
+     "sensitivity": "The paper used qvalue 1.19.1 and does not give lambda."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One data set and one set of permutations, neither given. The box medians follow the published ones; the achieved-FDR lines of a single data set differ by sampling noise and dominate the score.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01",
+      "test": "Near-miss control sd0.01",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Values off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS4.signal",
+   "label": "Figure S4, signal",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS4:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Our data set 1 (noise SD 0.1) and permutation seed 10^6 + 1",
+     "source": "our_choice",
+     "sensitivity": "The FDR lines and boxes are of one data set."
+    },
+    {
+     "what": "aBH is multtest's two-stage procedure of Benjamini, Krieger and Yekutieli (2006, the paper's reference 5), proc = 'TSBH'",
+     "source": "our_choice",
+     "sensitivity": "multtest's 'ABH' (Benjamini and Hochberg 2000) gives 0.056 instead of 0.054 at x = 0."
+    },
+    {
+     "what": "q-value with qvalue 2.34.0 defaults (lambda 0.05 to 0.95, smoother); points with too few features for the pi0 smoother (x = 0.99) are left out, as in the published figure",
+     "source": "our_choice",
+     "sensitivity": "The paper used qvalue 1.19.1 and does not give lambda."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One data set and one set of permutations, neither given. The box medians follow the published ones; the achieved-FDR lines of a single data set differ by sampling noise and dominate the score.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01",
+      "test": "Near-miss control sd0.01",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Values off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS4.foldchange",
+   "label": "Figure S4, fold change",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS4:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Our data set 1 (noise SD 0.1) and permutation seed 10^6 + 1",
+     "source": "our_choice",
+     "sensitivity": "The FDR lines and boxes are of one data set."
+    },
+    {
+     "what": "aBH is multtest's two-stage procedure of Benjamini, Krieger and Yekutieli (2006, the paper's reference 5), proc = 'TSBH'",
+     "source": "our_choice",
+     "sensitivity": "multtest's 'ABH' (Benjamini and Hochberg 2000) gives 0.056 instead of 0.054 at x = 0."
+    },
+    {
+     "what": "q-value with qvalue 2.34.0 defaults (lambda 0.05 to 0.95, smoother); points with too few features for the pi0 smoother (x = 0.99) are left out, as in the published figure",
+     "source": "our_choice",
+     "sensitivity": "The paper used qvalue 1.19.1 and does not give lambda."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "One data set and one set of permutations, neither given. The box medians follow the published ones; the achieved-FDR lines of a single data set differ by sampling noise and dominate the score.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/one_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Noise SD 0.01",
+      "test": "Near-miss control sd0.01",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Values off by 5%",
+      "test": "Near-miss controls amp1.05 and amp0.95",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS5",
+   "label": "Figure S5",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "pixels",
+   "pixels_from": "figS5:main",
+   "assumptions": [
+    {
+     "what": "The 44 TEL-AML1 samples are GEO's 43 'TEL-AML1' and the one 'TEL-AML1 (+hyperdiploidy)'",
+     "source": "our_choice",
+     "sensitivity": "GEO lists 43 + 1; the paper says 44."
+    },
+    {
+     "what": "All 22,277 probe sets of the series matrix (vsn and median polish, as submitted); limma 3.58.1; truth = BH 5% on all 88 samples (3397 probe sets)",
+     "source": "our_choice",
+     "sensitivity": "The paper does not give the limma version. Truth from all 190 samples with a subtype factor gives 3306 probe sets and mean FDR 0.066 to 0.077 at x = 0 (against 0.064 to 0.068)."
+    },
+    {
+     "what": "One random subset per size, drawn with set.seed(size)",
+     "source": "our_choice",
+     "sensitivity": "Over 20 other draws the achieved FDR at x = 0 has SD 0.016 to 0.020 per draw. Another draw is a near-miss control."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The published power is higher than ours at every size (n = 24, x = 0: 0.65 against 0.48 over 20 draws), while the achieved FDR (Fig. 7) is not; only 16 of 90 published points lie within the range of our 20 subsets.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/leukemia.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "One random subset",
+      "test": "16 of 90 published points within the range of 20 draws",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "limma fitted with the other 102 training samples (subtype factor)",
+      "test": "Power 0.477 at n = 24 (two-group fit 0.485)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Truth at BH 1% instead of 5%",
+      "test": "Power 0.67 at n = 24 matches, but achieved FDR rises to 0.175",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS6.fdr",
+   "label": "Figure S6, achieved FDR",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS6:fdr",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Exact two-sided Wilcoxon p-values (wilcox.test's default without ties)",
+     "source": "our_choice",
+     "sensitivity": "The normal approximation with continuity correction cuts power at x = 0 from 0.209 to 0.044."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Every point but the last lies within 0.006 of the published curve; the fold-change point at x = 0.99 is drawn at 0.020, as in Fig. 4.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The x = 0.99 point alone keeps the score under the mark",
+      "test": "Score the panel with the points up to x = 0.9 only (comparison.json, score_x_up_to_0.9)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "1000 data sets give a standard error of about 0.0005",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS6.power",
+   "label": "Figure S6, power",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS6:power",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Exact two-sided Wilcoxon p-values (wilcox.test's default without ties)",
+     "source": "our_choice",
+     "sensitivity": "The normal approximation with continuity correction cuts power at x = 0 from 0.209 to 0.044."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Our Wilcoxon power is about 5% above the published at every point (the x0.95 control scores 89%, ours 38%), while the achieved FDR of the same runs matches.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Normal approximation with continuity correction (wilcox.test(exact = FALSE))",
+      "test": "Power at x = 0 falls from 0.209 to 0.044",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Noise SD 0.01",
+      "test": "Near-miss control sd0.01: the FDR panel then fails (5.5%)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS7",
+   "label": "Figure S7 (bootFDR and permFDR)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Neither the bootFDR (Dudoit et al.) nor the permFDR (Reiner et al.) settings, nor the number of data sets, are given; the figure would show our choice of them.",
+    "evidence": [
+     "Additional File 1, section 12"
+    ],
+    "status": "explained",
+    "hypotheses": []
+   }
+  },
+  {
+   "id": "figS8.foldchange",
+   "label": "Figure S8, fold change (achieved FDR)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS8:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS8.signal",
+   "label": "Figure S8, signal (achieved FDR)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS8:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS8.variance",
+   "label": "Figure S8, variance (achieved FDR)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS8:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS9.foldchange",
+   "label": "Figure S9, fold change (power)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS9:foldchange",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS9.signal",
+   "label": "Figure S9, signal (power)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS9:signal",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS9.variance",
+   "label": "Figure S9, variance (power)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figS9:variance",
+   "assumptions": [
+    {
+     "what": "Noise eps has SD 0.1 (the paper's N(0, 0.01) read as a variance), drawn once per feature and group, as the first author's SSPA::simdat recycles it",
+     "source": "found_by_search",
+     "sensitivity": "Grid: SD 0, 0.01, 0.1, per feature or per value. Mean BH achieved FDR at x = 0 over 200 data sets: 0.052 with SD 0.1 per feature (published 0.054); 0.032 with SD 0.01; 0.033 with SD 0.1 per value; 0.041 with no noise term. The SD 0.01 reading is a near-miss control in every simulated figure."
+    },
+    {
+     "what": "Bitriangular effects with a = log2(1.2), b = log2(4), mode log2(2)",
+     "source": "authors_code",
+     "sensitivity": "Not stated in the paper (it defers to Langaas et al. 2005); these are the defaults of rbitri() in the first author's SSPA package, whose simdat() example is this paper's design (m = 5000, pi0 = 0.8, J = 10, noise = 0.01). Not varied."
+    },
+    {
+     "what": "Data set i is simulated with set.seed(i), i = 1..1000",
+     "source": "our_choice",
+     "sensitivity": "Seeds are not stated. The Monte Carlo error of a mean over 1000 data sets is about 0.0005 for achieved FDR and power."
+    },
+    {
+     "what": "A filter removes the fraction x with the smallest statistic: keep stat > quantile(stat, x); x = 0 keeps all",
+     "source": "our_choice",
+     "sensitivity": "Moves the cut by at most one feature."
+    },
+    {
+     "what": "Data sets 1 to 100 (the figure has 100 points per colour and panel)",
+     "source": "read_from_figure",
+     "sensitivity": "The paper does not state the number."
+    },
+    {
+     "what": "Situation C removes 10 or 20% of the selected list, smallest filter statistic first",
+     "source": "our_choice",
+     "sensitivity": "Cutting at the quantile over all features instead leaves fold change's FDR and power unchanged."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fig4",
+   "label": "Results: achieved FDR after filtering (Fig. 4)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.fig4",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "id": "text.fig3",
+   "label": "Results: filters ranked by pi0 (text and Fig. 3 caption)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.fig3",
+   "values": {
+    "tolerance": {
+     "printed": true
+    },
+    "exceptions": [
+     {
+      "field": "caption: from bottom to top, fold change, signal, variance (signal below variance at every x)",
+      "category": "paper_error",
+      "evidence": "The caption's line key swaps the signal and variance curves: our variance filter matches the curve labelled signal within 0.004 (0.38 as labelled; comparison.json, fig3 values). The text's ranking (signal worst) is the one the curves support."
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fig5",
+   "label": "Results: power against BH level (Fig. 5)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.fig5",
+   "values": {
+    "tolerance": {
+     "printed": true
+    },
+    "exceptions": [
+     {
+      "field": "signal and variance filters always give less power after filtering (every BH level, every x)",
+      "category": "paper_error",
+      "evidence": "The paper's own Fig. 5 (and Figure S2) show the variance filter gaining power at low BH levels (S2, BH: 0.179 at x = 0, 0.221 at x = 0.5)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.biastest",
+   "label": "Results: the FDR-bias test (Figs 6 and S4)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.biastest",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "id": "fig6.labels",
+   "label": "Fig. 6, the test's p-values above the boxes",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "fig6.labels",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "At x = 0 nothing is filtered and the test's p-value is uniform over data sets: the paper's 0.3 and our 0.6 both say 'no bias'. The ten '***' come back.",
+    "evidence": [
+     "figure-reproduction/output/one_sd0.json"
+    ],
+    "status": "explained",
+    "hypotheses": [
+     {
+      "hypothesis": "The x = 0 p-value is uniform over data sets",
+      "test": "Our three data sets give 0.6, 1 and 1 at x = 0 (one_sd*.json)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.leukemia",
+   "label": "Results: childhood leukemia (Figs 7 and S5)",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "claims_from": "text.leukemia",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "On our subset of 24 per group the signal and variance filters' achieved FDR averages about 0.10, not about 5%: the subset is one random draw (the paper's figure satisfies the rule).",
+    "evidence": [
+     "figure-reproduction/output/leukemia.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Truth from all 190 samples with a subtype factor",
+      "test": "Mean FDR at x = 0 0.066 to 0.077",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Truth at BH 10%",
+      "test": "Mean FDR at x = 0 0.038 to 0.048 over 20 draws, but then power falls",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.wilcoxon",
+   "label": "Discussion: Wilcoxon test (Figure S6)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.wilcoxon",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "id": "text.postfdr",
+   "label": "Additional File 1, section 13: filtering after the correction (Figures S8, S9)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": "text.postfdr",
+   "values": {
+    "tolerance": {
+     "printed": true
+    },
+    "exceptions": [
+     {
+      "field": "fold change is the only filter that gains power when used before the correction",
+      "category": "paper_error",
+      "evidence": "The paper's own Figure S9 has the variance filter gaining power before the correction (the B25 line, 0.052 + 0.862 x, lies above x = y for x below 0.38)."
+     }
+    ]
+   },
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "How situation C filters the selected list is not stated. Dropping the 10 or 20% of the selected list with the smallest statistic halves the FDR of the fold-change filter (0.054 to 0.030), where the paper's lines stay on x = y; cutting at the quantile over all features keeps the FDR but loses no power, where the paper's power falls 7 to 23%.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/sim_sd0.1.json"
+    ],
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Situation C drops a fraction of the selected list (ours)",
+      "test": "FDR halves; the published C lines keep slope 1.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Situation C cuts at the filter's quantile over all features",
+      "test": "Fold-change power unchanged (0.177); published C lines lose 7 to 23%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.numbers",
+   "label": "Numbers in the text recomputed from the paper's own statements",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "arithmetic_from": "text.arithmetic",
+   "values": {
+    "tolerance": {
+     "printed": true
+    },
+    "exceptions": [
+     {
+      "field": "non-null features: m (1 - pi0) = 5000 x 0.2",
+      "category": "paper_error",
+      "evidence": "Additional File 1, section 8 counts power 'out of all 4000 non-null features'; m = 5000 and pi0 = 0.8 give 1000, and the paper's own Fig. 5 caption says 20% are differentially expressed."
+     },
+     {
+      "field": "Querec et al.: 7 false of 33 tested genes, as a percentage",
+      "category": "paper_error",
+      "evidence": "7/33 is 21.2%, which the Discussion rounds to 20%."
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the values of the paper's own figures",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "arithmetic"
+  },
+  {
+   "id": "package",
+   "label": "R package filterfdr and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {inconclusive} inconclusive, {differs} differ, {not_attempted} not attempted. The lost R scripts were rebuilt from the paper, the simulation and the leukemia analysis were run again, and every curve was laid over the authors' own vector figures.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1",
+    [
+     "fig1.null",
+     "fig1.alternative"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4.bh",
+     "fig4.abh",
+     "fig4.by",
+     "fig4.qvalue"
+    ]
+   ],
+   [
+    "fig-5",
+    "Fig. 5",
+    [
+     "fig5.foldchange",
+     "fig5.signal",
+     "fig5.variance"
+    ]
+   ],
+   [
+    "fig-6",
+    "Fig. 6",
+    [
+     "fig6"
+    ]
+   ],
+   [
+    "fig-7",
+    "Fig. 7",
+    [
+     "fig7"
+    ]
+   ],
+   [
+    "items",
+    "Claims",
+    [
+     "text.fig4",
+     "text.fig3",
+     "text.fig5",
+     "text.biastest"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure panel and claim of the paper and its Additional File 1. A figure panel agrees when 95% of the published ink lies within 2 px of ours and ours of it, at 300 dpi on the published panel's own axes, and no wrong or near-miss version scores as well.",
+  "claims_line": "The main finding holds: the fold-change filter biases the FDR and raises power, and the signal and variance filters do not bias it. Three sentences overstate the paper's own figures, and Fig. 3's caption swaps two curves; the power gaps of Figs 5, S2, S5 and S6 are open.",
+  "came_back": [
+   [
+    "Fig. 4",
+    "Achieved FDR for four methods within 0.004 at every point but one."
+   ],
+   [
+    "Fig. 3",
+    "pi0 for every filter within 0.004, once the caption's swapped labels are put back."
+   ],
+   [
+    "Fig. 1",
+    "The null densities exactly, and two of the three alternative curves."
+   ],
+   [
+    "Fig. 6",
+    "The test's box medians, from data without the noise term."
+   ],
+   [
+    "The method",
+    "Simulation, filters, FDR-bias test and p-value densities as the R package filterfdr."
+   ]
+  ],
+  "buried": [
+   "The authors' R scripts: the paper's link and its zip are gone.",
+   "Seeds, the subsets drawn from the leukemia data, and the settings of bootFDR and permFDR (Figure S7).",
+   "Why the paper's power is a little higher than ours in Figs 5, S2, S5 and S6: tested causes ruled out."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Simulation",
+    "5000 features, 10 per group, pi0 0.8, bitriangular effects as in the first author's SSPA; noise SD 0.1 per feature."
+   ],
+   [
+    "Filters",
+    "Signal, fold change and variance, cut at their empirical quantiles."
+   ],
+   [
+    "Corrections",
+    "BH, BY, multtest's two-stage aBH and qvalue, at 5% and at 21 levels."
+   ],
+   [
+    "Bias test",
+    "Rows permuted one by one, BH-based KS per permutation, then a one-sided KS over 1000 permutations."
+   ],
+   [
+    "Leukemia",
+    "GSE13425, 44 TEL-AML1 against 44 hyperdiploid, limma, truth from all 88."
+   ]
+  ],
+  "closing": "Filtering, FDR and power came back from the paper's text and its vector figures; the scripts did not."
+ }
+}
