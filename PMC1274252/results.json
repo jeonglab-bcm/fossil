@@ -229,7 +229,7 @@
       "cause": {
         "category": "data_differs",
         "status": "explained",
-        "summary": "Every difference the paper calls significant is significant in the archived training set, and the disease-gene medians of gene length (27 k), exons (10), mouse identity (87%) and signal peptides (36% against 35%) come back. The control medians are lower: the archived controls are 1,080 genes, not the paper's ~18,000, from a 2006 Ensembl build.",
+        "summary": "Every difference the paper calls significant is significant in the archived training set, and the disease-gene medians of gene length (27 k), exons (10), mouse identity (87%) and signal peptides (36% against 35%) come back. Most control medians are lower (mouse identity is 81 against 80): the archived controls are 1,080 genes, not the paper's ~18,000, from a 2006 Ensembl build.",
         "evidence": [
           "figure-reproduction/output/analysis.json (inputs)",
           "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
@@ -1272,7 +1272,7 @@
           {
             "name": "rule 4 (Number of exons > 32): threshold",
             "expected": "32",
-            "observed": 32.0
+            "observed": 31.0
           },
           {
             "name": "rule 4 (Number of exons > 32): value if no",
@@ -1520,7 +1520,7 @@
       "cause": {
         "category": "data_differs",
         "status": "explained",
-        "summary": "Retrained on the archived training set, the recipe puts mouse identity, signal peptide, gene length and exon number first, as Figure 2 does, with close values; the other 11 rules differ. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
+        "summary": "Retrained on the archived training set, the recipe puts rules on mouse identity, signal peptide, gene length and exon number at the root, as Figure 2 does, with other thresholds and values (exons > 31 against > 32); the other 11 rules differ. The archived sets are not the paper's: the PROSPECTR site's ARFFs, first captured on 2006-09-30, hold 1,080 + 1,080, 713 + 713 and 50 + 50 genes (the paper: 1,084 + 1,084, 675 + 675 and 54 + 54) and 64 features from a later Ensembl build (Table 1 lists 23), with no gene IDs.",
         "evidence": [
           "figure-reproduction/output/analysis.json (inputs)",
           "https://web.archive.org/web/20060930234112/http://www.genetics.med.ed.ac.uk/prospectr/omim_trainingset.arff"
@@ -2230,7 +2230,7 @@
       "cause": {
         "category": "metric_resolution",
         "status": "explained",
-        "summary": "The published tree's curve on the archived HGMD set follows the published one (AUC 0.693 against Table 3's 0.69; the published points read back give 0.692), but the tree retrained on the archived set draws a curve as close, so the pixel score cannot tell the two models apart. The archived HGMD set has 713 + 713 genes, the paper's 675 + 675.",
+        "summary": "The pixel score cannot confirm this panel: ours scores 0.52 and two controls score higher (the retrained tree 0.62, ours shifted by +0.02 in FP rate 0.61). Only the AUC agrees (0.693 against Table 3's 0.69; the published points read back give 0.692). The archived HGMD set has 713 + 713 genes, the paper's 675 + 675.",
         "evidence": [
           "figure-reproduction/output/figures.json (fig3.b)",
           "figure-reproduction/output/analysis.json (runs.main.sets.hgmd.auc_disease)"
@@ -2243,7 +2243,7 @@
           },
           {
             "hypothesis": "Another model on the same data draws the same curve",
-            "test": "The retrained tree's curve scores 0.62",
+            "test": "The retrained tree's curve scores 0.62, higher than ours",
             "result": "supported"
           }
         ]

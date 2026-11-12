@@ -166,7 +166,8 @@ def fig2_fields(run, published):
             thr_obs = "sigpep" if s else "absent"
             no_v, yes_v = (s["values"][0], s["values"][1]) if s else (None, None)
         else:
-            thr_obs = round(s["split"] + (0.5 if n["op"] == ">" else 0.0), 3) if s else "absent"
+            # Weka's cut x >= c on whole counts is x > c - 0.5 (31.5 is "> 31")
+            thr_obs = round(s["split"] - (0.5 if n["op"] == ">" else 0.0), 3) if s else "absent"
             no_v, yes_v = (s["values"][0], s["values"][1]) if s else (None, None)
             fields.append({"name": f"{lab}: threshold", "expected": _num(n["threshold"]), "observed": thr_obs})
         fields.append({"name": f"{lab}: value if no", "expected": _num(n["no"]),
