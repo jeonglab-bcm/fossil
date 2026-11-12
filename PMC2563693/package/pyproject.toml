@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pacorg"
+version = "0.1.0"
+description = "Pathway activity from condition-responsive genes (CORGs), after Lee et al. 2008 (PLoS Comput Biol 4:e1000217)."
+readme = "README.md"
+# Implemented from the paper's text (the authors' software is lost): the repository's licence.
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.1,<3", "scipy>=1.14,<2"]
+
+[project.scripts]
+pacorg = "pacorg.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2563693"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2563693/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pacorg"]

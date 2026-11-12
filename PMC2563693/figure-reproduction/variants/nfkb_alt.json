@@ -1,0 +1,34 @@
+{
+ "variant": "nfkb_alt",
+ "description": "NF-kB as the complete replicate series 180, 220 and 266 at 0, 1, 3 and 6 h (12 C and 12 D arrays); 100 repeats, logistic regression only",
+ "run": "PAC_VARIANT=nfkb_alt,lr_only cv.py (see README, Run)",
+ "within": {
+  "nfkb_alt": {
+   "partitions": 500,
+   "mean_auc": {
+    "PAC/lr": 0.9148,
+    "Gene/lr": 0.9457,
+    "Mean/lr": 0.8443,
+    "Median/lr": 0.9048,
+    "PCA/lr": 0.8383,
+    "PAC_random/lr": 0.8766
+   },
+   "neglog10p_pac_vs_gene": 2.58,
+   "pac_better": false,
+   "top_pathways": {
+    "ctlPathway": 104,
+    "KRAS_TOP100_KNOCKDOWN": 103,
+    "CR_SIGNALLING": 89,
+    "NFKB_INDUCED": 64,
+    "Inflammatory_Response_Pathway": 57,
+    "PROLIF_GENES": 52,
+    "mitochondr": 49,
+    "ST_Gaq_Pathway": 43,
+    "ST_B_Cell_Antigen_Receptor": 42,
+    "ST_Fas_Signaling_Pathway": 41,
+    "nkcellsPathway": 40,
+    "SIG_CD40PATHWAYMAP": 39
+   }
+  }
+ }
+}

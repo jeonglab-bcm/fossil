@@ -1,0 +1,69 @@
+name: Reproduce PMC2563693
+
+# Reruns the PMC2563693 pipeline (pathway activity from condition-responsive genes, Lee et al.
+# 2008) and checks it: inputs downloaded and checksummed, the seven datasets rebuilt, Fig. 2,
+# Figs S1 and S5, the CORGs of Tables 1 and S2 and the hypothesis tests recomputed from scratch,
+# two repeats of every cross-validation experiment rerun and checked against the committed full
+# run, check_results.py on the fresh results.json, the package check, and the fresh run against
+# the committed output/ (compare_runs.py).
+#
+# The full cross-validation (100 repeats x 11 experiments, about 3.3 CPU hours) does not run here:
+# it ran on a cluster with `main.nf --full -profile skyriver`, and its results are committed in
+# output/cv.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC2563693/figure-reproduction/**"
+      - "PMC2563693/package/**"
+      - ".github/workflows/reproduce-pmc2563693.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2563693/figure-reproduction/**"
+      - "PMC2563693/package/**"
+      - ".github/workflows/reproduce-pmc2563693.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2563693/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC2563693/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2563693-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
