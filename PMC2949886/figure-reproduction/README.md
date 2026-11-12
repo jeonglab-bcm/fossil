@@ -81,7 +81,7 @@ From the repository root, with R 4.3.3 (multtest, qvalue, limma, jsonlite, knitr
 Python 3.12 with `requirements.txt`, and Nextflow:
 
 ```sh
-nextflow run PMC2949886/figure-reproduction/main.nf --outdir results          # about 2 min on 4 cores; 10 min in CI
+nextflow run PMC2949886/figure-reproduction/main.nf --outdir results          # about 2 min on 4 cores; 6 min in CI
 nextflow run PMC2949886/figure-reproduction/main.nf --outdir results --full   # all 1000 data sets again
 sbatch PMC2949886/figure-reproduction/run_skyriver.sbatch --full                # on Skyriver
 ```

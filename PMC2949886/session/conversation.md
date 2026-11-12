@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-12T20:20:50+00:00 / 2026-11-12T21:43:14+00:00 |
-| Wall clock | 82.4 min |
+| Started / ended (UTC) | 2026-11-12T20:20:50+00:00 / 2026-11-12T21:59:36+00:00 |
+| Wall clock | 98.8 min |
 | Models | claude-opus-5-5 |
 | Human prompts | 1 (0 sent mid-turn) |
-| Assistant responses (API calls) | 191 + 0 in subagents |
-| Tool calls | 208 + 0 in subagents |
-| Tokens: input / cache write / cache read / output | 388 / 525,738 / 61,847,654 / 268,169 |
-| Tokens: total (incl. subagents) | 62,641,949 |
+| Assistant responses (API calls) | 208 + 21 in subagents |
+| Tool calls | 226 + 21 in subagents |
+| Tokens: input / cache write / cache read / output | 464 / 1,235,223 / 72,707,435 / 299,292 |
+| Tokens: total (incl. subagents) | 74,242,414 |
 
 ## Conversation
 
@@ -688,3 +688,75 @@ The clean clone passes with the exact CI command: real downloads, a rerun chunk 
 All checks pass. Writing the session ledger (passing the transcript path, since auto-detection failed in an earlier session).
 
 - `Bash` Locate transcript and ledger options
+
+- `Bash` Write session ledger and check for private data
+
+### Claude · 2026-11-12 21:43:33
+
+No email or credentials in the transcript, only home-directory paths, as in earlier papers. Reading the ledger totals for the PR body.
+
+- `Bash` Read ledger structure and totals
+
+### Claude · 2026-11-12 21:43:38
+
+Committing the ledger, pushing, and opening the pull request with the template's sections.
+
+- `Bash` Commit ledger, push and open PR
+
+### Claude · 2026-11-12 21:44:25
+
+PR #57 is open. Watching CI.
+
+- `Bash` List PR checks
+
+- `Bash` Wait for PR checks to finish
+
+- `Agent` Review write-up against numbers
+
+### Claude · 2026-11-12 21:45:21
+
+While the reviewer and CI run, I'm saving a memory note about this reproduction for future sessions.
+
+- `Write` /home/sofias/.claude/projects/-home-sofias-fossil/memory/pmc2949886-reproduction.md
+
+- `Bash` Add memory index pointer
+
+- `Bash` Wait for PR checks
+
+### Claude · 2026-11-12 21:50:39
+
+The CI reproduce job failed; checking its log first, then I'll apply the reviewer's corrections.
+
+- `Bash` Show failed CI log
+
+### Claude · 2026-11-12 21:50:47
+
+Package "differs" in CI; the stale lines are just the check printing. Looking at why the package check failed there.
+
+- `Bash` Find package failure detail in CI log
+
+- `Bash` Download CI artifact and inspect package failure
+
+- `Bash` Recompute Fig 2 deciles and Fig 1 gaps
+
+- `Bash` Apply reviewer corrections to notes and READMEs
+
+### Claude · 2026-11-12 21:51:47
+
+Regenerating the notes, `results.json`, the page and the site copy; pinning the CRAN snapshot in the workflow.
+
+- `Bash` Rebuild results and page; pin CRAN snapshot in CI
+
+### Claude · 2026-11-12 21:52:11
+
+Updating the PR description with the corrected statements, then committing and pushing.
+
+- `Bash` Fix PR body, commit and push
+
+- `Bash` Wait for CI on new head
+
+### Claude · 2026-11-12 21:59:26
+
+CI is green on the new head (reproduce 6 min). Posting the self-review on the PR in the skill's style, then the final ledger.
+
+- `Bash` Post self-review, update ledger
