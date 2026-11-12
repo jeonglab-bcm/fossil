@@ -117,6 +117,7 @@ assumption `read_from_figure`, which caps a figure's verdict at "agrees".
 | `pipeline/pack_cv.py`, `reduce_cv.py` | Pack and check repeats; means, standard errors, Wilcoxon tests and frequencies. |
 | `pipeline/read_published.py`, `digitize.py` | The published values. |
 | `pipeline/compare.py`, `render.py`, `hypotheses.py` | Paper against ours; the renders and overlays; the hypothesis tests. |
+| `pipeline/usa_cel_normalize.R`, `usa_cel_check.py` | A one-off hypothesis test: the USA arrays re-normalized from their CEL files (`variants/usa_cel.json`). |
 | `pipeline/build_results.py`, `check_results.py`, `check_reproduction.py`, `compare_runs.py`, `check_package.py`, `build_page.py`, `make_results_check.py` | results.json, the checks, the results page and the repository's results-check file. |
 | `output/` | The committed run: `cv/` (all 1,100 cross-validation repeats), `comparison.json`, `cv_summary.json`, `hypotheses.json`, the renders in `figures/`. |
 | `results.json` | The repository's results-check file (`tools/check_results.py`). |
@@ -145,9 +146,10 @@ PAC_VARIANT=random_nocorg,lr_only python cv.py DATA OUT within breast_usa 0 20
 PAC_VARIANT=cross_all,lr_only     python cv.py DATA OUT cross lung_boston lung_michigan 0 25
 ```
 
-then `reduce_cv.py` on OUT; they ran on the cluster (`random_nocorg`, `seq_stop`: 20 repeats per
-dataset; `seq_stop`, `nfkb_alt`: 100 repeats; `cross_all`: the repeats finished in the time
-given).
+then `reduce_cv.py` on OUT, and `variants/usa_cel.json` comes from `pipeline/usa_cel_normalize.R` and
+`usa_cel_check.py` (their headers say how); they ran on the cluster (`random_nocorg` and `seq_stop` within datasets: 20 repeats; `seq_stop`
+across datasets and `nfkb_alt`: 100 repeats; `cross_all`, slow with 521 candidate pathways: the
+repeats that finished: 32 to 80 per pair).
 
 ## Pipeline steps
 
@@ -170,7 +172,8 @@ given).
 ## Limits
 
 - The breast datasets are not the authors' matrices: 3 of the 15 CORG lists of Table S2 come
-  back, and 12 ways of preparing the USA arrays and 107 single relabellings did not bring more.
+  back, and 12 ways of preparing the USA arrays, RMA and MAS5 from the CEL files, and 107 single
+  relabellings did not bring more.
   Every breast result inherits this.
 - Boston's pathway pre-selection is not Tian's statistic on the GSEA file; the Boston CORGs are
   exact, so the difference is the pathway list. Boston to Michigan comes back only with all

@@ -418,6 +418,11 @@
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
             "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+            "result": "rejected"
           }
         ]
       },
@@ -557,6 +562,11 @@
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
             "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+            "result": "rejected"
           }
         ]
       },
@@ -690,6 +700,11 @@
           {
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
             "result": "rejected"
           }
         ]
@@ -834,6 +849,11 @@
           {
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
             "result": "rejected"
           }
         ]
@@ -1255,7 +1275,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           },
           {
@@ -1404,7 +1424,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           },
           {
@@ -1787,7 +1807,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           },
           {
@@ -1901,7 +1921,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -2009,6 +2029,13 @@
           }
         ]
       },
+      "assumptions": [
+        {
+          "what": "Table 1's 'Glutamine up-regulated genes' (5/313, Michigan to Boston) is MSigDB's GLUT_DOWN, the only glutamine set with 313 genes; the Boston rows call the same set 'Glutamine down-regulated genes' (4/313), so one of the two names is a slip",
+          "source": "paper",
+          "sensitivity": "GLUT_UP (296 genes) gives VEGF ENO2 SUI1 in Michigan, not the printed NP LDHA BZW1 TUBA1 LAMB3"
+        }
+      ],
       "verdict": "exact"
     },
     {
@@ -2112,6 +2139,13 @@
           }
         ]
       },
+      "assumptions": [
+        {
+          "what": "Table 1's 'Glutamine up-regulated genes' (5/313, Michigan to Boston) is MSigDB's GLUT_DOWN, the only glutamine set with 313 genes; the Boston rows call the same set 'Glutamine down-regulated genes' (4/313), so one of the two names is a slip",
+          "source": "paper",
+          "sensitivity": "GLUT_UP (296 genes) gives VEGF ENO2 SUI1 in Michigan, not the printed NP LDHA BZW1 TUBA1 LAMB3"
+        }
+      ],
       "verdict": "exact"
     },
     {
@@ -2242,6 +2276,11 @@
           "what": "Tolerance 50 of 500 classifiers: the frequencies come from unseeded random splits",
           "source": "our_choice",
           "sensitivity": ""
+        },
+        {
+          "what": "'134.500' in Table 1 (Leucine down-regulated genes) read as 134/500",
+          "source": "paper",
+          "sensitivity": ""
         }
       ],
       "cause": {
@@ -2261,7 +2300,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -2373,6 +2412,11 @@
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
             "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+            "result": "rejected"
           }
         ]
       },
@@ -2482,6 +2526,11 @@
           {
             "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
             "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+            "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
             "result": "rejected"
           }
         ]
@@ -2606,7 +2655,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "Follows from the breast data (table_s2.corgs) and the marker count (table1.frequency): 2 of 15 frequencies within 50.",
+        "summary": "Follows from the breast data (table_s2.corgs) and the marker count (table1.frequency).",
         "hypotheses": [
           {
             "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
@@ -3929,7 +3978,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -4297,7 +4346,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -4660,7 +4709,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -5033,7 +5082,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -5584,7 +5633,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
@@ -5809,7 +5858,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "Michigan to Boston is significant and Netherlands to USA is not, as in the paper; USA to Netherlands is not (our breast data differ) and Boston to Michigan favours Gene (Boston's markers differ: with all pathways as input PAC wins, 0.711 against 0.610).",
+        "summary": "Michigan to Boston is significant and Netherlands to USA is not, as in the paper; USA to Netherlands is not (our breast data differ) and Boston to Michigan favours Gene (Boston's markers differ: with all pathways as input PAC wins, 0.712 against 0.621).",
         "hypotheses": [
           {
             "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
@@ -5823,7 +5872,7 @@
           },
           {
             "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
-            "test": "Cross-dataset CV with all 521 pathways as input (output/hypotheses.json): PAC 0.711 against Gene 0.610, and the most frequent pathways are breast cancer estrogen signalling (43 of 45 classifiers), pyrimidine metabolism, MTA3, as in Table 1",
+            "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
             "result": "supported"
           }
         ]
