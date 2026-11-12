@@ -3,16 +3,43 @@ name: Results check
 # A pull request that creates or changes a reproduction's results.json: compare it with the outputs
 # committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
 # the diffs and an overlay of each published figure with the committed render.
+# A separate job checks that every paper the PR adds, or whose results.json it changes, names the
+# Paper2Repro release it was made with (tools/check_skill.py).
 on:
   pull_request:
     paths:
-      - "PMC*/figure-reproduction/results.json"
+      - "PMC*/**"
+      - "tools/check_skill.py"
+      - "tools/site_versions.py"
+      - "site/index.html"
+      - ".github/workflows/results-check.yml"
 
 permissions:
   contents: write        # the figure overlays go to the ci-assets branch
   pull-requests: write   # the comment
 
 jobs:
+  skill:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Paper2Repro version recorded
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          set -o pipefail
+          python3 tools/check_skill.py --base "origin/$BASE" 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Front page shows each paper's version
+        run: |
+          set -o pipefail
+          python3 tools/site_versions.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
   find:
     runs-on: ubuntu-24.04
     outputs:
