@@ -85,7 +85,7 @@ nextflow run PMC2853684/figure-reproduction/main.nf --outdir results
 About 6 minutes on 4 cores (Skyriver `defq15`), 35 MB of downloads. It needs Python 3.12 with
 `requirements.txt`, `uv` (package check), `mcl` 14-137 (`apt install mcl` on Ubuntu 24.04, or bioconda
 `mcl=14.137`) and Java 21. On Skyriver: `sbatch PMC2853684/figure-reproduction/run_skyriver.sbatch`.
-CI: `.github/workflows/reproduce-pmc2853684.yml` runs the same command on every pull request that touches this
+The check ignores `output/mcl/mcl_version.txt` (Ubuntu's and bioconda's builds of MCL 14-137 print different version banners; their clusters are identical). CI: `.github/workflows/reproduce-pmc2853684.yml` runs the same command on every pull request that touches this
 folder or the package.
 
 ## Pipeline steps

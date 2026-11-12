@@ -17,8 +17,9 @@ EXPECTED = ["published_values.json", "analysis.json", "consensus.json", "compari
             "mcl/mcl_HPRD_I2.0.txt", "mcl/mcl_OPHID_I2.0.txt"] + \
            [f"figures/{f}_{k}.png" for f in FIGS for k in ("ours", "overlay")]
 # package.json holds timings and temporary paths (its result is in results.json, which is compared);
-# the MCL logs hold timings.
-IGNORE = ["package.json", "report.md", "mcl/*.log", "site/*"]
+# the MCL logs hold timings; mcl_version.txt is the version banner, which Ubuntu's build of MCL
+# 14-137 prints differently from bioconda's (the clusters are identical).
+IGNORE = ["package.json", "report.md", "mcl/*.log", "mcl/mcl_version.txt", "site/*"]
 
 
 def run(cmd):
