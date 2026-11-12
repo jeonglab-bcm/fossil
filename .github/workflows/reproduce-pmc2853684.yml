@@ -1,0 +1,70 @@
+name: Reproduce PMC2853684
+
+# Reruns the PMC2853684 pipeline (protein interaction networks for gene-disease association,
+# Navlakha and Kingsford 2010) from the downloaded inputs and checks it: the methods rerun on HPRD
+# and OPHID against the authors' prediction files, every value the paper prints or draws, the
+# consensus Random Forest (Weka 3.6.6), the package check, check_results.py on the fresh
+# results.json, and the fresh run against the committed output/ (compare_runs.py).
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC2853684/figure-reproduction/**"
+      - "PMC2853684/package/**"
+      - ".github/workflows/reproduce-pmc2853684.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2853684/figure-reproduction/**"
+      - "PMC2853684/package/**"
+      - ".github/workflows/reproduce-pmc2853684.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2853684/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - name: Install MCL 14-137
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mcl
+          mcl --version | head -1
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC2853684/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2853684-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
