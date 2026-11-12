@@ -1,0 +1,1787 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC4015815",
+    "title": "Using distances between Top-n-gram and residue pairs for protein remote homology detection",
+    "citation": "Liu B, Xu J, Zou Q, Xu R, Wang X, Chen Q. BMC Bioinformatics 15(Suppl 2):S3 (2014)",
+    "doi": "10.1186/1471-2105-15-S2-S3",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-09",
+    "pipeline": "PMC4015815/figure-reproduction/main.nf",
+    "command": "nextflow run PMC4015815/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "scop.1.53.1e-25.fasta",
+        "url": "https://noble.gs.washington.edu/proj/svm-pairwise/scop.1.53.1e-25.fasta",
+        "sha256": "76db0c5b9b681ab499613eb4dd5b06c1681d64901d301a1e14c38fad85c3830a"
+      },
+      {
+        "name": "all_seq_fam_membership.txt",
+        "url": "https://noble.gs.washington.edu/proj/svm-pairwise/all_seq_fam_membership.txt",
+        "sha256": "d7eed7231f4501a82cbccd3bd40fb059dc88fabc767bc8cf281419a1a7e490d9"
+      },
+      {
+        "name": "gist-2.3.tar.gz",
+        "url": "https://svm.msl.ubc.ca/releases/gist-2.3.tar.gz",
+        "sha256": "7ba5348eaa3a5531976a795857625a126d162269d4c211966142239d7ff6cb74"
+      },
+      {
+        "name": "PMC4015815.1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4015815.1/PMC4015815.1.pdf",
+        "sha256": "6646c113a8974b20740513aca7173b9740a112cdc1c190d96b42ada2cd1df0d4"
+      },
+      {
+        "name": "Pse-in-One-2.0.zip",
+        "url": "http://bliulab.net/Pse-in-One2.0/static/download/Pse-in-One-2.0.zip",
+        "sha256": "81b55e75a05787c5912c2e2bf604e33e287a76a7550756049a8559a8f116d264"
+      },
+      {
+        "name": "ncbi-blast-2.17.0+-x64-linux.tar.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.17.0/ncbi-blast-2.17.0+-x64-linux.tar.gz",
+        "sha256": "3888112d8207831aa47371d93583c601f058f88b5db22dc782438b039a3a411b"
+      }
+    ],
+    "environment": {
+      "python": "3.12",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "numba": "0.68.1",
+      "pillow": "13.0.0",
+      "psiblast": "BLAST+ 2.17.0",
+      "nextflow": "26.04.3",
+      "platform": "x86_64"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.3.0",
+    "tag": "paper2repro-v0.3.0",
+    "commit": "0e010bce478e2edf00a4e89d6a9d542301f51d98",
+    "modified": null,
+    "source": "inferred",
+    "note": "The cloud session cloned Paper2Repro's main at its start (2026-11-06 05:55 UTC, session/conversation.md), when main was at 0e010bc, tagged paper2repro-v0.3.0."
+  },
+  "items": [
+    {
+      "id": "port",
+      "label": "Gist 2.3 port against Gist's own sample run",
+      "kind": "code_check",
+      "source": "port",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "Gist's printed weights through our kernel give its printed training discriminants within 0.003 (weight rounding). Retrained with the sample's settings and seed: objective 0.0173670 against Gist's 0.0173686, 1591 of 1644 weights equal as printed, 196 passes against 200. The sample came from Gist 2.0."
+      },
+      "assumptions": [],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A worked example of the feature vector (AGLP to KFFK, dMAX = 2); nothing to recompute.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4015815/figure/F1/"
+        ],
+        "status": "explained"
+      },
+      "assumptions": [],
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Pseudocode of the Distance-based Top-1-gram vector; it is the method, implemented in features.py.",
+        "evidence": [
+          "figure-reproduction/pipeline/features.py"
+        ],
+        "status": "explained"
+      },
+      "assumptions": [],
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig3.dr",
+      "label": "Fig. 3, SVM-DR curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.85,
+        "published_near_ours": 0.84401,
+        "ours_near_published": 0.85574,
+        "controls": [
+          {
+            "name": "SVM-DT values in place of SVM-DR",
+            "kind": "wrong_input",
+            "score": 0.01338
+          },
+          {
+            "name": "ours +0.0005 ROC",
+            "kind": "near_miss",
+            "score": 0.58013
+          },
+          {
+            "name": "ours -0.0005 ROC",
+            "kind": "near_miss",
+            "score": 0.75946
+          },
+          {
+            "name": "ours +2.5 in dMAX",
+            "kind": "near_miss",
+            "score": 0.53112
+          },
+          {
+            "name": "ours -2.5 in dMAX",
+            "kind": "near_miss",
+            "score": 0.44181
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The dMAX grid 0, 10, 20, 40, 50, 60, 80, 100, 150, 200",
+          "source": "read_from_figure",
+          "sensitivity": "The markers sit within 0.1 of these values on the fitted x axis; the paper names only 150"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "summary": "Nine of ten points come back within 0.0005 ROC; dMAX 20 is 0.0013 above the published point (0.9004 against 0.8991, about 10 px).",
+        "evidence": [
+          "figure-reproduction/output/causes/dr_variants.json",
+          "figure-reproduction/output/fig3_scores.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Seed of Gist's update order (Gist seeds from the clock)",
+            "test": "Seed 2 at dMAX 20: 0.9002 against 0.9004 with seed 1 (output/causes/dr_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Gist's own rule for normalized values above 1 (0 off the diagonal)",
+            "test": "At dMAX 20 it gives 0.8885, further from the paper's 0.8991; at dMAX 150 one family's training diverges (output/causes/dr_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.dt",
+      "label": "Fig. 3, SVM-DT curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.85,
+        "published_near_ours": 0.0,
+        "ours_near_published": 0.0,
+        "controls": [
+          {
+            "name": "SVM-DR values in place of SVM-DT",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "ours +0.0005 ROC",
+            "kind": "near_miss",
+            "score": 0.0
+          },
+          {
+            "name": "ours -0.0005 ROC",
+            "kind": "near_miss",
+            "score": 0.0
+          },
+          {
+            "name": "ours +2.5 in dMAX",
+            "kind": "near_miss",
+            "score": 0.0
+          },
+          {
+            "name": "ours -2.5 in dMAX",
+            "kind": "near_miss",
+            "score": 0.0
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The dMAX grid 0, 10, 20, 40, 50, 60, 80, 100, 150, 200",
+          "source": "read_from_figure",
+          "sensitivity": "The markers sit within 0.1 of these values on the fitted x axis; the paper names only 150"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "The SVM-DT curve rises and flattens as published but sits 0.008 to 0.021 ROC above the published points (0.957 against 0.948 at dMAX 150). Our profiles follow the paper's ref. [28] but come from the lab's 2016 nrdb90, while the paper names only 'a non-redundant database' and its copy is not available. The 3-iteration profiles gave 0.950 at dMAX 150 (output/causes/dt_profiles_2008.json).",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/fig5_scores.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3.dr-values",
+      "label": "Fig. 3, SVM-DR points (values)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "abs": 0.0005
+        },
+        "fields": [
+          {
+            "name": "dMAX 0",
+            "expected": "0.8628",
+            "observed": "0.8624"
+          },
+          {
+            "name": "dMAX 10",
+            "expected": "0.8985",
+            "observed": "0.8980"
+          },
+          {
+            "name": "dMAX 20",
+            "expected": "0.8991",
+            "observed": "0.9004"
+          },
+          {
+            "name": "dMAX 40",
+            "expected": "0.9103",
+            "observed": "0.9106"
+          },
+          {
+            "name": "dMAX 50",
+            "expected": "0.9108",
+            "observed": "0.9112"
+          },
+          {
+            "name": "dMAX 60",
+            "expected": "0.9124",
+            "observed": "0.9124"
+          },
+          {
+            "name": "dMAX 80",
+            "expected": "0.9140",
+            "observed": "0.9144"
+          },
+          {
+            "name": "dMAX 100",
+            "expected": "0.9171",
+            "observed": "0.9172"
+          },
+          {
+            "name": "dMAX 150",
+            "expected": "0.9189",
+            "observed": "0.9189"
+          },
+          {
+            "name": "dMAX 200",
+            "expected": "0.9193",
+            "observed": "0.9193"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The published points, read off the figure as marker centroids on the tick-fitted axes (1 px = 0.00012 ROC)",
+          "source": "read_from_figure",
+          "sensitivity": "Centroids of 15 to 17 px markers; the tick fit's largest residual is 0.75 px (0.0001 ROC)"
+        },
+        {
+          "what": "The dMAX grid 0, 10, 20, 40, 50, 60, 80, 100, 150, 200",
+          "source": "read_from_figure",
+          "sensitivity": "The markers sit within 0.1 of these values on the fitted x axis; the paper names only 150"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "summary": "Nine of ten points come back within 0.0005 ROC; dMAX 20 is 0.0013 above the published point (0.9004 against 0.8991, about 10 px).",
+        "evidence": [
+          "figure-reproduction/output/causes/dr_variants.json",
+          "figure-reproduction/output/fig3_scores.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Seed of Gist's update order (Gist seeds from the clock)",
+            "test": "Seed 2 at dMAX 20: 0.9002 against 0.9004 with seed 1 (output/causes/dr_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Gist's own rule for normalized values above 1 (0 off the diagonal)",
+            "test": "At dMAX 20 it gives 0.8885, further from the paper's 0.8991; at dMAX 150 one family's training diverges (output/causes/dr_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.dt-values",
+      "label": "Fig. 3, SVM-DT points (values)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "abs": 0.0005
+        },
+        "fields": [
+          {
+            "name": "dMAX 0",
+            "expected": "0.9080",
+            "observed": "0.9290"
+          },
+          {
+            "name": "dMAX 10",
+            "expected": "0.9356",
+            "observed": "0.9493"
+          },
+          {
+            "name": "dMAX 20",
+            "expected": "0.9420",
+            "observed": "0.9526"
+          },
+          {
+            "name": "dMAX 40",
+            "expected": "0.9420",
+            "observed": "0.9525"
+          },
+          {
+            "name": "dMAX 50",
+            "expected": "0.9418",
+            "observed": "0.9534"
+          },
+          {
+            "name": "dMAX 60",
+            "expected": "0.9432",
+            "observed": "0.9530"
+          },
+          {
+            "name": "dMAX 80",
+            "expected": "0.9454",
+            "observed": "0.9538"
+          },
+          {
+            "name": "dMAX 100",
+            "expected": "0.9458",
+            "observed": "0.9555"
+          },
+          {
+            "name": "dMAX 150",
+            "expected": "0.9479",
+            "observed": "0.9570"
+          },
+          {
+            "name": "dMAX 200",
+            "expected": "0.9473",
+            "observed": "0.9567"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The published points, read off the figure as marker centroids on the tick-fitted axes (1 px = 0.00012 ROC)",
+          "source": "read_from_figure",
+          "sensitivity": "Centroids of 15 to 17 px markers; the tick fit's largest residual is 0.75 px (0.0001 ROC)"
+        },
+        {
+          "what": "The dMAX grid 0, 10, 20, 40, 50, 60, 80, 100, 150, 200",
+          "source": "read_from_figure",
+          "sensitivity": "The markers sit within 0.1 of these values on the fitted x axis; the paper names only 150"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "The SVM-DT curve rises and flattens as published but sits 0.008 to 0.021 ROC above the published points (0.957 against 0.948 at dMAX 150). Our profiles follow the paper's ref. [28] but come from the lab's 2016 nrdb90, while the paper names only 'a non-redundant database' and its copy is not available. The 3-iteration profiles gave 0.950 at dMAX 150 (output/causes/dt_profiles_2008.json).",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/fig5_scores.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1.dr",
+      "label": "Table 1, SVM-DR (ROC, ROC50)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "ROC",
+            "expected": "0.919",
+            "observed": "0.919"
+          },
+          {
+            "name": "ROC50",
+            "expected": "0.715",
+            "observed": "0.497"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "ROC comes back exactly (0.919); ROC50 does not with the stated definition (0.497 against 0.715). Our ROC matches at every dMAX, so the rankings agree and the gap is in how ROC50 was computed. The paper's values match an ordinary ROC on the ranking cut at the 50th false positive, which divides by the positives found there instead of by all positives (0.712 against 0.715).",
+        "evidence": [
+          "figure-reproduction/output/causes/roc50_variants.json",
+          "figure-reproduction/output/tables.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
+            "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
+            "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Seed of Gist's update order",
+            "test": "Seed 2: SVM-DR ROC50 0.4973 against 0.4970 (output/causes/dr_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed values behave like ROC_n with a larger n",
+            "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.855 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+            "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+            "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table1.dt",
+      "label": "Table 1, SVM-DT (ROC, ROC50)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "ROC",
+            "expected": "0.948",
+            "observed": "0.957"
+          },
+          {
+            "name": "ROC50",
+            "expected": "0.800",
+            "observed": "0.720"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "ROC 0.957 against 0.948: with profiles built as in the paper's ref. [28] our SVM-DT sits about 0.01 above the paper at every dMAX while family 2.5.1.3 comes back (0.993); our 2016 nrdb90 is not the paper's database. ROC50: the stated definition gives 0.720; the paper's values match an ordinary ROC on the ranking cut at the 50th false positive (see Table 1, SVM-DR), which gives 0.838 here, above 0.800 as ROC is above 0.948.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/causes/roc50_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
+            "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
+            "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+            "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+            "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1.others",
+      "label": "Table 1, the nine other methods",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Quoted by the paper from earlier work (Monomer-dist, SVM-LA, SVM-Pairwise, SVM-Top-n-gram and -LSA, SVM-PDT-Profile, PseAACIndex-Profile, BioSVM-2L, HHSearch); not results of this paper.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4015815/table/T1/"
+        ],
+        "status": "explained"
+      },
+      "assumptions": [],
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig4.a",
+      "label": "Fig. 4A, Top-1-gram pairs (SVM-DT)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": "24 grey levels per cell",
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.95,
+        "published_near_ours": 0.825,
+        "ours_near_published": 0.825,
+        "controls": [
+          {
+            "name": "panel B values (other method, published)",
+            "kind": "wrong_input",
+            "score": 0.3675
+          },
+          {
+            "name": "ours transposed (first and second letter swapped)",
+            "kind": "near_miss",
+            "score": 0.7825
+          },
+          {
+            "name": "ours for family 2.5.1.1",
+            "kind": "wrong_input",
+            "score": 0.175
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The L2 norm of a pair (t_i, t_i) includes its distance-0 weight (the composition T0_i), as Fig. 1 counts pairs 'at distance 0, 1, 2'",
+          "source": "read_from_figure",
+          "sensitivity": "Without it (L,L) ranks 36th in our SVM-DR panel instead of 2nd and the Spearman correlation with the published panel falls from 0.9999 to 0.988"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our Top-1-gram profiles follow the paper's ref. [28] (10 PSI-BLAST iterations, BLOSUM62 pseudocounts) but come from the lab's 2016 nrdb90; the 2014 profiles are gone. The heatmap keeps (G,G) first and (L,L) second as published and correlates 0.875 with the published panel (Spearman; 0.770 with the earlier 3-iteration profiles), but cell values still differ.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/fig5_scores.json",
+          "figure-reproduction/output/causes/dt_profile_tests.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+            "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+            "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4.b",
+      "label": "Fig. 4B, residue pairs (SVM-DR)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": "24 grey levels per cell",
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.95,
+        "published_near_ours": 1.0,
+        "ours_near_published": 1.0,
+        "controls": [
+          {
+            "name": "panel A values (other method, published)",
+            "kind": "wrong_input",
+            "score": 0.3725
+          },
+          {
+            "name": "ours transposed (first and second letter swapped)",
+            "kind": "near_miss",
+            "score": 0.7175
+          },
+          {
+            "name": "ours for family 2.5.1.1",
+            "kind": "wrong_input",
+            "score": 0.04
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The L2 norm of a pair (t_i, t_i) includes its distance-0 weight (the composition T0_i), as Fig. 1 counts pairs 'at distance 0, 1, 2'",
+          "source": "read_from_figure",
+          "sensitivity": "Without it (L,L) ranks 36th in our SVM-DR panel instead of 2nd and the Spearman correlation with the published panel falls from 0.9999 to 0.988"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig5.a",
+      "label": "Fig. 5A, (G,G) of SVM-DT",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.98,
+        "published_near_ours": 0.1014,
+        "ours_near_published": 0.1014,
+        "controls": [
+          {
+            "name": "(L,L) weights in place of (G,G)",
+            "kind": "wrong_input",
+            "score": 0.0811
+          },
+          {
+            "name": "ours at x = d (no offset)",
+            "kind": "near_miss",
+            "score": 0.1149
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.1757
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.0608
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The bars are plotted at x = d + 1 (the bar at x shows distance x - 1; x = 1 is distance 0)",
+          "source": "read_from_figure",
+          "sensitivity": "At x = d the share of bar ends within 2 px falls to about 0.1 (fig5_scores.json); the correlation with ours at offsets -2..2 peaks only at +1 in every panel"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5_ours.png",
+        "figure-reproduction/output/fig5_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "As Fig. 4A: our SVM-DT weights come from profiles built as in ref. [28] on another database. The ladder shape and the mostly negative signs come back and the bars follow the published ones more closely (r 0.58; 0.39 with the 3-iteration profiles), but the bar heights do not.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/fig5_scores.json",
+          "figure-reproduction/output/causes/dt_profile_tests.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+            "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+            "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig5.b",
+      "label": "Fig. 5B, (L,L) of SVM-DT",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.98,
+        "published_near_ours": 0.1014,
+        "ours_near_published": 0.1014,
+        "controls": [
+          {
+            "name": "(G,G) weights in place of (L,L)",
+            "kind": "wrong_input",
+            "score": 0.0338
+          },
+          {
+            "name": "ours at x = d (no offset)",
+            "kind": "near_miss",
+            "score": 0.0541
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.0608
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.1216
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The bars are plotted at x = d + 1 (the bar at x shows distance x - 1; x = 1 is distance 0)",
+          "source": "read_from_figure",
+          "sensitivity": "At x = d the share of bar ends within 2 px falls to about 0.1 (fig5_scores.json); the correlation with ours at offsets -2..2 peaks only at +1 in every panel"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5_ours.png",
+        "figure-reproduction/output/fig5_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "As Fig. 4A: our SVM-DT weights come from profiles built as in ref. [28] on another database. The ladder shape and the mostly negative signs come back and the bars follow the published ones more closely (r 0.50; 0.28 with the 3-iteration profiles), but the bar heights do not.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/fig5_scores.json",
+          "figure-reproduction/output/causes/dt_profile_tests.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+            "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+            "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig5.c",
+      "label": "Fig. 5C, (G,G) of SVM-DR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.98,
+        "published_near_ours": 1.0,
+        "ours_near_published": 1.0,
+        "controls": [
+          {
+            "name": "(L,L) weights in place of (G,G)",
+            "kind": "wrong_input",
+            "score": 0.0676
+          },
+          {
+            "name": "ours at x = d (no offset)",
+            "kind": "near_miss",
+            "score": 0.0946
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.8986
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.5068
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The bars are plotted at x = d + 1 (the bar at x shows distance x - 1; x = 1 is distance 0)",
+          "source": "read_from_figure",
+          "sensitivity": "At x = d the share of bar ends within 2 px falls to about 0.1 (fig5_scores.json); the correlation with ours at offsets -2..2 peaks only at +1 in every panel"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5_ours.png",
+        "figure-reproduction/output/fig5_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig5.d",
+      "label": "Fig. 5D, (L,L) of SVM-DR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (PDF image)",
+        "threshold": 0.98,
+        "published_near_ours": 1.0,
+        "ours_near_published": 1.0,
+        "controls": [
+          {
+            "name": "(G,G) weights in place of (L,L)",
+            "kind": "wrong_input",
+            "score": 0.0743
+          },
+          {
+            "name": "ours at x = d (no offset)",
+            "kind": "near_miss",
+            "score": 0.1081
+          },
+          {
+            "name": "ours x 1.05",
+            "kind": "near_miss",
+            "score": 0.9662
+          },
+          {
+            "name": "ours x 0.95",
+            "kind": "near_miss",
+            "score": 0.5743
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The bars are plotted at x = d + 1 (the bar at x shows distance x - 1; x = 1 is distance 0)",
+          "source": "read_from_figure",
+          "sensitivity": "At x = d the share of bar ends within 2 px falls to about 0.1 (fig5_scores.json); the correlation with ours at offsets -2..2 peaks only at +1 in every panel"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5_ours.png",
+        "figure-reproduction/output/fig5_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own Table 1",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "From Table 1's printed values: SVM-DT minus SVM-Top-n-gram is 4.1 ROC and 10.4 ROC50 points (text: 4.1 and 10.4), and the five comparison sentences hold on the paper's own numbers (with 'outperforms Monomer-dist' resting on ROC50: both rows print ROC 0.919)."
+      },
+      "assumptions": [],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.benchmark",
+      "label": "Benchmark: 54 families, 4,352 proteins",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "families",
+            "expected": "54",
+            "observed": 54
+          },
+          {
+            "name": "proteins",
+            "expected": "4352",
+            "observed": 4352
+          }
+        ]
+      },
+      "assumptions": [],
+      "verdict": "exact"
+    },
+    {
+      "id": "text.improvement",
+      "label": "SVM-DT improves SVM-Top-n-gram by 4.1% ROC and 10.4% ROC50",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "ROC points over the quoted SVM-Top-n-gram",
+            "expected": "4.1",
+            "observed": "5.0"
+          },
+          {
+            "name": "ROC50 points over the quoted SVM-Top-n-gram",
+            "expected": "10.4",
+            "observed": "2.4"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The gains are measured against SVM-Top-n-gram's values quoted from another paper. Our gains are 5.0 ROC points (paper 4.1) and 2.4 ROC50 points with the stated definition (paper 10.4); with the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) 14.2 points. Our SVM-DT sits above the paper in both ROC and ROC50 (profiles from the 2016 nrdb90). Against our own position-independent baseline (SVM-DT at dMAX 0, Top-1-gram composition) the gains are 2.8 ROC and 19.9 ROC50 points, so the direction of the claim holds.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/tables.json",
+          "figure-reproduction/output/causes/roc50_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The distances add to a position-independent Top-1-gram baseline",
+            "test": "Our SVM-DT at dMAX 150 against our SVM-DT at dMAX 0: +2.8 ROC, +19.9 ROC50 points (tables.json fig3.SVM-DT)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
+            "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
+            "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+            "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+            "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.family2513",
+      "label": "Family 2.5.1.3: SVM-DT 0.993 against SVM-DR 0.844 (ROC)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "SVM-DT",
+            "expected": "0.993",
+            "observed": "0.993"
+          },
+          {
+            "name": "SVM-DR",
+            "expected": "0.844",
+            "observed": "0.844"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Both come back: SVM-DR 0.844 and SVM-DT 0.993 with profiles built as in the paper's ref. [28]. With the earlier 3-iteration profiles SVM-DT was 0.961 (output/causes/dt_profiles_2008.json).",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.plateau",
+      "label": "ROC rises from dMAX 0 to 100 and is stable over 100 to 200",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "SVM-DR",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.top-pairs",
+      "label": "(G,G) and (L,L) are the two most discriminative pairs for both methods",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "SVM-DR",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The L2 norm of a pair (t_i, t_i) includes its distance-0 weight (the composition T0_i), as Fig. 1 counts pairs 'at distance 0, 1, 2'",
+          "source": "read_from_figure",
+          "sensitivity": "Without it (L,L) ranks 36th in our SVM-DR panel instead of 2nd and the Spearman correlation with the published panel falls from 0.9999 to 0.988"
+        },
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "True for both. For SVM-DT (G,G) and (L,L) are the top two with profiles built as in the paper's ref. [28]; with the earlier 3-iteration profiles (L,L) was sixth, behind (V,G) and (G,V) (output/causes/dt_profiles_2008.json).",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/fig4_scores.json",
+          "figure-reproduction/output/causes/dt_variants.json",
+          "figure-reproduction/output/causes/dt_profile_tests.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Top-1-gram sequences are too close to the residues (3 PSI-BLAST iterations and observed percentages, no pseudocounts)",
+            "test": "With the 3-iteration profiles 58% of Top-1-gram positions equal the query residue, and that Fig. 4A correlates more with the paper's residue heatmap 4B (Spearman 0.935) than with its Fig. 4A (0.770); the paper's two panels correlate 0.737 (output/causes/dt_profile_tests.json). The 2008-method profiles keep the residue at 49% of positions and correlate 0.875 with the paper's Fig. 4A (output/causes/dt_profiles_2008.json)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The 2014 profiles were built as in the paper's reference [28], the lab's 2008 Top-n-gram paper: 10 PSI-BLAST iterations and target frequencies with BLOSUM62 pseudocounts",
+            "test": "Rebuilt that way (profile2008.py on 10-iteration PSI-BLAST against the 2016 nrdb90), against the 3-iteration profiles: family 2.5.1.3's ROC 0.993 (paper 0.993; 3-iteration 0.961), Fig. 4A Spearman 0.875 (0.770) with (L,L) second as published (sixth), Fig. 5A-B bar r 0.58 and 0.50 (0.39 and 0.28). The 54-family mean ROC moves away from the paper: 0.957 against 0.948 (3-iteration 0.950) (output/causes/dt_profiles_2008.json). Earlier, the pseudocount limit alone (query-only M to L) had raised Fig. 4A Spearman to 0.837 (output/causes/dt_profile_tests.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.zero-distance",
+      "label": "Distance 0 always has the largest weight (Fig. 5)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "(G,G) SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "(L,L) SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "(G,G) SVM-DR",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "(L,L) SVM-DR",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "(G,G) SVM-DR",
+            "category": "paper_error",
+            "evidence": "The paper's own Fig. 5C: the distance-0 bar reads -14.2 and the distance-1 bar -21.4 (fig5_published.json, panel C), so distance 0 is not the largest there, against 'always'."
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.ladder",
+      "label": "Shorter distances weigh more than longer ones (Fig. 5)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "(G,G) SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "(L,L) SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "(G,G) SVM-DR",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "(L,L) SVM-DR",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.sign",
+      "label": "Most (G,G) weights of SVM-DT are positive; SVM-DR has more positive ones",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "(G,G) of SVM-DT mostly positive",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "SVM-DR (G,G) more often positive than SVM-DT",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "(G,G) of SVM-DT mostly positive",
+            "category": "paper_error",
+            "evidence": "The paper's own Fig. 5A: 134 of the 149 bars at distances 1 to 149 are negative (90%), 14 positive (fig5_published.json, panel A). The sentence contradicts the figure it describes."
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.dr-comparison",
+      "label": "SVM-DR outperforms Monomer-dist and SVM-Pairwise and is comparable with SVM-LA",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "beats Monomer-dist (ROC50, ROC not lower)",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "beats SVM-Pairwise (ROC50, ROC not lower)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "within 1 point of SVM-LA (ROC)",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "SVM-DR beats SVM-Pairwise and is within a point of SVM-LA. 'Outperforms Monomer-dist' rests on ROC50 (both rows print ROC 0.919). With the stated definition SVM-DR is just below Monomer-dist (0.497 against 0.508); with the paper's own ROC50 (an ordinary ROC on the ranking cut at the 50th false positive) it is above (0.712), but Monomer-dist's 0.508 comes from another group's code, so the comparison mixes two ROC50s.",
+        "evidence": [
+          "figure-reproduction/output/causes/roc50_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "ROC50 as Gribskov and Robinson's normalized area to the first 50 false positives (the stated definition)",
+            "test": "roc.py on our discriminants at dMAX 150: SVM-DR 0.497, SVM-DT 0.720 (tables.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ROC50 as the true-positive rate at the 50th false positive",
+            "test": "SVM-DR 0.662, SVM-DT 0.814 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Seed of Gist's update order",
+            "test": "Seed 2: SVM-DR ROC50 0.4973 against 0.4970 (output/causes/dr_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The printed values behave like ROC_n with a larger n",
+            "test": "Searched n: ROC_200 gives SVM-DR 0.720 (paper 0.715); for SVM-DT, whose ROC itself differs, 0.855 (paper 0.800). Found by search, no mechanism (output/causes/roc50_variants.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "ROC50 as an ordinary ROC computed on the ranking cut at the 50th false positive: the area to 50 false positives divided by the true positives found there instead of by all positives (positives ranked below the cut drop out)",
+            "test": "SVM-DR 0.712 (paper 0.715) at dMAX 150, no free parameter; SVM-DT 0.838 (paper 0.800), above the paper as its ROC is (0.957 against 0.948); with the earlier 3-iteration profiles, whose ROC was closer (0.950), 0.790 (output/causes/roc50_variants.json, roc_on_cut_list). It also brings back the paper's ROC50 comparisons: SVM-DR above Monomer-dist (0.712 against 0.508) and SVM-DT above SVM-Top-n-gram (14.2 points; paper 10.4). It is what an ordinary ROC routine, such as Gist's gist-score-svm, gives on a ranking cut at 50 false positives. The paper gives no ROC50 code or per-family values to confirm it, and SVM-DT runs on other profiles",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "ROC50 as the area to a false positive rate of 0.5 (or 0.1), divided by that rate",
+            "test": "FPR 0.5: SVM-DR 0.853, SVM-DT 0.925; FPR 0.1: 0.632 and 0.802 at dMAX 150 (output/causes/roc50_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.dt-comparison",
+      "label": "SVM-DT outperforms every other method except SVM-PDT-Profile in average ROC",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "beats every other profile method but SVM-PDT-Profile (ROC)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "below SVM-PDT-Profile (ROC)",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Normalized kernel values that round above 1 (identical sequences) are capped at 1, where Gist's code sets them to 0 off the diagonal",
+          "source": "our_choice",
+          "sensitivity": "With Gist's 0 the dMAX = 0 training diverges to NaN (Gist would loop forever); at dMAX = 150 the SVM-DR weights of family 2.5.1.3 become 1.3 times the published ones (Fig. 4B Spearman 0.963 against 0.9999, Fig. 5C r 0.85 against 0.9999; output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Gist seeds its random update order from the clock; we use seed 1",
+          "source": "our_choice",
+          "sensitivity": "Seeds 2 and 3 move the 2.5.1.3 weights' L2 maximum by under 0.5% (output/causes/weight_scale_dr.json)"
+        },
+        {
+          "what": "Top-1-gram profiles built as in the paper's ref. [28] (Liu et al. 2008): PSI-BLAST (BLAST+ 2.17.0) with default settings and 10 iterations against the lab's 2016 nrdb90 (Pse-in-One 2.0); last-round hits with E <= 0.002, rows under 98% identity, Henikoff weights, BLOSUM62 pseudocounts with beta = 10; Top-1-gram = largest target frequency (profile2008.py)",
+          "source": "found_by_search",
+          "sensitivity": "The paper names only 'a non-redundant database' and cites ref. [28] for the profiles. With the lab's 2017 settings instead (3 iterations, E = 0.001, largest observed percentage; top1.py) the mean ROC at dMAX 150 is 0.9502 instead of 0.9570 and family 2.5.1.3's ROC 0.961 instead of 0.993 (output/causes/dt_profiles_2008.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our SVM-DT reaches ROC 0.957, above every quoted profile method including SVM-PDT-Profile (0.950), where the paper's 0.948 is below it. Our SVM-DT sits about 0.01 above the paper at every dMAX (profiles from the 2016 nrdb90), enough to change this ranking. With the 3-iteration profiles it was 0.9502, above SVM-PDT-Profile by 0.0002.",
+        "evidence": [
+          "figure-reproduction/output/causes/dt_profiles_2008.json",
+          "figure-reproduction/output/causes/dt_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The difference enters with the profiles: everything after the Top-1-gram sequences is shared with SVM-DR",
+            "test": "The same features, Gist port and weight code on residues reproduce Fig. 4B (Spearman 0.9999) and Fig. 5C-D (bar values r >= 0.9997)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Pse-in-One's parser rule (an all-zero column gives A) instead of the query residue",
+            "test": "Rerun at dMAX 150 with that rule on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Top-1-gram from the log-odds scores instead of the observed percentages",
+            "test": "Rerun at dMAX 150 on the earlier 3-iteration profiles (output/causes/dt_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    }
+  ],
+  "summary": {
+    "items": 27,
+    "exact": 1,
+    "agrees": 11,
+    "partly": 6,
+    "inconclusive": 2,
+    "differs": 4,
+    "not_attempted": 3,
+    "open_causes": 2
+  }
+}
