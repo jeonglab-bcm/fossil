@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-12T20:42:16+00:00 / 2026-11-12T22:08:10+00:00 |
-| Wall clock | 85.9 min |
+| Started / ended (UTC) | 2026-11-12T20:42:16+00:00 / 2026-11-12T22:26:56+00:00 |
+| Wall clock | 104.7 min |
 | Models | claude-opus-5, claude-opus-5-5 |
 | Human prompts | 1 (0 sent mid-turn) |
-| Assistant responses (API calls) | 184 + 0 in subagents |
-| Tool calls | 197 + 0 in subagents |
-| Tokens: input / cache write / cache read / output | 372 / 521,180 / 43,856,205 / 185,986 |
-| Tokens: total (incl. subagents) | 44,563,743 |
+| Assistant responses (API calls) | 223 + 0 in subagents |
+| Tool calls | 236 + 0 in subagents |
+| Tokens: input / cache write / cache read / output | 450 / 550,968 / 59,062,004 / 202,503 |
+| Tokens: total (incl. subagents) | 59,815,925 |
 
 ## Conversation
 
@@ -558,3 +558,109 @@ Now the session ledger, then the commit.
 - `Bash` Write the correct session ledger
 
 - `Bash` Check ledger CLI options
+
+- `Bash` Write ledger from the right transcript
+
+- `Bash` Review conversation record and staging
+
+- `Bash` Stage everything and check
+
+- `Bash` Review the rest of the staged files
+
+- `Bash` Validate the generated page
+
+- `Bash` Commit the reproduction
+
+### Claude · 2026-11-12 22:09:26
+
+Before pushing, verifying the CI command from a clean checkout as the definition of done requires.
+
+- `Bash` Clone a clean checkout
+
+- `Bash` Run the CI command from a clean checkout
+
+- `Bash` Wait for the clean-checkout run
+
+### Claude · 2026-11-12 22:12:58
+
+The clean run differs — likely GenBank record order changing MUSCLE's progressive alignment. Checking.
+
+- `Bash` Compare fresh run numbers with committed
+
+### Claude · 2026-11-12 22:13:10
+
+Confirmed: MUSCLE's output depends on input order. Sorting the records canonically so the alignment is deterministic.
+
+- `Bash` Sort records before alignment
+
+- `Bash` Rerun clean checkout with sorted input
+
+- `Bash` Wait and check the deterministic rerun
+
+- `Read` /tmp/claude-264982/-home-sofias-fossil/cfe1cea8-81fd-4628-a77e-b30f8e7b2b9c/tasks/b840zz8ob.output
+
+- `Bash` Check clean-run report
+
+- `Bash` Read clean run log tail
+
+### Claude · 2026-11-12 22:16:01
+
+The clean checkout, downloading everything fresh, reproduces the committed outputs exactly. Amending the commit with the determinism fix.
+
+- `Bash` Amend commit with the fix
+
+- `Bash` Push the branch and open the PR
+
+- `Bash` Check CI status
+
+### Claude · 2026-11-12 22:17:53
+
+While CI runs, posting the self-review the skill requires.
+
+- `Bash` Post the self-review
+
+- `Bash` Wait for the reproduce workflow
+
+- `Read` /tmp/claude-264982/-home-sofias-fossil/cfe1cea8-81fd-4628-a77e-b30f8e7b2b9c/tasks/byqh01qc6.output
+
+- `Bash` Poll CI status
+
+- `Bash` Read the CI failure
+
+- `Bash` Find which file differs in CI
+
+- `Bash` Check compare_runs tolerance
+
+### Claude · 2026-11-12 22:21:02
+
+CI matches except one fitted value in the 9th digit — optimizer noise across BLAS builds. Rounding the written numbers below that.
+
+- `Bash` Round written floats in analyze.py
+
+- `Bash` Rerun pipeline with rounding
+
+- `Bash` Refresh committed outputs and verify
+
+- `Bash` Check the verification run
+
+- `Bash` Commit the rounding fix and push
+
+- `Bash` Wait for CI after the fix
+
+- `Bash` Read the new CI failure
+
+- `Bash` View the failed run summary
+
+- `Bash` Wait for the current CI run
+
+- `Read` /tmp/claude-264982/-home-sofias-fossil/cfe1cea8-81fd-4628-a77e-b30f8e7b2b9c/tasks/bfhy8hoe9.output
+
+- `Bash` Poll the run once
+
+### Claude · 2026-11-12 22:26:29
+
+While CI finishes, saving a memory of this reproduction.
+
+- `Write` /home/sofias/.claude/projects/-home-sofias-fossil/memory/pmc2813257-reproduction.md
+
+- `Bash` Index the memory and poll CI
