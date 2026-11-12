@@ -570,6 +570,8 @@ def main(downloads, t1dir, wekadir, published_values, out, quick=False):
         "roc": {name: main_run["sets"][name]["roc"] for name in ("training", "hgmd", "oligogenic", "cv10")},
         "roc_fig2tree": {name: fig2tree["paralog_unknown"][name]["roc"] for name in ("training", "hgmd", "oligogenic")},
         "items": items,
+        # the same fields under dot-free keys, for tools/check_results.py paths (item_list.key=fig1_a...)
+        "item_list": [{"key": k.replace(".", "_"), "id": k, "fields": v} for k, v in items.items()],
     })
     json.dump(res, open(out, "w"), indent=1, default=float)
 

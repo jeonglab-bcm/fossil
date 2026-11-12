@@ -16,7 +16,8 @@ results = []
 for key, fields in an["items"].items():
     for i, f in enumerate(fields):
         e = {"id": f"{key}.{i}", "label": f"{key}, {f['name']} (paper {f['expected']})",
-             "file": "analysis.json", "path": f"items.{key}.{i}.observed", "expected": f["observed"]}
+             "file": "analysis.json", "path": f"item_list.key={key.replace('.', '_')}.fields.{i}.observed",
+             "expected": f["observed"]}
         if isinstance(f["observed"], float):
             e["tolerance"] = {"rel": 1e-9}
         results.append(e)
