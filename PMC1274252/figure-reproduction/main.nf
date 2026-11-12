@@ -125,6 +125,7 @@ process RESULTS {
     path figures_json
     path figures
     path checks
+    path weka
     path package_json
     output:
     path 'results.json', emit: results
@@ -132,7 +133,7 @@ process RESULTS {
     path 'site', emit: site
     script:
     """
-    mkdir run && cp -r ${analysis} ${figures_json} ${figures} ${checks} ${package_json} run/
+    mkdir run && cp -r ${analysis} ${figures_json} ${figures} ${checks} ${weka} ${package_json} run/
     ${params.python} ${params.pipe}/build_results.py run results.json
     ${params.python} ${params.pipe}/check_reproduction.py results.json run ${params.committed} report.md ${params.quick ? '--quick' : ''}
     ${params.python} ${params.pipe}/build_page.py results.json run ${params.published} site/index.html
@@ -147,5 +148,5 @@ workflow {
     an = REPRODUCE(dl, t1, wk)
     fg = FIGURES(an)
     pk = PACKAGE()
-    RESULTS(an, fg.json, fg.figures, ck, pk)
+    RESULTS(an, fg.json, fg.figures, ck, wk, pk)
 }

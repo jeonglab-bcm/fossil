@@ -20,7 +20,8 @@ HERE = Path(__file__).resolve().parent
 FIGS = [f"figures/fig1{p}_{k}.png" for p in "abcdef" for k in ("ours", "overlay")] + \
        [f"figures/fig3{p}_{k}.png" for p in "abc" for k in ("ours", "overlay")] + \
        ["figures/fig1_ours.png", "figures/fig2_ours.png", "figures/fig2_overlay.png", "figures/fig3_ours.png"]
-EXPECTED = ["analysis.json", "figures.json", "package.json", "checks/weka_versions.json"] + FIGS
+EXPECTED = ["analysis.json", "figures.json", "package.json", "checks/weka_versions.json", "weka/main/tree.txt",
+            "weka/table1/tree.txt"] + FIGS
 # package.json holds timings and temporary paths (its pass/fail is in results.json, which is compared)
 IGNORE = ["package.json", "report.md"]
 
