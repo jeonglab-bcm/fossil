@@ -1,0 +1,2403 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC4331676",
+    "title": "Identifying DNA-binding proteins by combining support vector machine and PSSM distance transformation",
+    "citation": "Xu R, Zhou J, Wang H, He Y, Wang X, Liu B. BMC Systems Biology 9(Suppl 1):S10 (2015)",
+    "doi": "10.1186/1752-0509-9-S1-S10",
+    "license": "CC BY 4.0"
+  },
+  "run": {
+    "date": "2026-11-09",
+    "pipeline": "PMC4331676/figure-reproduction/main.nf",
+    "command": "nextflow run PMC4331676/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "1752-0509-9-S1-S10-S1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4331676.1/1752-0509-9-S1-S10-S1.pdf",
+        "sha256": "a4df5d045e285452cf80045b58092b3b0468d5818f4f6243ab19361b2acb22da"
+      },
+      {
+        "name": "pone.0086703.s002.txt",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3901691.1/pone.0086703.s002.txt",
+        "sha256": "797f36f6a023e48bbdbafbef449db1a560f9bd0ff263778a2a63ab9d35f03ab8"
+      },
+      {
+        "name": "pone.0086703.s003.txt",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3901691.1/pone.0086703.s003.txt",
+        "sha256": "405ca0a4ebd6d733c5c68c3e523fd9ae8c4825c106126fead99fd4406c34397f"
+      },
+      {
+        "name": "1AKH.cif",
+        "url": "https://files.rcsb.org/download/1AKH.cif",
+        "sha256": "caf4ef567e1c06e1f84da497c139fa7ae4bb86e84949f3b18998c14140d74e1d"
+      },
+      {
+        "name": "uniref2014_01.tar.gz (cluster only)",
+        "url": "https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2014_01/uniref/uniref2014_01.tar.gz",
+        "sha256": "be1a999e7ec491a3040f6689e9b4f893fd0ff19baf01fe277fbd3c685fc5ec22"
+      },
+      {
+        "name": "ncbi-blast-2.16.0+-x64-linux.tar.gz (cluster only)",
+        "url": "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.16.0/ncbi-blast-2.16.0+-x64-linux.tar.gz",
+        "sha256": "b0b13098c901d23b324ad1700e7471bb7408a7f7f517d74d5faad711be76e8f4"
+      }
+    ],
+    "environment": {
+      "python": "3.12",
+      "numpy": "2.1.3",
+      "scipy": "1.14.1",
+      "scikit-learn": "1.5.2",
+      "blast+": "2.16.0",
+      "nextflow": "25.04.6"
+    }
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.4.0",
+    "tag": "paper2repro-v0.4.0",
+    "commit": "727d35e891917e2808dfde330ae80a8be20356c9",
+    "modified": null,
+    "source": "transcript",
+    "note": "The skill text loaded in the reproduction session (2026-11-09) matches the skill folder tagged paper2repro-v0.4.0; the installed skill was at this commit."
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "items": [
+    {
+      "id": "data.datasets",
+      "label": "Benchmark and PDB186 sizes",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "benchmark DNA-binding chains",
+            "expected": "525",
+            "observed": 525
+          },
+          {
+            "name": "benchmark non-binding chains",
+            "expected": "550",
+            "observed": 550
+          },
+          {
+            "name": "PDB186 DNA-binding chains",
+            "expected": "93",
+            "observed": 93
+          },
+          {
+            "name": "PDB186 non-binding chains",
+            "expected": "93",
+            "observed": 93
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1, ACC and MCC against LG",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "abs": 0.005
+        },
+        "fields": [
+          {
+            "name": "ACC at LG 1",
+            "expected": 0.773,
+            "observed": 0.7647
+          },
+          {
+            "name": "MCC at LG 1",
+            "expected": 0.56,
+            "observed": 0.5299
+          },
+          {
+            "name": "ACC at LG 2",
+            "expected": 0.773,
+            "observed": 0.7693
+          },
+          {
+            "name": "MCC at LG 2",
+            "expected": 0.56,
+            "observed": 0.5403
+          },
+          {
+            "name": "ACC at LG 3",
+            "expected": 0.776,
+            "observed": 0.774
+          },
+          {
+            "name": "MCC at LG 3",
+            "expected": 0.57,
+            "observed": 0.5487
+          },
+          {
+            "name": "ACC at LG 4",
+            "expected": 0.774,
+            "observed": 0.7777
+          },
+          {
+            "name": "MCC at LG 4",
+            "expected": 0.56,
+            "observed": 0.5568
+          },
+          {
+            "name": "ACC at LG 5",
+            "expected": 0.79,
+            "observed": 0.7767
+          },
+          {
+            "name": "MCC at LG 5",
+            "expected": 0.6,
+            "observed": 0.555
+          },
+          {
+            "name": "ACC at LG 6",
+            "expected": 0.787,
+            "observed": 0.786
+          },
+          {
+            "name": "MCC at LG 6",
+            "expected": 0.59,
+            "observed": 0.5735
+          },
+          {
+            "name": "ACC at LG 7",
+            "expected": 0.783,
+            "observed": 0.7944
+          },
+          {
+            "name": "MCC at LG 7",
+            "expected": 0.58,
+            "observed": 0.5911
+          },
+          {
+            "name": "ACC at LG 8",
+            "expected": 0.785,
+            "observed": 0.7916
+          },
+          {
+            "name": "MCC at LG 8",
+            "expected": 0.58,
+            "observed": 0.585
+          },
+          {
+            "name": "ACC at LG 9",
+            "expected": 0.784,
+            "observed": 0.7879
+          },
+          {
+            "name": "MCC at LG 9",
+            "expected": 0.58,
+            "observed": 0.5775
+          },
+          {
+            "name": "ACC at LG 10",
+            "expected": 0.78,
+            "observed": 0.7907
+          },
+          {
+            "name": "MCC at LG 10",
+            "expected": 0.58,
+            "observed": 0.5834
+          },
+          {
+            "name": "ACC at LG 11",
+            "expected": 0.773,
+            "observed": 0.7833
+          },
+          {
+            "name": "MCC at LG 11",
+            "expected": 0.57,
+            "observed": 0.5672
+          },
+          {
+            "name": "ACC at LG 12",
+            "expected": 0.776,
+            "observed": 0.7814
+          },
+          {
+            "name": "MCC at LG 12",
+            "expected": 0.57,
+            "observed": 0.5639
+          },
+          {
+            "name": "ACC at LG 13",
+            "expected": 0.78,
+            "observed": 0.7814
+          },
+          {
+            "name": "MCC at LG 13",
+            "expected": 0.58,
+            "observed": 0.5642
+          },
+          {
+            "name": "ACC at LG 14",
+            "expected": 0.768,
+            "observed": 0.7814
+          },
+          {
+            "name": "MCC at LG 14",
+            "expected": 0.56,
+            "observed": 0.5638
+          }
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig1_ours.png",
+        "figure-reproduction/output/figures/fig1_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Published ACC and MCC read from the marker centres of Fig. 1 (1 px = 0.0017)",
+          "source": "read_from_figure",
+          "sensitivity": "A 2 px misreading moves a value by 0.003, inside the 0.005 tolerance."
+        },
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "status": "explained",
+        "summary": "Our curve has the published level (ACC 0.76 to 0.79, MCC 0.53 to 0.59) and is as flat, but between 5-fold splits single ACC values move by up to 0.02 and MCC values by up to 0.04, more than most gaps to the paper.",
+        "evidence": [
+          "figure-reproduction/output/run/lg_sweep.json (ACC_seeds and MCC_seeds: five splits per LG)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The 5-fold split (not given in the paper)",
+            "test": "Rerun each LG on five splits",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.lg_best",
+      "label": "Best LG is 5 (text and Fig. 1)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "LG with the highest ACC",
+            "expected": "5",
+            "observed": "7"
+          },
+          {
+            "name": "LG with the highest MCC",
+            "expected": "5",
+            "observed": "7"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "No split of ours puts the optimum at LG 5: the best LG is 7, 6, 8, 6 and 7 on five splits, and LG 5 is within 0.02 ACC of the best on every split. The paper's peak at LG 5 is a 0.016 rise over LG 4 that our runs do not show.",
+        "evidence": [
+          "figure-reproduction/output/run/lg_sweep.json",
+          "figure-reproduction/output/sensitivity.json (lg_uniref90)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The 5-fold split decides the optimum",
+            "test": "Best LG on five splits: 7, 6, 8, 6, 7",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The protein database",
+            "test": "LG sweep with UniRef90 2014_01 PSSMs (sensitivity.json, lg_uniref90): best LG is not 5",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, PSSM-DT, PSSM-DDT and PSSM-SDT (jackknife)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PSSM-DDT ACC",
+            "expected": "79.72",
+            "observed": 78.51
+          },
+          {
+            "name": "PSSM-DDT MCC",
+            "expected": "0.607",
+            "observed": 0.572
+          },
+          {
+            "name": "PSSM-DDT SN",
+            "expected": "81.33",
+            "observed": 81.71
+          },
+          {
+            "name": "PSSM-DDT SP",
+            "expected": "78.18",
+            "observed": 75.45
+          },
+          {
+            "name": "PSSM-SDT ACC",
+            "expected": "74.79",
+            "observed": 76.56
+          },
+          {
+            "name": "PSSM-SDT MCC",
+            "expected": "0.512",
+            "observed": 0.532
+          },
+          {
+            "name": "PSSM-SDT SN",
+            "expected": "77.147",
+            "observed": 78.86
+          },
+          {
+            "name": "PSSM-SDT SP",
+            "expected": "74.93",
+            "observed": 74.36
+          },
+          {
+            "name": "PSSM-DT ACC",
+            "expected": "79.96",
+            "observed": 78.88
+          },
+          {
+            "name": "PSSM-DT MCC",
+            "expected": "0.622",
+            "observed": 0.58
+          },
+          {
+            "name": "PSSM-DT SN",
+            "expected": "81.91",
+            "observed": 82.1
+          },
+          {
+            "name": "PSSM-DT SP",
+            "expected": "78.00",
+            "observed": 75.82
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "PSSM-DT ACC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 81.91 and SP 78.00 give 430 + 429 of 1,075 = 79.91, not 79.96"
+          },
+          {
+            "field": "PSSM-DT MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 81.91 and SP 78.00 give MCC 0.599, not 0.622"
+          },
+          {
+            "field": "PSSM-DDT MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 81.33 and SP 78.18 give MCC 0.595, not 0.607"
+          },
+          {
+            "field": "PSSM-SDT ACC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 77.147 and SP 74.93 give 76.00, not 74.79"
+          },
+          {
+            "field": "PSSM-SDT MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 77.147 and SP 74.93 give MCC 0.520, not 0.512"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "The 7 DNA strands of the positive set get no PSI-BLAST hits; they are encoded from BLOSUM62 rows, as BioSeq-Analysis2.0 does",
+          "source": "authors_code",
+          "sensitivity": "Dropping them and the 5 X-containing chains moves the PSSM-DT jackknife ACC by 0.14 points."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "PSSM-DT comes back within about 2 points: ACC 78.88 against 79.96, SN 82.10 against 81.91 (one chain more), SP 75.82 against 78.00 (12 chains fewer), AUC 86.34 against 86.50. No value matches at the printed precision. Five printed ACC and MCC values do not follow from the printed SN and SP and are left out of the count. The PSSMs of the 2014 nr cannot be rebuilt; each other unstated setting moves ACC by at most 1.3 points and none closes the gap in all four metrics.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database (the 2014 nr is not archived)",
+            "test": "Rerun with UniRef90 2014_01 PSSMs instead of UniRef100 2014_01",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The PSSM is used through the logistic function, as for the comparator encodings",
+            "test": "Rerun with 1/(1+exp(-x)) applied before the transformation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The 12 defective chains of the supplement (7 DNA strands, 5 with X)",
+            "test": "Rerun without them",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Feature scaling",
+            "test": "Rerun without scaling",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The cross-validation split behind C and gamma",
+            "test": "Choose C and gamma on another split (seed 1)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, five PSSM encodings (jackknife)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "AvePscore-20 ACC",
+            "expected": "73.95",
+            "observed": 78.33
+          },
+          {
+            "name": "AvePscore-20 MCC",
+            "expected": "0.480",
+            "observed": 0.567
+          },
+          {
+            "name": "AvePscore-20 SN",
+            "expected": "68.57",
+            "observed": 80.0
+          },
+          {
+            "name": "AvePscore-20 SP",
+            "expected": "79.09",
+            "observed": 76.73
+          },
+          {
+            "name": "AvePscore-20 AUC",
+            "expected": "81.40",
+            "observed": 85.68
+          },
+          {
+            "name": "AvePscore-400 ACC",
+            "expected": "73.58",
+            "observed": 74.88
+          },
+          {
+            "name": "AvePscore-400 MCC",
+            "expected": "0.470",
+            "observed": 0.499
+          },
+          {
+            "name": "AvePscore-400 SN",
+            "expected": "66.47",
+            "observed": 77.14
+          },
+          {
+            "name": "AvePscore-400 SP",
+            "expected": "80.36",
+            "observed": 72.73
+          },
+          {
+            "name": "AvePscore-400 AUC",
+            "expected": "81.50",
+            "observed": 82.09
+          },
+          {
+            "name": "Pscore-100 ACC",
+            "expected": "73.12",
+            "observed": 77.4
+          },
+          {
+            "name": "Pscore-100 MCC",
+            "expected": "0.463",
+            "observed": 0.548
+          },
+          {
+            "name": "Pscore-100 SN",
+            "expected": "72.76",
+            "observed": 77.33
+          },
+          {
+            "name": "Pscore-100 SP",
+            "expected": "73.45",
+            "observed": 77.45
+          },
+          {
+            "name": "Pscore-100 AUC",
+            "expected": "80.50",
+            "observed": 84.53
+          },
+          {
+            "name": "ACC ACC",
+            "expected": "73.77",
+            "observed": 73.49
+          },
+          {
+            "name": "ACC MCC",
+            "expected": "0.475",
+            "observed": 0.469
+          },
+          {
+            "name": "ACC SN",
+            "expected": "73.14",
+            "observed": 70.48
+          },
+          {
+            "name": "ACC SP",
+            "expected": "74.36",
+            "observed": 76.36
+          },
+          {
+            "name": "ACC AUC",
+            "expected": "81.90",
+            "observed": 81.02
+          },
+          {
+            "name": "PSSM-DT ACC",
+            "expected": "79.96",
+            "observed": 78.88
+          },
+          {
+            "name": "PSSM-DT MCC",
+            "expected": "0.622",
+            "observed": 0.58
+          },
+          {
+            "name": "PSSM-DT SN",
+            "expected": "81.91",
+            "observed": 82.1
+          },
+          {
+            "name": "PSSM-DT SP",
+            "expected": "78.00",
+            "observed": 75.82
+          },
+          {
+            "name": "PSSM-DT AUC",
+            "expected": "86.50",
+            "observed": 86.34
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "PSSM-DT ACC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: 79.96 does not follow from SN 81.91 and SP 78.00"
+          },
+          {
+            "field": "PSSM-DT MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: 0.622 does not follow from SN 81.91 and SP 78.00"
+          },
+          {
+            "field": "AvePscore-400 MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 66.47 and SP 80.36 give MCC 0.474, not 0.470"
+          },
+          {
+            "field": "Pscore-100 MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 72.76 and SP 73.45 give MCC 0.462, not 0.463"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "The 7 DNA strands of the positive set get no PSI-BLAST hits; they are encoded from BLOSUM62 rows, as BioSeq-Analysis2.0 does",
+          "source": "authors_code",
+          "sensitivity": "Dropping them and the 5 X-containing chains moves the PSSM-DT jackknife ACC by 0.14 points."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our comparator encodings, built as Lou et al. 2014 define them, score far above the paper's in-house versions: AvePscore-20 78.33 ACC and 85.68 AUC against 73.95 and 81.40, Pscore-100 77.40 and 84.53 against 73.12 and 80.50. ACC (73.49 and 81.02 against 73.77 and 81.90) and AvePscore-400 come closer. The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.dnabinder",
+      "label": "Table 3, DNAbinder rows (jackknife)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "DNAbinder(dimension 21) ACC",
+            "expected": "73.95",
+            "observed": 78.33
+          },
+          {
+            "name": "DNAbinder(dimension 21) MCC",
+            "expected": "0.480",
+            "observed": 0.567
+          },
+          {
+            "name": "DNAbinder(dimension 21) SN",
+            "expected": "68.57",
+            "observed": 80.0
+          },
+          {
+            "name": "DNAbinder(dimension 21) SP",
+            "expected": "79.09",
+            "observed": 76.73
+          },
+          {
+            "name": "DNAbinder(dimension 21) AUC",
+            "expected": "81.40",
+            "observed": 85.68
+          },
+          {
+            "name": "DNAbinder(dimension 400) ACC",
+            "expected": "73.58",
+            "observed": 74.88
+          },
+          {
+            "name": "DNAbinder(dimension 400) MCC",
+            "expected": "0.470",
+            "observed": 0.499
+          },
+          {
+            "name": "DNAbinder(dimension 400) SN",
+            "expected": "66.47",
+            "observed": 77.14
+          },
+          {
+            "name": "DNAbinder(dimension 400) SP",
+            "expected": "80.36",
+            "observed": 72.73
+          },
+          {
+            "name": "DNAbinder(dimension 400) AUC",
+            "expected": "81.50",
+            "observed": 82.09
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "DNAbinder(dimension 400) MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 66.47 and SP 80.36 give MCC 0.474, not 0.470"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "DNAbinder(dimension 21) and (dimension 400) are AvePscore-20 and AvePscore-400, as the identical rows of Tables 2 and 3 show",
+          "source": "paper"
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our comparator encodings, built as Lou et al. 2014 define them, score far above the paper's in-house versions: AvePscore-20 78.33 ACC and 85.68 AUC against 73.95 and 81.40, Pscore-100 77.40 and 84.53 against 73.12 and 80.50. ACC (73.49 and 81.02 against 73.77 and 81.90) and AvePscore-400 come closer. The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.reimplemented",
+      "label": "Table 3, DNA-Prot and iDNA-Prot rows",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "The paper's in-house DNA-Prot and iDNA-Prot are given only as citations (random forests on composition, predicted secondary structure and physicochemical or grey-model features, settings not stated). A rebuild would test our reading of two other papers, not this one. Their printed ACC does not follow from their own SN and SP (72.55 against 70.98, 75.40 against 74.05).",
+        "evidence": [
+          "figure-reproduction/output/run/arithmetic.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "table4.comparators",
+      "label": "Table 4, the six earlier predictors on PDB186",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "iDNA-Prot ACC",
+            "expected": "67.20",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 67.2043
+          },
+          {
+            "name": "iDNA-Prot MCC",
+            "expected": "0.344",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.3441
+          },
+          {
+            "name": "iDNA-Prot SN",
+            "expected": "67.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 67.7419
+          },
+          {
+            "name": "iDNA-Prot SP",
+            "expected": "66.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 66.6667
+          },
+          {
+            "name": "DNA-Prot ACC",
+            "expected": "61.80",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 61.828
+          },
+          {
+            "name": "DNA-Prot MCC",
+            "expected": "0.240",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.2397
+          },
+          {
+            "name": "DNA-Prot SN",
+            "expected": "69.90",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 69.8925
+          },
+          {
+            "name": "DNA-Prot SP",
+            "expected": "53.80",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 53.7634
+          },
+          {
+            "name": "DNAbinder ACC",
+            "expected": "60.80",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 60.7527
+          },
+          {
+            "name": "DNAbinder MCC",
+            "expected": "0.216",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.2157
+          },
+          {
+            "name": "DNAbinder SN",
+            "expected": "57.00",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 56.9892
+          },
+          {
+            "name": "DNAbinder SP",
+            "expected": "64.50",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 64.5161
+          },
+          {
+            "name": "DNAbinder AUC",
+            "expected": "60.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 60.7238
+          },
+          {
+            "name": "DNABIND ACC",
+            "expected": "67.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 67.7419
+          },
+          {
+            "name": "DNABIND MCC",
+            "expected": "0.355",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.3549
+          },
+          {
+            "name": "DNABIND SN",
+            "expected": "66.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 66.6667
+          },
+          {
+            "name": "DNABIND SP",
+            "expected": "68.80",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 68.8172
+          },
+          {
+            "name": "DNABIND AUC",
+            "expected": "69.40",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 69.4762
+          },
+          {
+            "name": "DNA-Threader ACC",
+            "expected": "59.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 59.6774
+          },
+          {
+            "name": "DNA-Threader MCC",
+            "expected": "0.279",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.2791
+          },
+          {
+            "name": "DNA-Threader SN",
+            "expected": "23.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 23.6559
+          },
+          {
+            "name": "DNA-Threader SP",
+            "expected": "95.70",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 95.6989
+          },
+          {
+            "name": "DBPPred ACC",
+            "expected": "76.90",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 76.8817
+          },
+          {
+            "name": "DBPPred MCC",
+            "expected": "0.538",
+            "tolerance": {
+              "printed": true
+            },
+            "observed": 0.5384
+          },
+          {
+            "name": "DBPPred SN",
+            "expected": "79.60",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 79.5699
+          },
+          {
+            "name": "DBPPred SP",
+            "expected": "74.20",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 74.1935
+          },
+          {
+            "name": "DBPPred AUC",
+            "expected": "79.10",
+            "tolerance": {
+              "abs": 0.05
+            },
+            "observed": 79.2924
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "DBPPred AUC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: Lou et al.'s outputs give 79.29; 79.1 comes back only with ties counted as misordered and the value truncated"
+          },
+          {
+            "field": "DNABIND AUC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: Lou et al.'s outputs give 69.48; 69.4 is the value truncated, not rounded"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Table 4 copies Lou et al.'s three-decimal fractions (0.677 printed as 67.70), so percentages are compared to 0.05 points and MCC to the printed digit",
+          "source": "paper"
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "table4.pssm-dt",
+      "label": "Table 4, PSSM-DT on PDB186",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PSSM-DT ACC",
+            "expected": "80.00",
+            "observed": 66.13
+          },
+          {
+            "name": "PSSM-DT MCC",
+            "expected": "0.647",
+            "observed": 0.324
+          },
+          {
+            "name": "PSSM-DT SN",
+            "expected": "87.09",
+            "observed": 69.89
+          },
+          {
+            "name": "PSSM-DT SP",
+            "expected": "72.83",
+            "observed": 62.37
+          },
+          {
+            "name": "PSSM-DT AUC",
+            "expected": "87.40",
+            "observed": 74.44
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "PSSM-DT MCC",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: SN 81/93 and SP 67/92 give 0.606; the text prints 0.674 and Table 4 0.647"
+          },
+          {
+            "field": "PSSM-DT SP",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: 72.83 is not a share of 93 negatives (67 of 92 is)"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "The paper's homology filter ('CD-HIT at 25%') cannot run, since cd-hit stops at 40%; we remove benchmark chains whose blastp alignment to a same-class PDB186 chain covers more than 25% of the shorter chain with identities (cd-hit-2d's definition): 120 of 1,075",
+          "source": "our_choice",
+          "sensitivity": "Removing only chains above 99% identity (77 chains) gives AUC 75.99; no filter gives 81.49 (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
+          "figure-reproduction/output/run/independent.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The filter threshold (cd-hit's lowest is 40%)",
+            "test": "Train after filters at 25, 30, 40, 50, 60, 70, 80, 90 and 99% identity",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The protein database",
+            "test": "Repeat with UniRef90 2014_01 PSSMs: AUC 74.23 with the filter",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "No effective homology filter",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table4.idna-dna-prot-auc",
+      "label": "Table 4, AUC of iDNA-Prot and DNA-Prot",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "status": "explained",
+        "summary": "Table 4 says its comparator rows come from Lou et al. 2014, but Lou et al. print N/A for the AUC of iDNA-Prot and DNA-Prot and publish no real-valued outputs for them; the 83.30 and 79.60 come from the authors' in-house versions, which are not available.",
+        "evidence": [
+          "Lou et al. 2014, PLoS One 9:e86703, Table 3 and Information S1"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2.a",
+      "label": "Fig. 2A, discriminant weights of the 400 pairs",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "(R,R) among the four pairs with the largest weight",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "(R,P) among the four pairs with the largest weight",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "(P,R) among the four pairs with the largest weight",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "(A,R) among the four pairs with the largest weight",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig2_ours.png",
+        "figure-reproduction/output/figures/fig2_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "A pair's weight is the root of the sum of squares of its positive descriptor weights over lg (the paper's 'quadratic sum'); W uses the scaled features",
+          "source": "our_choice",
+          "sensitivity": "Plain sums, unscaled features and the other sign were tried; no variant puts the four pairs on top (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our largest pair weights are (G,G), (G,D), (G,P) and (N,P). (R,R) and (R,P) have no positive descriptor weight at all (pair weight 0, tied last), and (P,R) and (A,R) rank 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself puts (R,R), (P,R) and (R,P) on top and (A,R) eighth (published_values.json, fig2).",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (fig2_weights)",
+          "figure-reproduction/output/run/weights.json",
+          "figure-reproduction/output/run/published_values.json (fig2)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Unscaled features in Eq. 12",
+            "test": "Ranks of (P,R) and (A,R) with unscaled features: 143 and 190; (R,R) and (R,P) still without a positive weight",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The opposite sign convention (LIBSVM labels the first class it reads +1)",
+            "test": "With the other sign (R,P) ranks 11, (R,R) 169, (P,R) 103, (A,R) 318",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "PSSM through the logistic function",
+            "test": "Ranks with scaled features: 47, 313, 154, 84",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The model, not the features",
+            "test": "Plain difference of class means of the raw features: ranks 43, 56, 288, 27",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig2.b",
+      "label": "Fig. 2B, weights of the top four pairs by lg",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "lg with the largest (R,R) weight",
+            "expected": "4",
+            "observed": "none (no positive weight)"
+          },
+          {
+            "name": "lg with the largest (A,R) weight",
+            "expected": "5",
+            "observed": "4"
+          }
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig2_ours.png",
+        "figure-reproduction/output/figures/fig2_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        },
+        {
+          "what": "A pair's weight is the root of the sum of squares of its positive descriptor weights over lg (the paper's 'quadratic sum'); W uses the scaled features",
+          "source": "our_choice",
+          "sensitivity": "Plain sums, unscaled features and the other sign were tried; no variant puts the four pairs on top (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our (R,R) descriptor weights are negative at every lg, so (R,R) has no positive weight to peak; (A,R) peaks at lg 4, not 5. (R,R) and (R,P) have no positive descriptor weight at all (pair weight 0, tied last), and (P,R) and (A,R) rank 133 and 176 of 400. Products of raw log-odds scores do not grow with arginine content (two negative R scores multiply to a large positive), and no variant of Eq. 12 we tried brings the four pairs to the top. Read as a linear grey scale, the published Fig. 2A itself puts (R,R), (P,R) and (R,P) on top and (A,R) eighth (published_values.json, fig2).",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (fig2_weights)",
+          "figure-reproduction/output/run/weights.json",
+          "figure-reproduction/output/run/published_values.json (fig2)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Unscaled features in Eq. 12",
+            "test": "Ranks of (P,R) and (A,R) with unscaled features: 143 and 190; (R,R) and (R,P) still without a positive weight",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The opposite sign convention (LIBSVM labels the first class it reads +1)",
+            "test": "With the other sign (R,P) ranks 11, (R,R) 169, (P,R) 103, (A,R) 318",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "PSSM through the logistic function",
+            "test": "Ranks with scaled features: 47, 313, 154, 84",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The model, not the features",
+            "test": "Plain difference of class means of the raw features: ranks 43, 56, 288, 27",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig2.c",
+      "label": "Fig. 2C and text, descriptor occurrences on 1AKH chain A",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "occurrences of the four pairs (lg 1 to 5) on 1AKH chain A",
+            "expected": "5",
+            "observed": "5"
+          },
+          {
+            "name": "occurrences listed (pair and lg)",
+            "expected": "AR1, PR2, PR3, RR1, RR3",
+            "observed": "AR1, PR3, PR4, RR1, RR2"
+          },
+          {
+            "name": "occurrences in the DNA-binding region (residues within 4.5 A of DNA, our definition)",
+            "expected": "5",
+            "observed": "4"
+          },
+          {
+            "name": "occurrences outside it",
+            "expected": "0",
+            "observed": "1"
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "occurrences listed (pair and lg)",
+            "category": "paper_error",
+            "evidence": "1AKH chain A has (R,R) at lags 1 and 2 and (P,R) at lags 3 and 4 (output/run/akh.json); the figure's own labels R*R and P***R agree, the text's (R,R) lg 3 and (P,R) lg 2 and 3 do not"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The DNA-binding region is the set of residues of 1AKH chain A with a heavy atom within 4.5 A of a DNA heavy atom",
+          "source": "our_choice",
+          "sensitivity": "R25 and R26, the (R,R) lg 1 occurrence, are 13.2 A from the DNA, so any cutoff below 13 A gives the same split; if the region is the span from the first to the last contact (residues 12 to 59), all five occurrences fall inside it."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "The five occurrences come back; the text gives three of their lags off by one ((R,R) lg 3 for lg 2, (P,R) lg 2 and 3 for lg 3 and 4). Whether all five lie in the DNA-binding region depends on how the region is drawn, which the paper does not say: by contact with the DNA in the crystal structure, (R,R) lg 1 (R25, R26), which the text calls very close to the DNA, is 13.2 A away, so four are in and one is out; by the span of contacts, all five are in.",
+        "evidence": [
+          "figure-reproduction/output/run/akh.json"
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2.d",
+      "label": "Fig. 2D, the occurrences drawn on the 1AKH structure",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "A drawing of panel C's occurrences on the 1AKH structure; the distances it illustrates are checked in Fig. 2C.",
+        "evidence": [
+          "figure-reproduction/published/fig2.png"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig3.pssm-dt",
+      "label": "Fig. 3, PSSM-DT ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our PSSM-DT curve stays within about 2 points of true positive rate of the published one (AUC 86.34 against 86.50), lowest between 15 and 30% false positives, where our specificity is lower (scores.json, tpr_gap). At 2 px that clears the wrong-input control by only a little. Same causes as Table 1.",
+        "evidence": [
+          "figure-reproduction/output/figures/scores.json (tpr_gap)",
+          "figure-reproduction/output/run/benchmark_decisions.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database (the 2014 nr is not archived)",
+            "test": "Rerun with UniRef90 2014_01 PSSMs instead of UniRef100 2014_01",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The PSSM is used through the logistic function, as for the comparator encodings",
+            "test": "Rerun with 1/(1+exp(-x)) applied before the transformation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The 12 defective chains of the supplement (7 DNA strands, 5 with X)",
+            "test": "Rerun without them",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Feature scaling",
+            "test": "Rerun without scaling",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The cross-validation split behind C and gamma",
+            "test": "Choose C and gamma on another split (seed 1)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.5981,
+        "ours_near_published": 0.7067,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our AvePscore-20 curve",
+            "kind": "wrong_input",
+            "score": 0.5457
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.3317
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.2809
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.acc",
+      "label": "Fig. 3, ACC ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our ACC encoding is the one comparator that comes close: AUC 81.02 against 81.90, ACC 73.49 against 73.77, and its curve runs near the published one. The other comparators lie above theirs. The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.6942,
+        "ours_near_published": 0.6366,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.2859
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.2401
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.1065
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.avepscore-20",
+      "label": "Fig. 3, AvePscore-20 ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.0991,
+        "ours_near_published": 0.1612,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.1095
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.0828
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.355
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3.avepscore-400",
+      "label": "Fig. 3, AvePscore-400 ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.1532,
+        "ours_near_published": 0.137,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.036
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.0653
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.274
+          }
+        ]
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig3.pscore-100",
+      "label": "Fig. 3, Pscore-100 ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.0446,
+        "ours_near_published": 0.0544,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.0431
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.0053
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.0758
+          }
+        ]
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig4.pssm-dt",
+      "label": "Fig. 4, PSSM-DT ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our PSSM-DT curve stays within about 2 points of true positive rate of the published one (AUC 86.34 against 86.50), lowest between 15 and 30% false positives, where our specificity is lower (scores.json, tpr_gap). At 2 px that clears the wrong-input control by only a little. Same causes as Table 1.",
+        "evidence": [
+          "figure-reproduction/output/figures/scores.json (tpr_gap)",
+          "figure-reproduction/output/run/benchmark_decisions.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database (the 2014 nr is not archived)",
+            "test": "Rerun with UniRef90 2014_01 PSSMs instead of UniRef100 2014_01",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The PSSM is used through the logistic function, as for the comparator encodings",
+            "test": "Rerun with 1/(1+exp(-x)) applied before the transformation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The 12 defective chains of the supplement (7 DNA strands, 5 with X)",
+            "test": "Rerun without them",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Feature scaling",
+            "test": "Rerun without scaling",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The cross-validation split behind C and gamma",
+            "test": "Choose C and gamma on another split (seed 1)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.6162,
+        "ours_near_published": 0.6524,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our DNAbinder(dimension 21) curve",
+            "kind": "wrong_input",
+            "score": 0.5545
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.2984
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.2791
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4.dnabinder-21",
+      "label": "Fig. 4, DNAbinder(dimension 21) ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.0331,
+        "ours_near_published": 0.0621,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.0488
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.0457
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.222
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig4.dnabinder-400",
+      "label": "Fig. 4, DNAbinder(dimension 400) ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our AvePscore and Pscore curves lie above the published ones, as their AUCs in Table 2 do (AvePscore-20 85.68 against 81.40, AvePscore-400 82.09 against 81.50, Pscore-100 84.53 against 80.50). The paper's implementations are known only by citation.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.1378,
+        "ours_near_published": 0.1669,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our PSSM-DT curve",
+            "kind": "wrong_input",
+            "score": 0.0993
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.0993
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.2519
+          }
+        ]
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig5.pssm-dt",
+      "label": "Fig. 5, PSSM-DT ROC curve",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
+          "figure-reproduction/output/run/independent.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The filter threshold (cd-hit's lowest is 40%)",
+            "test": "Train after filters at 25, 30, 40, 50, 60, 70, 80, 90 and 99% identity",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The protein database",
+            "test": "Repeat with UniRef90 2014_01 PSSMs: AUC 74.23 with the filter",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "No effective homology filter",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.1332,
+        "ours_near_published": 0.1636,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our DBPPred curve",
+            "kind": "wrong_input",
+            "score": 0.1557
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.1996
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.0558
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig5.dbppred",
+      "label": "Fig. 5, DBPPred ROC curve",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Curves drawn from the real-valued outputs Lou et al. 2014 published (Information S1)",
+          "source": "paper"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.9875,
+        "ours_near_published": 0.9744,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our DNABIND curve",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.2682
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.3839
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig5.dnabind",
+      "label": "Fig. 5, DNABIND ROC curve",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Curves drawn from the real-valued outputs Lou et al. 2014 published (Information S1)",
+          "source": "paper"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 0.7809,
+        "ours_near_published": 0.8865,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our DNAbinder curve",
+            "kind": "wrong_input",
+            "score": 0.0332
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.1427
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.2269
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig5.dnabinder",
+      "label": "Fig. 5, DNAbinder ROC curve",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Curves drawn from the real-valued outputs Lou et al. 2014 published (Information S1)",
+          "source": "paper"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2.0,
+        "published_near_ours": 1.0,
+        "ours_near_published": 0.8222,
+        "threshold": 0.75,
+        "controls": [
+          {
+            "name": "our DNABIND curve",
+            "kind": "wrong_input",
+            "score": 0.0463
+          },
+          {
+            "name": "TPR + 3 points",
+            "kind": "near_miss",
+            "score": 0.1284
+          },
+          {
+            "name": "TPR - 3 points",
+            "kind": "near_miss",
+            "score": 0.163
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig4.reimplemented",
+      "label": "Fig. 4, DNA-Prot and iDNA-Prot ROC curves",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "The DNA-Prot and iDNA-Prot curves come from the authors' in-house versions of those predictors, which were not rebuilt (Table 3).",
+        "evidence": [
+          "results.json item table3.reimplemented"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig5.reimplemented",
+      "label": "Fig. 5, DNA-Prot and iDNA-Prot ROC curves",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "The DNA-Prot and iDNA-Prot curves come from the authors' in-house versions of those predictors, which were not rebuilt (Table 3).",
+        "evidence": [
+          "results.json item table3.reimplemented"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig6",
+      "label": "Fig. 6, the web server's home page",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A screenshot of the web server, which no longer answers.",
+        "evidence": [
+          "figure-reproduction/published/fig6.png"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.encodings_beaten",
+      "label": "PSSM-DT beats the four other encodings and its two halves (text, Tables 1 to 3)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PSSM-DT ACC above all four other encodings",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "PSSM-DT MCC above all four other encodings",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "PSSM-DT AUC above all four other encodings",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "ACC gain over the best other encoding (points)",
+            "expected": "6.01",
+            "observed": 0.56
+          },
+          {
+            "name": "AUC gain over the best other encoding (points)",
+            "expected": "4.60",
+            "observed": 0.66
+          },
+          {
+            "name": "PSSM-DT ACC above PSSM-DDT and PSSM-SDT",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "PSSMs from PSI-BLAST (BLAST+ 2.16.0, 3 iterations, E-value 0.001) against UniRef100 release 2014_01, standing in for the 2014 NCBI nr, which is not archived",
+          "source": "our_choice",
+          "sensitivity": "With UniRef90 2014_01 the PSSM-DT jackknife moves by 0.5 ACC points and 0.11 AUC points (output/sensitivity.json)."
+        },
+        {
+          "what": "Features scaled to [-1, 1] on the benchmark; C and gamma from 5-fold cross-validated accuracy over LIBSVM's default grid (log2 C -5..15, log2 gamma 3..-15, step 2), split seed 0, then fixed for the jackknife",
+          "source": "our_choice",
+          "sensitivity": "Another split (seed 1) picks the same C and gamma; unscaled features move ACC by 0.47 points (output/sensitivity.json)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Our comparator encodings, built as Lou et al. 2014 define them, score far above the paper's in-house versions: AvePscore-20 78.33 ACC and 85.68 AUC against 73.95 and 81.40, Pscore-100 77.40 and 84.53 against 73.12 and 80.50. ACC (73.49 and 81.02 against 73.77 and 81.90) and AvePscore-400 come closer. The paper's implementations are not given beyond citations, so its lead of 6 ACC points shrinks to 0.56 in our run.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (encodings)",
+          "figure-reproduction/output/run/benchmark.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The protein database",
+            "test": "Comparators on UniRef90 2014_01 PSSMs: AvePscore-20 79.07 ACC, 85.85 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw instead of logistic PSSM scores",
+            "test": "Comparators on raw scores: AvePscore-20 79.16 ACC, 85.98 AUC",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "C and gamma",
+            "test": "Each encoding has its own grid search; the jackknife uses its best pair",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.pdb186_best",
+      "label": "PSSM-DT is best on PDB186 (text, Table 4)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PSSM-DT ACC above the six other predictors",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "PSSM-DT MCC above the six other predictors",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "PSSM-DT AUC above DBPPred, DNAbinder and DNABIND",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "ACC gain over DBPPred (points)",
+            "expected": "3.105",
+            "observed": -10.753
+          },
+          {
+            "name": "MCC gain over DBPPred",
+            "expected": "0.136",
+            "observed": -0.215
+          },
+          {
+            "name": "AUC gain over DBPPred (points)",
+            "expected": "8.30",
+            "observed": -4.86
+          }
+        ],
+        "exceptions": [
+          {
+            "field": "ACC gain over DBPPred (points)",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: Table 4 gives 80.00 - 76.90 = 3.10; the third decimal of 3.105 has no source"
+          },
+          {
+            "field": "MCC gain over DBPPred",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/run/arithmetic.json: Table 4 gives 0.647 - 0.538 = 0.109; 0.136 uses the text's 0.674"
+          }
+        ]
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "On PDB186 our model gets ACC 66.13 and AUC 74.44 against the paper's 80.00 and 87.40, below DBPPred (76.88, 79.29). No identity threshold for the homology filter brings it back: AUC stays between 74.4 and 76.0 for thresholds of 25 to 99%, and only training on the unfiltered benchmark, which shares 42 chains with PDB186, reaches 81.49 (87.46 with UniRef90 PSSMs). The paper does not report how many chains its filter removed.",
+        "evidence": [
+          "figure-reproduction/output/sensitivity.json (pdb186_filters, pdb186_uniref90)",
+          "figure-reproduction/output/run/independent.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The filter threshold (cd-hit's lowest is 40%)",
+            "test": "Train after filters at 25, 30, 40, 50, 60, 70, 80, 90 and 99% identity",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The protein database",
+            "test": "Repeat with UniRef90 2014_01 PSSMs: AUC 74.23 with the filter",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "No effective homology filter",
+            "test": "Train on the whole benchmark: AUC 81.49 (UniRef100) and 87.46 (UniRef90), SP still 54.8 and 58.1 against 72.83",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "20 of 38 claims recomputed from the paper's own tables come back; the other 18 do not follow from the printed numbers (run/arithmetic.json)"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "code.definition",
+      "label": "PSSM-DT as in the authors' later toolkit (BioSeq-Analysis2.0)",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "assumptions": [
+        {
+          "what": "PSSM-DT on raw integer PSSM scores in BioSeq-Analysis2.0's feature order, read from that toolkit's compiled code (the authors' lab, 2019)",
+          "source": "authors_code"
+        }
+      ],
+      "check": {
+        "passed": true,
+        "detail": "pssmdt.pssm_dt equals the transliterated BioSeq-Analysis2.0 loops on 127 PSSMs (largest relative difference 0.0e+00)"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "package",
+      "label": "Python package pssmdt and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "pssmdt 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 34,
+    "exact": 2,
+    "agrees": 6,
+    "partly": 6,
+    "inconclusive": 3,
+    "differs": 11,
+    "not_attempted": 6,
+    "open_causes": 18
+  }
+}
