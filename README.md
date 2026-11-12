@@ -13,6 +13,7 @@ papers or their supplements.
 | [`PMC2735674`](PMC2735674/) | Bleakley K, Yamanishi Y. Supervised prediction of drug–target interactions using bipartite local models. *Bioinformatics* 25(18):2397–2403 (2009). [doi:10.1093/bioinformatics/btp433](https://doi.org/10.1093/bioinformatics/btp433) | Fig. 1 reproduced on all four networks; Tables 1 to 5 partly (29 of 96 printed values exact, 78 within one point); Table 5's ten pairs all in our top ten; the method rebuilt as the Python package blmdti |
 | [`PMC4426843`](PMC4426843/) | Bleazard T, Lamb JA, Griffiths-Jones S. Bias in microRNA functional enrichment analysis. *Bioinformatics* 31(10):1592–1598 (2015). [doi:10.1093/bioinformatics/btv023](https://doi.org/10.1093/bioinformatics/btv023) | miRanda predictions regenerated (99.87% of the published target lists); Fig. 1 and Table 1 reproduced; Table 2 basic algorithm reproduced, multi-hit counts differ; Table 3 (rice) not reproducible |
 | [`PMC4015815`](PMC4015815/) | Liu B, Xu J, Zou Q, Xu R, Wang X, Chen Q. Using distances between Top-n-gram and residue pairs for protein remote homology detection. *BMC Bioinformatics* 15(Suppl 2):S3 (2014). [doi:10.1186/1471-2105-15-S2-S3](https://doi.org/10.1186/1471-2105-15-S2-S3) | 1 exact, 11 agree, 6 partly, 2 inconclusive, 4 differ, 3 not attempted (`results.json`): SVM-DR ROC, Fig. 3 (9 of 10 points) and Figs 4B, 5C–D reproduced; ROC50 not reproduced as defined (explained); SVM-DT re-measured on rebuilt profiles (family 2.5.1.3 back, mean ROC 0.01 high); Gist 2.3 ported |
+| [`PMC2666661`](PMC2666661/) | Meng YA, Yu Y, Cupples LA, Farrer LA, Lunetta KL. Performance of random forest when SNPs are in linkage disequilibrium. *BMC Bioinformatics* 10:78 (2009). [doi:10.1186/1471-2105-10-78](https://doi.org/10.1186/1471-2105-10-78) | 11 exact, 7 agree, 10 partly, 1 differs, 5 not attempted (`results.json`): revised Random Forests rebuilt (`rfld`, checked against the Fortran original); Table 1 and Figs 1-3 reproduced (Fig. 2 with two series the paper swaps); main claim holds except for H1M1; haplotype Figs 4-6 low-r² gap open; Tables 2-4 need unavailable TGen data |
 
 Other analyses:
 
@@ -28,7 +29,7 @@ Figures for the papers are in [`figures/`](figures/).
 
 Site: <https://jeonglab-bcm.github.io/fossil/>
 
-The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun a reproduction with Nextflow when started by hand from the Actions tab, and check the run against its `results.json`. `.github/workflows/reproduce-pmc2349296.yml` reruns its reproduction on changes to its figure-reproduction files or workflow, or when started by hand. `.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843 from its committed miRanda predictions, resampling three of its 22 empirical nulls (all of them when started by hand with `rerun = all`). `.github/workflows/reproduce-pmc4015815.yml` reruns PMC4015815 at dMAX 10–200 on changes to its figure-reproduction files or workflow, reading the slow dMAX = 0 points and the PSI-BLAST profiles from the committed outputs (dMAX = 0 too when started by hand with `dmax_zero`). `.github/workflows/reproduce-pmc2735674.yml` does the same for PMC2735674 from its committed score matrices, recomputing the nuclear-receptor ones (all four datasets when started by hand with `full = true`).
+The workflows `.github/workflows/reproduce.yml` (PMC4081639), `.github/workflows/reproduce-pmc4247685.yml` and `.github/workflows/reproduce-pmc1847688.yml` rerun a reproduction with Nextflow when started by hand from the Actions tab, and check the run against its `results.json`. `.github/workflows/reproduce-pmc2349296.yml` reruns its reproduction on changes to its figure-reproduction files or workflow, or when started by hand. `.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843 from its committed miRanda predictions, resampling three of its 22 empirical nulls (all of them when started by hand with `rerun = all`). `.github/workflows/reproduce-pmc4015815.yml` reruns PMC4015815 at dMAX 10–200 on changes to its figure-reproduction files or workflow, reading the slow dMAX = 0 points and the PSI-BLAST profiles from the committed outputs (dMAX = 0 too when started by hand with `dmax_zero`). `.github/workflows/reproduce-pmc2666661.yml` reruns PMC2666661 on changes to its figure-reproduction or package files, rerunning four simulation replicates from scratch and the rest from the committed per-replicate statistics (the port check against the Fortran program too when started by hand with `port_check`). `.github/workflows/reproduce-pmc2735674.yml` does the same for PMC2735674 from its committed score matrices, recomputing the nuclear-receptor ones (all four datasets when started by hand with `full = true`).
 
 ## Results check
 
@@ -58,6 +59,22 @@ checked against `results.json` in the same way.
 python3 tools/check_results.py PMC4247685/figure-reproduction/results.json --committed               # against the committed outputs
 python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --report results-check   # against a run
 python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --update            # after an intended change
+```
+
+Each reproduction also names the [Paper2Repro](https://github.com/jeonglab-bcm/Paper2Repro) release
+it was made with, in a `skill` block in `PMC…/results.json`. Papers made before that file existed keep
+it in `PMC…/figure-reproduction/results.json`. Sessions write it with the skill's
+`scripts/skill_version.py`. Blocks added afterwards say how the version was found (`source`:
+`transcript`, `inferred`, `none` or `unknown`, with a `note`). The `skill` job in the same workflow
+fails when a pull request adds a paper, or changes a paper's `results.json`, without a block whose
+version is a `paper2repro-v…` tag of Paper2Repro.
+
+The same job checks that the front page's Paper2Repro column matches each paper's block. The
+column is written by `tools/site_versions.py --write`, never by hand.
+
+```sh
+python3 tools/check_skill.py --all                 # every paper
+python3 tools/check_skill.py --base origin/main    # what this branch adds or changes
 ```
 
 Values come from JSON (`"path": "pfs.p"`, or `"fig3.panel=a.published_within_2px"` to pick a list
