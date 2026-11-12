@@ -18,6 +18,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 PV = json.loads((HERE / "params" / "published_values.json").read_text())
 NOTES = json.loads((HERE.parent / "results_notes.json").read_text())
+PANELS = json.loads((HERE / "params" / "panels.json").read_text())["panels"]
 FIGOUT = "figure-reproduction/output"
 
 
@@ -185,6 +186,18 @@ def main(run, figs, pubdata, out):
     I.add("fig5.left", "figure", "none", "none")
     for g in "ABCD":
         fig_px(f"fig5.g{g}", "fig5", f"fig5.g{g}")
+    # the same panels in data units: bin medians read alike from both rasters, within the
+    # spread of a new random draw of cells (2 sqrt(2) bootstrap SE of our bin median)
+    f5 = []
+    for g in "ABCD":
+        V = S["values"][f"fig5.g{g}"]
+        for k, (a, b) in enumerate(zip(V["bins"][:-1], V["bins"][1:])):
+            if V["published"][k] is None or V["ours"][k] is None:
+                continue
+            f5.append({"name": f"g{g} median, pseudo time {a} to {b}", "expected": f"{V['published'][k]:.0f}",
+                       "observed": V["ours"][k], "tolerance": {"abs": V["margin"][k]}})
+    I.add("fig5.medians", "figure", "reconstructed", "values", values=values(f5),
+          outputs=[f"{FIGOUT}/fig5_ours.png", f"{FIGOUT}/scores.json"])
     bars = PD["fig6.bars"]
     left = sorted([b for b in bars if abs(b[0] - 368.38) < 0.5], key=lambda b: b[1])
     right = sorted([b for b in bars if abs(b[0] - 446.0) < 0.5], key=lambda b: b[1])
@@ -207,10 +220,29 @@ def main(run, figs, pubdata, out):
                           "expected": "yes", "observed": yesno(a18[0] - a18[1] >= 400)}]))
     I.add("supp.wanderlust_dims", "value", "reconstructed", "values",
           values=values([{"name": "correlation of pseudo times, high against low dimension (%)", "expected": "92",
-                          "observed": r(100 * T["wanderlust_low_vs_high"]["mean_corr"], 1)}], {"printed": True}))
+                          "observed": r(100 * T["wanderlust_low_vs_high"]["mean_corr"], 1)},
+                         {"name": "low- and high-dimensional pseudo times very similar, as the paper concludes from 92% (correlation of 90% or more)",
+                          "expected": "yes", "observed": yesno(T["wanderlust_low_vs_high"]["mean_corr"] >= 0.9)}],
+                        {"printed": True}))
     I.add("supp.robustness", "value", "none", "none")
     fig_px("fig6.right.top", "fig6", "fig6.top")
     fig_px("fig6.right.bottom", "fig6", "fig6.bottom")
+    # the fitted gC curves in data units against the curves read from the vector figure, within
+    # the skill's near-miss sizes: amplitude x 1.05 (plus 1% of the y range) and 1% of the x range
+    f6 = []
+    for panel, b in (("fig6.top", "C"), ("fig6.bottom", "D")):
+        V = S["values"][panel]
+        yr = 0.01 * (PANELS[panel]["ylim"][1] - PANELS[panel]["ylim"][0])
+        xr = 0.01 * (PANELS[panel]["xlim"][1] - PANELS[panel]["xlim"][0])
+        for t, e, o in zip(V["at"], V["published"], V["ours"]):
+            f6.append({"name": f"branch {b}, fit at pseudo time {t}", "expected": f"{e:.0f}", "observed": o,
+                       "tolerance": {"abs": r(yr, 1), "rel": 0.05}})
+        f6.append({"name": f"branch {b}, maximum of the fit", "expected": f"{V['published_max'][0]:.0f}",
+                   "observed": V["ours_max"][0], "tolerance": {"abs": r(yr, 1), "rel": 0.05}})
+        f6.append({"name": f"branch {b}, pseudo time of the maximum", "expected": f"{V['published_max'][1]:.1f}",
+                   "observed": V["ours_max"][1], "tolerance": {"abs": r(xr, 2)}})
+    I.add("fig6.right.curves", "figure", "reconstructed", "values", values=values(f6),
+          outputs=[f"{FIGOUT}/fig6_ours.png", f"{FIGOUT}/scores.json"])
     t6 = PV["toggle_table6"]
     I.add("supp.table6", "table", "reconstructed", "values",
           values=values([{"name": k, "expected": t6[k], "observed": r(T["table6"][k], 1)} for k in t6], {"printed": True}))

@@ -1138,6 +1138,68 @@
     ]
    }
   },
+  "fig5.medians": {
+   "label": "Fig. 5, series medians in data units",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Published medians read from the coloured dot pixels of the 600 dpi render of Fig. 5, converted to data units with the axis calibration in params/panels.json",
+     "source": "read_from_figure",
+     "sensitivity": "The same reading applied to our render gives 16 matches; our medians computed from the cell values give 15 (output/fig5_tests.json)."
+    },
+    {
+     "what": "Medians over seven 20-unit bins of pseudo time, from the coloured dot pixels of each panel, read alike from the published render and ours; a bin matches within 2 sqrt(2) bootstrap SEs of our bin median, the spread of a new random draw of cells",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "16 of 28 bin medians fall within the spread of a new random draw, and none when another gene's series stands in for ours. The misses lie on the rising and falling stretches, where a small difference in how fast pseudo time runs moves the median most.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Reading medians from the rendered dots biases them",
+      "test": "Our medians read from our render match in 16 bins, those computed from our cell values in 15 (output/fig5_tests.json).",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Our pseudo time runs at another speed",
+      "test": "Stretching our pseudo time axis by 4% raises the matches from 15 to 20 of 28; no stretch from 0.85 to 1.15 does better (output/fig5_tests.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The margin leaves out the spread between Wanderlust replicates",
+      "test": "Widening the margin by the SD of each bin median over our three replicates leaves 16 matches (output/fig5_tests.json).",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
   "fig6.left": {
    "label": "Fig. 6, model scores for gC",
    "assumptions": [
@@ -1219,7 +1281,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "Our pseudo times on the data and on four diffusion components correlate at 99.2%, closer than the paper's 92%. The paper does not say how its correlation is computed or which replicates it pairs.",
+    "summary": "Our pseudo times on the data and on four diffusion components correlate at 99.2%, closer than the paper's 92%; the paper's conclusion, that the two are very similar, holds. The paper does not say how its correlation is computed or which replicates it pairs.",
     "status": "open",
     "hypotheses": [
      {
@@ -1314,7 +1376,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "Our gC series is another random draw, drawn on the published axis by rank; the fitted curve rises later than the published one.",
+    "summary": "Our gC series is another random draw, drawn on the published axis by rank; the fitted curve rises earlier than the published one (see the curves in data units).",
     "status": "open",
     "hypotheses": [
      {
@@ -1363,6 +1425,63 @@
    "cause": {
     "category": "undocumented_setting",
     "summary": "As for the top panel: another draw, and a pulse at another pseudo time.",
+    "status": "open",
+    "hypotheses": [
+     {
+      "hypothesis": "Our branches mix fates",
+      "test": "Our low-dimensional clustering errors are 17 to 21% (supp. Table 1 gives 7 to 9%); moving the early-cell threshold to 200 gives 13.9% (output/sensitivity.json).",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper fitted fewer observations",
+      "test": "The BIC minus AIC of supp. Table 7 (8.2 for 6 parameters) implies about 114 observations; we fit 6 series of about 140 cells. Not testable without the paper's series.",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  "fig6.right.curves": {
+   "label": "Fig. 6, gC fits in data units",
+   "assumptions": [
+    {
+     "what": "Toggle switch system noise sigma_s = 6 (time step 0.01)",
+     "source": "read_from_figure",
+     "sensitivity": "Stationary SD of the losing genes in supp. Fig. 16 is 6 to 11, so sigma_s is 4.3 to 7.6. Not varied."
+    },
+    {
+     "what": "Toggle switch start: gA = gB = 311 (the symmetric steady state), late genes 0; a cell stops when a late gene exceeds 960",
+     "source": "read_from_figure",
+     "sensitivity": "Supp. Fig. 19 shows gA and gB starting near 300 and the late genes near 0. Our mean stopping time is 97, against about 60 to 80 in supp. Fig. 16."
+    },
+    {
+     "what": "Diffusion map kernel exp(-d^2 / (2 sigma^2)) with sigma = 1000 (supp. Table 10)",
+     "source": "paper"
+    },
+    {
+     "what": "Start cell: the cell with the lowest summed late-gene expression; end cells: four tips by farthest-point sampling; Dijkstra on a 10-NN graph of the embedding",
+     "source": "our_choice"
+    },
+    {
+     "what": "Wanderlust: 25 graphs, 20 random landmarks, Euclidean distance, exponential weights (cyt defaults); replicates start at the start cell and its two nearest neighbours",
+     "source": "our_choice"
+    },
+    {
+     "what": "Metropolis on log parameters with the Jacobian of the uniform priors; start at the differential-evolution optimum; 6,000 adaptive, 4,000 burn-in and 20,000 kept iterations (thinned by 10); MAP polished by Nelder-Mead",
+     "source": "our_choice"
+    },
+    {
+     "what": "Published fits read from the vector drawing of Fig. 6, converted to data units with the axis calibration in params/panels.json",
+     "source": "read_from_figure",
+     "sensitivity": "The field closest to its margin (branch C at pseudo time 60) lies 7.9 units, 0.6% of the y range, outside it; every other field is at least 9 units from its margin's edge."
+    },
+    {
+     "what": "A value matches within the skill's near-miss sizes: 5% of the published value plus 1% of the y range for heights, 1% of the x range for the pseudo time of the maximum",
+     "source": "our_choice"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "5 of 16 values match: the end of both curves and branch D's value at pseudo time 60. Our fits rise earlier than the paper's (at pseudo time 20, 104 and 118 against 30 and 21), and branch D's pulse peaks at 49 instead of 68.",
     "status": "open",
     "hypotheses": [
      {

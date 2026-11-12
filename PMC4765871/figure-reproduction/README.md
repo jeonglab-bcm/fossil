@@ -31,7 +31,7 @@ failing on them.
 | `FFL` | `pipeline/ffl.py` | 300 cells of the OR-gate I1-FFL, deterministic reference, GENIE3, three Wanderlust replicates, GP emulators, the 12 candidate models, thermodynamic integration, posteriors and the three perturbations. |
 | `TOGGLE` | `pipeline/toggle.py` | 400 cells of the six-gene toggle switch, diffusion map, branch clustering, Wanderlust, GENIE3, the 7 gC models of Fig. 6, the joint gC/gD fit, supp. Tables 1, 6 and 7. |
 | `HAEM` | `pipeline/haem.py` | Moignard QC (597 cells), CT values, correlations, <d>(sigma), diffusion map, GENIE3 network, branch clustering, GMP and CLP pseudo time series, outlier removal, the 25 models of supp. Tables 8 and 9. |
-| `FIGURES` | `pipeline/figures.py` | Our results drawn on the published pixel grid; renders, overlays, two-way scores within 2 px, wrong-input and near-miss controls. |
+| `FIGURES` | `pipeline/figures.py` | Our results drawn on the published pixel grid; renders, overlays, two-way scores within 2 px, wrong-input and near-miss controls; Figs 5 and 6 also in data units (bin medians, fitted curves). |
 | `RESULTS` | `pipeline/build_results.py`, `pipeline/check_reproduction.py`, `pipeline/build_page.py` | `results.json` from the numbers and `results_notes.json`; `check_results.py --write`; the fresh run against the committed outputs (`compare_runs.py`); the results page. |
 
 The shared code: `grn.py` (Hill ODE models, RK4, likelihood, Metropolis MCMC, differential
@@ -41,6 +41,8 @@ branch clustering, Wanderlust, GENIE3), `emulate.py` (GP and piecewise-linear em
 
 `pipeline/sensitivity.py` is not part of the pipeline: it refits under single changes of unstated
 settings and wrote `output/sensitivity.json`, which the causes in `../results.json` cite.
+`pipeline/fig5_tests.py` is not part of the pipeline either: it tests why some Fig. 5 bin medians
+miss and wrote `output/fig5_tests.json`.
 
 ## What the code does against the paper
 

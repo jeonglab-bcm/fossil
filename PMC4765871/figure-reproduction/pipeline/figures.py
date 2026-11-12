@@ -9,6 +9,11 @@ of published pixels of that class within 2 px of ours, and of ours within 2 px o
 ones; the smaller is the score. Controls are scored the same way: a wrong input (another panel's
 series) and near misses (a shift of 1% of the x range; amplitude x 1.05).
 
+Figs 5 and 6 are also compared in data units (scores.json "values"), because their pixel scores
+cannot tell ours from a near miss: Fig. 5 as medians over 20-unit bins of pseudo time, read alike
+from the coloured dots of both renders; Fig. 6 as the fitted gC curves sampled at six pseudo times
+and at their maximum, against the curves read from the vector figure.
+
 Writes figN_ours.png (the published figure with the plot areas of the scored panels redrawn from
 our results), figN_overlay.png (red channel = published, green and blue = ours: cyan is ink only in
 the paper, red only ours, black both) and scores.json.
@@ -35,6 +40,9 @@ BOXES = json.loads((HERE / "params" / "figure_boxes.json").read_text())["figures
 PANELS = json.loads((HERE / "params" / "panels.json").read_text())["panels"]
 COL = {"red": (0.93, 0.2, 0.17), "green": (0.08, 0.66, 0.29), "dark": (0.14, 0.12, 0.13)}
 PASS = 0.9  # pass mark: 90% of the trace within 2 px both ways (raised above any control)
+VALUES = {}  # comparisons in data units, written to scores.json beside the pixel scores
+FIG5_BINS = np.arange(0, 141, 20)  # Fig. 5: medians over 20-unit bins of pseudo time
+FIG6_AT = [20, 40, 60, 80, 100, 120]  # Fig. 6: the fitted gC curve sampled at these pseudo times
 
 
 def frame_px(fig, panel):
@@ -283,6 +291,13 @@ def fig6(R, pub, outdir):
         g, y = grn.Problem(m, ser).trajectories(f["map"])[0]
         n = len(geom["branches"][b]["cells"]) - 1
         curves[p] = (ser[0].t / T * n, ser[0].y, g / T * n, y)
+        pc = np.array(next(iter(R["_pubdata"][p]["curves"].values())))
+        pc = pc[np.argsort(pc[:, 0])]
+        gx = g / T * n
+        VALUES[p] = {"at": FIG6_AT, "published": np.interp(FIG6_AT, pc[:, 0], pc[:, 1]).round(1).tolist(),
+                     "ours": np.interp(FIG6_AT, gx, y).round(1).tolist(),
+                     "published_max": [round(float(pc[:, 1].max()), 1), round(float(pc[pc[:, 1].argmax(), 0]), 1)],
+                     "ours_max": [round(float(y.max()), 1), round(float(gx[y.argmax()]), 1)]}
     els = {p: [("circles", c[0], c[1], COL["dark"], 3.0), ("line", c[2], c[3], COL["red"], 1.6)] for p, c in curves.items()}
     lines = {p: [("line", c[2], c[3], COL["red"], 1.6)] for p, c in curves.items()}
     keys = list(curves)
@@ -313,7 +328,38 @@ def fig5(R, pub, outdir):
         wrong[p] = [("dots", x, X[:, other], cols, 2.0)]
     controls = {"another gene's series": ("wrong_input", wrong),
                 "shift +1.5 pseudo time": ("near_miss", {p: [("dots", x + 1.5, e[0][2], cols, 2.0)] for p, e in els.items()})}
-    return score_figure("fig5", pub, list(els), els, {p: "ink" for p in els}, controls, outdir)
+    res = score_figure("fig5", pub, list(els), els, {p: "ink" for p in els}, controls, outdir)
+    ours_img = np.asarray(Image.open(outdir / "fig5_ours.png").convert("RGB"))
+    rng = np.random.default_rng(5)
+    for gi, g in enumerate(["A", "B", "C", "D"]):
+        p = f"fig5.g{g}"
+        margin = []
+        for a, b in zip(FIG5_BINS[:-1], FIG5_BINS[1:]):
+            v = X[(x >= a) & (x < b), gi]
+            se = np.std([np.median(rng.choice(v, len(v))) for _ in range(500)]) if len(v) > 1 else np.nan
+            margin.append(round(float(2 * np.sqrt(2) * se), 1))
+        other = f"fig5.g{'ABCD'[(gi + 2) % 4]}"
+        VALUES[p] = {"bins": FIG5_BINS.tolist(), "published": raster_medians(pub, "fig5", p),
+                     "ours": raster_medians(ours_img, "fig5", p), "margin": margin,
+                     "wrong_input": {"name": f"our {other[-2:]} series", "ours": raster_medians(ours_img, "fig5", other)}}
+    return res
+
+
+def raster_medians(img, fig, panel, bins=FIG5_BINS):
+    """Median y (data units) of the coloured dot pixels in each x bin of a panel; None when a bin
+    has fewer than 20 coloured pixels. Applied alike to the published render and to ours."""
+    px0, py0, px1, py1 = frame_px(fig, panel)
+    xl, yl = PANELS[panel]["xlim"], PANELS[panel]["ylim"]
+    i0, j0 = int(py0) + 6, int(px0) + 6
+    sub = img[i0:int(py1) - 6, j0:int(px1) - 6].astype(int)
+    yy, xx = np.nonzero((sub.max(2) - sub.min(2)) > 60)
+    xd = xl[0] + (xx + j0 - px0) / (px1 - px0) * (xl[1] - xl[0])
+    yd = yl[1] - (yy + i0 - py0) / (py1 - py0) * (yl[1] - yl[0])
+    out = []
+    for a, b in zip(bins[:-1], bins[1:]):
+        m = (xd >= a) & (xd < b)
+        out.append(round(float(np.median(yd[m])), 1) if m.sum() >= 20 else None)
+    return out
 
 
 TYPE_COLOURS = {"PreMegE": (0.58, 0.1, 0.11), "LMPP": (0.95, 0.44, 0.19), "HSC": (0.39, 0.74, 0.35),
@@ -382,6 +428,7 @@ def main(run, pubdir, pubdata, outdir):
     out.mkdir(parents=True, exist_ok=True)
     R = load_runs(run)
     R["_run"] = run
+    R["_pubdata"] = json.loads(Path(pubdata).read_text())
     pub = {f: np.asarray(Image.open(Path(pubdir) / f"figure-{f[3:]}.png").convert("RGB")) for f in BOXES}
     S = {}
     S.update(fig2(R, pub["fig2"], out))
@@ -399,7 +446,7 @@ def main(run, pubdir, pubdata, outdir):
         yo = np.interp(pc[:, 0], c["fit_t"], c["fit_y"])
         dist[p] = {"rmse_fit_vs_published_fit": float(np.sqrt(np.mean((yo - pc[:, 1]) ** 2))),
                    "n_points_published": len(P[p].get("points", [])), "n_points_ours": int(len(c["t"]))}
-    (out / "scores.json").write_text(json.dumps({"pixels": S, "curves": dist}, indent=1))
+    (out / "scores.json").write_text(json.dumps({"pixels": S, "curves": dist, "values": VALUES}, indent=1))
     for k, v in S.items():
         print(k, v["score"], v["threshold"], [(c["name"], c["score"]) for c in v["controls"]])
 
