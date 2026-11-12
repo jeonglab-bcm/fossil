@@ -38,7 +38,7 @@ slips in the paper; the consensus points differ because the forest's settings ar
   release 14-137, inflation 2.0) gives the authors' MCL scores with the score defined as the fraction of the
   *other* members of the cluster annotated with the disease.
 - **Thresholds.** The paper gives only ranges. The grids 0.05-0.95 by 0.05 (fractions), 0.0001-0.09 (RW) and
-  0.01-0.9 (Prop) (`analysis.py`), with "score > θ", give every point of Supp. Fig. S1 (353 of 353
+  0.01-0.9 (Prop) (`analysis.py`), with "score > θ", give every point of Supp. Fig. S1 (340 of 340
   coordinates) and of Fig. 2a. Fig. 2 drops consecutive repeated points and points with recall below 1%;
   values are rounded to 0.1% with ties to even, as R rounds.
 - **Figure values.** Figs 2 and 4 and Supp. Figs S1 and S2 are vector drawings. `read_published.py` reads
@@ -109,5 +109,5 @@ folder or the package.
 - Three Fig. 2a points that our curves give (GS1 at θ = 0.25, VI-CutS at 0.25 and 0.4) are not drawn in the
   paper; the cause is open.
 - The consensus points depend on unstated forest settings; ours are near, not on, the published points.
-- Without linkage intervals, GS and VI-Cut scores exist only above 1/3 (the authors' thresholded files).
+- Without linkage intervals, GS and VI-Cut scores exist only at or above 1/3 (the authors' thresholded files).
 - The whole HPRD network (9,182 proteins) and the 189 out-of-interval genes need data that were not released.

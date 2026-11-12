@@ -1,0 +1,62 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "9a7591f9-29fc-4978-9264-e417d8f9e8ba",
+  "transcript": "9a7591f9-29fc-4978-9264-e417d8f9e8ba.jsonl",
+  "generated_at": "2026-11-12T00:50:35+00:00",
+  "started_at": "2026-11-11T23:09:35+00:00",
+  "ended_at": "2026-11-12T00:50:10+00:00",
+  "wall_clock_minutes": 100.6,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 1,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 191,
+  "tool_calls": 199,
+  "tool_calls_by_name": {
+    "Bash": 168,
+    "Write": 12,
+    "Read": 11,
+    "Edit": 3,
+    "ToolSearch": 2,
+    "Skill": 1,
+    "TaskStop": 1,
+    "Agent": 1
+  },
+  "tokens": {
+    "input": 390,
+    "cache_creation": 485111,
+    "cache_read": 59075927,
+    "output": 223755,
+    "thinking": 64418,
+    "total": 59785183
+  },
+  "subagents": {
+    "transcripts": 1,
+    "assistant_responses": 8,
+    "tool_calls": 8,
+    "tokens": {
+      "input": 16,
+      "cache_creation": 71213,
+      "cache_read": 360979,
+      "output": 7567,
+      "thinking": 4101,
+      "total": 439775
+    }
+  },
+  "tokens_all": {
+    "input": 406,
+    "cache_creation": 556324,
+    "cache_read": 59436906,
+    "output": 231322,
+    "thinking": 68519,
+    "total": 60224958
+  },
+  "prompts": [
+    {
+      "at": "2026-11-11T23:11:27.152Z",
+      "text": "Reproduce PMC2853684 (https://doi.org/10.1093/bioinformatics/btq076) with the /paper2repro skill. Follow its definition of done. Open one pull request at the end to address issue #46 of this repo. Any heavy-duty job should not be run on the login node of this server. Follow the documentation of the server and read the limits of the partitions in this repo: https://gist.github.com/sasidharPasupuleti/714ebcf07f68c628d69fa5c245666b71",
+      "mid_turn": false
+    }
+  ]
+}

@@ -11,8 +11,8 @@ from the paper and its supplement: Neighborhood, Oti, random walk with restart (
 2008), network propagation (Prop, Vanunu and Sharan 2008) and cluster-based scores (for example
 from MCL), each leave-one-out, with the paper's precision and recall over linkage-interval
 candidates and its two measures of disease homophily. On the paper's HPRD and OPHID networks it
-gives the authors' published scores on every one of 1,935,350 candidate pairs (Neighborhood, Oti,
-RW, Prop; MCL with the `mcl` program). The reproduction is in
+gives the authors' published scores on all 387,070 candidate pairs (1,935,350 scores of Neighborhood,
+Oti, RW, Prop, and MCL with the `mcl` program). The reproduction is in
 [`PMC2853684/`](https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684) of the fossil repository.
 
 Graph summarization (GS1-3, GS-All) and VI-Cut are not included: the graph summarization code is
