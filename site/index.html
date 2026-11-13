@@ -56,7 +56,7 @@
         <h1 id="hero-head">Old methods, dug up and running again.</h1>
         <p class="lead">fossil is an archive of methods from published computational papers. An AI agent rebuilds each one from the paper and whatever survived, and every figure is checked against the one in print.</p>
         <div class="actions"><a class="btn btn--primary" href="#papers">See the papers</a><a class="btn" href="#about">Why we do it</a></div>
-        <p class="aside">Seven papers dug up so far, from 2007 to 2015.</p>
+        <p class="aside">Eight papers dug up so far, from 2007 to 2015.</p>
       </div>
     </div>
   </section>
@@ -102,8 +102,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Seven papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, six partly.</p>
+        <h2 id="index-head">Eight papers, figure by figure</h2>
+        <p>Newest first. Two agree with their papers, six partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -113,6 +113,27 @@
               <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th><th scope="col">Paper2Repro</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2010-03-22">22 Mar 2010</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-08">8 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2850872</span>
+                  <a class="title" href="https://doi.org/10.1186/1472-6947-10-16">Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes</a>
+                  <span class="journal">Yu et al., BMC Medical Informatics and Decision Making</span>
+                  <span class="go"><a href="PMC2850872/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The Diabetes Classifier web tool and its Java code</li>
+                  <li>The random split behind every table</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/package/tutorial/TUTORIAL.md">diabclass</a>, the SVM classifier as a Python package</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/figure-reproduction/output/analytic.csv">The NHANES 1999 to 2004 cohort</a>, diagnosed diabetes at 1,266 as published</li>
+                  <li><a href="PMC2850872/">Tables 1 to 3 and Fig. 2</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="agrees">Agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="verdict-note">The main claim holds; agreed in review</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.4.0">v0.4.0</a><span class="ver-note">worked out from the session</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-01-24">24 Jan 2014</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-06">6 Nov 2026</time></td>
@@ -283,6 +304,7 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC2850872/">Diabetes classifier tables</a>
       <a href="PMC4015815/">Remote homology figures</a>
       <a href="PMC1847688/">LIMPIC figures</a>
       <a href="PMC2666661/">Random forest LD figures</a>
