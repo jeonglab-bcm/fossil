@@ -1,0 +1,26 @@
+Package: epiforest
+Type: Package
+Title: Random Forest Screening for Epistatic Interactions in Case-Control Studies
+Version: 0.1.0
+Authors@R: person("fossil contributors", role = c("aut", "cre"),
+    email = "noreply@github.com",
+    comment = "jeonglab-bcm/fossil; method by Jiang R, Tang W, Wu X and Fu W (2009)")
+Description: The two-stage epiForest method of Jiang, Tang, Wu and Fu (2009)
+    <doi:10.1186/1471-2105-10-S1-S65>: a random forest ranks single nucleotide
+    polymorphisms (SNPs) by gini importance, a sliding window sequential forward
+    feature selection (SWSFS) picks the candidates that minimise the out-of-bag
+    error, and a hierarchical procedure tests one-, two- and three-way
+    interactions among the candidates with the B statistic of Zhang and Liu
+    (2007) <doi:10.1038/ng2110>. Also the paper's simulation design (the disease
+    models of Marchini, Donnelly and Cardon (2005) <doi:10.1038/ng1537>) and its
+    comparators (single-locus chi-squared test, stepwise logistic regression).
+    Rebuilt from the paper's text; the authors' program is lost.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: randomForest (>= 4.7), stats, utils
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://github.com/jeonglab-bcm/fossil/tree/main/PMC2648748/package
+RoxygenNote: 7.3.1
