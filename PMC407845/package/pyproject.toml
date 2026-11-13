@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "manetworker"
+version = "0.1.0"
+description = "Transcription factor activity profiles and regulatory coupling from expression and ChIP data (MA-Networker, Gao, Foat and Bussemaker 2004)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3", "scipy>=1.13,<2"]
+
+[project.scripts]
+manetworker = "manetworker.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC407845"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC407845/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/manetworker"]
