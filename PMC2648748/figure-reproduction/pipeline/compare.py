@@ -245,6 +245,18 @@ def main():
     cl["paper"]["fig3_median_of_medians"] = float(np.median(pub_medians))
     cl["paper"]["fig3_medians_range"] = [min(pub_medians), max(pub_medians)]
     cl["paper"]["fig3_max_below_80_settings"] = sum(1 for v in pub_max if v < 80)
+    # the AMD statements that follow from the paper's own Table 1 and text
+    L = 95986
+    two = [("rs6104678", "rs7863587", 1.28e-7), ("rs3743175", "rs1394608", 3.06e-7), ("rs2828155", "rs1394608", 3.06e-7),
+           ("rs4292478", "rs1394608", 7.29e-7), ("rs6104678", "rs10512174", 7.68e-7)]
+    three = [("rs2347060", "rs3758141", "rs7104698", 5.57e-9), ("rs2347061", "rs3758141", "rs7104698", 5.57e-9),
+             ("rs2347060", "rs10503640", "rs7104698", 6.91e-9), ("rs2347061", "rs10503640", "rs7104698", 6.91e-9),
+             ("rs2347060", "rs1557753", "rs7104698", 1.07e-8)]
+    cl["paper"]["amd_no_interaction_significant"] = (min(t[-1] for t in two) * math.comb(L, 2) >= 0.05
+                                                     and min(t[-1] for t in three) * math.comb(L, 3) >= 0.05)
+    cl["paper"]["amd_rs1394608_in_3_of_5_two_way"] = sum("rs1394608" in t for t in two) == 3
+    cl["paper"]["amd_rs7104698_in_5_of_5_three_way"] = sum("rs7104698" in t for t in three) == 5
+    cl["paper"]["amd_swsfs_forests_84_plus_20"] = 84 + 20 == 104
     if cl["ours"] is not None:
         all_k = [k for s in summ["settings"] for k in s["selected"]]
         meds = [s["selected_median"] for s in summ["settings"]]

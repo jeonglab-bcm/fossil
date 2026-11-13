@@ -69,7 +69,8 @@ def arithmetic(paper):
     lo, hi = paper["fig3_medians_range"]
     med_ok = 40 <= lo and hi <= 50
     max_ok = paper["fig3_max_below_80_settings"] >= 20
-    detail = (f"{len(held)} of {len(bools)} statements about Fig. 2 follow from the published bars"
+    detail = (f"{len(held)} of {len(bools)} statements about Fig. 2 and the AMD study follow from the paper's own"
+              " bars, Table 1 and text"
               + (f" (not: {', '.join(failed)})" if failed else "")
               + f"; Fig. 3's published medians run from {lo:g} to {hi:g} (about 45: {yn(med_ok)})"
               f" and {paper['fig3_max_below_80_settings']} of 24 maxima are below 80"

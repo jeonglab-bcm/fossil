@@ -70,7 +70,7 @@ draw_fig3 <- function(path, counts) {
       plot(NA, xlim = c(0.5, 4.5), ylim = c(0, 80), axes = FALSE, xlab = "", ylab = "")
     } else {
       cp <- lapply(cp, function(v) if (length(v)) v else NA_real_)
-      boxplot(cp, notch = TRUE, ylim = c(0, 80), axes = FALSE, outcex = 1.1, outlwd = 1.5)
+      boxplot(cp, notch = TRUE, ylim = c(0, 80), axes = FALSE, outcex = 0.86, outlwd = 1.5)
     }
     axis(2, at = seq(0, 80, 20), cex.axis = P$cex_axis, mgp = P$mgp_y, tcl = P$tcl)
     mtext(MAF_LABELS, side = 1, at = 1:4, line = P$line_names, cex = P$cex_names * 0.66)
