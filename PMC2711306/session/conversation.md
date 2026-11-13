@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-09T20:50:43+00:00 |
-| Wall clock | 283.7 min |
+| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-13T22:25:19+00:00 |
+| Wall clock | 6138.3 min |
 | Models | claude-haiku-5-5, claude-opus-5-5 |
-| Human prompts | 4 (0 sent mid-turn) |
-| Assistant responses (API calls) | 288 + 24 in subagents |
-| Tool calls | 308 + 24 in subagents |
-| Tokens: input / cache write / cache read / output | 634 / 1,882,859 / 114,603,977 / 289,730 |
-| Tokens: total (incl. subagents) | 116,777,200 |
+| Human prompts | 9 (0 sent mid-turn) |
+| Assistant responses (API calls) | 403 + 24 in subagents |
+| Tool calls | 423 + 24 in subagents |
+| Tokens: input / cache write / cache read / output | 864 / 2,912,239 / 131,021,435 / 364,784 |
+| Tokens: total (incl. subagents) | 134,299,322 |
 
 ## Conversation
 
@@ -1034,3 +1034,483 @@ I'll report once CI finishes.
 CI passed in 4 min 53 s. Pushing the final session ledger (the `session/` folder is outside the workflow's trigger paths, so CI won't rerun).
 
 - `Bash` pkill -f "gh pr checks 38" 2>/dev/null; cd ~/fossil-issue17; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --transcript ~/.claude/projects/-hom
+
+- `Bash` cd ~/fossil-issue17; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --transcript ~/.claude/projects/-home-sofias-fossil/266fa43b-6721-40cf-a90f-
+
+### Claude · 2026-11-09 20:51:29
+
+I reproduced PMC2711306 and opened one pull request for issue #17: https://github.com/jeonglab-bcm/fossil/pull/38. CI passed in about 5 minutes on the code commit. The last commit only adds the session ledger, which the workflow doesn't watch, so CI didn't rerun on it.
+
+**The method's main claim holds.** On the yeast network the embedding recovers Collins' low-confidence interactions with AUC 0.93 (the paper says about 0.9). Figs 1A, 2 and 4 overlay the published curves (97.6%, 92.6% and 95.1% within 2 px). In each case the best wrong or near-miss input scores much lower, at 89%, 32% and 50%. On the human network, 247 of the paper's 251 predicted interactions come back. The other 4 involve proteins missing from our rebuilt network.
+
+| Verdict | Items |
+| --- | --- |
+| Exact | 1 |
+| Agrees | 6 |
+| Partly | 8 |
+| Inconclusive | 3 |
+| Differs | 9 |
+| Not attempted | 3 |
+
+Five causes are still open.
+
+**Neither the code nor the data was lost.** The issue said the software was gone and the yeast test data needed a manual download from a page that blocks scripts. Both are on the Wayback Machine:
+- **The authors' Matlab:** three short functions from kuchaev.com/Denoising. They give the three settings the paper leaves out: the path-length cap, the coordinate scaling and the prior.
+- **Collins et al.'s scores for all 401,820 yeast pairs:** from interactome-cmp.ucsf.edu.
+
+The pipeline downloads both and checks their checksums; neither is committed.
+
+**Main things that don't match:**
+- **0.975 cut:** the counts behind it (Table S1, Fig. 1B) move with a random step in the authors' fitting. Over 20 seeds we get 1,679 to 2,361 pairs, and the paper's 1,685 is inside that range. Our main seed is near the top (19th of 20), and Tables S2–S5 use it.
+- **Fig. 2 labels:** our counts are 0.1–5.4% off. Neither copy of the yeast network we found is exactly the paper's 8,323 edges.
+- **Fig. 5:** only the 500-edge curve passes. The paper's 3,000-edge curve is much lower than ours, and I haven't found why.
+- **Text S1 p-values:** they don't follow from the paper's own printed numbers (for example, 7.5×10⁻⁸ should be 7.5×10⁻¹⁶). The corrected values are smaller still, so the significance claims stand.
+- **Later releases:** HPRD and KEGG from 2009 aren't available, so later releases stand in for them.
+
+**Package:** `geodenoise`, a Python implementation written from the paper using the authors' settings. On the yeast network its distances are within 0.018 of the authors' Matlab run under Octave, and its ROC counts within 0.9%. Its tutorial reproduces all 11,175 example distances from the authors' code.
+
+**Cluster use:** everything heavy ran through Slurm on defq15, since debugq was full. That includes the full pipeline run, through `PMC2711306/figure-reproduction/run_skyriver.sbatch`. The CI command run from a clean clone matched all 28 committed files.
+
+**Review:** an independent check of the write-up against the numbers found several wrong or overstated sentences, including wrong causes for Figs S1–S3. I fixed them before pushing and posted the review on the PR.
+
+**Risks:**
+- **Inferred cut:** the yeast low-confidence cut (score ≥ 1.85) is inferred from Collins et al. and the Fig. 2 labels, not stated in the paper.
+- **Full mode is untested in CI:** pull-request runs use the committed networks and validation results. The `full` and `octave` modes, which re-download from the Wayback Machine, EBI and KEGG, ran only on the cluster, never in CI.
+
+Sources I searched for the Collins data:
+- [Netzschleuder: collins_yeast](https://networks.skewed.de/net/collins_yeast)
+- [Collins et al. 2007 PDF (Duke course copy)](https://courses.cs.duke.edu/spring13/compsci662/pdf/collins.2007.pdf)
+- [PMC3108834](https://pmc.ncbi.nlm.nih.gov/articles/PMC3108834/)
+
+### User · 2026-11-10 19:26:30
+
+<task-notification>
+<task-id>bgmem3922</task-id>
+<tool-use-id>toolu_01PrF37sQfxvfkSsR4vL6ZDA</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/bgmem3922.output</output-file>
+<status>failed</status>
+<summary>Background command "GH=/cm/shared/apps/gh/2.86.0/usr/bin/gh; until $GH pr checks 38 --repo jeonglab-bcm/fossil --json bucket 2&gt;/dev/null | jq -e 'length&gt;0 and all(.bucket!="pending")' &gt;/dev/null; do sleep 30; done; $GH pr checks 38 --repo jeonglab-bcm/fossil" failed with exit code 144</summary>
+</task-notification>
+
+### Claude · 2026-11-10 19:26:41
+
+Nothing has changed since my last update. A leftover CI-watcher task just reported as failed, but only because my own cleanup command stopped it; CI itself passed. PR #38 stands as described.
+
+### User · 2026-11-10 19:33:49
+
+/compact
+
+### User · 2026-11-10 19:33:49
+
+<command-name>/compact</command-name>
+            <command-message>compact</command-message>
+            <command-args></command-args>
+
+### User · 2026-11-10 20:59:39
+
+I have added a comment to this PR to add the version of the Paper2Repro release, so please address it.
+
+- `Bash` Read PR #38 comments
+
+- `Bash` Find gh path from memory
+
+- `Bash` Read PR #38 comments and reviews
+
+- `Bash` Check state, #43 status, edit locations
+
+- `Bash` Inspect make_results and notes
+
+### Claude · 2026-11-10 21:00:32
+
+Adding the Paper2Repro 0.4.0 `skill` block the comment asks for, then regenerating results.json.
+
+- `Bash` See how make_results is invoked
+
+- `Bash` Add skill block to notes and make_results
+
+- `Bash` Rerun merge step and diff against committed
+
+- `Bash` See which run files make_results needs
+
+- `Bash` Rerun merge step with figures.json and diff
+
+### Claude · 2026-11-10 21:02:21
+
+Only the `skill` block and the run date changed. I'll keep the original run date, since the numbers come from the 2026-11-09 run.
+
+- `Bash` Write results.json and validate
+
+### Claude · 2026-11-10 21:02:27
+
+Now running #43's `check_skill.py` against this branch, before #43 merges.
+
+- `Bash` Fetch #43's check_skill.py
+
+- `Bash` Run #43's check against this branch
+
+### Claude · 2026-11-10 21:02:41
+
+The check passes. Before pushing, I'm confirming that the CI check step tolerates the run date.
+
+- `Bash` Check how CI compares results.json
+
+### Claude · 2026-11-10 21:02:45
+
+The CI check ignores the date. Committing and pushing.
+
+- `Bash` Commit and push skill block
+
+- `Bash` Reply on PR and check CI
+
+- `Bash` Wait for CI to finish
+
+### Claude · 2026-11-10 21:09:42
+
+I've addressed your comment on PR #38 and pushed the fix as commit `42fbe41`. CI passed on it (6m25s), and I replied on the PR.
+
+- **Notes file:** `PMC2711306/figure-reproduction/results_notes.json` now has the `skill` block exactly as you specified: Paper2Repro 0.4.0, tag `paper2repro-v0.4.0`, commit `727d35e`, source `transcript`.
+- **Merge script:** `pipeline/make_results.py` copies the block into `results.json`, so every future pipeline run writes it too.
+- **`PMC2711306/results.json`:** I reran the merge step on the committed run outputs. The only other change was the run date, which I kept at 2026-11-09 because the numbers come from that run (the CI check ignores the date). All verdicts are unchanged and `check_results.py` still passes.
+- **#43's check:** #43 hasn't merged yet, so I fetched its `tools/check_skill.py` and ran it on this branch. `--base origin/main` printed `PMC2711306: v0.4.0 (transcript)`. I didn't commit that file, since it arrives with #43.
+
+### User · 2026-11-13 21:38:26
+
+the reviewer hwan has requested some changes in the veredicts and also to revise the figure 5, perhaps replot it while figuring out why it looks similar to the published one but also looks off. then change the veredicts to address the comment
+
+- `Bash` Read the reviewer's comments on PR #38
+
+- `Bash` Look for reviewer-verdict support in schema and repo
+
+- `Bash` Find how reviewer verdicts are recorded
+
+### Claude · 2026-11-13 21:39:01
+
+There's a precedent: commit 338979e applied hyunhwan's verdicts to PMC2850872. I'll look at how it did that.
+
+- `Bash` Inspect precedent commit for review verdicts
+
+- `Bash` See review block shape and skill support
+
+### Claude · 2026-11-13 21:39:11
+
+The precedent records each reviewer verdict as a `review` block that `check_results.py` applies, keeping the computed verdict alongside. I'll do the same. First, the items and Fig 5.
+
+- `Bash` List items and compare check_results versions
+
+### Claude · 2026-11-13 21:39:16
+
+Main's `check_results.py` differs from my copy only in the review support, so I'll adopt it. Now Fig 5: comparing the published panel, ours and the overlay.
+
+- `Bash` Fig 5 item detail and published files
+
+- `Read` /home/sofias/fossil-issue17/PMC2711306/figure-reproduction/output/fig5_overlay.png
+
+- `Read` /home/sofias/fossil-issue17/PMC2711306/figure-reproduction/published/figure-5.png
+
+### Claude · 2026-11-13 21:39:33
+
+The 500–2,000 curves sit on the published ones. The 3,000 curve is the outlier: the published one starts at FP≈0.035 and runs well to the right of ours. I'll look at how we compute it.
+
+- `Bash` Inspect Fig 5 code and outputs
+
+- `Bash` Fig 5 code and per-size ROC grid
+
+- `Bash` Find fig5 scoring code and embed function
+
+- `Bash` Read figure scoring and yeast helpers
+
+- `Bash` Cluster rules, yeast setup, fig5 dim
+
+### Claude · 2026-11-13 21:40:12
+
+I'll test the whole-network hypothesis against the published curves one by one, scoring each deletion size separately. This runs on debugq, not the login node.
+
+- `Bash` Write Fig 5 variant experiment
+
+- `Bash` Locate yhigh.tsv
+
+- `Bash` Run Fig 5 variants on debugq
+
+- `Bash` Test dims 2-3 and subspace solver variants
+
+- `Bash` Write published-marker extractor
+
+- `Bash` Read calibration return values
+
+- `Bash` Extract published Fig 5 marker positions
+
+- `Bash` Print whole-network curves with FPR
+
+- `Bash` Score single deletions per curve on debugq
+
+- `Bash` Score mean curves for LCC, whole, mixed
+
+### Claude · 2026-11-13 21:53:04
+
+The 12-point grid scored worse than the committed 8-point one, so I'll compare grid subsets directly.
+
+- `Bash` Compare marker grids for Fig 5 scoring
+
+- `Bash` Find all Fig 5 references
+
+### Claude · 2026-11-13 21:53:47
+
+Now the yeast.py change: every deletion also records the whole-network embedding. That consumes no randomness, so the committed LCC curves stay identical.
+
+- `Bash` Compute both Fig 5 embeddings in yeast.py
+
+### Claude · 2026-11-13 21:53:59
+
+Now figures.py: draw 500–2,000 from the largest component and 3,000 with every protein, using the 10-marker grid read from the published curves. The old all-LCC drawing becomes a control.
+
+- `Bash` Update Fig 5 drawing and controls in figures.py
+
+### Claude · 2026-11-13 21:54:21
+
+`work/` is git-ignored, so the single-deletion test needs to be a committed script with committed output if the cause is to cite it. I'll do that like the existing `label_hypotheses.py` one-off.
+
+- `Bash` Fix comments; inspect one-off script precedent
+
+- `Bash` Add committed Fig 5 single-deletion test
+
+### Claude · 2026-11-13 21:54:42
+
+Now I'll run the single-deletion test and the light pipeline on Slurm in parallel.
+
+- `Bash` Read sbatch runner
+
+- `Bash` Find runner and CI command
+
+- `Bash` Submit light pipeline and single-deletion test
+
+### Claude · 2026-11-13 21:55:06
+
+While those run, I'll apply the review. The precedent's PMC2850872 commit also touched `build_page.py`, so I'll check what it shows for reviewed items.
+
+- `Bash` Precedent build_page diff and our page code
+
+### Claude · 2026-11-13 21:55:09
+
+Adding the 13 review blocks, having make_results copy them, and adopting main's `check_results.py`:
+
+- `Bash` Add review blocks and make_results support
+
+### Claude · 2026-11-13 21:55:21
+
+Now the results page: following the precedent, a reviewer-set verdict reads "… on review".
+
+- `Bash` Read build_page stamp logic
+
+- `Bash` Show reviewer verdicts on results page
+
+### Claude · 2026-11-13 21:55:32
+
+I'll check on the Slurm jobs.
+
+- `Bash` Check job status
+
+- `Bash` Wait for pipeline run to finish
+
+### Claude · 2026-11-13 21:59:11
+
+That failure is only the missing single-deletion file, which is still being written. The rest of the run took 3m52, about the same as before. Here are the new Fig 5 numbers.
+
+- `Bash` Inspect new Fig 5 scores
+
+- `Read` /home/sofias/fossil-issue17/PMC2711306/work/rerun/results/figures/fig5_overlay.png
+
+- `Bash` Wait for single-deletion test and summarize
+
+- `Bash` Show current Fig 5 notes
+
+- `Bash` List allowed cause categories
+
+- `Bash` Rewrite Fig 5 cause and assumptions
+
+- `Bash` Fix numbers; view page notes
+
+- `Bash` Update page notes for Fig 5
+
+### Claude · 2026-11-13 22:01:45
+
+Now I'll update the committed outputs from the rerun, comparing first so only files that really changed are replaced.
+
+- `Bash` Compare rerun outputs with committed
+
+### Claude · 2026-11-13 22:01:49
+
+`human.json` and `package.json` shouldn't have changed. Checking with compare_runs:
+
+- `Bash` Compare rerun numerically
+
+- `Bash` Resume pipeline to regenerate results
+
+- `Bash` Find the failing comparison
+
+### Claude · 2026-11-13 22:02:27
+
+All 13 reviewer verdicts apply: 1 exact, 18 agree, 2 partly, 6 differ, 3 not attempted. Fig 5 stays at computed "partly", as the reviewer accepted. One of 29 files still differs, so I'll find which.
+
+- `Bash` Find the one differing file
+
+### Claude · 2026-11-13 22:02:31
+
+That is the committed `results.json`, which is expected to be stale. I'll install the fresh results.json, the results page and the README tables.
+
+- `Bash` Install results; locate doc rows
+
+- `Bash` Copy results from work dir; inspect doc tools
+
+- `Bash` Build results page; inspect readme tool
+
+- `Bash` Regenerate README tables; find prose verdict counts
+
+### Claude · 2026-11-13 22:02:53
+
+The tables are regenerated. Next, hand-written text that cites the old counts or the old Fig 5 explanation.
+
+- `Bash` Find stale prose and front-page stamp
+
+- `Bash` View rows needing hand edits
+
+- `Bash` Front-page verdict stamps on main
+
+### Claude · 2026-11-13 22:03:06
+
+With 6 differs still standing, the front page's overall "Partly agrees" stays right. Main has since changed that row's markup, which I'll take when merging. Now the hand-written README lines:
+
+- `Bash` Update hand-written README text
+
+### Claude · 2026-11-13 22:03:17
+
+Now I'll merge main, which brings #43 and the newer front-page markup.
+
+- `Bash` Commit work and merge main
+
+### Claude · 2026-11-13 22:03:26
+
+I committed with a placeholder "wip" message. I'll abort the merge, give that commit a proper message, then redo the merge.
+
+- `Bash` Fix commit message and redo merge
+
+- `Bash` Resolve README conflict; view .gitignore conflict
+
+- `Bash` Resolve .gitignore; locate site conflicts
+
+- `Bash` View site conflict
+
+- `Bash` Resolve site conflict; adopt main's stamp markup
+
+- `Bash` Check row markup and run skill check
+
+### Claude · 2026-11-13 22:03:59
+
+The merge is resolved and #43's skill check passes. Next I'm running main's results check and a final pipeline check on Slurm, then I'll push.
+
+- `Bash` Run repo-level results checks
+
+- `Bash` See what results-check CI runs
+
+### Claude · 2026-11-13 22:04:07
+
+That tool only covers papers with `figure-reproduction/results.json`; this PR has none, so that job skips it. The other step in that workflow is `site_versions.py`, so I'll run it:
+
+- `Bash` Run site version check
+
+- `Bash` Add the Paper2Repro version cell
+
+### Claude · 2026-11-13 22:04:13
+
+It wrote one cell, but not into our row. I'll look at how the script finds rows.
+
+- `Bash` Inspect site_versions row logic
+
+### Claude · 2026-11-13 22:04:17
+
+Rows have to carry an empty Paper2Repro cell for the script to fill. I'll add one to our row in the same position as the others, then regenerate.
+
+- `Bash` Check cell placement in rows
+
+- `Bash` Re-resolve site conflict and add version cell
+
+- `Bash` Verify our row and nav
+
+### Claude · 2026-11-13 22:04:34
+
+Everything is resolved. Committing the merge, then a final check run of the pipeline on Slurm:
+
+- `Bash` Commit merge and run final pipeline check
+
+- `Bash` Inspect final run output
+
+### Claude · 2026-11-13 22:05:06
+
+Check passes: 29 of 29 files agree. I'll confirm the committed results page matches the fresh one, then push.
+
+- `Bash` Confirm page/results equal and push
+
+### Claude · 2026-11-13 22:05:16
+
+Pushed. I'll reply to the review on the PR, then watch CI.
+
+- `Bash` Reply to the review on PR #38
+
+### Claude · 2026-11-13 22:05:36
+
+The best LCC score on the 2,000 curve is 27.9%, so the table cell should read 18–28%. Fixing that in the comment:
+
+- `Bash` Fix table value; check CI
+
+- `Bash` Wait for reproduce CI
+
+- `Bash` Read CI failure
+
+- `Bash` Check comparison tolerances
+
+- `Bash` Read compare_runs header
+
+### Claude · 2026-11-13 22:12:54
+
+The default check tolerance is 1e-6 relative. Rather than loosening it, I'll look at how PMC2850872 handled the same kind of cross-machine drift: its commit pinned OpenBLAS to one kernel.
+
+- `Bash` Inspect OpenBLAS pinning precedent
+
+- `Bash` Check config, CPU flags, CI artifact
+
+- `Bash` Pin OpenBLAS kernel; fetch CI artifact
+
+- `Bash` Pinned run on Skyriver; compare with CI
+
+- `Bash` Install pinned outputs; resume results step
+
+- `Bash` Find failing file and work dir
+
+### Claude · 2026-11-13 22:17:26
+
+Only the committed `results.json` differs, as expected. Installing it, rebuilding the page and READMEs, and checking that the Fig 5 numbers I quoted still hold:
+
+- `Bash` Install results; verify quoted numbers
+
+### Claude · 2026-11-13 22:17:38
+
+The quoted Fig 5 numbers hold at the precision I gave. Next I'll record the OpenBLAS pin in the run environment and the README, as the precedent did.
+
+- `Bash` Locate environment record and README spots
+
+- `Bash` Record pin; regenerate results.json
+
+### Claude · 2026-11-13 22:17:48
+
+Only the environment line changed. Committing and pushing:
+
+- `Bash` Commit pin and push
+
+- `Bash` Wait for CI on the pinned commit
+
+### Claude · 2026-11-13 22:25:06
+
+CI is green. I'll post a short note on the pin, then update the session ledger and my memory notes.
+
+- `Bash` Post pin note; check ledger script
+
+- `Bash` Regenerate and push session ledger
