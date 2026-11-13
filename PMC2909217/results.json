@@ -144,17 +144,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -167,7 +167,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -181,7 +181,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
         "evidence": [
           "figure-reproduction/output/roc.json",
           "figure-reproduction/output/hypotheses.json"
@@ -189,7 +189,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -209,12 +209,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -248,17 +248,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -271,7 +271,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -285,7 +285,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
         "evidence": [
           "figure-reproduction/output/roc.json",
           "figure-reproduction/output/hypotheses.json"
@@ -293,7 +293,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -313,12 +313,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -378,17 +378,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -401,7 +401,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -415,7 +415,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
         "evidence": [
           "figure-reproduction/output/roc.json",
           "figure-reproduction/output/hypotheses.json"
@@ -423,7 +423,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -443,12 +443,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -508,17 +508,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -531,7 +531,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -545,7 +545,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+        "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve 0.675 to 0.645 for SSL, 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
         "evidence": [
           "figure-reproduction/output/roc.json",
           "figure-reproduction/output/hypotheses.json"
@@ -553,7 +553,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -573,12 +573,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -659,17 +659,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -682,7 +682,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -704,7 +704,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -724,12 +724,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -773,17 +773,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -796,7 +796,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -818,7 +818,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -838,12 +838,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -887,17 +887,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -910,7 +910,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -932,7 +932,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -952,12 +952,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -993,17 +993,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -1016,7 +1016,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -1030,7 +1030,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Both curves sit far below the published ones (SSL area under the ROC curve 0.664 weighted, 0.656 binary); the order of the two curves comes back (text.weighted_above_binary). The published legend reads SSL / Random / SVM although the caption compares weighted and binary networks.",
+        "summary": "Both curves sit far below the published ones (SSL area under the ROC curve 0.664 weighted, 0.656 binary; read from Fig. 5, 0.912 and 0.759). The weighted curve stays above the binary one, by a small margin. The published legend reads SSL / Random / SVM although the caption compares weighted and binary networks.",
         "evidence": [
           "figure-reproduction/output/roc.json",
           "figure-reproduction/output/hypotheses.json"
@@ -1038,7 +1038,7 @@
         "hypotheses": [
           {
             "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
-            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the paper's curves enclose about 0.95.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
             "result": "rejected"
           },
           {
@@ -1058,12 +1058,12 @@
           },
           {
             "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
-            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666: higher, but far from about 0.95.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
             "result": "rejected"
           },
           {
             "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, still short of the paper and still with SVM ahead.",
+            "test": "SVM and SSL on one-hot gene identity alone. SSL 0.8124, SVM 0.8874 (TPR at FPR 0.09: 0.5153 and 0.7107): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): still short of the paper and still with SVM ahead.",
             "result": "inconclusive"
           },
           {
@@ -1137,17 +1137,17 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
           "source": "our_choice",
-          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018."
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
           "source": "our_choice",
-          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779."
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
@@ -1160,7 +1160,7 @@
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
@@ -1197,12 +1197,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1216,7 +1216,7 @@
       "cause": {
         "category": "data_differs",
         "status": "open",
-        "summary": "Our weighted-network values are on a larger scale than the paper's (99th percentile of the SGI pairs' weighted-degree difference 2208.0 against an axis that ends near 460), so our densities spread past the published axes. Our KS D for this panel is set by our pairs and network, not the paper's.",
+        "summary": "Our weighted degree values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 2,218 against a published axis that ends near 460), so our densities spread past the published axes.",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/hypotheses.json",
@@ -1300,12 +1300,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1319,7 +1319,7 @@
       "cause": {
         "category": "data_differs",
         "status": "open",
-        "summary": "Our weighted-network values are on a larger scale than the paper's (99th percentile of the SGI pairs' weighted-degree difference 2208.0 against an axis that ends near 460), so our densities spread past the published axes. Our KS D for this panel is set by our pairs and network, not the paper's.",
+        "summary": "Our weighted closeness values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 3.981 against a published axis that ends near 1.5), so our densities spread past the published axes.",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/hypotheses.json",
@@ -1403,12 +1403,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1422,7 +1422,7 @@
       "cause": {
         "category": "data_differs",
         "status": "open",
-        "summary": "Our weighted-network values are on a larger scale than the paper's (99th percentile of the SGI pairs' weighted-degree difference 2208.0 against an axis that ends near 460), so our densities spread past the published axes. Our KS D for this panel is set by our pairs and network, not the paper's.",
+        "summary": "Our weighted betweenness values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 1.164e+05 against a published axis that ends near 6e+04), so our densities spread past the published axes.",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/hypotheses.json",
@@ -1506,12 +1506,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1525,7 +1525,7 @@
       "cause": {
         "category": "data_differs",
         "status": "open",
-        "summary": "Our weighted-network values are on a larger scale than the paper's (99th percentile of the SGI pairs' weighted-degree difference 2208.0 against an axis that ends near 460), so our densities spread past the published axes. Our KS D for this panel is set by our pairs and network, not the paper's.",
+        "summary": "Our clustering coefficients span the published axis (0 to 1), but the densities have another shape: ours are flatter and bimodal where the paper's peak near 0.05. The pairs and the network behind the panel are not the paper's (see Table 1).",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/hypotheses.json",
@@ -1543,8 +1543,8 @@
             "result": "rejected"
           },
           {
-            "hypothesis": "The paper standardized each gene's expression before eq. 2.",
-            "test": "Per-gene standardized expression: median weight 48.608 against 11.713, degree-difference 99th percentile 7991.3: larger, not smaller.",
+            "hypothesis": "The panel used the 1,500 + 1,500 sampled pairs, not all pairs.",
+            "test": "KS D of the weighted clustering-coefficient difference on repeat 0's sample: 0.0573 (all pairs 0.0666, paper 0.0571).",
             "result": "rejected"
           }
         ]
@@ -1647,12 +1647,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1886,12 +1886,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1960,12 +1960,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -1984,7 +1984,7 @@
     },
     {
       "id": "text.sgi_higher",
-      "label": "Discussion: SGI pairs tend to have higher average degree and higher average closeness",
+      "label": "Discussion: SGI pairs tend to have higher average degree and higher average closeness (medians)",
       "kind": "value",
       "source": "reconstructed",
       "method": "values",
@@ -2014,18 +2014,26 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
           "source": "our_choice"
         }
       ],
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Both medians are higher for SGI pairs, as the paper says; on our run the closeness difference is small and not significant (weighted average closeness P = 0.125).",
+        "evidence": [
+          "figure-reproduction/output/table1.json"
+        ]
+      },
       "verdict": "agrees"
     },
     {
@@ -2062,12 +2070,12 @@
         {
           "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
           "source": "read_from_figure",
-          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949."
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
           "source": "our_choice",
-          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666."
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
         },
         {
           "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
@@ -2077,7 +2085,7 @@
       "cause": {
         "category": "paper_error",
         "status": "explained",
-        "summary": "The claim fails in the paper's own Table 1 (7 of 8 rows). On our run the weighted P is the smaller in 1 of 8 rows.",
+        "summary": "The claim fails in one of the 8 rows of the paper's own Table 1 (absolute difference of closeness: 9.365E-10 weighted against 1.00E-17 binary). On our run the weighted P is the smaller in 1 of 8 rows.",
         "evidence": [
           "figure-reproduction/output/claims.json"
         ]
@@ -2089,7 +2097,7 @@
     },
     {
       "id": "text.arithmetic",
-      "label": "The Discussion's claims recomputed from the paper's own Table 1 and Fig. 6",
+      "label": "Arithmetic check: the Discussion's claims recomputed from the paper's own Table 1 and Fig. 6 (the paper's numbers, not our run)",
       "kind": "code_check",
       "source": "papers_data",
       "method": "check",

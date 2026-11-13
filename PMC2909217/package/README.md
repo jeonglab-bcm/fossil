@@ -7,7 +7,7 @@ graph-based semi-supervised learning, rebuilt from the paper:
 > interactions by combining functional and topological properties of functional gene network.
 > *BMC Bioinformatics* 11:343 (2010). [doi:10.1186/1471-2105-11-343](https://doi.org/10.1186/1471-2105-11-343)
 
-The authors' program (GeneticInterPred) is lost: its page has answered 404 since at least 2022. This package
+The authors' program (GeneticInterPred) is lost: its page answers 404, and its only Wayback capture (2022) is a 404 too (fossil issue #50). This package
 implements the method from the paper's text:
 
 - divisive correlation clustering of expression profiles (Bhattacharya and De 2008, as the paper describes it);

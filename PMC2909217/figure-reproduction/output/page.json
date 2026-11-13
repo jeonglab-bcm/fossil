@@ -48,11 +48,11 @@
   ]
  ],
  "items_caption": "Every figure, table and number in the paper, with the verdict check_results.py computes from our run.",
- "claims_line": "Main claim, SSL beats SVM and reaches sensitivity 0.92 at 1 minus specificity 0.09: differs and differs on our run (SVM leads at every training size; best SSL sensitivity at 0.09 is 0.20). Weighted beats binary: agrees. Two Discussion claims fail in the paper's own Table 1 (paper errors); the rest differ for a cause still open.",
+ "claims_line": "Main claim, SSL beats SVM and reaches sensitivity 0.92 at 1 minus specificity 0.09: differs. On our run SVM leads at every training size and the best SSL sensitivity at 0.09 is 0.20. Weighted beats binary: agrees, by a small margin. Two Discussion claims fail in the paper's own Table 1 (paper errors); the other differences have causes still open.",
  "came_back": [
   [
-   "Data",
-   "The Tong 2004 screen, BioGRID interactions and Gavin and Ho complexes from SGD's copy of 2009-12-19; 48129 complex edges against about 49,000; 4747 deletion-array genes against about 4,700."
+   "Data, in part",
+   "SGD's copy of BioGRID of 2009-12-19: 48129 complex edges against about 49,000 and 4747 deletion-array genes against about 4,700 agree; 3411 Tong SGI pairs (about 4,000), 125 query genes (132) and 3915 PPI proteins (4,478) do not."
   ],
   [
    "Method",
@@ -60,17 +60,17 @@
   ],
   [
    "Weighted against binary",
-   "SSL area under the ROC curve 0.664 on the weighted network, 0.656 on the binary one, as the paper orders them."
+   "SSL area under the ROC curve 0.664 on the weighted network, 0.656 on the binary one: the paper's order, by a small margin."
   ],
   [
    "SGI pairs sit higher",
-   "SGI pairs have the higher average degree and closeness, as the Discussion says."
+   "SGI pairs have the higher median average degree and closeness, as the Discussion says; the closeness difference is not significant on our run."
   ]
  ],
  "buried": [
-  "The ROC curves. SSL reaches 0.675 to 0.645 under the curve and SVM 0.705 to 0.678; the paper's curves enclose about 0.95.",
+  "The ROC curves. SSL reaches 0.675 to 0.645 under the curve and SVM 0.705 to 0.678; the published SSL curves enclose 0.875 to 0.963.",
   "SSL over SVM. SVM leads at every training size on our run.",
-  "Table 1 and Fig. 6. Our KS statistics differ; the paper's P-values imply about 5,531 pairs per test, ours 3,029.",
+  "Table 1 and Fig. 6. Our KS statistics differ; the paper's P-values imply about 5,531 (weighted) to 5,782 (binary) pairs per test, ours 3,029.",
   "Eisen's 1998 heat-shock time course; the paper's protein-interaction filter, SSL settings, SVM grid and seeds."
  ],
  "matched_intro": "What we fixed to make the run, and where it came from.",

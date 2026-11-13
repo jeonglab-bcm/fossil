@@ -147,6 +147,18 @@ def flow_betweenness(g: ig.Graph, chunk: int = 2048) -> np.ndarray:
     return out
 
 
+def _eigenvector(g: ig.Graph, weights):
+    """igraph's eigenvector centrality with a fixed seed for ARPACK's start vector, so that repeated
+    runs give the same last bits (ties between pairs then rank the same way)."""
+    import random
+    state = random.getstate()
+    random.seed(0)
+    try:
+        return np.array(g.eigenvector_centrality(scale=True, weights=weights))
+    finally:
+        random.setstate(state)
+
+
 def node_properties(g: ig.Graph, weighted: bool) -> dict[str, np.ndarray]:
     """The 8 node properties of Table 2, weighted (FGN) or all binary."""
     n = g.vcount()
@@ -157,13 +169,13 @@ def node_properties(g: ig.Graph, weighted: bool) -> dict[str, np.ndarray]:
             g.transitivity_local_undirected(mode="zero", weights="weight"), dtype=float))
         props["betweenness"] = np.array(g.betweenness(directed=False, weights="dist"))
         props["closeness"] = np.nan_to_num(np.array(g.closeness(weights="dist"), dtype=float))
-        props["eigenvector"] = np.array(g.eigenvector_centrality(scale=True, weights="weight"))
+        props["eigenvector"] = _eigenvector(g, "weight")
     else:
         props["degree"] = np.array(g.degree(), dtype=float) / max(n - 1, 1)
         props["clustering"] = np.nan_to_num(np.array(g.transitivity_local_undirected(mode="zero"), dtype=float))
         props["betweenness"] = np.array(g.betweenness(directed=False))
         props["closeness"] = np.nan_to_num(np.array(g.closeness(), dtype=float))
-        props["eigenvector"] = np.array(g.eigenvector_centrality(scale=True))
+        props["eigenvector"] = _eigenvector(g, None)
     props["stress"] = stress_centrality(g)
     props["information"] = information_centrality(g)
     props["flow"] = flow_betweenness(g)

@@ -199,8 +199,21 @@ def roc_figure(pub_dir, cal, roc, out_dir, fig_id):
         controls.append({"name": name, "kind": kind, "score": min(score(pmask, m, region))})
     Image.fromarray(img).save(out_dir / f"{fig_id}_ours.png")
     Image.fromarray(overlay(pub, img)).save(out_dir / f"{fig_id}_overlay.png")
+    # area under each published curve, read from the figure: the top-most trace pixel of the colour in
+    # each pixel column of the box (legend masked), linearly filled across empty columns
+    pub_auc = {}
+    for c in ("blue", "red"):
+        m = pmask[c] & region
+        xs, ys = [], []
+        for col in range(l + 1, r):
+            rows = np.where(m[:, col])[0]
+            if len(rows):
+                xs.append((col - l) / (r - l))
+                ys.append((b - rows.min()) / (b - t))
+        xs, ys = np.r_[0.0, xs, 1.0], np.r_[0.0, ys, 1.0]
+        pub_auc[c] = round(float(np.trapezoid(np.maximum.accumulate(ys), xs)), 3)
     return {"tolerance_px": TOL, "published_near_ours": s_pub, "ours_near_published": s_ours,
-            "threshold": mark(controls), "controls": controls,
+            "threshold": mark(controls), "controls": controls, "published_auc_read": pub_auc,
             "curves": {"blue": blue_key, "red": red_key}, "size": [pub.shape[1], pub.shape[0]]}
 
 
