@@ -39,7 +39,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
 | Table 1, CORG lists and sizes | exact | All 18 CORG lists and all 18 "CORGs / members" counts, from the GSEA lung files (e.g. Glycolysis: ENO2 PGK1 ALDOA) |
-| Table 1, frequencies | partly | Michigan to Boston: the paper's eight pathways are our eight most used, in its order but for one swap, used more often; Boston to Michigan: six of ten pathways are outside Boston's Tian top 52 |
+| Table 1, frequencies | partly | Michigan to Boston: the paper's eight pathways are our eight most used, in its order but for one swap, used more often; Boston to Michigan: seven of ten pathways are outside Boston's Tian top 52 |
 | Fig. 2, lung source and Michigan to Boston (E, F) | partly | 36 of 38 readable points within 0.1 (e.g. PAC 6.68 against 6.7 at 1%) |
 | Fig. 2, breast and Boston panels | partly | The source panels keep the paper's order of curves; 5 to 14 of 17 to 20 points within 0.1 |
 | Fig. 3, AUC bars | partly | 23 of 42 within datasets and 5 of 8 across within 0.02 (Breast Netherlands PAC 0.677 against 0.676) |
@@ -48,12 +48,12 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 | Table S1, class sizes | partly | 12 of 14; GEO's clinical table gives Breast USA 107 / 179, the paper 106 / 180 |
 | Table S2, breast CORGs | partly | 3 of 15 lists exact; the breast preprocessing is not stated |
 | Fig. 4, glycolysis and estrogen signalling | exact | Higher in poor prognosis in both lung datasets |
-| Figs S1, S2, S3, S5 (vector values) | partly | A third to three quarters of the values within tolerance per panel (S2's naive Bayes and LDA panels: under a third); S5 medians in 5 of 7 datasets |
-| Other claims of the text | 4 agree, 3 partly | PAC above its CORGs and PAC_all, genes above CORGs, the trend with other classifiers and the CORG sizes hold; PAC above PAC_random fails in two datasets because our random sets run the CORG search (explained) |
-| Package and reruns | agrees | pacorg's tests and tutorial; 22 cross-validation repeats rerun equal the committed run |
+| Figs S1, S2, S3, S5 (vector values) | partly | A third to 77% of the values within tolerance per panel (S2's naive Bayes and LDA panels: under a third); S5 medians in 5 of 7 datasets |
+| Other claims of the text | 4 agree, 3 partly | PAC above its CORGs and PAC_all, genes above CORGs, the trend with other classifiers and the CORG sizes hold; PAC above PAC_random fails in two datasets and Mean, Median and PCA above PAC_random in four, because our random sets run the CORG search (explained); PAC above Genes in Fig. 2 holds in 5 of 8 panels |
+| Package, reruns and the paper's own arithmetic | agrees | pacorg's tests and tutorial; 22 cross-validation repeats rerun equal the committed run |
 | Fig. 1, Fig. S4, the authors' code | not attempted | A schematic; a heatmap without values; the code is lost |
 
-The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds where our data are the paper's or close to it: Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston, with Leukemia and Netherlands to USA showing no difference as in the paper. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs; the causes are our breast and NF-kB data, which are not the authors' (open), and Boston's pathway pre-selection (Boston to Michigan comes back with all pathways as input).
+The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds in Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston, with Leukemia and Netherlands to USA showing no PAC advantage as in the paper. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs. Our breast and NF-kB data are not the authors' (open); Boston's pathway pre-selection differs (open; in a sensitivity run without it, PAC is above Gene from Boston to Michigan, 0.71 against 0.62, the paper's PAC being 0.66); Prostate's gap (Gene 0.961 against PAC 0.955) has no tested cause beyond the unstated classifier settings.
 
 The rest stays buried: the authors' processed breast and NF-kB matrices, how they pre-selected Boston's
 pathways, and how they computed the CORG overlap of Fig. S1 (each tested and open; see
