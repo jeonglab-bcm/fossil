@@ -1,0 +1,3344 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC4110735",
+    "title": "Reconstruction of gene co-expression network from microarray data using local expression patterns",
+    "citation": "Roy S, Bhattacharyya DK, Kalita JK. Reconstruction of gene co-expression network from microarray data using local expression patterns. BMC Bioinformatics 15(Suppl 7):S10 (2014)",
+    "doi": "10.1186/1471-2105-15-S7-S10",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "pipeline": "PMC4110735/figure-reproduction/main.nf",
+    "command": "nextflow run PMC4110735/figure-reproduction/main.nf --outdir results",
+    "date": "2026-11-13",
+    "environment": {
+      "python": "3.12",
+      "numpy": "2.1.3",
+      "scipy": "1.14.1",
+      "pillow": "11.0.0",
+      "R": "4.3.3",
+      "Bioconductor": "3.18",
+      "minet": "3.60.0",
+      "nextflow": "26.04.3"
+    },
+    "inputs": [
+      {
+        "name": "gnw-networks.jar",
+        "url": "https://raw.githubusercontent.com/tschaffter/genenetweaver/c5310349f5d5723306585c2bb62aedbdeb70db46/lib/gnw-networks.jar",
+        "sha256": "1bb1128431fca714504c956c54e8a77ddc08b8d205be1f8f63b9ae0782bcc5ac"
+      },
+      {
+        "name": "DREAM4_1.30.0.tar.gz",
+        "url": "https://bioconductor.org/packages/3.14/data/experiment/src/contrib/DREAM4_1.30.0.tar.gz",
+        "sha256": "3b10c742e0be65c47e1c9242e8b81ebbefdb9ff8025fcb7961870c4524b2203f"
+      },
+      {
+        "name": "yeast.matrix",
+        "url": "http://arep.med.harvard.edu/biclustering/yeast.matrix",
+        "sha256": "8be03510d772f20d97c81b973e11314a3637de43dd56f4ad945c1464aaeb9b75"
+      },
+      {
+        "name": "yeast.genes",
+        "url": "http://arep.med.harvard.edu/biclustering/yeast.genes",
+        "sha256": "20bac410511fd295771a6b074706f1532d04f14e7361c7060f8b535c9d10e379"
+      },
+      {
+        "name": "GDS3702.soft.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/datasets/GDS3nnn/GDS3702/soft/GDS3702.soft.gz",
+        "sha256": "5c8fb62f79323cec7dbbff8ee3e041f1e28691450ab237a0905cd1bb8b4e6a43"
+      },
+      {
+        "name": "GDS958.soft.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/datasets/GDSnnn/GDS958/soft/GDS958.soft.gz",
+        "sha256": "ac9b144dc9d5451630445e6cf670299b8a2be8b0aeda9310027b6e309c8aa56f"
+      },
+      {
+        "name": "GDS825.soft.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/datasets/GDSnnn/GDS825/soft/GDS825.soft.gz",
+        "sha256": "85b2e98ad94e9bf17f0d9921b8eb33827655cf8673b69979c2d7b67ee4f0b440"
+      },
+      {
+        "name": "logcho_237_4class.txt",
+        "url": "http://faculty.washington.edu/kayee/cluster/logcho_237_4class.txt",
+        "sha256": "2e753b4936f1519e15b22c4b5b3d550092237fe7af2b76020072e69194278e2e"
+      },
+      {
+        "name": "normcho_237_4class.txt",
+        "url": "http://faculty.washington.edu/kayee/cluster/normcho_237_4class.txt",
+        "sha256": "e543549032acd08203b56037d5b870ee6cf5f3ffc2e4789375cacddb9b641501"
+      },
+      {
+        "name": "log_cellcycle_384_17.txt",
+        "url": "http://faculty.washington.edu/kayee/cluster/log_cellcycle_384_17.txt",
+        "sha256": "da0776b93460c1dedd8956bc3fd95cc258327ed5478422ef59a37e13aa4d7de7"
+      },
+      {
+        "name": "go-basic.obo",
+        "url": "https://release.geneontology.org/2026-08-05/ontology/go-basic.obo",
+        "sha256": "b08d45b268b8c24ccb2513dbbbc7d4df9f6521c099b413f79eb31e06e0fa3bcc"
+      },
+      {
+        "name": "YEAST-mod.gaf.gz",
+        "url": "https://release.geneontology.org/2026-08-05/annotations/gaf/YEAST-mod.gaf.gz",
+        "sha256": "bea6d4453bb47db293d9103b73866801fe8e341975e5f8b5f3ca42053098d089"
+      },
+      {
+        "name": "RAT-mod.gaf.gz",
+        "url": "https://release.geneontology.org/2026-08-05/annotations/gaf/RAT-mod.gaf.gz",
+        "sha256": "c34076e471912d3e00b2fc6ae4959d51d23d2d31de7dab35fcaa38955c8fa612"
+      },
+      {
+        "name": "MOUSE-mod.gaf.gz",
+        "url": "https://release.geneontology.org/2026-08-05/annotations/gaf/MOUSE-mod.gaf.gz",
+        "sha256": "6cbefce3a2efd9862f102a2732e923fde525c8fa59a3e5ce22e8178c3ebb0093"
+      },
+      {
+        "name": "published fig1.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig1_HTML.jpg",
+        "sha256": "0f582ac5c38b896c84c1cae9c4a95fd7bba8724a20be97d736015279d188af09"
+      },
+      {
+        "name": "published fig2.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig2_HTML.jpg",
+        "sha256": "062be90c5698ca62fbc8c02338e5cf0a8848400bcb4e9017f16d2aba534f8e59"
+      },
+      {
+        "name": "published fig3.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig3_HTML.jpg",
+        "sha256": "3f6adf2691fa1e06a41f0e628600a77d07d79398a4b1ebcb1798d0cc45cd4d29"
+      },
+      {
+        "name": "published fig4.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig4_HTML.jpg",
+        "sha256": "2f2e0374df7415dc58c30569820c922d46162e63a93770b3028be9911186e3d7"
+      },
+      {
+        "name": "published fig5.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig5_HTML.jpg",
+        "sha256": "4c597cbf2958ce64c29915dbed13886c3613ff908f88c4f4b243fe7088e3e3ba"
+      },
+      {
+        "name": "published fig6.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig6_HTML.jpg",
+        "sha256": "73be27298cce32e1e16608d098104af64bae6a48ba56f076a463777a8eafc031"
+      },
+      {
+        "name": "published fig7.jpg",
+        "url": "https://media.springernature.com/original/springer-static/image/art%3A10.1186%2F1471-2105-15-S7-S10/MediaObjects/12859_2014_Article_6420_Fig7_HTML.jpg",
+        "sha256": "7df9a425fafcad554cd3aacc339a2c60b869bcce237010f76587e369b1708d64"
+      }
+    ]
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1, shifting and scaling patterns",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A sketch of two kinds of pattern; it plots no data.",
+        "evidence": [
+          "figure-reproduction/published/fig1.jpg"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, inverted profiles of Mrps26 and Pfn2 (GDS3702)",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "pixels",
+      "assumptions": [
+        {
+          "what": "The two series are GDS3702 probes 1367526_at and 1367970_at, the first probe of each gene in the file, in GEO's sample order",
+          "source": "our_choice",
+          "sensitivity": "The other Mrps26 probe (1375166_at) has values near 1 and would sit on the x axis; the wrong-input controls replace each series by the neighbouring probe in the file"
+        },
+        {
+          "what": "Line width 5 px and marker size 20 px (presentation)",
+          "source": "read_from_figure",
+          "sensitivity": "Width and marker size change only how much ink is drawn, not where; the near-miss controls (amplitude x0.95 and x1.05, shifts of 1% of the axis) score 37% to 85% at the same width"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (publisher original)",
+        "published_near_ours": 0.9292,
+        "ours_near_published": 0.9453,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "Mrps26 -> 1367525_at",
+            "kind": "wrong_input",
+            "score": 0.5517
+          },
+          {
+            "name": "Mrps26 -> 1367527_at",
+            "kind": "wrong_input",
+            "score": 0.5206
+          },
+          {
+            "name": "Pfn2 -> 1367969_at",
+            "kind": "wrong_input",
+            "score": 0.4104
+          },
+          {
+            "name": "Pfn2 -> 1367971_at",
+            "kind": "wrong_input",
+            "score": 0.4086
+          },
+          {
+            "name": "amplitude x1.05",
+            "kind": "near_miss",
+            "score": 0.8529
+          },
+          {
+            "name": "amplitude x0.95",
+            "kind": "near_miss",
+            "score": 0.8121
+          },
+          {
+            "name": "shifted +1% of the y range",
+            "kind": "near_miss",
+            "score": 0.5967
+          },
+          {
+            "name": "shifted -1% of the y range",
+            "kind": "near_miss",
+            "score": 0.3688
+          }
+        ],
+        "axes": {
+          "box": [
+            142.0,
+            1156.0,
+            82.5,
+            903.5
+          ],
+          "x_fit_residual_px": 1.26204,
+          "y_fit_residual_px": 0.3,
+          "ticks": {
+            "x": {
+              "matched": 5,
+              "expected": 5
+            },
+            "y": {
+              "matched": 8,
+              "expected": 8
+            }
+          }
+        }
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig2_ours.png",
+        "figure-reproduction/output/figures/fig2_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, mixed patterns of YBL002W, YBL003C and YBL006W (yeast)",
+      "kind": "figure",
+      "source": "public_data",
+      "method": "pixels",
+      "assumptions": [
+        {
+          "what": "The data are Cheng and Church's yeast matrix (ref. 25, yeast.matrix and yeast.genes), whose rows match the figure value for value; the figure's YBL006W is the matrix's YBL006C",
+          "source": "found_by_search",
+          "sensitivity": "Identified by the values: all 51 plotted values are the matrix's; the neighbouring rows score 75% or less"
+        },
+        {
+          "what": "Line width 2 px and marker size 16 px (presentation)",
+          "source": "read_from_figure",
+          "sensitivity": "Width and marker size change only how much ink is drawn, not where; the controls score 75% or less at the same width"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (publisher original)",
+        "published_near_ours": 0.9626,
+        "ours_near_published": 0.9633,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "YBL002W -> YBL001C",
+            "kind": "wrong_input",
+            "score": 0.697
+          },
+          {
+            "name": "YBL002W -> YBL003C",
+            "kind": "wrong_input",
+            "score": 0.7536
+          },
+          {
+            "name": "YBL003C -> YBL002W",
+            "kind": "wrong_input",
+            "score": 0.647
+          },
+          {
+            "name": "YBL003C -> YBL004W",
+            "kind": "wrong_input",
+            "score": 0.6342
+          },
+          {
+            "name": "YBL006W (YBL006C in the data) -> YBL005W",
+            "kind": "wrong_input",
+            "score": 0.6469
+          },
+          {
+            "name": "YBL006W (YBL006C in the data) -> YBL008W",
+            "kind": "wrong_input",
+            "score": 0.6384
+          },
+          {
+            "name": "amplitude x1.05",
+            "kind": "near_miss",
+            "score": 0.729
+          },
+          {
+            "name": "amplitude x0.95",
+            "kind": "near_miss",
+            "score": 0.7319
+          },
+          {
+            "name": "shifted +1% of the y range",
+            "kind": "near_miss",
+            "score": 0.3431
+          },
+          {
+            "name": "shifted -1% of the y range",
+            "kind": "near_miss",
+            "score": 0.4169
+          }
+        ],
+        "axes": {
+          "box": [
+            120.5,
+            1168.5,
+            61.5,
+            877.5
+          ],
+          "x_fit_residual_px": 1.194595,
+          "y_fit_residual_px": 0.642857,
+          "ticks": {
+            "x": {
+              "matched": 8,
+              "expected": 8
+            },
+            "y": {
+              "matched": 5,
+              "expected": 5
+            }
+          }
+        }
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig4.aupr",
+      "label": "Fig. 4a, AUPR bars against Table 2",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Bar heights read off the published panel (axes fitted to the frame and tick marks; one pixel is 0.0015)",
+          "source": "read_from_figure",
+          "sensitivity": "A reading error of 3 px is 0.0045, inside the 0.01 tolerance (half the printed unit plus the reading error)"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png",
+        "figure-reproduction/output/figures/fig4_run.png"
+      ],
+      "note": "D11's GeCON bar is hidden by the legend and has no field.",
+      "values": {
+        "fields": [
+          {
+            "name": "D1 gecon",
+            "expected": "0.7",
+            "observed": 0.701
+          },
+          {
+            "name": "D1 aracne",
+            "expected": "0.177",
+            "observed": 0.181
+          },
+          {
+            "name": "D1 clr",
+            "expected": "0.23",
+            "observed": 0.234
+          },
+          {
+            "name": "D1 mrnet",
+            "expected": "0.218",
+            "observed": 0.219
+          },
+          {
+            "name": "D2 gecon",
+            "expected": "0.74",
+            "observed": 0.741
+          },
+          {
+            "name": "D2 aracne",
+            "expected": "0.229",
+            "observed": 0.233
+          },
+          {
+            "name": "D2 clr",
+            "expected": "0.27",
+            "observed": 0.273
+          },
+          {
+            "name": "D2 mrnet",
+            "expected": "0.22",
+            "observed": 0.222
+          },
+          {
+            "name": "D3 gecon",
+            "expected": "0.55",
+            "observed": 0.551
+          },
+          {
+            "name": "D3 aracne",
+            "expected": "0.04",
+            "observed": 0.043
+          },
+          {
+            "name": "D3 clr",
+            "expected": "0.03",
+            "observed": 0.034
+          },
+          {
+            "name": "D3 mrnet",
+            "expected": "0.04",
+            "observed": 0.043
+          },
+          {
+            "name": "D4 gecon",
+            "expected": "0.53",
+            "observed": 0.532
+          },
+          {
+            "name": "D4 aracne",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D4 clr",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D4 mrnet",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D5 gecon",
+            "expected": "0.5",
+            "observed": 0.502
+          },
+          {
+            "name": "D5 aracne",
+            "expected": "0.14",
+            "observed": 0.141
+          },
+          {
+            "name": "D5 clr",
+            "expected": "0.17",
+            "observed": 0.173
+          },
+          {
+            "name": "D5 mrnet",
+            "expected": "0.14",
+            "observed": 0.141
+          },
+          {
+            "name": "D6 gecon",
+            "expected": "0.84",
+            "observed": 0.842
+          },
+          {
+            "name": "D6 aracne",
+            "expected": "0.43",
+            "observed": 0.431
+          },
+          {
+            "name": "D6 clr",
+            "expected": "0.45",
+            "observed": 0.451
+          },
+          {
+            "name": "D6 mrnet",
+            "expected": "0.43",
+            "observed": 0.431
+          },
+          {
+            "name": "D7 gecon",
+            "expected": "0.56",
+            "observed": 0.56
+          },
+          {
+            "name": "D7 aracne",
+            "expected": "0.05",
+            "observed": 0.053
+          },
+          {
+            "name": "D7 clr",
+            "expected": "0.06",
+            "observed": 0.065
+          },
+          {
+            "name": "D7 mrnet",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D8 gecon",
+            "expected": "0.58",
+            "observed": 0.581
+          },
+          {
+            "name": "D8 aracne",
+            "expected": "0.11",
+            "observed": 0.111
+          },
+          {
+            "name": "D8 clr",
+            "expected": "0.11",
+            "observed": 0.112
+          },
+          {
+            "name": "D8 mrnet",
+            "expected": "0.11",
+            "observed": 0.111
+          },
+          {
+            "name": "D9 gecon",
+            "expected": "0.74",
+            "observed": 0.74
+          },
+          {
+            "name": "D9 aracne",
+            "expected": "0.31",
+            "observed": 0.316
+          },
+          {
+            "name": "D9 clr",
+            "expected": "0.34",
+            "observed": 0.345
+          },
+          {
+            "name": "D9 mrnet",
+            "expected": "0.38",
+            "observed": 0.382
+          },
+          {
+            "name": "D10 gecon",
+            "expected": "0.75",
+            "observed": 0.75
+          },
+          {
+            "name": "D10 aracne",
+            "expected": "0.32",
+            "observed": 0.323
+          },
+          {
+            "name": "D10 clr",
+            "expected": "0.29",
+            "observed": 0.293
+          },
+          {
+            "name": "D10 mrnet",
+            "expected": "0.33",
+            "observed": 0.333
+          },
+          {
+            "name": "D11 aracne",
+            "expected": "0.3",
+            "observed": 0.301
+          },
+          {
+            "name": "D11 clr",
+            "expected": "0.32",
+            "observed": 0.326
+          },
+          {
+            "name": "D11 mrnet",
+            "expected": "0.3",
+            "observed": 0.301
+          },
+          {
+            "name": "D12 gecon",
+            "expected": "0.48",
+            "observed": 0.483
+          },
+          {
+            "name": "D12 aracne",
+            "expected": "0.02",
+            "observed": 0.023
+          },
+          {
+            "name": "D12 clr",
+            "expected": "0.03",
+            "observed": 0.034
+          },
+          {
+            "name": "D12 mrnet",
+            "expected": "0.02",
+            "observed": 0.023
+          },
+          {
+            "name": "D13 gecon",
+            "expected": "0.52",
+            "observed": 0.522
+          },
+          {
+            "name": "D13 aracne",
+            "expected": "0.04",
+            "observed": 0.043
+          },
+          {
+            "name": "D13 clr",
+            "expected": "0.04",
+            "observed": 0.043
+          },
+          {
+            "name": "D13 mrnet",
+            "expected": "0.05",
+            "observed": 0.053
+          }
+        ],
+        "tolerance": {
+          "abs": 0.01
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig4.auroc",
+      "label": "Fig. 4b, AUROC bars against Table 2",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Bar heights read off the published panel (one pixel is 0.0013)",
+          "source": "read_from_figure",
+          "sensitivity": "A reading error of 3 px is 0.004, inside the 0.01 tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png",
+        "figure-reproduction/output/figures/fig4_run.png"
+      ],
+      "note": "D11's GeCON bar is hidden by the legend and has no field.",
+      "values": {
+        "fields": [
+          {
+            "name": "D1 gecon",
+            "expected": "0.63",
+            "observed": 0.633
+          },
+          {
+            "name": "D1 aracne",
+            "expected": "0.416",
+            "observed": 0.419
+          },
+          {
+            "name": "D1 clr",
+            "expected": "0.59",
+            "observed": 0.592
+          },
+          {
+            "name": "D1 mrnet",
+            "expected": "0.517",
+            "observed": 0.519
+          },
+          {
+            "name": "D2 gecon",
+            "expected": "0.68",
+            "observed": 0.682
+          },
+          {
+            "name": "D2 aracne",
+            "expected": "0.35",
+            "observed": 0.352
+          },
+          {
+            "name": "D2 clr",
+            "expected": "0.49",
+            "observed": 0.494
+          },
+          {
+            "name": "D2 mrnet",
+            "expected": "0.35",
+            "observed": 0.352
+          },
+          {
+            "name": "D3 gecon",
+            "expected": "0.52",
+            "observed": 0.525
+          },
+          {
+            "name": "D3 aracne",
+            "expected": "0.45",
+            "observed": 0.453
+          },
+          {
+            "name": "D3 clr",
+            "expected": "0.43",
+            "observed": 0.434
+          },
+          {
+            "name": "D3 mrnet",
+            "expected": "0.42",
+            "observed": 0.422
+          },
+          {
+            "name": "D4 gecon",
+            "expected": "0.53",
+            "observed": 0.531
+          },
+          {
+            "name": "D4 aracne",
+            "expected": "0.47",
+            "observed": 0.473
+          },
+          {
+            "name": "D4 clr",
+            "expected": "0.48",
+            "observed": 0.482
+          },
+          {
+            "name": "D4 mrnet",
+            "expected": "0.49",
+            "observed": 0.493
+          },
+          {
+            "name": "D5 gecon",
+            "expected": "0.56",
+            "observed": 0.563
+          },
+          {
+            "name": "D5 aracne",
+            "expected": "0.36",
+            "observed": 0.364
+          },
+          {
+            "name": "D5 clr",
+            "expected": "0.46",
+            "observed": 0.463
+          },
+          {
+            "name": "D5 mrnet",
+            "expected": "0.32",
+            "observed": 0.323
+          },
+          {
+            "name": "D6 gecon",
+            "expected": "0.78",
+            "observed": 0.783
+          },
+          {
+            "name": "D6 aracne",
+            "expected": "0.43",
+            "observed": 0.434
+          },
+          {
+            "name": "D6 clr",
+            "expected": "0.47",
+            "observed": 0.473
+          },
+          {
+            "name": "D6 mrnet",
+            "expected": "0.43",
+            "observed": 0.434
+          },
+          {
+            "name": "D7 gecon",
+            "expected": "0.53",
+            "observed": 0.531
+          },
+          {
+            "name": "D7 aracne",
+            "expected": "0.46",
+            "observed": 0.461
+          },
+          {
+            "name": "D7 clr",
+            "expected": "0.49",
+            "observed": 0.494
+          },
+          {
+            "name": "D7 mrnet",
+            "expected": "0.5",
+            "observed": 0.502
+          },
+          {
+            "name": "D8 gecon",
+            "expected": "0.56",
+            "observed": 0.563
+          },
+          {
+            "name": "D8 aracne",
+            "expected": "0.48",
+            "observed": 0.482
+          },
+          {
+            "name": "D8 clr",
+            "expected": "0.48",
+            "observed": 0.482
+          },
+          {
+            "name": "D8 mrnet",
+            "expected": "0.49",
+            "observed": 0.494
+          },
+          {
+            "name": "D9 gecon",
+            "expected": "0.67",
+            "observed": 0.674
+          },
+          {
+            "name": "D9 aracne",
+            "expected": "0.51",
+            "observed": 0.512
+          },
+          {
+            "name": "D9 clr",
+            "expected": "0.64",
+            "observed": 0.642
+          },
+          {
+            "name": "D9 mrnet",
+            "expected": "0.62",
+            "observed": 0.621
+          },
+          {
+            "name": "D10 gecon",
+            "expected": "0.68",
+            "observed": 0.682
+          },
+          {
+            "name": "D10 aracne",
+            "expected": "0.6",
+            "observed": 0.601
+          },
+          {
+            "name": "D10 clr",
+            "expected": "0.63",
+            "observed": 0.633
+          },
+          {
+            "name": "D10 mrnet",
+            "expected": "0.65",
+            "observed": 0.653
+          },
+          {
+            "name": "D11 aracne",
+            "expected": "0.5",
+            "observed": 0.502
+          },
+          {
+            "name": "D11 clr",
+            "expected": "0.56",
+            "observed": 0.563
+          },
+          {
+            "name": "D11 mrnet",
+            "expected": "0.5",
+            "observed": 0.502
+          },
+          {
+            "name": "D12 gecon",
+            "expected": "0.51",
+            "observed": 0.512
+          },
+          {
+            "name": "D12 aracne",
+            "expected": "0.45",
+            "observed": 0.452
+          },
+          {
+            "name": "D12 clr",
+            "expected": "0.46",
+            "observed": 0.463
+          },
+          {
+            "name": "D12 mrnet",
+            "expected": "0.41",
+            "observed": 0.413
+          },
+          {
+            "name": "D13 gecon",
+            "expected": "0.52",
+            "observed": 0.522
+          },
+          {
+            "name": "D13 aracne",
+            "expected": "0.46",
+            "observed": 0.463
+          },
+          {
+            "name": "D13 clr",
+            "expected": "0.51",
+            "observed": 0.533
+          },
+          {
+            "name": "D13 mrnet",
+            "expected": "0.55",
+            "observed": 0.551
+          }
+        ],
+        "tolerance": {
+          "abs": 0.01
+        },
+        "exceptions": [
+          {
+            "field": "D13 clr",
+            "category": "paper_error",
+            "evidence": "figure-reproduction/output/fig4.json: the bar stands at 0.533 (about 0.53), Table 2 prints 0.51; every other AUROC bar is within 0.006 of the table, and every bar of the three panels within 0.01"
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig4.f",
+      "label": "Fig. 4c, F0.5 bars against Table 2",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Bar heights read off the published panel (one pixel is 0.0015)",
+          "source": "read_from_figure",
+          "sensitivity": "A reading error of 3 px is 0.0045, inside the 0.01 tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png",
+        "figure-reproduction/output/figures/fig4_run.png"
+      ],
+      "note": "D11's GeCON bar is hidden by the legend and has no field.",
+      "values": {
+        "fields": [
+          {
+            "name": "D1 gecon",
+            "expected": "0.62",
+            "observed": 0.622
+          },
+          {
+            "name": "D1 aracne",
+            "expected": "0.271",
+            "observed": 0.276
+          },
+          {
+            "name": "D1 clr",
+            "expected": "0.37",
+            "observed": 0.365
+          },
+          {
+            "name": "D1 mrnet",
+            "expected": "0.35",
+            "observed": 0.352
+          },
+          {
+            "name": "D2 gecon",
+            "expected": "0.71",
+            "observed": 0.711
+          },
+          {
+            "name": "D2 aracne",
+            "expected": "0.35",
+            "observed": 0.352
+          },
+          {
+            "name": "D2 clr",
+            "expected": "0.39",
+            "observed": 0.399
+          },
+          {
+            "name": "D2 mrnet",
+            "expected": "0.35",
+            "observed": 0.352
+          },
+          {
+            "name": "D3 gecon",
+            "expected": "0.21",
+            "observed": 0.213
+          },
+          {
+            "name": "D3 aracne",
+            "expected": "0.063",
+            "observed": 0.066
+          },
+          {
+            "name": "D3 clr",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D3 mrnet",
+            "expected": "0.06",
+            "observed": 0.062
+          },
+          {
+            "name": "D4 gecon",
+            "expected": "0.26",
+            "observed": 0.26
+          },
+          {
+            "name": "D4 aracne",
+            "expected": "0.09",
+            "observed": 0.093
+          },
+          {
+            "name": "D4 clr",
+            "expected": "0.1",
+            "observed": 0.103
+          },
+          {
+            "name": "D4 mrnet",
+            "expected": "0.08",
+            "observed": 0.082
+          },
+          {
+            "name": "D5 gecon",
+            "expected": "0.41",
+            "observed": 0.411
+          },
+          {
+            "name": "D5 aracne",
+            "expected": "0.24",
+            "observed": 0.241
+          },
+          {
+            "name": "D5 clr",
+            "expected": "0.26",
+            "observed": 0.26
+          },
+          {
+            "name": "D5 mrnet",
+            "expected": "0.24",
+            "observed": 0.241
+          },
+          {
+            "name": "D6 gecon",
+            "expected": "0.86",
+            "observed": 0.86
+          },
+          {
+            "name": "D6 aracne",
+            "expected": "0.56",
+            "observed": 0.561
+          },
+          {
+            "name": "D6 clr",
+            "expected": "0.6",
+            "observed": 0.604
+          },
+          {
+            "name": "D6 mrnet",
+            "expected": "0.56",
+            "observed": 0.561
+          },
+          {
+            "name": "D7 gecon",
+            "expected": "0.25",
+            "observed": 0.251
+          },
+          {
+            "name": "D7 aracne",
+            "expected": "0.08",
+            "observed": 0.082
+          },
+          {
+            "name": "D7 clr",
+            "expected": "0.08",
+            "observed": 0.085
+          },
+          {
+            "name": "D7 mrnet",
+            "expected": "0.1",
+            "observed": 0.102
+          },
+          {
+            "name": "D8 gecon",
+            "expected": "0.41",
+            "observed": 0.41
+          },
+          {
+            "name": "D8 aracne",
+            "expected": "0.16",
+            "observed": 0.162
+          },
+          {
+            "name": "D8 clr",
+            "expected": "0.15",
+            "observed": 0.155
+          },
+          {
+            "name": "D8 mrnet",
+            "expected": "0.17",
+            "observed": 0.173
+          },
+          {
+            "name": "D9 gecon",
+            "expected": "0.71",
+            "observed": 0.711
+          },
+          {
+            "name": "D9 aracne",
+            "expected": "0.45",
+            "observed": 0.45
+          },
+          {
+            "name": "D9 clr",
+            "expected": "0.45",
+            "observed": 0.45
+          },
+          {
+            "name": "D9 mrnet",
+            "expected": "0.51",
+            "observed": 0.512
+          },
+          {
+            "name": "D10 gecon",
+            "expected": "0.73",
+            "observed": 0.73
+          },
+          {
+            "name": "D10 aracne",
+            "expected": "0.52",
+            "observed": 0.521
+          },
+          {
+            "name": "D10 clr",
+            "expected": "0.39",
+            "observed": 0.397
+          },
+          {
+            "name": "D10 mrnet",
+            "expected": "0.44",
+            "observed": 0.439
+          },
+          {
+            "name": "D11 aracne",
+            "expected": "0.4",
+            "observed": 0.402
+          },
+          {
+            "name": "D11 clr",
+            "expected": "0.42",
+            "observed": 0.42
+          },
+          {
+            "name": "D11 mrnet",
+            "expected": "0.4",
+            "observed": 0.401
+          },
+          {
+            "name": "D12 gecon",
+            "expected": "0.15",
+            "observed": 0.15
+          },
+          {
+            "name": "D12 aracne",
+            "expected": "0.042",
+            "observed": 0.042
+          },
+          {
+            "name": "D12 clr",
+            "expected": "0.044",
+            "observed": 0.051
+          },
+          {
+            "name": "D12 mrnet",
+            "expected": "0.041",
+            "observed": 0.042
+          },
+          {
+            "name": "D13 gecon",
+            "expected": "0.2",
+            "observed": 0.202
+          },
+          {
+            "name": "D13 aracne",
+            "expected": "0.069",
+            "observed": 0.072
+          },
+          {
+            "name": "D13 clr",
+            "expected": "0.066",
+            "observed": 0.07
+          },
+          {
+            "name": "D13 mrnet",
+            "expected": "0.09",
+            "observed": 0.091
+          }
+        ],
+        "tolerance": {
+          "abs": 0.01
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5, run time of GeCON and ARACNE",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The six sizes (250, 1000, 1500, 2000, 2585, 3000 genes) read off the figure's markers",
+          "source": "read_from_figure",
+          "sensitivity": "The comparison is per size; GeCON is faster at every size measured, so a size off by 50 genes changes nothing"
+        },
+        {
+          "what": "ARACNE is minet's (C++ via R, with its mutual-information matrix), GeCON is this package (Python, NumPy); the paper's Java programs are gone",
+          "source": "our_choice",
+          "sensitivity": "Absolute times are not comparable with the paper's; fig5.json gives the one scale factor per method that places our curves on the paper's axis"
+        },
+        {
+          "what": "Inputs are random log-normal matrices of 50 time points (seed 1), not GNW simulations",
+          "source": "our_choice",
+          "sensitivity": "Neither method's run time depends on the values"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "measured": {
+        "ours_seconds": {
+          "aracne": [
+            0.046,
+            1.957,
+            6.565,
+            16.18,
+            34.794,
+            56.105
+          ],
+          "gecon": [
+            0.028,
+            0.334,
+            0.767,
+            1.405,
+            2.701,
+            3.647
+          ]
+        },
+        "published_read": {
+          "sizes": [
+            250,
+            1000,
+            1500,
+            2000,
+            2585,
+            3000
+          ],
+          "aracne": [
+            4.5,
+            17.0,
+            34.0,
+            61.0,
+            103.0,
+            256.0
+          ],
+          "gecon": [
+            null,
+            null,
+            1.9,
+            3.0,
+            5.0,
+            11.2
+          ]
+        },
+        "scale_to_paper": {
+          "aracne": 7.794,
+          "gecon": 2.342
+        }
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "faster at 250 genes",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "faster at 1000 genes",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "faster at 1500 genes",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "faster at 2000 genes",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "faster at 2585 genes",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "faster at 3000 genes",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig6",
+      "label": "Fig. 6, networks, profiles and heat maps of selected modules",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Pictures of selected modules from the real datasets; the paper does not say which modules, which theta, or how a module was cut from the network, and gives no module's gene list except three GDS3702 modules in the text.",
+        "evidence": [
+          "figure-reproduction/published/fig6.jpg"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig7",
+      "label": "Fig. 7, the worked example drawn",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "assumptions": [
+        {
+          "what": "Line width 3 px (presentation)",
+          "source": "read_from_figure",
+          "sensitivity": "Width changes only how much ink is drawn; the controls score 26% or less at the same width"
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": "1200 px wide (publisher original)",
+        "published_near_ours": 0.9536,
+        "ours_near_published": 0.9664,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "G = {343, 314, 409} -> YBL002W",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "G = {343, 314, 409} -> YBL004W",
+            "kind": "wrong_input",
+            "score": 0.0095
+          },
+          {
+            "name": "amplitude x1.05",
+            "kind": "near_miss",
+            "score": 0.1883
+          },
+          {
+            "name": "amplitude x0.95",
+            "kind": "near_miss",
+            "score": 0.255
+          },
+          {
+            "name": "shifted +1% of the y range",
+            "kind": "near_miss",
+            "score": 0.0326
+          },
+          {
+            "name": "shifted -1% of the y range",
+            "kind": "near_miss",
+            "score": 0.0719
+          }
+        ],
+        "axes": {
+          "box": [
+            110.5,
+            1177.5,
+            33.5,
+            684.5
+          ],
+          "x_fit_residual_px": 1.6,
+          "y_fit_residual_px": 0.821429,
+          "ticks": {
+            "x": {
+              "matched": 3,
+              "expected": 3
+            },
+            "y": {
+              "matched": 5,
+              "expected": 5
+            }
+          }
+        }
+      },
+      "outputs": [
+        "figure-reproduction/output/figures/fig7_ours.png",
+        "figure-reproduction/output/figures/fig7_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig7.values",
+      "label": "Fig. 7 and Eq. (5): G = {343, 314, 409} becomes {138, -1; 52, 1}",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "angle, edge 1",
+            "expected": "138",
+            "observed": "137.5274"
+          },
+          {
+            "name": "angle, edge 2",
+            "expected": "52",
+            "observed": "52.4856"
+          },
+          {
+            "name": "regulation, edge 1",
+            "expected": "-1",
+            "observed": "-1"
+          },
+          {
+            "name": "regulation, edge 2",
+            "expected": "1",
+            "observed": "1"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, the 13 in silico networks and their sizes",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "D1 Ecoli1 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D2 Ecoli2 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D3 Ecoli1 size",
+            "expected": "50",
+            "observed": "50"
+          },
+          {
+            "name": "D4 Ecoli2 size",
+            "expected": "50",
+            "observed": "50"
+          },
+          {
+            "name": "D5 Yeast1 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D6 Yeast2 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D7 Yeast1 size",
+            "expected": "50",
+            "observed": "50"
+          },
+          {
+            "name": "D8 Yeast2 size",
+            "expected": "50",
+            "observed": "50"
+          },
+          {
+            "name": "D9 insilico1 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D10 insilico2 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D11 insilico3 size",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "D12 insilico1 size",
+            "expected": "100",
+            "observed": "100"
+          },
+          {
+            "name": "D13 insilico2 size",
+            "expected": "100",
+            "observed": "100"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "table2.aupr",
+      "label": "Table 2, AUPR of GeCON, ARACNE, CLR and MRNET on D1 to D13",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "D1 GeCON",
+            "expected": "0.7",
+            "observed": 0.243
+          },
+          {
+            "name": "D1 ARACNE",
+            "expected": "0.177",
+            "observed": 0.2285
+          },
+          {
+            "name": "D1 CLR",
+            "expected": "0.23",
+            "observed": 0.2745
+          },
+          {
+            "name": "D1 MRNET",
+            "expected": "0.218",
+            "observed": 0.2245
+          },
+          {
+            "name": "D2 GeCON",
+            "expected": "0.74",
+            "observed": 0.4662
+          },
+          {
+            "name": "D2 ARACNE",
+            "expected": "0.229",
+            "observed": 0.2474
+          },
+          {
+            "name": "D2 CLR",
+            "expected": "0.27",
+            "observed": 0.2792
+          },
+          {
+            "name": "D2 MRNET",
+            "expected": "0.22",
+            "observed": 0.2975
+          },
+          {
+            "name": "D3 GeCON",
+            "expected": "0.55",
+            "observed": 0.0403
+          },
+          {
+            "name": "D3 ARACNE",
+            "expected": "0.04",
+            "observed": 0.0672
+          },
+          {
+            "name": "D3 CLR",
+            "expected": "0.03",
+            "observed": 0.0914
+          },
+          {
+            "name": "D3 MRNET",
+            "expected": "0.04",
+            "observed": 0.0883
+          },
+          {
+            "name": "D4 GeCON",
+            "expected": "0.53",
+            "observed": 0.0737
+          },
+          {
+            "name": "D4 ARACNE",
+            "expected": "0.06",
+            "observed": 0.1241
+          },
+          {
+            "name": "D4 CLR",
+            "expected": "0.06",
+            "observed": 0.1292
+          },
+          {
+            "name": "D4 MRNET",
+            "expected": "0.06",
+            "observed": 0.1399
+          },
+          {
+            "name": "D5 GeCON",
+            "expected": "0.5",
+            "observed": 0.1412
+          },
+          {
+            "name": "D5 ARACNE",
+            "expected": "0.14",
+            "observed": 0.2129
+          },
+          {
+            "name": "D5 CLR",
+            "expected": "0.17",
+            "observed": 0.2461
+          },
+          {
+            "name": "D5 MRNET",
+            "expected": "0.14",
+            "observed": 0.2577
+          },
+          {
+            "name": "D6 GeCON",
+            "expected": "0.84",
+            "observed": 0.5254
+          },
+          {
+            "name": "D6 ARACNE",
+            "expected": "0.43",
+            "observed": 0.7076
+          },
+          {
+            "name": "D6 CLR",
+            "expected": "0.45",
+            "observed": 0.7413
+          },
+          {
+            "name": "D6 MRNET",
+            "expected": "0.43",
+            "observed": 0.6525
+          },
+          {
+            "name": "D7 GeCON",
+            "expected": "0.56",
+            "observed": 0.0933
+          },
+          {
+            "name": "D7 ARACNE",
+            "expected": "0.05",
+            "observed": 0.2187
+          },
+          {
+            "name": "D7 CLR",
+            "expected": "0.06",
+            "observed": 0.1958
+          },
+          {
+            "name": "D7 MRNET",
+            "expected": "0.06",
+            "observed": 0.2163
+          },
+          {
+            "name": "D8 GeCON",
+            "expected": "0.58",
+            "observed": 0.139
+          },
+          {
+            "name": "D8 ARACNE",
+            "expected": "0.11",
+            "observed": 0.1991
+          },
+          {
+            "name": "D8 CLR",
+            "expected": "0.11",
+            "observed": 0.2056
+          },
+          {
+            "name": "D8 MRNET",
+            "expected": "0.11",
+            "observed": 0.1885
+          },
+          {
+            "name": "D9 GeCON",
+            "expected": "0.74",
+            "observed": 0.3297
+          },
+          {
+            "name": "D9 ARACNE",
+            "expected": "0.31",
+            "observed": 0.5163
+          },
+          {
+            "name": "D9 CLR",
+            "expected": "0.34",
+            "observed": 0.5361
+          },
+          {
+            "name": "D9 MRNET",
+            "expected": "0.38",
+            "observed": 0.5295
+          },
+          {
+            "name": "D10 GeCON",
+            "expected": "0.75",
+            "observed": 0.1948
+          },
+          {
+            "name": "D10 ARACNE",
+            "expected": "0.32",
+            "observed": 0.3264
+          },
+          {
+            "name": "D10 CLR",
+            "expected": "0.29",
+            "observed": 0.3869
+          },
+          {
+            "name": "D10 MRNET",
+            "expected": "0.33",
+            "observed": 0.3703
+          },
+          {
+            "name": "D11 GeCON",
+            "expected": "0.74",
+            "observed": 0.3054
+          },
+          {
+            "name": "D11 ARACNE",
+            "expected": "0.3",
+            "observed": 0.5214
+          },
+          {
+            "name": "D11 CLR",
+            "expected": "0.32",
+            "observed": 0.4911
+          },
+          {
+            "name": "D11 MRNET",
+            "expected": "0.3",
+            "observed": 0.4976
+          },
+          {
+            "name": "D12 GeCON",
+            "expected": "0.48",
+            "observed": 0.0423
+          },
+          {
+            "name": "D12 ARACNE",
+            "expected": "0.02",
+            "observed": 0.088
+          },
+          {
+            "name": "D12 CLR",
+            "expected": "0.03",
+            "observed": 0.0921
+          },
+          {
+            "name": "D12 MRNET",
+            "expected": "0.02",
+            "observed": 0.0856
+          },
+          {
+            "name": "D13 GeCON",
+            "expected": "0.52",
+            "observed": 0.0424
+          },
+          {
+            "name": "D13 ARACNE",
+            "expected": "0.04",
+            "observed": 0.12
+          },
+          {
+            "name": "D13 CLR",
+            "expected": "0.04",
+            "observed": 0.1114
+          },
+          {
+            "name": "D13 MRNET",
+            "expected": "0.05",
+            "observed": 0.1154
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table2.auroc",
+      "label": "Table 2, AUROC",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "D1 GeCON",
+            "expected": "0.63",
+            "observed": 0.5348
+          },
+          {
+            "name": "D1 ARACNE",
+            "expected": "0.416",
+            "observed": 0.4893
+          },
+          {
+            "name": "D1 CLR",
+            "expected": "0.59",
+            "observed": 0.5735
+          },
+          {
+            "name": "D1 MRNET",
+            "expected": "0.517",
+            "observed": 0.4706
+          },
+          {
+            "name": "D2 GeCON",
+            "expected": "0.68",
+            "observed": 0.6644
+          },
+          {
+            "name": "D2 ARACNE",
+            "expected": "0.35",
+            "observed": 0.4189
+          },
+          {
+            "name": "D2 CLR",
+            "expected": "0.49",
+            "observed": 0.4356
+          },
+          {
+            "name": "D2 MRNET",
+            "expected": "0.35",
+            "observed": 0.4711
+          },
+          {
+            "name": "D3 GeCON",
+            "expected": "0.52",
+            "observed": 0.4085
+          },
+          {
+            "name": "D3 ARACNE",
+            "expected": "0.45",
+            "observed": 0.5194
+          },
+          {
+            "name": "D3 CLR",
+            "expected": "0.43",
+            "observed": 0.6342
+          },
+          {
+            "name": "D3 MRNET",
+            "expected": "0.42",
+            "observed": 0.6201
+          },
+          {
+            "name": "D4 GeCON",
+            "expected": "0.53",
+            "observed": 0.528
+          },
+          {
+            "name": "D4 ARACNE",
+            "expected": "0.47",
+            "observed": 0.5414
+          },
+          {
+            "name": "D4 CLR",
+            "expected": "0.48",
+            "observed": 0.6321
+          },
+          {
+            "name": "D4 MRNET",
+            "expected": "0.49",
+            "observed": 0.6361
+          },
+          {
+            "name": "D5 GeCON",
+            "expected": "0.56",
+            "observed": 0.2271
+          },
+          {
+            "name": "D5 ARACNE",
+            "expected": "0.36",
+            "observed": 0.4971
+          },
+          {
+            "name": "D5 CLR",
+            "expected": "0.46",
+            "observed": 0.5814
+          },
+          {
+            "name": "D5 MRNET",
+            "expected": "0.32",
+            "observed": 0.5771
+          },
+          {
+            "name": "D6 GeCON",
+            "expected": "0.78",
+            "observed": 0.505
+          },
+          {
+            "name": "D6 ARACNE",
+            "expected": "0.43",
+            "observed": 0.606
+          },
+          {
+            "name": "D6 CLR",
+            "expected": "0.47",
+            "observed": 0.7
+          },
+          {
+            "name": "D6 MRNET",
+            "expected": "0.43",
+            "observed": 0.602
+          },
+          {
+            "name": "D7 GeCON",
+            "expected": "0.53",
+            "observed": 0.6131
+          },
+          {
+            "name": "D7 ARACNE",
+            "expected": "0.46",
+            "observed": 0.6029
+          },
+          {
+            "name": "D7 CLR",
+            "expected": "0.49",
+            "observed": 0.6761
+          },
+          {
+            "name": "D7 MRNET",
+            "expected": "0.5",
+            "observed": 0.6741
+          },
+          {
+            "name": "D8 GeCON",
+            "expected": "0.56",
+            "observed": 0.5007
+          },
+          {
+            "name": "D8 ARACNE",
+            "expected": "0.48",
+            "observed": 0.5375
+          },
+          {
+            "name": "D8 CLR",
+            "expected": "0.48",
+            "observed": 0.5609
+          },
+          {
+            "name": "D8 MRNET",
+            "expected": "0.49",
+            "observed": 0.5621
+          },
+          {
+            "name": "D9 GeCON",
+            "expected": "0.67",
+            "observed": 0.5589
+          },
+          {
+            "name": "D9 ARACNE",
+            "expected": "0.51",
+            "observed": 0.5757
+          },
+          {
+            "name": "D9 CLR",
+            "expected": "0.64",
+            "observed": 0.613
+          },
+          {
+            "name": "D9 MRNET",
+            "expected": "0.62",
+            "observed": 0.6118
+          },
+          {
+            "name": "D10 GeCON",
+            "expected": "0.68",
+            "observed": 0.2639
+          },
+          {
+            "name": "D10 ARACNE",
+            "expected": "0.6",
+            "observed": 0.4886
+          },
+          {
+            "name": "D10 CLR",
+            "expected": "0.63",
+            "observed": 0.5758
+          },
+          {
+            "name": "D10 MRNET",
+            "expected": "0.65",
+            "observed": 0.5783
+          },
+          {
+            "name": "D11 GeCON",
+            "expected": "0.67",
+            "observed": 0.4811
+          },
+          {
+            "name": "D11 ARACNE",
+            "expected": "0.5",
+            "observed": 0.5778
+          },
+          {
+            "name": "D11 CLR",
+            "expected": "0.56",
+            "observed": 0.62
+          },
+          {
+            "name": "D11 MRNET",
+            "expected": "0.5",
+            "observed": 0.5533
+          },
+          {
+            "name": "D12 GeCON",
+            "expected": "0.51",
+            "observed": 0.5563
+          },
+          {
+            "name": "D12 ARACNE",
+            "expected": "0.45",
+            "observed": 0.5549
+          },
+          {
+            "name": "D12 CLR",
+            "expected": "0.46",
+            "observed": 0.7009
+          },
+          {
+            "name": "D12 MRNET",
+            "expected": "0.41",
+            "observed": 0.6819
+          },
+          {
+            "name": "D13 GeCON",
+            "expected": "0.52",
+            "observed": 0.4577
+          },
+          {
+            "name": "D13 ARACNE",
+            "expected": "0.46",
+            "observed": 0.5398
+          },
+          {
+            "name": "D13 CLR",
+            "expected": "0.51",
+            "observed": 0.6317
+          },
+          {
+            "name": "D13 MRNET",
+            "expected": "0.55",
+            "observed": 0.6347
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table2.f",
+      "label": "Table 2, F0.5",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "D1 GeCON",
+            "expected": "0.62",
+            "observed": 0.3659
+          },
+          {
+            "name": "D1 ARACNE",
+            "expected": "0.271",
+            "observed": 0.3191
+          },
+          {
+            "name": "D1 CLR",
+            "expected": "0.37",
+            "observed": 0.4
+          },
+          {
+            "name": "D1 MRNET",
+            "expected": "0.35",
+            "observed": 0.3636
+          },
+          {
+            "name": "D2 GeCON",
+            "expected": "0.71",
+            "observed": 0.5495
+          },
+          {
+            "name": "D2 ARACNE",
+            "expected": "0.35",
+            "observed": 0.3846
+          },
+          {
+            "name": "D2 CLR",
+            "expected": "0.39",
+            "observed": 0.3846
+          },
+          {
+            "name": "D2 MRNET",
+            "expected": "0.35",
+            "observed": 0.404
+          },
+          {
+            "name": "D3 GeCON",
+            "expected": "0.21",
+            "observed": 0.0625
+          },
+          {
+            "name": "D3 ARACNE",
+            "expected": "0.063",
+            "observed": 0.1068
+          },
+          {
+            "name": "D3 CLR",
+            "expected": "0.06",
+            "observed": 0.1437
+          },
+          {
+            "name": "D3 MRNET",
+            "expected": "0.06",
+            "observed": 0.1592
+          },
+          {
+            "name": "D4 GeCON",
+            "expected": "0.26",
+            "observed": 0.101
+          },
+          {
+            "name": "D4 ARACNE",
+            "expected": "0.09",
+            "observed": 0.2655
+          },
+          {
+            "name": "D4 CLR",
+            "expected": "0.1",
+            "observed": 0.2055
+          },
+          {
+            "name": "D4 MRNET",
+            "expected": "0.08",
+            "observed": 0.2609
+          },
+          {
+            "name": "D5 GeCON",
+            "expected": "0.41",
+            "observed": 0.2632
+          },
+          {
+            "name": "D5 ARACNE",
+            "expected": "0.24",
+            "observed": 0.2632
+          },
+          {
+            "name": "D5 CLR",
+            "expected": "0.26",
+            "observed": 0.3788
+          },
+          {
+            "name": "D5 MRNET",
+            "expected": "0.24",
+            "observed": 0.3788
+          },
+          {
+            "name": "D6 GeCON",
+            "expected": "0.86",
+            "observed": 0.6536
+          },
+          {
+            "name": "D6 ARACNE",
+            "expected": "0.56",
+            "observed": 0.6154
+          },
+          {
+            "name": "D6 CLR",
+            "expected": "0.6",
+            "observed": 0.7216
+          },
+          {
+            "name": "D6 MRNET",
+            "expected": "0.56",
+            "observed": 0.6436
+          },
+          {
+            "name": "D7 GeCON",
+            "expected": "0.25",
+            "observed": 0.1434
+          },
+          {
+            "name": "D7 ARACNE",
+            "expected": "0.08",
+            "observed": 0.3468
+          },
+          {
+            "name": "D7 CLR",
+            "expected": "0.08",
+            "observed": 0.3346
+          },
+          {
+            "name": "D7 MRNET",
+            "expected": "0.1",
+            "observed": 0.3595
+          },
+          {
+            "name": "D8 GeCON",
+            "expected": "0.41",
+            "observed": 0.1786
+          },
+          {
+            "name": "D8 ARACNE",
+            "expected": "0.16",
+            "observed": 0.2183
+          },
+          {
+            "name": "D8 CLR",
+            "expected": "0.15",
+            "observed": 0.282
+          },
+          {
+            "name": "D8 MRNET",
+            "expected": "0.17",
+            "observed": 0.2612
+          },
+          {
+            "name": "D9 GeCON",
+            "expected": "0.71",
+            "observed": 0.4386
+          },
+          {
+            "name": "D9 ARACNE",
+            "expected": "0.45",
+            "observed": 0.6061
+          },
+          {
+            "name": "D9 CLR",
+            "expected": "0.45",
+            "observed": 0.6061
+          },
+          {
+            "name": "D9 MRNET",
+            "expected": "0.51",
+            "observed": 0.6061
+          },
+          {
+            "name": "D10 GeCON",
+            "expected": "0.73",
+            "observed": 0.3125
+          },
+          {
+            "name": "D10 ARACNE",
+            "expected": "0.52",
+            "observed": 0.3571
+          },
+          {
+            "name": "D10 CLR",
+            "expected": "0.39",
+            "observed": 0.4688
+          },
+          {
+            "name": "D10 MRNET",
+            "expected": "0.44",
+            "observed": 0.3947
+          },
+          {
+            "name": "D11 GeCON",
+            "expected": "0.71",
+            "observed": 0.3937
+          },
+          {
+            "name": "D11 ARACNE",
+            "expected": "0.4",
+            "observed": 0.5556
+          },
+          {
+            "name": "D11 CLR",
+            "expected": "0.42",
+            "observed": 0.4945
+          },
+          {
+            "name": "D11 MRNET",
+            "expected": "0.4",
+            "observed": 0.5556
+          },
+          {
+            "name": "D12 GeCON",
+            "expected": "0.15",
+            "observed": 0.0613
+          },
+          {
+            "name": "D12 ARACNE",
+            "expected": "0.042",
+            "observed": 0.1336
+          },
+          {
+            "name": "D12 CLR",
+            "expected": "0.044",
+            "observed": 0.1572
+          },
+          {
+            "name": "D12 MRNET",
+            "expected": "0.041",
+            "observed": 0.1434
+          },
+          {
+            "name": "D13 GeCON",
+            "expected": "0.2",
+            "observed": 0.0614
+          },
+          {
+            "name": "D13 ARACNE",
+            "expected": "0.069",
+            "observed": 0.1618
+          },
+          {
+            "name": "D13 CLR",
+            "expected": "0.066",
+            "observed": 0.1661
+          },
+          {
+            "name": "D13 MRNET",
+            "expected": "0.09",
+            "observed": 0.172
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, gene and sample counts of the real datasets",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "cause": {
+        "category": "data_differs",
+        "summary": "The public files have 17 conditions for Yeast KY and the cell cycle set, not 18, and GEO's GDS825 has 4 samples, not 8. The sporulation file (TLS failure from our runner, no reachable archive) and the 517-gene Arabidopsis matrix could not be obtained, so they have no field. The subset sizes of GDS958 and GDS3702 are our filter's.",
+        "evidence": [
+          "figure-reproduction/output/table3.json"
+        ],
+        "status": "explained"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "Yeast KY genes",
+            "expected": "237",
+            "observed": "237"
+          },
+          {
+            "name": "Yeast KY samples",
+            "expected": "18",
+            "observed": "17"
+          },
+          {
+            "name": "Yeast cell cycle genes",
+            "expected": "384",
+            "observed": "384"
+          },
+          {
+            "name": "Yeast cell cycle samples",
+            "expected": "18",
+            "observed": "17"
+          },
+          {
+            "name": "GDS825 samples",
+            "expected": "8",
+            "observed": "4"
+          },
+          {
+            "name": "GDS958 (Subset) samples",
+            "expected": "12",
+            "observed": "12"
+          },
+          {
+            "name": "GDS3702 (Subset) samples",
+            "expected": "12",
+            "observed": "12"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, GO terms of selected modules (GeneMANIA)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Genes standardised, tau 20, theta 0.8; a module is a connected component of 5 genes or more",
+          "source": "our_choice",
+          "sensitivity": "theta 0.7 finds 2 of the 10 terms, 0.8 finds 4, 0.9 finds 4 (enrich.json)"
+        },
+        {
+          "what": "Gene filters: the most variable probes of GDS3702 (3000) and GDS958 (4000), one per symbol; Yeast KY is the site's normalised file",
+          "source": "our_choice",
+          "sensitivity": "The paper states only the counts"
+        },
+        {
+          "what": "A local hypergeometric test on GO release 2026-08-05 in place of GeneMANIA's 2014 service; a term counts when Q < 0.05 in one of our modules",
+          "source": "our_choice",
+          "sensitivity": "Compares in kind only; the paper's Q values and interaction percentages are not recomputed"
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Terms not found in our modules: GeneMANIA's and FuncAssociate's 2014 annotations and the authors' modules are gone, and our module cut and filters are guesses. Rows of Sporulation, Thaliana are left out: the sporulation file failed TLS verification from our runner and no archive was reachable, and the 517 x 13 Arabidopsis matrix was not located.",
+        "evidence": [
+          "figure-reproduction/output/enrich.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "theta: modules cut at another threshold",
+            "test": "theta 0.7, 0.8 and 0.9 (enrich.json theta_sensitivity_found)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON on unstandardised values",
+            "test": "On log values every pair is connected and there is one module (normalisation.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "Yeast KY module 1: cytosolic ribosome",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 1.4e-18
+          },
+          {
+            "name": "Yeast KY module 2: structural constituent of ribosome",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 1.86e-13
+          },
+          {
+            "name": "Yeast KY module 3: DNA-dependent DNA replication",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 0.00144
+          },
+          {
+            "name": "GDS3702 module 1: mitochondrial inner membrane",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS3702 module 2: oxidoreductase activity",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS3702 module 3: aging regulation of",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS3702 module 4: lipid catabolic process",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 0.0256
+          },
+          {
+            "name": "GDS3702 module 5: iron-sulfur cluster binding",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS958 module 1: vacuolar proton-transporting V-type ATPase complex",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS958 module 2: cell cortex",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table5",
+      "label": "Table 5, GO terms of selected modules (FuncAssociate)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "As Table 4: standardised genes, tau 20, theta 0.8, components of 5 genes or more, local hypergeometric test (FuncAssociate is offline)",
+          "source": "our_choice",
+          "sensitivity": "theta 0.7 finds 1 of the 7 terms, 0.8 finds 3, 0.9 finds 2 (enrich.json)"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Terms not found in our modules: GeneMANIA's and FuncAssociate's 2014 annotations and the authors' modules are gone, and our module cut and filters are guesses. Rows of GDS825, Sporulation are left out: GEO's GDS825 has 4 samples, not the paper's 8, and the sporulation file could not be fetched.",
+        "evidence": [
+          "figure-reproduction/output/enrich.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "theta: modules cut at another threshold",
+            "test": "theta 0.7, 0.8 and 0.9 (enrich.json theta_sensitivity_found)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON on unstandardised values",
+            "test": "On log values every pair is connected and there is one module (normalisation.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "Yeast KY module 1: cytosolic ribosome",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 1.4e-18
+          },
+          {
+            "name": "Yeast KY module 2: DNA replication",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 0.00144
+          },
+          {
+            "name": "GDS3702 module 1: response to neutrient",
+            "expected": "yes",
+            "observed": "yes",
+            "our_q": 0.0402
+          },
+          {
+            "name": "GDS3702 module 2: hydrolase activity",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS3702 module 3: protein complex",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS958 module 1: intracellular part",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GDS958 module 2: intracellular membrane-bounded organelle",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own Table 2",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "Average row: 7 of 12 exact, 12 within one unit in the last digit; improvements from the row means: 4 of 9 exact, 9 within one unit (from the printed averages 0 of 9). The table itself has GeCON best in 38 of 39 dataset-score cells (not: D13 AUROC), against \"in all cases\". \"More than 200 times better\" in AUPR is 3.7 times (269.72%)."
+      },
+      "arithmetic": {
+        "average": [
+          {
+            "name": "aupr gecon",
+            "expected": "0.633",
+            "observed": "0.633"
+          },
+          {
+            "name": "aupr aracne",
+            "expected": "0.171",
+            "observed": "0.171"
+          },
+          {
+            "name": "aupr clr",
+            "expected": "0.184",
+            "observed": "0.185"
+          },
+          {
+            "name": "aupr mrnet",
+            "expected": "0.181",
+            "observed": "0.181"
+          },
+          {
+            "name": "auroc gecon",
+            "expected": "0.603",
+            "observed": "0.603"
+          },
+          {
+            "name": "auroc aracne",
+            "expected": "0.456",
+            "observed": "0.457"
+          },
+          {
+            "name": "auroc clr",
+            "expected": "0.514",
+            "observed": "0.515"
+          },
+          {
+            "name": "auroc mrnet",
+            "expected": "0.480",
+            "observed": "0.481"
+          },
+          {
+            "name": "f gecon",
+            "expected": "0.479",
+            "observed": "0.479"
+          },
+          {
+            "name": "f aracne",
+            "expected": "0.253",
+            "observed": "0.253"
+          },
+          {
+            "name": "f clr",
+            "expected": "0.26",
+            "observed": "0.26"
+          },
+          {
+            "name": "f mrnet",
+            "expected": "0.260",
+            "observed": "0.261"
+          }
+        ],
+        "improvement_from_printed_averages": [
+          {
+            "name": "aupr over aracne",
+            "expected": "269.72",
+            "observed": "270.18"
+          },
+          {
+            "name": "aupr over clr",
+            "expected": "242.91",
+            "observed": "244.02"
+          },
+          {
+            "name": "aupr over mrnet",
+            "expected": "249.024",
+            "observed": "249.724"
+          },
+          {
+            "name": "auroc over aracne",
+            "expected": "32.07",
+            "observed": "32.24"
+          },
+          {
+            "name": "auroc over clr",
+            "expected": "17.18",
+            "observed": "17.32"
+          },
+          {
+            "name": "auroc over mrnet",
+            "expected": "25.50",
+            "observed": "25.63"
+          },
+          {
+            "name": "f over aracne",
+            "expected": "89.07",
+            "observed": "89.33"
+          },
+          {
+            "name": "f over clr",
+            "expected": "84.31",
+            "observed": "84.23"
+          },
+          {
+            "name": "f over mrnet",
+            "expected": "83.72",
+            "observed": "84.23"
+          }
+        ],
+        "improvement_from_rows": [
+          {
+            "name": "aupr over aracne",
+            "expected": "269.72",
+            "observed": "269.72"
+          },
+          {
+            "name": "aupr over clr",
+            "expected": "242.91",
+            "observed": "242.92"
+          },
+          {
+            "name": "aupr over mrnet",
+            "expected": "249.024",
+            "observed": "249.025"
+          },
+          {
+            "name": "auroc over aracne",
+            "expected": "32.07",
+            "observed": "32.08"
+          },
+          {
+            "name": "auroc over clr",
+            "expected": "17.18",
+            "observed": "17.19"
+          },
+          {
+            "name": "auroc over mrnet",
+            "expected": "25.50",
+            "observed": "25.50"
+          },
+          {
+            "name": "f over aracne",
+            "expected": "89.07",
+            "observed": "89.07"
+          },
+          {
+            "name": "f over clr",
+            "expected": "84.31",
+            "observed": "84.32"
+          },
+          {
+            "name": "f over mrnet",
+            "expected": "83.72",
+            "observed": "83.72"
+          }
+        ],
+        "gecon_best": {
+          "aupr": [],
+          "auroc": [
+            "D13"
+          ],
+          "f": []
+        },
+        "aupr_times": {
+          "aracne": 3.7,
+          "clr": 3.44,
+          "mrnet": 3.5
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.outperforms",
+      "label": "\"GeCON outperforms all other algorithms ... on all three scores\" (Fig. 4, Table 2)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "ours": {
+        "datasets where GeCON is best, aupr": [
+          "D2"
+        ],
+        "datasets where GeCON is best, auroc": [
+          "D2"
+        ],
+        "datasets where GeCON is best, f": [
+          "D2"
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "GeCON best on every dataset, AUPR",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GeCON best on every dataset, AUROC",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "GeCON best on every dataset, F",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.improvement",
+      "label": "Average improvement of GeCON over ARACNE, CLR and MRNET (Table 2, last row)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "AUPR over ARACNE (%)",
+            "expected": "269.72",
+            "observed": -26.31
+          },
+          {
+            "name": "AUPR over CLR (%)",
+            "expected": "242.91",
+            "observed": -30.26
+          },
+          {
+            "name": "AUPR over MRNET (%)",
+            "expected": "249.024",
+            "observed": -28.03
+          },
+          {
+            "name": "AUROC over ARACNE (%)",
+            "expected": "32.07",
+            "observed": -9.35
+          },
+          {
+            "name": "AUROC over CLR (%)",
+            "expected": "17.18",
+            "observed": -20.61
+          },
+          {
+            "name": "AUROC over MRNET (%)",
+            "expected": "25.50",
+            "observed": -17.91
+          },
+          {
+            "name": "F over ARACNE (%)",
+            "expected": "89.07",
+            "observed": -17.28
+          },
+          {
+            "name": "F over CLR (%)",
+            "expected": "84.31",
+            "observed": -24.42
+          },
+          {
+            "name": "F over MRNET (%)",
+            "expected": "83.72",
+            "observed": -23.75
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.d6",
+      "label": "D6: AUPR .84, AUROC .78, F .86",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+        "evidence": [
+          "figure-reproduction/output/dream.json",
+          "figure-reproduction/output/datasets.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our DREAM3 simulation (the GNW port) differs from the authors' data",
+            "test": "Compare on D9 to D13, the DREAM4 challenge's own released data, which need no simulation",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "tau: the paper used another value in 15 to 25",
+            "test": "tau 15 and 25 (dream.json variants)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Inputs were log values (the Methods call entries the logarithm of relative abundance)",
+            "test": "log2 inputs at tau 5, 10 and 20",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. (7) as printed, |180 - a_i + a_j| < tau, not as the text describes it",
+            "test": "neg_rule='printed'",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "GeCON was scored as its thresholded network (one point), not by its supports",
+            "test": "Score the theta = 0.5 adjacency as a binary ranking",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Time series were concatenated without leaving out the joining edges",
+            "test": "Supports over all columns",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
+            "test": "Directed scoring of every method (dream.json: directed)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "AUPR",
+            "expected": ".84",
+            "observed": 0.5254
+          },
+          {
+            "name": "AUROC",
+            "expected": ".78",
+            "observed": 0.505
+          },
+          {
+            "name": "F0.5",
+            "expected": ".86",
+            "observed": 0.6536
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.fig2_negative",
+      "label": "Mrps26 and Pfn2 \"clearly show negative behaviour\" (Fig. 2)",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "GeCON gives the pair sign -1 (theta 0.5, tau 20)",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.fig3_mixed",
+      "label": "YBL002W and YBL003C co-regulated, YBL006W inverted (Fig. 3)",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "cause": {
+        "category": "paper_error",
+        "summary": "Over all 16 steps GeCON finds YBL006W positively, not negatively, related to the other two (positive support 0.69, negative 0.31); the inversion the text describes holds only at some steps, which the paper calls mixed regulation in the same paragraph.",
+        "evidence": [
+          "figure-reproduction/output/profiles.json"
+        ],
+        "status": "explained"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "YBL002W and YBL003C positive",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "YBL006W negative to both",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.faster",
+      "label": "\"GeCON is much faster than ARACNE\" (Fig. 5)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "ours": {
+        "aracne_over_gecon_at_3000": 15.38
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "GeCON faster than ARACNE at every size",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.normalisation",
+      "label": "GeCON \"is insensitive to normalization of data\" (Methods, advantage iv)",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "cause": {
+        "category": "paper_error",
+        "summary": "Eq. (5) applies atan2 to the two raw values, so the angle depends on their ratio, not their difference. On Yeast KY's log values (around 7) almost every angle sits near 45 or 135 degrees and GeCON connects all 27,966 pairs; on the site's normalised version of the same genes it connects 1,226 (tau 20, theta 0.6). 97% of the log data's angles lie within 5 degrees of 45 or 135.",
+        "evidence": [
+          "figure-reproduction/output/normalisation.json"
+        ],
+        "status": "explained"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "same network on log and normalised Yeast KY (theta 0.6)",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.modules",
+      "label": "\"GeCON can extract functionally enriched network modules from real expression data\"",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "ours": {
+        "Yeast KY": "2 of 2 modules enriched",
+        "GDS3702": "11 of 44 modules enriched",
+        "GDS958": "10 of 29 modules enriched"
+      },
+      "values": {
+        "fields": [
+          {
+            "name": "Yeast KY: a module with a GO term at Q < 0.05",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "GDS3702: a module with a GO term at Q < 0.05",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "GDS958: a module with a GO term at Q < 0.05",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "port.gnw",
+      "label": "Python port of GeneNetWeaver's simulation against the DREAM4 release",
+      "kind": "code_check",
+      "source": "port",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "All 10 DREAM4 networks: gold standards from the network files equal the released ones; the port's wild-type steady state tracks the released wild type with log correlation 0.95 to 0.99"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "package",
+      "label": "Python package gecon and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "gecon 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 28,
+    "exact": 5,
+    "agrees": 10,
+    "partly": 5,
+    "inconclusive": 0,
+    "differs": 6,
+    "not_attempted": 2,
+    "open_causes": 8
+  }
+}
