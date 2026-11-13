@@ -133,6 +133,11 @@ def main(downloads: str, out: str) -> None:
             f.write(f"{a}\t{b}\n")
     (od / "tested.json").write_text(json.dumps({"queries": queries, "array": array}, indent=0))
 
+    genetic_other = {tuple(sorted((r[0], r[2]))) for r in rows
+                     if r[5].startswith("genetic") and pmid(r[10]) != TONG and r[0] != r[2]}
+    with open(od / "genetic_other.tsv", "w") as f:
+        for a, b in sorted(genetic_other):
+            f.write(f"{a}\t{b}\n")
     union = ppi | cpx
     counts = {
         "tong_rows": len(tong),
@@ -149,6 +154,10 @@ def main(downloads: str, out: str) -> None:
         "network_interactions": len(union),
         "network_genes": len({g for e in union for g in e}),
         "ppi_all_interactions": len(ppi_all),
+        "genetic_interactions": len({tuple(sorted((r[0], r[2]))) for r in rows if r[5].startswith("genetic") and r[0] != r[2]}),
+        "genetic_genes": len({g for r in rows if r[5].startswith("genetic") and r[0] != r[2] for g in (r[0], r[2])}),
+        "genetic_other_interactions": len(genetic_other),
+        "sgi_pairs_reported_by_other_papers": len(sgi & {tuple(sorted(e)) for e in genetic_other}),
         "expression_genes": len(all_genes),
         "expression_conditions": len(labels),
         "expression_missing_values": missing,

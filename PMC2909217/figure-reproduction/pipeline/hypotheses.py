@@ -12,6 +12,11 @@ scored by the pooled area under the ROC curve and the TPR at FPR 0.09:
   no_log             features z-scored without the log transform
   median_sigma       SSL with sigma = the median distance (no selection on the training labels)
   alpha_0.5          SSL with alpha = 0.5
+  genetic_other      our network plus the genetic interactions of other papers (BioGRID's genetic rows,
+                     Tong 2004 excluded): many Tong SGI pairs are reported again there, so labels
+                     become edges
+  genetic_other_no_tong_pairs   the same with every Tong SGI pair removed from the added edges
+  genetic_all        our network plus every genetic interaction, Tong 2004 included
   gene_identity      SVM and SSL on one-hot gene identity (which genes form the pair), no network
   weight_scale       Fig. 6 scale: median edge weight and the 99th percentile of the SGI pairs'
                      weighted-degree difference, with expression as is and standardized per gene
@@ -101,6 +106,32 @@ def variant(args):
         return name, evaluate(d["X_weighted"][idx], lab, 0, sigma_mode="median")
     if name == "alpha_0.5":
         return name, evaluate(d["X_weighted"][idx], lab, 0, alpha=0.5)
+    if name.startswith("genetic_"):
+        genes = list(d["genes"])
+        idx = {g: i for i, g in enumerate(genes)}
+        add = [tuple(l.split("\t")) for l in (ind / "genetic_other.tsv").read_text().splitlines() if l]
+        if name == "genetic_all":
+            add += [tuple(l.split("\t")) for l in (ind / "sgi_pairs.tsv").read_text().splitlines() if l]
+        if name == "genetic_other_no_tong_pairs":
+            tong = {frozenset(l.split("\t")) for l in (ind / "sgi_pairs.tsv").read_text().splitlines() if l}
+            add = [e for e in add if frozenset(e) not in tong]
+        for a, b in add:
+            for g in (a, b):
+                if g not in idx:
+                    idx[g] = len(genes)
+                    genes.append(g)
+        Xe = np.vstack([X, np.repeat(X.mean(0, keepdims=True), len(genes) - n, axis=0)])
+        Ee = np.unique(np.sort(np.vstack([E, np.array([(idx[a], idx[b]) for a, b in add if a != b])]), axis=1), axis=0)
+        lab_ = fgn.dcca(Xe)
+        we = fgn.edge_weights(Xe, lab_, Ee)
+        F = network_features(len(genes), Ee, we, pairs)
+        out = evaluate(F, lab, 0)
+        out["edges"] = int(len(Ee))
+        out["genes"] = int(len(np.unique(Ee)))
+        added = {frozenset(e) for e in add}
+        out["sample_sgi_pairs_that_are_edges"] = int(sum(frozenset((genes[a], genes[b])) in added for a, b in pairs[lab == 1]))
+        out["sample_nonsgi_pairs_that_are_edges"] = int(sum(frozenset((genes[a], genes[b])) in added for a, b in pairs[lab == 0]))
+        return name, out
     if name == "weight_scale":
         from scipy.stats import ks_2samp
         out = {}
@@ -124,12 +155,23 @@ def variant(args):
         for k, (a, b) in enumerate(pairs):
             G[k, pos_of[a]] = 1
             G[k, pos_of[b]] = 1
-        return name, evaluate(G, lab, 0, scale=False)
+        out = evaluate(G, lab, 0, scale=False)
+        # how much of a test pair the training pairs already show: the share of test pairs whose two
+        # genes both occur in training pairs, for the 2-fold split evaluate() uses
+        rng = np.random.default_rng(1000)
+        m = len(lab) // 2
+        parts = [np.r_[a, b] for a, b in zip(np.array_split(rng.permutation(m), 2), np.array_split(rng.permutation(m) + m, 2))]
+        seen = set(pairs[parts[1]].ravel().tolist())
+        test = pairs[parts[0]]
+        out["test_pairs_with_both_genes_in_training"] = round(float(np.mean([a in seen and b in seen for a, b in test])), 4)
+        out["test_pairs_with_one_gene_in_training"] = round(float(np.mean([(a in seen) or (b in seen) for a, b in test])), 4)
+        return name, out
     raise KeyError(name)
 
 
 VARIANTS = ("baseline", "random_negatives", "ppi_all", "inverse_weights", "no_log", "median_sigma",
-            "alpha_0.5", "gene_identity", "weight_scale")
+            "alpha_0.5", "gene_identity", "genetic_other", "genetic_other_no_tong_pairs", "genetic_all",
+            "weight_scale")
 
 
 def main(inputs: str, features: str, out: str, jobs: str = "4") -> None:

@@ -129,7 +129,7 @@
    },
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -171,9 +171,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL, {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+    "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL and {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} without Tong 2004's own rows, {{hypotheses.genetic_all.ssl.auc}} and {{hypotheses.genetic_all.svm.auc}} with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
     "evidence": [
      "figure-reproduction/output/roc.json",
      "figure-reproduction/output/hypotheses.json"
@@ -205,14 +205,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -230,7 +240,7 @@
    ],
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -272,9 +282,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL, {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+    "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL and {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} without Tong 2004's own rows, {{hypotheses.genetic_all.ssl.auc}} and {{hypotheses.genetic_all.svm.auc}} with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
     "evidence": [
      "figure-reproduction/output/roc.json",
      "figure-reproduction/output/hypotheses.json"
@@ -306,14 +316,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -331,7 +351,7 @@
    ],
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -373,9 +393,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL, {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+    "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL and {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} without Tong 2004's own rows, {{hypotheses.genetic_all.ssl.auc}} and {{hypotheses.genetic_all.svm.auc}} with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
     "evidence": [
      "figure-reproduction/output/roc.json",
      "figure-reproduction/output/hypotheses.json"
@@ -407,14 +427,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -432,7 +462,7 @@
    ],
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -474,9 +504,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "With the paper's data sources and method as written, both classifiers stay far below the published curves (areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL, {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4), and SVM is ahead of SSL at every training size. No single change we tested closes the gap; the authors' code, data and settings are lost.",
+    "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} for SSL and {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}} for SVM; the published curves enclose {{comparison.fig2.published_auc_read.blue}}, {{comparison.fig3.published_auc_read.blue}} and {{comparison.fig4.published_auc_read.blue}} (SSL) and {{comparison.fig2.published_auc_read.red}}, {{comparison.fig3.published_auc_read.red}} and {{comparison.fig4.published_auc_read.red}} (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} without Tong 2004's own rows, {{hypotheses.genetic_all.ssl.auc}} and {{hypotheses.genetic_all.svm.auc}} with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
     "evidence": [
      "figure-reproduction/output/roc.json",
      "figure-reproduction/output/hypotheses.json"
@@ -508,14 +538,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -534,7 +574,7 @@
    },
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -576,9 +616,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "On our run SVM is at or above SSL over most of the range at every training size; the hypotheses below do not reverse the order (SVM stays ahead in each).",
+    "summary": "On our run SVM is at or above SSL over most of the range at every training size, and it stays ahead in every variant we ran, including the networks with genetic interactions that bring the AUC back to the published level.",
     "evidence": [
      "figure-reproduction/output/claims.json",
      "figure-reproduction/output/hypotheses.json"
@@ -610,14 +650,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -636,7 +686,7 @@
    },
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -678,7 +728,7 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
     "summary": "SVM is ahead at the start of our Fig. 2 curve, as the paper says, but also over the rest of it.",
     "evidence": [
@@ -712,14 +762,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -738,7 +798,7 @@
    },
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -780,9 +840,9 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
-    "summary": "SSL minus SVM area under the ROC curve on our run: {{claims.text.small_training.detail.unlabelled20}} (20% unlabelled), {{claims.text.small_training.detail.unlabelled50}} (50%), {{claims.text.small_training.detail.unlabelled80}} (80%). SVM leads at every size.",
+    "summary": "SSL minus SVM area under the ROC curve on our run: {{claims.text.small_training.detail.unlabelled20}} (20% unlabelled), {{claims.text.small_training.detail.unlabelled50}} (50%), {{claims.text.small_training.detail.unlabelled80}} (80%). SVM leads at every size, with or without genetic interactions in the network.",
     "evidence": [
      "figure-reproduction/output/claims.json",
      "figure-reproduction/output/hypotheses.json"
@@ -814,14 +874,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -839,7 +909,7 @@
    ],
    "assumptions": [
     {
-     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+     "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover {{counts.genetic_genes}} genes, close to the paper's 4,478.",
      "source": "found_by_search",
      "sensitivity": "Every physical interaction instead: SSL {{hypotheses.ppi_all.ssl.auc}}, SVM {{hypotheses.ppi_all.svm.auc}} against {{hypotheses.baseline.ssl.auc}} and {{hypotheses.baseline.svm.auc}} (Fig. 3 setting, repeat 0)."
     },
@@ -881,7 +951,7 @@
     }
    ],
    "cause": {
-    "category": "unknown",
+    "category": "data_differs",
     "status": "open",
     "summary": "Both curves sit far below the published ones (SSL area under the ROC curve {{roc.curves.unlabelled50/ssl/weighted.auc_mean:.3f}} weighted, {{roc.curves.unlabelled50/ssl/binary.auc_mean:.3f}} binary; read from Fig. 5, {{comparison.fig5.published_auc_read.blue}} and {{comparison.fig5.published_auc_read.red}}). The weighted curve stays above the binary one, by a small margin. The published legend reads SSL / Random / SVM although the caption compares weighted and binary networks.",
     "evidence": [
@@ -915,14 +985,24 @@
       "result": "rejected"
      },
      {
-      "hypothesis": "The labels follow from which genes form a pair (hub genes), not from the network.",
-      "test": "SVM and SSL on one-hot gene identity alone. SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (TPR at FPR 0.09: {{hypotheses.gene_identity.ssl.tpr_at_0.09}} and {{hypotheses.gene_identity.svm.tpr_at_0.09}}): the strongest signal we found, (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}): still short of the paper and still with SVM ahead.",
-      "result": "inconclusive"
-     },
-     {
       "hypothesis": "Our network measures are computed wrongly.",
       "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+      "test": "SVM and SSL on one-hot gene identity alone, no network: SSL {{hypotheses.gene_identity.ssl.auc}}, SVM {{hypotheses.gene_identity.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}). Every test pair shares a gene with the training pairs ({{hypotheses.gene_identity.test_pairs_with_one_gene_in_training}} of them), {{hypotheses.gene_identity.test_pairs_with_both_genes_in_training}} share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers ({{counts.sgi_pairs_reported_by_other_papers}} of {{counts.sgi_pairs}}), so the labels become edges of the network.",
+      "test": "Our network plus the genetic interactions of papers other than Tong 2004 ({{hypotheses.genetic_other.edges}} edges; {{hypotheses.genetic_other.sample_sgi_pairs_that_are_edges}} of the 1,500 sampled SGI pairs and {{hypotheses.genetic_other.sample_nonsgi_pairs_that_are_edges}} non-SGI pairs become edges): SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}} (Fig. 3 setting, repeat 0; baseline SSL {{hypotheses.baseline.ssl.auc}}, SVM {{hypotheses.baseline.svm.auc}}); the published Fig. 3 curves enclose {{comparison.fig3.published_auc_read.blue}} (SSL) and {{comparison.fig3.published_auc_read.red}} (SVM). With every genetic interaction, Tong 2004 included: SSL {{hypotheses.genetic_all.ssl.auc}}, SVM {{hypotheses.genetic_all.svm.auc}}. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+      "test": "The same network with every Tong SGI pair removed from the added edges: SSL {{hypotheses.genetic_other_no_tong_pairs.ssl.auc}}, SVM {{hypotheses.genetic_other_no_tong_pairs.svm.auc}}.",
+      "result": "supported"
      }
     ]
    }
@@ -1683,7 +1763,7 @@
    ]
   ],
   "items_caption": "Every figure, table and number in the paper, with the verdict check_results.py computes from our run.",
-  "claims_line": "Main claim, SSL beats SVM and reaches sensitivity 0.92 at 1 minus specificity 0.09: {{verdict.text.ssl_above_svm}}. On our run SVM leads at every training size and the best SSL sensitivity at 0.09 is {{claims.text.operating_point.fields.0.observed}}. Weighted beats binary: {{verdict.text.weighted_above_binary}}, by a small margin. Two Discussion claims fail in the paper's own Table 1 (paper errors); the other differences have causes still open.",
+  "claims_line": "Main claim, SSL beats SVM and reaches sensitivity 0.92 at 1 minus specificity 0.09: {{verdict.text.ssl_above_svm}}. With the network the Methods describe (protein interactions and complexes) SVM leads at every training size and the best SSL sensitivity at 0.09 is {{claims.text.operating_point.fields.0.observed}}. The published accuracy comes back once BioGRID's genetic interactions are in the network, and these carry the SGI labels into it (Fig. 3 setting: SSL {{hypotheses.genetic_other.ssl.auc}}, SVM {{hypotheses.genetic_other.svm.auc}}); SVM still leads. The paper's pair-level cross-validation also lets gene identity alone reach {{hypotheses.gene_identity.svm.auc}}. Weighted beats binary: {{verdict.text.weighted_above_binary}}, by a small margin. Two Discussion claims fail in the paper's own Table 1.",
   "came_back": [
    [
     "Data, in part",
@@ -1700,11 +1780,15 @@
    [
     "SGI pairs sit higher",
     "SGI pairs have the higher median average degree and closeness, as the Discussion says; the closeness difference is not significant on our run."
+   ],
+   [
+    "Why the paper's numbers are so high",
+    "With BioGRID's genetic interactions in the network the AUC reaches the published level; {{counts.sgi_pairs_reported_by_other_papers}} of the {{counts.sgi_pairs}} Tong SGI pairs are themselves genetic-interaction edges reported by other papers. Gene identity alone reaches {{hypotheses.gene_identity.svm.auc}} under the paper's pair-level cross-validation."
    ]
   ],
   "buried": [
-   "The ROC curves. SSL reaches {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} under the curve and SVM {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}}; the published SSL curves enclose {{comparison.fig4.published_auc_read.blue}} to {{comparison.fig2.published_auc_read.blue}}.",
-   "SSL over SVM. SVM leads at every training size on our run.",
+   "The ROC curves with the network the Methods describe. SSL reaches {{roc.curves.unlabelled20/ssl/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/ssl/weighted.auc_mean:.3f}} under the curve and SVM {{roc.curves.unlabelled20/svm/weighted.auc_mean:.3f}} to {{roc.curves.unlabelled80/svm/weighted.auc_mean:.3f}}; the published SSL curves enclose {{comparison.fig4.published_auc_read.blue}} to {{comparison.fig2.published_auc_read.blue}}. Adding BioGRID's genetic interactions, which hold many of the SGI labels, brings them to {{hypotheses.genetic_other.ssl.auc}} (SSL) and {{hypotheses.genetic_other.svm.auc}} (SVM) at 50% unlabelled.",
+   "SSL over SVM. SVM leads at every training size, with or without genetic interactions in the network.",
    "Table 1 and Fig. 6. Our KS statistics differ; the paper's P-values imply about {{claims.text.arithmetic.implied_effective_n_median.weighted:,.0f}} (weighted) to {{claims.text.arithmetic.implied_effective_n_median.binary:,.0f}} (binary) pairs per test, ours {{claims.text.arithmetic.our_effective_n:,.0f}}.",
    "Eisen's 1998 heat-shock time course; the paper's protein-interaction filter, SSL settings, SVM grid and seeds."
   ],
