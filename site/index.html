@@ -4,18 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>fossil</title>
-<meta name="description" content="Independent reproductions of published computational papers: each figure rebuilt from the paper’s own code and data and laid over the original.">
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="An archive of methods from published computational papers, rebuilt by AI agents and checked figure by figure against the paper.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@700&family=Instrument+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap">
+<link rel="icon" href="assets/fossil-mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="index.css">
 </head>
 <body>
 <header class="topbar">
   <div class="container">
-    <a class="wordmark" href="./" aria-label="fossil, home">fossil</a>
-    <nav aria-label="Site"><a href="#papers">The papers</a><a href="https://github.com/jeonglab-bcm/fossil">The code</a></nav>
+    <a class="wordmark" href="./" aria-label="fossil, home"><svg class="mark-sm" viewBox="0 0 120 120" aria-hidden="true">
+  <defs><clipPath id="clipsm"><path d="M0 0 H120 V84 H112 C100 80 82 80 64 84 C46 88 30 80 8 84 H0 Z"/></clipPath></defs>
+  <g clip-path="url(#clipsm)">
+    <path d="M32 12 H78 L92 26 V110 H32 Z" fill="var(--color-surface)" stroke="var(--color-ink)" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M78 12 V26 H92" fill="none" stroke="var(--color-ink)" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M40 21 H66 M40 27 H60" stroke="var(--color-muted)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M63.74 50.13 L63.87 50.29 L63.99 50.47 L64.10 50.65 L64.19 50.84 L64.28 51.04 L64.36 51.24 L64.42 51.45 L64.47 51.66 L64.50 51.88 L64.53 52.10 L64.53 52.32 L64.53 52.55 L64.51 52.77 L64.47 53.00 L64.43 53.22 L64.36 53.44 L64.29 53.66 L64.19 53.88 L64.09 54.09 L63.97 54.29 L63.84 54.49 L63.69 54.68 L63.54 54.86 L63.37 55.03 L63.18 55.19 L62.99 55.34 L62.79 55.48 L62.58 55.61 L62.35 55.73 L62.12 55.83 L61.89 55.91 L61.64 55.99 L61.39 56.04 L61.14 56.09 L60.88 56.11 L60.62 56.12 L60.36 56.12 L60.10 56.09 L59.84 56.05 L59.58 56.00 L59.32 55.92 L59.06 55.83 L58.81 55.73 L58.57 55.60 L58.33 55.46 L58.10 55.31 L57.88 55.14 L57.67 54.96 L57.47 54.76 L57.28 54.55 L57.10 54.32 L56.94 54.09 L56.79 53.84 L56.65 53.58 L56.54 53.31 L56.44 53.04 L56.35 52.75 L56.28 52.46 L56.23 52.16 L56.20 51.86 L56.19 51.56 L56.20 51.26 L56.23 50.95 L56.27 50.64 L56.34 50.34 L56.43 50.04 L56.53 49.74 L56.65 49.45 L56.80 49.16 L56.96 48.89 L57.14 48.62 L57.34 48.36 L57.55 48.11 L57.78 47.88 L58.03 47.66 L58.29 47.45 L58.57 47.26 L58.86 47.09 L59.16 46.93 L59.47 46.79 L59.79 46.68 L60.12 46.58 L60.46 46.50 L60.81 46.44 L61.16 46.41 L61.51 46.39 L61.87 46.40 L62.23 46.43 L62.58 46.49 L62.94 46.57 L63.29 46.66 L63.64 46.79 L63.98 46.93 L64.31 47.10 L64.63 47.29 L64.95 47.50 L65.25 47.73 L65.53 47.98 L65.81 48.25 L66.06 48.54 L66.30 48.84 L66.53 49.16 L66.73 49.50 L66.91 49.85 L67.07 50.22 L67.21 50.59 L67.32 50.98 L67.41 51.37 L67.48 51.78 L67.52 52.18 L67.54 52.60 L67.53 53.01 L67.49 53.43 L67.43 53.85 L67.34 54.26 L67.22 54.67 L67.08 55.07 L66.91 55.47 L66.72 55.86 L66.50 56.24 L66.25 56.60 L65.98 56.95 L65.69 57.29 L65.38 57.61 L65.04 57.91 L64.68 58.19 L64.31 58.44 L63.92 58.68 L63.51 58.89 L63.08 59.08 L62.64 59.24 L62.19 59.38 L61.73 59.48 L61.26 59.56 L60.78 59.61 L60.30 59.63 L59.82 59.61 L59.33 59.57 L58.85 59.50 L58.36 59.39 L57.89 59.26 L57.42 59.09 L56.95 58.89 L56.50 58.67 L56.06 58.41 L55.63 58.12 L55.22 57.81 L54.83 57.47 L54.46 57.10 L54.11 56.71 L53.79 56.30 L53.48 55.86 L53.21 55.40 L52.96 54.92 L52.74 54.43 L52.55 53.92 L52.40 53.39 L52.27 52.85 L52.18 52.30 L52.13 51.75 L52.11 51.19 L52.12 50.62 L52.17 50.06 L52.26 49.49 L52.38 48.93 L52.54 48.37 L52.73 47.82 L52.96 47.28 L53.23 46.75 L53.52 46.24 L53.86 45.74 L54.22 45.26 L54.62 44.81 L55.05 44.37 L55.50 43.97 L55.99 43.59 L56.50 43.23 L57.03 42.91 L57.59 42.62 L58.17 42.37 L58.77 42.15 L59.38 41.97 L60.01 41.82 L60.65 41.72 L61.29 41.65 L61.95 41.63 L62.61 41.65 L63.27 41.70 L63.93 41.80 L64.58 41.95 L65.23 42.13 L65.88 42.36 L66.51 42.62 L67.12 42.93 L67.72 43.28 L68.30 43.67 L68.86 44.10 L69.39 44.56 L69.89 45.06 L70.37 45.59 L70.81 46.16 L71.22 46.75 L71.60 47.38 L71.93 48.03 L72.23 48.70 L72.49 49.40 L72.70 50.11 L72.87 50.84 L72.99 51.59 L73.07 52.34 L73.10 53.11 L73.08 53.87 L73.01 54.65 L72.89 55.41 L72.73 56.18 L72.51 56.94 L72.25 57.69 L71.93 58.42 L71.57 59.14 L71.17 59.84 L70.72 60.51 L70.22 61.16 L69.68 61.78 L69.10 62.37 L68.48 62.93 L67.82 63.44 L67.12 63.92 L66.39 64.36 L65.64 64.75 L64.85 65.10 L64.04 65.40 L63.20 65.64 L62.35 65.84 L61.48 65.98 L60.60 66.07 L59.71 66.11 L58.81 66.08 L57.92 66.01 L57.02 65.87 L56.12 65.68 L55.24 65.42 L54.37 65.12 L53.51 64.75 L52.67 64.33 L51.86 63.86 L51.07 63.33 L50.32 62.75 L49.59 62.12 L48.90 61.44 L48.26 60.72 L47.65 59.95 L47.10 59.14 L46.59 58.29 L46.13 57.41 L45.72 56.49 L45.38 55.54 L45.09 54.57 L44.86 53.58 L44.69 52.56 L44.59 51.54 L44.55 50.50 L44.57 49.45 L44.67 48.40 L44.83 47.36 L45.05 46.31 L45.34 45.28 L45.70 44.27 L46.13 43.27 L46.62 42.29 L47.17 41.34 L47.79 40.42 L48.46 39.54 L49.20 38.69 L49.99 37.89 L50.83 37.14 L51.73 36.43 L52.67 35.78 L53.66 35.19 L54.69 34.66 L55.76 34.18 L56.87 33.78 L58.00 33.44 L59.16 33.17 L60.34 32.98 L61.54 32.86 L62.75 32.81 L63.97 32.84 L65.20 32.95 L66.42 33.14 L67.63 33.40 L68.83 33.74 L70.02 34.16 L71.19 34.65 L72.32 35.23 L73.43 35.87 L74.50 36.59 L75.53 37.38 L76.52 38.23 L77.45 39.16 L78.33 40.14 M78.33 40.14 L70.37 45.59" fill="none" stroke="var(--color-accent-deep)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M67.61 49.85 L71.49 48.59 M68.15 51.79 L72.34 51.67 M68.11 53.87 L72.28 54.96 M67.48 55.90 L71.27 58.19 M66.26 57.73 L69.34 61.09 M64.53 59.18 L66.60 63.38 M62.40 60.10 L63.23 64.85 M60.04 60.40 L59.47 65.33 M57.62 60.01 L55.63 64.71 M55.34 58.92 L52.02 62.98 M53.41 57.19 L48.96 60.24 M52.01 54.92 L46.73 56.64 M51.28 52.28 L45.58 52.44 M51.33 49.46 L45.66 47.97 M52.19 46.69 L47.03 43.58 M53.85 44.21 L49.65 39.64 M56.20 42.24 L53.38 36.52 M59.09 40.98 L57.97 34.52 M62.31 40.57 L63.08 33.87 M65.60 41.10 L68.30 34.72 M68.70 42.58 L73.21 37.06" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M64.89 51.18 L66.72 50.80 M65.06 52.76 L66.97 53.12 M64.59 54.35 L66.29 55.45 M63.52 55.68 L64.71 57.42 M61.95 56.54 L62.40 58.68 M60.11 56.73 L59.69 58.97 M58.27 56.19 L56.97 58.17 M56.71 54.94 L54.68 56.32 M55.71 53.11 L53.21 53.64 M55.48 50.96 L52.87 50.48 M56.11 48.81 L53.80 47.31 M57.57 46.99 L55.96 44.63 M59.70 45.83 L59.09 42.92 M62.21 45.56 L62.78 42.52 M64.72 46.30 L66.48 43.61" fill="none" stroke="var(--color-accent)" stroke-width="1.1" stroke-linecap="round"/>
+  </g>
+  <path d="M8 84 C30 80 46 88 64 84 S100 80 112 84" fill="none" stroke="var(--color-ink)" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M14 95 C34 92 52 99 72 95 S100 92 106 95" fill="none" stroke="var(--color-muted)" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M22 105 C40 103 58 108 78 105 S94 103 98 105" fill="none" stroke="var(--color-rule)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 6"/>
+  <path d="M101 8 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2 Z M18 40 l1.3 3.2 l3.2 1.3 l-3.2 1.3 l-1.3 3.2 l-1.3 -3.2 l-3.2 -1.3 l3.2 -1.3 Z" fill="var(--color-accent)"/>
+</svg>fossil</a>
+    <nav aria-label="Site"><a href="#about">About</a><a href="#papers">The papers</a><a href="https://github.com/jeonglab-bcm/fossil">The code</a></nav>
   </div>
 </header>
 
@@ -23,49 +37,111 @@
   <section class="hero" aria-labelledby="hero-head">
     <div class="window" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
     <div class="container hero-grid">
+      <div class="hero-mark"><svg class="mark-lg" viewBox="0 0 120 120" role="img" aria-label="fossil logo: an ammonite on a page, half dug out of the ground">
+  <defs><clipPath id="cliplg"><path d="M0 0 H120 V84 H112 C100 80 82 80 64 84 C46 88 30 80 8 84 H0 Z"/></clipPath></defs>
+  <g clip-path="url(#cliplg)">
+    <path d="M32 12 H78 L92 26 V110 H32 Z" fill="var(--color-surface)" stroke="var(--color-ink)" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M78 12 V26 H92" fill="none" stroke="var(--color-ink)" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M40 21 H66 M40 27 H60" stroke="var(--color-muted)" stroke-width="2" stroke-linecap="round"/>
+    <path d="M63.74 50.13 L63.87 50.29 L63.99 50.47 L64.10 50.65 L64.19 50.84 L64.28 51.04 L64.36 51.24 L64.42 51.45 L64.47 51.66 L64.50 51.88 L64.53 52.10 L64.53 52.32 L64.53 52.55 L64.51 52.77 L64.47 53.00 L64.43 53.22 L64.36 53.44 L64.29 53.66 L64.19 53.88 L64.09 54.09 L63.97 54.29 L63.84 54.49 L63.69 54.68 L63.54 54.86 L63.37 55.03 L63.18 55.19 L62.99 55.34 L62.79 55.48 L62.58 55.61 L62.35 55.73 L62.12 55.83 L61.89 55.91 L61.64 55.99 L61.39 56.04 L61.14 56.09 L60.88 56.11 L60.62 56.12 L60.36 56.12 L60.10 56.09 L59.84 56.05 L59.58 56.00 L59.32 55.92 L59.06 55.83 L58.81 55.73 L58.57 55.60 L58.33 55.46 L58.10 55.31 L57.88 55.14 L57.67 54.96 L57.47 54.76 L57.28 54.55 L57.10 54.32 L56.94 54.09 L56.79 53.84 L56.65 53.58 L56.54 53.31 L56.44 53.04 L56.35 52.75 L56.28 52.46 L56.23 52.16 L56.20 51.86 L56.19 51.56 L56.20 51.26 L56.23 50.95 L56.27 50.64 L56.34 50.34 L56.43 50.04 L56.53 49.74 L56.65 49.45 L56.80 49.16 L56.96 48.89 L57.14 48.62 L57.34 48.36 L57.55 48.11 L57.78 47.88 L58.03 47.66 L58.29 47.45 L58.57 47.26 L58.86 47.09 L59.16 46.93 L59.47 46.79 L59.79 46.68 L60.12 46.58 L60.46 46.50 L60.81 46.44 L61.16 46.41 L61.51 46.39 L61.87 46.40 L62.23 46.43 L62.58 46.49 L62.94 46.57 L63.29 46.66 L63.64 46.79 L63.98 46.93 L64.31 47.10 L64.63 47.29 L64.95 47.50 L65.25 47.73 L65.53 47.98 L65.81 48.25 L66.06 48.54 L66.30 48.84 L66.53 49.16 L66.73 49.50 L66.91 49.85 L67.07 50.22 L67.21 50.59 L67.32 50.98 L67.41 51.37 L67.48 51.78 L67.52 52.18 L67.54 52.60 L67.53 53.01 L67.49 53.43 L67.43 53.85 L67.34 54.26 L67.22 54.67 L67.08 55.07 L66.91 55.47 L66.72 55.86 L66.50 56.24 L66.25 56.60 L65.98 56.95 L65.69 57.29 L65.38 57.61 L65.04 57.91 L64.68 58.19 L64.31 58.44 L63.92 58.68 L63.51 58.89 L63.08 59.08 L62.64 59.24 L62.19 59.38 L61.73 59.48 L61.26 59.56 L60.78 59.61 L60.30 59.63 L59.82 59.61 L59.33 59.57 L58.85 59.50 L58.36 59.39 L57.89 59.26 L57.42 59.09 L56.95 58.89 L56.50 58.67 L56.06 58.41 L55.63 58.12 L55.22 57.81 L54.83 57.47 L54.46 57.10 L54.11 56.71 L53.79 56.30 L53.48 55.86 L53.21 55.40 L52.96 54.92 L52.74 54.43 L52.55 53.92 L52.40 53.39 L52.27 52.85 L52.18 52.30 L52.13 51.75 L52.11 51.19 L52.12 50.62 L52.17 50.06 L52.26 49.49 L52.38 48.93 L52.54 48.37 L52.73 47.82 L52.96 47.28 L53.23 46.75 L53.52 46.24 L53.86 45.74 L54.22 45.26 L54.62 44.81 L55.05 44.37 L55.50 43.97 L55.99 43.59 L56.50 43.23 L57.03 42.91 L57.59 42.62 L58.17 42.37 L58.77 42.15 L59.38 41.97 L60.01 41.82 L60.65 41.72 L61.29 41.65 L61.95 41.63 L62.61 41.65 L63.27 41.70 L63.93 41.80 L64.58 41.95 L65.23 42.13 L65.88 42.36 L66.51 42.62 L67.12 42.93 L67.72 43.28 L68.30 43.67 L68.86 44.10 L69.39 44.56 L69.89 45.06 L70.37 45.59 L70.81 46.16 L71.22 46.75 L71.60 47.38 L71.93 48.03 L72.23 48.70 L72.49 49.40 L72.70 50.11 L72.87 50.84 L72.99 51.59 L73.07 52.34 L73.10 53.11 L73.08 53.87 L73.01 54.65 L72.89 55.41 L72.73 56.18 L72.51 56.94 L72.25 57.69 L71.93 58.42 L71.57 59.14 L71.17 59.84 L70.72 60.51 L70.22 61.16 L69.68 61.78 L69.10 62.37 L68.48 62.93 L67.82 63.44 L67.12 63.92 L66.39 64.36 L65.64 64.75 L64.85 65.10 L64.04 65.40 L63.20 65.64 L62.35 65.84 L61.48 65.98 L60.60 66.07 L59.71 66.11 L58.81 66.08 L57.92 66.01 L57.02 65.87 L56.12 65.68 L55.24 65.42 L54.37 65.12 L53.51 64.75 L52.67 64.33 L51.86 63.86 L51.07 63.33 L50.32 62.75 L49.59 62.12 L48.90 61.44 L48.26 60.72 L47.65 59.95 L47.10 59.14 L46.59 58.29 L46.13 57.41 L45.72 56.49 L45.38 55.54 L45.09 54.57 L44.86 53.58 L44.69 52.56 L44.59 51.54 L44.55 50.50 L44.57 49.45 L44.67 48.40 L44.83 47.36 L45.05 46.31 L45.34 45.28 L45.70 44.27 L46.13 43.27 L46.62 42.29 L47.17 41.34 L47.79 40.42 L48.46 39.54 L49.20 38.69 L49.99 37.89 L50.83 37.14 L51.73 36.43 L52.67 35.78 L53.66 35.19 L54.69 34.66 L55.76 34.18 L56.87 33.78 L58.00 33.44 L59.16 33.17 L60.34 32.98 L61.54 32.86 L62.75 32.81 L63.97 32.84 L65.20 32.95 L66.42 33.14 L67.63 33.40 L68.83 33.74 L70.02 34.16 L71.19 34.65 L72.32 35.23 L73.43 35.87 L74.50 36.59 L75.53 37.38 L76.52 38.23 L77.45 39.16 L78.33 40.14 M78.33 40.14 L70.37 45.59" fill="none" stroke="var(--color-accent-deep)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M67.61 49.85 L71.49 48.59 M68.15 51.79 L72.34 51.67 M68.11 53.87 L72.28 54.96 M67.48 55.90 L71.27 58.19 M66.26 57.73 L69.34 61.09 M64.53 59.18 L66.60 63.38 M62.40 60.10 L63.23 64.85 M60.04 60.40 L59.47 65.33 M57.62 60.01 L55.63 64.71 M55.34 58.92 L52.02 62.98 M53.41 57.19 L48.96 60.24 M52.01 54.92 L46.73 56.64 M51.28 52.28 L45.58 52.44 M51.33 49.46 L45.66 47.97 M52.19 46.69 L47.03 43.58 M53.85 44.21 L49.65 39.64 M56.20 42.24 L53.38 36.52 M59.09 40.98 L57.97 34.52 M62.31 40.57 L63.08 33.87 M65.60 41.10 L68.30 34.72 M68.70 42.58 L73.21 37.06" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M64.89 51.18 L66.72 50.80 M65.06 52.76 L66.97 53.12 M64.59 54.35 L66.29 55.45 M63.52 55.68 L64.71 57.42 M61.95 56.54 L62.40 58.68 M60.11 56.73 L59.69 58.97 M58.27 56.19 L56.97 58.17 M56.71 54.94 L54.68 56.32 M55.71 53.11 L53.21 53.64 M55.48 50.96 L52.87 50.48 M56.11 48.81 L53.80 47.31 M57.57 46.99 L55.96 44.63 M59.70 45.83 L59.09 42.92 M62.21 45.56 L62.78 42.52 M64.72 46.30 L66.48 43.61" fill="none" stroke="var(--color-accent)" stroke-width="1.1" stroke-linecap="round"/>
+  </g>
+  <path d="M8 84 C30 80 46 88 64 84 S100 80 112 84" fill="none" stroke="var(--color-ink)" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M14 95 C34 92 52 99 72 95 S100 92 106 95" fill="none" stroke="var(--color-muted)" stroke-width="2" stroke-linecap="round" stroke-dasharray="7 5"/>
+  <path d="M22 105 C40 103 58 108 78 105 S94 103 98 105" fill="none" stroke="var(--color-rule)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 6"/>
+  <path d="M101 8 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2 Z M18 40 l1.3 3.2 l3.2 1.3 l-3.2 1.3 l-1.3 3.2 l-1.3 -3.2 l-3.2 -1.3 l3.2 -1.3 Z" fill="var(--color-accent)"/>
+</svg></div>
       <div class="hero-text">
-        <h1 id="hero-head">Fig. 5 came back the same.</h1>
-        <p class="lead">We dig up old papers and get their data, code and figures working again.</p>
-        <div class="actions"><a class="btn btn--primary" href="PMC4247685/">See the GABi figures</a><a class="btn" href="#papers">All five papers</a></div>
-        <p class="aside">Five papers dug up so far.</p>
+        <h1 id="hero-head">Old methods, dug up and running again.</h1>
+        <p class="lead">fossil is an archive of methods from published computational papers. An AI agent rebuilds each one from the paper and whatever survived, and every figure is checked against the one in print.</p>
+        <div class="actions"><a class="btn btn--primary" href="#papers">See the papers</a><a class="btn" href="#about">Why we do it</a></div>
+        <p class="aside">Eight papers dug up so far, from 2007 to 2015.</p>
       </div>
-      <figure class="signature">
-        <div class="surface sig-card">
-          <img src="assets/pmc4247685-fig5-overlay.png" width="950" height="859" fetchpriority="high" alt="Kaplan-Meier curves of PMC4247685 Figure 5: the published curves in ink with the reproduced curves drawn inside them in green. They coincide.">
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="about-head">
+    <div class="container">
+      <div class="about-head">
+        <h2 id="about-head">Like the Wayback Machine, but every entry runs.</h2>
+        <p>The Wayback Machine keeps a page as it looked. fossil keeps a method, revived and tested, so you can run it and not only read it.</p>
+      </div>
+      <div class="facts">
+        <div class="surface fact"><span class="big">25%</span><p>of the links in papers from 2004 still work. In papers from 2015, 56%.</p></div>
+        <div class="surface fact"><span class="big">96%</span><p>of the 7,182 data accessions these papers cite still resolve, in databases like PDB, GEO and SRA.</p></div>
+        <div class="surface fact"><span class="big">53%</span><p>of the papers have no link to their code and no code attached.</p></div>
+      </div>
+      <div class="facts-foot">
+        <strong>The data survived. The code mostly did not.</strong>
+        <small>From our <a href="https://github.com/jeonglab-bcm/fossil/tree/main/availability-audit">audit of 7,080 papers</a> published from 2004 to 2015.</small>
+      </div>
+
+      <div class="two">
+        <div>
+          <h3>Why bring a method back</h3>
+          <ul class="reasons">
+            <li><b>Trust.</b> A published result is a claim until someone reruns it. Most never are.</li>
+            <li><b>Reuse.</b> Old methods still work on new data. A 2003 test for SAGE counts now scores CRISPR screens.</li>
+            <li><b>Recover.</b> A rerun shows what the paper left out, like a step in Yu and Shaw that was never written down.</li>
+            <li><b>Rebuild once.</b> The method comes back as open, tested code that anyone can run.</li>
+          </ul>
         </div>
-        <figcaption class="label">
-          <span class="label-head"><span>Curry 2014</span><span>Fig. 5</span></span>
-          <span class="label-title">Progression-free survival</span>
-          <span>From Table S3, 40 patients</span>
-          <span class="stamp" data-v="agrees">Matched on 28 Oct<small>by our rerun</small></span>
-          <span class="label-stub">Ink is theirs, green is ours</span>
-        </figcaption>
-      </figure>
+        <div>
+          <h3>How a paper comes back</h3>
+          <ol class="steps">
+            <li class="surface"><span><b>The paper and whatever survived.</b> Its text, figures, supplements, data and any code still online.</span></li>
+            <li class="surface"><span><b>An AI agent rebuilds the analysis</b> with <a href="https://github.com/jeonglab-bcm/Paper2Repro">Paper2Repro</a>, in one session and one pull request.</span></li>
+            <li class="surface"><span><b>A pipeline reruns it.</b> The published figures are the answer key, and every verdict is computed, never typed.</span></li>
+          </ol>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Five papers, figure by figure</h2>
-        <p>Newest first. One agrees with its paper, four partly.</p>
+        <h2 id="index-head">Eight papers, figure by figure</h2>
+        <p>Newest first. Two agree with their papers, six partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
           <table class="record">
-            <colgroup><col class="col-date"><col class="col-date"><col class="col-paper"><col class="col-lost"><col class="col-found"><col></colgroup>
+            <colgroup><col class="col-date"><col class="col-date"><col class="col-paper"><col class="col-lost"><col class="col-found"><col><col class="col-ver"></colgroup>
             <thead>
-              <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th></tr>
+              <tr><th scope="col">Published</th><th scope="col">Analyzed</th><th scope="col">Paper</th><th scope="col">What we lost</th><th scope="col">What we recovered</th><th scope="col">Verdict</th><th scope="col">Paper2Repro</th></tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2010-03-22">22 Mar 2010</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-08">8 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2850872</span>
+                  <a class="title" href="https://doi.org/10.1186/1472-6947-10-16">Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes</a>
+                  <span class="journal">Yu et al., BMC Medical Informatics and Decision Making</span>
+                  <span class="go"><a href="PMC2850872/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The Diabetes Classifier web tool and its Java code</li>
+                  <li>The random split behind every table</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/package/tutorial/TUTORIAL.md">diabclass</a>, the SVM classifier as a Python package</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/figure-reproduction/output/analytic.csv">The NHANES 1999 to 2004 cohort</a>, diagnosed diabetes at 1,266 as published</li>
+                  <li><a href="PMC2850872/">Tables 1 to 3 and Fig. 2</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="agrees">Agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="verdict-note">The main claim holds; agreed in review</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.4.0">v0.4.0</a><span class="ver-note">worked out from the session</span></td>
+              </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-01-24">24 Jan 2014</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-06">6 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC4015815</span>
-                  <a class="title" href="https://doi.org/10.1186/1471-2105-15-S2-S3">Using distances between Top-n-gram and residue pairs for protein remote homology detection</a>
+                  <a class="title" href="PMC4015815/">Using distances between Top-n-gram and residue pairs for protein remote homology detection</a>
                   <span class="journal">Liu et al., BMC Bioinformatics</span>
-                  <span class="go"><a href="PMC4015815/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4015815">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-15-S2-S3">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4015815">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The DistanceSVM package and server</li>
@@ -76,16 +152,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4015815/figure-reproduction/pipeline/features.py">The SVM-DR and SVM-DT features</a></li>
                   <li><a href="PMC4015815/">Table 1 and Figs 3 to 5</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; SVM-DT profiles rebuilt</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; SVM-DT profiles rebuilt</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.3.0">v0.3.0</a><span class="ver-note">worked out from the session</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2015-01-20">20 Jan 2015</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-04">4 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC4426843</span>
-                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btv023">Bias in microRNA functional enrichment analysis</a>
+                  <a class="title" href="PMC4426843/">Bias in microRNA functional enrichment analysis</a>
                   <span class="journal">Bleazard et al., Bioinformatics</span>
-                  <span class="go"><a href="PMC4426843/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4426843">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1093/bioinformatics/btv023">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4426843">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The authors’ empirical-test script</li>
@@ -97,16 +174,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4426843/figure-reproduction/pipeline/inputs">miRanda predictions</a> for miRBase 20 on Ensembl 75, 99.87% of S3</li>
                   <li><a href="PMC4426843/">Fig. 1 and Tables 1 and 2</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; multi-hit counts differ</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; multi-hit counts differ</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.1.0">v0.1.0</a></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-11-21">21 Nov 2014</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC4247685</span>
-                  <a class="title" href="https://doi.org/10.1186/s12859-014-0355-5">A framework for generalized subspace pattern mining in high-dimensional datasets</a>
+                  <a class="title" href="PMC4247685/">A framework for generalized subspace pattern mining in high-dimensional datasets</a>
                   <span class="journal">Curry, BMC Bioinformatics</span>
-                  <span class="go"><a href="PMC4247685/">Results</a><a href="PMC4247685/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/s12859-014-0355-5">Article</a><a href="PMC4247685/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4247685">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>GABi’s parameter values</li>
@@ -120,16 +198,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4247685/figure-reproduction/pipeline/fig2_benchmark.R">The Fig. 2 benchmark</a> in R</li>
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4247685/figure-reproduction/data/fig5_clinical.csv">Fig. 5’s patients</a> as a CSV</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span></td>
+                <td data-label="Paper2Repro"><span class="ver-none">Not recorded</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-02-11">11 Feb 2014</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC4081639</span>
-                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btu079">An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function</a>
+                  <a class="title" href="PMC4081639/">An efficient algorithm for accurate computation of the Dirichlet-multinomial log-likelihood function</a>
                   <span class="journal">Yu and Shaw, Bioinformatics</span>
-                  <span class="go"><a href="PMC4081639/">Results</a><a href="PMC4081639/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081639">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1093/bioinformatics/btu079">Article</a><a href="PMC4081639/implementation.html">Code analysis</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4081639">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The algorithm’s source code</li>
@@ -141,16 +220,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4081639/lldmn-implementation-analysis/difftest/difftest.py">A Python version</a></li>
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4081639/figure-reproduction/pipeline/table1_native.py">A fitter for Table 1</a> in Python</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="agrees">Agrees</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="agrees">Agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+                <td data-label="Paper2Repro"><span class="ver-none">Before Paper2Repro</span><span class="ver-note">Paper2Repro was built from this one</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2008-04-11">11 Apr 2008</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-03">3 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC2349296</span>
-                  <a class="title" href="https://doi.org/10.1186/1471-2105-9-S3-S6">Comparative analysis of five protein-protein interaction corpora</a>
+                  <a class="title" href="PMC2349296/">Comparative analysis of five protein-protein interaction corpora</a>
                   <span class="journal">Pyysalo et al., BMC Bioinformatics</span>
-                  <span class="go"><a href="PMC2349296/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2349296">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-9-S3-S6">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2349296">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The corpus conversion programs</li>
@@ -162,16 +242,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2349296/figure-reproduction/pipeline/extract_terms.py">RelEx’s 1,048 relation terms</a>, from an archived page</li>
                   <li><a href="PMC2349296/">Tables 2 to 4 and Figs 1 and 2</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; 4 of 8 text claims differ</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; 4 of 8 text claims differ</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.1.0">v0.1.0</a></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2007-03-26">26 Mar 2007</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-10-28">28 Oct 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC1847688</span>
-                  <a class="title" href="https://doi.org/10.1186/1471-2105-8-101">LIMPIC: a computational method for the separation of protein MALDI-TOF-MS signals from noise</a>
+                  <a class="title" href="PMC1847688/">LIMPIC: a computational method for the separation of protein MALDI-TOF-MS signals from noise</a>
                   <span class="journal">Mantini et al., BMC Bioinformatics</span>
-                  <span class="go"><a href="PMC1847688/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC1847688">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-8-101">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC1847688">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The kurtosis the code was run with</li>
@@ -183,16 +264,17 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC1847688/figure-reproduction/pipeline/octave">The MATLAB code</a> running again in Octave</li>
                   <li><a href="PMC1847688/">Figs 2 to 8</a> on the published axes</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">Figs 2 to 8 came back</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">Figs 2 to 8 came back</span></td>
+                <td data-label="Paper2Repro"><span class="ver-none">Not recorded</span></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2009-03-05">5 Mar 2009</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-11">11 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC2666661</span>
-                  <a class="title" href="https://doi.org/10.1186/1471-2105-10-78">Performance of random forest when SNPs are in linkage disequilibrium</a>
+                  <a class="title" href="PMC2666661/">Performance of random forest when SNPs are in linkage disequilibrium</a>
                   <span class="journal">Meng et al., BMC Bioinformatics</span>
-                  <span class="go"><a href="PMC2666661/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2666661">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-10-78">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2666661">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The revised Random Forests program (Fortran 77)</li>
@@ -202,16 +284,37 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2666661/package">The revised forest as a Python package</a>, checked against Breiman and Cutler’s Fortran (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2666661/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
                   <li><a href="PMC2666661/">Table 1 and Figs 1 to 6</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claim holds; haplotype figures differ at low LD</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; haplotype figures differ at low LD</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2004-03-18">18 Mar 2004</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-13">13 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC407845</span>
+                  <a class="title" href="PMC407845/">Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data</a>
+                  <span class="journal">Gao et al., BMC Bioinformatics</span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-5-31">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC407845">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>MA-Networker and its online regression tool</li>
+                  <li>The 751-array expression library</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC407845/package">MA-Networker as a Python package</a>, rebuilt from the paper (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC407845/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC407845/">Tables 1 and 3 and Figs 1 to 3</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">Bound genes and the validations come back; coupling counts differ</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2010-02-24">24 Feb 2010</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-11">11 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC2853684</span>
-                  <a class="title" href="https://doi.org/10.1093/bioinformatics/btq076">The power of protein interaction networks for associating genes with diseases</a>
+                  <a class="title" href="PMC2853684/">The power of protein interaction networks for associating genes with diseases</a>
                   <span class="journal">Navlakha and Kingsford, Bioinformatics</span>
-                  <span class="go"><a href="PMC2853684/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1093/bioinformatics/btq076">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The code of all 13 methods and the consensus</li>
@@ -221,7 +324,8 @@
                   <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684/package">Neighborhood, Oti, random walk and propagation as a Python package</a>, equal to the authors' scores on every pair (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2853684/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
                   <li><a href="PMC2853684/">Figs 2 to 4 and S1 to S2</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="partly">Partly agrees</span><span class="verdict-note">The main claims hold; every single-method point came back</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claims hold; every single-method point came back</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
               </tr>
             </tbody>
           </table>
@@ -229,7 +333,6 @@
       </div>
     </div>
   </section>
-
 </main>
 
 <footer class="foot">
@@ -241,8 +344,11 @@
       <a href="PMC4081639/">lldmn figures</a>
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
+      <a href="PMC2850872/">Diabetes classifier tables</a>
       <a href="PMC4015815/">Remote homology figures</a>
+      <a href="PMC1847688/">LIMPIC figures</a>
       <a href="PMC2666661/">Random forest LD figures</a>
+      <a href="PMC407845/">MA-Networker figures</a>
       <a href="PMC2853684/">Disease gene network figures</a>
     </nav>
   </div>

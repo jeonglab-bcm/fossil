@@ -10,6 +10,8 @@ on:
     paths:
       - "PMC*/**"
       - "tools/check_skill.py"
+      - "tools/site_versions.py"
+      - "site/index.html"
       - ".github/workflows/results-check.yml"
 
 permissions:
@@ -32,6 +34,11 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/check_skill.py --base "origin/$BASE" 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Front page shows each paper's version
+        run: |
+          set -o pipefail
+          python3 tools/site_versions.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
 
   find:
     runs-on: ubuntu-24.04
