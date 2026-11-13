@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hivrecomb"
+version = "0.1.0"
+description = "Recombination rate and selection strength from time series sequence samples (Neher and Leitner 2010)."
+readme = "README.md"
+# Implemented from the paper's text; the authors' scripts were never released.
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil (jeonglab-bcm)" }]
+keywords = ["recombination", "population genetics", "HIV", "selection"]
+dependencies = ["numpy>=1.26,<3", "scipy>=1.11,<2"]
+
+[project.scripts]
+hivrecomb = "hivrecomb.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2813257"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2813257/package/tutorial/TUTORIAL.md"
+Paper = "https://doi.org/10.1371/journal.pcbi.1000660"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hivrecomb"]
