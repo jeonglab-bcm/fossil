@@ -1,0 +1,82 @@
+name: Reproduce PMC4110735
+
+# Reruns the PMC4110735 pipeline (GeCON co-expression networks, Roy et al. 2014) and checks it:
+# check_results.py on the fresh results.json, the package check, and the fresh run against the
+# committed output/ (compare_runs.py). The DREAM3 data are simulated again with the GNW port, and
+# GeCON, ARACNE, CLR and MRNET are scored on all 13 datasets.
+#
+# The Fig. 5 run times are read from the committed output/timing.json. Start the workflow by hand with
+# timing = true to measure them again (about 10 minutes more); they depend on the machine and are then
+# reported, not compared.
+on:
+  workflow_dispatch:
+    inputs:
+      timing:
+        description: "Also measure the Fig. 5 run times again"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC4110735/figure-reproduction/**"
+      - "PMC4110735/package/**"
+      - ".github/workflows/reproduce-pmc4110735.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4110735/figure-reproduction/**"
+      - "PMC4110735/package/**"
+      - ".github/workflows/reproduce-pmc4110735.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC4110735/figure-reproduction/requirements.txt ./PMC4110735/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.3.3"
+          use-public-rspm: true
+
+      - name: Install minet (Bioconductor 3.18)
+        run: Rscript PMC4110735/figure-reproduction/pipeline/install_r.R
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the pipeline
+        run: >
+          nextflow run PMC4110735/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.timing && '--timing' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4110735-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
