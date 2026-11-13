@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-12T20:42:16+00:00 / 2026-11-12T22:26:56+00:00 |
-| Wall clock | 104.7 min |
+| Started / ended (UTC) | 2026-11-12T20:42:16+00:00 / 2026-11-13T21:54:34+00:00 |
+| Wall clock | 1512.3 min |
 | Models | claude-opus-5, claude-opus-5-5 |
-| Human prompts | 1 (0 sent mid-turn) |
-| Assistant responses (API calls) | 223 + 0 in subagents |
-| Tool calls | 236 + 0 in subagents |
-| Tokens: input / cache write / cache read / output | 450 / 550,968 / 59,062,004 / 202,503 |
-| Tokens: total (incl. subagents) | 59,815,925 |
+| Human prompts | 3 (0 sent mid-turn) |
+| Assistant responses (API calls) | 315 + 0 in subagents |
+| Tool calls | 326 + 0 in subagents |
+| Tokens: input / cache write / cache read / output | 632 / 1,429,102 / 101,055,525 / 286,299 |
+| Tokens: total (incl. subagents) | 102,771,558 |
 
 ## Conversation
 
@@ -664,3 +664,339 @@ While CI finishes, saving a memory of this reproduction.
 - `Write` /home/sofias/.claude/projects/-home-sofias-fossil/memory/pmc2813257-reproduction.md
 
 - `Bash` Index the memory and poll CI
+
+### Claude · 2026-11-12 22:26:57
+
+CI is green. Pushing the final ledger.
+
+- `Bash` Write and push the final ledger
+
+- `Bash` Update PR session line and confirm CI
+
+- `Bash` Confirm CI on the head commit
+
+- `Bash` Wait for the final CI run
+
+### Claude · 2026-11-12 22:31:07
+
+Both workflows are green on the head commit `cbddbe5`. Closing out the open check from the self-review.
+
+- `Bash` Close the open CI check on the PR
+
+### Claude · 2026-11-12 22:31:26
+
+Done. **PR #58** is open and green: https://github.com/jeonglab-bcm/fossil/pull/58 (closes issue #51).
+
+**What came back** — 16 results: 2 agree, 11 partly agree, 1 differs, 2 not attempted; 8 open causes.
+
+Both of the paper's findings reproduce. The probability that a two-site haplotype missing at one sample appears at the next rises with distance and with elapsed time, while the haplotypes recombination cannot build stay flat; the fit is `0.106 + 0.261(1-exp(-4.06e-05·x))` against the published `0.10 + 0.26(1-exp(-4.39e-05·x))`. About 16% of non-synonymous polymorphisms change faster than 0.002 per generation (paper: 15%), and the synonymous ones do not.
+
+**The main gap, open:** the rate is 9.8e-06 per site and generation against the paper's 1.4e-05 — inside its own stated standard deviation, but low. Since c0, c1 and c2 come back, the difference lives entirely in the divisor ⟨M pA pB⟩: 1.19 here against the paper's 0.93. Five averaging conventions span 1.04–1.60 and none reaches 0.93; with the paper's value our fit gives 1.3e-05. The alignment carries part of it — MUSCLE 3.6 from its 2005 binary rather than a source build moves the rate to 1.25e-05. Adding the 212 Shriner 2004 clones that LANL's set 1 holds beyond the paper's accession list moves things further away, so they stay out.
+
+**Two things worth flagging:**
+- MUSCLE's alignment depends on input order, and E-utilities returns records in no fixed order — the first clean-checkout run differed for that reason alone. Records are now sorted by accession before aligning.
+- Pixel scoring could not separate our Fig. 2 and 4 curves from a near-miss control (published lines are 5 px wide; the real differences are that size), so those panels are scored as values read off the published panels in data units. Only Fig. 3 keeps a pixel verdict, with its pass mark above every control.
+
+All heavy work ran through Slurm (`debugq`, 4 cores/16 GB); nothing but `gh` and file edits touched the login node. The package `hivrecomb` installs from the repo, passes 7 tests and has an executed tutorial; the pipeline runs in ~4 minutes and CI reproduces all 27 committed outputs from a fresh download.
+
+### User · 2026-11-13 21:08:29
+
+The reviewer Hwan requested some changes on the veredict and also for us to redo the figure 4 because I believe the legend obstructs the figure and we can't overlap, please redo the figure , overlap it, check the veredict and also update the other veredicts as requested since I also agree with these changes
+
+### Claude · 2026-11-13 21:08:37
+
+Let me read Hwan's review on PR #58 to see exactly what was asked.
+
+- `Bash` Read PR reviews
+
+### Claude · 2026-11-13 21:09:55
+
+Hwan asks for 9 verdict changes plus a redo of Fig. 4 and a check of Fig. 3's x-range. Let me look at the current figures first.
+
+- `Bash` Check worktree state
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/figure-reproduction/output/figures/fig4_overlay.png
+
+### Claude · 2026-11-13 21:10:27
+
+The overlay shows the problem: my masks left the published legend and inset ink in place, so ours can't be laid over it. Looking at the published panel in detail.
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/figure-reproduction/output/published/fig4.png
+
+- `Bash` Regenerate published panel crops
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/work/out2/published/fig4.png
+
+### Claude · 2026-11-13 21:10:55
+
+Now I can see what Fig. 4 should contain: a legend box, an inset of three overlapping log-scale histograms, and the ≈15% bracket. Measuring their geometry.
+
+- `Bash` Locate the legend box
+
+- `Bash` Find legend box verticals
+
+- `Bash` Locate the inset frame
+
+- `Bash` Measure inset tick positions
+
+- `Bash` Find inset x tick label centers
+
+- `Bash` Group inset tick label columns
+
+- `Bash` Find inset y tick label rows
+
+- `Bash` Find the inset top frame behind the legend
+
+- `Bash` Find inset bar edges
+
+- `Bash` Scan rows for bar edges
+
+- `Bash` Find inset bin edges from bar tops
+
+### Claude · 2026-11-13 21:13:45
+
+Inset geometry measured: 21 bins over 0–0.011, log y 3–1380. Now checking Fig. 3's x-range as Hwan asked.
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/work/out2/published/fig3.png
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/figure-reproduction/output/figures/fig3_ours.png
+
+### Claude · 2026-11-13 21:15:42
+
+Fig. 4's inset is substantive, not decoration: its first bin shows ~1400 observations where our whole filtered set has 195. Let me read the published inset properly.
+
+- `Bash` Read published inset bar heights per class
+
+### Claude · 2026-11-13 21:16:30
+
+The inset reveals a real discrepancy: the paper's filtered-synonymous class has ~1300 observations in its first bin alone, where our whole filtered set has 195. Let me build this into the comparison properly.
+
+- `Bash` Add inset counts, slope SE and extra shares
+
+### Claude · 2026-11-13 21:16:45
+
+Now saving the fit's own bootstrap uncertainty, which gives a principled tolerance for c0, c1, c2.
+
+- `Bash` Record the fit's bootstrap spread
+
+### Claude · 2026-11-13 21:17:00
+
+Now the published readers: Fig. 3 bar heights and the Fig. 4 inset, with the legend region excluded.
+
+- `Bash` Read published Fig 3 bars and Fig 4 inset
+
+### Claude · 2026-11-13 21:17:36
+
+Fig. 3's bars read cleanly (peak 156 at 13–15×10⁻⁶). Now rewriting both renders: Fig. 3 on the published axes, Fig. 4 with its legend, inset and bracket.
+
+- `Bash` Rewrite the Fig 3 and Fig 4 renders
+
+- `Bash` Rerun analysis and render
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/work/out2/figures/fig4.png
+
+### Claude · 2026-11-13 21:18:49
+
+The layout matches; the inset just needs to sit under the legend as in the published panel.
+
+- `Bash` Put the legend over the inset and check geometry
+
+### Claude · 2026-11-13 21:19:15
+
+You've hit your individual spend limit · run /usage-credits to ask your admin for a higher limit · your 5-hour limit resets 4pm (America/Chicago)
+
+### User · 2026-11-13 21:25:51
+
+Try again
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/work/out2/figures/fig4.png
+
+### Claude · 2026-11-13 21:26:17
+
+Fig. 4 now matches the published layout (inset top 198 vs 200 px, legend top 81 vs 82) and the blue histogram gap is visible. Updating the masks so the inset bars are scored but text is not.
+
+- `Bash` Update masks and rescore
+
+- `Bash` Inspect control scores
+
+### Claude · 2026-11-13 21:27:03
+
+Pixels can't discriminate Fig. 4 (shared furniture dominates). Comparing the inset counts in data units.
+
+- `Bash` Compare inset counts with the published ones
+
+- `Bash` Compare Fig 3 bar heights
+
+- `Bash` Read the new statistics
+
+### Claude · 2026-11-13 21:28:30
+
+The numbers now support 5 of the 9 requested changes on their own merits. Implementing the restructuring.
+
+- `Bash` Restructure the result items
+
+### Claude · 2026-11-13 21:29:12
+
+Now updating the notes file: the new items, their labels and causes.
+
+- `Bash` Update the notes with new items and causes
+
+- `Bash` Rebuild results and compute verdicts
+
+- `Bash` Write verdicts and list them
+
+- `Bash` See why the write failed
+
+- `Bash` Run the full pipeline
+
+- `Bash` Read the render error
+
+- `Bash` Stage rates into RENDER and rerun
+
+- `Bash` Read the page build error
+
+- `Bash` Fix page rows and rerun
+
+- `Bash` Read the new verdicts
+
+### Claude · 2026-11-13 21:34:26
+
+Two items computed as `exact`, which overstates them — both depend on a bin width read from the published panel. Fixing that.
+
+- `Bash` Add the figure-read assumption and rerun
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/work/results/figures/fig4_overlay.png
+
+### Claude · 2026-11-13 21:35:50
+
+The overlay now works. One cosmetic nudge so the two bracket labels sit at the same place.
+
+- `Bash` Nudge the label and rerun
+
+### Claude · 2026-11-13 21:36:59
+
+Now refreshing the committed outputs and verifying the run reproduces them.
+
+- `Bash` Refresh committed outputs and verify
+
+### Claude · 2026-11-13 21:38:12
+
+All 27 outputs reproduce. Updating the prose to match the new structure and findings.
+
+- `Bash` Update the page prose
+
+- `Bash` Get the markdown table for the READMEs
+
+- `Bash` Check the 194 typo and inset field count
+
+- `Bash` Fix the count and tie the KS cause to the inset finding
+
+### Claude · 2026-11-13 21:38:53
+
+Now updating both READMEs with the new table and findings.
+
+- `Bash` Rewrite the paper README results section
+
+- `Bash` Update the pipeline README limits
+
+- `Bash` Update the top-level README and front page
+
+### Claude · 2026-11-13 21:39:42
+
+Running the pipeline once more so the page and results carry the final prose, then verifying.
+
+- `Bash` Final pipeline run and copy outputs
+
+- `Bash` Commit and push the review changes
+
+- `Bash` Wait for CI on the new commit
+
+- `Bash` Check for the new CI run
+
+- `Bash` Verify the push landed
+
+- `Bash` Wait for the run on the new head
+
+### Claude · 2026-11-13 21:44:06
+
+While CI starts, let me view the final Fig. 3 overlay to confirm the axis fix.
+
+- `Read` /home/sofias/fossil-issue51/PMC2813257/figure-reproduction/output/figures/fig3_overlay.png
+
+### Claude · 2026-11-13 21:44:18
+
+Fig. 3's shift is now unmistakable. One mask fix: a sliver of the published statistics text sits above my mask and counts as unmatched ink.
+
+- `Bash` Measure the statistics text block
+
+- `Bash` Isolate the text block from the bars
+
+### Claude · 2026-11-13 21:44:46
+
+That square is the published peak bar, not text — but my mask was hiding part of that bar. Measuring the text block precisely.
+
+- `Bash` Get the text bounding box
+
+- `Bash` Fix the Fig 3 mask and rerun
+
+- `Bash` Refresh outputs and verify reproducibility
+
+- `Bash` Commit the mask fix
+
+- `Bash` Wait for CI on the final head
+
+### Claude · 2026-11-13 21:49:49
+
+While CI runs, drafting the reply to Hwan with what each requested verdict now computes to.
+
+- `Bash` Final verdicts for the reply
+
+- `Bash` Reply to the review
+
+- `Bash` Check CI status
+
+- `Bash` List recent runs across the repo
+
+- `Bash` Check PR head and checks
+
+### Claude · 2026-11-13 21:50:46
+
+The PR now conflicts with main (other papers merged meanwhile), which is why CI stopped triggering. Merging main in.
+
+- `Bash` Merge main and see conflicts
+
+- `Bash` Inspect the gitignore conflict
+
+### Claude · 2026-11-13 21:50:58
+
+All three conflicts are additive (each PR appended its own block). Keeping both sides.
+
+- `Bash` Resolve the additive conflicts
+
+- `Bash` Check the merged README and site rows
+
+### Claude · 2026-11-13 21:51:13
+
+The site rows merged cleanly, but the README's workflow paragraph was duplicated. Merging those two into one.
+
+- `Bash` Merge the duplicated workflow paragraphs
+
+- `Bash` Review the merged README section
+
+### Claude · 2026-11-13 21:51:23
+
+The merge is clean — my changes add exactly my rows. Committing and letting CI run.
+
+- `Bash` Commit the merge and push
+
+- `Bash` Confirm the merge commit pushed
+
+- `Bash` Wait for CI on the merge commit
+
+- `Read` /tmp/claude-264982/-home-sofias-fossil/cfe1cea8-81fd-4628-a77e-b30f8e7b2b9c/tasks/b44ik6z47.output
+
+### Claude · 2026-11-13 21:54:07
+
+Both checks are green on the merge commit. Updating the PR body and the ledger.
+
+- `Bash` Update the PR body with the new table
