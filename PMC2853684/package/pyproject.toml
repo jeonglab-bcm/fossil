@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "diseasenet"
+version = "0.1.0"
+description = "Network-based gene-disease association scores (Neighborhood, Oti, random walk, propagation, clusters) and their leave-one-out evaluation, after Navlakha and Kingsford (2010)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3", "scipy>=1.13,<2"]
+
+[project.scripts]
+diseasenet = "diseasenet.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2853684/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diseasenet"]

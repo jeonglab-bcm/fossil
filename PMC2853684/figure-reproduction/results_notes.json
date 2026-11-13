@@ -1,0 +1,904 @@
+{
+ "paper": {
+  "id": "PMC2853684",
+  "title": "The power of protein interaction networks for associating genes with diseases",
+  "citation": "Navlakha S, Kingsford C. The power of protein interaction networks for associating genes with diseases. Bioinformatics 26(8):1057-1063 (2010)",
+  "doi": "10.1093/bioinformatics/btq076",
+  "license": "CC BY-NC 2.5"
+ },
+ "run": {
+  "date": "2026-11-11",
+  "pipeline": "PMC2853684/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2853684/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "HPRD.net",
+    "url": "https://web.archive.org/web/20100702195129id_/http://cbcb.umd.edu/DiseaseNet/HPRD.net",
+    "sha256": "01dc4f131f34be7c8d136ebd5ad3cf1650fdc5381e8d7f66e3a66be1d3d17c55"
+   },
+   {
+    "name": "OPHID.net",
+    "url": "https://web.archive.org/web/20100702195046id_/http://cbcb.umd.edu/DiseaseNet/OPHID.net",
+    "sha256": "c5ac93c5c5c2655e746f6a1a87828a49ebc7de817cacff4252ddb403828448ae"
+   },
+   {
+    "name": "DiseaseNetPreds.zip",
+    "url": "https://web.archive.org/web/20100702195150id_/http://cbcb.umd.edu/DiseaseNet/DiseaseNetPreds.zip",
+    "sha256": "a81ff1a16144fb1260e59ba0a4a227c6c63c5e12d848b7480cc2fbd864fa04af"
+   },
+   {
+    "name": "PMC2853684.1.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2853684.1/PMC2853684.1.pdf",
+    "sha256": "d1798054854107be16d8349e783555a9d9427080aab6040d5fbe15a369278840"
+   },
+   {
+    "name": "btq076_1.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2853684.1/btq076_1.pdf",
+    "sha256": "fb4647e9c21df8e0a4dbed2a7d405686f37e1238919d695b4a040af4152a3b94"
+   },
+   {
+    "name": "weka-stable-3.6.6.jar",
+    "url": "https://repo1.maven.org/maven2/nz/ac/waikato/cms/weka/weka-stable/3.6.6/weka-stable-3.6.6.jar",
+    "sha256": "1b3d05d73cb1608b39361a99974b83474954d951b389528556be24a8f823883f"
+   }
+  ],
+  "environment": {
+   "python": "3.12",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "matplotlib": "3.11.2",
+   "pillow": "13.0.0",
+   "pypdf": "7.0.1",
+   "mcl": "14-137",
+   "java": "21",
+   "weka": "3.6.6",
+   "nextflow": "26.04.3"
+  }
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1 (the methods compared)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A list of the methods, not a computed result.",
+    "evidence": [
+     "PMC2853684 Table 1"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig1",
+   "label": "Fig. 1 (leave-one-out scheme)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A schematic of the testing framework.",
+    "evidence": [
+     "PMC2853684 Fig. 1"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.sec21",
+   "label": "Sec. 2.1, network and annotation counts",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.sec21"
+  },
+  {
+   "id": "text.sec21.full_network",
+   "label": "Sec. 2.1, the whole HPRD network (9182 proteins, 36 169 interactions)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The paper's site distributed only the main component (HPRD.net: 8,776 proteins, 35,820 interactions); HPRD Release 7 itself is no longer distributed.",
+    "evidence": [
+     "https://web.archive.org/web/20100702195047id_/http://cbcb.umd.edu/DiseaseNet/"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.sec21.out_of_interval",
+   "label": "Sec. 2.1, 189 genes outside their disease's intervals",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "Needs the 2008 UniProt gene loci, which were not distributed; the candidate file already holds every gene in an interval of its disease, with the 189 assigned.",
+    "evidence": [
+     "locus_disease_preds-HPRD-LOC: all 2,068 known pairs are candidates"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "port",
+   "label": "Methods rerun from the paper's text against the authors' prediction files",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "from": "port",
+   "assumptions": [
+    {
+     "what": "Prop starts its flow at zero, F(0) = 0.",
+     "source": "found_by_search",
+     "sensitivity": "Starting at the prior Y changes the scores by a median 8e-5 (relative, up to 7%) and matches none of 17,406 tested pairs; F(0) = 0 matches all to 5e-12."
+    },
+    {
+     "what": "OPHID's RW and Prop scores use a self-interaction on every protein (HPRD's use only HPRD's own 1,839).",
+     "source": "found_by_search",
+     "sensitivity": "Without them OPHID RW scores differ by a median 14% (131 of 208,509 equal); with them all 208,509 are equal."
+    },
+    {
+     "what": "MCL is the micans.org program, release 14-137, inflation 2.0 (the supplement's value); the authors' release is not stated.",
+     "source": "our_choice",
+     "sensitivity": "Its clusters give all 387,070 MCL scores of both networks exactly."
+    }
+   ]
+  },
+  {
+   "id": "fig2a",
+   "label": "Fig. 2a, precision and recall of the 13 methods on HPRD",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "fig2a",
+   "outputs": [
+    "figure-reproduction/output/figures/fig2a_ours.png",
+    "figure-reproduction/output/figures/fig2a_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Fig. 2 drops consecutive repeated points and points with recall below 1% (the text states the second); Supp. Fig. S1 keeps repeats.",
+     "source": "found_by_search",
+     "sensitivity": "Keeping repeats in Fig. 2a would add 69 points the figure does not draw."
+    },
+    {
+     "what": "Percentages rounded to 0.1 with ties to even, as R rounds (81.25 gives 81.2).",
+     "source": "found_by_search",
+     "sensitivity": "Rounding ties up changes 2 of 237 Fig. 2a fields (Prop 81.2 and GS1 56.2 become 81.3 and 56.3)."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Every point the paper draws comes back, but our curves have 3 points the figure leaves out: GS1 at theta 0.25 (11.5, 44.4) and VI-CutS at 0.25-0.3 (1.6, 65.4) and 0.4-0.45 (1.5, 66.7). The same thresholds are drawn for every other method, and Supp. Fig. S1 draws all 19 GS1 and VI-CutS points.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json (fig2a.extra_points)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The figure drops a point dominated by another at the same recall.",
+      "test": "Applied to our curves.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The figure's grid lacks thresholds 0.25 and 0.4.",
+      "test": "Neighborhood's points at 0.25 (9.5, 36.0) and 0.4 (5.9, 36.9) are drawn.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The figure was drawn from GS1 and VI-Cut scores other than the released files.",
+      "test": "Not testable: the GS code is lost; every other drawn GS1 and VI-CutS point equals the files'.",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "fig2b",
+   "label": "Fig. 2b, the clustering methods magnified",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "fig2b",
+   "outputs": [
+    "figure-reproduction/output/figures/fig2b_ours.png",
+    "figure-reproduction/output/figures/fig2b_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Fig. 2 drops consecutive repeated points and points with recall below 1% (the text states the second); Supp. Fig. S1 keeps repeats.",
+     "source": "found_by_search",
+     "sensitivity": "Keeping repeats in Fig. 2a would add 69 points the figure does not draw."
+    },
+    {
+     "what": "Percentages rounded to 0.1 with ties to even, as R rounds (81.25 gives 81.2).",
+     "source": "found_by_search",
+     "sensitivity": "Rounding ties up changes 2 of 237 Fig. 2a fields (Prop 81.2 and GS1 56.2 become 81.3 and 56.3)."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "As Fig. 2a: every drawn point comes back; GS1 (11.5, 44.4) and VI-CutS (1.6, 65.4), (1.5, 66.7) are ours only.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json (fig2b.extra_points)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Points dominated at the same recall are dropped.",
+      "test": "Applied to our curves.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The grid lacks thresholds 0.25 and 0.4.",
+      "test": "Neighborhood's 0.25 and 0.4 points are drawn in Fig. 2a.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "fig2a.consensus",
+   "label": "Fig. 2a, consensus Random Forest (5 points)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "from": "fig2a.consensus",
+   "outputs": [
+    "figure-reproduction/output/figures/fig2a_ours.png",
+    "figure-reproduction/output/figures/fig2a_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Weka 3.6.6 RandomForest with its defaults (10 trees, 4 features per split, seed 1); 13 features (Oti1-3 as 0/1, GS-All as the largest GS score); 10-fold stratified cross-validation, our split (seed 1); predicted when the yes probability >= theta.",
+     "source": "our_choice",
+     "sensitivity": "Over sklearn forests (10 or 100 trees, 2 seeds) the theta = 0.5 point moves between 15.7 and 17.6% recall and 54.3 and 66.5% precision."
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The paper gives neither the forest's settings, the Weka version nor how pairs were split for training and testing; a forest of 10 trees with probabilities in steps of 0.1 moves several points per change. All five points stay Pareto optimal, as the paper says.",
+    "evidence": [
+     "figure-reproduction/output/consensus.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Weka defaults with 10-fold cross-validation reproduce the points.",
+      "test": "Ran Weka 3.6.6: theta 0.5 gives 20.8/49.4 against 16.8/55.3.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Predicted when the probability is strictly greater than theta.",
+      "test": "Same Weka run: theta 0.5 gives 17.4/60.9.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "scikit-learn forests (10 trees, 4 features; 100 trees) reproduce them.",
+      "test": "Two seeds each: 17.3/54.3 to 15.8/64.1 at theta 0.5, none within 0.1.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.sec31",
+   "label": "Sec. 3.1 and Introduction, ranges of precision and recall",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.sec31",
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Fig. 2 drops consecutive repeated points and points with recall below 1% (the text states the second); Supp. Fig. S1 keeps repeats.",
+     "source": "found_by_search",
+     "sensitivity": "Keeping repeats in Fig. 2a would add 69 points the figure does not draw."
+    },
+    {
+     "what": "Percentages rounded to 0.1 with ties to even, as R rounds (81.25 gives 81.2).",
+     "source": "found_by_search",
+     "sensitivity": "Rounding ties up changes 2 of 237 Fig. 2a fields (Prop 81.2 and GS1 56.2 become 81.3 and 56.3)."
+    }
+   ],
+   "exceptions": [
+    {
+     "field": "precision, highest",
+     "category": "paper_error",
+     "evidence": "Fig. 2a itself draws RW at 92.9% (recall 1.3); the text's 92.3% is RW's last point (text.arithmetic)."
+    },
+    {
+     "field": "recall, lowest",
+     "category": "paper_error",
+     "evidence": "Fig. 2a itself draws VI-CutS at 1.1% recall, and the same paragraph gives 1.1% as the clustering minimum (text.arithmetic)."
+    },
+    {
+     "field": "clustering precision, highest",
+     "category": "paper_error",
+     "evidence": "Fig. 2a itself draws VI-CutS at 70.6% (recall 1.2); 68.6% is not among its points (text.arithmetic)."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Three Sec. 3.1 ranges are not the extremes of the paper's own Fig. 2a (exceptions). The VI-CutS average (66.0%) is unspecified: ours over all 19 thresholds is 66.1%, accepted by the reviewer; over the 7 drawn points it is 65.3% and over thresholds from 0.5 up 68.1%.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (sec31_vicuts)",
+     "text.arithmetic"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Mean over the 19 thresholds.",
+      "test": "66.15% (recall 1.4%, which matches); accepted by the reviewer.",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Mean over the points Fig. 2a draws.",
+      "test": "65.3%.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Mean over thresholds from 0.5 up.",
+      "test": "68.1%.",
+      "result": "rejected"
+     }
+    ],
+    "status": "explained"
+   },
+   "accepted": [
+    {
+     "field": "VI-CutS mean precision",
+     "tolerance": {
+      "abs": 0.2
+     },
+     "by": "hyunhwan-bcm",
+     "where": "https://github.com/jeonglab-bcm/fossil/pull/56 (review of 2026-11-12: Partly -> Agrees)",
+     "reason": "The paper does not say over which thresholds it averages VI-CutS. Ours is 66.1% over all 19 thresholds (recall 1.4%, as printed); the reviewer accepts 66.1 for the printed 66.0."
+    }
+   ]
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Sec. 3.1 ranges recomputed from the points the paper draws in Fig. 2a",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "from": "text.arithmetic"
+  },
+  {
+   "id": "text.sec32.baselines",
+   "label": "Sec. 3.2, interval-only baselines",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.sec32.baselines",
+   "assumptions": [
+    {
+     "what": "Random baseline averaged over 1,000 draws (numpy seed 2010); the paper gives neither.",
+     "source": "our_choice",
+     "sensitivity": "Standard deviation over draws 0.28 percentage points; the mean is 1.59%."
+    }
+   ]
+  },
+  {
+   "id": "text.sec32.noloc",
+   "label": "Sec. 3.2, predictions without linkage intervals",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "from": "text.sec32.noloc",
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Without intervals, GS and VI-Cut come only from the thresholded HPRD-NOLOC files (scores of at least 1/3), so their points use thresholds from 0.35 up; Neighborhood, Oti, RW, Prop and MCL are rerun on every gene-disease pair.",
+     "source": "our_choice",
+     "sensitivity": "The VI-CutS extremes (48.0% precision, 1.1% recall) lie at thresholds 0.7 and 0.75, inside the complete range."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "The printed highest recall without intervals (29.0%) is RW's recall at theta 0.0005; the printed lowest precision (1.3%) is at theta 0.0001, where recall is 37.6%, as Fig. 2a draws. The claim contradicts itself (exception); every other value matches.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (noloc.curves)",
+     "Fig. 2a: RW at 37.6% recall"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The no-interval RW grid starts at 0.0005.",
+      "test": "Recall then tops at 33.3% (Prop 0.01) and the lowest precision is 2.5%, not 1.3%.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only RW, not Prop, is counted.",
+      "test": "Highest precision would be 24.4%, not 37.1%.",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The text quotes the recall of the second RW threshold.",
+      "test": "RW at theta 0.0005: 29.0% recall, as printed.",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   },
+   "exceptions": [
+    {
+     "field": "random walks, highest recall",
+     "category": "paper_error",
+     "evidence": "The claim contradicts itself and the paper's Fig. 2a. Its lowest precision, 1.3%, occurs only for RW at theta 0.0001, where recall is 37.6%. Without intervals, recall equals recall with intervals (every known pair lies in an interval of its disease), and Fig. 2a draws RW at 37.6% recall at that threshold. So 1.3% and a 29.0% maximum cannot both hold; 29.0% is RW's recall at theta 0.0005."
+    }
+   ]
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, diseases by maximum precision and recall (row and column sums)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "fig3",
+   "outputs": [
+    "figure-reproduction/output/figures/fig3_ours.png",
+    "figure-reproduction/output/figures/fig3_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    }
+   ]
+  },
+  {
+   "id": "text.sec33",
+   "label": "Sec. 3.3, prediction quality per disease",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.sec33",
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    },
+    {
+     "what": "'At least half of the 13 methods achieved precision > 90%' counted as the supplement defines it: predicted by at least 7 methods, all with precision >= 90%.",
+     "source": "paper",
+     "sensitivity": "Read literally (7 methods with precision > 90%, unpredicting methods counted as 0) it gives 35, not 19."
+    }
+   ]
+  },
+  {
+   "id": "text.supp4",
+   "label": "Supp. Sec. 4, the 19 diseases most amenable to network prediction",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.supp4",
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    }
+   ]
+  },
+  {
+   "id": "fig4a",
+   "label": "Fig. 4a, F1 against neighbourhood homophily",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "fig4a",
+   "outputs": [
+    "figure-reproduction/output/figures/fig4a_ours.png",
+    "figure-reproduction/output/figures/fig4a_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    },
+    {
+     "what": "Neighbourhood homophily divides by a gene's annotated neighbours (neighbours associated with any disease), not by all its neighbours as the text reads.",
+     "source": "found_by_search",
+     "sensitivity": "Dividing by all neighbours gives bin counts 356, 45, 22, 10, 7, 6, 3, 1, 0, 0 against the published 311, 37, 24, 24, 11, 10, 12, 10, 3, 8; the annotated-neighbour version gives all ten."
+    },
+    {
+     "what": "Bars, error bars and fits use only (method, disease) pairs where the method predicts something for the disease; error bars are +/- the variance of those F1 values (the caption says 'variance').",
+     "source": "found_by_search",
+     "sensitivity": "Averaging over all pairs gives bars 0.010-0.845 against the published 0.063-0.951 (Fig. 4a); the standard deviation of the five method means gives error bars 0.03-0.14 against 0.025-0.10."
+    },
+    {
+     "what": "The legend's 'regression values' are Pearson correlations of per-disease F1 (or precision, recall) with the homophily measure.",
+     "source": "found_by_search",
+     "sensitivity": "Over all 450 diseases instead of those with predictions, Neighborhood gives 0.87 against the printed 0.91."
+    }
+   ]
+  },
+  {
+   "id": "fig4b",
+   "label": "Fig. 4b, F1 against average pairwise distance",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "fig4b",
+   "outputs": [
+    "figure-reproduction/output/figures/fig4b_ours.png",
+    "figure-reproduction/output/figures/fig4b_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    },
+    {
+     "what": "Bars, error bars and fits use only (method, disease) pairs where the method predicts something for the disease; error bars are +/- the variance of those F1 values (the caption says 'variance').",
+     "source": "found_by_search",
+     "sensitivity": "Averaging over all pairs gives bars 0.010-0.845 against the published 0.063-0.951 (Fig. 4a); the standard deviation of the five method means gives error bars 0.03-0.14 against 0.025-0.10."
+    },
+    {
+     "what": "The legend's 'regression values' are Pearson correlations of per-disease F1 (or precision, recall) with the homophily measure.",
+     "source": "found_by_search",
+     "sensitivity": "Over all 450 diseases instead of those with predictions, Neighborhood gives 0.87 against the printed 0.91."
+    }
+   ]
+  },
+  {
+   "id": "text.sec35",
+   "label": "Sec. 3.5, uniqueness of correct predictions",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "from": "text.sec35",
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    }
+   ]
+  },
+  {
+   "id": "figS1",
+   "label": "Supp. Fig. S1, precision and recall on OPHID",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "figS1",
+   "outputs": [
+    "figure-reproduction/output/figures/figS1_ours.png",
+    "figure-reproduction/output/figures/figS1_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Percentages rounded to 0.1 with ties to even, as R rounds (81.25 gives 81.2).",
+     "source": "found_by_search",
+     "sensitivity": "Rounding ties up changes 2 of 237 Fig. 2a fields (Prop 81.2 and GS1 56.2 become 81.3 and 56.3)."
+    }
+   ]
+  },
+  {
+   "id": "figS2",
+   "label": "Supp. Fig. S2, precision and recall against homophily",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "from": "figS2",
+   "outputs": [
+    "figure-reproduction/output/figures/figS2_ours.png",
+    "figure-reproduction/output/figures/figS2_overlay.png"
+   ],
+   "assumptions": [
+    {
+     "what": "Threshold grids: 0.05-0.95 in steps of 0.05 (Neighborhood and clusters); 0.0001, 0.0005, 0.001, 0.002, 0.0035, 0.005, then 0.01-0.09 in steps of 0.005 (RW); 0.01-0.05 in steps of 0.01, then 0.1-0.9 in steps of 0.05 (Prop). A pair is predicted when its score is greater than theta. The paper gives only the ranges.",
+     "source": "found_by_search",
+     "sensitivity": "These grids give all 340 drawn coordinates of Supp. Fig. S1 and all 224 of Fig. 2a. With >= instead of >, the first Neighborhood point moves from 23.7/23.5 to 24.0/23.2 and 9 of the 12 Neighborhood points change."
+    },
+    {
+     "what": "Per-method threshold 'corresponding to roughly 10% recall': the grid threshold whose recall is closest to 10% (Neighborhood 0.25, GS1 0.4, GS2 0.35, GS3 0.05, GS-All 0.4, MCL 0.25, VI-CutL 0.4, VI-CutS 0.05, Prop 0.15, RW 0.01; Oti have no threshold).",
+     "source": "our_choice",
+     "sensitivity": "One grid step either way changes the counts; with these thresholds all 20 Fig. 3 margins, all Sec. 3.3 counts and all Sec. 3.5 values come back."
+    },
+    {
+     "what": "Neighbourhood homophily divides by a gene's annotated neighbours (neighbours associated with any disease), not by all its neighbours as the text reads.",
+     "source": "found_by_search",
+     "sensitivity": "Dividing by all neighbours gives bin counts 356, 45, 22, 10, 7, 6, 3, 1, 0, 0 against the published 311, 37, 24, 24, 11, 10, 12, 10, 3, 8; the annotated-neighbour version gives all ten."
+    },
+    {
+     "what": "Bars, error bars and fits use only (method, disease) pairs where the method predicts something for the disease; error bars are +/- the variance of those F1 values (the caption says 'variance').",
+     "source": "found_by_search",
+     "sensitivity": "Averaging over all pairs gives bars 0.010-0.845 against the published 0.063-0.951 (Fig. 4a); the standard deviation of the five method means gives error bars 0.03-0.14 against 0.025-0.10."
+    },
+    {
+     "what": "The legend's 'regression values' are Pearson correlations of per-disease F1 (or precision, recall) with the homophily measure.",
+     "source": "found_by_search",
+     "sensitivity": "Over all 450 diseases instead of those with predictions, Neighborhood gives 0.87 against the printed 0.91."
+    }
+   ]
+  },
+  {
+   "id": "tableS1",
+   "label": "Supp. Table 1, scores of the literature-backed associations",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "from": "tableS1",
+   "exceptions": [
+    {
+     "field": "PRMT2 / Myocardial: Prop",
+     "category": "paper_error",
+     "evidence": "Ours 0.0123: the table's 0.12 is ten times larger. ALOX5's Prop for the same disease (0.18) equals ours (0.182), so the scale is the same."
+    },
+    {
+     "field": "PSMA5 / Myocardial: Prop",
+     "category": "paper_error",
+     "evidence": "Ours 0.0183, printed 0.18 (a decimal slip, as for PRMT2)."
+    },
+    {
+     "field": "BCAS2 / Myocardial: Prop",
+     "category": "paper_error",
+     "evidence": "Ours 0.0173, printed 0.17 (a decimal slip, as for PRMT2)."
+    },
+    {
+     "field": "PSMA5 / Myocardial: MCL",
+     "category": "paper_error",
+     "evidence": "Ours 0.077 (1 of 13 other cluster members), printed 0.8; MCL scores are fractions k/(size - 1) and PSMA5's cluster has 14 members."
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "Three RW scores differ in the last printed digit: the table truncates where we round (9.87e-5 printed 9.8e-5; 2.39e-4 as 2.3e-4; 6.17e-4 as 6.1e-4), but ATM's 2.68e-3 is printed rounded (2.7e-3). Four other entries are decimal slips (exceptions).",
+    "evidence": [
+     "figure-reproduction/output/analysis.json (suppT1)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The table truncates instead of rounding.",
+      "test": "Explains PRMT2, PSMA5 and MYC; ATM is rounded.",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The authors' RW scores without intervals differ from ours.",
+      "test": "Our rerun equals all 7,201 RW scores of the authors' HPRD-NOLOC file.",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "rerun.gs",
+   "label": "Graph summarization (GS1-3, GS-All) rerun",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The graph summarization code was never released with the paper; Navlakha's page linked it to an Alcatel-Lucent page that no archive captured. GS scores are used from the authors' prediction files.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/46"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "rerun.vicut",
+   "label": "VI-Cut (VI-CutS, VI-CutL) rerun",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The authors' VI-Cut code survives (vicut.zip, Wayback 2012), but its input, the tree of the modified graph-summarization merge process, is lost with the GS code. VI-Cut scores are used from the authors' prediction files.",
+    "evidence": [
+     "https://web.archive.org/web/20120622221732/http://cbcb.umd.edu/VICut/vicut.zip"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package diseasenet and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "from": "package",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "Navlakha and Kingsford released their predictions but not their code. We rebuilt the methods from the paper, reran them on the same networks, and compared every number the paper prints or draws. {exact} of {attempted} attempted results came back exactly, {agrees} agree, {partly} partly agree and {differs} differ; {not_attempted} were not attempted.",
+  "label_rows": [
+   [
+    "fig-2a",
+    "Fig. 2a",
+    [
+     "fig2a",
+     "fig2a.consensus"
+    ]
+   ],
+   [
+    "fig-2b",
+    "Fig. 2b",
+    [
+     "fig2b"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "fig-4a",
+    "Fig. 4a",
+    [
+     "fig4a"
+    ]
+   ],
+   [
+    "fig-4b",
+    "Fig. 4b",
+    [
+     "fig4b"
+    ]
+   ],
+   [
+    "fig-S1",
+    "Supp. Fig. S1",
+    [
+     "figS1"
+    ]
+   ],
+   [
+    "fig-S2",
+    "Supp. Fig. S2",
+    [
+     "figS2"
+    ]
+   ],
+   [
+    "items",
+    "Text and tables",
+    [
+     "text.sec21",
+     "text.sec31",
+     "text.sec33",
+     "text.sec35",
+     "tableS1"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, table and number of the paper, with the verdict check_results.py computes from our run. Figure values are read from the vector drawings in the paper's PDF.",
+  "claims_line": "The main findings of the paper hold: random walks are the most precise single methods, the consensus is Pareto optimal, and homophilic diseases are predicted better. Three Sec. 3.1 ranges, one Sec. 3.2 recall and four Supp. Table 1 scores are slips in the paper; the consensus points differ because the forest's settings are not stated.",
+  "came_back": [
+   [
+    "The methods",
+    "Neighborhood, Oti, RW and Prop rebuilt from the text, and MCL 14-137, give the authors' scores on all 387,070 candidate pairs of HPRD and OPHID (1,935,350 scores)."
+   ],
+   [
+    "Fig. 2 and Supp. Fig. S1",
+    "Every point the paper draws for the 13 single methods, on both networks."
+   ],
+   [
+    "Figs 3 and 4, Supp. Fig. S2",
+    "Every margin, bar, error bar, count and legend value."
+   ],
+   [
+    "Sections 2.1, 3.3 and 3.5",
+    "Every count and percentage, and the same named diseases."
+   ],
+   [
+    "The package",
+    "diseasenet, a Python package of the methods with a tutorial."
+   ]
+  ],
+  "buried": [
+   "The graph summarization code (GS1-3, GS-All) and the tree VI-Cut cuts: their scores come only from the authors' files.",
+   "The consensus forest's settings: our five points are near the paper's, not on them.",
+   "Which grid made three points vanish from Fig. 2a."
+  ],
+  "matched_intro": "Some settings are not in the paper. We found them by matching the authors' own prediction files and figures, and list them so that a reader can judge.",
+  "matched": [
+   [
+    "Threshold grids",
+    "0.05 steps for fractions; 0.0001-0.09 for RW; 0.01-0.9 for Prop."
+   ],
+   [
+    "Prop start",
+    "The flow starts at zero."
+   ],
+   [
+    "OPHID",
+    "Every protein has a self-interaction in the walks."
+   ],
+   [
+    "Homophily",
+    "Neighbours counted among annotated genes only."
+   ],
+   [
+    "Fig. 4 bars",
+    "Only method-disease pairs with a prediction; error bars are variances."
+   ],
+   [
+    "Fig. 4 and S2 lines",
+    "Least squares through each disease with a prediction; they equal the published lines within 1e-4."
+   ]
+  ],
+  "closing": "Dug up on 11 November 2026 from the paper's 2010 web site, as the Wayback Machine kept it."
+ }
+}
