@@ -1,0 +1,71 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "b56576df-81fd-5eac-99f8-8c805021e669",
+  "transcript": "b56576df-81fd-5eac-99f8-8c805021e669.jsonl",
+  "generated_at": "2026-11-13T18:24:27+00:00",
+  "started_at": "2026-11-13T17:39:25+00:00",
+  "ended_at": "2026-11-13T18:24:19+00:00",
+  "wall_clock_minutes": 44.9,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 2,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 150,
+  "tool_calls": 197,
+  "tool_calls_by_name": {
+    "Bash": 136,
+    "Read": 17,
+    "Write": 13,
+    "TaskCreate": 9,
+    "TaskUpdate": 8,
+    "ToolSearch": 4,
+    "Edit": 3,
+    "mcp__github__issue_read": 2,
+    "WebSearch": 2,
+    "mcp__claude-code-remote__add_repo": 1,
+    "mcp__claude-code-remote__read_documentation": 1,
+    "TaskStop": 1
+  },
+  "tokens": {
+    "input": 304,
+    "cache_creation": 429016,
+    "cache_read": 42365280,
+    "output": 188974,
+    "thinking": 56480,
+    "total": 42983574
+  },
+  "subagents": {
+    "transcripts": 0,
+    "assistant_responses": 0,
+    "tool_calls": 0,
+    "tokens": {
+      "input": 0,
+      "cache_creation": 0,
+      "cache_read": 0,
+      "output": 0,
+      "thinking": 0,
+      "total": 0
+    }
+  },
+  "tokens_all": {
+    "input": 304,
+    "cache_creation": 429016,
+    "cache_read": 42365280,
+    "output": 188974,
+    "thinking": 56480,
+    "total": 42983574
+  },
+  "prompts": [
+    {
+      "at": "2026-11-13T17:39:26.361Z",
+      "text": "Read https://github.com/jeonglab-bcm/Paper2Repro and install all skills\nfrom skills/paper2agent for Claude Code. Install nested skills as well",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-13T17:42:00.103Z",
+      "text": "<command-message>paper2repro</command-message>\n<command-name>/paper2repro</command-name>\n<command-args>Reproduce https://pmc.ncbi.nlm.nih.gov/articles/PMC407845/ with the paper2repro skill. Follow its definition of done. Open one pull request at the end. To address issue #48 of the github https://github.com/jeonglab-bcm/fossil/</command-args>",
+      "mid_turn": false
+    }
+  ]
+}
