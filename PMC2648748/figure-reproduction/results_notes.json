@@ -1,0 +1,438 @@
+{
+  "paper": {
+    "id": "PMC2648748",
+    "title": "A random forest approach to the detection of epistatic interactions in case-control studies",
+    "citation": "Jiang R, Tang W, Wu X, Fu W. A random forest approach to the detection of epistatic interactions in case-control studies. BMC Bioinformatics 10(Suppl 1):S65 (2009)",
+    "doi": "10.1186/1471-2105-10-S1-S65",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-13",
+    "pipeline": "PMC2648748/figure-reproduction/main.nf",
+    "command": "nextflow run PMC2648748/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "PMC2648748.1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2648748.1/PMC2648748.1.pdf",
+        "sha256": "f797d12c1962658158ec0225f0def0d5f5a096bfa118a90f7ccb62f5d9bc4e4f",
+        "note": "the paper; Figs 2 and 3 are extracted from it (pdfimages, pages 5 and 6) and kept in published/ for the comparison"
+      },
+      {
+        "name": "pgen.1000464.s001.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2669883.1/pgen.1000464.s001.pdf",
+        "sha256": "48e2524108309ab943b9814430596b3fbd67b0e3478c20116717f2a2931f93a7",
+        "note": "Text S1 of epiMODE (Tang, Wu, Jiang and Li 2009, PLoS Genet 5:e1000464, the same group): how the disease models and the LD between a locus and its marker were simulated. Read, not used by the pipeline."
+      }
+    ],
+    "environment": {}
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1, the two stages of epiForest",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A diagram of the method; it holds no data. The method it shows is the package epiforest.",
+        "status": "explained",
+        "evidence": [
+          "package/R/epiforest.R"
+        ]
+      }
+    },
+    {
+      "id": "fig2.epiforest",
+      "label": "Fig. 2, power of epiForest (24 bars)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig2.values.epiforest",
+      "assumptions": "@sim_assumptions+ef_assumptions"
+    },
+    {
+      "id": "fig2.beam",
+      "label": "Fig. 2, power of BEAM (24 bars)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "summary": "BEAM 1.0 (Zhang and Liu 2007) was distributed only as a binary from the authors' Harvard page, which now answers 403; the Pasteur mirror keeps only its README, and the Wayback Machine could not be reached from this session. BEAM3 and StrBEAM are other methods. Rebuilding BEAM's MCMC was out of scope.",
+        "status": "explained",
+        "evidence": [
+          "https://gensoft.pasteur.fr/docs/BEAM/NA/BEAM_README.txt",
+          "http://www.fas.harvard.edu/~junliu/BEAM/"
+        ]
+      }
+    },
+    {
+      "id": "fig2.lr",
+      "label": "Fig. 2, power of stepwise logistic regression (24 bars)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig2.values.lr",
+      "assumptions": "@sim_assumptions+lr_assumptions"
+    },
+    {
+      "id": "fig2.chisq",
+      "label": "Fig. 2, power of the chi-squared test (24 bars)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig2.values.chisq",
+      "assumptions": "@sim_assumptions"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, the figure (pixels, BEAM bars masked)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "comparison.json:fig2.pixels",
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "assumptions": "@render_assumptions"
+    },
+    {
+      "id": "fig3.medians",
+      "label": "Fig. 3, median number of SNPs SWSFS selects (24 boxes)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig3.medians",
+      "assumptions": "@sim_assumptions+ef_assumptions"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, the figure (pixels)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "comparison.json:fig3.pixels",
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "assumptions": "@render_assumptions"
+    },
+    {
+      "id": "text.model1_similar",
+      "label": "Text: all methods perform alike in model 1",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "claim_fields": [
+        [
+          "Every pair of epiForest, logistic regression and chi-squared within Monte Carlo error in all 8 model-1 settings",
+          "model1_similar"
+        ]
+      ]
+    },
+    {
+      "id": "text.small_maf",
+      "label": "Text: in models 2 and 3 epiForest beats logistic regression and chi-squared at small MAF, where chi-squared does poorly",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "claim_fields": [
+        [
+          "Model 2, r2 = 1, MAF 0.05 and 0.10: epiForest above both",
+          "model2_epiforest_above_small_maf"
+        ],
+        [
+          "Model 2, r2 = 1, MAF 0.05 and 0.10: chi-squared lowest",
+          "model2_chisq_lowest_small_maf"
+        ],
+        [
+          "Model 3, r2 = 1, MAF 0.05 and 0.10: epiForest above both",
+          "model3_epiforest_above_small_maf"
+        ],
+        [
+          "Model 3, r2 = 1, MAF 0.05 and 0.10: chi-squared lowest",
+          "model3_chisq_lowest_small_maf"
+        ]
+      ]
+    },
+    {
+      "id": "text.main_claim",
+      "label": "Main claim: epiForest's power is comparable to, sometimes higher than, the other methods'",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "claim_fields": [
+        [
+          "epiForest never below logistic regression beyond Monte Carlo error",
+          "epiforest_comparable_to_lr"
+        ],
+        [
+          "epiForest above logistic regression beyond Monte Carlo error in some setting",
+          "epiforest_sometimes_higher_than_lr"
+        ],
+        [
+          "epiForest never below chi-squared beyond Monte Carlo error",
+          "epiforest_not_below_chisq"
+        ],
+        [
+          "epiForest above chi-squared beyond Monte Carlo error in some setting",
+          "epiforest_sometimes_higher_than_chisq"
+        ]
+      ],
+      "assumptions": [
+        {
+          "what": "The comparison with BEAM, part of the claim, is left out: BEAM was not run (fig2.beam)",
+          "source": "our_choice"
+        }
+      ]
+    },
+    {
+      "id": "text.fig3_median",
+      "label": "Text: SWSFS selects about 45 SNPs in every setting, generally fewer than 80",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "claim_fields": [
+        [
+          "Median of the 24 box medians (about 45)",
+          "fig3_median_of_medians",
+          "45"
+        ],
+        [
+          "Settings whose largest selection is below 80 (generally)",
+          "fig3_max_below_80_settings",
+          "24"
+        ]
+      ]
+    },
+    {
+      "id": "text.swsfs_below_eps",
+      "label": "Text: SWSFS keeps fewer candidates than the 100 (10%) of stepwise logistic regression",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "claim_fields": [
+        [
+          "Median number selected below 100",
+          "selected_median_below_100"
+        ]
+      ]
+    },
+    {
+      "id": "text.beam_claims",
+      "label": "Text: BEAM beats logistic regression and chi-squared; epiForest and BEAM alike",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "summary": "Needs BEAM's power, which we could not compute (fig2.beam). On the paper's own figure the claim holds (text.arithmetic).",
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ]
+      }
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims about Figs 2 and 3 against the paper's own figure values",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check_from": "comparison.json:claims.paper",
+      "assumptions": [
+        {
+          "what": "Published bar heights and box medians read off the figures (read_published.py)",
+          "source": "read_from_figure",
+          "sensitivity": "Every bar reads within 0.2 power points of an integer count (tick fit residual 0.22 px, 3.82 px per point); medians within 0.1 SNP of a half-integer. Reading errors of this size do not change any claim."
+        }
+      ]
+    },
+    {
+      "id": "text.amd_filter",
+      "label": "Text: AMD data, 116,204 SNPs, 96 cases, 50 controls; 95,986 SNPs after filtering",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4, gini importance of the AMD SNPs",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "text.amd_gini",
+      "label": "Text: largest gini importance rs380390 (2.73) and rs1329428 (2.44)",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "text.amd_chisq",
+      "label": "Text: Bonferroni-corrected chi-squared p 0.0043 (rs380390) and 0.14 (rs1329428)",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5, gini importance against the B-statistic p-value (AMD)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "text.amd_pcc",
+      "label": "Text: Pearson correlation of gini importance and p-value -0.59, p < 2.2e-16",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "fig6",
+      "label": "Fig. 6, out-of-bag error against the number of top SNPs (AMD)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "text.amd_swsfs",
+      "label": "Text: minimum OOB error 8.5% at the top 84 SNPs; SWSFS builds 104 forests",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, top five two-way and three-way interactions in AMD",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "text.amd_interactions",
+      "label": "Text: no interaction significant after Bonferroni; 9 and 14 SNPs more significant than rs6104678 and rs7863587",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": "@amd_cause"
+    },
+    {
+      "id": "check.bstat_null",
+      "label": "Check: the B statistic's null distribution (our shift of the chi-squared)",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "checks/bstat_null.json"
+    },
+    {
+      "id": "package",
+      "label": "R package epiforest and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "package.json",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "templates": {
+    "sim_assumptions": [
+      {
+        "what": "Published bars and box medians read off Figs 2 and 3 (the 2400 x 1200 images in the paper's PDF) through each panel's tick marks",
+        "source": "read_from_figure",
+        "sensitivity": "Tick fits within 0.22 px; one power point is 3.82 px and every bar reads within 0.2 points of an integer count; Fig. 3 medians within 0.1 of a half-integer. The reading error is far below the Monte Carlo tolerance."
+      },
+      {
+        "what": "Disease models: Marchini et al.'s tables of odds for models 1 and 3; for model 2 the table of epiMODE (Tang et al. 2009, the same group), (1+t)^2, (1+t)^3, (1+t)^4 for two, three and four disease alleles, where Marchini has 1+t, (1+t)^2, (1+t)^4",
+        "source": "found_by_search",
+        "sensitivity": "Chosen among six documented readings by the exact chi-squared power, which involves no random forest (output/checks/model_variants.json): epiMODE's table puts 21 of the 24 chi-squared bars within Monte Carlo error (8 of 8 in model 2); Marchini's table 17 (4 of 8); either table read as relative risks 18, and Marchini's model 2 at MAF 0.05 to 0.2 cannot reach lambda = 0.5 as relative risks."
+      },
+      {
+        "what": "The marginal effect lambda is the odds ratio of the marginal penetrances of the heterozygote and the wild-type homozygote, minus 1 (Zhang and Liu 2007; epiMODE Text S1); prevalence 0.1 for every model (the paper)",
+        "source": "our_choice",
+        "sensitivity": "Prevalence 0.01 for model 2 (epiMODE's setting) puts 15 or 18 of the 24 chi-squared bars within Monte Carlo error instead of 21 (model_variants.json)."
+      },
+      {
+        "what": "LD between a disease locus and its marker: the marker has the locus's minor allele frequency and each marker allele follows the locus allele on its haplotype with correlation r = sqrt(r2) (epiMODE Text S1); null markers have MAF from U(0, 0.5) (the paper); the two disease markers sit at random columns",
+        "source": "our_choice",
+        "sensitivity": "Using 0.7 as r instead of r2 lowers model 3 at MAF 0.5 to 9% chi-squared power against the published 38% (model_variants.json, epimode_odds_r2_as_r: 19 of 24 bars within Monte Carlo error)."
+      },
+      {
+        "what": "A disease marker counts as identified when it is in any reported test; power is the share of 100 data sets where both are",
+        "source": "our_choice",
+        "sensitivity": "summary.json gives epiForest's power when both markers must be in one reported test (epiforest_joint) or reported singly (epiforest_one_way)."
+      }
+    ],
+    "ef_assumptions": [
+      {
+        "what": "ntree = 500 (randomForest's default) for the first forest and every SWSFS forest; the paper gives ntree only for the AMD forests (10^6)",
+        "source": "our_choice",
+        "sensitivity": "With 2000 trees SWSFS keeps still fewer SNPs on the data sets we tried (output/checks/swsfs_variants.json)."
+      },
+      {
+        "what": "mtry = floor(sqrt(number of SNPs in the forest)), randomForest's default (the paper prints the default garbled)",
+        "source": "paper",
+        "sensitivity": "With mtry fixed at 31 for every SWSFS forest: output/checks/swsfs_variants.json."
+      },
+      {
+        "what": "B statistic with pseudo-counts 0.5 and P0 in the denominator (the paper prints P1/P1); 2B minus a shift from Stirling's expansion is chi-squared with 3^k - 1 degrees of freedom (3^k - 3^t conditional); the conditional B tests the other markers with the reported ones keeping their association",
+        "source": "our_choice",
+        "sensitivity": "On null data the shifted statistic has the right mean and tail for one- and two-way tests and is conservative for three-way tests (check.bstat_null)."
+      },
+      {
+        "what": "Bonferroni over all L = 1000 markers (L, L(L-1)/2, L(L-1)(L-2)/6), as the paper says",
+        "source": "paper",
+        "sensitivity": "summary.json, epiforest_bonf_candidates: Bonferroni over the candidates instead."
+      }
+    ],
+    "lr_assumptions": [
+      {
+        "what": "Stepwise logistic regression: the full model with one parameter per observed genotype combination (likelihood-ratio test against the null model); 100 SNPs (10%) kept by their single-locus test; single-locus results adjusted by L, stage-2 results by the number of stage-2 tests of each order (Marchini et al.'s two-stage strategy); a disease marker found in any significant test",
+        "source": "our_choice",
+        "sensitivity": "summary.json: lr_bonf_all adjusts stage 2 by L(L-1)/2 and L(L-1)(L-2)/6; lr_single_only counts single-locus tests only."
+      }
+    ],
+    "render_assumptions": [
+      {
+        "what": "Drawn with base R at 12 x 6 in, 200 px per inch (the published 2400 x 1200 px), margins from the published frames; font Liberation Sans (Helvetica metrics); text sizes and offsets matched to the published glyphs. Only ink inside the frames is scored, so the text settings do not change the score",
+        "source": "our_choice"
+      }
+    ],
+    "amd_cause": {
+      "category": "data_unavailable",
+      "summary": "The AMD genotypes (Klein et al. 2005, Affymetrix 100K, 96 cases and 50 controls) came from J. Hoh and were never deposited; the AREDS scan in dbGaP (phs000001) has controlled access, and whether it holds the same 146 people is unverified.",
+      "status": "explained",
+      "evidence": [
+        "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000001",
+        "https://github.com/jeonglab-bcm/fossil/issues/60"
+      ]
+    }
+  },
+  "page": {}
+}

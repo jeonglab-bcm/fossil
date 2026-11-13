@@ -65,7 +65,13 @@ draw_fig3 <- function(path, counts) {
   open_png(path)
   for (p in 1:6) {
     r2 <- if (p <= 3) 0.7 else 1.0
-    boxplot(counts[[p]], notch = TRUE, ylim = c(0, 80), axes = FALSE, outcex = 1.1, outlwd = 1.5)
+    cp <- counts[[p]]
+    if (all(lengths(cp) == 0)) {
+      plot(NA, xlim = c(0.5, 4.5), ylim = c(0, 80), axes = FALSE, xlab = "", ylab = "")
+    } else {
+      cp <- lapply(cp, function(v) if (length(v)) v else NA_real_)
+      boxplot(cp, notch = TRUE, ylim = c(0, 80), axes = FALSE, outcex = 1.1, outlwd = 1.5)
+    }
     axis(2, at = seq(0, 80, 20), cex.axis = P$cex_axis, mgp = P$mgp_y, tcl = P$tcl)
     mtext(MAF_LABELS, side = 1, at = 1:4, line = P$line_names, cex = P$cex_names * 0.66)
     if ((p - 1) %% 3 == 0) {
@@ -80,7 +86,10 @@ draw_fig3 <- function(path, counts) {
 }
 
 panels <- function(key) lapply(summ$panels, function(pn) pn[[key]])
-as_power <- function(lst) lapply(lst, function(x) matrix(unlist(lapply(x, function(v) if (is.null(v)) NA else v)), 4, 4, byrow = TRUE))
+as_power <- function(lst) lapply(lst, function(x) {
+  if (is.null(x)) return(matrix(NA_real_, 4, 4))
+  matrix(unlist(lapply(x, function(row) lapply(row, function(v) if (is.null(v)) NA_real_ else v))), 4, 4, byrow = TRUE)
+})
 as_counts <- function(lst) lapply(lst, function(x) lapply(x, function(v) unlist(v)))
 
 power <- as_power(panels("power"))

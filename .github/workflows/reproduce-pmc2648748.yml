@@ -1,0 +1,89 @@
+name: Reproduce PMC2648748
+
+# Reruns the PMC2648748 pipeline (epiForest, Jiang et al. 2009) and checks it: three simulated data
+# sets rerun from scratch against the committed per-data-set records, the power of every method and
+# Fig. 3 recomputed from those records, both figures drawn and scored with their negative controls,
+# the disease-model and B-statistic checks, the R package (R CMD check and the tutorial), and the
+# fresh run against the committed output/ (compare_runs.py).
+#
+# The full simulation study (2,400 data sets, about 28 CPU hours) does not run here: start the
+# workflow by hand with full = true to rerun it on the runner (about 7 hours on 4 cores, so it
+# needs a larger runner than the default), and with variants = true to rerun the SWSFS hypothesis
+# tests (about 2 CPU hours).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Rerun all 2,400 simulated data sets"
+        type: boolean
+        default: false
+      variants:
+        description: "Rerun the SWSFS hypothesis tests"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2648748/figure-reproduction/**"
+      - "PMC2648748/package/**"
+      - ".github/workflows/reproduce-pmc2648748.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2648748/figure-reproduction/**"
+      - "PMC2648748/package/**"
+      - ".github/workflows/reproduce-pmc2648748.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 600 || 40 }}
+    env:
+      LC_ALL: C.UTF-8
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install R 4.3.3, randomForest 4.7-1.1, pandoc, poppler and the fonts (Ubuntu 24.04 packages)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            r-base-core=4.3.3-2build2 r-base-dev=4.3.3-2build2 r-cran-randomforest=4.7-1.1-1 \
+            r-cran-jsonlite=1.8.8+dfsg-1 r-cran-testthat=3.2.1-1 r-cran-knitr=1.45+dfsg-1 \
+            r-cran-rmarkdown=2.25+dfsg-3 pandoc poppler-utils fonts-liberation
+          Rscript -e 'cat(R.version.string, "randomForest", as.character(packageVersion("randomForest")), "\n")'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC2648748/figure-reproduction/requirements.txt
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2648748/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.full && '--full' || '' }} ${{ inputs.variants && '--variants' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2648748-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
