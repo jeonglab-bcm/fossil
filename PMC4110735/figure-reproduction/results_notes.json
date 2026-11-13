@@ -61,7 +61,7 @@
     {
      "what": "Line width 5 px and marker size 20 px (presentation)",
      "source": "read_from_figure",
-     "sensitivity": "Over widths 1 to 5 px and markers 16 to 24 px the score runs from 67% to 93%; every setting puts the series in the same place"
+     "sensitivity": "Width and marker size change only how much ink is drawn, not where; the near-miss controls (amplitude x0.95 and x1.05, shifts of 1% of the axis) score 37% to 85% at the same width"
     }
    ]
   },
@@ -80,7 +80,7 @@
     {
      "what": "Line width 2 px and marker size 16 px (presentation)",
      "source": "read_from_figure",
-     "sensitivity": "Over widths 1 to 5 px and markers 16 to 24 px the score runs from 80% to 96%"
+     "sensitivity": "Width and marker size change only how much ink is drawn, not where; the controls score 75% or less at the same width"
     }
    ]
   },
@@ -119,7 +119,7 @@
     {
      "field": "D13 clr",
      "category": "paper_error",
-     "evidence": "figure-reproduction/output/fig4.json: the bar stands at 0.533 (about 0.53), Table 2 prints 0.51; every other bar is within 0.006 of the table"
+     "evidence": "figure-reproduction/output/fig4.json: the bar stands at 0.533 (about 0.53), Table 2 prints 0.51; every other AUROC bar is within 0.006 of the table, and every bar of the three panels within 0.01"
     }
    ]
   },
@@ -186,7 +186,7 @@
     {
      "what": "Line width 3 px (presentation)",
      "source": "read_from_figure",
-     "sensitivity": "Widths 1 to 4 px score 85% to 95%"
+     "sensitivity": "Width changes only how much ink is drawn; the controls score 26% or less at the same width"
     }
    ]
   },
@@ -357,7 +357,7 @@
    "method": "values",
    "cause": {
     "category": "paper_error",
-    "summary": "Eq. (5) applies atan2 to the two raw values, so the angle depends on their ratio, not their difference. On Yeast KY's log values (around 7) every angle sits near 45 or 135 degrees and GeCON connects all 27,966 pairs; on the site's normalised version of the same genes it connects 1,226 (tau 20, theta 0.6). 97% of the log data's angles lie within 5 degrees of 45 or 135.",
+    "summary": "Eq. (5) applies atan2 to the two raw values, so the angle depends on their ratio, not their difference. On Yeast KY's log values (around 7) almost every angle sits near 45 or 135 degrees and GeCON connects all 27,966 pairs; on the site's normalised version of the same genes it connects 1,226 (tau 20, theta 0.6). 97% of the log data's angles lie within 5 degrees of 45 or 135.",
     "evidence": [
      "figure-reproduction/output/normalisation.json"
     ],
@@ -390,7 +390,7 @@
   "table2": {
    "category": "unknown",
    "status": "open",
-   "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values every edge angle of Eq. (5) sits near 45 or 135 degrees. The paper's GeCON values are out of reach of every variant we tried; the comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+   "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
    "evidence": [
     "figure-reproduction/output/dream.json",
     "figure-reproduction/output/datasets.json"
@@ -494,7 +494,7 @@
    ]
   ],
   "items_caption": "Every figure, table and claim of the paper, with our value and the verdict computed from it.",
-  "claims_line": "The paper's main claim does not hold on our run. GeCON, built as the paper describes it, ranks gene pairs no better than chance on the DREAM data, and ARACNE, CLR and MRNET beat it on 12 of 13 datasets. The likely reason is in Eq. (5): on positive data every angle sits near 45 or 135 degrees, so almost every pair is connected. Why the paper's scores are so much higher is open.",
+  "claims_line": "The paper's main claim does not hold on our run. GeCON, built as the paper describes it, ranks gene pairs no better than chance on the DREAM data, and the best of ARACNE, CLR and MRNET beats it on 12 of 13 datasets in every score. The likely reason is in Eq. (5): on positive data almost every edge angle sits near 45 or 135 degrees, so almost every pair is connected. Why the paper's scores are so much higher is open.",
   "came_back": [
    [
     "The method",
@@ -522,7 +522,7 @@
    ]
   ],
   "buried": [
-   "Table 2: GeCON's scores. Ours are near chance, the paper's are three to four times higher.",
+   "Table 2: GeCON's scores. Ours are near chance; the paper's mean AUPR is about three times ours (0.633 against 0.203).",
    "The authors' simulated DREAM3 data, their theta and tau per dataset, and how they scored a thresholded network.",
    "The yeast sporulation file (it would not download) and the 517 gene Arabidopsis matrix (never found).",
    "GeneMANIA's 2014 data and FuncAssociate, which gave Tables 4 and 5 their numbers.",
@@ -536,7 +536,7 @@
    ],
    [
     "Fig. 2",
-    "93% of the trace within 2 px; the best wrong input reaches 85%."
+    "93% of the trace within 2 px; the best wrong input reaches 55%, a 5% amplitude change 85%."
    ],
    [
     "Fig. 3",
@@ -562,7 +562,7 @@
     {
      "file": "fig4_run.png",
      "label": "Our run",
-     "note": "Our run's scores drawn in the same layout. GeCON's dark bars fall to the comparators' level or below."
+     "note": "Our run's scores drawn in the same layout. GeCON's dark bars fall to the comparators' level or below on 12 of the 13 datasets (not D2)."
     }
    ]
   }

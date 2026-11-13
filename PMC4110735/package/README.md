@@ -56,8 +56,8 @@ result with the paper's own values, and explains the input and output formats.
 | Sign when neither support exceeds θ | the larger support | not stated |
 | Standardising genes | off (`--standardize` to switch it on) | "insensitive to normalization" |
 
-On positive data with small relative changes, every angle of Eq. (5) sits near 45 or 135 degrees and
-almost every pair is connected; standardise first. The reproduction measured this.
+On positive data with small relative changes, almost every angle of Eq. (5) sits near 45 or 135 degrees
+and almost every pair is connected; standardise first. The reproduction measured this.
 
 ## Licence
 

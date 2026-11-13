@@ -192,7 +192,7 @@ def analyse(data, theta, terms, up, gafs, downloads, gaf_cache):
                 "GO:0008150", "GO:0003674", "GO:0005575")]
             p = [hypergeom.sf(mc[t] - 1, N, counts[t], len(mg)) for t in tids]
             q = bh(p) if p else []
-            hits = sorted(zip(q, p, tids), key=lambda x: (x[0], x[1]))
+            hits = sorted(zip(q, p, tids), key=lambda x: (x[0], x[1], x[2]))  # ties by GO id, not set order
             mres.append({"module": k + 1, "genes": len(m), "annotated": len(mg),
                          "top": [{"go": t, "name": terms[t]["name"], "q": float(f"{qq:.3g}"), "p": float(f"{pp:.3g}"),
                                   "in_module": mc[t], "in_dataset": counts[t]} for qq, pp, t in hits[:5]],
@@ -248,14 +248,17 @@ def main():
     data = datasets(downloads)
     gaf_cache = {}
     sens = {}
+    largest = {}
     for th in THETAS:
         r_th = analyse(data, th, terms, up, gafs, downloads, gaf_cache)
         rows_th = paper_rows(r_th, pv, terms, by_name)
         sens[f"{th:g}"] = {tab: sum(x["found"] == "yes" for x in rows_th[tab]) for tab in rows_th}
+        largest[f"{th:g}"] = {d: max([m["genes"] for m in v["modules"]], default=0) for d, v in r_th["datasets"].items()}
         if th == THETA:
             res["datasets"] = r_th["datasets"]
             res.update(rows_th)
     res["theta_sensitivity_found"] = sens
+    res["theta_largest_module"] = largest
     for tab in ("table4", "table5"):
         print(tab, [(r["dataset"], r["term"][:25], r["found"], r.get("our_q")) for r in res[tab]])
     print("found per theta", sens)

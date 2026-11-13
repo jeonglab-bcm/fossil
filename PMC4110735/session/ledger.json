@@ -1,0 +1,69 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "e0417bd7-9c83-541f-b9e3-f25d0c26af8c",
+  "transcript": "e0417bd7-9c83-541f-b9e3-f25d0c26af8c.jsonl",
+  "generated_at": "2026-11-13T18:19:31+00:00",
+  "started_at": "2026-11-13T17:33:58+00:00",
+  "ended_at": "2026-11-13T18:19:30+00:00",
+  "wall_clock_minutes": 45.5,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 2,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 218,
+  "tool_calls": 234,
+  "tool_calls_by_name": {
+    "Bash": 199,
+    "Read": 12,
+    "Write": 11,
+    "TaskCreate": 5,
+    "TaskUpdate": 2,
+    "Skill": 1,
+    "mcp__claude-code-remote__add_repo": 1,
+    "mcp__claude-code-remote__register_repo_root": 1,
+    "ToolSearch": 1,
+    "Agent": 1
+  },
+  "tokens": {
+    "input": 437,
+    "cache_creation": 445250,
+    "cache_read": 65852704,
+    "output": 191493,
+    "thinking": 48093,
+    "total": 66489884
+  },
+  "subagents": {
+    "transcripts": 1,
+    "assistant_responses": 19,
+    "tool_calls": 20,
+    "tokens": {
+      "input": 38,
+      "cache_creation": 121851,
+      "cache_read": 1623534,
+      "output": 16896,
+      "thinking": 8870,
+      "total": 1762319
+    }
+  },
+  "tokens_all": {
+    "input": 475,
+    "cache_creation": 567101,
+    "cache_read": 67476238,
+    "output": 208389,
+    "thinking": 56963,
+    "total": 68252203
+  },
+  "prompts": [
+    {
+      "at": "2026-11-13T17:33:58.770Z",
+      "text": "```\nRead https://github.com/jeonglab-bcm/Paper2Repro and install all the skills from skills/paper2agent for Claude Code.\n```",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-13T17:34:47.791Z",
+      "text": "Reproduce PMC4110735 ([https://doi.org/10.1186/1471-2105-15-S7-S10](https://doi.org/10.1186/1471-2105-15-S7-S10)) with the paper2repro skill. Follow its definition of done.\n\nWork on branch PMC4110735-gecon and open one pull request at the end. Closes jeonglab-bcm/fossil#52.",
+      "mid_turn": false
+    }
+  ]
+}
