@@ -184,7 +184,8 @@ def main(notes_path, rundir, out):
                      for y, f, h in (l.split() for l in tsv.read_text().splitlines() if l and not l.startswith("#"))]
     run.pop("inputs_list", None)
     res = {"schema": "paper2repro/results/v1", "paper": notes["paper"], "run": run,
-           "session": notes["session"], "items": items}
+           "session": notes["session"],
+           **({"skill": notes["skill"]} if "skill" in notes else {}), "items": items}
     res["run"]["environment"] = {**res["run"].get("environment", {}), **{f"R {k}": v for k, v in rc["versions"].items()}}
     Path(out).write_text(json.dumps(res, indent=1) + "\n")
 

@@ -61,6 +61,22 @@ python3 tools/check_results.py PMC4247685/figure-reproduction/results.json resul
 python3 tools/check_results.py PMC4247685/figure-reproduction/results.json results --update            # after an intended change
 ```
 
+Each reproduction also names the [Paper2Repro](https://github.com/jeonglab-bcm/Paper2Repro) release
+it was made with, in a `skill` block in `PMC…/results.json`. Papers made before that file existed keep
+it in `PMC…/figure-reproduction/results.json`. Sessions write it with the skill's
+`scripts/skill_version.py`. Blocks added afterwards say how the version was found (`source`:
+`transcript`, `inferred`, `none` or `unknown`, with a `note`). The `skill` job in the same workflow
+fails when a pull request adds a paper, or changes a paper's `results.json`, without a block whose
+version is a `paper2repro-v…` tag of Paper2Repro.
+
+The same job checks that the front page's Paper2Repro column matches each paper's block. The
+column is written by `tools/site_versions.py --write`, never by hand.
+
+```sh
+python3 tools/check_skill.py --all                 # every paper
+python3 tools/check_skill.py --base origin/main    # what this branch adds or changes
+```
+
 Values come from JSON (`"path": "pfs.p"`, or `"fig3.panel=a.published_within_2px"` to pick a list
 item by a field), from CSV (`"column"`, `"where"`, `"agg"`), or as a file's SHA-256
 (`"digest": "sha256"`). Paths are those of the pipeline's output directory; `"committed_paths"`
