@@ -17,9 +17,15 @@ DIMS = ["2", "3", "4", "5", "6", "7"]
 EXCEL6 = [(65, 111, 166), (168, 66, 63), (134, 164, 74), (110, 84, 141), (61, 150, 174), (218, 129, 55)]
 EXCEL4 = [(74, 126, 187), (190, 75, 72), (152, 185, 84), (125, 96, 160)]
 FIG5_DIM = "4"
-# Figs 4 and 5 have fewer markers than Fig. 2: at these epsilons, then (1, 1) (read from the
+# Fig. 4 has fewer markers than Fig. 2: at these epsilons, then (1, 1) (read from the
 # figures: the dimension-4 points at 0.05 ... 0.5 fall on the Fig. 4 markers)
 SPARSE_GRID = [0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+# Fig. 5 has five markers below 2% false positives on its 1,000 and 2,000 curves: 0.01 to 0.05
+# in steps of 0.01, then 0.1 to 0.5
+FIG5_GRID = [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5]
+# How each published Fig. 5 curve was embedded (fig5_single_deletions.py, results.json fig5): the
+# 500 to 2,000 curves match the largest component, the 3,000 curve every protein
+FIG5_EMBEDDING = {500: "lcc", 1000: "lcc", 2000: "lcc", 3000: "whole"}
 
 
 def on_grid(points, grid=SPARSE_GRID):
@@ -210,11 +216,13 @@ def main(yeast_json, human_json, pub_dir, out):
 
     n_all = Y["network"]["proteins"] * (Y["network"]["proteins"] - 1) // 2 - Y["network"]["interactions"]
 
-    def mean_curve(dim, k, all_deleted=True):
+    def mean_curve(dim, k, all_deleted=True, embedding=None):
         """Mean over the repeats. With all_deleted, every deleted edge is a positive and every
         non-edge of Yhigh a negative, so edges cut off from the largest component stay false
-        negatives until the last point (the published curves level off below 1)."""
-        runs = [on_grid(r["grid"]) for r in Y["fig5"][f"{dim}:{k}"]]
+        negatives until the last point (the published curves level off below 1). embedding is
+        "lcc" (the largest component) or "whole" (every protein), by default as FIG5_EMBEDDING."""
+        emb = embedding or FIG5_EMBEDDING[k]
+        runs = [on_grid((r if emb == "lcc" else r["whole"])["grid"], FIG5_GRID) for r in Y["fig5"][f"{dim}:{k}"]]
         n = min(len(r) for r in runs)
         if all_deleted:
             x = [float(np.mean([r[i]["fp"] / n_all for r in runs])) for i in range(n)]
@@ -229,18 +237,20 @@ def main(yeast_json, human_json, pub_dir, out):
     # The dimension of Fig. 5 is not stated: draw each candidate and keep the best (a search,
     # recorded as such); the others are near-miss controls.
     region = plot_region(a.shape, cal, [(745, 285, 1220, 535)])
-    search = {}
-    for dim, series in fig5.items():
-        pubs = pub_masks(a, EXCEL4, region)
-        w = float(np.median([ft.line_width(m) for m in pubs if m.any()]))
-        ex = np.zeros(a.shape[:2], bool)
-        for m in pubs:
-            ex |= ft.marker_mask(m, w)
-        search[dim] = score_panel(pubs, series, cal, a.shape, w, ex)[0]["score"]
+    pubs = pub_masks(a, EXCEL4, region)
+    w = float(np.median([ft.line_width(m) for m in pubs if m.any()]))
+    ex = np.zeros(a.shape[:2], bool)
+    for m in pubs:
+        ex |= ft.marker_mask(m, w)
+    search = {dim: score_panel(pubs, series, cal, a.shape, w, ex)[0]["score"] for dim, series in fig5.items()}
     best = max(search, key=search.get)
     ours = fig5[best]
+    all_lcc = [mean_curve(best, k, embedding="lcc") for k in ks]
+    all_whole = [mean_curve(best, k, embedding="whole") for k in ks]
     controls = [("deletion sizes in reverse order (3000 drawn as 500)", "wrong_input", ours[::-1]),
-                ("positives and negatives within the largest component only", "near_miss",
+                ("every curve from the largest component (3,000 too)", "near_miss", all_lcc),
+                ("every curve from every protein (500 to 2,000 too)", "near_miss", all_whole),
+                ("positives and negatives within the embedded proteins only", "near_miss",
                  [mean_curve(best, k, all_deleted=False) for k in ks])]
     controls += [(f"dimension {d} instead of {best}", "near_miss", fig5[d]) for d in fig5 if d != best]
     controls += [("y x 1.05", "near_miss", scale(ours, 1.05, ymax=1.0)),
@@ -248,9 +258,19 @@ def main(yeast_json, human_json, pub_dir, out):
                  ("x shifted by 0.01 (1% of the axis)", "near_miss", scale(ours, dx=0.01))]
     res["fig5"] = run_panel("fig5", a, cal, EXCEL4, [(745, 285, 1220, 535)], ours, controls, out)
     res["fig5"]["dimension_search"] = search
+    res["fig5"]["embedding"] = {str(k): v for k, v in FIG5_EMBEDDING.items()}
+    res["fig5"]["series_scores_all_lcc"] = [
+        round(min(x["published_near_ours"], x["ours_near_published"]), 4)
+        for x in score_panel(pubs, all_lcc, cal, a.shape, w, ex)[0]["series"]]
+    res["fig5"]["series_scores_all_whole"] = [
+        round(min(x["published_near_ours"], x["ours_near_published"]), 4)
+        for x in score_panel(pubs, all_whole, cal, a.shape, w, ex)[0]["series"]]
     res["fig5"]["auc_range_over_repeats"] = {
         f"{k}": [min(r["auc"] for r in Y["fig5"][f"{best}:{k}"]),
                  max(r["auc"] for r in Y["fig5"][f"{best}:{k}"])] for k in ks}
+    res["fig5"]["auc_range_over_repeats_every_protein"] = {
+        f"{k}": [min(r["whole"]["auc"] for r in Y["fig5"][f"{best}:{k}"]),
+                 max(r["whole"]["auc"] for r in Y["fig5"][f"{best}:{k}"])] for k in ks}
     FIG5 = best
     res["fig5"]["dimension"] = FIG5
 

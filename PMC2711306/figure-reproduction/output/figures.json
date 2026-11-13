@@ -288,33 +288,33 @@
   "threshold": 0.9
  },
  "fig5": {
-  "published_near_ours": 0.5298308800501096,
-  "ours_near_published": 0.7382820258192652,
-  "score": 0.5298308800501096,
+  "published_near_ours": 0.5566082054494206,
+  "ours_near_published": 0.6899744245524296,
+  "score": 0.5566082054494206,
   "series": [
    {
     "published_near_ours": 0.9049255441008018,
-    "ours_near_published": 0.7051700941764367,
+    "ours_near_published": 0.7049778973669037,
     "published_px": 1746,
     "ours_px": 5203
    },
    {
     "published_near_ours": 0.4523258802364431,
-    "ours_near_published": 0.6885692068429238,
+    "ours_near_published": 0.6892259821081291,
     "published_px": 3891,
-    "ours_px": 5144
+    "ours_px": 5142
    },
    {
-    "published_near_ours": 0.7509850275807722,
-    "ours_near_published": 0.8709024686361797,
+    "published_near_ours": 0.7529550827423168,
+    "ours_near_published": 0.8712811171827566,
     "published_px": 2538,
-    "ours_px": 4942
+    "ours_px": 4941
    },
    {
-    "published_near_ours": 0.33086795736349794,
-    "ours_near_published": 0.6914038342609771,
+    "published_near_ours": 0.4041766369371329,
+    "ours_near_published": 0.4624765478424015,
     "published_px": 4597,
-    "ours_px": 4851
+    "ours_px": 4264
    }
   ],
   "line_width_px": 4.0,
@@ -324,61 +324,107 @@
    {
     "name": "deletion sizes in reverse order (3000 drawn as 500)",
     "kind": "wrong_input",
-    "score": 0.17115565299091764
+    "score": 0.16356091450046978
    },
    {
-    "name": "positives and negatives within the largest component only",
+    "name": "every curve from the largest component (3,000 too)",
     "kind": "near_miss",
-    "score": 0.14993736298152208
+    "score": 0.5302223614155966
+   },
+   {
+    "name": "every curve from every protein (500 to 2,000 too)",
+    "kind": "near_miss",
+    "score": 0.3077043532727842
+   },
+   {
+    "name": "positives and negatives within the embedded proteins only",
+    "kind": "near_miss",
+    "score": 0.27192295646727216
    },
    {
     "name": "dimension 4 instead of 5",
     "kind": "near_miss",
-    "score": 0.3997807704353273
+    "score": 0.3848261822737238
    },
    {
     "name": "dimension 7 instead of 5",
     "kind": "near_miss",
-    "score": 0.43634512997181335
+    "score": 0.474005637331663
    },
    {
     "name": "y x 1.05",
     "kind": "near_miss",
-    "score": 0.14422173504541183
+    "score": 0.14829314124647666
    },
    {
     "name": "y x 0.95",
     "kind": "near_miss",
-    "score": 0.0699968681490761
+    "score": 0.06803946132164108
    },
    {
     "name": "x shifted by 0.01 (1% of the axis)",
     "kind": "near_miss",
-    "score": 0.4289069840275603
+    "score": 0.4581114938928907
    }
   ],
   "threshold": 0.9,
   "dimension_search": {
-   "4": 0.3997807704353273,
-   "5": 0.5298308800501096,
-   "7": 0.43634512997181335
+   "4": 0.3848261822737238,
+   "5": 0.5566082054494206,
+   "7": 0.474005637331663
   },
+  "embedding": {
+   "500": "lcc",
+   "1000": "lcc",
+   "2000": "lcc",
+   "3000": "whole"
+  },
+  "series_scores_all_lcc": [
+   0.705,
+   0.4523,
+   0.753,
+   0.3309
+  ],
+  "series_scores_all_whole": [
+   0.4244,
+   0.3362,
+   0.0091,
+   0.4042
+  ],
   "auc_range_over_repeats": {
    "500": [
-    0.9592549404320532,
-    0.9680217274898676
+    0.9592550201490138,
+    0.9680217669619708
    ],
    "1000": [
-    0.9610871503008178,
-    0.9666129275659318
+    0.9610871357250246,
+    0.9666129453706708
    ],
    "2000": [
-    0.950877400272323,
-    0.9645068301331677
+    0.9508774015197126,
+    0.9645068318547034
    ],
    "3000": [
-    0.9495188620724262,
-    0.9603137920880442
+    0.9495188631300879,
+    0.9603137941665109
+   ]
+  },
+  "auc_range_over_repeats_every_protein": {
+   "500": [
+    0.9158374775589827,
+    0.9540988151950677
+   ],
+   "1000": [
+    0.8751965823012318,
+    0.9466026006337
+   ],
+   "2000": [
+    0.8722432480052988,
+    0.9130559839010313
+   ],
+   "3000": [
+    0.8822923020327,
+    0.9094440537951656
    ]
   },
   "dimension": "5"

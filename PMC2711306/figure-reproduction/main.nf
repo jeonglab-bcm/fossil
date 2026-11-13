@@ -181,6 +181,7 @@ process RESULTS {
     """
     mkdir run && cp ${run_files} run/ && cp ${figures}/figures.json run/
     cp ${projectDir}/output/run/fig2_label_hypotheses.json run/
+    cp ${projectDir}/output/run/fig5_single_deletions.json run/
     ${params.python} ${projectDir}/pipeline/make_results.py run ${projectDir}/results_notes.json ${projectDir}/pipeline/params/inputs.json results.json
     ${params.python} ${projectDir}/pipeline/check_reproduction.py results.json run ${figures} ${projectDir}/output report.md ${params.full ? '--full' : ''}
     ${params.python} ${projectDir}/pipeline/build_page.py results.json ${figures} ${projectDir}/published site/index.html

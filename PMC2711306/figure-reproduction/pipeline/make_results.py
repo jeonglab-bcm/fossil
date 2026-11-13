@@ -53,6 +53,8 @@ def main(run, notes_path, inputs_path, out):
             it["assumptions"] = [N["assumptions"][a] for a in n["assumptions"]]
         if n.get("cause"):
             it["cause"] = n["cause"]
+        if n.get("review"):  # a reviewer's verdict (check_results.py applies it)
+            it["review"] = n["review"]
         items.append(it)
 
     def pixels(iid):

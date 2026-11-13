@@ -162,9 +162,11 @@ def main():
     res["fig4"] = {"converged": fig4, "one_iteration": res["dims"]["4"]["grid"]}
 
     # Fig. 5: delete k random edges from Yhigh, embed what is left, recover the deleted edges.
+    # Each deletion is embedded twice: the largest component only (the method's rule) and every
+    # protein, including those the deletion cut off (embed_novi.m puts them at the unreachable
+    # distance). Neither embedding draws random numbers, so the deletions are the same for both.
     rng = np.random.default_rng(SEED)
     fig5 = {}
-    all_nodes = {}
     for dim in (4, 5, 7):
         for k in (500, 1000, 2000, 3000):
             runs = []
@@ -173,30 +175,29 @@ def main():
                 keep = np.ones(net.m, dtype=bool)
                 keep[drop] = False
                 cur = gd.Network(net.nodes, net.edges[keep])
-                if dim == 4 and r == 0:
-                    # hypothesis test: keep every protein, including those the deletions cut off
-                    D = gd.pairwise_distances(gd.embed(cur, dim))
-                    ci, cj = nonedge_universe(cur)
-                    cpos = np.isin(ci * net.n + cj, net.edges[drop, 0] * net.n + net.edges[drop, 1])
-                    all_nodes[f"{k}"] = dense_summary(D[ci, cj], cpos)[0]["auc"]
-                # the method embeds the largest connected component only (Methods, Overview)
-                lcc = gd.largest_component(cur)
-                D = gd.pairwise_distances(gd.embed(lcc, dim))
-                ci, cj = nonedge_universe(lcc)
                 dropped = {frozenset((net.nodes[x], net.nodes[y])) for x, y in net.edges[drop]}
-                cpos = labels(lcc, ci, cj, [tuple(e) for e in dropped])
-                cP, cN = int(cpos.sum()), int((~cpos).sum())
-                d = D[ci, cj]
-                summ, _ = dense_summary(d, cpos)
-                summ["grid"] = grid_points(d, cpos, cP, cN, [e for e in EPS_GRID if e <= d.max() + 0.1])
-                summ["lcc_proteins"] = lcc.n
-                summ["positives"] = cP
+                lcc = gd.largest_component(cur)
+                summ = None
+                for name, g in (("lcc", lcc), ("whole", cur)):
+                    D = gd.pairwise_distances(gd.embed(g, dim))
+                    ci, cj = nonedge_universe(g)
+                    cpos = labels(g, ci, cj, [tuple(e) for e in dropped])
+                    cP, cN = int(cpos.sum()), int((~cpos).sum())
+                    d = D[ci, cj]
+                    s, _ = dense_summary(d, cpos)
+                    s["grid"] = grid_points(d, cpos, cP, cN, [e for e in EPS_GRID if e <= d.max() + 0.1])
+                    s["positives"] = cP
+                    if name == "lcc":
+                        summ = s
+                        summ["lcc_proteins"] = lcc.n
+                    else:
+                        summ["whole"] = {"auc": s["auc"], "grid": s["grid"], "positives": cP}
                 runs.append(summ)
             fig5[f"{dim}:{k}"] = runs
-            print(f"fig5 dim {dim} k {k}: AUC {np.mean([r['auc'] for r in runs]):.3f} "
+            print(f"fig5 dim {dim} k {k}: AUC {np.mean([r['auc'] for r in runs]):.3f} largest component, "
+                  f"{np.mean([r['whole']['auc'] for r in runs]):.3f} every protein "
                   f"({time.time() - t0:.0f} s)", flush=True)
     res["fig5"] = fig5
-    res["fig5_all_nodes_auc_dim4_first_repeat"] = all_nodes
     json.dump(res, open(out / "yeast.json", "w"), indent=1)
     with open(out / "roc_dense.csv", "w") as f:
         f.write("dim,threshold,tp,fp\n")

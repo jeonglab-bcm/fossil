@@ -41,10 +41,11 @@ def b64(path):
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
 
-def stamp(v, small=""):
+def stamp(v, small="", reviewed=False):
     if v == "not_attempted":
         return '<span class="stamp" data-v="running">Not attempted</span>'
     cls, word = STAMP[v]
+    word += " on review" if reviewed else ""
     return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
 
 
@@ -65,6 +66,18 @@ def measure(it):
         s = min(p["published_near_ours"], p["ours_near_published"])
         return f"{100 * s:.1f}% within 2 px"
     return ""
+
+
+def word(it):
+    """The verdict's word; a verdict a reviewer set says so, with what was computed."""
+    w = STAMP[it["verdict"]][1] if it["verdict"] in STAMP else "Not attempted"
+    r = it.get("review")
+    return f"{w} on review (computed: {r['computed'].replace('_', ' ')})" if r else w
+
+
+def review_note(it):
+    r = it.get("review")
+    return f" (computed {r['computed'].replace('_', ' ')}; set to {r['verdict']} by {r['by']} on review)" if r else ""
 
 
 def fmt(v):
@@ -94,7 +107,7 @@ def main(results, figs, pub, out):
         v = worst([i["verdict"] for i in its])
         psrc, (w, h) = b64(Path(pub) / f"figure-{n}.png")
         osrc, _ = b64(Path(figs) / f"fig{n}_ours.png")
-        stats = "".join(f"<div><dt>{esc(i['label'])}</dt><dd>{esc(measure(i))} · {esc(STAMP[i['verdict']][1] if i['verdict'] in STAMP else '')}</dd></div>"
+        stats = "".join(f"<div><dt>{esc(i['label'])}</dt><dd>{esc(measure(i))} · {esc(word(i))}</dd></div>"
                         .replace(" · ", ", ") for i in its)
         causes = []
         for i in its:
@@ -119,7 +132,7 @@ def main(results, figs, pub, out):
                 f"<li>{esc(f['name'])}: paper {esc(fmt(f['expected']))}, ours <strong>{esc(fmt(f['observed']))}</strong></li>"
                 for f in i["values"]["fields"]) + "</ul>"
         cause = (i.get("cause") or {}).get("summary", "")
-        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'], reviewed=bool(i.get('review')))}</td><td>{esc(measure(i))}{esc(review_note(i))}{fields}</td><td>{esc(cause)}</td></tr>")
     extra = (f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
              f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'
