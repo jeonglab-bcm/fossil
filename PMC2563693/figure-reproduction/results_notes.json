@@ -1,0 +1,2271 @@
+{
+ "schema": "paper2repro/results/v1",
+ "paper": {
+  "id": "PMC2563693",
+  "title": "Inferring pathway activity toward precise disease classification",
+  "citation": "Lee E, Chuang HY, Kim JW, Ideker T, Lee D. Inferring pathway activity toward precise disease classification. PLoS Comput Biol 4(11):e1000217 (2008)",
+  "doi": "10.1371/journal.pcbi.1000217",
+  "license": "CC BY 4.0"
+ },
+ "run": {
+  "date": "2026-11-12",
+  "pipeline": "PMC2563693/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2563693/figure-reproduction/main.nf --outdir results",
+  "full_command": "nextflow run PMC2563693/figure-reproduction/main.nf --outdir results --full -profile skyriver",
+  "inputs": [
+   {
+    "name": "gsea/c2.symbols.gmt",
+    "url": "https://data.broadinstitute.org/gsea-msigdb/gsea/dataset_files/c2.symbols.gmt",
+    "sha256": "4c5e98ac7f97aaab810b47c0e4a41dd7fa6b825535d5859bc219443903515fc7"
+   },
+   {
+    "name": "gsea/Lung_Michigan_collapsed_symbols.gct",
+    "url": "https://data.broadinstitute.org/gsea-msigdb/gsea/dataset_files/Lung_Michigan_collapsed_symbols.gct",
+    "sha256": "7a7cf6c0a0da19fb359dce6ae650f093219b61ad83123bf3a12610b7f320219e"
+   },
+   {
+    "name": "gsea/Lung_Boston_collapsed_symbols.gct",
+    "url": "https://data.broadinstitute.org/gsea-msigdb/gsea/dataset_files/Lung_Boston_collapsed_symbols.gct",
+    "sha256": "bbb2fce2be29918279109f00cb0757050c25baae4dfbe59731a831c2c1b85128"
+   },
+   {
+    "name": "gsea/Lung_Michigan.cls",
+    "url": "https://data.broadinstitute.org/gsea-msigdb/gsea/dataset_files/Lung_Michigan.cls",
+    "sha256": "bca4b1a0c96b4a7d55addf6cba7276d93f9da7408d480fa931a86698729c1699"
+   },
+   {
+    "name": "gsea/Lung_Boston.cls",
+    "url": "https://data.broadinstitute.org/gsea-msigdb/gsea/dataset_files/Lung_Boston.cls",
+    "sha256": "aea796a4d52965ff2885dfee745608791155abe80ab4797f9db02ab0bb180f6f"
+   },
+   {
+    "name": "geo/GSE2034_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE2nnn/GSE2034/matrix/GSE2034_series_matrix.txt.gz",
+    "sha256": "f6a99c62f0a291858f14806ad7b5faf1da159f88630d11cfe994815ff3bf9ea3"
+   },
+   {
+    "name": "geo/GSE2034_family.xml.tgz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE2nnn/GSE2034/miniml/GSE2034_family.xml.tgz",
+    "sha256": "e8d242a076f304a1de96b27506d30376431fa0f437b0c1426a30cd06c49f03c9"
+   },
+   {
+    "name": "geo/GSE2624_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE2nnn/GSE2624/matrix/GSE2624_series_matrix.txt.gz",
+    "sha256": "1cc5a889e3217178d0c17417241e6af0e963f371a1e39fd27caa5fbff69b9bae"
+   },
+   {
+    "name": "geo/GSE3933-GPL2695_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE3nnn/GSE3933/matrix/GSE3933-GPL2695_series_matrix.txt.gz",
+    "sha256": "8a04638ced62fdd754c1f54988ee420f2bc6d54120306fe75a9a866fe51edf37"
+   },
+   {
+    "name": "geo/GSE3933-GPL3044_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE3nnn/GSE3933/matrix/GSE3933-GPL3044_series_matrix.txt.gz",
+    "sha256": "5de01afabc140900f128ef83e509686af7732fc0de8bbd0786e1969cc3618d68"
+   },
+   {
+    "name": "geo/GSE3933-GPL3289_series_matrix.txt.gz",
+    "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE3nnn/GSE3933/matrix/GSE3933-GPL3289_series_matrix.txt.gz",
+    "sha256": "04e32e53927cb6a22f9277a7f6a6170948ab01fc70182bc123506066dd024c87"
+   },
+   {
+    "name": "bioc/seventyGeneData_1.48.0.tar.gz",
+    "url": "https://bioconductor.org/packages/3.23/data/experiment/src/contrib/seventyGeneData_1.48.0.tar.gz",
+    "sha256": "ff362d79e0f4a554c432889dd8dc9599873a517d7a864c6894ce884a711fd2eb"
+   },
+   {
+    "name": "bioc/stjudem_1.40.0.tar.gz",
+    "url": "https://bioconductor.org/packages/3.17/data/experiment/src/contrib/stjudem_1.40.0.tar.gz",
+    "sha256": "34222e9590da29b5b0793933c620e33fb98ed4522b0ccb6b1cad7c715dba868d"
+   },
+   {
+    "name": "paper/supp/pcbi.1000217.s003.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?type=supplementary&id=10.1371/journal.pcbi.1000217.s003",
+    "sha256": "a291c97606116eb878997198f6234fedb0db7ab68e69fc45ad8fc862b70f24c1"
+   },
+   {
+    "name": "paper/supp/pcbi.1000217.s004.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?type=supplementary&id=10.1371/journal.pcbi.1000217.s004",
+    "sha256": "17760b45c54f037b6c166d6798295a6eaf13ab31b57ebafe561ec3f0dfcdc928"
+   },
+   {
+    "name": "paper/supp/pcbi.1000217.s005.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?type=supplementary&id=10.1371/journal.pcbi.1000217.s005",
+    "sha256": "8d1105d2d2b31f435d97bf4f797b1689db28c1a2913776c425f2309de4ddd9e0"
+   },
+   {
+    "name": "paper/supp/pcbi.1000217.s006.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?type=supplementary&id=10.1371/journal.pcbi.1000217.s006",
+    "sha256": "84d950e74ad1bfad7b09e8c122bb24eccf6348df6eb9bd1e81cf5cc474f22769"
+   },
+   {
+    "name": "paper/supp/pcbi.1000217.s007.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?type=supplementary&id=10.1371/journal.pcbi.1000217.s007",
+    "sha256": "b108eed5d97e5bbaeb93f0e81b88e2e8bdc3611c3d7ea0898128221460c03c7a"
+   }
+  ],
+  "environment": {
+   "python": "3.12.15",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "scikit-learn": "1.9.1",
+   "rdata": "1.1.0",
+   "pymupdf": "2.1",
+   "pillow": "13.0.0",
+   "matplotlib": "3.11.2",
+   "nextflow": "25.04.6 (cluster), 26.04.3 (CI)"
+  },
+  "annotation": "figure-reproduction/annotation, built by pipeline/build_annotation.py from NCBI Gene and GEO platform annotations downloaded 2026-11-12"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "03efa0fe8bf0e00a569487244881ed4a581acf68",
+  "modified": false
+ },
+ "items": [
+  {
+   "id": "fig1",
+   "label": "Fig. 1, schematic of CORG identification",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the method; there is nothing to recompute.",
+    "evidence": [
+     "figure-reproduction/published/figure-1.png"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table_s1",
+   "label": "Table S1, class sizes of the seven datasets",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table_s1",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "cause": {
+    "category": "data_differs",
+    "status": "explained",
+    "summary": "GEO's clinical table for GSE2034 has 107 patients with a distant relapse and 179 without; the paper (and GEO's series summary) say 106 and 180. All other class sizes come back.",
+    "evidence": [
+     "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE2nnn/GSE2034/miniml/GSE2034_family.xml.tgz (GSE2034-tbl-2.txt, column 5)"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.methods_counts",
+   "label": "Methods: MSigDB v1.0 C2 gene sets, genes and the top 10%",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "text.methods_counts",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "id": "fig2.a",
+   "label": "Fig. 2A",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.a",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.b",
+   "label": "Fig. 2B",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.b",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.c",
+   "label": "Fig. 2C",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.c",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.d",
+   "label": "Fig. 2D",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.d",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.e",
+   "label": "Fig. 2E",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.e",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "One point is off: PAC_all at 2% reads 2.43 on the figure and 2.55 in our run; the other 19 are within 0.1.",
+    "hypotheses": [
+     {
+      "hypothesis": "A reading error",
+      "test": "Calibration residual 0.01; the marker centre is read on a 41 px per unit axis, so 0.12 is five pixels",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Different top pathways",
+      "test": "The PAC curve over the same pathways is within 0.03 of the figure at 2%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.f",
+   "label": "Fig. 2F",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.f",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "One point is off: PAC at 2% reads 1.73 on the figure and 1.37 in our run (the paper's curve rises at 2% and falls again); every other readable point is within 0.1.",
+    "hypotheses": [
+     {
+      "hypothesis": "A reading error",
+      "test": "The 2% marker is clear of the other series; calibration residual below 0.01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Different top pathways",
+      "test": "Panel E, the same ten Michigan pathways in their source dataset, is within 0.1 at 2%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.g",
+   "label": "Fig. 2G",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.g",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H.",
+    "hypotheses": [
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Our Boston data are not the paper's",
+      "test": "Boston's CORGs for all ten Boston-to-Michigan pathways of Table 1 come back exactly from the GSEA file (table1.corgs)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.h",
+   "label": "Fig. 2H",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig2.h",
+   "values": {
+    "tolerance": {
+     "abs": 0.1
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H.",
+    "hypotheses": [
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Our Boston data are not the paper's",
+      "test": "Boston's CORGs for all ten Boston-to-Michigan pathways of Table 1 come back exactly from the GSEA file (table1.corgs)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3.a",
+   "label": "Fig. 3A, AUC within datasets (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig3.a",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "23 of 42 bars within 0.02. PAC_random differs because the paper's random sets skip the CORG search (supported); NF-kB is near 1 for every method in our data (open); the rest differ by up to 0.07 with unstated classifier settings.",
+    "hypotheses": [
+     {
+      "hypothesis": "PAC_random averages all genes of each random set, without a CORG search",
+      "test": "Same CV with that rule (output/hypotheses.json): PAC_random 0.619 (Breast Netherlands; paper 0.612), 0.568 (USA; 0.560), 0.546 (Michigan; 0.529), 0.888 (Prostate; 0.822), against 0.667, 0.615, 0.595, 0.964 with the search",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3.b",
+   "label": "Fig. 3B, AUC across datasets (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig3.b",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Published values read off the raster figure (PLOS large PNG, 1494 px wide); each panel's y axis calibrated on its grid lines",
+     "source": "read_from_figure",
+     "sensitivity": "Calibration residual below 0.05 of a unit in every panel (digitized.json); one pixel is about 0.025 (Fig. 2, 0-8 panels), 0.012 (Fig. 2, 0-4 panels) or 0.0014 AUC (Fig. 3)"
+    },
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "5 of 8 bars within 0.02. Boston to Michigan: our PAC is 0.56 against 0.66; the paper's Boston markers were not Tian's top 52 (a sensitivity run without the pre-selection gives PAC 0.71); the Gene bars of both lung directions are 0.02 to 0.03 high.",
+    "hypotheses": [
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3.pvalues",
+   "label": "Fig. 3, -log(p) of PAC against Gene (printed labels)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig3.pvalues",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    },
+    {
+     "what": "-log(p) is base 10",
+     "source": "paper",
+     "sensitivity": "Follows from the paper's own labels (text.arithmetic): every printed value is at least 1.30 = -log10(0.05) and some are below 3.00 = -ln(0.05)"
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "-log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across.",
+    "hypotheses": [
+     {
+      "hypothesis": "The log is natural, not base 10",
+      "test": "The paper's own labels (text.arithmetic): the smallest printed label is 1.4, below -ln(0.05) = 3.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table1.corgs",
+   "label": "Table 1 (lung), CORGs of each frequently used pathway",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table1.corgs",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Table 1's 'Glutamine up-regulated genes' (5/313, Michigan to Boston) is MSigDB's GLUT_DOWN, the only glutamine set with 313 genes; the Boston rows call the same set 'Glutamine down-regulated genes' (4/313), so one of the two names is a slip",
+     "source": "paper",
+     "sensitivity": "GLUT_UP (296 genes) gives VEGF ENO2 SUI1 in Michigan, not the printed NP LDHA BZW1 TUBA1 LAMB3"
+    }
+   ]
+  },
+  {
+   "id": "table1.sizes",
+   "label": "Table 1 (lung), number of CORGs / members",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table1.sizes",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Table 1's 'Glutamine up-regulated genes' (5/313, Michigan to Boston) is MSigDB's GLUT_DOWN, the only glutamine set with 313 genes; the Boston rows call the same set 'Glutamine down-regulated genes' (4/313), so one of the two names is a slip",
+     "source": "paper",
+     "sensitivity": "GLUT_UP (296 genes) gives VEGF ENO2 SUI1 in Michigan, not the printed NP LDHA BZW1 TUBA1 LAMB3"
+    }
+   ]
+  },
+  {
+   "id": "table1.frequency",
+   "label": "Table 1 (lung), how often each pathway is used in 500 classifiers",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table1.frequency",
+   "values": {
+    "tolerance": {
+     "abs": 50
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    },
+    {
+     "what": "Tolerance 50 of 500 classifiers: the frequencies come from unseeded random splits",
+     "source": "our_choice",
+     "sensitivity": ""
+    },
+    {
+     "what": "'134.500' in Table 1 (Leucine down-regulated genes) read as 134/500",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Michigan to Boston: our eight most frequent pathways are the paper's eight, in its order but for one swap, used more often (477 to 294 times against 433 to 102): our classifiers keep more markers. Boston to Michigan: seven of the ten pathways are not in Boston's Tian top 52 and are never used.",
+    "hypotheses": [
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table_s2.corgs",
+   "label": "Table S2 (breast), CORGs of each frequently used pathway",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table_s2.corgs",
+   "values": {
+    "tolerance": {}
+   },
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table_s2.sizes",
+   "label": "Table S2 (breast), number of CORGs / members",
+   "kind": "table",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "table_s2.sizes",
+   "values": {
+    "tolerance": {}
+   },
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table_s2.frequency",
+   "label": "Table S2 (breast), how often each pathway is used in 500 classifiers",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table_s2.frequency",
+   "values": {
+    "tolerance": {
+     "abs": 50
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    },
+    {
+     "what": "Tolerance 50 of 500 classifiers: the frequencies come from unseeded random splits",
+     "source": "our_choice",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Follows from the breast data (table_s2.corgs) and the marker count (table1.frequency).",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, glycolysis and estrogen-signalling activity higher in poor prognosis",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig4",
+   "values": {
+    "tolerance": {}
+   }
+  },
+  {
+   "id": "fig_s1.nfkb",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, NF-kB",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.nfkb",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.leukemia",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Leukemia",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.leukemia",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.prostate",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Prostate",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.prostate",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.breast_netherlands",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Breast Netherlands",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.breast_netherlands",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.breast_usa",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Breast USA",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.breast_usa",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.lung_michigan",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Lung Michigan",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.lung_michigan",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s1.lung_boston",
+   "label": "Fig. S1, marker overlap over 100 two-fold splits, Lung Boston",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s1.lung_boston",
+   "values": {
+    "tolerance": {
+     "abs": 0.05
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets).",
+    "hypotheses": [
+     {
+      "hypothesis": "The CORG overlap compares each pathway's CORG sets between the halves (pathways in both tops)",
+      "test": "Mean Jaccard per shared pathway (output/robustness.json, CORGs_same_pathways): 0.01 to 0.11 for Lung Michigan, where the figure has 0.13 to 0.21",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The CORG overlap pools the CORGs both halves find for the first half's top pathways",
+      "test": "output/robustness.json, CORGs_first_half_pathways: 0.05 to 0.13 for Lung Michigan, against 0.13 to 0.21",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.a",
+   "label": "Fig. S2A, kNN, k = 3 (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.a",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA).",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.a.pvalues",
+   "label": "Fig. S2A, kNN, k = 3, -log(p) labels",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.a.pvalues",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "-log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across.",
+    "hypotheses": [
+     {
+      "hypothesis": "The log is natural, not base 10",
+      "test": "The paper's own labels (text.arithmetic): the smallest printed label is 1.4, below -ln(0.05) = 3.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.b",
+   "label": "Fig. S2B, kNN, k = 5 (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.b",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA).",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.b.pvalues",
+   "label": "Fig. S2B, kNN, k = 5, -log(p) labels",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.b.pvalues",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "-log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across.",
+    "hypotheses": [
+     {
+      "hypothesis": "The log is natural, not base 10",
+      "test": "The paper's own labels (text.arithmetic): the smallest printed label is 1.4, below -ln(0.05) = 3.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.c",
+   "label": "Fig. S2C, naive Bayes (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.c",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA).",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.c.pvalues",
+   "label": "Fig. S2C, naive Bayes, -log(p) labels",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.c.pvalues",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "-log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across.",
+    "hypotheses": [
+     {
+      "hypothesis": "The log is natural, not base 10",
+      "test": "The paper's own labels (text.arithmetic): the smallest printed label is 1.4, below -ln(0.05) = 3.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.d",
+   "label": "Fig. S2D, LDA (bar heights)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.d",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA).",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s2.d.pvalues",
+   "label": "Fig. S2D, LDA, -log(p) labels",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s2.d.pvalues",
+   "values": {
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "-log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across.",
+    "hypotheses": [
+     {
+      "hypothesis": "The log is natural, not base 10",
+      "test": "The paper's own labels (text.arithmetic): the smallest printed label is 1.4, below -ln(0.05) = 3.0",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s3",
+   "label": "Fig. S3, sequential against forward selection",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "fig_s3",
+   "values": {
+    "tolerance": {
+     "abs": 0.02
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    },
+    {
+     "what": "Folds stratified by class; the training four fifths split, stratified, into two thirds for marker selection and one third for validation; seeds (dataset, repeat)",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper; repeats differ from each other by about the published standard errors"
+    },
+    {
+     "what": "Logistic regression by Newton's method with ridge 1e-8 (Weka's default); markers added in order of p-value in the marker-selection third, count chosen by validation AUC, the model fitted on the marker-selection samples scored on the test fifth",
+     "source": "our_choice",
+     "sensitivity": "Not stated in the paper"
+    },
+    {
+     "what": "Expression z-scored per gene over all samples of a dataset (the Methods' definition of z)",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "18 of 28 bars within 0.02. The forward selection's stopping rule is not stated; NF-kB is near 1 for every method in our data.",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The marker count stops at the first marker that does not raise the validation AUC",
+      "test": "Same CV with that rule (output/hypotheses.json): Michigan-to-Boston frequencies fall to 355, 106, 102 (paper 433, 247, 245) and Breast USA within-dataset AUCs fall (Gene 0.564)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig_s4",
+   "label": "Fig. S4, breast pathway activity heatmaps",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "A heatmap without values or a claim in the text beyond Table S2; the clustering and colour scale are not stated. Our heatmap of the Table S2 pathways is drawn for reference (figure-reproduction/output/figures/fig_s4_ours.png).",
+    "evidence": [
+     "Figure S4 legend: 'Pathways are clustered based on the similarity of their activities across patients.'"
+    ]
+   }
+  },
+  {
+   "id": "fig_s5",
+   "label": "Fig. S5, CORGs per pathway in the top 10%",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig_s5",
+   "values": {
+    "tolerance": {
+     "abs": 0
+    }
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The box plots summarize the CORG counts of each dataset's top 52 pathways; the medians come back in 5 of 7 datasets. Which 52 pathways the paper counted is not certain (Boston's differ, fig2.g), and the breast data differ.",
+    "hypotheses": [
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.pac_above_genes",
+   "label": "PAC markers discriminate better than gene markers (Fig. 2)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.pac_above_genes",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "PAC is above the top genes in all four source panels and in Michigan to Boston; not at every fraction in the two breast verification panels (our breast data differ) and in Boston to Michigan (Boston's top pathways differ).",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.pac_above_corgs_and_pac_all",
+   "label": "PAC above its own CORGs and above PAC_all in the source datasets (Fig. 2)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.pac_above_corgs_and_pac_all",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ]
+  },
+  {
+   "id": "text.genes_above_corgs_in_source",
+   "label": "Top genes more powerful than CORGs in the source datasets (Fig. 2)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.genes_above_corgs_in_source",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ]
+  },
+  {
+   "id": "text.pac_beats_gene_within",
+   "label": "PAC significantly better than Gene within datasets (Fig. 3A)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.pac_beats_gene_within",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "PAC is significantly better than Gene in Breast Netherlands, Lung Michigan and Lung Boston, and Leukemia shows no PAC advantage, as in the paper; not in NF-kB (both near 1 in our data), Prostate (Gene 0.961 against PAC 0.955; no tested cause beyond the unstated classifier settings) or Breast USA (p = 0.10).",
+    "hypotheses": [
+     {
+      "hypothesis": "The 24 arrays are the 1, 3 and 6 h TNF arrays of all four replicate series (our main choice)",
+      "test": "NF-kB AUC: Gene 0.998, PAC 0.999 (paper 0.82 and 0.98)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The 24 arrays are the complete series 180, 220 and 266 at all four time points",
+      "test": "Same CV on that set (output/hypotheses.json): Gene 0.946, PAC 0.915; PAC no longer above Gene",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.pac_beats_gene_across",
+   "label": "PAC significantly better than Gene across datasets (Fig. 3B)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.pac_beats_gene_across",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Michigan to Boston is significant and Netherlands to USA is not, as in the paper; USA to Netherlands is not (our breast data differ) and Boston to Michigan favours Gene (Boston's markers differ; in a sensitivity run without the pre-selection PAC is above Gene, 0.71 against 0.62, but still not at the paper's 0.66).",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston's pathways were pre-selected by another form of Tian's score",
+      "test": "Rank of Table 1's ten Boston-to-Michigan pathways in Boston under mean t, |mean t|, mean |t|, Fisher's combined p and the CORG-activity |t| (output/hypotheses.json, tian_rank): none puts all ten in the top 52 (best: ranks up to 172), while the standardized sum puts all eight Michigan pathways there",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boston-to-Michigan markers were not restricted to Boston's top 52",
+      "test": "Cross-dataset CV with all 521 pathways as input, 400 partitions (output/hypotheses.json, cross_all): PAC 0.712 against Gene 0.621 (-log10 p 21.8), breast cancer estrogen signalling is the most used pathway (367 of 400 classifiers; Table 1: 481 of 500), and all ten Table 1 pathways are among the 45 most used",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.pac_above_random",
+   "label": "PAC above PAC_random (Fig. 3A)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.pac_above_random",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "With the CORG search inside the random sets, PAC_random reaches PAC in Prostate and Breast USA; without it (the reading the paper's PAC_random values support) PAC is above PAC_random in every dataset.",
+    "hypotheses": [
+     {
+      "hypothesis": "PAC_random averages all genes of each random set, without a CORG search",
+      "test": "Same CV with that rule (output/hypotheses.json): PAC_random 0.619 (Breast Netherlands; paper 0.612), 0.568 (USA; 0.560), 0.546 (Michigan; 0.529), 0.888 (Prostate; 0.822), against 0.667, 0.615, 0.595, 0.964 with the search",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.summaries_above_random",
+   "label": "Mean, Median and PCA above PAC_random (Fig. 3A)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.summaries_above_random",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "As text.pac_above_random: our PAC_random runs the CORG search; without it Mean, Median and PCA average above PAC_random in every dataset (Leukemia 0.973 against 0.900, Prostate 0.948 against 0.888, Breast Netherlands 0.649 against 0.619, Breast USA 0.593 against 0.568).",
+    "hypotheses": [
+     {
+      "hypothesis": "PAC_random averages all genes of each random set, without a CORG search",
+      "test": "Same CV with that rule (output/hypotheses.json): PAC_random 0.619 (Breast Netherlands; paper 0.612), 0.568 (USA; 0.560), 0.546 (Michigan; 0.529), 0.888 (Prostate; 0.822), against 0.667, 0.615, 0.595, 0.964 with the search",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.other_classifiers",
+   "label": "The same trend with kNN, naive Bayes, LDA and forward selection (Figs S2, S3)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.other_classifiers",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ]
+  },
+  {
+   "id": "text.corg_sizes",
+   "label": "CORG sets of two to four genes, some of more than eight (Fig. S5)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "text.corg_sizes",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name",
+     "source": "found_by_search",
+     "sensitivity": "With the mean t, the mean |t| or |mean t| as the score, Fig. 2E's PAC curve falls to 5.0-5.3 at 1% (published 6.7) and Table 1's Michigan pathways fall outside the top 52 (ranks up to 517); with Sum t / sqrt(m) all eight are in the top 52 and Fig. 2E comes back within 0.1"
+    }
+   ]
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "The paper's own numbers checked against each other",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "text.arithmetic"
+  },
+  {
+   "id": "cv_rerun",
+   "label": "Cross-validation repeats rerun from scratch against the committed full run",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "cv_check.json"
+  },
+  {
+   "id": "port",
+   "label": "Port against the authors' code",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "The authors' software is lost: no link, no availability statement and no code in the supplement; searches of GitHub, CRAN, Bioconductor, PyPI and the authors' lab pages found nothing (issue #47). pacorg is written from the Methods and checked against the paper.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/47"
+    ]
+   }
+  },
+  {
+   "id": "package",
+   "label": "pacorg, the method as a Python package",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json"
+  }
+ ],
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differ, {not_attempted} not attempted. The lost method was rebuilt from the paper's Methods, and the seven datasets from GEO, Bioconductor and the GSEA site.",
+  "label_rows": [
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2.a",
+     "fig2.b",
+     "fig2.c",
+     "fig2.d",
+     "fig2.e",
+     "fig2.f",
+     "fig2.g",
+     "fig2.h"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3.a",
+     "fig3.b"
+    ]
+   ],
+   [
+    "items",
+    "Table 1 CORGs",
+    [
+     "table1.corgs",
+     "table1.sizes"
+    ]
+   ],
+   [
+    "items",
+    "Table S2 CORGs",
+    [
+     "table_s2.corgs",
+     "table_s2.sizes"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4"
+    ]
+   ],
+   [
+    "fig-S1",
+    "Fig. S1",
+    [
+     "fig_s1.nfkb",
+     "fig_s1.leukemia",
+     "fig_s1.prostate",
+     "fig_s1.breast_netherlands",
+     "fig_s1.breast_usa",
+     "fig_s1.lung_michigan",
+     "fig_s1.lung_boston"
+    ]
+   ],
+   [
+    "fig-S2",
+    "Fig. S2",
+    [
+     "fig_s2.a",
+     "fig_s2.b",
+     "fig_s2.c",
+     "fig_s2.d"
+    ]
+   ],
+   [
+    "fig-S5",
+    "Fig. S5",
+    [
+     "fig_s5"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, table and claim of the paper. Figure values are read off the published figures (Figs 2 and 3) or the vector supplements (Figs S1 to S5); a value agrees within 0.1 |t| (Fig. 2), 0.02 AUC (Figs 3, S2, S3), 0.05 overlap (Fig. S1) or 50 of 500 classifiers (frequencies).",
+  "claims_line": "The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds in Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs: our breast and NF-kB data are not the authors' (open), Boston's pathway pre-selection differs (open), and Prostate's small gap has no tested cause beyond the unstated classifier settings.",
+  "came_back": [
+   [
+    "Table 1",
+    "All 18 CORG lists and all 18 CORG and member counts, from the GSEA lung files."
+   ],
+   [
+    "Fig. 2",
+    "The Michigan panels E and F within 0.1 at 36 of 38 points; the breast and Boston source panels keep the paper's order of curves."
+   ],
+   [
+    "Fig. 4",
+    "Glycolysis and estrogen signalling higher in poor prognosis in both lung datasets."
+   ],
+   [
+    "Table 1 frequencies",
+    "Michigan to Boston: the paper's eight pathways are our eight most used, in its order but for one swap."
+   ],
+   [
+    "The method",
+    "CORG search, pathway activity and Tian's pre-selection, as the Python package pacorg."
+   ]
+  ],
+  "buried": [
+   "The breast data as the authors prepared them: 3 of Table S2's 15 CORG lists come back.",
+   "Boston's top pathways: the paper's are not those of Tian's statistic on the GSEA Boston file.",
+   "NF-kB: in our 24 arrays every classifier is near perfect; the paper's gene classifier is at 0.82.",
+   "How the paper computed the CORG overlap of Fig. S1."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Activity",
+    "Each gene z-scored over all samples; a set's activity is the sum of member z-scores over sqrt(k)."
+   ],
+   [
+    "CORGs",
+    "Members ranked by t, added while |t| of the activity rises (pooled-variance t)."
+   ],
+   [
+    "Pre-selection",
+    "Tian's statistic as sum of t over sqrt(members), top 52 of 522; the Methods say average t, but Table 1 and Fig. 2 follow the standardized sum."
+   ],
+   [
+    "Classifier",
+    "Logistic regression; markers added in order of p-value, the count chosen by validation AUC; 100 runs of 5-fold CV."
+   ],
+   [
+    "Data",
+    "GSEA lung files as distributed; GEO and Bioconductor for the other five, mapped to MSigDB v1.0 symbols through Entrez Gene IDs."
+   ]
+  ],
+  "closing": "Pathway activity came back exactly where the paper's own data survive: every CORG list of Table 1."
+ }
+}

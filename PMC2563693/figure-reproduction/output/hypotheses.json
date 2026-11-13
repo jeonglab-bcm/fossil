@@ -1,0 +1,951 @@
+{
+ "tian_rank": {
+  "lung_michigan -> lung_boston": {
+   "pathways": [
+    "GLUT_DOWN",
+    "GLUCO",
+    "GLYCOL",
+    "breast_cancer_estrogen_signalling",
+    "MAP00010_Glycolysis_Gluconeogenesis",
+    "FRASOR_ER_DOWN",
+    "LEU_DOWN",
+    "blymphocytePathway"
+   ],
+   "scores": {
+    "mean_t": {
+     "ranks": [
+      105,
+      28,
+      33,
+      109,
+      23,
+      131,
+      61,
+      517
+     ],
+     "all_in_top52": false
+    },
+    "abs_mean_t": {
+     "ranks": [
+      154,
+      42,
+      48,
+      161,
+      37,
+      197,
+      87,
+      8
+     ],
+     "all_in_top52": false
+    },
+    "mean_abs_t": {
+     "ranks": [
+      191,
+      45,
+      47,
+      67,
+      25,
+      37,
+      173,
+      11
+     ],
+     "all_in_top52": false
+    },
+    "fisher": {
+     "ranks": [
+      169,
+      48,
+      52,
+      55,
+      29,
+      39,
+      159,
+      12
+     ],
+     "all_in_top52": false
+    },
+    "corg_activity": {
+     "ranks": [
+      28,
+      126,
+      186,
+      7,
+      15,
+      37,
+      23,
+      208
+     ],
+     "all_in_top52": false
+    },
+    "tian_sum_sqrt": {
+     "ranks": [
+      3,
+      17,
+      37,
+      21,
+      9,
+      48,
+      2,
+      15
+     ],
+     "all_in_top52": true
+    }
+   }
+  },
+  "lung_boston -> lung_michigan": {
+   "pathways": [
+    "breast_cancer_estrogen_signalling",
+    "MAP00240_Pyrimidine_metabolism",
+    "GLYCOL",
+    "mta3Pathway",
+    "INSULIN_2F_UP",
+    "p53hypoxiaPathway",
+    "GLUT_DOWN",
+    "p53_signalling",
+    "FRASOR_ER_DOWN",
+    "NFKB_INDUCED"
+   ],
+   "scores": {
+    "mean_t": {
+     "ranks": [
+      123,
+      79,
+      39,
+      25,
+      27,
+      7,
+      30,
+      84,
+      106,
+      138
+     ],
+     "all_in_top52": false
+    },
+    "abs_mean_t": {
+     "ranks": [
+      440,
+      311,
+      149,
+      84,
+      93,
+      25,
+      104,
+      332,
+      397,
+      466
+     ],
+     "all_in_top52": false
+    },
+    "mean_abs_t": {
+     "ranks": [
+      218,
+      396,
+      13,
+      11,
+      115,
+      26,
+      95,
+      183,
+      64,
+      209
+     ],
+     "all_in_top52": false
+    },
+    "fisher": {
+     "ranks": [
+      182,
+      393,
+      9,
+      12,
+      80,
+      17,
+      78,
+      180,
+      57,
+      193
+     ],
+     "all_in_top52": false
+    },
+    "corg_activity": {
+     "ranks": [
+      21,
+      172,
+      35,
+      83,
+      2,
+      14,
+      9,
+      13,
+      6,
+      73
+     ],
+     "all_in_top52": false
+    },
+    "tian_sum_sqrt": {
+     "ranks": [
+      328,
+      214,
+      136,
+      137,
+      3,
+      15,
+      2,
+      161,
+      295,
+      375
+     ],
+     "all_in_top52": false
+    }
+   }
+  }
+ },
+ "usa_preprocess": {
+  "lists": 10,
+  "grid": {
+   "none/max": {
+    "exact_lists": 1,
+    "same_sets": 1
+   },
+   "none/mean": {
+    "exact_lists": 1,
+    "same_sets": 2
+   },
+   "none/highest_mean": {
+    "exact_lists": 1,
+    "same_sets": 1
+   },
+   "none/highest_variance": {
+    "exact_lists": 1,
+    "same_sets": 2
+   },
+   "log2_floor1/max": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor1/mean": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor1/highest_mean": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor1/highest_variance": {
+    "exact_lists": 1,
+    "same_sets": 2
+   },
+   "log2_floor20/max": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor20/mean": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor20/highest_mean": {
+    "exact_lists": 0,
+    "same_sets": 0
+   },
+   "log2_floor20/highest_variance": {
+    "exact_lists": 1,
+    "same_sets": 2
+   }
+  },
+  "best_grid_sets": 2,
+  "relabel_one_relapse": {
+   "tried": 107,
+   "best": {
+    "sample": "GSM36792",
+    "exact_lists": 1,
+    "same_sets": 1
+   }
+  }
+ },
+ "cross_all": {
+  "variant": "cross_all",
+  "description": "cross-dataset markers from all pathways, without Tian's pre-selection; logistic regression only",
+  "run": "PAC_VARIANT=cross_all,lr_only cv.py (see README, Run)",
+  "cross": {
+   "breast_netherlands__breast_usa": {
+    "partitions": 255,
+    "mean_auc": {
+     "PAC/lr": 0.6095,
+     "Gene/lr": 0.6186
+    },
+    "neglog10p_pac_vs_gene": 1.1,
+    "pac_better": false,
+    "top_pathways": {
+     "S1P_Signaling": 239,
+     "il22bpPathway": 216,
+     "neutrophilPathway": 195,
+     "SIG_CHEMOTAXIS": 191,
+     "gleevecPathway": 184,
+     "ST_STAT3_Pathway": 183,
+     "ST_Jak_STAT_Pathway": 182,
+     "igf1mtorPathway": 181,
+     "EMT_DOWN": 181,
+     "MAP00561_Glycerolipid_metabolism": 173,
+     "ST_Interferon_gamma_Pathway": 160,
+     "actinYPathway": 159
+    }
+   },
+   "breast_usa__breast_netherlands": {
+    "partitions": 160,
+    "mean_auc": {
+     "PAC/lr": 0.6496,
+     "Gene/lr": 0.6489
+    },
+    "neglog10p_pac_vs_gene": 0.01,
+    "pac_better": true,
+    "top_pathways": {
+     "SIG_CHEMOTAXIS": 146,
+     "BRCA_DOWN": 117,
+     "igf1mtorPathway": 113,
+     "S1P_Signaling": 112,
+     "gleevecPathway": 92,
+     "il3Pathway": 87,
+     "Cell_Cycle": 86,
+     "CR_CELL_CYCLE": 86,
+     "breast_cancer_estrogen_signalling": 85,
+     "glycolysisPathway": 80,
+     "FA": 80,
+     "MAP00670_One_carbon_pool_by_folate": 80
+    }
+   },
+   "lung_boston__lung_michigan": {
+    "partitions": 400,
+    "mean_auc": {
+     "PAC/lr": 0.7116,
+     "Gene/lr": 0.6205
+    },
+    "neglog10p_pac_vs_gene": 21.79,
+    "pac_better": true,
+    "top_pathways": {
+     "breast_cancer_estrogen_signalling": 367,
+     "FETAL_LIVER_HS_ENRICHED_TF_JP": 332,
+     "HEMO_TF_LIST_JP": 332,
+     "MAP00760_Nicotinate_and_nicotinamide_metabolism": 325,
+     "MAP00052_Galactose_metabolism": 312,
+     "bcl2family_and_reg_network": 282,
+     "caspase_activity": 282,
+     "MAP00240_Pyrimidine_metabolism": 275,
+     "mcalpainPathway": 274,
+     "mta3Pathway": 274,
+     "GLUCO": 274,
+     "GLYCOL": 271
+    },
+    "table1_pathways": {
+     "breast_cancer_estrogen_signalling": {
+      "frequency": 367,
+      "rank": 1
+     },
+     "MAP00240_Pyrimidine_metabolism": {
+      "frequency": 275,
+      "rank": 8
+     },
+     "GLYCOL": {
+      "frequency": 271,
+      "rank": 12
+     },
+     "mta3Pathway": {
+      "frequency": 274,
+      "rank": 10
+     },
+     "INSULIN_2F_UP": {
+      "frequency": 225,
+      "rank": 23
+     },
+     "p53hypoxiaPathway": {
+      "frequency": 216,
+      "rank": 27
+     },
+     "GLUT_DOWN": {
+      "frequency": 207,
+      "rank": 33
+     },
+     "p53_signalling": {
+      "frequency": 201,
+      "rank": 36
+     },
+     "FRASOR_ER_DOWN": {
+      "frequency": 211,
+      "rank": 29
+     },
+     "NFKB_INDUCED": {
+      "frequency": 190,
+      "rank": 45
+     }
+    }
+   },
+   "lung_michigan__lung_boston": {
+    "partitions": 240,
+    "mean_auc": {
+     "PAC/lr": 0.5453,
+     "Gene/lr": 0.557
+    },
+    "neglog10p_pac_vs_gene": 0.54,
+    "pac_better": false,
+    "top_pathways": {
+     "GLUT_DOWN": 168,
+     "MAP00400_Phenylalanine_tyrosine_and_tryptophan_biosynthesis": 162,
+     "CR_DEATH": 148,
+     "ST_Ga12_Pathway": 125,
+     "GLUCO": 124,
+     "GLYCOL": 119,
+     "p53hypoxiaPathway": 104,
+     "mta3Pathway": 94,
+     "breast_cancer_estrogen_signalling": 92,
+     "MAP00010_Glycolysis_Gluconeogenesis": 88,
+     "eif2Pathway": 88,
+     "LEU_DOWN": 73
+    }
+   }
+  }
+ },
+ "nfkb_alt": {
+  "variant": "nfkb_alt",
+  "description": "NF-kB as the complete replicate series 180, 220 and 266 at 0, 1, 3 and 6 h (12 C and 12 D arrays); 100 repeats, logistic regression only",
+  "run": "PAC_VARIANT=nfkb_alt,lr_only cv.py (see README, Run)",
+  "within": {
+   "nfkb_alt": {
+    "partitions": 500,
+    "mean_auc": {
+     "PAC/lr": 0.9148,
+     "Gene/lr": 0.9457,
+     "Mean/lr": 0.8443,
+     "Median/lr": 0.9048,
+     "PCA/lr": 0.8383,
+     "PAC_random/lr": 0.8766
+    },
+    "neglog10p_pac_vs_gene": 2.58,
+    "pac_better": false,
+    "top_pathways": {
+     "ctlPathway": 104,
+     "KRAS_TOP100_KNOCKDOWN": 103,
+     "CR_SIGNALLING": 89,
+     "NFKB_INDUCED": 64,
+     "Inflammatory_Response_Pathway": 57,
+     "PROLIF_GENES": 52,
+     "mitochondr": 49,
+     "ST_Gaq_Pathway": 43,
+     "ST_B_Cell_Antigen_Receptor": 42,
+     "ST_Fas_Signaling_Pathway": 41,
+     "nkcellsPathway": 40,
+     "SIG_CD40PATHWAYMAP": 39
+    }
+   }
+  }
+ },
+ "random_nocorg": {
+  "variant": "random_nocorg",
+  "description": "PAC_random averages all genes of each random set (no CORG search); 20 repeats per dataset, logistic regression only",
+  "run": "PAC_VARIANT=random_nocorg,lr_only cv.py (see README, Run)",
+  "within": {
+   "breast_netherlands": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6812,
+     "Gene/lr": 0.6515,
+     "Mean/lr": 0.6584,
+     "Median/lr": 0.6315,
+     "PCA/lr": 0.6559,
+     "PAC_random/lr": 0.6191
+    },
+    "neglog10p_pac_vs_gene": 2.93,
+    "pac_better": true,
+    "top_pathways": {
+     "HTERT_UP": 80,
+     "PGC": 64,
+     "human_mitoDB_6_2002": 61,
+     "GLUT_DOWN": 57,
+     "RAP_DOWN": 55,
+     "LEU_DOWN": 55,
+     "GLUT_UP": 51,
+     "Proteasome_Degradation": 46,
+     "insulin_signalling": 45,
+     "mitochondr": 39,
+     "GLUCOSE_UP": 35,
+     "SIG_PIP3SIGINCARDIACMYOCTES": 33
+    }
+   },
+   "breast_usa": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6018,
+     "Gene/lr": 0.6059,
+     "Mean/lr": 0.5939,
+     "Median/lr": 0.5943,
+     "PCA/lr": 0.5905,
+     "PAC_random/lr": 0.5679
+    },
+    "neglog10p_pac_vs_gene": 0.1,
+    "pac_better": false,
+    "top_pathways": {
+     "CR_SIGNALLING": 61,
+     "RAP_UP": 57,
+     "cell_surface_receptor_linked_signal_transduction": 52,
+     "GPCRs_Class_A_Rhodopsin-like": 46,
+     "NFKB_INDUCED": 40,
+     "il22bpPathway": 37,
+     "RAP_DOWN": 36,
+     "keratinocytePathway": 36,
+     "MAP00380_Tryptophan_metabolism": 35,
+     "VOXPHOS": 33,
+     "GLUT_DOWN": 32,
+     "ca_nf_at_signalling": 32
+    }
+   },
+   "leukemia": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9911,
+     "Gene/lr": 0.9984,
+     "Mean/lr": 0.9678,
+     "Median/lr": 0.9618,
+     "PCA/lr": 0.9907,
+     "PAC_random/lr": 0.9003
+    },
+    "neglog10p_pac_vs_gene": 3.4,
+    "pac_better": false,
+    "top_pathways": {
+     "ST_Wnt_Ca2_cyclic_GMP_Pathway": 84,
+     "GNF_FEMALE_GENES": 33,
+     "GLUT_DOWN": 32,
+     "ANDROGEN_UP_GENES": 28,
+     "RAP_UP": 26,
+     "MAP00230_Purine_metabolism": 22,
+     "PGC": 22,
+     "INSULIN_2F_UP": 20,
+     "GLUT_UP": 19,
+     "HUMAN_CD34_ENRICHED_TF_JP": 19,
+     "MAP00030_Pentose_phosphate_pathway": 17,
+     "LEU_UP": 15
+    }
+   },
+   "lung_boston": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.5083,
+     "Gene/lr": 0.4711,
+     "Mean/lr": 0.514,
+     "Median/lr": 0.5408,
+     "PCA/lr": 0.5125,
+     "PAC_random/lr": 0.4727
+    },
+    "neglog10p_pac_vs_gene": 1.04,
+    "pac_better": true,
+    "top_pathways": {
+     "GLUT_DOWN": 60,
+     "INSULIN_2F_UP": 49,
+     "human_mitoDB_6_2002": 43,
+     "mitochondr": 42,
+     "PROLIF_GENES": 38,
+     "CR_SIGNALLING": 38,
+     "LEU_DOWN": 38,
+     "MAP00561_Glycerolipid_metabolism": 34,
+     "GO_0005739": 32,
+     "RAP_DOWN": 32,
+     "p53hypoxiaPathway": 27,
+     "CR_PROTEIN_MOD": 27
+    }
+   },
+   "lung_michigan": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6809,
+     "Gene/lr": 0.6223,
+     "Mean/lr": 0.6175,
+     "Median/lr": 0.5568,
+     "PCA/lr": 0.6384,
+     "PAC_random/lr": 0.546
+    },
+    "neglog10p_pac_vs_gene": 2.52,
+    "pac_better": true,
+    "top_pathways": {
+     "breast_cancer_estrogen_signalling": 70,
+     "INSULIN_2F_UP": 51,
+     "p53_signalling": 50,
+     "HTERT_UP": 45,
+     "MAP00010_Glycolysis_Gluconeogenesis": 44,
+     "GLUT_DOWN": 43,
+     "LEU_DOWN": 41,
+     "PGC": 40,
+     "HEMO_TF_LIST_JP": 39,
+     "RAP_DOWN": 37,
+     "NFKB_INDUCED": 36,
+     "EMT_UP": 27
+    }
+   },
+   "nfkb": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9983,
+     "Gene/lr": 0.9942,
+     "Mean/lr": 0.9808,
+     "Median/lr": 1.0,
+     "PCA/lr": 0.985,
+     "PAC_random/lr": 0.7121
+    },
+    "neglog10p_pac_vs_gene": 0.55,
+    "pac_better": true,
+    "top_pathways": {
+     "ST_Tumor_Necrosis_Factor_Pathway": 27,
+     "tnfr2Pathway": 19,
+     "ST_Gaq_Pathway": 16,
+     "ST_Fas_Signaling_Pathway": 11,
+     "CR_SIGNALLING": 6,
+     "SIG_CD40PATHWAYMAP": 4,
+     "ST_B_Cell_Antigen_Receptor": 3,
+     "NFKB_INDUCED": 3,
+     "KRAS_TOP100_KNOCKDOWN": 2,
+     "keratinocytePathway": 2,
+     "CR_CAM": 2,
+     "cell_adhesion": 1
+    }
+   },
+   "prostate": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9537,
+     "Gene/lr": 0.9607,
+     "Mean/lr": 0.9311,
+     "Median/lr": 0.9481,
+     "PCA/lr": 0.9642,
+     "PAC_random/lr": 0.888
+    },
+    "neglog10p_pac_vs_gene": 0.88,
+    "pac_better": false,
+    "top_pathways": {
+     "integrinPathway": 60,
+     "human_mitoDB_6_2002": 57,
+     "PROLIF_GENES": 53,
+     "no1Pathway": 53,
+     "ST_Integrin_Signaling_Pathway": 50,
+     "INSULIN_2F_UP": 49,
+     "cell_adhesion": 48,
+     "mitochondr": 45,
+     "CR_SIGNALLING": 38,
+     "MAP00480_Glutathione_metabolism": 37,
+     "CBF_LEUKEMIA_DOWNING_AML": 36,
+     "CR_CAM": 34
+    }
+   }
+  }
+ },
+ "seq_stop": {
+  "variant": "seq_stop",
+  "description": "sequential selection stops at the first marker that does not raise the validation AUC; logistic regression only",
+  "run": "PAC_VARIANT=seq_stop,lr_only cv.py (see README, Run)",
+  "within": {
+   "breast_netherlands": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6876,
+     "Gene/lr": 0.65,
+     "Mean/lr": 0.6573,
+     "Median/lr": 0.6338,
+     "PCA/lr": 0.6754,
+     "PAC_random/lr": 0.6729
+    },
+    "neglog10p_pac_vs_gene": 4.5,
+    "pac_better": true,
+    "top_pathways": {
+     "HTERT_UP": 39,
+     "PGC": 31,
+     "human_mitoDB_6_2002": 28,
+     "GLUT_UP": 22,
+     "RAP_DOWN": 16,
+     "GLUT_DOWN": 13,
+     "SIG_PIP3SIGINCARDIACMYOCTES": 13,
+     "LEU_DOWN": 11,
+     "SIG_InsulinReceptorPathwayInCardiacMyocytes": 8,
+     "GO_0005739": 8,
+     "electron_transporter_activity": 8,
+     "insulin_signalling": 7
+    }
+   },
+   "breast_usa": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6016,
+     "Gene/lr": 0.564,
+     "Mean/lr": 0.5821,
+     "Median/lr": 0.5735,
+     "PCA/lr": 0.5769,
+     "PAC_random/lr": 0.5998
+    },
+    "neglog10p_pac_vs_gene": 3.99,
+    "pac_better": true,
+    "top_pathways": {
+     "CR_SIGNALLING": 21,
+     "MAP00380_Tryptophan_metabolism": 20,
+     "PGC": 17,
+     "RAP_UP": 16,
+     "PROLIF_GENES": 15,
+     "GLUT_DOWN": 14,
+     "RAP_DOWN": 12,
+     "GPCRs_Class_A_Rhodopsin-like": 9,
+     "INSULIN_2F_UP": 8,
+     "NFKB_INDUCED": 7,
+     "EMT_DOWN": 6,
+     "FETAL_LIVER_HS_ENRICHED_TF_JP": 6
+    }
+   },
+   "leukemia": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9814,
+     "Gene/lr": 0.9981,
+     "Mean/lr": 0.9199,
+     "Median/lr": 0.9167,
+     "PCA/lr": 0.9103,
+     "PAC_random/lr": 0.9799
+    },
+    "neglog10p_pac_vs_gene": 5.18,
+    "pac_better": false,
+    "top_pathways": {
+     "ST_Wnt_Ca2_cyclic_GMP_Pathway": 72,
+     "GNF_FEMALE_GENES": 22,
+     "RAP_UP": 17,
+     "GLUT_DOWN": 16,
+     "ANDROGEN_UP_GENES": 12,
+     "PGC": 8,
+     "HUMAN_CD34_ENRICHED_TF_JP": 7,
+     "INSULIN_2F_UP": 6,
+     "CR_PROTEIN_MOD": 5,
+     "GO_ROS": 4,
+     "PROLIF_GENES": 3,
+     "GLUT_UP": 2
+    }
+   },
+   "lung_boston": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.5226,
+     "Gene/lr": 0.4873,
+     "Mean/lr": 0.4816,
+     "Median/lr": 0.4809,
+     "PCA/lr": 0.4986,
+     "PAC_random/lr": 0.4838
+    },
+    "neglog10p_pac_vs_gene": 1.31,
+    "pac_better": true,
+    "top_pathways": {
+     "GLUT_DOWN": 28,
+     "INSULIN_2F_UP": 19,
+     "HTERT_UP": 12,
+     "mitochondr": 11,
+     "CR_SIGNALLING": 10,
+     "GLUT_UP": 8,
+     "human_mitoDB_6_2002": 8,
+     "GO_0005739": 7,
+     "PGC": 7,
+     "PROLIF_GENES": 6,
+     "RAP_DOWN": 5,
+     "Proteasome_Degradation": 5
+    }
+   },
+   "lung_michigan": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.6602,
+     "Gene/lr": 0.5885,
+     "Mean/lr": 0.5666,
+     "Median/lr": 0.5553,
+     "PCA/lr": 0.5988,
+     "PAC_random/lr": 0.5893
+    },
+    "neglog10p_pac_vs_gene": 3.56,
+    "pac_better": true,
+    "top_pathways": {
+     "breast_cancer_estrogen_signalling": 41,
+     "p53_signalling": 19,
+     "NFKB_INDUCED": 16,
+     "PGC": 13,
+     "HEMO_TF_LIST_JP": 12,
+     "INSULIN_2F_UP": 11,
+     "GLUT_DOWN": 9,
+     "MAP00010_Glycolysis_Gluconeogenesis": 7,
+     "insulin_signalling": 7,
+     "HTERT_UP": 6,
+     "PROLIF_GENES": 6,
+     "FETAL_LIVER_HS_ENRICHED_TF_JP": 5
+    }
+   },
+   "nfkb": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9983,
+     "Gene/lr": 0.9942,
+     "Mean/lr": 0.9792,
+     "Median/lr": 1.0,
+     "PCA/lr": 0.9817,
+     "PAC_random/lr": 0.9129
+    },
+    "neglog10p_pac_vs_gene": 0.55,
+    "pac_better": true,
+    "top_pathways": {
+     "ST_Tumor_Necrosis_Factor_Pathway": 27,
+     "tnfr2Pathway": 19,
+     "ST_Gaq_Pathway": 16,
+     "ST_Fas_Signaling_Pathway": 11,
+     "CR_SIGNALLING": 6,
+     "SIG_CD40PATHWAYMAP": 4,
+     "ST_B_Cell_Antigen_Receptor": 3,
+     "NFKB_INDUCED": 3,
+     "KRAS_TOP100_KNOCKDOWN": 2,
+     "keratinocytePathway": 2,
+     "CR_CAM": 2,
+     "cell_adhesion": 1
+    }
+   },
+   "prostate": {
+    "partitions": 100,
+    "mean_auc": {
+     "PAC/lr": 0.9487,
+     "Gene/lr": 0.9587,
+     "Mean/lr": 0.8709,
+     "Median/lr": 0.8801,
+     "PCA/lr": 0.9664,
+     "PAC_random/lr": 0.9605
+    },
+    "neglog10p_pac_vs_gene": 1.81,
+    "pac_better": false,
+    "top_pathways": {
+     "human_mitoDB_6_2002": 28,
+     "INSULIN_2F_UP": 18,
+     "PROLIF_GENES": 17,
+     "mitochondr": 16,
+     "CR_SIGNALLING": 12,
+     "drug_resistance_and_metabolism": 11,
+     "integrinPathway": 9,
+     "cell_adhesion": 9,
+     "ST_Integrin_Signaling_Pathway": 8,
+     "no1Pathway": 7,
+     "pgc1aPathway": 6,
+     "MAP00480_Glutathione_metabolism": 6
+    }
+   }
+  },
+  "cross": {
+   "breast_netherlands__breast_usa": {
+    "partitions": 500,
+    "mean_auc": {
+     "PAC/lr": 0.5665,
+     "Gene/lr": 0.6368
+    },
+    "neglog10p_pac_vs_gene": 53.94,
+    "pac_better": false,
+    "top_pathways": {
+     "actinYPathway": 215,
+     "GLUCOSE_DOWN": 150,
+     "SA_REG_CASCADE_OF_CYCLIN_EXPR": 132,
+     "arapPathway": 114,
+     "Proteasome_Degradation": 84,
+     "GLUCO": 59,
+     "cell_cycle_checkpoint": 52,
+     "LEU_DOWN": 48,
+     "MAP00860_Porphyrin_and_chlorophyll_metabolism": 46,
+     "GLUCOSE_UP": 30,
+     "Cell_Cycle": 29,
+     "Krebs-TCA_Cycle": 25
+    }
+   },
+   "breast_usa__breast_netherlands": {
+    "partitions": 500,
+    "mean_auc": {
+     "PAC/lr": 0.6545,
+     "Gene/lr": 0.674
+    },
+    "neglog10p_pac_vs_gene": 6.52,
+    "pac_better": false,
+    "top_pathways": {
+     "Cell_Cycle": 462,
+     "RAP_DOWN": 40,
+     "Il12Pathway": 35,
+     "LEU_DOWN": 25,
+     "ifngPathway": 15,
+     "RAP_UP": 14,
+     "SA_MMP_CYTOKINE_CONNECTION": 13,
+     "MAP00380_Tryptophan_metabolism": 12,
+     "HEMO_TF_LIST_JP": 8,
+     "il22bpPathway": 7,
+     "MAP00310_Lysine_degradation": 7,
+     "CR_IMMUNE_FUNCTION": 1
+    }
+   },
+   "lung_boston__lung_michigan": {
+    "partitions": 500,
+    "mean_auc": {
+     "PAC/lr": 0.5786,
+     "Gene/lr": 0.587
+    },
+    "neglog10p_pac_vs_gene": 0.21,
+    "pac_better": false,
+    "top_pathways": {
+     "CR_TRANSCRIPTION_FACTORS": 201,
+     "SIG_PIP3_signaling_in_B_lymphocytes": 142,
+     "p53hypoxiaPathway": 128,
+     "INSULIN_2F_UP": 115,
+     "GLUT_DOWN": 60,
+     "MAP00280_Valine_leucine_and_isoleucine_degradation": 39,
+     "blymphocytePathway": 25,
+     "human_mitoDB_6_2002": 23,
+     "cell_cycle_checkpoint": 19,
+     "MAP00590_Prostaglandin_and_leukotriene_metabolism": 17,
+     "EMT_UP": 16,
+     "Il12Pathway": 14
+    }
+   },
+   "lung_michigan__lung_boston": {
+    "partitions": 500,
+    "mean_auc": {
+     "PAC/lr": 0.6565,
+     "Gene/lr": 0.6064
+    },
+    "neglog10p_pac_vs_gene": 8.89,
+    "pac_better": true,
+    "top_pathways": {
+     "GLUT_DOWN": 355,
+     "GLUCO": 106,
+     "GLYCOL": 102,
+     "breast_cancer_estrogen_signalling": 64,
+     "MAP00010_Glycolysis_Gluconeogenesis": 35,
+     "circadianPathway": 28,
+     "FRASOR_ER_DOWN": 23,
+     "blymphocytePathway": 16,
+     "MAP00620_Pyruvate_metabolism": 11,
+     "INSULIN_2F_UP": 8,
+     "SIG_BCR_Signaling_Pathway": 7,
+     "MAP00251_Glutamate_metabolism": 6
+    }
+   }
+  }
+ },
+ "usa_cel": {
+  "variant": "usa_cel",
+  "description": "GSE2034 re-normalized from its CEL files (RMA, MAS5); Table S2's ten USA CORG lists",
+  "results": {
+   "gse2034_rma.tsv.gz/max": {
+    "exact_lists": 0,
+    "same_sets": 0,
+    "lists": 10
+   },
+   "gse2034_rma.tsv.gz/mean": {
+    "exact_lists": 1,
+    "same_sets": 2,
+    "lists": 10
+   },
+   "gse2034_mas5.tsv.gz/max": {
+    "exact_lists": 1,
+    "same_sets": 1,
+    "lists": 10
+   },
+   "gse2034_mas5.tsv.gz/mean": {
+    "exact_lists": 1,
+    "same_sets": 2,
+    "lists": 10
+   }
+  }
+ }
+}
