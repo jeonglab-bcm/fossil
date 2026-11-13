@@ -30,10 +30,13 @@ DPI = 399
 #: Rectangles (left, top, right, bottom) left out of the score: legends, insets and the printed
 #: numbers, which hold no data of ours. Coordinates are inside the published panel crop.
 MASKS = {
-    "fig2a": [(10, 10, 660, 190)],                      # legend box
-    "fig2b": [(10, 10, 880, 130)],                      # legend box with the fit parameters
-    "fig3": [(430, 60, 1000, 330)],                     # printed mean, median and standard deviation
-    "fig4": [(325, 253, 1080, 815), (470, 10, 1140, 170)],  # inset histograms, legend box
+    "fig2a": [(10, 10, 660, 190)],      # legend box
+    "fig2b": [(10, 10, 880, 130)],      # legend box with the fit parameters
+    "fig3": [(430, 60, 1010, 330)],     # printed mean, median and standard deviation
+    # Figure 4 carries its legend and its inset inside the panel. Both are drawn here, so only the
+    # lettering is left out: the legend box, the inset's y label and its tick labels. The inset's
+    # bars are data and are scored.
+    "fig4": [(434, 79, 1125, 265), (228, 185, 333, 818), (296, 806, 1146, 884)],
 }
 PANELS = ("fig2a", "fig2b", "fig3", "fig4")
 

@@ -9,9 +9,10 @@ runs it on the paper's data, draws the figures and scores them.
 
 The verdicts are computed by `check_results.py` from [`../results.json`](../results.json); the table is in
 [`../README.md`](../README.md). In one line: both findings come back, the recombination rate is 9.8e-06 per
-site and generation against the paper's 1.4e-05 (inside its own standard deviation), and the gap is open at
+site and generation against the paper's 1.4e-05 (inside its own standard deviation), and two gaps are open:
 the divisor `<M pA pB>`, which the paper reports as 0.93 and which no averaging convention we tried puts
-below 1.04.
+below 1.04, and the observation counts behind Figure 4, where our hitch-hiking filter leaves 195 synonymous
+observations against about 1,850 in the published inset.
 
 ## What the code does against the paper
 
@@ -70,10 +71,20 @@ verdicts) → `CHECK` (rules, the package, this run against `output/`) → `BUIL
 
 ## Limits
 
-* The pixel comparison of Figures 2 and 4 cannot separate our curves from a near-miss control, because the
-  published lines are 5 px wide and the real differences are of that order. The points and curves are
-  therefore read off the published panels in data units and compared as values; the pixel scores are kept
-  in `comparison.json` and shown on the page, and only Figure 3 is scored by pixels.
+* The pixel comparison of Figures 2 and 4 cannot separate our curves from a near-miss control. For Figure 2
+  the published lines are 5 px wide and the real differences are of that order; for Figure 4 the legend, the
+  inset frame and the tallest histogram of each bin are ink both figures share, so they carry the score
+  (ours 0.911, the control with the two curves exchanged 0.912). The points, the curves and the inset counts
+  are therefore read off the published panels in data units and compared as values; the pixel scores stay in
+  `comparison.json` and on the page. Only Figure 3 carries a pixel verdict, and there a wrong-input control
+  scores better than our histogram.
+* Figure 4 is drawn whole: the three cumulative curves, the legend, the inset histograms and the bracket at
+  0.002 per generation. The published panel carries all of them, and they cover a third of it, so a
+  reproduction without them cannot be laid over the published figure. Only the lettering (the legend box,
+  the inset's axis labels) is left out of the score.
+* The inset of Figure 4 is read class by class. The three histograms are drawn over each other, so in each
+  bin only the classes that are taller than the ones drawn after them can be read; the three come back in
+  15, 10 and 6 of the 21 bins.
 * The published figures were drawn with Matplotlib of 2009. We draw with 3.10 at the published stroke
   widths; fonts and tick labels are left out of the comparison by the masks in `compare.py`.
 * The GenBank download has no stable checksum: E-utilities returns the records in no fixed order and the

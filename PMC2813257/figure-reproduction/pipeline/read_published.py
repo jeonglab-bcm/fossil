@@ -30,6 +30,12 @@ CAL = {
     "fig2b": {"x": (131.0, 1277.0, 0.0, 65000.0), "y": (2111.0, 1224.0, 0.0, 0.5)},
     "fig4": {"x": (155.0, 1301.0, 0.0, 0.01), "y": (912.0, 25.0, 0.0, 1.0)},
 }
+#: Figure 3: the panel's axes run 0 to 30 x 10^-6 and 0 to 160 counts, with 30 bars.
+FIG3 = {"x": (0.0, 30.0), "y": (0.0, 160.0), "bars": 30}
+#: Figure 4 inset: its frame inside the panel crop, the legend box drawn over it, the decade of
+#: its log axis (10^3 sits at row 232) and its 21 bins from 0 to 0.011.
+FIG4_INSET = {"box": (332, 200, 1145, 808), "legend": (437, 82, 1122, 262),
+              "decade_px": 228.75, "row_of_1000": 232, "x": (0.0, 0.011), "bins": 21}
 #: x values at which the three cumulative curves of Figure 4 are read.
 FIG4_X = [0.0005, 0.001, 0.0015, 0.002, 0.0025, 0.003, 0.0035, 0.004]
 
@@ -96,6 +102,62 @@ def read_curves(img, cal, xs):
     return out
 
 
+def read_bars(img, box, xr, yr, nbars, colour):
+    """Height of each bar of a histogram, in data units, from the top of its coloured fill."""
+    x0, y0, x1, y1 = box
+    out = []
+    for k in range(nbars):
+        a = x0 + (x1 - x0) * k / nbars
+        b = x0 + (x1 - x0) * (k + 1) / nbars
+        tops = []
+        for x in range(int(round(a)) + 4, int(round(b)) - 3):
+            ys = np.where(colour[y0:y1, x])[0]
+            if len(ys):
+                tops.append(ys.min() + y0)
+        if not tops:
+            out.append(0.0)
+        else:
+            row = float(np.median(tops))
+            out.append(yr[1] + (row - y0) * (yr[0] - yr[1]) / (y1 - y0))
+    return out
+
+
+def read_inset(img, spec):
+    """Counts per bin of the three overlapping histograms of Figure 4's inset.
+
+    The three are drawn over each other, last one first in the legend order, so in each bin only
+    the tallest of the classes drawn after a given one is visible above it. A class hidden under a
+    taller one that is drawn later cannot be read and comes back as None. The rows the legend box
+    covers are left out.
+    """
+    x0, y0, x1, y1 = spec["box"]
+    lx0, ly0, lx1, ly1 = spec["legend"]
+    R, G, B = img[..., 0], img[..., 1], img[..., 2]
+    masks = {"nonsynonymous": (R > 120) & (G < 90) & (B < 90),
+             "synonymous": (G > 80) & (R < 100) & (B < 100) & (G - R > 30),
+             "synonymous_no_hitchhiking": (B > 110) & (R < 100) & (G < 100)}
+    n = spec["bins"]
+    out = {k: [] for k in masks}
+    edges = []
+    for k in range(n):
+        a = x0 + (x1 - x0) * k / n
+        b = x0 + (x1 - x0) * (k + 1) / n
+        edges.append(spec["x"][0] + (spec["x"][1] - spec["x"][0]) * k / n)
+        for name, m in masks.items():
+            tops = []
+            for x in range(int(round(a)) + 5, int(round(b)) - 4):
+                top = y0 if not (lx0 <= x <= lx1) else max(y0, ly1 + 3)
+                ys = np.where(m[top:y1, x])[0]
+                if len(ys):
+                    tops.append(ys.min() + top)
+            if not tops:
+                out[name].append(None)
+            else:
+                row = float(np.median(tops))
+                out[name].append(float(10 ** (3 + (spec["row_of_1000"] - row) / spec["decade_px"])))
+    return {"edges": edges, "counts": out}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("published")
@@ -120,6 +182,14 @@ def main(argv=None) -> int:
     l, t, r, b = PANELS["fig2b"][1]
     # the legend box sits in the upper left of panel B; read below it
     values["fig2b"] = series_from_mask(red[t + 130 : b - 2, l + 3 : r - 3], l + 3, t + 130, CAL["fig2b"])
+    g3p = np.asarray(Image.open(out / "published" / "fig3.png").convert("RGB")).astype(int)
+    blue3 = (g3p[..., 2] > 110) & (g3p[..., 0] < 110) & (g3p[..., 1] < 110)
+    h, w = blue3.shape
+    bars3 = read_bars(g3p, (0, 0, w, h), FIG3["x"], FIG3["y"], FIG3["bars"], blue3)
+
+    g4p = np.asarray(Image.open(out / "published" / "fig4.png").convert("RGB")).astype(int)
+    inset = read_inset(g4p, FIG4_INSET)
+
     g4 = np.asarray(Image.open(src / "pcbi.1000660.g004.png").convert("RGB")).astype(int)
     # blank the inset and the legend box, which hold coloured ink of their own
     g4m = g4.copy()
@@ -130,7 +200,9 @@ def main(argv=None) -> int:
     with open(out / "published_values.json", "w") as f:
         json.dump({"panels": {k: v[1] for k, v in PANELS.items() if v[1]},
                    "calibration": CAL, "series": values,
-                   "fig4": {"x": FIG4_X, "curves": curves}}, f, indent=1)
+                   "fig4": {"x": FIG4_X, "curves": curves},
+                   "fig3": {"bars": bars3, "axes": FIG3},
+                   "fig4_inset": inset}, f, indent=1)
     print({k: len(v) for k, v in values.items()}, file=sys.stderr)
     return 0
 

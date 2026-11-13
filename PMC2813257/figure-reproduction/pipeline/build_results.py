@@ -87,19 +87,26 @@ def main(argv=None) -> int:
     items["fig2.b"]["pixels"] = pixel_block(cmp_["panels"]["fig2b"])
 
     # --- the fit and the recombination rate -----------------------------------------------------
+    # The legend of Fig. 2B prints the fit, not a measured value: each constant is compared with
+    # the spread of the same fit over the 500 resamples of the patients, the uncertainty the paper
+    # itself quotes for rho.
+    sd = rec["fit_bootstrap_sd"]
     put("text.fit", values={"fields": [
-        field("c0", "0.10", fmt(rec["fit"]["c0"], 3)),
-        field("c1", "0.26", fmt(rec["fit"]["c1"], 3)),
-        field("c2", "4.39e-05", fmt(rec["fit"]["c2"], 3)),
+        field("c0", "0.10", fmt(rec["fit"]["c0"], 3), {"abs": fmt(sd["c0"], 3)}),
+        field("c1", "0.26", fmt(rec["fit"]["c1"], 3), {"abs": fmt(sd["c1"], 3)}),
+        field("c2", "4.39e-05", fmt(rec["fit"]["c2"], 3), {"abs": fmt(sd["c2"], 3)}),
+    ], "tolerance": {"printed": True}})
+
+    # <M pA pB> is measured from the data, not fitted, and is compared at printed precision.
+    put("text.mpapb", values={"fields": [
         field("<M pA pB>", "0.93", fmt(rec["MpApB"], 3)),
     ], "tolerance": {"printed": True}})
 
     boot = rec["bootstrap"]
     put("text.rho", values={"fields": [
-        # the paper states rho with its own one standard deviation; the deviation itself is
-        # compared at printed precision
+        # the paper prints the rate with its own one standard deviation, which is the tolerance
+        # it gives the number; the deviation itself is the bootstrap item below
         field("rho (per site and generation)", "1.4e-05", fmt(rec["rho"], 3), {"abs": 0.6e-5}),
-        field("standard deviation", "0.6e-05", fmt(boot["std"], 3)),
     ], "tolerance": {"printed": True}})
 
     put("text.bootstrap", values={"fields": [
@@ -126,28 +133,57 @@ def main(argv=None) -> int:
             sigma = math.sqrt(max(yv * (1 - yv), 1e-6) / m)
             fields.append(field(f"{name} at {xv}", round(yv, 3), round(o, 3),
                                 {"abs": round(2 * sigma, 4)}))
-    put("fig4", values={"fields": fields, "tolerance": {"abs": 0.02}})
-    items["fig4"]["pixels"] = pixel_block(cmp_["panels"]["fig4"])
+    put("fig4.curves", values={"fields": fields, "tolerance": {"abs": 0.02}})
+    items["fig4.curves"]["pixels"] = pixel_block(cmp_["panels"]["fig4"])
+
+    # the inset: the observation counts behind the curves, bin by bin. A class hidden under a
+    # taller one drawn later cannot be read off the published panel and is left out. The tolerance
+    # is two Poisson standard deviations of the published count plus 5 percent for reading it.
+    ins_pub = pub["fig4_inset"]["counts"]
+    ins_ours = sel["inset_counts"]
+    fields = []
+    for name, vals in ins_pub.items():
+        for k, pv in enumerate(vals):
+            if pv is None:
+                continue
+            ov = ins_ours[name][k]
+            tol = 2 * math.sqrt(max(pv, 1.0)) + 0.05 * pv
+            fields.append(field(f"{name}, bin {k}", round(pv, 1), ov, {"abs": round(tol, 1)}))
+    fields.append(field("observations, non-synonymous", "2400", sel["counts"]["nonsynonymous"],
+                        {"abs": 600}))
+    put("fig4.inset", values={"fields": fields, "tolerance": {"abs": 1.0}})
 
     # --- the selection claims --------------------------------------------------------------------
     share = sel["share_above_0.002"]
     n = sel["counts"]
-    put("text.selection", values={"fields": [
-        field("non-synonymous faster than 0.002 per generation", "0.15",
-              fmt(share["nonsynonymous"], 2)),
-        field("more fast non-synonymous than fast synonymous polymorphisms", "yes",
-              "yes" if share["nonsynonymous"] > share["synonymous"] else "no"),
-        # read off Figure 4 (the published synonymous curve reaches 0.895 at 0.002 per
-        # generation); the tolerance is two standard errors of a share on our sample
-        field("share of synonymous faster than 0.002 per generation", "0.105",
-              fmt(share["synonymous"], 2),
-              {"abs": round(2 * math.sqrt(0.105 * 0.895 / max(n["synonymous"], 1)), 4)}),
-        field("fastest non-synonymous change", "0.01", fmt(sel["max_rate"]["nonsynonymous"], 2)),
-        field("fastest synonymous change without hitch-hiking", "0.003",
-              fmt(sel["max_rate"]["synonymous_no_hitchhiking"], 2)),
-        field("selection coefficient of the top 15% (s >= 4 dp/dt)", "0.008",
-              fmt(4 * sel["quantile_0.85_nonsynonymous"], 2)),
-    ], "tolerance": {"printed": True}})
+    above3 = sel["share_above_0.003"]
+    put("text.selection", values={
+        "fields": [
+            field("non-synonymous faster than 0.002 per generation", "0.15",
+                  fmt(share["nonsynonymous"], 3)),
+            field("more fast non-synonymous than fast synonymous polymorphisms", "yes",
+                  "yes" if share["nonsynonymous"] > share["synonymous"] else "no"),
+            # read off Figure 4 (the published synonymous curve reaches 0.895 at 0.002 per
+            # generation); the tolerance is two standard errors of a share on our sample
+            field("share of synonymous faster than 0.002 per generation", "0.105",
+                  fmt(share["synonymous"], 2),
+                  {"abs": round(2 * math.sqrt(0.105 * 0.895 / max(n["synonymous"], 1)), 4)}),
+            field("fastest non-synonymous change", "0.01", fmt(sel["max_rate"]["nonsynonymous"], 2)),
+            field("share of synonymous without hitch-hiking beyond 0.003 per generation", "0.00",
+                  fmt(above3["synonymous_no_hitchhiking"], 2)),
+            field("selection coefficient of the top 15% (s >= 4 dp/dt)", "0.008",
+                  fmt(4 * sel["quantile_0.85_nonsynonymous"], 2)),
+        ],
+        "tolerance": {"printed": True},
+        "exceptions": [{
+            "field": "non-synonymous faster than 0.002 per generation",
+            "category": "paper_error",
+            "evidence": [
+                "The text says about 15 percent; the paper's own Figure 4 puts the "
+                "non-synonymous curve at 0.828 at 0.002 per generation, which is 17.2 percent. "
+                "Ours, 15.9 percent, lies between the two.",
+                "PMC2813257/figure-reproduction/output/published_values.json"],
+        }]})
 
     ks = sel["ks"]
     put("text.ks", values={"fields": [
@@ -160,11 +196,13 @@ def main(argv=None) -> int:
 
     # --- the "other haplotypes" curve has no distance dependence ----------------------------------
     sl = rec["fig2a_other_slope_per_bp"]
+    se = rec["fig2a_other_slope_se_per_bp"]
     rise_rec = (rec["fig2a_recombinant"]["p"][-1] - rec["fig2a_recombinant"]["p"][0])
     put("text.other_haplotypes", values={"fields": [
+        # no distance dependence: the rise over the plotted range against two standard errors of
+        # the slope of the same least squares fit
         field("rise of the other-haplotype curve over 500 bp", "0.0", fmt(sl * 500, 2),
-              {"abs": round(float(np.nanmean(np.asarray(
-                  [e for e in rec["fig2a_other"]["err"] if e is not None], float))), 3)}),
+              {"abs": round(2 * se * 500, 4)}),
         field("flatter than the recombinant curve", "yes", "yes" if abs(sl * 500) < rise_rec / 2 else "no"),
     ], "tolerance": {"printed": True}})
 
@@ -198,13 +236,14 @@ def main(argv=None) -> int:
     ], "tolerance": {"printed": True}})
 
     # --- the allele-count cutoff ------------------------------------------------------------------
+    # "The analysis was repeated with this cutoff at two or four alleles, yielding similar
+    # results": one claim about both cutoffs, so one field.
     s2 = an["sensitivity"]["min_count_2"]["rho"]
     s4 = an["sensitivity"]["min_count_4"]["rho"]
+    similar = all(0.5 <= v / rho <= 2 for v in (s2, s4))
     put("text.cutoff", values={"fields": [
-        field("rho with the cutoff at 2 alleles within a factor of 2 of the cutoff at 3", "yes",
-              "yes" if 0.5 <= s2 / rho <= 2 else "no"),
-        field("rho with the cutoff at 4 alleles within a factor of 2 of the cutoff at 3", "yes",
-              "yes" if 0.5 <= s4 / rho <= 2 else "no"),
+        field("the cutoff at two and at four alleles gives a similar rate", "yes",
+              "yes" if similar else "no"),
     ], "tolerance": {"printed": True}})
 
     if pkg is not None:

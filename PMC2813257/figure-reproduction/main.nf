@@ -79,6 +79,7 @@ process RENDER {
     input:
     path analysis
     path bootstrap
+    path rates
     output:
     path 'figures'
     script:
@@ -184,7 +185,7 @@ workflow {
     alignments = ALIGN(downloads)
     (analysis, bootstrap, rates) = ANALYZE(alignments)
     (published_values, published) = READ_PUBLISHED()
-    figures = RENDER(analysis, bootstrap)
+    figures = RENDER(analysis, bootstrap, rates.collect())
     (comparison, scored) = COMPARE(figures, published, published_values)
     package_json = PACKAGE()
     results = RESULTS(analysis, published_values, comparison, package_json)

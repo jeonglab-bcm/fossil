@@ -206,19 +206,25 @@ def estimate_rho(events, bin_width: float = 8000.0, max_x: float | None = None, 
     return Fit(c0, c1, c2, m, c1 * c2 / (m - c0), int(len(x)), b)
 
 
-def bootstrap_rho(per_patient, n: int = 500, seed: int = 0, **kw) -> np.ndarray:
+def bootstrap_rho(per_patient, n: int = 500, seed: int = 0, with_fit: bool = False, **kw):
     """Resample patients with replacement ``n`` times and re-estimate rho each time.
 
-    ``per_patient``: list of event tables, one per patient.
+    ``per_patient``: list of event tables, one per patient. With ``with_fit`` the fit parameters
+    of each resample come back too, as an (n, 3) array of c0, c1 and c2: their spread is the
+    uncertainty of the fit itself.
     """
     rng = np.random.default_rng(seed)
     k = len(per_patient)
     out = np.empty(n)
+    pars = np.full((n, 3), np.nan)
     for i in range(n):
         pick = rng.integers(0, k, size=k)
         ev = concat_events(per_patient[j] for j in pick)
         try:
-            out[i] = estimate_rho(ev, **kw).rho
+            fit = estimate_rho(ev, **kw)
         except RuntimeError:  # fit did not converge
             out[i] = np.nan
-    return out
+            continue
+        out[i] = fit.rho
+        pars[i] = (fit.c0, fit.c1, fit.c2)
+    return (out, pars) if with_fit else out

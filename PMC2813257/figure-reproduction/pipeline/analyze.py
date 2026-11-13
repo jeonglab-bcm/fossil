@@ -38,6 +38,8 @@ FIG2B_WIDTH = 8000.0
 #: changing faster than 0.002 per generation.
 FAST = 0.002
 WINDOW = 100.0
+#: Figure 4 inset: 21 bins from 0 to 0.011 per generation, read from the published panel.
+INSET_EDGES = np.linspace(0.0, 0.011, 22)
 
 
 def load_patients(alndir):
@@ -95,13 +97,17 @@ def main(argv=None) -> int:
     rec2a = bin_events(ev["d"], ev["found"], FIG2A_EDGES)
     oth2a = bin_events(ev["d"], ev["other"], FIG2A_EDGES)
     fit = estimate_rho(ev, bin_width=FIG2B_WIDTH, weights="relative")
-    boot = np.sort(bootstrap_rho(per, n=a.boot, seed=a.seed, bin_width=FIG2B_WIDTH,
-                                 weights="relative"))
+    boot, boot_pars = bootstrap_rho(per, n=a.boot, seed=a.seed, bin_width=FIG2B_WIDTH,
+                                    weights="relative", with_fit=True)
+    boot = np.sort(boot)
     np.save(out / "bootstrap.npy", boot)
 
-    # slope of the "other haplotypes" curve against distance (the paper: no distance dependence)
+    # slope of the "other haplotypes" curve against distance (the paper: no distance dependence),
+    # with the standard error of the slope from the same least squares fit
     ok = oth2a.counts > 0
-    slope, intercept = np.polyfit(oth2a.centers[ok], oth2a.p[ok], 1)
+    coef, cov = np.polyfit(oth2a.centers[ok], oth2a.p[ok], 1, cov=True)
+    slope, intercept = coef
+    slope_se = float(np.sqrt(cov[0, 0]))
 
     rates_per = [frequency_changes(X, t, patient=p) for p, (X, t) in data.items()]
     rates = concat_rates(rates_per)
@@ -125,15 +131,22 @@ def main(argv=None) -> int:
             "fig2a_other": series(oth2a),
             "fig2a_other_weighted_mean": float(np.mean(ev["other"])),
             "fig2a_other_slope_per_bp": float(slope),
+            "fig2a_other_slope_se_per_bp": slope_se,
             "fig2b_width": FIG2B_WIDTH,
             "fig2b": series(fit.binned),
             "fit": {"c0": fit.c0, "c1": fit.c1, "c2": fit.c2},
+            # the spread of each fit parameter over the same 500 resamples of the patients:
+            # the uncertainty of the fit itself, used as the tolerance for the published legend
+            "fit_bootstrap_sd": {"c0": float(np.nanstd(boot_pars[:, 0])),
+                                 "c1": float(np.nanstd(boot_pars[:, 1])),
+                                 "c2": float(np.nanstd(boot_pars[:, 2]))},
             "MpApB": fit.MpApB,
             "rho": fit.rho,
             "bootstrap": {"n": int(a.boot), "seed": a.seed, "mean": float(np.mean(boot)),
                           "median": float(np.median(boot)), "std": float(np.std(boot))},
         },
         "selection": {
+            "inset_edges": INSET_EDGES.tolist(),
             "counts": {"nonsynonymous": int((~syn).sum()), "synonymous": int(syn.sum()),
                        "synonymous_no_hitchhiking": int(len(r_nohh))},
             "share_above_0.002": {"nonsynonymous": share_above(r_ns, FAST),
@@ -144,6 +157,13 @@ def main(argv=None) -> int:
             "ks": {"vs_synonymous": {"D": D_syn, "p": p_syn},
                    "vs_synonymous_no_hitchhiking": {"D": D_nohh, "p": p_nohh}},
             "quantile_0.85_nonsynonymous": float(np.quantile(r_ns, 0.85)),
+            "share_above_0.003": {
+                "synonymous_no_hitchhiking": share_above(r_nohh, 0.003),
+                "count_above_0.003": int(np.sum(r_nohh > 0.003))},
+            "inset_counts": {
+                "nonsynonymous": np.histogram(r_ns, INSET_EDGES)[0].tolist(),
+                "synonymous": np.histogram(r_syn, INSET_EDGES)[0].tolist(),
+                "synonymous_no_hitchhiking": np.histogram(r_nohh, INSET_EDGES)[0].tolist()},
         },
         "sensitivity": {},
     }

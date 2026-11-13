@@ -20,13 +20,14 @@ esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
 # station key -> (items it covers, the published panel crop, our render)
-FIGS = {"2a": ("fig2.a",), "2b": ("fig2.b",), "3": ("fig3", "text.bootstrap"), "4": ("fig4",)}
+FIGS = {"2a": ("fig2.a",), "2b": ("fig2.b",), "3": ("fig3", "text.bootstrap"),
+        "4": ("fig4.curves", "fig4.inset")}
 PANEL = {"2a": "fig2a", "2b": "fig2b", "3": "fig3", "4": "fig4"}
 CAPTIONS = {
     "2a": "Fig. 2A. How often the haplotype that was missing at one sample turns up at the next, against the distance between the two sites. Red: the one haplotype recombination can build from the alleles already there. Green: haplotypes carrying an allele that was not there, which recombination cannot build.",
     "2b": "Fig. 2B. The same probability against distance times elapsed generations, with the fit of Eq. 5 in black. Its slope at zero and its intercept give the recombination rate.",
     "3": "Fig. 3. The spread of the rate over 500 resamples of the eleven patients.",
-    "4": "Fig. 4. How fast allele frequencies change between consecutive samples, as cumulative distributions: non-synonymous, synonymous, and synonymous at least 100 bp from a fast non-synonymous site.",
+    "4": "Fig. 4. How fast allele frequencies change between consecutive samples, as cumulative distributions: non-synonymous, synonymous, and synonymous at least 100 bp from a fast non-synonymous site. The inset holds the counts behind them, on a log scale.",
 }
 TITLE = {"2a": "Fig. 2A", "2b": "Fig. 2B", "3": "Fig. 3", "4": "Fig. 4"}
 
