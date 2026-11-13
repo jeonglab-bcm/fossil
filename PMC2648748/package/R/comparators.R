@@ -46,18 +46,50 @@ chisq_single <- function(geno, status) {
   data.frame(statistic = stat, df = df, p = p)
 }
 
-#' Likelihood-ratio test of the full logistic model for sets of SNPs
+# Likelihood-ratio test of the interaction terms: the full model (one parameter per observed
+# genotype combination) against the logistic model with main effects only (a factor per SNP).
+# The full model is saturated, so the statistic is the main-effects model's residual deviance on
+# the table of genotype combinations.
+.interaction_test <- function(d, u, k) {
+  cells <- as.matrix(expand.grid(rep(list(0:2), k)))
+  stat <- df <- numeric(ncol(d))
+  cache <- new.env()
+  for (s in seq_len(ncol(d))) {
+    keep <- (d[, s] + u[, s]) > 0
+    key <- paste(which(keep), collapse = ",")
+    mm <- cache[[key]]
+    if (is.null(mm)) {
+      X <- cells[keep, , drop = FALSE]
+      mm <- stats::model.matrix(~ ., data = as.data.frame(lapply(as.data.frame(X), factor)))
+      assign(key, mm, envir = cache)
+    }
+    y <- cbind(d[keep, s], u[keep, s])
+    fit <- suppressWarnings(stats::glm.fit(mm, y, family = stats::binomial()))
+    stat[s] <- fit$deviance
+    df[s] <- sum(keep) - fit$rank
+  }
+  p <- ifelse(df > 0, stats::pchisq(stat, pmax(df, 1), lower.tail = FALSE), 1)
+  data.frame(statistic = stat, df = df, p = p)
+}
+
+#' Likelihood-ratio tests of logistic models for sets of SNPs
 #'
-#' The model has a parameter for each observed genotype combination (two SNPs: main effects and
-#' interaction, 8 degrees of freedom when all nine combinations occur), tested against the
-#' intercept-only model.
+#' \code{type = "full"}: the model with a parameter for each observed genotype combination (two
+#' SNPs: main effects and interaction, 8 degrees of freedom when all nine combinations occur)
+#' against the intercept-only model. \code{type = "interaction"}: the same model against the
+#' model with main effects only (4 degrees of freedom for two SNPs, 20 for three), so only the
+#' interaction is tested.
 #'
 #' @inheritParams b_test
+#' @param type "full" or "interaction".
 #' @export
-lr_test <- function(geno, status, sets) {
+lr_test <- function(geno, status, sets, type = c("full", "interaction")) {
+  type <- match.arg(type)
   .check_geno(geno, status)
-  tab <- .count_tables(geno, status, as.matrix(sets))
-  .g_test(tab$cases, tab$controls)
+  sets <- as.matrix(sets)
+  tab <- .count_tables(geno, status, sets)
+  if (type == "full" || ncol(sets) == 1) .g_test(tab$cases, tab$controls)
+  else .interaction_test(tab$cases, tab$controls, ncol(sets))
 }
 
 #' Stepwise logistic regression (two-stage strategy)
@@ -77,12 +109,18 @@ lr_test <- function(geno, status, sets) {
 #' @param stage2_correction "tested" or "all".
 #' @param focus Optional SNP columns: only stage-2 tests that include one of them are run (faster
 #'   when only some SNPs matter, as in a power study).
+#' @param stage2_test "full": stage 2 tests the full model against the null model (main effects
+#'   and interaction together); "interaction": only the interaction terms, against the main-effects
+#'   model, so a locus with only a marginal effect is found in stage 1 alone (as epiMODE, by the
+#'   same group, describes the method).
 #' @return A data frame of tests (\code{order}, \code{snps}, \code{statistic}, \code{df}, \code{p},
 #'   \code{p_adj}, \code{reported}) with attribute \code{kept} (the stage-1 SNPs).
 #' @export
 stepwise_lr <- function(geno, status, eps = 0.1, alpha = 0.05, max_order = 3,
-                        stage2_correction = c("tested", "all"), focus = NULL) {
+                        stage2_correction = c("tested", "all"), focus = NULL,
+                        stage2_test = c("full", "interaction")) {
   stage2_correction <- match.arg(stage2_correction)
+  stage2_test <- match.arg(stage2_test)
   .check_geno(geno, status)
   L <- ncol(geno)
   one <- lr_test(geno, status, matrix(seq_len(L), ncol = 1))
@@ -98,7 +136,7 @@ stepwise_lr <- function(geno, status, eps = 0.1, alpha = 0.05, max_order = 3,
     m <- if (stage2_correction == "tested") nrow(sets) else choose(L, k)
     if (!is.null(focus)) sets <- sets[rowSums(matrix(sets %in% focus, ncol = k)) > 0, , drop = FALSE]
     if (!nrow(sets)) next
-    r <- lr_test(geno, status, sets)
+    r <- lr_test(geno, status, sets, type = stage2_test)
     r$order <- as.integer(k)
     r$snps <- apply(sets, 1, paste, collapse = ",")
     r$p_adj <- pmin(1, r$p * m)
