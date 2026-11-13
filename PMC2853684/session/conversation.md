@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-11T23:09:35+00:00 / 2026-11-12T01:03:07+00:00 |
-| Wall clock | 113.5 min |
+| Started / ended (UTC) | 2026-11-11T23:09:35+00:00 / 2026-11-13T22:02:10+00:00 |
+| Wall clock | 2812.6 min |
 | Models | claude-opus-5-5 |
-| Human prompts | 4 (0 sent mid-turn) |
-| Assistant responses (API calls) | 204 + 8 in subagents |
-| Tool calls | 209 + 8 in subagents |
-| Tokens: input / cache write / cache read / output | 436 / 572,228 / 66,218,864 / 239,910 |
-| Tokens: total (incl. subagents) | 67,031,438 |
+| Human prompts | 5 (0 sent mid-turn) |
+| Assistant responses (API calls) | 237 + 8 in subagents |
+| Tool calls | 243 + 8 in subagents |
+| Tokens: input / cache write / cache read / output | 504 / 1,712,391 / 83,953,514 / 289,001 |
+| Tokens: total (incl. subagents) | 85,955,410 |
 
 ## Conversation
 
@@ -716,3 +716,168 @@ CI is rerunning on the fixed head.
 <event>check (PMC2853684): success; find: success; reproduce: success; skill: success</event>
 If this event is something the user would act on now, send a PushNotification. Routine or benign output doesn't need one.
 </task-notification>
+
+### Claude · 2026-11-12 01:03:09
+
+All four CI checks are green. Closing the open check on the PR and pushing the final ledger.
+
+- `Bash` Comment CI result and push final ledger
+
+### Claude · 2026-11-12 01:03:47
+
+PMC2853684 is reproduced, and the pull request is open with CI green: **https://github.com/jeonglab-bcm/fossil/pull/56**. It contains `Closes #46`, so merging closes the issue.
+
+Issue #46 belongs to `jeonglab-bcm/fossil`, not Paper2Repro (Paper2Repro has issues turned off), so that is where the pull request went.
+
+**Results: 25 items, 2 exact, 11 agree, 6 partly, 0 differ, 6 not attempted.**
+- **Methods rebuilt.** I rebuilt Neighborhood, Oti, random walk and propagation from the paper's text as a Python package (`diseasenet`), and ran MCL release 14-137. Together they give the authors' published scores on all 387,070 candidate pairs of both networks (1,935,350 scores).
+- **Figures compared as numbers.** Figs 2 and 4 and Supp. Figs S1 and S2 are vector drawings in the PDFs, so I read their plotted values out of the PDF instead of comparing pixels.
+  - Every point drawn for the 13 single methods comes back. On OPHID (Supp. Fig. S1) that is all 340 coordinates.
+  - All bars, error bars, counts and legend values of Figs 3, 4 and S2 come back.
+  - Every number in Secs. 2.1, 3.3 and 3.5 comes back, including the same named diseases.
+- **Settings the paper doesn't state.** Five settings had to be found by matching against the authors' files, so those items count as "agree" rather than "exact". They are the threshold grids, the starting value of the propagation, a self-loop on every OPHID protein, how homophily counts a gene's neighbours, and how Fig. 4 averages. Each is recorded in `results.json` with how much the result depends on it.
+- **Not exact:**
+  - Fig. 2a/2b: our curves have 3 points the figure leaves out; the cause is open.
+  - Consensus Random Forest: our points are close but not equal, because the paper doesn't give the forest's settings. All five points are still Pareto optimal, as the paper says.
+  - Paper slips: three ranges in Sec. 3.1 are not the extremes of the paper's own Fig. 2a, and four entries in Supp. Table 1 are decimal slips (for example 0.12 printed for 0.0123).
+  - Two other numbers in the text don't come back, and I couldn't find why: the 29.0% recall without linkage intervals (we get 37.6%) and the VI-CutS average of 66.0% (we get 66.1%).
+- **Lost:** the graph summarization code, so the GS and VI-Cut scores come from the authors' prediction files rather than a rerun.
+
+**Pipeline.** One Nextflow command reruns everything in about 7 minutes from a clean clone, including the downloads. Every heavy job ran through Slurm (`defq15`, and `debugq` for short tests), never on the login node; `run_skyriver.sbatch` and a `skyriver` profile are included. The package check passes: it builds, installs fresh, runs 8 tests and executes the tutorial.
+
+**Things you should know:**
+- The first CI run failed on one file: Ubuntu's and bioconda's builds of the same MCL release print different version banners. The clusters themselves are identical, so the check now skips that banner file and the README says so.
+- An independent reviewer agent checked the write-up against the numbers. It caught miscounts (fields called coordinates, scores called pairs) and two overstated claims, and I fixed them before you see this.
+- When I opened the pull request, a shell quoting mistake made the backtick spans in its text run as commands. Nothing changed: one `pip install` from GitHub failed on the login node and the rest did nothing. I then rewrote the pull request text correctly.
+- The ledger counts 4 human prompts, but only 1 was yours. The other 3 appear to be the reviewer's report and notices from background tasks.
+- While I worked, your queue also showed two Slurm jobs that aren't mine, named `rm` and `pmc12742`. I left them alone.
+
+### User · 2026-11-13 21:34:39
+
+The reviewer hwan has requested some veredict changes as well as to redo some figures 4, S2 and 4 because some scales or lines do not agree with the original figures. Also about the not decided, here are my veredicts: 
+
+**Agreed (6):** Text: Sec. 2.1, network and annotation counts (Exact); Text: Sec. 3.2, interval-only baselines (Exact); Text: Sec. 3.3, prediction quality per disease (Agrees); Text: Supp. Sec. 4, the 19 diseases most amenable to… (Agrees); Text: Sec. 3.5, uniqueness of correct predictions (Agrees); Changes outside the paper folder
+
+Redo the figures and update the veredicts
+
+### Claude · 2026-11-13 21:34:43
+
+Reading the reviewer's comments on PR #56 first.
+
+- `Bash` Read PR #56 reviews and comments
+
+- `Bash` Dump long strokes (fit lines) in Fig 4
+
+- `Bash` Inspect S2 line strokes and Fig 2 clip boxes
+
+- `Bash` Find panel boxes of Fig 2a/2b
+
+- `Bash` Fit the published Fig 4 lines and compare with ours
+
+- `Bash` List all Fig 4 fit lines in drawing order
+
+- `Bash` Store fit points and S2 fits/variances in analysis
+
+### Claude · 2026-11-13 21:37:55
+
+Now reading the published lines (and S2's error bars) from the PDFs.
+
+- `Bash` Extract published lines and S2 error bars
+
+### Claude · 2026-11-13 21:38:18
+
+Lines extracted for all 30 panel-method pairs; S2's error bars weren't found with that filter. Inspecting how they're drawn.
+
+- `Bash` Inspect S2 error-bar strokes
+
+### Claude · 2026-11-13 21:38:27
+
+Error bars in S2 are 1-pt vertical strokes at the bar centres (one bin has zero length). Adjusting the filter.
+
+- `Bash` Re-extract S2 error bars
+
+### Claude · 2026-11-13 21:38:38
+
+Now adding the line and error-bar fields to the comparison.
+
+- `Bash` Add line and error-bar fields to compare.py
+
+- `Write` /home/sofias/fossil-issue46/PMC2853684/figure-reproduction/pipeline/render.py
+
+### Claude · 2026-11-13 21:40:09
+
+Rerunning analysis, comparison and renders on a compute node.
+
+- `Bash` Recompute analysis, comparison and renders
+
+- `Bash` Compare line values at 4 decimals with a measurement tolerance
+
+### Claude · 2026-11-13 21:42:16
+
+Fig. 4a slopes run 0.016% high: the bar spacing is 18.667 pt (168/9), not the 18.67 I typed. Deriving the x unit from the bar positions themselves.
+
+- `Bash` Fix x unit; recompute and list all mismatches
+
+### Claude · 2026-11-13 21:43:48
+
+Every published line now matches: Fig. 4a 45 of 45, Fig. 4b 30 of 30, S2 141 of 141. Checking the redrawn figures against the published ones visually.
+
+- `Bash` Montage published vs redrawn Fig 2a, 4a, 4b
+
+- `Read` /home/sofias/fossil-issue46/PMC2853684/scratch/redo_cmp1.png
+
+- `Bash` Adjust fonts, re-render, montage the other figures
+
+- `Read` /home/sofias/fossil-issue46/PMC2853684/scratch/redo_cmp_0.png
+
+- `Read` /home/sofias/fossil-issue46/PMC2853684/scratch/redo_cmp_1.png
+
+- `Read` /home/sofias/fossil-issue46/PMC2853684/scratch/redo_cmp_2.png
+
+- `Bash` Fig 3 colours; reviewer acceptance and paper-error exception in notes
+
+### Claude · 2026-11-13 21:45:09
+
+Running the full pipeline fresh on Slurm.
+
+- `Bash` Submit the full pipeline
+
+- `Bash` Wait for the run and read its check
+
+### Claude · 2026-11-13 21:53:11
+
+The run stopped early; those are old results. Reading the error.
+
+- `Bash` Show the pipeline error
+
+### Claude · 2026-11-13 21:53:17
+
+The failure is the expected one: the new outputs differ from the committed ones. Copying the fresh outputs from the task folder into `output/`.
+
+- `Bash` Copy fresh outputs into the committed folder
+
+### Claude · 2026-11-13 21:53:23
+
+My work-dir lookup came back empty (only read-only `ls`/`cp` on missing paths; nothing was changed). Finding the RESULTS task folder properly.
+
+- `Bash` Locate the RESULTS work directory
+
+- `Bash` Show diffs and copy fresh outputs
+
+### Claude · 2026-11-13 21:53:34
+
+The differences are exactly the intended ones. Regenerating `results.json`, the page and the results-check file, then checking the run against the new committed outputs.
+
+- `Bash` Rebuild results, page and results-check; list verdicts
+
+- `Bash` Update paper README rows and summary
+
+- `Bash` Update figure-reproduction README and top README
+
+### Claude · 2026-11-13 21:54:17
+
+Committing, then verifying from a clean clone on Slurm before pushing.
+
+- `Bash` Commit and submit a clean-clone verification run
+
+- `Bash` Wait for the clean run and read its check
