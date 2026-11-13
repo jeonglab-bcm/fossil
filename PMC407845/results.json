@@ -1,0 +1,2532 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC407845",
+    "title": "Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data",
+    "citation": "Gao F, Foat BC, Bussemaker HJ. Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data. BMC Bioinformatics 5:31 (2004)",
+    "doi": "10.1186/1471-2105-5-31",
+    "license": "BioMed Central open access: verbatim copying and redistribution permitted in all media for any purpose, provided the notice and the article's URL are kept"
+  },
+  "run": {
+    "pipeline": "PMC407845/figure-reproduction/main.nf",
+    "command": "nextflow run PMC407845/figure-reproduction/main.nf --outdir results",
+    "date": "2026-11-13",
+    "inputs": [
+      {
+        "name": "binding_by_gene.tsv",
+        "url": "http://younglab.wi.mit.edu/regulatory_network/binding_by_gene.tsv",
+        "sha256": "d4db1099eaebe420b669a494ccfc4e9c497dd8b4c5b71b67631308c7540f1ef5"
+      },
+      {
+        "name": "simon_all_genes.tsv",
+        "url": "http://younglab.wi.mit.edu/cellcycle/all_genes.tsv",
+        "sha256": "a085b5804f946726fd35cb02af89926282d024d9d3710948aaa678da798df420"
+      },
+      {
+        "name": "sgd.gaf.gz",
+        "url": "https://s3.amazonaws.com/go-data-product-release/2004-03-01/annotations/sgd.gaf.gz",
+        "sha256": "c0384b66021680ceb5a0780e0b443a6321e9abf9de2fc56c391a62b493a2b40f"
+      },
+      {
+        "name": "gene_ontology.obo",
+        "url": "https://s3.amazonaws.com/go-data-product-release/2004-03-01/ontology/gene_ontology.obo",
+        "sha256": "d8b6b4a3a183e6aa16cb933a7f681d99b6f5e26c40c2e9815772e86516a1e885"
+      },
+      {
+        "name": "S288C_reference_genome_R64-1-1_20110203.tgz",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/sequence/S288C_reference/genome_releases/S288C_reference_genome_R64-1-1_20110203.tgz",
+        "sha256": "34202715e816ea8a4d44eb22d24f9627b636f0a8867f1300cdab220cde1bb515"
+      },
+      {
+        "name": "moesm2.eps",
+        "url": "https://static-content.springer.com/esm/art%3A10.1186%2F1471-2105-5-31/MediaObjects/12859_2003_147_MOESM2_ESM.eps",
+        "sha256": "bd3c5172bb56c2fdf255a3b2e6bf088c44f9d38b04863b921a19bbe741aa18ba"
+      },
+      {
+        "name": "Chu_1998_PMID_9784122.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Chu_1998_PMID_9784122/Chu_1998_PMID_9784122.zip",
+        "sha256": "f6d0013b1a3f3ac183adeb555a602384e84b14b1057f59772586965a7f880b5f"
+      },
+      {
+        "name": "DeRisi_1997_PMID_9381177.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/DeRisi_1997_PMID_9381177/DeRisi_1997_PMID_9381177.zip",
+        "sha256": "2114cc733949bef6e72d37ef78fabbb421e8d78db451da063c600ecf33aa5487"
+      },
+      {
+        "name": "Gasch_2000_PMID_11102521.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Gasch_2000_PMID_11102521/Gasch_2000_PMID_11102521.zip",
+        "sha256": "31f41d08b1f7e2bcded2933518eb99809b39c2a1a34f8c9e9b56f6b61ee8d5ab"
+      },
+      {
+        "name": "Gasch_2001_PMID_11598186.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Gasch_2001_PMID_11598186/Gasch_2001_PMID_11598186.zip",
+        "sha256": "d4e4e730d7854f9c0361fc38ae17c790b305b792321461eac449c2f69387ce47"
+      },
+      {
+        "name": "Gross_2000_PMID_10922376.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Gross_2000_PMID_10922376/Gross_2000_PMID_10922376.zip",
+        "sha256": "ef5119d94c6b6edb960a68049ab2974183d17caf075a474f5d59fc18b0f14de6"
+      },
+      {
+        "name": "Hughes_2000_PMID_10929718.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Hughes_2000_PMID_10929718/Hughes_2000_PMID_10929718.zip",
+        "sha256": "27e6723b54c84c7f58e77f0de2d6b73d35dca349fecb28cec3167613e57cbc99"
+      },
+      {
+        "name": "Keller_2001_PMID_11504737.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Keller_2001_PMID_11504737/Keller_2001_PMID_11504737.zip",
+        "sha256": "2dee8957cfaf80a1e6c714e330a72ebfaea9c3dce30326ca10472c5c5620d17a"
+      },
+      {
+        "name": "Kuhn_2001_PMID_11154278.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Kuhn_2001_PMID_11154278/Kuhn_2001_PMID_11154278.zip",
+        "sha256": "c2316f6c7ffc57e8d6dc1781d2c99b6997d2d8db7d833ab8ea820b27313975da"
+      },
+      {
+        "name": "Ogawa_2000_PMID_11102525.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Ogawa_2000_PMID_11102525/Ogawa_2000_PMID_11102525.zip",
+        "sha256": "7229e301e24a004cbd7cbab98befab6788f8186659b68c9734c9e1478ce67283"
+      },
+      {
+        "name": "Protchenko_2001_PMID_11673473.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Protchenko_2001_PMID_11673473/Protchenko_2001_PMID_11673473.zip",
+        "sha256": "a4a2a2476b0fc413acf5368bba69bb70fe53e379de670a1dcfedab81fc46ed34"
+      },
+      {
+        "name": "Roberts_2000_PMID_10657304.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Roberts_2000_PMID_10657304/Roberts_2000_PMID_10657304.zip",
+        "sha256": "d2abdf3aef836d2f82d49d71a751938ad434ffbbd660d9b2f547d476b6589b8f"
+      },
+      {
+        "name": "Spellman_1998_PMID_9843569.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Spellman_1998_PMID_9843569/Spellman_1998_PMID_9843569.zip",
+        "sha256": "7b46af23498289f2b9a9afeac0c5ec04d73d50ad1953bd5c5c585c6f09ca3687"
+      },
+      {
+        "name": "Sudarsanam_2000_PMID_10725359.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Sudarsanam_2000_PMID_10725359/Sudarsanam_2000_PMID_10725359.zip",
+        "sha256": "d61fd826859f88abe91ea93ba0b8de09f3405bf8aac92f525a3c037db96f0260"
+      },
+      {
+        "name": "Yoshimoto_2002_PMID_12058033.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Yoshimoto_2002_PMID_12058033/Yoshimoto_2002_PMID_12058033.zip",
+        "sha256": "5b76d08f37817c1c7e7f0e92c3f91e4452b9ec8a1631b5b773aff7929899eef0"
+      },
+      {
+        "name": "Yun_2000_PMID_10744769.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Yun_2000_PMID_10744769/Yun_2000_PMID_10744769.zip",
+        "sha256": "90c8f904c5d365cae0b5930a75ce52f4a858d667435b127a36d02341a0ba7962"
+      },
+      {
+        "name": "Zhu_2000_PMID_10894548.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Zhu_2000_PMID_10894548/Zhu_2000_PMID_10894548.zip",
+        "sha256": "913e7eba963b6a28728e7517cd72f623f2823e497a1d8def90e8764a32907d0b"
+      }
+    ],
+    "environment": {
+      "python": "3.12.3",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "pillow": "11.2.1",
+      "matplotlib": "3.10.3"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1a",
+      "label": "Fig. 1a",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A diagram of the method; there is nothing to recompute.",
+        "evidence": [
+          "figure-reproduction/published/figure-1.png"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.inputs",
+      "label": "Text: 751 arrays and 113 TFs",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "expression arrays in the library",
+            "expected": "751",
+            "observed": "677"
+          },
+          {
+            "name": "TFs with ChIP data",
+            "expected": "113",
+            "observed": "113"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The SGD archive holds 677 distinct arrays of the paper's 751. Casagrande 2000, Rutherford 2001 and Diehn 2000 (5 arrays) are not there; SGD keeps 15 of Roberts 2000's 56 arrays, 138 of Gasch 2000's 156 (replicates averaged), 55 of Spellman's 60 and 52 of Gasch 2001's 53; Yun 2000 and Protchenko 2001 share one file. All 113 TFs of Lee et al. are there.",
+        "evidence": [
+          "figure-reproduction/output/compendium.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig1b",
+      "label": "Fig. 1b, activity profiles of Hap4, Ndd1 and Ste12",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Hap4: group with the largest mean |activity|",
+            "expected": "stress",
+            "observed": "stress"
+          },
+          {
+            "name": "Ndd1: group with the largest mean |activity|",
+            "expected": "cell cycle",
+            "observed": "cell cycle"
+          },
+          {
+            "name": "Ste12: group with the largest mean |activity|",
+            "expected": "pheromone",
+            "observed": "pheromone"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Stress, pheromone and cell cycle experiments are Gasch 2000, Roberts 2000 and Spellman 1998 (the caption's references 28 to 30); the published panel shows a subset of their arrays in an order the paper does not give, so our bars are spread evenly over the x range of each published colour",
+          "source": "our_choice",
+          "sensitivity": "The comparison is the caption's claim (which group carries each TF's largest changes), not the bar positions."
+        }
+      ],
+      "note": "The caption's claim is compared as values: the group of experiments with the largest mean absolute activity for each TF.",
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1c.hap4",
+      "label": "Fig. 1c, Hap4 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 160,
+        "published_near_ours": 0.727,
+        "ours_near_published": 0.5254,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "Ndd1 points on the Hap4 panel",
+            "kind": "wrong_input",
+            "score": 0.2183
+          },
+          {
+            "name": "Ste12 points on the Hap4 panel",
+            "kind": "wrong_input",
+            "score": 0.3128
+          },
+          {
+            "name": "coupling x0.9",
+            "kind": "near_miss",
+            "score": 0.4932
+          },
+          {
+            "name": "coupling x1.1",
+            "kind": "near_miss",
+            "score": 0.4031
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our B+/C+ (red) and B+/C- (green) points fall in the published places better than any control, but our couplings are larger in magnitude (r from -0.81 to 0.92; B+/C+ genes up to 0.71, against about 0.65 in the paper), so many of our points sit above the published ones. The rebuilt library (2010 reprocessing, 677 arrays) is the likely reason; it cannot be checked without the authors' 2003 library or coupling_result.",
+        "hypotheses": [
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Calibrated from the tick labels of all three panels: the same 111.25 px per coupling unit, and binding 0 on each y axis",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our couplings are inflated by a constant factor",
+            "test": "Score the panel with our coupling x0.9 and x1.1 (near-miss controls)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The B+/C+ split differs",
+            "test": "Table 1: Hap4 has 42 B+/C+ and 27 B+/C- in our run against 47 and 21; B+ total 69 against 68",
+            "result": "supported"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/table1.json"
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig1c.ndd1",
+      "label": "Fig. 1c, Ndd1 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 160,
+        "published_near_ours": 0.8678,
+        "ours_near_published": 0.5895,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "Hap4 points on the Ndd1 panel",
+            "kind": "wrong_input",
+            "score": 0.3586
+          },
+          {
+            "name": "Ste12 points on the Ndd1 panel",
+            "kind": "wrong_input",
+            "score": 0.3046
+          },
+          {
+            "name": "coupling x0.9",
+            "kind": "near_miss",
+            "score": 0.6407
+          },
+          {
+            "name": "coupling x1.1",
+            "kind": "near_miss",
+            "score": 0.5128
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        }
+      ],
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "Our coupling scaled by 0.9 scores better than ours, so the score cannot confirm our coupling scale for Ndd1: our couplings are larger in magnitude than the published ones, as for Hap4, although the split itself is close (50 B+/C+ and 44 B+/C- against 50 and 42).",
+        "hypotheses": [
+          {
+            "hypothesis": "Our couplings are larger than the paper's by about 10%",
+            "test": "Near-miss control coupling x0.9 scores above ours",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Same calibration as Hap4 and Ste12 from the tick labels",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Ndd1 points belong to another TF's pattern",
+            "test": "Hap4 and Ste12 points drawn on the Ndd1 panel score 0.36 and 0.30 against our 0.59",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json"
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig1c.ste12",
+      "label": "Fig. 1c, Ste12 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 160,
+        "published_near_ours": 0.5173,
+        "ours_near_published": 0.2753,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "Hap4 points on the Ste12 panel",
+            "kind": "wrong_input",
+            "score": 0.2939
+          },
+          {
+            "name": "Ndd1 points on the Ste12 panel",
+            "kind": "wrong_input",
+            "score": 0.343
+          },
+          {
+            "name": "coupling x0.9",
+            "kind": "near_miss",
+            "score": 0.2873
+          },
+          {
+            "name": "coupling x1.1",
+            "kind": "near_miss",
+            "score": 0.2574
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our Ste12 couplings are much stronger than the published ones (our B+/C+ genes reach r 0.67; the paper's stop near 0.45), and we call 25 B+/C+ and 25 B+/C- against 19 and 31. Our pheromone experiments are 15 Roberts 2000 arrays, where the paper had 56; Ste12's activity is carried by them.",
+        "hypotheses": [
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Same calibration as the other panels from the tick labels",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "A constant scale of our coupling",
+            "test": "Near-miss controls x0.9 and x1.1 score no better than wrong inputs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The pheromone arrays differ",
+            "test": "Roberts 2000: 15 arrays in the SGD archive against 56 in the paper; Ste12's activity is largest there (mean |t| 6.8 against 0.9 to 1.0 elsewhere)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/compendium.json"
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "text.tf_selection",
+      "label": "Text: 37 of 113 TFs kept by backward selection",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "TFs kept by backward selection (of 113)",
+            "expected": "37",
+            "observed": "63"
+          },
+          {
+            "name": "the paper's 37 TFs among those kept",
+            "expected": "37",
+            "observed": "36"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "Missing or non-positive Lee ratios set to log2 ratio 0 in the regression; such genes are unclassified for that TF",
+          "source": "our_choice",
+          "sensitivity": "Setting them to the TF's mean log ratio keeps 61 TFs instead of 63 (35 of the paper's 37)."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Backward selection at the paper's P = 0.005/751 keeps 63 TFs, among them 36 of the paper's 37 (Stb1 is dropped). The paper's TFs head our ranking (our 18 most significant TFs are all among them), so our P-values are stronger overall rather than ordered differently; the reprocessed, imputed library is the likely reason.",
+        "hypotheses": [
+          {
+            "hypothesis": "Missing ChIP ratios handled differently",
+            "test": "Mean instead of 0 for missing log ratios: 61 TFs (35 of the 37)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw ratios used instead of log ratios",
+            "test": "Ratios with missing set to 1: 60 TFs (35 of the 37)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The threshold counts our 677 arrays instead of 751",
+            "test": "0.005/677: the same 63 TFs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our P-values are uniformly stronger",
+            "test": "A threshold of 1e-8 instead of 6.7e-6 keeps 40 TFs but loses 9 of the paper's (Cad1, Hal9, Hir1, Met31, Mss11, Sko1, Stb1, Thi2, Yap6) before ours",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/selection.json"
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Abf1 B-",
+            "expected": "5638",
+            "observed": "5702"
+          },
+          {
+            "name": "Abf1 B+/C+",
+            "expected": "138",
+            "observed": "133"
+          },
+          {
+            "name": "Abf1 B+/C-",
+            "expected": "136",
+            "observed": "137"
+          },
+          {
+            "name": "Abf1 unclassified",
+            "expected": "470",
+            "observed": "387"
+          },
+          {
+            "name": "Ace2 B-",
+            "expected": "5843",
+            "observed": "5905"
+          },
+          {
+            "name": "Ace2 B+/C+",
+            "expected": "33",
+            "observed": "34"
+          },
+          {
+            "name": "Ace2 B+/C-",
+            "expected": "33",
+            "observed": "35"
+          },
+          {
+            "name": "Ace2 unclassified",
+            "expected": "473",
+            "observed": "385"
+          },
+          {
+            "name": "Arg81 B-",
+            "expected": "5985",
+            "observed": "6051"
+          },
+          {
+            "name": "Arg81 B+/C+",
+            "expected": "11",
+            "observed": "10"
+          },
+          {
+            "name": "Arg81 B+/C-",
+            "expected": "10",
+            "observed": "9"
+          },
+          {
+            "name": "Arg81 unclassified",
+            "expected": "376",
+            "observed": "289"
+          },
+          {
+            "name": "Bas1 B-",
+            "expected": "5975",
+            "observed": "6039"
+          },
+          {
+            "name": "Bas1 B+/C+",
+            "expected": "28",
+            "observed": "22"
+          },
+          {
+            "name": "Bas1 B+/C-",
+            "expected": "13",
+            "observed": "19"
+          },
+          {
+            "name": "Bas1 unclassified",
+            "expected": "366",
+            "observed": "279"
+          },
+          {
+            "name": "Cad1 B-",
+            "expected": "5854",
+            "observed": "5913"
+          },
+          {
+            "name": "Cad1 B+/C+",
+            "expected": "26",
+            "observed": "26"
+          },
+          {
+            "name": "Cad1 B+/C-",
+            "expected": "13",
+            "observed": "13"
+          },
+          {
+            "name": "Cad1 unclassified",
+            "expected": "489",
+            "observed": "407"
+          },
+          {
+            "name": "Dal81 B-",
+            "expected": "5823",
+            "observed": "5886"
+          },
+          {
+            "name": "Dal81 B+/C+",
+            "expected": "24",
+            "observed": "24"
+          },
+          {
+            "name": "Dal81 B+/C-",
+            "expected": "16",
+            "observed": "14"
+          },
+          {
+            "name": "Dal81 unclassified",
+            "expected": "519",
+            "observed": "435"
+          },
+          {
+            "name": "Dig1 B-",
+            "expected": "5872",
+            "observed": "5936"
+          },
+          {
+            "name": "Dig1 B+/C+",
+            "expected": "20",
+            "observed": "25"
+          },
+          {
+            "name": "Dig1 B+/C-",
+            "expected": "11",
+            "observed": "6"
+          },
+          {
+            "name": "Dig1 unclassified",
+            "expected": "479",
+            "observed": "392"
+          },
+          {
+            "name": "Fhl1 B-",
+            "expected": "5754",
+            "observed": "5806"
+          },
+          {
+            "name": "Fhl1 B+/C+",
+            "expected": "146",
+            "observed": "151"
+          },
+          {
+            "name": "Fhl1 B+/C-",
+            "expected": "37",
+            "observed": "40"
+          },
+          {
+            "name": "Fhl1 unclassified",
+            "expected": "445",
+            "observed": "362"
+          },
+          {
+            "name": "Fkh2 B-",
+            "expected": "5261",
+            "observed": "5320"
+          },
+          {
+            "name": "Fkh2 B+/C+",
+            "expected": "61",
+            "observed": "72"
+          },
+          {
+            "name": "Fkh2 B+/C-",
+            "expected": "45",
+            "observed": "35"
+          },
+          {
+            "name": "Fkh2 unclassified",
+            "expected": "1015",
+            "observed": "932"
+          },
+          {
+            "name": "Gal4 B-",
+            "expected": "5149",
+            "observed": "5201"
+          },
+          {
+            "name": "Gal4 B+/C+",
+            "expected": "20",
+            "observed": "28"
+          },
+          {
+            "name": "Gal4 B+/C-",
+            "expected": "20",
+            "observed": "12"
+          },
+          {
+            "name": "Gal4 unclassified",
+            "expected": "1193",
+            "observed": "1118"
+          },
+          {
+            "name": "Gat3 B-",
+            "expected": "5891",
+            "observed": "5957"
+          },
+          {
+            "name": "Gat3 B+/C+",
+            "expected": "40",
+            "observed": "31"
+          },
+          {
+            "name": "Gat3 B+/C-",
+            "expected": "29",
+            "observed": "33"
+          },
+          {
+            "name": "Gat3 unclassified",
+            "expected": "422",
+            "observed": "338"
+          },
+          {
+            "name": "Gcn4 B-",
+            "expected": "5919",
+            "observed": "5984"
+          },
+          {
+            "name": "Gcn4 B+/C+",
+            "expected": "58",
+            "observed": "56"
+          },
+          {
+            "name": "Gcn4 B+/C-",
+            "expected": "21",
+            "observed": "23"
+          },
+          {
+            "name": "Gcn4 unclassified",
+            "expected": "384",
+            "observed": "296"
+          },
+          {
+            "name": "Hal9 B-",
+            "expected": "5948",
+            "observed": "6011"
+          },
+          {
+            "name": "Hal9 B+/C+",
+            "expected": "4",
+            "observed": "6"
+          },
+          {
+            "name": "Hal9 B+/C-",
+            "expected": "13",
+            "observed": "9"
+          },
+          {
+            "name": "Hal9 unclassified",
+            "expected": "417",
+            "observed": "333"
+          },
+          {
+            "name": "Hap4 B-",
+            "expected": "5939",
+            "observed": "6002"
+          },
+          {
+            "name": "Hap4 B+/C+",
+            "expected": "47",
+            "observed": "42"
+          },
+          {
+            "name": "Hap4 B+/C-",
+            "expected": "21",
+            "observed": "27"
+          },
+          {
+            "name": "Hap4 unclassified",
+            "expected": "375",
+            "observed": "288"
+          },
+          {
+            "name": "Hir1 B-",
+            "expected": "5963",
+            "observed": "6025"
+          },
+          {
+            "name": "Hir1 B+/C+",
+            "expected": "19",
+            "observed": "19"
+          },
+          {
+            "name": "Hir1 B+/C-",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "Hir1 unclassified",
+            "expected": "390",
+            "observed": "305"
+          },
+          {
+            "name": "Hir2 B-",
+            "expected": "5932",
+            "observed": "5991"
+          },
+          {
+            "name": "Hir2 B+/C+",
+            "expected": "8",
+            "observed": "9"
+          },
+          {
+            "name": "Hir2 B+/C-",
+            "expected": "13",
+            "observed": "12"
+          },
+          {
+            "name": "Hir2 unclassified",
+            "expected": "429",
+            "observed": "347"
+          },
+          {
+            "name": "Hsf1 B-",
+            "expected": "5929",
+            "observed": "5992"
+          },
+          {
+            "name": "Hsf1 B+/C+",
+            "expected": "35",
+            "observed": "39"
+          },
+          {
+            "name": "Hsf1 B+/C-",
+            "expected": "17",
+            "observed": "14"
+          },
+          {
+            "name": "Hsf1 unclassified",
+            "expected": "401",
+            "observed": "314"
+          },
+          {
+            "name": "Leu3 B-",
+            "expected": "5988",
+            "observed": "6053"
+          },
+          {
+            "name": "Leu3 B+/C+",
+            "expected": "8",
+            "observed": "11"
+          },
+          {
+            "name": "Leu3 B+/C-",
+            "expected": "13",
+            "observed": "9"
+          },
+          {
+            "name": "Leu3 unclassified",
+            "expected": "373",
+            "observed": "286"
+          },
+          {
+            "name": "Mbp1 B-",
+            "expected": "5641",
+            "observed": "5697"
+          },
+          {
+            "name": "Mbp1 B+/C+",
+            "expected": "65",
+            "observed": "74"
+          },
+          {
+            "name": "Mbp1 B+/C-",
+            "expected": "40",
+            "observed": "33"
+          },
+          {
+            "name": "Mbp1 unclassified",
+            "expected": "636",
+            "observed": "555"
+          },
+          {
+            "name": "Mcm1 B-",
+            "expected": "5709",
+            "observed": "5772"
+          },
+          {
+            "name": "Mcm1 B+/C+",
+            "expected": "42",
+            "observed": "40"
+          },
+          {
+            "name": "Mcm1 B+/C-",
+            "expected": "46",
+            "observed": "48"
+          },
+          {
+            "name": "Mcm1 unclassified",
+            "expected": "585",
+            "observed": "499"
+          },
+          {
+            "name": "Met31 B-",
+            "expected": "5983",
+            "observed": "6047"
+          },
+          {
+            "name": "Met31 B+/C+",
+            "expected": "15",
+            "observed": "15"
+          },
+          {
+            "name": "Met31 B+/C-",
+            "expected": "13",
+            "observed": "13"
+          },
+          {
+            "name": "Met31 unclassified",
+            "expected": "371",
+            "observed": "284"
+          },
+          {
+            "name": "Msn4 B-",
+            "expected": "5952",
+            "observed": "6015"
+          },
+          {
+            "name": "Msn4 B+/C+",
+            "expected": "23",
+            "observed": "21"
+          },
+          {
+            "name": "Msn4 B+/C-",
+            "expected": "7",
+            "observed": "8"
+          },
+          {
+            "name": "Msn4 unclassified",
+            "expected": "400",
+            "observed": "315"
+          },
+          {
+            "name": "Mss11 B-",
+            "expected": "4735",
+            "observed": "4780"
+          },
+          {
+            "name": "Mss11 B+/C+",
+            "expected": "11",
+            "observed": "13"
+          },
+          {
+            "name": "Mss11 B+/C-",
+            "expected": "9",
+            "observed": "7"
+          },
+          {
+            "name": "Mss11 unclassified",
+            "expected": "1627",
+            "observed": "1559"
+          },
+          {
+            "name": "Ndd1 B-",
+            "expected": "5799",
+            "observed": "5862"
+          },
+          {
+            "name": "Ndd1 B+/C+",
+            "expected": "50",
+            "observed": "50"
+          },
+          {
+            "name": "Ndd1 B+/C-",
+            "expected": "42",
+            "observed": "44"
+          },
+          {
+            "name": "Ndd1 unclassified",
+            "expected": "491",
+            "observed": "403"
+          },
+          {
+            "name": "Nrg1 B-",
+            "expected": "5912",
+            "observed": "5974"
+          },
+          {
+            "name": "Nrg1 B+/C+",
+            "expected": "61",
+            "observed": "62"
+          },
+          {
+            "name": "Nrg1 B+/C-",
+            "expected": "20",
+            "observed": "18"
+          },
+          {
+            "name": "Nrg1 unclassified",
+            "expected": "389",
+            "observed": "305"
+          },
+          {
+            "name": "Rlm1 B-",
+            "expected": "5900",
+            "observed": "5957"
+          },
+          {
+            "name": "Rlm1 B+/C+",
+            "expected": "13",
+            "observed": "16"
+          },
+          {
+            "name": "Rlm1 B+/C-",
+            "expected": "24",
+            "observed": "22"
+          },
+          {
+            "name": "Rlm1 unclassified",
+            "expected": "445",
+            "observed": "364"
+          },
+          {
+            "name": "Sig1 B-",
+            "expected": "5683",
+            "observed": "5739"
+          },
+          {
+            "name": "Sig1 B+/C+",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Sig1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Sig1 unclassified",
+            "expected": "699",
+            "observed": "620"
+          },
+          {
+            "name": "Sko1 B-",
+            "expected": "5155",
+            "observed": "5207"
+          },
+          {
+            "name": "Sko1 B+/C+",
+            "expected": "2",
+            "observed": "1"
+          },
+          {
+            "name": "Sko1 B+/C-",
+            "expected": "0",
+            "observed": "1"
+          },
+          {
+            "name": "Sko1 unclassified",
+            "expected": "1225",
+            "observed": "1150"
+          },
+          {
+            "name": "Sok2 B-",
+            "expected": "4881",
+            "observed": "4927"
+          },
+          {
+            "name": "Sok2 B+/C+",
+            "expected": "10",
+            "observed": "6"
+          },
+          {
+            "name": "Sok2 B+/C-",
+            "expected": "6",
+            "observed": "9"
+          },
+          {
+            "name": "Sok2 unclassified",
+            "expected": "1485",
+            "observed": "1417"
+          },
+          {
+            "name": "Stb1 B-",
+            "expected": "5791",
+            "observed": null
+          },
+          {
+            "name": "Stb1 B+/C+",
+            "expected": "13",
+            "observed": null
+          },
+          {
+            "name": "Stb1 B+/C-",
+            "expected": "10",
+            "observed": null
+          },
+          {
+            "name": "Stb1 unclassified",
+            "expected": "568",
+            "observed": null
+          },
+          {
+            "name": "Ste12 B-",
+            "expected": "5725",
+            "observed": "5786"
+          },
+          {
+            "name": "Ste12 B+/C+",
+            "expected": "19",
+            "observed": "25"
+          },
+          {
+            "name": "Ste12 B+/C-",
+            "expected": "31",
+            "observed": "25"
+          },
+          {
+            "name": "Ste12 unclassified",
+            "expected": "607",
+            "observed": "523"
+          },
+          {
+            "name": "Sum1 B-",
+            "expected": "5919",
+            "observed": "5979"
+          },
+          {
+            "name": "Sum1 B+/C+",
+            "expected": "35",
+            "observed": "36"
+          },
+          {
+            "name": "Sum1 B+/C-",
+            "expected": "26",
+            "observed": "26"
+          },
+          {
+            "name": "Sum1 unclassified",
+            "expected": "402",
+            "observed": "318"
+          },
+          {
+            "name": "Swi4 B-",
+            "expected": "5528",
+            "observed": "5580"
+          },
+          {
+            "name": "Swi4 B+/C+",
+            "expected": "75",
+            "observed": "84"
+          },
+          {
+            "name": "Swi4 B+/C-",
+            "expected": "48",
+            "observed": "45"
+          },
+          {
+            "name": "Swi4 unclassified",
+            "expected": "731",
+            "observed": "650"
+          },
+          {
+            "name": "Swi5 B-",
+            "expected": "5358",
+            "observed": "5418"
+          },
+          {
+            "name": "Swi5 B+/C+",
+            "expected": "47",
+            "observed": "40"
+          },
+          {
+            "name": "Swi5 B+/C-",
+            "expected": "45",
+            "observed": "54"
+          },
+          {
+            "name": "Swi5 unclassified",
+            "expected": "932",
+            "observed": "847"
+          },
+          {
+            "name": "Thi2 B-",
+            "expected": "5940",
+            "observed": "6003"
+          },
+          {
+            "name": "Thi2 B+/C+",
+            "expected": "5",
+            "observed": "5"
+          },
+          {
+            "name": "Thi2 B+/C-",
+            "expected": "1",
+            "observed": "0"
+          },
+          {
+            "name": "Thi2 unclassified",
+            "expected": "436",
+            "observed": "351"
+          },
+          {
+            "name": "Yap1 B-",
+            "expected": "5959",
+            "observed": "6024"
+          },
+          {
+            "name": "Yap1 B+/C+",
+            "expected": "28",
+            "observed": "27"
+          },
+          {
+            "name": "Yap1 B+/C-",
+            "expected": "16",
+            "observed": "17"
+          },
+          {
+            "name": "Yap1 unclassified",
+            "expected": "379",
+            "observed": "291"
+          },
+          {
+            "name": "Yap6 B-",
+            "expected": "5924",
+            "observed": "5991"
+          },
+          {
+            "name": "Yap6 B+/C+",
+            "expected": "33",
+            "observed": "26"
+          },
+          {
+            "name": "Yap6 B+/C-",
+            "expected": "54",
+            "observed": "58"
+          },
+          {
+            "name": "Yap6 unclassified",
+            "expected": "371",
+            "observed": "284"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "Missing or non-positive Lee ratios set to log2 ratio 0 in the regression; such genes are unclassified for that TF",
+          "source": "our_choice",
+          "sensitivity": "Setting them to the TF's mean log ratio keeps 61 TFs instead of 63 (35 of the paper's 37)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        },
+        {
+          "what": "A gene has expression data when measured in at least half of the arrays",
+          "source": "our_choice",
+          "sensitivity": "With any 3 measured arrays instead, 10 instead of 12 Table 1 cells are exact; the B- column stays 45 to 67 genes above the paper and the unclassified column 68 to 88 below either way."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Bound (B+) totals agree within 8 genes for every TF (the same ChIP file), but our run calls more bound genes coupled (59% per TF against 58%, with larger per-TF differences), Stb1 is not in our model, and our B- column is 45 to 67 genes above the paper and the unclassified column 68 to 88 below, because the paper's gene list (6382) and its expression filter are not stated.",
+        "hypotheses": [
+          {
+            "hypothesis": "Two-sided coupling test",
+            "test": "Variant two_sided: B+/C+ sum of absolute differences 337 against 123",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Coefficient activity profiles",
+            "test": "Variant coef_profile: 149 against 123",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "FDR over all pairs or over bound genes",
+            "test": "Variants fdr_all_pairs (123, 9 exact cells) and fdr_bound_only (136, 11 exact cells)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "A different expression filter",
+            "test": "Variant any_measurement: 10 exact cells; the B- and unclassified columns stay off by a near-constant offset",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The TF set of the model (sensitivity: the paper's 37 TFs put into our run)",
+            "test": "Variant paper_37_fixed: 19 exact cells and B+/C+ difference 102; not counted as agreement",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/table1.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.coupled_share",
+      "label": "Text: on average 58% of bound genes couple",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "mean share of bound genes that couple (%)",
+            "expected": "58",
+            "observed": "59"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "59.0% in our run (59.1% pooled), against 58% (58.4% per TF from Table 1). The share follows the coupling calls of Table 1.",
+        "hypotheses": [
+          {
+            "hypothesis": "The paper's 58% is a pooled share, not a mean per TF",
+            "test": "From Table 1: 58.4% per TF and 58.3% pooled; both print as 58",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Coupling calls differ (Table 1 variants)",
+            "test": "two_sided 70.3%, coef_profile 62.5%, main 59.0%",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "FDR over all gene-TF pairs instead of per TF",
+            "test": "Variant fdr_all_pairs: 59.8%",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "6 of 6 claims come back from the paper's own tables and Fig. 2 values (58% is 58.4% per TF, 58.3% pooled; B+/C- insignificant for 5 of 7 in Table 2; 26 of 37 B+/C- bars are 0). Table 4 rows sum to [6027, 6067] genes (Dig1 6027), not to Table 1's 6382."
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, GO categories per TF",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Abf1 B+/C+",
+            "expected": "20",
+            "observed": "5"
+          },
+          {
+            "name": "Abf1 B+/C-",
+            "expected": "1",
+            "observed": "0"
+          },
+          {
+            "name": "Ace2 B+/C+",
+            "expected": "6",
+            "observed": "7"
+          },
+          {
+            "name": "Ace2 B+/C-",
+            "expected": "1",
+            "observed": "0"
+          },
+          {
+            "name": "Arg81 B+/C+",
+            "expected": "13",
+            "observed": "14"
+          },
+          {
+            "name": "Arg81 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Bas1 B+/C+",
+            "expected": "9",
+            "observed": "16"
+          },
+          {
+            "name": "Bas1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Cad1 B+/C+",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Cad1 B+/C-",
+            "expected": "0",
+            "observed": "1"
+          },
+          {
+            "name": "Dal81 B+/C+",
+            "expected": "11",
+            "observed": "7"
+          },
+          {
+            "name": "Dal81 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Dig1 B+/C+",
+            "expected": "30",
+            "observed": "6"
+          },
+          {
+            "name": "Dig1 B+/C-",
+            "expected": "3",
+            "observed": "0"
+          },
+          {
+            "name": "Fhl1 B+/C+",
+            "expected": "31",
+            "observed": "29"
+          },
+          {
+            "name": "Fhl1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Fkh2 B+/C+",
+            "expected": "8",
+            "observed": "18"
+          },
+          {
+            "name": "Fkh2 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Gal4 B+/C+",
+            "expected": "4",
+            "observed": "5"
+          },
+          {
+            "name": "Gal4 B+/C-",
+            "expected": "1",
+            "observed": "0"
+          },
+          {
+            "name": "Gat3 B+/C+",
+            "expected": "3",
+            "observed": "6"
+          },
+          {
+            "name": "Gat3 B+/C-",
+            "expected": "6",
+            "observed": "5"
+          },
+          {
+            "name": "Gcn4 B+/C+",
+            "expected": "31",
+            "observed": "21"
+          },
+          {
+            "name": "Gcn4 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Hal9 B+/C+",
+            "expected": "8",
+            "observed": "0"
+          },
+          {
+            "name": "Hal9 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Hap4 B+/C+",
+            "expected": "62",
+            "observed": "80"
+          },
+          {
+            "name": "Hap4 B+/C-",
+            "expected": "1",
+            "observed": "4"
+          },
+          {
+            "name": "Hir1 B+/C+",
+            "expected": "18",
+            "observed": "11"
+          },
+          {
+            "name": "Hir1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Hir2 B+/C+",
+            "expected": "14",
+            "observed": "13"
+          },
+          {
+            "name": "Hir2 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Hsf1 B+/C+",
+            "expected": "11",
+            "observed": "4"
+          },
+          {
+            "name": "Hsf1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Leu3 B+/C+",
+            "expected": "12",
+            "observed": "12"
+          },
+          {
+            "name": "Leu3 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Mbp1 B+/C+",
+            "expected": "26",
+            "observed": "12"
+          },
+          {
+            "name": "Mbp1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Mcm1 B+/C+",
+            "expected": "9",
+            "observed": "0"
+          },
+          {
+            "name": "Mcm1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Met31 B+/C+",
+            "expected": "11",
+            "observed": "10"
+          },
+          {
+            "name": "Met31 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Msn4 B+/C+",
+            "expected": "0",
+            "observed": "5"
+          },
+          {
+            "name": "Msn4 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Mss11 B+/C+",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Mss11 B+/C-",
+            "expected": "3",
+            "observed": "0"
+          },
+          {
+            "name": "Ndd1 B+/C+",
+            "expected": "4",
+            "observed": "4"
+          },
+          {
+            "name": "Ndd1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Nrg1 B+/C+",
+            "expected": "12",
+            "observed": "9"
+          },
+          {
+            "name": "Nrg1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Rlm1 B+/C+",
+            "expected": "7",
+            "observed": "6"
+          },
+          {
+            "name": "Rlm1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Sig1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Sko1 B+/C+",
+            "expected": "7",
+            "observed": "0"
+          },
+          {
+            "name": "Sko1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Sok2 B+/C+",
+            "expected": "11",
+            "observed": "0"
+          },
+          {
+            "name": "Sok2 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Stb1 B+/C+",
+            "expected": "0",
+            "observed": null
+          },
+          {
+            "name": "Stb1 B+/C-",
+            "expected": "0",
+            "observed": null
+          },
+          {
+            "name": "Ste12 B+/C+",
+            "expected": "32",
+            "observed": "10"
+          },
+          {
+            "name": "Ste12 B+/C-",
+            "expected": "4",
+            "observed": "1"
+          },
+          {
+            "name": "Sum1 B+/C+",
+            "expected": "6",
+            "observed": "7"
+          },
+          {
+            "name": "Sum1 B+/C-",
+            "expected": "1",
+            "observed": "3"
+          },
+          {
+            "name": "Swi4 B+/C+",
+            "expected": "20",
+            "observed": "8"
+          },
+          {
+            "name": "Swi4 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Swi5 B+/C+",
+            "expected": "3",
+            "observed": "3"
+          },
+          {
+            "name": "Swi5 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Thi2 B+/C+",
+            "expected": "3",
+            "observed": "0"
+          },
+          {
+            "name": "Thi2 B+/C-",
+            "expected": "3",
+            "observed": "0"
+          },
+          {
+            "name": "Yap1 B+/C+",
+            "expected": "5",
+            "observed": "0"
+          },
+          {
+            "name": "Yap1 B+/C-",
+            "expected": "0",
+            "observed": "0"
+          },
+          {
+            "name": "Yap6 B+/C+",
+            "expected": "1",
+            "observed": "0"
+          },
+          {
+            "name": "Yap6 B+/C-",
+            "expected": "12",
+            "observed": "4"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+          "source": "our_choice",
+          "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+        },
+        {
+          "what": "A gene has expression data when measured in at least half of the arrays",
+          "source": "our_choice",
+          "sensitivity": "With any 3 measured arrays instead, 10 instead of 12 Table 1 cells are exact; the B- column stays 45 to 67 genes above the paper and the unclassified column 68 to 88 below either way."
+        },
+        {
+          "what": "Gene Ontology release 2004-03-01 (the earliest archived) instead of May 2003; terms propagated over is_a and part_of; the three root terms left out",
+          "source": "our_choice",
+          "sensitivity": "Not testable: May 2003 is not archived."
+        },
+        {
+          "what": "Hypergeometric test of each term against the TF's classified genes with annotation; Bonferroni over all terms annotated in that universe (the Methods; the Results say 5% FDR)",
+          "source": "our_choice",
+          "sensitivity": "Bonferroni over the terms hit by the set: 25 exact bars instead of 29; BH 5%: 28."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "29 of 73 bars match exactly (24 of 37 B+/C- bars, mostly zeros). B+/C+ counts follow the coupling calls, the GO release (2004-03 against 2003-05) and the unstated correction; Stb1 is not in our model.",
+        "hypotheses": [
+          {
+            "hypothesis": "FDR instead of Bonferroni (the Results say 5% FDR)",
+            "test": "BH 5%: 28 exact bars",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Bonferroni over the terms hit by each set",
+            "test": "25 exact bars",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/go.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "note": "The published bar heights are read exactly from the paper's vector EPS (BMC original file), not from pixels: Hap4's B+/C+ bar is 62, clipped at 60 in the drawing.",
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "text.go_claim",
+      "label": "Text: no GO enrichment in most B+/C- groups",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "no enriched GO category in most B+/C- groups",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "B+/C+ groups enriched more often than B+/C- groups",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, deletion response",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The text says Table 2 averages Hughes et al.'s mutant/wild-type log ratios, but its genome-wide means (0.52 to 0.83, SD 0.12 to 0.34) are not log ratios: the genome-wide mean of the log10 ratios is 0.00 (SD 0.05 to 0.17) and of their absolute values 0.03 to 0.11. The values fit Hughes et al.'s per-gene P-values, which are not public (the Rosetta download sits behind a registration form; the SGD file has ratios only). The claim the table supports is checked from the ratios as text.deletion.",
+        "hypotheses": [
+          {
+            "hypothesis": "The values are mean log ratios",
+            "test": "Genome-wide mean of Hughes log10 ratios 0.00 for all 7 TFs, against 0.52 to 0.83",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The values are mean absolute log ratios",
+            "test": "Genome-wide mean 0.03 to 0.11",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The values are Hughes et al.'s per-gene P-values",
+            "test": "Values in 0 to 1, with bound and coupled genes lower; the P-values themselves could not be obtained",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/deletion.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.deletion",
+      "label": "Text: B+/C+ genes respond to TF deletion, B+/C- mostly not",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "B+/C+ genes respond to the deletion (P < 0.05), TFs of 7",
+            "expected": "7",
+            "observed": "6"
+          },
+          {
+            "name": "B+/C- response insignificant for most TFs",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Hughes 2000 log10 ratios of the single deletion array; one-sample t-test of the subset against the genome-wide mean; the TF's own deletion arrays left out of the library before coupling (the Methods)",
+          "source": "our_choice",
+          "sensitivity": "With absolute log ratios, B+/C+ respond for 6 of 7 TFs too (Dig1 instead of Yap1 misses)."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "B+/C+ genes respond for 6 of 7 TFs in our run (Yap1: P = 0.13); B+/C- do not respond for any of the 7, so the claim's second half holds. The paper tested Hughes et al.'s P-values (see table2), which are not public.",
+        "hypotheses": [
+          {
+            "hypothesis": "Absolute log ratios instead of signed ones",
+            "test": "6 of 7 again (Dig1 P = 0.10 misses, Yap1 passes)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Yap1's B+/C+ set is too small to show its response",
+            "test": "27 genes, mean change in the expected direction, P = 0.13",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/deletion.json"
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, cell cycle motifs",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "MCB Mbp1 B+/C+",
+            "expected": "38.4",
+            "observed": "43.1"
+          },
+          {
+            "name": "MCB Mbp1 B+/C-",
+            "expected": "8.3",
+            "observed": "5.8"
+          },
+          {
+            "name": "MCB Swi4 B+/C+",
+            "expected": "8.2",
+            "observed": "7.8"
+          },
+          {
+            "name": "MCB Swi4 B+/C-",
+            "expected": "0.0",
+            "observed": "0.1"
+          },
+          {
+            "name": "SCB Mbp1 B+/C+",
+            "expected": "7.0",
+            "observed": "11.8"
+          },
+          {
+            "name": "SCB Mbp1 B+/C-",
+            "expected": "1.3",
+            "observed": "2.2"
+          },
+          {
+            "name": "SCB Swi4 B+/C+",
+            "expected": "19.1",
+            "observed": "35.6"
+          },
+          {
+            "name": "SCB Swi4 B+/C-",
+            "expected": "2.8",
+            "observed": "3.1"
+          },
+          {
+            "name": "Swi5p Ace2 B+/C+",
+            "expected": "5.1",
+            "observed": "5.8"
+          },
+          {
+            "name": "Swi5p Ace2 B+/C-",
+            "expected": "0.6",
+            "observed": "0.8"
+          },
+          {
+            "name": "Swi5p Swi5 B+/C+",
+            "expected": "2.6",
+            "observed": "5.6"
+          },
+          {
+            "name": "Swi5p Swi5 B+/C-",
+            "expected": "0.8",
+            "observed": "0.1"
+          },
+          {
+            "name": "SFF Fkh2 B+/C+",
+            "expected": "12.9",
+            "observed": "16.7"
+          },
+          {
+            "name": "SFF Fkh2 B+/C-",
+            "expected": "1.8",
+            "observed": "4.2"
+          },
+          {
+            "name": "SFF Mcm1 B+/C+",
+            "expected": "3.1",
+            "observed": "2.4"
+          },
+          {
+            "name": "SFF Mcm1 B+/C-",
+            "expected": "1.4",
+            "observed": "2.6"
+          },
+          {
+            "name": "SFF Ndd1 B+/C+",
+            "expected": "8.3",
+            "observed": "6.0"
+          },
+          {
+            "name": "SFF Ndd1 B+/C-",
+            "expected": "0.6",
+            "observed": "2.0"
+          },
+          {
+            "name": "SFF Swi4 B+/C+",
+            "expected": "3.5",
+            "observed": "3.4"
+          },
+          {
+            "name": "SFF Swi4 B+/C-",
+            "expected": "0.1",
+            "observed": "0.1"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Upstream region: up to 600 bp before the ORF start, cut at the nearest upstream feature on either strand (S288C R64-1-1 genome and GFF); motif and reverse complement counted, each without overlap; binomial test of the set's count over its positions against the rate over all upstream regions",
+          "source": "our_choice",
+          "sensitivity": "Forward strand only: 0 exact cells; genes with at least one motif instead of counts: 1 exact cell."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "1 of 20 values matches at printed precision, but the pattern holds: the same motifs are strongly enriched in the same B+/C+ groups (MCB in Mbp1 43.1 against 38.4; SFF in Fkh2 16.7 against 12.9), and far less in B+/C-. The genome release, the cutting of upstream regions, strand handling and the binomial's unit are not stated.",
+        "hypotheses": [
+          {
+            "hypothesis": "Forward strand only",
+            "test": "Variant forward_strand: 0 exact cells",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Genes with the motif instead of motif counts",
+            "test": "Variant genes_with_motif: 1 exact cell",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/motifs.json"
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.motif_claim",
+      "label": "Text: motif enrichment in B+/C- always far below B+/C+",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "B+/C- enrichment below B+/C+ in every case",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "9 of 10 combinations hold in our run; SFF in Mcm1 gives 2.4 for B+/C+ and 2.6 for B+/C- (the paper: 3.1 and 1.4). With forward-strand counts, or with genes carrying the motif instead of counts, all 10 hold: the claim turns on how motifs are counted, which the paper does not state.",
+        "hypotheses": [
+          {
+            "hypothesis": "Forward strand only",
+            "test": "All 10 hold",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genes with the motif instead of counts",
+            "test": "All 10 hold",
+            "result": "supported"
+          }
+        ],
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/output/motifs.json"
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.simon_overlap",
+      "label": "Text: 85% overlap with B+/C+ groups from Simon et al.",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "mean overlap of B+/C+ groups, Simon et al. against Lee et al. (%)",
+            "expected": "85",
+            "observed": "83"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Overlap = genes B+/C+ with both ChIP data sets, as a share of the Lee B+/C+ group, averaged over the 7 TFs; B+ from Simon et al. at P < 1e-3, coupling from our run",
+          "source": "our_choice",
+          "sensitivity": "As a share of the Simon group: 73%; Jaccard index: 63%."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "83% in our run against 85%. The overlap measure is not stated; as a share of the Lee groups it comes closest.",
+        "hypotheses": [
+          {
+            "hypothesis": "Overlap as a share of the Simon groups",
+            "test": "73%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Jaccard index",
+            "test": "63%",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/simon.json"
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.divergent_probes",
+      "label": "Text: 1592 of 4532 probes shared by divergent genes",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "ChIP probes shared by divergently transcribed genes",
+            "expected": "1592",
+            "observed": "1592"
+          },
+          {
+            "name": "ChIP probes in all",
+            "expected": "4532",
+            "observed": "4532"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, coupling scores at divergent promoters",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Mbp1 to RAD51",
+            "expected": "8.7",
+            "observed": "11.1"
+          },
+          {
+            "name": "Mbp1 to PUP3",
+            "expected": "0.7",
+            "observed": "0.2"
+          },
+          {
+            "name": "Fhl1 to RPL40B",
+            "expected": ">12.0",
+            "observed": ">12.0"
+          },
+          {
+            "name": "Fhl1 to MLP1",
+            "expected": "0.1",
+            "observed": "0.6"
+          },
+          {
+            "name": "Nrg1 to FSP2",
+            "expected": ">12.0",
+            "observed": ">12.0"
+          },
+          {
+            "name": "Nrg1 to HXT9",
+            "expected": "11.1",
+            "observed": "11.7"
+          },
+          {
+            "name": "Hap6 to FSP2",
+            "expected": "2.2",
+            "observed": null
+          },
+          {
+            "name": "Hap6 to HXT9",
+            "expected": "0.5",
+            "observed": null
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "Hap6 to FSP2",
+            "category": "paper_error",
+            "evidence": [
+              "Hap6 is not among the 113 TFs of Lee et al. 2002 (binding_by_gene.tsv has HAP2, HAP3, HAP4, HAP5) nor among Table 1's 37 TFs"
+            ]
+          },
+          {
+            "field": "Hap6 to HXT9",
+            "category": "paper_error",
+            "evidence": [
+              "Hap6 is not among the 113 TFs of Lee et al. 2002 (binding_by_gene.tsv has HAP2, HAP3, HAP4, HAP5) nor among Table 1's 37 TFs"
+            ]
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+          "source": "our_choice",
+          "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+        },
+        {
+          "what": "TF activity profiles are the regression t-values, not the coefficients",
+          "source": "read_from_figure",
+          "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+        },
+        {
+          "what": "Coupling is a one-sided test for positive correlation",
+          "source": "read_from_figure",
+          "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+        },
+        {
+          "what": "Scores are -log10 of our one-sided coupling P-value",
+          "source": "our_choice",
+          "sensitivity": "Two-sided P-values are 0.3 lower for positive couplings; no printed value then matches either."
+        },
+        {
+          "what": "MLP1 is YKR095W, the gene that shares RPL40B's promoter (Lee probe iYKR094C); the caption's 'protein kinase MLP1' is YKL161C, on another chromosome",
+          "source": "our_choice",
+          "sensitivity": "YKL161C does not share a promoter with RPL40B, so it cannot be the gene of the panel."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Both scores above 12 come back, and every regulatory call of the figure is the same (RAD51, RPL40B, FSP2 and HXT9 coupled; PUP3 and MLP1 not), but the other printed scores differ (Mbp1 to RAD51 11.1 against 8.7), as our couplings are stronger throughout (see fig1c). Hap6 cannot be computed: it is not in the ChIP data.",
+        "hypotheses": [
+          {
+            "hypothesis": "Two-sided P-values",
+            "test": "Scores 0.3 lower; still no printed value matches",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our couplings are stronger than the paper's",
+            "test": "Fig. 1c near-miss scores and Table 1's higher coupled share",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/divergent.json"
+        ]
+      },
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, deletion in place of coupling",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "D+ needs Hughes et al.'s per-gene P-values (P < 1e-2), which are not public. The table is also inconsistent with itself: its Dig1 row sums to 6027 genes and the other six to 6067, while every Table 1 row sums to 6382.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package manetworker and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "check": {
+        "passed": true,
+        "detail": "manetworker 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 21,
+    "exact": 1,
+    "agrees": 4,
+    "partly": 7,
+    "inconclusive": 1,
+    "differs": 5,
+    "not_attempted": 3,
+    "open_causes": 11
+  }
+}
