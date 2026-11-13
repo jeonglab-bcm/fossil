@@ -8,6 +8,7 @@ and the run metadata. Verdicts and the summary are added afterwards by check_res
 """
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -167,10 +168,16 @@ def main(notes_path, rundir, out):
     # Python against R.
     ok = all(rc[s]["beta_max_abs_diff"] < 1e-6 and abs(rc[s]["delong_p_r"] - mlr_rep0(tb, s, "delong_p")) < 1e-6
              and abs(rc[s]["e1071_auc"] - rc[s]["auc_svm_r"]) < 0.002 for s in ["I", "II"])
+    # The gaps are rounding noise that moves between machines (R's own numbers vary too), and
+    # results.json must come out identical on every run: print a bound, the smallest power of ten at
+    # least three times the gap, not the gap. r_check.json keeps the exact values.
+    def bound(x):
+        return f"{10.0 ** math.ceil(math.log10(max(3 * x, 1e-300))):.0e}"
+
     add("r_check", method="check", check={"passed": ok, "detail": (
         "On split 0: logistic coefficients equal to survey::svyglm within "
-        f"{max(rc[s]['beta_max_abs_diff'] for s in ['I', 'II']):.0e}; DeLong P equal to pROC::roc.test within "
-        f"{max(abs(rc[s]['delong_p_r'] - mlr_rep0(tb, s, 'delong_p')) for s in ['I', 'II']):.1e}; "
+        f"{bound(max(rc[s]['beta_max_abs_diff'] for s in ['I', 'II']))}; DeLong P equal to pROC::roc.test within "
+        f"{bound(max(abs(rc[s]['delong_p_r'] - mlr_rep0(tb, s, 'delong_p')) for s in ['I', 'II']))}; "
         "SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma "
         + ", ".join(f"{rc[s]['e1071_auc']:.4f} against {rc[s]['auc_svm_r']:.4f}" for s in ["I", "II"]))})
 
