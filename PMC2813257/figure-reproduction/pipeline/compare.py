@@ -32,7 +32,7 @@ DPI = 399
 MASKS = {
     "fig2a": [(10, 10, 660, 190)],      # legend box
     "fig2b": [(10, 10, 880, 130)],      # legend box with the fit parameters
-    "fig3": [(430, 60, 1010, 330)],     # printed mean, median and standard deviation
+    "fig3": [(590, 179, 1001, 334)],    # printed mean, median and standard deviation (no bar is here)
     # Figure 4 carries its legend and its inset inside the panel. Both are drawn here, so only the
     # lettering is left out: the legend box, the inset's y label and its tick labels. The inset's
     # bars are data and are scored.
