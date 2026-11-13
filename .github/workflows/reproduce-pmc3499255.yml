@@ -1,0 +1,75 @@
+name: Reproduce PMC3499255
+
+# Reruns the PMC3499255 pipeline (Morelli et al. 2012, Bayesian transmission-tree
+# reconstruction) and checks it: the 2007 and 2001 outbreaks reconstructed from the
+# datasets (deterministic, fixed seed), the pseudo-likelihood and arithmetic checks,
+# the package check, results.json verdicts, and the fresh run against the committed
+# outputs (compare_runs).
+#
+# The simulated Fig. 2 and the Table 1 / Table S1 simulation series are read from the
+# committed outputs by default; start the workflow by hand with full = true to rerun
+# them (the simulations are a scaled-down version of the paper's 100 x 5e5 run).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Also rerun Fig. 2 and the simulation series"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC3499255/figure-reproduction/**"
+      - "PMC3499255/package/**"
+      - ".github/workflows/reproduce-pmc3499255.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3499255/figure-reproduction/**"
+      - "PMC3499255/package/**"
+      - ".github/workflows/reproduce-pmc3499255.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC3499255/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC3499255/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3499255-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

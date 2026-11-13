@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "transtree"
+version = "0.1.0"
+description = "Bayesian reconstruction of transmission trees from genetic and epidemiological data (Morelli et al. 2012)."
+readme = "README.md"
+# Reconstructed from the paper's text (the authors' R code was never released),
+# so this package takes the reproduction repository's licence.
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "fossil reproduction" }]
+dependencies = ["numpy>=1.24,<3"]
+
+[project.scripts]
+transtree = "transtree.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC3499255"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC3499255/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/transtree"]

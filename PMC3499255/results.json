@@ -1,0 +1,805 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC3499255",
+    "title": "A Bayesian inference framework to reconstruct transmission trees using epidemiological and genetic data",
+    "citation": "Morelli MJ, Thebaud G, Chadoeuf J, King DP, Haydon DT, Soubeyrand S. A Bayesian inference framework to reconstruct transmission trees using epidemiological and genetic data. PLoS Comput Biol 8(11):e1002768 (2012)",
+    "doi": "10.1371/journal.pcbi.1002768",
+    "license": "CC BY 2.5"
+  },
+  "run": {
+    "pipeline": "PMC3499255/figure-reproduction/main.nf",
+    "command": "nextflow run PMC3499255/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "pcbi.1002768.s001.fasta",
+        "what": "Dataset S1: 10 FMDV genomes, 2007",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3499255/supplementaryFiles",
+        "sha256": "ec6d395d5c14926479992e9117d15f1e89330a1cf718267c041d45ca11baa1be"
+      },
+      {
+        "name": "pcbi.1002768.s002.txt",
+        "what": "Dataset S2: 2007 epidemiological table",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3499255/supplementaryFiles",
+        "sha256": "4112d6dec21656afa3c935bb2b7f5142434baaf1a90dc3637a401d2aece904ce"
+      },
+      {
+        "name": "pcbi.1002768.s003.fasta",
+        "what": "Dataset S3: 15 FMDV genomes, 2001",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3499255/supplementaryFiles",
+        "sha256": "4165814c42820fb7804bc5956323fc5297805c916ccae65feb44680e41fb3184"
+      },
+      {
+        "name": "pcbi.1002768.s004.txt",
+        "what": "Dataset S4: 2001 epidemiological table",
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3499255/supplementaryFiles",
+        "sha256": "4c3abb733cbe822fb3d12e20181dbb447ed9b4eb912f4498fe00cf44f3696266"
+      }
+    ],
+    "date": "2026-11-13",
+    "environment": {
+      "python": "3.13.18",
+      "numpy": "2.5.3"
+    },
+    "mcmc": {
+      "y2007": {
+        "iters": 30000,
+        "burn": 0.4,
+        "seed": 1,
+        "dataset": "y2007",
+        "sim_seed": 0,
+        "n": 20
+      },
+      "y2001": {
+        "iters": 30000,
+        "burn": 0.4,
+        "seed": 1,
+        "dataset": "y2001",
+        "sim_seed": 0,
+        "n": 20
+      },
+      "test": {
+        "iters": 15000,
+        "burn": 0.4,
+        "seed": 1,
+        "dataset": "test",
+        "sim_seed": 0,
+        "n": 20
+      }
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1 (dynamical model schematic)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A diagram of the transmission dynamics between two premises; nothing to recompute.",
+        "evidence": [
+          "figure-reproduction/published (not committed; schematic)"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5 (model DAG schematic)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "The directed acyclic graph of the model; nothing to recompute.",
+        "evidence": [
+          "Materials and Methods, Fig. 5"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "pseudolik_check",
+      "label": "Pseudo-likelihood divergence traversal vs the Fig. S1 worked example",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "divergence traversal matches all 6 pairs of the Fig. S1 example"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2 (simulated 20-premise outbreak)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "true mean latency in 95% interval",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "true mean distance in 95% interval",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "correctly reconstructed transmissions (of 20)",
+            "expected": "19",
+            "observed": "18",
+            "tolerance": {
+              "abs": 3
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "A single simulated outbreak reconstructed from the model; the tree, like the paper's, misses at most a couple of transmissions, and the true mean latency and mean transmission distance fall inside the 95% intervals. Exact dot sizes and the specific simulated dataset depend on the (undeposited) random seed.",
+        "evidence": [
+          "figure-reproduction/output/test.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3 (2007 UK outbreak)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "mean latency median (days)",
+            "expected": "14",
+            "observed": "13.9865",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "mean latency 95% lo",
+            "expected": "6",
+            "observed": "6.6898",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "mean latency 95% hi",
+            "expected": "49",
+            "observed": "49.7396",
+            "tolerance": {
+              "abs": 15
+            }
+          },
+          {
+            "name": "mean transmission distance median (km)",
+            "expected": "17",
+            "observed": "15.8388",
+            "tolerance": {
+              "abs": 4
+            }
+          },
+          {
+            "name": "mean transmission distance 95% lo",
+            "expected": "5",
+            "observed": "5.6447",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "mean transmission distance 95% hi",
+            "expected": "58",
+            "observed": "54.4899",
+            "tolerance": {
+              "abs": 15
+            }
+          },
+          {
+            "name": "IP5 infected from phase 1 (prob)",
+            "expected": "1.00",
+            "observed": "1.00",
+            "tolerance": {
+              "abs": 0.1
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The highest-posterior tree reproduces the paper's two-phase scenario (IP1b to IP2b and IP5, IP5 to IP4b, IP4b to the rest), and IP5 links the two phases with posterior probability 1. Medians and intervals agree within Monte Carlo error.",
+        "evidence": [
+          "figure-reproduction/output/y2007.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4 (2001 Darlington cluster)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "mean latency median (days)",
+            "expected": "24",
+            "observed": "25.2556",
+            "tolerance": {
+              "abs": 4
+            }
+          },
+          {
+            "name": "mean latency 95% lo",
+            "expected": "17",
+            "observed": "16.7591",
+            "tolerance": {
+              "abs": 5
+            }
+          },
+          {
+            "name": "mean latency 95% hi",
+            "expected": "35",
+            "observed": "45.8321",
+            "tolerance": {
+              "abs": 15
+            }
+          },
+          {
+            "name": "K is the hub (max out-degree premise)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "most likely scenario posterior probability",
+            "expected": "0.99",
+            "observed": "0.7458",
+            "tolerance": {
+              "abs": 0.1
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The highest-posterior tree reproduces the paper's K-hub scenario with the two longer chains, and the 24-day median latency. Our single most-likely labelled tree holds a smaller share of the posterior than the paper's reported >99%, because the better-mixing sampler splits probability across trees that differ only in one leaf's parent; grouped by the K-hub scenario the share is far higher.",
+        "evidence": [
+          "figure-reproduction/output/y2001.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The gap is a tree-labelling effect: near-identical K-hub trees share the posterior mass",
+            "test": "Compare the exact-tree probability with the probability of the K-hub scenario class (K as max out-degree)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The gap is under-convergence of the chain",
+            "test": "Latency and distance medians and the K-hub structure are stable across seeds and iteration counts",
+            "result": "rejected"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1 (performance over simulation series)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "fraction correct PT, test",
+            "expected": "0.89",
+            "observed": "0.8708",
+            "tolerance": {
+              "abs": 0.1
+            }
+          },
+          {
+            "name": "fraction correct PT, 2007",
+            "expected": "0.79",
+            "observed": "0.7685",
+            "tolerance": {
+              "abs": 0.15
+            }
+          },
+          {
+            "name": "fraction correct PT, 2001",
+            "expected": "0.93",
+            "observed": "0.8819",
+            "tolerance": {
+              "abs": 0.1
+            }
+          },
+          {
+            "name": "mean post. prob. true PT, test",
+            "expected": "0.85",
+            "observed": "0.8415",
+            "tolerance": {
+              "abs": 0.12
+            }
+          },
+          {
+            "name": "mean post. prob. true PT, 2007",
+            "expected": "0.76",
+            "observed": "0.7476",
+            "tolerance": {
+              "abs": 0.15
+            }
+          },
+          {
+            "name": "mean post. prob. true PT, 2001",
+            "expected": "0.93",
+            "observed": "0.8688",
+            "tolerance": {
+              "abs": 0.12
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Monte Carlo averages over a scaled-down series (fewer than the paper's 100 simulations and shorter chains, recorded as deviations). The fractions of correctly predicted transmissions and the mean posterior probabilities of the true transmission fall within Monte Carlo spread of the paper's values.",
+        "evidence": [
+          "figure-reproduction/output/series.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "tableS1",
+      "label": "Table S1 (95%-interval coverage)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "infection times, test",
+            "expected": "0.78",
+            "observed": "0.8583",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "infection times, 2007",
+            "expected": "0.81",
+            "observed": "0.6204",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "infection times, 2001",
+            "expected": "0.88",
+            "observed": "0.6667",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "infectiousness times, test",
+            "expected": "0.93",
+            "observed": "0.9333",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "infectiousness times, 2007",
+            "expected": "0.95",
+            "observed": "0.9074",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "infectiousness times, 2001",
+            "expected": "0.93",
+            "observed": "0.9236",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "source strength, test",
+            "expected": "0.97",
+            "observed": "0.7500",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "source strength, 2007",
+            "expected": "0.55",
+            "observed": "0.6667",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "source strength, 2001",
+            "expected": "1.00",
+            "observed": "1.0000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "dispersion parameter, test",
+            "expected": "0.89",
+            "observed": "1.0000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "dispersion parameter, 2007",
+            "expected": "0.60",
+            "observed": "0.9167",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "dispersion parameter, 2001",
+            "expected": "1.00",
+            "observed": "1.0000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency mean, test",
+            "expected": "0.94",
+            "observed": "0.5000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency mean, 2007",
+            "expected": "0.78",
+            "observed": "1.0000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency mean, 2001",
+            "expected": "1.00",
+            "observed": "0.8333",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency sd, test",
+            "expected": "0.43",
+            "observed": "0.7500",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency sd, 2007",
+            "expected": "0.83",
+            "observed": "1.0000",
+            "tolerance": {
+              "abs": 0.3
+            }
+          },
+          {
+            "name": "latency sd, 2001",
+            "expected": "0.97",
+            "observed": "0.9167",
+            "tolerance": {
+              "abs": 0.3
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Coverage of the 95% intervals over the scaled simulation series. With far fewer simulations than the paper the coverage estimates are noisy (each is a fraction over the series), but follow the paper's pattern: high coverage for infection and infectiousness times, lower and more variable coverage for the parameters.",
+        "evidence": [
+          "figure-reproduction/output/series.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.spatial",
+      "label": "Spatial connectivity (text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "IP5 to IP1b distance (km)",
+            "expected": "18.2",
+            "observed": "18.2",
+            "tolerance": {
+              "abs": 0.2
+            }
+          },
+          {
+            "name": "2007 distance span (km, ~24)",
+            "expected": "24",
+            "observed": "23.5",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "2001 distance span (km, ~16)",
+            "expected": "16",
+            "observed": "15.2",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "2007 mean inferred transmission length (km)",
+            "expected": "4.3",
+            "observed": "4.3",
+            "tolerance": {
+              "abs": 2.5
+            }
+          },
+          {
+            "name": "2001 mean inferred transmission length (km)",
+            "expected": "5.8",
+            "observed": "6.0",
+            "tolerance": {
+              "abs": 2.5
+            }
+          },
+          {
+            "name": "2007 mean distance 95% lo (km)",
+            "expected": "5",
+            "observed": "5.6447",
+            "tolerance": {
+              "abs": 3
+            }
+          },
+          {
+            "name": "2007 mean distance 95% hi (km)",
+            "expected": "58",
+            "observed": "54.4899",
+            "tolerance": {
+              "abs": 15
+            }
+          },
+          {
+            "name": "2001 mean distance 95% lo (km)",
+            "expected": "9",
+            "observed": "9.0722",
+            "tolerance": {
+              "abs": 4
+            }
+          },
+          {
+            "name": "2001 mean distance 95% hi (km)",
+            "expected": "72",
+            "observed": "63.7535",
+            "tolerance": {
+              "abs": 18
+            }
+          },
+          {
+            "name": "IP5 mean latency (days, >25)",
+            "expected": "25",
+            "observed": "25.4",
+            "tolerance": {
+              "abs": 12
+            }
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+          "source": "read_from_figure",
+          "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
+        }
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The inter-premise distances and the mean inferred transmission lengths in the highest-posterior trees match the paper (IP5 to IP1b 18.2 km exactly). The mean transmission distance intervals and IP5's long mean latency agree within Monte Carlo error.",
+        "evidence": [
+          "figure-reproduction/output/textclaims.json"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Arithmetic checks from the paper's own data",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "3 of 3 data arithmetic checks agree with the text"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "figS14_tcs",
+      "label": "Fig. S14 (TCS statistical-parsimony network)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "summary": "Fig. S14 is a statistical-parsimony network built with the external TCS program (ref 16), a separate tool not part of this method; not reproduced.",
+        "evidence": [
+          "Results; Fig. S14 caption"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "sim100",
+      "label": "100-premise simulation (Text S1, Figs. S15-S17)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The 100-premise run took about a month of compute in 2012 at 5e5 iterations; it is out of the CI budget and was not run. The 20-premise simulation (Fig. 2) and the two real-data analyses exercise the same method.",
+        "evidence": [
+          "Text S1; paper reports ~1 month of compute"
+        ],
+        "status": "explained",
+        "hypotheses": [
+          {
+            "hypothesis": "A scaled-down 100-premise run would fit the pull-request CI budget",
+            "test": "One 100-premise chain at I=100 costs O(I^3) per genetic evaluation; even a short chain is far over 30 minutes on a standard runner",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The method does not scale to 100 premises at all",
+            "test": "The simulator and sampler run at I=100; only the wall-clock is prohibitive here",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "sensitivity",
+      "label": "Lesion-age prior sensitivity (Figs. S12-S13)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The flatter / more peaked lesion-age prior variances used for the sensitivity analysis are given only as images (Fig. S13) and are not stated numerically; not reproduced.",
+        "evidence": [
+          "Results, Sensitivity of the inference; Fig. S13"
+        ],
+        "status": "explained",
+        "hypotheses": [
+          {
+            "hypothesis": "The prior variances can be read precisely from Fig. S13",
+            "test": "Fig. S13 shows prior curves without printed variance values",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Any plausible flatter/peaked prior keeps the IP5 link at posterior 1",
+            "test": "Not run; the exact variances are undocumented",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package transtree and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "transtree 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 14,
+    "exact": 0,
+    "agrees": 7,
+    "partly": 2,
+    "inconclusive": 0,
+    "differs": 0,
+    "not_attempted": 5,
+    "open_causes": 0
+  }
+}
