@@ -1,0 +1,984 @@
+{
+  "paper": {
+    "id": "PMC2711306",
+    "title": "Geometric de-noising of protein-protein interaction networks",
+    "citation": "Kuchaiev O, Rašajski M, Higham DJ, Pržulj N. Geometric de-noising of protein-protein interaction networks. PLoS Comput Biol 5(8):e1000454 (2009)",
+    "doi": "10.1371/journal.pcbi.1000454",
+    "license": "CC BY"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.4.0",
+    "tag": "paper2repro-v0.4.0",
+    "commit": "727d35e891917e2808dfde330ae80a8be20356c9",
+    "modified": null,
+    "source": "transcript",
+    "note": "The skill text loaded in the reproduction session (2026-11-09) matches the skill folder tagged paper2repro-v0.4.0; the installed skill was at this commit."
+  },
+  "assumptions": {
+    "settings": {
+      "what": "Path lengths up to 29, unreachable pairs at 200, the diagonal at 2, each axis scaled to [0, 1], P(edge) = 0.001, 18,000 training distances, EM stop at a log-likelihood change below 0.01",
+      "source": "authors_code",
+      "sensitivity": "Not in the paper; read from the authors' embed_novi.m, assign_scores.m and EM.m and their web page (Wayback Machine). The port check runs embed_novi.m itself."
+    },
+    "low_confidence": {
+      "what": "Collins et al.'s low-confidence edges are the pairs with 1.85 <= PE < 3.19 between Yhigh proteins (5,356 pairs)",
+      "source": "found_by_search",
+      "sensitivity": "The paper's (TP, FP) labels imply about 5,296 positives; Collins et al. clustered pairs down to PE 1.85. With a cut of 1.86 (5,297 pairs) the labelled TP counts fall by about 1% (output/run/fig2_label_hypotheses.json)."
+    },
+    "eps_grid": {
+      "what": "The markers sit at epsilon 0.01 to 0.1 in steps of 0.01 and 0.2 to 1.4 in steps of 0.1 (Figs 2, 3); 0.01, 0.03, 0.05, 0.1 to 0.5 and (1, 1) (Fig. 4); 0.01 to 0.05 in steps of 0.01, 0.1 to 0.5 and (1, 1) (Fig. 5, whose 1,000 and 2,000 curves show five markers below 2% false positives)",
+      "source": "read_from_figure",
+      "sensitivity": "Only where the smoothed line bends between markers; the dense ROC (output/roc_dense.csv) gives the same AUC to 0.001."
+    },
+    "excel_smoothing": {
+      "what": "Excel's smoothed line is drawn as a Catmull-Rom (tension 1/6) Bezier curve through the markers",
+      "source": "our_choice",
+      "sensitivity": "Affects the line between markers only."
+    },
+    "em_seed": {
+      "what": "The training sample and the EM start use our seed 2009 (the authors' Matlab used rand without a fixed state)",
+      "source": "our_choice",
+      "sensitivity": "Over 20 seeds HumanBG gives 1,679 to 2,361 pairs with CS >= 0.975 (output/human.json, runs)."
+    },
+    "fig5_dimension": {
+      "what": "Fig. 5 is drawn in the dimension that scores best of 4, 5 and 7 (dimension 5)",
+      "source": "found_by_search",
+      "sensitivity": "The other two dimensions are near-miss controls; their scores are in the item."
+    },
+    "fig5_repeats": {
+      "what": "Fig. 5 draws the mean of 10 random deletions per size; the paper does not say how many it ran",
+      "source": "our_choice",
+      "sensitivity": "AUC ranges over the repeats are in output/figures.json (auc_range_over_repeats, auc_range_over_repeats_every_protein). Single deletions spread widely when every protein is embedded: the 3,000 curve scores 7% to 84% in dimension 5 (output/run/fig5_single_deletions.json)."
+    },
+    "goa": {
+      "what": "GO annotations from GOA human release 70 (February 2009), direct annotations by symbol, NOT annotations dropped",
+      "source": "found_by_search",
+      "sensitivity": "Releases 67-74 give 6,284 to 6,391 annotated proteins against the paper's 6,278. Release 70 is closest on the pairs sharing a term (7,428,577 against 7,400,424) and among the closest on proteins (6,292; release 74 has 6,284 but 7,496,814 pairs)."
+    },
+    "hprd": {
+      "what": "HPRD release 9 (April 2010, Pathway Commons 2 v3) stands in for the unnamed 2009 release (34,119 interactions)",
+      "source": "our_choice",
+      "sensitivity": "A later release adds and drops pairs: on the paper's own 251 pairs it finds 11 against 12."
+    },
+    "kegg": {
+      "what": "Current KEGG pathways stand in for the March 2009 release (205 human pathways; now 372)",
+      "source": "our_choice",
+      "sensitivity": "The larger release finds more pairs in pathways."
+    },
+    "fig5_embedding": {
+      "what": "Fig. 5's 500, 1,000 and 2,000 curves embed the largest component of what is left after the deletion; its 3,000 curve embeds every protein, including those the deletion cut off (embed_novi.m puts unreachable pairs at path length 200)",
+      "source": "found_by_search",
+      "sensitivity": "Only the 3,000 curve changes: its score rises from 33.1% to 40.4% and its AUC falls from 0.950-0.960 to 0.882-0.909, around the published 0.90. Drawing all four curves either way is a near-miss control (output/figures.json: series_scores_all_lcc, series_scores_all_whole)."
+    }
+  },
+  "items": {
+    "fig1.a": {
+      "label": "Fig. 1A, densities of Yhigh distances in 5 dimensions",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ]
+    },
+    "fig1.b": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. 1\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. 1B, densities of HumanBG distances in 5 dimensions",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The edge peak sits where it is published (0.20-0.21 over 20 seeds), but neither curve passes the mark (71% and 75% within 2 px): the non-edge density moves with the random training sample and EM start (its middle component's mean between 0.39 and 0.62 over 20 seeds). The embedding itself agrees (2,837 edges beyond 0.4 against 2,838).",
+        "evidence": [
+          "figure-reproduction/output/run/human.json",
+          "figure-reproduction/output/fig1_overlay.png"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A different HumanBG network",
+            "test": "Our largest component has 7,514 proteins and 23,378 edges against 7,513 and 23,372; 2,837 edges lie beyond 0.4 against 2,838",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The EM fit varies with the random sample and start",
+            "test": "Refit with 20 seeds (human.json, runs): the non-edge middle component moves between 0.39 and 0.62, the edge peak stays at 0.20-0.21",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "fig2": {
+      "label": "Fig. 2, ROC curves on Yhigh for dimensions 2 to 7",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence",
+        "eps_grid",
+        "excel_smoothing"
+      ]
+    },
+    "fig2.labels": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. 2\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. 2, the (TP, FP) labels of the dimension 7 curve",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence",
+        "eps_grid"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Every count is within 6% of the paper's with Collins et al.'s own scores, and within 0.9% with BioGRID's copy of their high-confidence set. Neither copy has the paper's Yhigh (1,004 proteins and 8,323 edges against 1,004 and 8,319, or 1,002 and 8,313), and the low-confidence cut is inferred.",
+        "evidence": [
+          "figure-reproduction/output/network_counts.json",
+          "figure-reproduction/output/fig2_label_hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The low-confidence cut is PE 1.86 rather than 1.85",
+            "test": "Rerun dimension 7 with 1.86 (5,297 positives, as the labels imply): TP falls by about 1%, FP barely moves (output/run/fig2_label_hypotheses.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Yhigh is BioGRID's copy of the Collins set (1,002 proteins, 8,313 edges)",
+            "test": "Rerun dimension 7 on it: TP and FP within 0.9% of the paper's labels, closer than the Collins scores (up to 5.4%) but not equal (output/run/fig2_label_hypotheses.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The positives are the Gavin/Krogan pairs Collins discarded",
+            "test": "Rerun on them: AUC falls from 0.93 to 0.79 (yeast.json, wrong_truth)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    "fig3": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. 3\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. 3, precision against recall on Yhigh for dimensions 2 to 7",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence",
+        "eps_grid",
+        "excel_smoothing"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "The curves have the published shapes and order, but precision is a ratio of small counts on a 0-0.25 axis: a 2% change in TP or FP moves a curve by 3-8 pixels, more than the 2-pixel tolerance. The counts differ by up to 6% (fig2.labels).",
+        "evidence": [
+          "figure-reproduction/output/fig3_overlay.png"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A drawing error (axis map, colours)",
+            "test": "The same code draws Fig. 2 from the same counts at 92.6% within 2 px",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The counts differ by a few percent (inputs)",
+            "test": "Fig. 2 label counts differ by up to 6% (fig2.labels)",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "fig4": {
+      "label": "Fig. 4, one iteration against iterating to convergence (dimension 4)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence",
+        "eps_grid",
+        "excel_smoothing"
+      ]
+    },
+    "fig5": {
+      "label": "Fig. 5, ROC for recovering 500 to 3,000 deleted Yhigh edges",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "eps_grid",
+        "excel_smoothing",
+        "fig5_dimension",
+        "fig5_embedding",
+        "fig5_repeats"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The 3,000-edge curve was drawn from an embedding of every protein, cut-off ones included, while the 500 to 2,000 curves match an embedding of the largest component. The paper does not say this. Drawn that way, our 3,000 curve takes the published shape: it starts at sensitivity 0.45 at the first marker and levels off at 0.97. Its AUC (0.88 to 0.91 over 10 deletions) brackets the published 0.90. It still lies to the right of the published curve (40% within 2 px), because the paper drew one deletion and how far the cut-off proteins squeeze the rest varies from deletion to deletion. The 500, 1,000 and 2,000 curves are unchanged and lie close to the published ones (70.5%, 45.2% and 75.3% within 2 px).",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/run/yeast.json",
+          "figure-reproduction/output/run/fig5_single_deletions.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The 3,000 curve embeds every protein, including those the deletion cut off",
+            "test": "Single deletions scored against the published 3,000 curve (fig5_single_deletions.json, 10 per dimension): every protein, median 48%, 48% and 50% and best 84%, 83% and 81% in dimensions 5, 6 and 7; largest component, median 13% to 15% and best 43% to 45%. The published curve's plateau (0.97) and its first marker (sensitivity 0.35 at 3% false positives) occur only when cut-off proteins are embedded: the per-axis [0, 1] scaling then squeezes the main component, so even epsilon 0.01 accepts many pairs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "All four curves embed every protein",
+            "test": "The 2,000 curve rejects it: single deletions score at most 8% to 11% that way in dimensions 4 to 7, against 18% to 34% from the largest component; drawn as a control, all four curves that way score 30.8%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Positives and negatives within the embedded proteins only",
+            "test": "Drawn as a control: no plateau below 1, score 27.2%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Another dimension (4, 5 or 7)",
+            "test": "All three drawn with the same embeddings; dimension 5 scores best (55.7%), 4 and 7 score 38.5% and 47.4%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "A single unlucky deletion from the largest component",
+            "test": "AUC of the 3,000 curve from the largest component ranges 0.950-0.960 over 10 deletions, never near 0.90",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    "figS1": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "inconclusive",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. S1\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. S1, p(edge|dist) for HumanBG",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "Ours lies on the published points over 92% of them, far above the Yhigh densities (10%), but the same curve 5% higher scores as well (93.5%): on this axis (0 to 0.12) the comparison cannot resolve a 5% change in amplitude.",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/figS1_overlay.png"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The figure plots p(dist|edge) x P(edge) with P(edge) = 0.001",
+            "test": "At 0.2 the published value is 0.003 = 3 (Fig. 1B) x 0.001",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Our density is the published one up to a few percent",
+            "test": "Ours 92.0% within 2 px; y x 1.05 93.5%, y x 0.95 90.4%; Yhigh densities 10.0%",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "figS2": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "inconclusive",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. S2\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. S2, p(nonedge|dist) for HumanBG",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The shape comes back (ours 47.7% and 38.2% within 2 px, the Yhigh densities 1.2%), but the non-edge density moves with the random training sample and EM start, and the curve 5% higher scores better (43.5%): the published fit differs from ours by a few percent of amplitude.",
+        "evidence": [
+          "figure-reproduction/output/figS2_overlay.png",
+          "figure-reproduction/output/run/human.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The figure plots p(dist|nonedge) x 0.999",
+            "test": "At 0.4 the published value is 1.61 and Fig. 1B's red curve is 1.6-1.7",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The EM fit varies with the seed",
+            "test": "20 seeds (human.json): the non-edge middle component's mean moves between 0.39 and 0.62",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "figS3": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "inconclusive",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Fig. S3\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Fig. S3, confidence score against distance for HumanBG",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "Ours lies on the published points over 89% of them, above the Yhigh densities (48%), but the posterior without division by its maximum and the curve 5% lower score as well (90.1%, 89.4%): the comparison cannot tell which of the two the figure shows.",
+        "evidence": [
+          "figure-reproduction/output/figS3_overlay.png",
+          "figure-reproduction/output/figures.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The published figure shows the posterior without division by its maximum",
+            "test": "Drawn as a control: 90.1% against ours 89.2%",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The figure shows our score",
+            "test": "89.2% within 2 px; Yhigh control 48.2%",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "table1": {
+      "label": "Table 1, sensitivity and specificity of five published predictors",
+      "source": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Values quoted from other papers; the paper's own row (90% and 85%) is the item text.yeast_performance.",
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/published/figure-1.png",
+          "https://doi.org/10.1371/journal.pcbi.1000454.t001"
+        ]
+      }
+    },
+    "tableS1": {
+      "label": "Table S1, the 251 high-confidence predictions",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Our run predicts 369 new pairs, including 247 of the 251 published ones (the other 4 involve proteins our HumanBG lacks). The count depends on the width of the EM spike at distance 0: over 20 seeds it is 253 to 386, and our seed (2009) gives the 19th highest of the 20.",
+        "evidence": [
+          "figure-reproduction/output/human.json",
+          "figure-reproduction/output/predictions.tsv"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "A different network",
+            "test": "All 251 published pairs are non-edges at distance < 0.0011 in our embedding where both proteins are present (247)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The EM spike at 0 decides which near-zero pairs pass 0.975",
+            "test": "Refit with 20 seeds: 253 to 386 new pairs",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS2": {
+      "label": "Table S2 and text, predictions found in HPRD and BioGRID 2.0.50 (our predictions)",
+      "source": "port",
+      "assumptions": [
+        "hprd",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "We predict 369 pairs rather than 251 (tableS1) and HPRD is a later release; the paper's own 251 pairs through our check give BioGRID 2.0.50 = 5 as printed and HPRD 11 against 12 (validation.published_pairs).",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our validation code is wrong",
+            "test": "On the paper's Table S1 it finds 5 pairs in BioGRID 2.0.50, as printed",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "More predictions give more validated pairs",
+            "test": "369 predictions give 18 validated pairs, 251 give 15 (same check)",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS3": {
+      "label": "Table S3 and text, predictions sharing a GO BP or CC term (our predictions)",
+      "source": "port",
+      "assumptions": [
+        "goa",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Counts scale with our 369 predictions; on the paper's 251 pairs our check gives 105 of 158 against 105 of 159.",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our GO check differs from the paper's",
+            "test": "On the paper's Table S1: 105 sharing (printed 105), 158 annotated (printed 159)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "More predictions",
+            "test": "369 against 251 predictions",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS4": {
+      "label": "Table S4 and text, predictions sharing a GO BP term (our predictions)",
+      "source": "port",
+      "assumptions": [
+        "goa",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Counts scale with our 369 predictions; on the paper's 251 pairs our check gives 55 of 128 against 55 of 129.",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our GO check differs from the paper's",
+            "test": "On the paper's Table S1: 55 sharing (printed 55), 128 annotated (printed 129)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "More predictions",
+            "test": "369 against 251 predictions",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS5": {
+      "label": "Table S5 and text, predictions in the same KEGG pathway (our predictions)",
+      "source": "port",
+      "assumptions": [
+        "kegg",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "KEGG of March 2009 is not freely archived; the current KEGG (372 human pathways against 205) puts many more of the paper's own pairs in pathways (80 against 26).",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our KEGG check differs from the paper's",
+            "test": "Cannot be separated from the release: the paper's 251 pairs give 80 and 42 against 26 and 12",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "KEGG has grown since 2009",
+            "test": "372 human pathways now against 205 in March 2009 (paper)",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS6": {
+      "review": {
+        "verdict": "partly",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Table S6\": Partly, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Table S6, predicted false positives (edges beyond 0.4 sharing no CC term)",
+      "source": "port",
+      "assumptions": [
+        "goa"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "1,450 pairs against 1,455, 1,421 of them the paper's: HumanBG differs by 6 edges and the GO release is our closest match, not the paper's.",
+        "evidence": [
+          "figure-reproduction/output/validate.json",
+          "figure-reproduction/output/network_counts.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The embedding differs",
+            "test": "2,837 candidate edges beyond 0.4 against 2,838",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The GO release differs",
+            "test": "GOA releases 67-74 give 6,284-6,391 annotated proteins, none the paper's 6,278",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "tableS7": {
+      "label": "Table S7, BioGRID systems treated as physical",
+      "source": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "An input definition; we use it to build HumanBG.",
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/pipeline/params/physical_systems.txt"
+        ]
+      }
+    },
+    "text.networks": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Text: Network sizes in the text\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Network sizes in the text",
+      "source": "public_data",
+      "cause": {
+        "category": "data_differs",
+        "summary": "HumanBG is rebuilt from BioGRID 2.0.35 to within 6 edges and 1 protein of the largest component; the whole network is 138 proteins short (how the paper counted proteins is not stated). The Collins scores we found give 9,070 high-confidence edges against 9,074.",
+        "evidence": [
+          "figure-reproduction/output/network_counts.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Proteins keyed by BioGRID ID rather than symbol",
+            "test": "Largest component 7,732 proteins (symbols: 7,514)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Both partners human only",
+            "test": "Largest component 7,412-7,418 proteins",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Self-interactions counted",
+            "test": "With self-loops the network has 7,912 proteins and 24,525 edges",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    "text.yeast_performance": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Text: AUC, sensitivity and precision on Yhigh\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "AUC, sensitivity and precision on Yhigh (text, Table 1's own row)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "AUC 0.932 (printed 0.9) comes back. Sensitivity at 85% specificity is 90.6% against 90%, within the few-percent difference of the counts (fig2.labels). 'Precision about 0.15 at recall about 0.35' rounds the paper's own dimension 7 marker at epsilon 0.2 (Fig. 3: 0.142 at 0.335); ours at that epsilon is 0.144 at 0.319, and 0.143 at recall exactly 0.35.",
+        "evidence": [
+          "figure-reproduction/output/run/yeast.json",
+          "figure-reproduction/published/figure-3.png"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The text rounds its own Fig. 3 marker at epsilon 0.2",
+            "test": "Published marker 0.142 at recall 0.335 (read from the figure); ours 0.144 at 0.319",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Sensitivity differs by the count difference",
+            "test": "TP counts differ from the paper's labels by up to 3.7% (fig2.labels)",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "text.dimensions": {
+      "label": "Dimension 2 is clearly worst; higher dimensions change little (text)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence"
+      ]
+    },
+    "text.iteration": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Text: Iterating converges in about 10 iterations\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Iterating converges in about 10 iterations and is only slightly worse (text, Fig. 4)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "low_confidence"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The paper gives no stopping rule. Ours (stop when no new pair is predicted) takes 6 to 14 iterations over epsilon 0.01 to 0.6, median 8, against 'about 10, depending on the network and the dimension' (from 0.7 the graph fills up and the embedding collapses after 2). The converged ROC curve lies just under the first, as printed (AUC on the drawn points 0.904 against 0.916).",
+        "evidence": [
+          "figure-reproduction/output/run/yeast.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Stop when no new pair is predicted, counting the last check",
+            "test": "Median 8 over epsilon 0.01-0.6 (range 6-14)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Count only the rounds that add pairs",
+            "test": "One fewer: median 7",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    "text.false_positives": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Text: Candidate false positives\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "Candidate false positives (text)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "goa"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "2,837 edges beyond 0.4 against 2,838: our HumanBG has 6 more edges. The shares sharing a CC term are taken over edges whose two proteins both have a CC term (72% and 66%, as printed); over all edges they would be 54% and 49%.",
+        "evidence": [
+          "figure-reproduction/output/run/validate.json",
+          "figure-reproduction/output/run/network_counts.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Shares of all edges",
+            "test": "54% and 49%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Shares of edges with both proteins annotated with a CC term",
+            "test": "72.2% and 66.4%",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "text.high_confidence": {
+      "label": "Pairs with CS >= 0.975: 1,685, of them 1,434 edges and 251 new (text)",
+      "source": "port",
+      "assumptions": [
+        "settings",
+        "em_seed"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "The count depends on the EM spike at distance 0, which moves with the random training sample: over 20 seeds 1,679 to 2,361 pairs (the paper's 1,685 is inside) and 253 to 386 new ones.",
+        "evidence": [
+          "figure-reproduction/output/human.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The network or embedding differs",
+            "test": "2,837 edges beyond 0.4 against 2,838; 247 of 251 published pairs recovered",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "EM randomness",
+            "test": "20 seeds: 1,679 to 2,361 pairs",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "text.go_background": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"Text: GO background counts of Text S1\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "GO background counts of Text S1 (HumanBG proteins annotated, pairs sharing a term)",
+      "source": "public_data",
+      "assumptions": [
+        "goa"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "GOA release 70 gives 6,292 annotated proteins against 6,278 (0.2%) and 5,877 against 5,864; the exact release and filters are not given.",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Another GOA release",
+            "test": "Releases 67-74: 6,284-6,391 proteins; none gives 6,278",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Release 71 (March 2009) via accession mapping",
+            "test": "6,292 proteins, K 7,433,856",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    "validation.published_pairs": {
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/38#pullrequestreview-5885482503",
+        "note": "Review card \"The paper's Table S1 through our validation code\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."
+      },
+      "label": "The paper's Table S1 through our validation code (BioGRID 2.0.50, HPRD, GO, KEGG)",
+      "source": "papers_data",
+      "assumptions": [
+        "goa",
+        "hprd",
+        "kegg"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "BioGRID 2.0.50 and the GO 'sharing' counts come back as printed; the annotated counts are one short (GO release), HPRD one short (release 9 for the 2009 release), KEGG far higher (current KEGG).",
+        "evidence": [
+          "figure-reproduction/output/validate.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "GO release",
+            "test": "Release 70 against 67-74 (text.go_background)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "KEGG release",
+            "test": "Current KEGG has 372 human pathways against 205",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    "text.arithmetic": {
+      "label": "Claims recomputed from the paper's own numbers (Text S1 p-values, ratios)",
+      "source": "papers_data"
+    },
+    "text.citexplorer": {
+      "label": "32 of 251 predictions co-mentioned in PubMed abstracts (CiteXplorer)",
+      "source": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "CiteXplorer was retired; its successor (Europe PMC) indexes a different, larger literature, so a count today does not test the 2009 one.",
+        "status": "explained",
+        "evidence": [
+          "https://www.ebi.ac.uk/citexplore/ (retired; succeeded by Europe PMC)"
+        ]
+      }
+    },
+    "port": {
+      "label": "Port against the authors' Matlab embedding (embed_novi.m under GNU Octave)",
+      "source": "port"
+    },
+    "package": {
+      "label": "Python package geodenoise and its tutorial",
+      "source": "port"
+    }
+  },
+  "arithmetic_exceptions": {
+    "HPRD p-value, Text S1 (12 of 251, K = 34,119)": "The hypergeometric tail with the printed M, K, N and x is 7.5e-16: the printed digits with the exponent -8. Tested: x versus x-1, a binomial tail and single-precision cancellation; none gives 7.5e-8.",
+    "HPRD p-value, main text": "Rounds the Text S1 value; the tail is 7e-16.",
+    "GO BP or CC p-value (105 of 159)": "The tail with the printed parameters is 3.4e-13; x = 93 would give 7.1e-8. Tested as for HPRD.",
+    "GO BP p-value (55 of 129)": "The tail with the printed parameters is 6.2e-27; x = 31 would give 1.7e-8. Tested as for HPRD."
+  },
+  "page": {
+    "lede": "The authors' Matlab and the yeast test data were not lost after all: both turned up in web archives. We rebuilt the method in Python, checked it against their code, and ran every experiment again. Of {items} results, {exact} came back exactly, {agrees} agree, {partly} partly agree, {inconclusive} cannot be told apart, {differs} differ and {not_attempted} were not attempted.",
+    "label_rows": [
+      [
+        "fig-1",
+        "Fig. 1 densities",
+        [
+          "fig1.a",
+          "fig1.b"
+        ]
+      ],
+      [
+        "fig-2",
+        "Fig. 2 ROC",
+        [
+          "fig2"
+        ]
+      ],
+      [
+        "fig-3",
+        "Fig. 3 precision",
+        [
+          "fig3"
+        ]
+      ],
+      [
+        "fig-4",
+        "Fig. 4 iteration",
+        [
+          "fig4"
+        ]
+      ],
+      [
+        "fig-5",
+        "Fig. 5 deletions",
+        [
+          "fig5"
+        ]
+      ],
+      [
+        "items",
+        "251 predictions",
+        [
+          "tableS1"
+        ]
+      ],
+      [
+        "items",
+        "False positives",
+        [
+          "tableS6"
+        ]
+      ],
+      [
+        "items",
+        "Port and package",
+        [
+          "port",
+          "package"
+        ]
+      ]
+    ],
+    "items_caption": "Every figure, table and number of the paper, in the paper's order. Paper and ours are both shown; the verdict is computed from them.",
+    "claims_line": "The paper's main claim holds: the embedding recovers Collins' low-confidence yeast edges with AUC 0.93 and finds the human predictions of Table S1 (247 of 251). Some counts differ; the causes are the random EM fit behind the 0.975 cut, the later GO, HPRD and KEGG releases, and copies of the yeast data that differ from the paper's by a few edges.",
+    "came_back": [
+      [
+        "The code",
+        "embed_novi.m, assign_scores.m and EM.m were on the Wayback Machine (kuchaev.com/Denoising, 2016). They hold the settings the paper leaves out: path lengths up to 29, unreachable pairs at 200, each axis rescaled to [0, 1], P(edge) = 0.001."
+      ],
+      [
+        "The yeast test data",
+        "Collins et al.'s PE scores for all 401,820 pairs were on the Wayback Machine too (interactome-cmp.ucsf.edu, 2010). PE >= 3.19 gives Yhigh with the paper's 1,004 proteins."
+      ],
+      [
+        "The low-confidence edges",
+        "Pairs with 1.85 <= PE < 3.19, the cut Collins et al. used for clustering, give ROC curves on the published markers (Fig. 2); the labelled counts are 0.1% to 5.4% off."
+      ],
+      [
+        "The epsilon grid",
+        "The markers of Fig. 2 sit at epsilon 0.01 to 0.1 and 0.2 to 1.4; our points at the same epsilons land on them."
+      ],
+      [
+        "Fig. 5's 3,000 curve",
+        "It is lower because that run embedded every protein, including those the deletion cut off: they sit at the unreachable distance, the per-axis scaling squeezes everything else, and the curve starts high and levels off at 0.97 as published. The 500 to 2,000 curves match the largest component."
+      ],
+      [
+        "Iterating",
+        "Re-embedding with the predictions added converges in 6 to 14 rounds (the paper says about 10) and costs a little accuracy, as in Fig. 4."
+      ],
+      [
+        "HumanBG",
+        "BioGRID 2.0.35 keyed by upper-cased symbol: 7,514 proteins and 23,378 edges in the largest component (paper 7,513 and 23,372), and 2,837 edges further apart than 0.4 (paper 2,838)."
+      ]
+    ],
+    "buried": [
+      "The paper's exact copy of the Collins high-confidence set (9,074 edges; the web copy has 9,070, BioGRID's 9,064)",
+      "The random training sample and EM start behind the 0.975 cut (1,685 pairs; ours range from 1,679 to 2,361 over 20 seeds)",
+      "The HPRD release of 2009 and KEGG of March 2009",
+      "CiteXplorer, retired",
+      "Which deletion Fig. 5 drew for each size (its 3,000 curve keeps the proteins the deletion cut off, the others do not)",
+      "The p-values of Text S1: they do not follow from its own parameters (7.5e-8 should read 7.5e-16; the GO values are 3.4e-13 and 6.2e-27)"
+    ],
+    "matched_intro": "Where the inputs are the paper's own, the numbers come back.",
+    "matched": [
+      [
+        "Fig. 1A",
+        "The Yhigh densities overlay the published curves (spike at 0, peak at 0.1, non-edge mode at 0.77)."
+      ],
+      [
+        "Fig. 2",
+        "Six ROC curves on the published grid; AUC 0.93 at dimension 7."
+      ],
+      [
+        "Fig. 4",
+        "Both curves on the published markers."
+      ],
+      [
+        "Table S1",
+        "247 of the 251 published pairs are among our high-confidence predictions; the other 4 involve proteins our HumanBG lacks."
+      ],
+      [
+        "BioGRID 2.0.50",
+        "The paper's own 251 pairs give 5 matches in BioGRID 2.0.50, as printed."
+      ]
+    ],
+    "closing": "Dug up from two web archives in November 2026: the authors' Matlab, Collins et al.'s scores, and every experiment of the paper rerun."
+  }
+}
