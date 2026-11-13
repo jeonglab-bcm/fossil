@@ -29,7 +29,7 @@ later give another one.
 | Text: SVM and logistic regression do not differ (DeLong P 0.3672 and 0.6718) | exact | 4 of 4 fields as printed |  |
 | Text and Table 2: best and worst kernel per scheme | exact | 4 of 4 fields as printed |  |
 | The paper's own numbers: Table 1 sums and the prevalences Table 3 implies | exact | 14 of 14 fields as printed, 1 paper errors |  |
-| Our method against R (survey::svyglm, pROC, e1071) on split 0 | agrees | On split 0: logistic coefficients equal to survey::svyglm within 7e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481 |  |
+| Our method against R (survey::svyglm, pROC, e1071) on split 0 | agrees | On split 0: logistic coefficients equal to survey::svyglm within 9e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481 |  |
 | Python package diabclass and its tutorial | agrees | diabclass 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
 5 exact, 9 agrees, 1 not attempted; 4 open causes; 7 verdicts set by a reviewer.
@@ -88,6 +88,11 @@ nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search   
 The first run uses the C and gamma of the committed search (`output/grid.csv`) and recomputes everything
 else. `.github/workflows/reproduce-pmc2850872.yml` runs it on every pull request that touches this folder;
 the search runs only when the workflow is started by hand with `search = true`.
+
+`nextflow.config` sets `OPENBLAS_CORETYPE=Haswell` for every step. scikit-learn's LIBSVM and the
+logistic regression call BLAS, and OpenBLAS's AVX-512 and AVX2 kernels round differently: without the
+pin, a machine with AVX-512 and one without give single-split AUCs up to 0.004 apart and a median
+DeLong P 8e-4 apart, though the same verdicts. `output/hypotheses.json` was made before the pin.
 
 ## Pipeline steps
 

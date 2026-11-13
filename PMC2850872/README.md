@@ -43,7 +43,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2850872/>
 | Text: SVM and logistic regression do not differ (DeLong P 0.3672 and 0.6718) | exact | 4 of 4 fields as printed |  |
 | Text and Table 2: best and worst kernel per scheme | exact | 4 of 4 fields as printed |  |
 | The paper's own numbers: Table 1 sums and the prevalences Table 3 implies | exact | 14 of 14 fields as printed, 1 paper errors |  |
-| Our method against R (survey::svyglm, pROC, e1071) on split 0 | agrees | On split 0: logistic coefficients equal to survey::svyglm within 7e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481 |  |
+| Our method against R (survey::svyglm, pROC, e1071) on split 0 | agrees | On split 0: logistic coefficients equal to survey::svyglm within 9e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481 |  |
 | Python package diabclass and its tutorial | agrees | diabclass 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
 5 exact, 9 agrees, 1 not attempted; 4 open causes; 7 verdicts set by a reviewer.

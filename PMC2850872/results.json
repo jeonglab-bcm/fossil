@@ -21,6 +21,7 @@
       "joblib": "1.4.2",
       "pillow": "11.0.0",
       "nextflow (CI)": "26.04.3",
+      "OPENBLAS_CORETYPE": "Haswell (nextflow.config)",
       "R R": "4.3.3",
       "R survey": "4.5",
       "R pROC": "1.19.1",
@@ -395,7 +396,7 @@
             "expected": "0.8332",
             "observed": "0.8244",
             "tolerance": {
-              "abs": 0.0205
+              "abs": 0.0206
             },
             "our_range": [
               "0.8136",
@@ -408,13 +409,13 @@
             "expected": "0.7655",
             "observed": "0.8175",
             "tolerance": {
-              "abs": 0.0187
+              "abs": 0.0172
             },
             "our_range": [
-              "0.7977",
+              "0.8020",
               "0.8286"
             ],
-            "our_sd": 0.0094
+            "our_sd": 0.0086
           },
           {
             "name": "Scheme I, RBF",
@@ -447,13 +448,13 @@
             "expected": "0.7318",
             "observed": "0.7317",
             "tolerance": {
-              "abs": 0.0295
+              "abs": 0.0294
             },
             "our_range": [
               "0.7085",
               "0.7599"
             ],
-            "our_sd": 0.0148
+            "our_sd": 0.0147
           },
           {
             "name": "Scheme II, polynomial",
@@ -486,7 +487,7 @@
             "expected": "0.7273",
             "observed": "0.7314",
             "tolerance": {
-              "abs": 0.0303
+              "abs": 0.0302
             },
             "our_range": [
               "0.7075",
@@ -768,7 +769,7 @@
           {
             "name": "test sensitivity",
             "expected": "0.7359",
-            "observed": "0.7070",
+            "observed": "0.7085",
             "tolerance": {
               "abs": 0.0441
             },
@@ -776,168 +777,168 @@
               "0.6647",
               "0.7318"
             ],
-            "our_sd": 0.022
+            "our_sd": 0.0221
           },
           {
             "name": "test specificity",
             "expected": "0.6254",
-            "observed": "0.6542",
+            "observed": "0.6550",
             "tolerance": {
-              "abs": 0.0356
+              "abs": 0.0358
             },
             "our_range": [
               "0.6231",
               "0.6869"
             ],
-            "our_sd": 0.0178
+            "our_sd": 0.0179
           },
           {
             "name": "test PPV",
             "expected": "0.5061",
-            "observed": "0.5168",
+            "observed": "0.5179",
             "tolerance": {
-              "abs": 0.032
+              "abs": 0.0316
             },
             "our_range": [
               "0.5055",
               "0.5553"
             ],
-            "our_sd": 0.016
+            "our_sd": 0.0158
           },
           {
             "name": "test NPV",
             "expected": "0.8195",
-            "observed": "0.8042",
+            "observed": "0.8048",
             "tolerance": {
-              "abs": 0.0255
+              "abs": 0.0253
             },
             "our_range": [
               "0.7846",
               "0.8274"
             ],
-            "our_sd": 0.0127
+            "our_sd": 0.0126
           },
           {
             "name": "test AUC",
             "expected": "0.7318",
             "observed": "0.7317",
             "tolerance": {
-              "abs": 0.0295
+              "abs": 0.0294
             },
             "our_range": [
               "0.7085",
               "0.7599"
             ],
-            "our_sd": 0.0148
+            "our_sd": 0.0147
           },
           {
             "name": "training sensitivity",
             "expected": "0.7092",
             "observed": "0.7114",
             "tolerance": {
-              "abs": 0.0079
+              "abs": 0.0117
             },
             "our_range": [
               "0.7045",
-              "0.7154"
+              "0.7242"
             ],
-            "our_sd": 0.0039
+            "our_sd": 0.0058
           },
           {
             "name": "training specificity",
             "expected": "0.6590",
-            "observed": "0.6583",
+            "observed": "0.6543",
             "tolerance": {
-              "abs": 0.0219
+              "abs": 0.0232
             },
             "our_range": [
               "0.6310",
-              "0.6645"
+              "0.6696"
             ],
-            "our_sd": 0.011
+            "our_sd": 0.0116
           },
           {
             "name": "training PPV",
             "expected": "0.6729",
-            "observed": "0.6750",
+            "observed": "0.6734",
             "tolerance": {
-              "abs": 0.0135
+              "abs": 0.0139
             },
             "our_range": [
               "0.6595",
-              "0.6785"
+              "0.6816"
             ],
-            "our_sd": 0.0068
+            "our_sd": 0.007
           },
           {
             "name": "training NPV",
             "expected": "0.8087",
             "observed": "0.6932",
             "tolerance": {
-              "abs": 0.0082
+              "abs": 0.0095
             },
             "our_range": [
               "0.6853",
-              "0.6988"
+              "0.7020"
             ],
-            "our_sd": 0.0041
+            "our_sd": 0.0047
           },
           {
             "name": "training AUC",
             "expected": "0.7393",
             "observed": "0.7390",
             "tolerance": {
-              "abs": 0.0147
+              "abs": 0.0148
             },
             "our_range": [
               "0.7253",
               "0.7488"
             ],
-            "our_sd": 0.0073
+            "our_sd": 0.0074
           },
           {
             "name": "10-fold CV sensitivity",
             "expected": "0.7059",
-            "observed": "0.7068",
+            "observed": "0.7069",
             "tolerance": {
-              "abs": 0.0116
+              "abs": 0.0113
             },
             "our_range": [
               "0.6983",
               "0.7199"
             ],
-            "our_sd": 0.0058
+            "our_sd": 0.0056
           },
           {
             "name": "10-fold CV specificity",
             "expected": "0.6589",
-            "observed": "0.6544",
+            "observed": "0.6538",
             "tolerance": {
-              "abs": 0.0092
+              "abs": 0.0082
             },
             "our_range": [
               "0.6452",
-              "0.6620"
+              "0.6601"
             ],
-            "our_sd": 0.0046
+            "our_sd": 0.0041
           },
           {
             "name": "10-fold CV PPV",
             "expected": "0.5293",
-            "observed": "0.5236",
+            "observed": "0.5233",
             "tolerance": {
-              "abs": 0.0066
+              "abs": 0.0062
             },
             "our_range": [
               "0.5163",
               "0.5270"
             ],
-            "our_sd": 0.0033
+            "our_sd": 0.0031
           },
           {
             "name": "10-fold CV NPV",
             "expected": "0.8054",
-            "observed": "0.8066",
+            "observed": "0.8064",
             "tolerance": {
               "abs": 0.0058
             },
@@ -952,13 +953,13 @@
             "expected": "0.7357",
             "observed": "0.7339",
             "tolerance": {
-              "abs": 0.0084
+              "abs": 0.0083
             },
             "our_range": [
               "0.7263",
               "0.7392"
             ],
-            "our_sd": 0.0042
+            "our_sd": 0.0041
           }
         ],
         "exceptions": [
@@ -1454,52 +1455,52 @@
             "expected": "0.263",
             "observed": "0.2915",
             "tolerance": {
-              "abs": 0.0423
+              "abs": 0.0416
             },
             "our_range": [
               "0.2536",
               "0.3207"
             ],
-            "our_sd": 0.0212
+            "our_sd": 0.0208
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.2",
             "expected": "0.465",
             "observed": "0.4854",
             "tolerance": {
-              "abs": 0.08
+              "abs": 0.0798
             },
             "our_range": [
               "0.4286",
               "0.5656"
             ],
-            "our_sd": 0.04
+            "our_sd": 0.0399
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.3",
             "expected": "0.652",
             "observed": "0.6516",
             "tolerance": {
-              "abs": 0.0567
+              "abs": 0.0587
             },
             "our_range": [
               "0.6122",
               "0.6997"
             ],
-            "our_sd": 0.0284
+            "our_sd": 0.0294
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.4",
             "expected": "0.764",
-            "observed": "0.7493",
+            "observed": "0.7580",
             "tolerance": {
-              "abs": 0.0491
+              "abs": 0.0478
             },
             "our_range": [
               "0.7318",
               "0.8076"
             ],
-            "our_sd": 0.0245
+            "our_sd": 0.0239
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.5",
@@ -1517,28 +1518,28 @@
           {
             "name": "SVM, sensitivity at 1 - specificity 0.6",
             "expected": "0.895",
-            "observed": "0.8819",
+            "observed": "0.8805",
             "tolerance": {
-              "abs": 0.0359
+              "abs": 0.037
             },
             "our_range": [
               "0.8484",
               "0.9009"
             ],
-            "our_sd": 0.018
+            "our_sd": 0.0185
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.7",
             "expected": "0.940",
-            "observed": "0.9315",
+            "observed": "0.9300",
             "tolerance": {
-              "abs": 0.0208
+              "abs": 0.0213
             },
             "our_range": [
               "0.9242",
               "0.9563"
             ],
-            "our_sd": 0.0104
+            "our_sd": 0.0107
           },
           {
             "name": "SVM, sensitivity at 1 - specificity 0.8",
@@ -1558,13 +1559,13 @@
             "expected": "0.994",
             "observed": "0.9840",
             "tolerance": {
-              "abs": 0.0132
+              "abs": 0.0134
             },
             "our_range": [
               "0.9738",
               "0.9971"
             ],
-            "our_sd": 0.0066
+            "our_sd": 0.0067
           },
           {
             "name": "logistic regression, sensitivity at 1 - specificity 0.1",
@@ -1762,15 +1763,15 @@
           {
             "name": "Scheme II, DeLong P",
             "expected": "0.6718",
-            "observed": "0.3476",
+            "observed": "0.3468",
             "tolerance": {
-              "abs": 0.6567
+              "abs": 0.5629
             },
             "our_range": [
               "0.0259",
-              "0.9246"
+              "0.7995"
             ],
-            "our_sd": 0.3283
+            "our_sd": 0.2814
           },
           {
             "name": "Scheme II, SVM and logistic AUCs differ at P < 0.05",
@@ -1955,7 +1956,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "On split 0: logistic coefficients equal to survey::svyglm within 7e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481"
+        "detail": "On split 0: logistic coefficients equal to survey::svyglm within 9e-12; DeLong P equal to pROC::roc.test within 1.4e-07; SVM test AUC from e1071 (LIBSVM in R) with the same C and gamma 0.8187 against 0.8187, 0.7481 against 0.7481"
       },
       "verdict": "agrees"
     },

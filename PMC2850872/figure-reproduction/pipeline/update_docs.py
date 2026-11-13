@@ -48,6 +48,13 @@ def count(iid):
     return sum(1 for x in f if x["name"] not in ex and ok(x)), len(f) - len(ex)
 
 
+# The verdict icons of the front page (site/index.html).
+ICONS = {
+    "agrees": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    "partly": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg>',
+}
+
+
 def main():
     md = subprocess.run([sys.executable, str(ROOT / "tools/paper2repro/check_results.py"), str(PAPER / "results.json"),
                          "--markdown", "--root", str(PAPER)], capture_output=True, text=True)
@@ -109,6 +116,9 @@ def main():
             else "The main claim holds; the polynomial kernels differ" if main_ok else "")
     site = ROOT / "site/index.html"
     s = site.read_text()
+    icon = ICONS.get(stamp[0], "")
+    sys.path.insert(0, str(ROOT / "tools"))
+    from site_versions import cell  # the Paper2Repro cell, from the "skill" block in results.json
     tr = f"""              <tr>
                 <td class="date" data-label="Published"><time datetime="2010-03-22">22 Mar 2010</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="{RES['run']['date']}">8 Nov 2026</time></td>
@@ -127,7 +137,8 @@ def main():
                   <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/figure-reproduction/output/analytic.csv">The NHANES 1999 to 2004 cohort</a>, diagnosed diabetes at 1,266 as published</li>
                   <li><a href="PMC2850872/">Tables 1 to 3 and Fig. 2</a> against the paper</li>
                 </ul></td>
-                <td data-label="Verdict"><span class="stamp" data-v="{stamp[0]}">{stamp[1]}</span><span class="verdict-note">{note}</span></td>
+                <td data-label="Verdict"><span class="verdict" data-v="{stamp[0]}">{stamp[1]}{icon}</span><span class="verdict-note">{note}</span></td>
+                <td data-label="Paper2Repro">{cell("PMC2850872")}</td>
               </tr>
 """
     s = re.sub(r"              <tr>\n                <td class=\"date\" data-label=\"Published\"><time datetime=\"2010-03-22\">.*?</tr>\n", "", s, flags=re.S)
@@ -143,7 +154,7 @@ def main():
     n = s.count('<span class="pmc">')
     words = {5: "Five", 6: "Six", 7: "Seven", 8: "Eight"}
     s = re.sub(r'<h2 id="index-head">\w+ papers, figure by figure</h2>', f'<h2 id="index-head">{words.get(n, n)} papers, figure by figure</h2>', s)
-    stamps = re.findall(r'<td data-label="Verdict"><span class="stamp" data-v="(\w+)"', s)
+    stamps = re.findall(r'<td data-label="Verdict"><span class="verdict" data-v="(\w+)"', s)
     agree, partly = stamps.count("agrees"), stamps.count("partly")
     nums = {1: "One", 2: "Two", 3: "Three", 4: "four", 5: "five", 6: "six"}
     agree_s = f"{nums.get(agree, agree)} " + ("agrees with its paper" if agree == 1 else "agree with their papers")
