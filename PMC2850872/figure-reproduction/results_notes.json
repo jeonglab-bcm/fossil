@@ -1,0 +1,378 @@
+{
+ "paper": {
+  "id": "PMC2850872",
+  "title": "Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes",
+  "citation": "Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. BMC Medical Informatics and Decision Making 10:16 (2010)",
+  "doi": "10.1186/1472-6947-10-16",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-08",
+  "pipeline": "PMC2850872/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2850872/figure-reproduction/main.nf --outdir results",
+  "search_command": "nextflow run PMC2850872/figure-reproduction/main.nf --outdir results --search",
+  "inputs_list": "PMC2850872/figure-reproduction/pipeline/inputs/nhanes_files.tsv",
+  "environment": {
+   "python": "3.13.18 (committed outputs and CI)",
+   "numpy": "2.1.3",
+   "scipy": "1.14.1",
+   "pandas": "2.2.3",
+   "scikit-learn": "1.5.2",
+   "joblib": "1.4.2",
+   "pillow": "11.0.0",
+   "nextflow (CI)": "26.04.3",
+   "OPENBLAS_CORETYPE": "Haswell (nextflow.config)"
+  }
+ },
+ "session": {
+  "ledger": null,
+  "note": "The session ledger (session/ledger.json, conversation.md) is held back for the repository owner's review before it is published."
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.4.0",
+  "tag": "paper2repro-v0.4.0",
+  "commit": "727d35e891917e2808dfde330ae80a8be20356c9",
+  "modified": null,
+  "source": "inferred",
+  "note": "The session copied the skill's check_results.py, compare_runs.py and check_package.py from Paper2Repro commit 727d35e (tools/paper2repro/README.md), tagged paper2repro-v0.4.0; check_package.py first appears in that release."
+ },
+ "fig2_threshold": 0.9,
+ "items": {
+  "table1": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Table 1\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Table 1, people per diabetes category",
+   "kind": "table",
+   "source": "public_data",
+   "assumptions": [
+    {
+     "what": "Glucose counts only for people who fasted at least 8 hours (PHAFSTHR >= 8), the NHANES rule for the fasting weights",
+     "source": "our_choice",
+     "sensitivity": "At 6, 7 or 9 hours the fasting groups move by 1 to 7 people; 6 hours comes closest (5 people off in all) but is no NHANES rule, and no rule gives all three published counts (table1.json, definition_variants)"
+    },
+    {
+     "what": "'Borderline' (DIQ010 = 3) counts as not diagnosed; 'don't know' on family history or hypertension counts as no",
+     "source": "our_choice",
+     "sensitivity": "Borderline as diagnosed gives 1,444 diagnosed; borderline excluded loses 27 undiagnosed; 'don't know' as missing gives 1,229 diagnosed (table1.json)"
+    },
+    {
+     "what": "Table 1 counts are complete cases on the scheme I variables (the scheme I totals are the category sums)",
+     "source": "paper",
+     "sensitivity": "Without the complete-case rule diagnosed diabetes is 1,525"
+    },
+    {
+     "what": "Physical activity is PAD320, moderate activity in the past 30 days (yes/no); 'unable' is missing",
+     "source": "found_by_search",
+     "sensitivity": "Searched PAD020, PAQ100, PAD200, PAD320 and PAQ180: PAD320 leaves 1,717 and 3,210 scheme II cases and non-cases (paper 1,709 and 3,206); the next best, PAD020, 1,725 and 3,218 (table1.json, pa_variants)"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "Diagnosed diabetes comes back exactly (1,266). The fasting groups are 1, 5 and 5 people off (196, 1,571, 3,272 against 195, 1,576, 3,277), so the scheme I non-cases are 10 off and the scheme II totals 8 and 4 off. No fasting, borderline or missing-value rule we tried closes the gap. The glucose files we used carry revision dates of September 2009 (1999-2000) and March 2007 (2001-2002); whether the authors' copy differed could not be tested.",
+    "evidence": [
+     "figure-reproduction/output/table1.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "A different minimum fasting time",
+      "test": "cohort.py, definition_variants: no limit, 6, 7, 8, 9 hours",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Borderline answers counted as diagnosed, or excluded",
+      "test": "cohort.py, definition_variants",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "'Don't know' answers dropped as missing",
+      "test": "cohort.py, definition_variants",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The glucose files were revised after the authors' download",
+      "test": "Wayback copies of LAB10AM and L10AM_B from 2015 are listed but could not be fetched from this environment; CDC's documentation gives last revisions of September 2009 and March 2007",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  "table2": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Table 2\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Table 2, test AUC of the four kernels",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "10 random 80/20 splits (seeds 0 to 9); ours is the median, and a value agrees within two standard deviations over the splits",
+     "source": "our_choice",
+     "sensitivity": "The paper's split is unpublished; one split moves an AUC by about one standard deviation (0.01 to 0.02)"
+    },
+    {
+     "what": "Weight, height and waist divided by 200, BMI by 100; yes/no coded 1/-1",
+     "source": "our_choice",
+     "sensitivity": "The paper gives only age / 100"
+    },
+    {
+     "what": "Polynomial kernel degree 3 and coef0 0, sigmoid coef0 0 (LIBSVM defaults)",
+     "source": "our_choice",
+     "sensitivity": "Not given in the paper"
+    },
+    {
+     "what": "Fits inside the grid search stop after 1,000,000 iterations (LIBSVM 2.89 had no limit)",
+     "source": "our_choice",
+     "sensitivity": "On split 0 of scheme I, the linear kernel's search with LIBSVM 3's 10,000,000 limit chose the same C"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "Six of the eight AUCs lie within two standard deviations of our median over 10 splits; the paper's scheme I linear, RBF and sigmoid AUCs sit in the upper part of our range. Both polynomial kernels differ: with grid.py's search ours are 0.05 higher (0.8175 and 0.7158 against 0.7655 and 0.6673), and none of our 20 polynomial fits comes as low. Run at LIBSVM's defaults with no search (C = 1, gamma = 1/8 or 1/10), the polynomial kernel gives 0.782 and 0.690, and both published values fall within two standard deviations: the paper's polynomial model was most likely not tuned.",
+    "evidence": [
+     "figure-reproduction/output/table2_reps.csv",
+     "figure-reproduction/output/hypotheses.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Polynomial kernel with LIBSVM's default gamma, only C searched",
+      "test": "hypotheses.py H1, splits 0 and 1: mean AUC 0.808 and 0.722 (ours 0.802 and 0.723); C absorbs gamma for a homogeneous polynomial",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Features scaled to [-1, 1] by svm-scale instead of fixed divisors",
+      "test": "hypotheses.py H2, splits 0 and 1: polynomial 0.805 and 0.728, RBF 0.819 and 0.742 (ours 0.802, 0.723, 0.822, 0.739)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Polynomial of degree 2",
+      "test": "hypotheses.py H3, splits 0 and 1: 0.827 and 0.738, further from the paper",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Polynomial kernel at LIBSVM's defaults (C = 1, gamma = 1 / number of features), no search",
+      "test": "hypotheses.py H4, all 10 splits: median 0.782 (SD 0.012) and 0.690 (SD 0.013); the paper's 0.7655 and 0.6673 lie within two SDs",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  "table3.schemeI": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Table 3\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Table 3, scheme I (RBF kernel): test, training and 10-fold CV",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "The training row is the whole training set, the set whose prevalence the row's PPV and NPV imply",
+     "source": "paper",
+     "sensitivity": "On the balanced sample our median PPV would be about 0.74 against the paper's 0.4550"
+    },
+    {
+     "what": "10-fold CV reuses the C and gamma of the split's grid search",
+     "source": "our_choice",
+     "sensitivity": "The paper does not say whether it searched again inside the folds"
+    }
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "9 of 15 values agree. The training row agrees in full, and four of five test values. The paper's test PPV is higher than any of our splits give (0.4926 against our median 0.4522 and highest 0.4811). Its 10-fold CV values are all below ours, and all but specificity lie outside our split range (AUC 0.8242 against our median 0.8347 and lowest 0.8247), although its test and training AUCs do not.",
+    "evidence": [
+     "figure-reproduction/output/table3_reps.csv",
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's test set had a higher prevalence than a 20% share of each Table 1 group",
+      "test": "Prevalence implied by the paper's test PPV and NPV: 0.239 against 0.231 (text.arithmetic). Our median sensitivity and specificity at prevalence 0.239 give PPV 0.464, still below the paper's 0.4926 less our tolerance (0.4658)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's values come from an ordinary random split, like ours",
+      "test": "Range over our 10 splits (table3_reps.csv): the 10-fold CV AUC, sensitivity, PPV and NPV of the paper lie outside it; the test values lie inside it except PPV",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  "table3.schemeII": {
+   "label": "Table 3, scheme II (linear kernel): test, training and 10-fold CV",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "The training row is the balanced sample, the set whose prevalence the row's PPV implies",
+     "source": "paper",
+     "sensitivity": "The row's NPV implies the whole training set instead (text.arithmetic)"
+    },
+    {
+     "what": "10-fold CV reuses the C and gamma of the split's grid search",
+     "source": "our_choice",
+     "sensitivity": "The paper does not say whether it searched again inside the folds"
+    }
+   ]
+  },
+  "fig1": {
+   "label": "Fig. 1",
+   "kind": "figure",
+   "source": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A schematic of a separating hyperplane in a higher-dimensional space; there is nothing to recompute.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC2850872/figure/F1/"
+    ],
+    "status": "explained"
+   }
+  },
+  "fig2.a": {
+   "review": {"verdict": "agrees", "computed": "inconclusive", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Fig. 2: ROC curves of scheme I (pixels, split 0)\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Fig. 2a, ROC curves of scheme I (pixels, split 0)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "The paper's curve comes from one unpublished random split. Two random splits differ by about as much as a curve moved 0.03 in sensitivity (12 px here): the near-miss control at +0.03 scores as well as our split 0, so a 2 px score cannot tell them apart. Fig. 2a in data units (fig2.a.values) compares the published curve with the spread of ours over 10 splits instead.",
+    "evidence": [
+     "figure-reproduction/output/fig2_comparison.json",
+     "figure-reproduction/output/roc_at_fpr_reps.csv"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "A different split moves the curve by more than the 2 px tolerance",
+      "test": "Standard deviation over our 10 splits of the sensitivity at fixed false-positive rates (roc_at_fpr_reps.csv): 0.003 to 0.04, that is 1 to 16 px",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  "fig2.b": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Fig. 2: ROC curves of scheme I (pixels, split 0)\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Fig. 2b, ROC curves of scheme II (pixels, split 0)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "As for Fig. 2a: one unpublished split, and a different split moves the curve by more than the 2 px tolerance; ours beats the controls but reaches only 21%. Fig. 2b in data units (fig2.b.values) compares the published curve with the spread of ours.",
+    "evidence": [
+     "figure-reproduction/output/fig2_comparison.json",
+     "figure-reproduction/output/roc_at_fpr_reps.csv"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "A different split moves the curve by more than the 2 px tolerance",
+      "test": "Standard deviation over our 10 splits of the sensitivity at fixed false-positive rates (roc_at_fpr_reps.csv): 0.003 to 0.04, that is 1 to 16 px",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  "fig2.a.values": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Fig. 2: sensitivity at nine false-positive rates\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Fig. 2a, sensitivity at nine false-positive rates (SVM and logistic regression)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "Published sensitivities read off the figure: the median row of the trace in the columns at 1 - specificity 0.1 to 0.9, mapped by the tick marks; none where the trace has ended",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fit residual under 0.5 px, that is 0.002 in sensitivity; the trace is 1 to 2 px wide"
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "14 of 17 points agree (the published SVM curve ends before 0.9). The published SVM curve runs above every one of our 10 splits between 1 - specificity 0.3 and 0.5 (sensitivity 0.843, 0.908, 0.951 against our highest 0.829, 0.901, 0.935), as its AUC 0.8347 sits near the top of our range; the logistic curve agrees at all nine points. The paper's split is unpublished.",
+    "evidence": [
+     "figure-reproduction/output/roc_at_fpr_reps.csv",
+     "figure-reproduction/output/fig2_comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The sensitivities were read off the figure wrongly",
+      "test": "Tick fit residual 0.45 px (0.002 in sensitivity) on both axes; the overlay puts the read points on the trace",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's curve is one random split like ours",
+      "test": "Our 10 splits span 0.774 to 0.829 at 1 - specificity 0.3; the paper's 0.843 lies just outside",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  "fig2.b.values": {
+   "review": {"verdict": "agrees", "computed": "partly", "by": "hyunhwan-bcm", "url": "https://github.com/jeonglab-bcm/fossil/pull/37#pullrequestreview-5866132056", "note": "Review card \"Fig. 2: sensitivity at nine false-positive rates\": Agrees, without comment. The cause below stays as written: the reviewer accepts the gap it describes."},
+   "label": "Fig. 2b, sensitivity at nine false-positive rates (SVM and logistic regression)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "Published sensitivities read off the figure: the median row of the trace in the columns at 1 - specificity 0.1 to 0.9, mapped by the tick marks; none where the trace has ended",
+     "source": "read_from_figure",
+     "sensitivity": "Tick fit residual under 0.5 px, that is 0.002 in sensitivity; the trace is 1 to 2 px wide"
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "16 of 18 points agree. The published logistic curve starts lower than all of our splits (sensitivity 0.231 at 1 - specificity 0.1 against our lowest 0.257), and the published SVM curve runs just above all of them at 0.8 (0.983 against our highest 0.980). The paper's split is unpublished.",
+    "evidence": [
+     "figure-reproduction/output/roc_at_fpr_reps.csv",
+     "figure-reproduction/output/fig2_comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The sensitivities were read off the figure wrongly",
+      "test": "Tick fit residual 0.42 px on both axes; the overlay puts the read points on the trace",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's curve is one random split like ours",
+      "test": "Our 10 splits' range (roc_at_fpr_reps.csv) holds the published value at 16 of 18 points; the other two lie just outside it",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  "text.mlr_auc": {
+   "label": "Text: logistic regression AUCs 0.8319 and 0.7335",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "Logistic regression weighted by the six-year NHANES examination weights, fitted to the whole training set; point estimates as SUDAAN would give",
+     "source": "our_choice",
+     "sensitivity": "Unweighted, the median AUC moves by under 0.005 (tables.json, auc_unweighted)"
+    }
+   ]
+  },
+  "text.delong": {
+   "label": "Text: SVM and logistic regression do not differ (DeLong P 0.3672 and 0.6718)",
+   "kind": "value",
+   "source": "reconstructed"
+  },
+  "text.best_kernel": {
+   "label": "Text and Table 2: best and worst kernel per scheme",
+   "kind": "value",
+   "source": "reconstructed"
+  },
+  "text.arithmetic": {
+   "label": "The paper's own numbers: Table 1 sums and the prevalences Table 3 implies",
+   "kind": "value",
+   "source": "papers_data"
+  },
+  "r_check": {
+   "label": "Our method against R (survey::svyglm, pROC, e1071) on split 0",
+   "kind": "code_check",
+   "source": "reconstructed"
+  },
+  "package": {
+   "label": "Python package diabclass and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed"
+  }
+ }
+}
