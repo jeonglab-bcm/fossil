@@ -1,0 +1,100 @@
+{
+ "lede": "We rebuilt the lost program from the paper, put the 2009 yeast data back together and reran every experiment. {attempted} of {items} results were attempted: {exact} exact, {agrees} agree, {partly} partly, {inconclusive} inconclusive, {differs} differ. The method runs; its curves do not come back.",
+ "label_rows": [
+  [
+   "fig-2",
+   "Fig. 2, 20% unlabelled",
+   [
+    "fig2"
+   ]
+  ],
+  [
+   "fig-3",
+   "Fig. 3, 50% unlabelled",
+   [
+    "fig3"
+   ]
+  ],
+  [
+   "fig-4",
+   "Fig. 4, 80% unlabelled",
+   [
+    "fig4"
+   ]
+  ],
+  [
+   "fig-5",
+   "Fig. 5, weighted against binary",
+   [
+    "fig5"
+   ]
+  ],
+  [
+   "fig-6",
+   "Fig. 6, densities",
+   [
+    "fig6.a",
+    "fig6.b",
+    "fig6.c",
+    "fig6.d"
+   ]
+  ],
+  [
+   "items",
+   "Table 1",
+   [
+    "table1"
+   ]
+  ]
+ ],
+ "items_caption": "Every figure, table and number in the paper, with the verdict check_results.py computes from our run.",
+ "claims_line": "Main claim, SSL beats SVM and reaches sensitivity 0.92 at 1 minus specificity 0.09: differs and differs on our run (SVM leads at every training size; best SSL sensitivity at 0.09 is 0.20). Weighted beats binary: agrees. Two Discussion claims fail in the paper's own Table 1 (paper errors); the rest differ for a cause still open.",
+ "came_back": [
+  [
+   "Data",
+   "The Tong 2004 screen, BioGRID interactions and Gavin and Ho complexes from SGD's copy of 2009-12-19; 48129 complex edges against about 49,000; 4747 deletion-array genes against about 4,700."
+  ],
+  [
+   "Method",
+   "Divisive correlation clustering, eq. 2 weights, the 10 properties and 18 features, label spreading and an RBF SVM, as the package fgnssl."
+  ],
+  [
+   "Weighted against binary",
+   "SSL area under the ROC curve 0.664 on the weighted network, 0.656 on the binary one, as the paper orders them."
+  ],
+  [
+   "SGI pairs sit higher",
+   "SGI pairs have the higher average degree and closeness, as the Discussion says."
+  ]
+ ],
+ "buried": [
+  "The ROC curves. SSL reaches 0.675 to 0.645 under the curve and SVM 0.705 to 0.678; the paper's curves enclose about 0.95.",
+  "SSL over SVM. SVM leads at every training size on our run.",
+  "Table 1 and Fig. 6. Our KS statistics differ; the paper's P-values imply about 5,531 pairs per test, ours 3,029.",
+  "Eisen's 1998 heat-shock time course; the paper's protein-interaction filter, SSL settings, SVM grid and seeds."
+ ],
+ "matched_intro": "What we fixed to make the run, and where it came from.",
+ "matched": [
+  [
+   "Protein interactions",
+   "Two-hybrid and Affinity Capture-Western, 13007 interactions (paper 12,990), the closest interpretable filter."
+  ],
+  [
+   "Expression",
+   "54 conditions from SGD's processed sets (paper 64)."
+  ],
+  [
+   "Non-SGI pairs",
+   "Tong query genes by the non-essential deletion array, 586472 tested pairs."
+  ],
+  [
+   "SSL",
+   "alpha 0.99, sigma chosen on the training labels."
+  ],
+  [
+   "SVM",
+   "RBF kernel, C and gamma by grid search on the training folds."
+  ]
+ ],
+ "closing": "We dug up You et al. 2010 on 13 November 2026. The method came back as a package; its results did not."
+}
