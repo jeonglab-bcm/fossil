@@ -1,0 +1,793 @@
+{
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "paper": {
+    "id": "PMC407845",
+    "title": "Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data",
+    "citation": "Gao F, Foat BC, Bussemaker HJ. Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data. BMC Bioinformatics 5:31 (2004)",
+    "doi": "10.1186/1471-2105-5-31",
+    "license": "BioMed Central open access: verbatim copying and redistribution permitted in all media for any purpose, provided the notice and the article's URL are kept"
+  },
+  "run": {
+    "pipeline": "PMC407845/figure-reproduction/main.nf",
+    "command": "nextflow run PMC407845/figure-reproduction/main.nf --outdir results"
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "shared_assumptions": {
+    "compendium": {
+      "what": "Expression library rebuilt from the SGD expression archive (2010 reprocessing: filtered, KNN-imputed, replicate-averaged log2 ratios): 677 arrays from 15 of the paper's 19 sources, against the paper's 751 arrays (2003 preprocessing, not stated)",
+      "source": "our_choice",
+      "sensitivity": "Not testable without the 2003 library: the authors' released sig_t_result, sig_p_result and coupling_result could not be downloaded from this environment (bussemakerlab.org refuses scripted requests; web.archive.org is blocked by the session's network policy)."
+    },
+    "hughes_log10": {
+      "what": "Hughes 2000 ratios are log10 in the SGD file and were converted to log2 (x 3.32), as the paper says all data were log2",
+      "source": "our_choice",
+      "sensitivity": "Regression t-values per array do not change; correlations across arrays weight Hughes arrays 3.32 times more than without the conversion."
+    },
+    "duplicate_file": {
+      "what": "SGD stores the same file (identical SHA-256) for Yun 2000 and Protchenko 2001; its 4 arrays are used once",
+      "source": "our_choice",
+      "sensitivity": "The paper lists both with 4 arrays each; whether they were the same arrays is not known."
+    },
+    "missing_chip": {
+      "what": "Missing or non-positive Lee ratios set to log2 ratio 0 in the regression; such genes are unclassified for that TF",
+      "source": "our_choice",
+      "sensitivity": "Setting them to the TF's mean log ratio keeps 61 TFs instead of 63 (35 of the paper's 37)."
+    },
+    "profile_t": {
+      "what": "TF activity profiles are the regression t-values, not the coefficients",
+      "source": "read_from_figure",
+      "sensitivity": "Fig. 1b plots activities on a +-10 axis; our t-values of Hap4, Ndd1 and Ste12 span -9 to 13 and our coefficients -0.3 to 0.7. With coefficients, Table 1 B+/C+ counts move further from the paper (sum of absolute differences 149 against 123)."
+    },
+    "one_sided": {
+      "what": "Coupling is a one-sided test for positive correlation",
+      "source": "read_from_figure",
+      "sensitivity": "In Fig. 1c every B+/C+ (red) gene has positive coupling and strongly negative ones are B+/C- (green). A two-sided test calls 70% of bound genes coupled instead of 59%, and Table 1 B+/C+ counts move far from the paper (sum of absolute differences 337 against 123)."
+    },
+    "fdr_scope": {
+      "what": "Benjamini-Hochberg at 5% applied per TF over all its genes",
+      "source": "our_choice",
+      "sensitivity": "Over all gene-TF pairs: same B+/C+ total difference (123), 9 instead of 12 exact Table 1 cells; over bound genes only: 136 and 11."
+    },
+    "expression_available": {
+      "what": "A gene has expression data when measured in at least half of the arrays",
+      "source": "our_choice",
+      "sensitivity": "With any 3 measured arrays instead, 10 instead of 12 Table 1 cells are exact; the B- column stays 45 to 67 genes above the paper and the unclassified column 68 to 88 below either way."
+    }
+  },
+  "items": [
+    {
+      "id": "fig1a",
+      "label": "Fig. 1a",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A diagram of the method; there is nothing to recompute.",
+        "evidence": [
+          "figure-reproduction/published/figure-1.png"
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "text.inputs",
+      "label": "Text: 751 arrays and 113 TFs",
+      "kind": "value",
+      "source": "public_data",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The SGD archive holds 677 distinct arrays of the paper's 751. Casagrande 2000, Rutherford 2001 and Diehn 2000 (5 arrays) are not there; SGD keeps 15 of Roberts 2000's 56 arrays, 138 of Gasch 2000's 156 (replicates averaged), 55 of Spellman's 60 and 52 of Gasch 2001's 53; Yun 2000 and Protchenko 2001 share one file. All 113 TFs of Lee et al. are there.",
+        "evidence": [
+          "figure-reproduction/output/compendium.json"
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "fig1b",
+      "label": "Fig. 1b, activity profiles of Hap4, Ndd1 and Ste12",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t"
+      ],
+      "assumptions": [
+        {
+          "what": "Stress, pheromone and cell cycle experiments are Gasch 2000, Roberts 2000 and Spellman 1998 (the caption's references 28 to 30); the published panel shows a subset of their arrays in an order the paper does not give, so our bars are spread evenly over the x range of each published colour",
+          "source": "our_choice",
+          "sensitivity": "The comparison is the caption's claim (which group carries each TF's largest changes), not the bar positions."
+        }
+      ],
+      "note": "The caption's claim is compared as values: the group of experiments with the largest mean absolute activity for each TF."
+    },
+    {
+      "id": "fig1c.hap4",
+      "label": "Fig. 1c, Hap4 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided",
+        "fdr_scope"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our B+/C+ (red) and B+/C- (green) points fall in the published places better than any control, but our couplings are larger in magnitude (r from -0.81 to 0.92; B+/C+ genes up to 0.71, against about 0.65 in the paper), so many of our points sit above the published ones. The rebuilt library (2010 reprocessing, 677 arrays) is the likely reason; it cannot be checked without the authors' 2003 library or coupling_result.",
+        "hypotheses": [
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Calibrated from the tick labels of all three panels: the same 111.25 px per coupling unit, and binding 0 on each y axis",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our couplings are inflated by a constant factor",
+            "test": "Score the panel with our coupling x0.9 and x1.1 (near-miss controls)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The B+/C+ split differs",
+            "test": "Table 1: Hap4 has 42 B+/C+ and 27 B+/C- in our run against 47 and 21; B+ total 69 against 68",
+            "result": "supported"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/table1.json"
+        ]
+      }
+    },
+    {
+      "id": "fig1c.ndd1",
+      "label": "Fig. 1c, Ndd1 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided",
+        "fdr_scope"
+      ],
+      "cause": {
+        "category": "metric_resolution",
+        "summary": "Our coupling scaled by 0.9 scores better than ours, so the score cannot confirm our coupling scale for Ndd1: our couplings are larger in magnitude than the published ones, as for Hap4, although the split itself is close (50 B+/C+ and 44 B+/C- against 50 and 42).",
+        "hypotheses": [
+          {
+            "hypothesis": "Our couplings are larger than the paper's by about 10%",
+            "test": "Near-miss control coupling x0.9 scores above ours",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Same calibration as Hap4 and Ste12 from the tick labels",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our Ndd1 points belong to another TF's pattern",
+            "test": "Hap4 and Ste12 points drawn on the Ndd1 panel score 0.36 and 0.30 against our 0.59",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json"
+        ]
+      }
+    },
+    {
+      "id": "fig1c.ste12",
+      "label": "Fig. 1c, Ste12 binding against coupling",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided",
+        "fdr_scope"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Our Ste12 couplings are much stronger than the published ones (our B+/C+ genes reach r 0.67; the paper's stop near 0.45), and we call 25 B+/C+ and 25 B+/C- against 19 and 31. Our pheromone experiments are 15 Roberts 2000 arrays, where the paper had 56; Ste12's activity is carried by them.",
+        "hypotheses": [
+          {
+            "hypothesis": "The panel's axes are misread",
+            "test": "Same calibration as the other panels from the tick labels",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "A constant scale of our coupling",
+            "test": "Near-miss controls x0.9 and x1.1 score no better than wrong inputs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The pheromone arrays differ",
+            "test": "Roberts 2000: 15 arrays in the SGD archive against 56 in the paper; Ste12's activity is largest there (mean |t| 6.8 against 0.9 to 1.0 elsewhere)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/figures.json",
+          "figure-reproduction/output/compendium.json"
+        ]
+      }
+    },
+    {
+      "id": "text.tf_selection",
+      "label": "Text: 37 of 113 TFs kept by backward selection",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "missing_chip"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Backward selection at the paper's P = 0.005/751 keeps 63 TFs, among them 36 of the paper's 37 (Stb1 is dropped). The paper's TFs head our ranking (our 18 most significant TFs are all among them), so our P-values are stronger overall rather than ordered differently; the reprocessed, imputed library is the likely reason.",
+        "hypotheses": [
+          {
+            "hypothesis": "Missing ChIP ratios handled differently",
+            "test": "Mean instead of 0 for missing log ratios: 61 TFs (35 of the 37)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Raw ratios used instead of log ratios",
+            "test": "Ratios with missing set to 1: 60 TFs (35 of the 37)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The threshold counts our 677 arrays instead of 751",
+            "test": "0.005/677: the same 63 TFs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our P-values are uniformly stronger",
+            "test": "A threshold of 1e-8 instead of 6.7e-6 keeps 40 TFs but loses 9 of the paper's (Cad1, Hal9, Hir1, Met31, Mss11, Sko1, Stb1, Thi2, Yap6) before ours",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/selection.json"
+        ]
+      }
+    },
+    {
+      "id": "table1",
+      "label": "Table 1",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "missing_chip",
+        "profile_t",
+        "one_sided",
+        "fdr_scope",
+        "expression_available"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Bound (B+) totals agree within 8 genes for every TF (the same ChIP file), but our run calls more bound genes coupled (59% per TF against 58%, with larger per-TF differences), Stb1 is not in our model, and our B- column is 45 to 67 genes above the paper and the unclassified column 68 to 88 below, because the paper's gene list (6382) and its expression filter are not stated.",
+        "hypotheses": [
+          {
+            "hypothesis": "Two-sided coupling test",
+            "test": "Variant two_sided: B+/C+ sum of absolute differences 337 against 123",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Coefficient activity profiles",
+            "test": "Variant coef_profile: 149 against 123",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "FDR over all pairs or over bound genes",
+            "test": "Variants fdr_all_pairs (123, 9 exact cells) and fdr_bound_only (136, 11 exact cells)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "A different expression filter",
+            "test": "Variant any_measurement: 10 exact cells; the B- and unclassified columns stay off by a near-constant offset",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The TF set of the model (sensitivity: the paper's 37 TFs put into our run)",
+            "test": "Variant paper_37_fixed: 19 exact cells and B+/C+ difference 102; not counted as agreement",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/table1.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      }
+    },
+    {
+      "id": "text.coupled_share",
+      "label": "Text: on average 58% of bound genes couple",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided",
+        "fdr_scope"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "59.0% in our run (59.1% pooled), against 58% (58.4% per TF from Table 1). The share follows the coupling calls of Table 1.",
+        "hypotheses": [
+          {
+            "hypothesis": "The paper's 58% is a pooled share, not a mean per TF",
+            "test": "From Table 1: 58.4% per TF and 58.3% pooled; both print as 58",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Coupling calls differ (Table 1 variants)",
+            "test": "two_sided 70.3%, coef_profile 62.5%, main 59.0%",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "FDR over all gene-TF pairs instead of per TF",
+            "test": "Variant fdr_all_pairs: 59.8%",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ]
+      }
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables",
+      "kind": "code_check",
+      "source": "papers_data"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, GO categories per TF",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided",
+        "fdr_scope",
+        "expression_available"
+      ],
+      "assumptions": [
+        {
+          "what": "Gene Ontology release 2004-03-01 (the earliest archived) instead of May 2003; terms propagated over is_a and part_of; the three root terms left out",
+          "source": "our_choice",
+          "sensitivity": "Not testable: May 2003 is not archived."
+        },
+        {
+          "what": "Hypergeometric test of each term against the TF's classified genes with annotation; Bonferroni over all terms annotated in that universe (the Methods; the Results say 5% FDR)",
+          "source": "our_choice",
+          "sensitivity": "Bonferroni over the terms hit by the set: 25 exact bars instead of 29; BH 5%: 28."
+        }
+      ],
+      "note": "The published bar heights are read exactly from the paper's vector EPS (BMC original file), not from pixels: Hap4's B+/C+ bar is 62, clipped at 60 in the drawing.",
+      "cause": {
+        "category": "data_differs",
+        "summary": "29 of 73 bars match exactly (24 of 37 B+/C- bars, mostly zeros). B+/C+ counts follow the coupling calls, the GO release (2004-03 against 2003-05) and the unstated correction; Stb1 is not in our model.",
+        "hypotheses": [
+          {
+            "hypothesis": "FDR instead of Bonferroni (the Results say 5% FDR)",
+            "test": "BH 5%: 28 exact bars",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Bonferroni over the terms hit by each set",
+            "test": "25 exact bars",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/go.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      }
+    },
+    {
+      "id": "text.go_claim",
+      "label": "Text: no GO enrichment in most B+/C- groups",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ]
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, deletion response",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The text says Table 2 averages Hughes et al.'s mutant/wild-type log ratios, but its genome-wide means (0.52 to 0.83, SD 0.12 to 0.34) are not log ratios: the genome-wide mean of the log10 ratios is 0.00 (SD 0.05 to 0.17) and of their absolute values 0.03 to 0.11. The values fit Hughes et al.'s per-gene P-values, which are not public (the Rosetta download sits behind a registration form; the SGD file has ratios only). The claim the table supports is checked from the ratios as text.deletion.",
+        "hypotheses": [
+          {
+            "hypothesis": "The values are mean log ratios",
+            "test": "Genome-wide mean of Hughes log10 ratios 0.00 for all 7 TFs, against 0.52 to 0.83",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The values are mean absolute log ratios",
+            "test": "Genome-wide mean 0.03 to 0.11",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The values are Hughes et al.'s per-gene P-values",
+            "test": "Values in 0 to 1, with bound and coupled genes lower; the P-values themselves could not be obtained",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/deletion.json"
+        ]
+      }
+    },
+    {
+      "id": "text.deletion",
+      "label": "Text: B+/C+ genes respond to TF deletion, B+/C- mostly not",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ],
+      "assumptions": [
+        {
+          "what": "Hughes 2000 log10 ratios of the single deletion array; one-sample t-test of the subset against the genome-wide mean; the TF's own deletion arrays left out of the library before coupling (the Methods)",
+          "source": "our_choice",
+          "sensitivity": "With absolute log ratios, B+/C+ respond for 6 of 7 TFs too (Dig1 instead of Yap1 misses)."
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "B+/C+ genes respond for 6 of 7 TFs in our run (Yap1: P = 0.13); B+/C- do not respond for any of the 7, so the claim's second half holds. The paper tested Hughes et al.'s P-values (see table2), which are not public.",
+        "hypotheses": [
+          {
+            "hypothesis": "Absolute log ratios instead of signed ones",
+            "test": "6 of 7 again (Dig1 P = 0.10 misses, Yap1 passes)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Yap1's B+/C+ set is too small to show its response",
+            "test": "27 genes, mean change in the expected direction, P = 0.13",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/deletion.json"
+        ]
+      }
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, cell cycle motifs",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ],
+      "assumptions": [
+        {
+          "what": "Upstream region: up to 600 bp before the ORF start, cut at the nearest upstream feature on either strand (S288C R64-1-1 genome and GFF); motif and reverse complement counted, each without overlap; binomial test of the set's count over its positions against the rate over all upstream regions",
+          "source": "our_choice",
+          "sensitivity": "Forward strand only: 0 exact cells; genes with at least one motif instead of counts: 1 exact cell."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "1 of 20 values matches at printed precision, but the pattern holds: the same motifs are strongly enriched in the same B+/C+ groups (MCB in Mbp1 43.1 against 38.4; SFF in Fkh2 16.7 against 12.9), and far less in B+/C-. The genome release, the cutting of upstream regions, strand handling and the binomial's unit are not stated.",
+        "hypotheses": [
+          {
+            "hypothesis": "Forward strand only",
+            "test": "Variant forward_strand: 0 exact cells",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Genes with the motif instead of motif counts",
+            "test": "Variant genes_with_motif: 1 exact cell",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/motifs.json"
+        ]
+      }
+    },
+    {
+      "id": "text.motif_claim",
+      "label": "Text: motif enrichment in B+/C- always far below B+/C+",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "9 of 10 combinations hold in our run; SFF in Mcm1 gives 2.4 for B+/C+ and 2.6 for B+/C- (the paper: 3.1 and 1.4). With forward-strand counts, or with genes carrying the motif instead of counts, all 10 hold: the claim turns on how motifs are counted, which the paper does not state.",
+        "hypotheses": [
+          {
+            "hypothesis": "Forward strand only",
+            "test": "All 10 hold",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genes with the motif instead of counts",
+            "test": "All 10 hold",
+            "result": "supported"
+          }
+        ],
+        "status": "explained",
+        "evidence": [
+          "figure-reproduction/output/motifs.json"
+        ]
+      }
+    },
+    {
+      "id": "text.simon_overlap",
+      "label": "Text: 85% overlap with B+/C+ groups from Simon et al.",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ],
+      "assumptions": [
+        {
+          "what": "Overlap = genes B+/C+ with both ChIP data sets, as a share of the Lee B+/C+ group, averaged over the 7 TFs; B+ from Simon et al. at P < 1e-3, coupling from our run",
+          "source": "our_choice",
+          "sensitivity": "As a share of the Simon group: 73%; Jaccard index: 63%."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "83% in our run against 85%. The overlap measure is not stated; as a share of the Lee groups it comes closest.",
+        "hypotheses": [
+          {
+            "hypothesis": "Overlap as a share of the Simon groups",
+            "test": "73%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Jaccard index",
+            "test": "63%",
+            "result": "rejected"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/simon.json"
+        ]
+      }
+    },
+    {
+      "id": "text.divergent_probes",
+      "label": "Text: 1592 of 4532 probes shared by divergent genes",
+      "kind": "value",
+      "source": "papers_data"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, coupling scores at divergent promoters",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "compendium",
+        "profile_t",
+        "one_sided"
+      ],
+      "assumptions": [
+        {
+          "what": "Scores are -log10 of our one-sided coupling P-value",
+          "source": "our_choice",
+          "sensitivity": "Two-sided P-values are 0.3 lower for positive couplings; no printed value then matches either."
+        },
+        {
+          "what": "MLP1 is YKR095W, the gene that shares RPL40B's promoter (Lee probe iYKR094C); the caption's 'protein kinase MLP1' is YKL161C, on another chromosome",
+          "source": "our_choice",
+          "sensitivity": "YKL161C does not share a promoter with RPL40B, so it cannot be the gene of the panel."
+        }
+      ],
+      "exceptions": [
+        {
+          "field": "Hap6 to FSP2",
+          "category": "paper_error",
+          "evidence": [
+            "Hap6 is not among the 113 TFs of Lee et al. 2002 (binding_by_gene.tsv has HAP2, HAP3, HAP4, HAP5) nor among Table 1's 37 TFs"
+          ]
+        },
+        {
+          "field": "Hap6 to HXT9",
+          "category": "paper_error",
+          "evidence": [
+            "Hap6 is not among the 113 TFs of Lee et al. 2002 (binding_by_gene.tsv has HAP2, HAP3, HAP4, HAP5) nor among Table 1's 37 TFs"
+          ]
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "Both scores above 12 come back, and every regulatory call of the figure is the same (RAD51, RPL40B, FSP2 and HXT9 coupled; PUP3 and MLP1 not), but the other printed scores differ (Mbp1 to RAD51 11.1 against 8.7), as our couplings are stronger throughout (see fig1c). Hap6 cannot be computed: it is not in the ChIP data.",
+        "hypotheses": [
+          {
+            "hypothesis": "Two-sided P-values",
+            "test": "Scores 0.3 lower; still no printed value matches",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our couplings are stronger than the paper's",
+            "test": "Fig. 1c near-miss scores and Table 1's higher coupled share",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open",
+        "evidence": [
+          "figure-reproduction/output/divergent.json"
+        ]
+      }
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, deletion in place of coupling",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "D+ needs Hughes et al.'s per-gene P-values (P < 1e-2), which are not public. The table is also inconsistent with itself: its Dig1 row sums to 6027 genes and the other six to 6067, while every Table 1 row sums to 6382.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "package",
+      "label": "Python package manetworker and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {
+    "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {inconclusive} inconclusive, {differs} differ, {not_attempted} not attempted. MA-Networker was never released, so it was rebuilt from the paper and run on the same ChIP data and an expression library rebuilt from the SGD archive.",
+    "label_rows": [
+      [
+        "fig-1",
+        "Fig. 1",
+        [
+          "fig1b",
+          "fig1c.hap4",
+          "fig1c.ndd1",
+          "fig1c.ste12"
+        ]
+      ],
+      [
+        "items",
+        "Table 1",
+        [
+          "table1"
+        ]
+      ],
+      [
+        "fig-2",
+        "Fig. 2",
+        [
+          "fig2"
+        ]
+      ],
+      [
+        "items",
+        "Table 3",
+        [
+          "table3"
+        ]
+      ],
+      [
+        "fig-3",
+        "Fig. 3",
+        [
+          "fig3"
+        ]
+      ],
+      [
+        "items",
+        "Main claim",
+        [
+          "text.coupled_share"
+        ]
+      ]
+    ],
+    "items_caption": "Every figure, table and claim of the paper. Values agree when they equal the paper at the precision it prints; Fig. 1c is scored by pixels against wrong-input and near-miss controls.",
+    "claims_line": "The main claim nearly comes back: 59% of bound genes couple in our run, against the paper's 58%. The validations point the same way as the paper's. The numbers differ because the expression library was rebuilt (677 of 751 arrays, reprocessed in 2010), because GO and motif settings are not stated, and because Hughes et al.'s P-values, behind Table 2 and Table 4, are not public.",
+    "came_back": [
+      [
+        "The method",
+        "MA-Networker as the Python package manetworker: regression, backward selection, coupling and the false discovery rate, from the paper's Methods."
+      ],
+      [
+        "Fig. 1b",
+        "Hap4 moves most in stress, Ndd1 in the cell cycle, Ste12 with pheromone, as the caption says."
+      ],
+      [
+        "Table 1",
+        "Bound genes per TF within 8 of the paper's for every TF; 59% of them couple against 58%."
+      ],
+      [
+        "Divergent promoters",
+        "1592 of 4532 ChIP probes shared by two genes, exactly as printed."
+      ],
+      [
+        "Fig. 2",
+        "The vector bars read exactly from the paper's own file; most B+/C- groups have no enriched GO category, as in the paper."
+      ],
+      [
+        "Fig. 3",
+        "Every coupling call of the figure is the same; both scores above 12 come back."
+      ]
+    ],
+    "buried": [
+      "The authors' 751-array library: 74 arrays are not in the SGD archive, and the rest were reprocessed in 2010.",
+      "The authors' released activity and coupling files: their site refuses scripted downloads and the web archive was out of reach from this run.",
+      "Table 2 and Table 4: they rest on Hughes et al.'s per-gene P-values, which sit behind a registration form. Table 2's numbers are those P-values, not the log ratios the text names.",
+      "Hap6 in Fig. 3: it is not among the 113 TFs of the ChIP data."
+    ],
+    "matched_intro": "How each part of the paper's method was rebuilt.",
+    "matched": [
+      [
+        "ChIP data",
+        "Lee et al. 2002, 113 TFs, the file the paper used; bound means P below 0.001."
+      ],
+      [
+        "Expression",
+        "677 arrays from 15 of the paper's 19 sources, from the SGD archive, as log2 ratios."
+      ],
+      [
+        "Step 1",
+        "A regression per array on all TFs; backward selection at P = 0.005/751."
+      ],
+      [
+        "Step 2",
+        "Pearson correlation of each gene with each activity profile; 5% false discovery rate."
+      ],
+      [
+        "Validation",
+        "GO release 2004-03 (the oldest archived), Hughes 2000 deletions, the S288C genome, Simon et al. 2001 ChIP."
+      ]
+    ],
+    "closing": "MA-Networker came back from the paper's text; its 2003 expression library did not."
+  }
+}
