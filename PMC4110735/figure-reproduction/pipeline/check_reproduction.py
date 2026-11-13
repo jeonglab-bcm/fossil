@@ -42,7 +42,7 @@ def main():
     lines += ["## Package", "", pk.get("detail", "no report"), ""]
     ok &= bool(pk.get("passed"))
     ign = IGNORE + (TIMING if timing else [])
-    rc, out = run([sys.executable, str(HERE / "compare_runs.py"), str(rundir), committed, "--ignore", *ign])
+    rc, out = run([sys.executable, str(HERE / "compare_runs.py"), str(rundir), committed, "--rtol", "1e-6", "--atol", "1e-9", "--ignore", *ign])
     lines += ["## Fresh run against the committed outputs", "", out.strip(), ""]
     ok &= rc == 0
     if timing:

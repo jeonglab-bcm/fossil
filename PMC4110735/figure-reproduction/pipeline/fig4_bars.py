@@ -93,9 +93,9 @@ def read_panel(img, key):
             best = (c, n)
             break
     legend = [best[0], int(x1), int(top), int(top) + best[1]]
-    return {"box": [round(v, 1) for v in box], "legend": legend, "y_fit_residual_px": round(res, 2), "ticks_matched": len(ticks),
-            "bar_pitch_px": round(pitch, 2), "group_pitch_px": round(unit, 2),
-            "px_per_unit": round(-a, 1), "bars": bars}
+    return {"box": [round(v, 1) for v in box], "legend": legend, "y_fit_residual_px": round(res, 6), "ticks_matched": len(ticks),
+            "bar_pitch_px": round(pitch, 6), "group_pitch_px": round(unit, 6),
+            "px_per_unit": round(-a, 6), "bars": bars}
 
 
 def draw_bars(img, panel, values, top, bottom, a, b, out, colours=True):

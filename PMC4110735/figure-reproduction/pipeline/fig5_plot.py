@@ -34,7 +34,7 @@ def main():
     tim = json.load(open(timing))
     rows = {r["genes"]: r for r in tim["rows"]}
     sizes = PUBLISHED["sizes"]
-    res = {"axes": {"x_ticks": len(xt), "y_ticks": len(yt), "x_residual_px": round(rx, 2), "y_residual_px": round(ry, 2)},
+    res = {"axes": {"x_ticks": len(xt), "y_ticks": len(yt), "x_residual_px": round(rx, 6), "y_residual_px": round(ry, 6)},
            "published": PUBLISHED, "ours": {}, "scale": {}, "ratios": {}}
     for m, key in (("aracne", "aracne_total_s"), ("gecon", "gecon_s")):
         ours = np.array([rows[s][key] for s in sizes])

@@ -107,8 +107,8 @@ class Mapping:
         return self.ax * np.asarray(x, float) + self.bx, self.ay * np.asarray(y, float) + self.by
 
     def info(self):
-        return {"box": [round(v, 1) for v in self.box], "x_fit_residual_px": round(self.rx, 2),
-                "y_fit_residual_px": round(self.ry, 2), "ticks": self.tick_check}
+        return {"box": [round(v, 1) for v in self.box], "x_fit_residual_px": round(self.rx, 6),
+                "y_fit_residual_px": round(self.ry, 6), "ticks": self.tick_check}
 
 
 def draw_series(shape, pts, width=3, marker=None, msize=10, mwidth=2, canvas=None, colour=0):
