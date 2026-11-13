@@ -4,7 +4,8 @@ of a run into results.json, then let check_results.py compute the verdicts and t
   build_results.py RUN_DIR OUT.json
 
 A notes item with "from": KEY takes its values (or check) from comparison.json[KEY]; "package"
-takes its check from package.json. "exceptions" in a notes item go into values.exceptions. The
+takes its check from package.json. "exceptions" in a notes item go into values.exceptions; "accepted" sets a reviewer's tolerance
+on one named field and records the acceptance. The
 skill block and the session pointer travel with the notes (copied unchanged).
 """
 
@@ -28,6 +29,7 @@ def main(run, out):
         it = copy.deepcopy(it)
         key = it.pop("from", None)
         exc = it.pop("exceptions", None)
+        accepted = it.pop("accepted", None)
         if key == "package":
             pk = json.load(open(run / "package.json"))
             it["check"] = {"passed": bool(pk.get("passed")), "detail": pk.get("detail", "")}
@@ -37,6 +39,14 @@ def main(run, out):
                 it["values"] = copy.deepcopy(c["values"])
                 if exc:
                     it["values"]["exceptions"] = exc
+                # A field a reviewer accepted at a stated tolerance: the tolerance is set on that
+                # field only, and the acceptance (who, where, why) is kept beside it.
+                for acc in accepted or []:
+                    for f in it["values"]["fields"]:
+                        if f["name"] == acc["field"]:
+                            f["tolerance"] = acc["tolerance"]
+                            f["accepted"] = {k: v for k, v in acc.items() if k not in ("field", "tolerance")}
+                    it.setdefault("accepted_fields", []).append(acc)
                 if c.get("extra_points"):
                     it["extra_points"] = c["extra_points"]
             else:

@@ -11,7 +11,7 @@ files are downloaded at run time and not committed.
 
 <!-- generated from ../results.json by check_results.py; full table: python3 pipeline/check_results.py ../results.json --markdown -->
 
-25 results: 2 exact, 11 agree, 6 partly agree, 0 differ, 6 not attempted; 6 open causes. The table per item is in
+25 results: 2 exact, 13 agree, 4 partly agree, 0 differ, 6 not attempted; 4 open causes. The table per item is in
 the paper's [README](../README.md) and on the [results page](https://jeonglab-bcm.github.io/fossil/PMC2853684/).
 
 | Kind of number | What it is | Where |
@@ -21,8 +21,8 @@ the paper's [README](../README.md) and on the [results page](https://jeonglab-bc
 | Sensitivity | none: no paper value is put into our run | |
 
 The main findings of the paper hold: random walks are the most precise single methods, the consensus is Pareto
-optimal, and homophilic diseases are predicted better. Three Sec. 3.1 ranges and four Supp. Table 1 scores are
-slips in the paper; the consensus points differ because the forest's settings are not stated.
+optimal, and homophilic diseases are predicted better. Three Sec. 3.1 ranges, one Sec. 3.2 recall and four Supp.
+Table 1 scores are slips in the paper; the consensus points differ because the forest's settings are not stated.
 
 ## What the code does, against the paper
 
@@ -54,7 +54,19 @@ slips in the paper; the consensus points differ because the forest's settings ar
 - **Homophily** (Fig. 4, Supp. Fig. S2). Neighbourhood homophily gives the published bin counts only when a
   gene's neighbours are counted among *annotated* genes (associated with any disease): all ten counts against
   356, 45, 22, ... with all neighbours. Bars and fits use only the method-disease pairs with a prediction; error
-  bars are the variance of those F1 values; the legend values are Pearson r.
+  bars are the variance of those F1 values; the legend values are Pearson r. The lines are least-squares fits
+  through each such disease (matplotlib drew a point per disease on its line); `read_published.py` fits each
+  published polyline and compares slope and intercept within 1e-4 (the vertices are stored to 0.001 pt). The
+  publisher's colour conversion drew GS-All's line in blue; the lines are identified by drawing order, which
+  is the legend's.
+
+## Review
+
+PR #56 review (2026-11-12) asked for our figures on the published scales and for the Fig. 4 and S2 lines; both
+are now drawn and compared (Fig. 4: 45 and 30 fields, S2: 141, all matching). The reviewer accepted the
+VI-CutS average of Sec. 3.1 (66.1 against the printed 66.0); `results.json` records the acceptance on that
+field (`accepted`). Sec. 3.2's printed 29.0% recall is excepted as a paper error (it contradicts the claim's own
+1.3% precision).
 
 ## Layout
 
@@ -64,13 +76,13 @@ slips in the paper; the consensus points differ because the forest's settings ar
 | `run_skyriver.sbatch` | The Nextflow head as a Slurm job on Skyriver (BCM) |
 | `requirements.txt` | Pinned Python packages |
 | `results_notes.json` | Labels, sources, assumptions and causes, written by hand |
-| `results.json` | The repository's results-check file (971 values; `pipeline/make_results_check.py`) |
+| `results.json` | The repository's results-check file (1,081 values; `pipeline/make_results_check.py`) |
 | `pipeline/fetch_inputs.sh` | Downloads with SHA-256 checks |
 | `pipeline/run_mcl.sh` | MCL clusterings of both networks |
 | `pipeline/analysis.py` | The rerun and every number of the paper |
 | `pipeline/consensus.py` | The consensus Random Forest (Weka) |
 | `pipeline/read_published.py`, `pdfvec.py` | Values of the published figures from the PDFs |
-| `pipeline/compare.py`, `render.py` | Fields for `results.json`; renders and overlays |
+| `pipeline/compare.py`, `render.py` | Fields for `results.json`; renders on the published axes (same pixel size, axes box, limits and ticks) and overlays |
 | `pipeline/build_results.py`, `check_reproduction.py`, `build_page.py` | `results.json`, the check, the results page |
 | `pipeline/check_results.py`, `compare_runs.py`, `check_package.py` | Copies of the Paper2Repro checkers |
 | `published/` | The published figures and their crop boxes |

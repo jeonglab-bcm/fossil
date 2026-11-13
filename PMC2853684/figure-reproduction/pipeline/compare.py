@@ -18,6 +18,11 @@ import math
 import sys
 
 
+# Lines of Figs 4 and S2 are measured from the vector polylines, not printed: their vertices are
+# stored to 0.001 pt (about 1e-5 in F1 units), so slope and intercept are compared within 1e-4.
+LINE_TOL = {"abs": 1e-4}
+
+
 def s1(x):
     return None if x is None else f"{x:.1f}"
 
@@ -251,6 +256,10 @@ def main(argv):
         f += [field(f"bin {labels[k][i]}, bar height", f"{bar['height']:.3f}", f"{ours['bars'][i]:.3f}") for i, bar in enumerate(pub[k]["bars"])]
         f += [field(f"bin {labels[k][i]}, error bar half-length", f"{(e['high'] - e['low']) / 2:.3f}",
                     f"{ours['spreads']['var_values'][i]:.3f}") for i, e in enumerate(pub[k]["errorbars"])]
+        for m, line in pub[k]["lines"].items():
+            fit = ours["fits"][m]
+            f.append(field(f"{m} least-squares line, slope", f"{line['slope']:.4f}", f"{fit['slope']:.5f}", tolerance=LINE_TOL))
+            f.append(field(f"{m} least-squares line, intercept", f"{line['intercept']:.4f}", f"{fit['intercept']:.5f}", tolerance=LINE_TOL))
         out[k] = {"values": {"tolerance": {"printed": True}, "fields": f}}
     f = []
     for panel, vals in pub["figS2"].items():
@@ -268,6 +277,21 @@ def main(argv):
     for panel, vals in s2_legend.items():
         for m, v in vals.items():
             f.append(field(f"{panel.replace('_', ' ')}, {m} legend value (Pearson r)", v, f"{a['figS2']['r'][panel][m]:.2f}"))
+    for panel, lines in pub["figS2"]["_lines"].items():
+        p = panel.replace("_", " ")
+        for m, line in lines.items():
+            fit = a["figS2"]["fits"][panel][m]
+            f.append(field(f"{p}, {m} least-squares line, slope", f"{line['slope']:.4f}", f"{fit['slope']:.5f}", tolerance=LINE_TOL))
+            f.append(field(f"{p}, {m} least-squares line, intercept", f"{line['intercept']:.4f}", f"{fit['intercept']:.5f}", tolerance=LINE_TOL))
+            f.append(field(f"{p}, {m} line, diseases drawn", str(line["vertices"]), str(fit["n"])))
+    for panel, errs in pub["figS2"]["_errorbars"].items():
+        p = panel.replace("_", " ")
+        centres = [(x0 + x1) / 2 for x0, x1 in pub["figS2"]["_x"][panel]]
+        half = {min(range(len(centres)), key=lambda i: abs(centres[i] - e[0])): (e[2] - e[1]) / 2 for e in errs}
+        lab = labels["fig4a" if panel.startswith("a") else "fig4b"]
+        for i, v in enumerate(a["figS2"]["variance"][panel]):
+            # a bin without a drawn error bar has zero spread (every value the same)
+            f.append(field(f"{p}, bin {lab[i]}, error bar half-length", f"{half.get(i, 0.0):.3f}", f"{(v or 0.0):.3f}"))
     f.append(field("caption: average precision at homophily 60-69% (about, %)", "95", f"{100 * a['figS2']['a_precision'][6]:.0f}"))
     out["figS2"] = {"values": {"tolerance": {"printed": True}, "fields": f}}
 

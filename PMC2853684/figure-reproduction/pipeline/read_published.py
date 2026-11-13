@@ -197,6 +197,42 @@ def _errorbars(ps, box, bars):
     return sorted(set(out))
 
 
+FIVE = ["Neighborhood", "GS-All", "VI-CutL", "RW", "Prop"]  # legend order, which is the drawing order
+
+
+def fit_lines(ps, width, box, to_data, slack=40.0):
+    """The five least-squares lines of a homophily panel, in drawing order (= legend order).
+
+    matplotlib draws each as a polyline through the fitted value at every disease; the publisher's
+    colour conversion drew GS-All in blue, so lines are identified by order, not colour. Returns
+    {method: {slope, intercept, vertices, x_min, x_max}} in data units.
+    """
+    import numpy as np
+
+    found = []
+    for p in ps:
+        if "op" not in p or p["op"] != "S" or abs(p["w"] - width) > 1e-3:
+            continue
+        for s in p["subs"]:
+            v = s["v"]
+            if len(v) >= 5 and extent(v) > 50 and all(
+                    box[0] - 1 <= x <= box[2] + 1 and box[1] - slack <= y <= box[3] + slack for x, y in v):
+                found.append(v)
+    out = {}
+    for m, v in zip(FIVE, found):
+        xy = np.array([to_data(x, y) for x, y in v])
+        slope, icpt = np.polyfit(xy[:, 0], xy[:, 1], 1)
+        out[m] = {"slope": round(float(slope), 5), "intercept": round(float(icpt), 5), "vertices": len(v),
+                  "x_min": round(float(xy[:, 0].min()), 4), "x_max": round(float(xy[:, 0].max()), 4)}
+    return out
+
+
+# x calibration of Figure 4 (bar index axis): homophily h is drawn at x = 10 h (panel a, bars of
+# width 0.8 at 0, 1, ..., 9); pairwise distance d at x = d - 1 (panel b, bars of width 0.5). One x
+# unit is the spacing of the bars (18.667 pt in panel a, 37.335 pt in panel b).
+FIG4_X = {"fig4a": (407.922, None, lambda x: x / 10), "fig4b": (411.272, None, lambda x: x + 1)}
+
+
 def fig4(main_pdf, axes):
     """Bars (mean F1 per homophily bin), error bars and fitted lines of Figure 4a and 4b."""
     ps = paths(stream_of(main_pdf, 4))
@@ -206,18 +242,13 @@ def fig4(main_pdf, axes):
         box = ax["box"]
         bars = _bars(ps, BAR_FILL_MAIN, box)
         errs = _errorbars(ps, box, bars)
-        lines = _lines(ps, FIG4_LINE, box)
-        fx = linear_map(*ax["x"]) if "x" in ax else None
+        x0, _, measure = FIG4_X[name]
+        unit = (bars[-1][0] - bars[0][0]) / (len(bars) - 1)  # bar spacing = one x unit
         rec = {
             "bars": [{"x0": b[0], "x1": b[1], "height": round(fy(b[3]), 5)} for b in bars],
             "errorbars": [{"x": e[0], "low": round(fy(e[1]), 5), "high": round(fy(e[2]), 5)} for e in errs],
+            "lines": fit_lines(ps, 0.836, box, lambda x, y: (measure((x - x0) / unit), fy(y))),
         }
-        if fx is not None:
-            rec["lines"] = {}
-            for m, (a, b) in lines.items():
-                xa, ya, xb, yb = fx(a[0]), fy(a[1]), fx(b[0]), fy(b[1])
-                slope = (yb - ya) / (xb - xa)
-                rec["lines"][m] = {"slope": round(slope, 6), "intercept": round(ya - slope * xa, 6)}
         out[name] = rec
     return out
 
@@ -252,6 +283,21 @@ def fig_s2(supp_pdf):
         bars = sorted(set(bars))
         out[name] = [round(fy(h), 5) for _, _, h in bars]
         out.setdefault("_x", {})[name] = [[a, b] for a, b, _ in bars]
+        # panel a: homophily h at x = 72 + 446.4 h; panel b: distance d at x = 72 + 89.28 (d - 1)
+        if name.startswith("a"):
+            to_data = lambda x, y: ((x - 72.0) / 446.4, fy(y))  # noqa: E731
+        else:
+            to_data = lambda x, y: ((x - 72.0) / 89.28 + 1, fy(y))  # noqa: E731
+        out.setdefault("_lines", {})[name] = fit_lines(ps, 2.0, (72.0, 43.2, 518.4, 388.8), to_data, slack=400.0)
+        errs = []
+        for p in ps:
+            if "op" not in p or p["op"] != "S" or abs(p["w"] - 1.0) > 1e-3:
+                continue  # error bars are 1-pt vertical strokes at the bar centres
+            for s in p["subs"]:
+                v = s["v"]
+                if len(v) == 2 and abs(v[0][0] - v[1][0]) < 1e-3 and abs(v[0][1] - v[1][1]) > 0.5 and 72 < v[0][0] < 518.4:
+                    errs.append((round(v[0][0], 3), round(fy(min(v[0][1], v[1][1])), 5), round(fy(max(v[0][1], v[1][1])), 5)))
+        out.setdefault("_errorbars", {})[name] = [list(e) for e in sorted(set(errs))]
     return out
 
 

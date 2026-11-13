@@ -240,6 +240,7 @@ def homophily_figure(stats, measure, binner, nbins, diseases, methods=FIVE):
         slope, icpt = np.polyfit(x, y, 1)
         fits[m] = {
             "n": int(len(x)),
+            "x": sorted(float(v) for v in x),
             "slope": float(slope),
             "intercept": float(icpt),
             "r": float(np.corrcoef(x, y)[0, 1]),
@@ -261,15 +262,31 @@ def homophily_pr(stats, measure, binner, nbins, diseases, key, methods=FIVE):
     return out
 
 
-def homophily_pr_r(stats, measure, diseases, key, methods=FIVE):
-    """Pearson r of per-disease precision or recall on the measure (diseases the method predicts for)."""
-    r = {}
+def homophily_pr_fits(stats, measure, diseases, key, methods=FIVE):
+    """Least squares of per-disease precision or recall on the measure (diseases the method predicts
+    for), with Pearson r: the lines and legend values of Supp. Fig. S2."""
+    fits = {}
     for m in methods:
         pts = [(measure[d], stats[m][d][key]) for d in diseases if measure.get(d) is not None and stats[m][d]["predicted"] > 0]
         x = np.array([p[0] for p in pts])
         y = np.array([p[1] for p in pts], dtype=float)
-        r[m] = float(np.corrcoef(x, y)[0, 1])
-    return r
+        slope, icpt = np.polyfit(x, y, 1)
+        fits[m] = {"n": int(len(x)), "x": sorted(float(v) for v in x), "slope": float(slope), "intercept": float(icpt),
+                   "r": float(np.corrcoef(x, y)[0, 1])}
+    return fits
+
+
+def homophily_pr_var(stats, measure, binner, nbins, diseases, key, methods=FIVE):
+    """Error bars of Supp. Fig. S2: variance of the per-disease values in each bin, as Fig. 4."""
+    bins = defaultdict(list)
+    for d in diseases:
+        if measure.get(d) is not None:
+            bins[binner(measure[d])].append(d)
+    out = []
+    for b in range(nbins):
+        vals = [stats[m][d][key] for m in methods for d in bins[b] if stats[m][d]["predicted"] > 0]
+        out.append(float(np.var(vals)) if vals else None)
+    return out
 
 
 # ------------------------------------------------------------------------------------ NOLOC
@@ -562,13 +579,20 @@ def main():
         "a_recall": homophily_pr(stats, nh, bin10, 10, diseases, "recall"),
         "b_precision": homophily_pr(stats, apd, apd_bin, 5, diseases, "precision"),
         "b_recall": homophily_pr(stats, apd, apd_bin, 5, diseases, "recall"),
-        "r": {
-            "a_precision": homophily_pr_r(stats, nh, diseases, "precision"),
-            "a_recall": homophily_pr_r(stats, nh, diseases, "recall"),
-            "b_precision": homophily_pr_r(stats, apd, diseases, "precision"),
-            "b_recall": homophily_pr_r(stats, apd, diseases, "recall"),
+        "fits": {
+            "a_precision": homophily_pr_fits(stats, nh, diseases, "precision"),
+            "a_recall": homophily_pr_fits(stats, nh, diseases, "recall"),
+            "b_precision": homophily_pr_fits(stats, apd, diseases, "precision"),
+            "b_recall": homophily_pr_fits(stats, apd, diseases, "recall"),
+        },
+        "variance": {
+            "a_precision": homophily_pr_var(stats, nh, bin10, 10, diseases, "precision"),
+            "a_recall": homophily_pr_var(stats, nh, bin10, 10, diseases, "recall"),
+            "b_precision": homophily_pr_var(stats, apd, apd_bin, 5, diseases, "precision"),
+            "b_recall": homophily_pr_var(stats, apd, apd_bin, 5, diseases, "recall"),
         },
     }
+    res["figS2"]["r"] = {p: {m: f["r"] for m, f in v.items()} for p, v in res["figS2"]["fits"].items()}
     # Sec. 3.5
     correct = {m: preds[m] & c.known for m in FIVE}
     uniq = {}

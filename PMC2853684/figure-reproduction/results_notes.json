@@ -348,16 +348,17 @@
     }
    ],
    "cause": {
-    "category": "unknown",
-    "summary": "The text's VI-CutS average precision (66.0%) is not a mean we can find: over the 19 thresholds it is 66.1%, over the 7 drawn points 65.3%, over our 9 distinct points 65.5%. Three other ranges are not the extremes of the paper's own figure (exceptions).",
+    "category": "paper_error",
+    "summary": "Three Sec. 3.1 ranges are not the extremes of the paper's own Fig. 2a (exceptions). The VI-CutS average (66.0%) is unspecified: ours over all 19 thresholds is 66.1%, accepted by the reviewer; over the 7 drawn points it is 65.3% and over thresholds from 0.5 up 68.1%.",
     "evidence": [
-     "figure-reproduction/output/analysis.json (sec31_vicuts)"
+     "figure-reproduction/output/analysis.json (sec31_vicuts)",
+     "text.arithmetic"
     ],
     "hypotheses": [
      {
       "hypothesis": "Mean over the 19 thresholds.",
-      "test": "66.15% (recall 1.4%, which matches).",
-      "result": "rejected"
+      "test": "66.15% (recall 1.4%, which matches); accepted by the reviewer.",
+      "result": "supported"
      },
      {
       "hypothesis": "Mean over the points Fig. 2a draws.",
@@ -370,8 +371,19 @@
       "result": "rejected"
      }
     ],
-    "status": "open"
-   }
+    "status": "explained"
+   },
+   "accepted": [
+    {
+     "field": "VI-CutS mean precision",
+     "tolerance": {
+      "abs": 0.2
+     },
+     "by": "hyunhwan-bcm",
+     "where": "https://github.com/jeonglab-bcm/fossil/pull/56 (review of 2026-11-12: Partly -> Agrees)",
+     "reason": "The paper does not say over which thresholds it averages VI-CutS. Ours is 66.1% over all 19 thresholds (recall 1.4%, as printed); the reviewer accepts 66.1 for the printed 66.0."
+    }
+   ]
   },
   {
    "id": "text.arithmetic",
@@ -416,10 +428,11 @@
     }
    ],
    "cause": {
-    "category": "unknown",
-    "summary": "The random walks' highest recall without intervals is 37.6% (RW at theta 0.0001, the point that also gives the 1.3% lowest precision), not 29.0%. No grid gives both the printed 1.3% and 29.0%.",
+    "category": "paper_error",
+    "summary": "The printed highest recall without intervals (29.0%) is RW's recall at theta 0.0005; the printed lowest precision (1.3%) is at theta 0.0001, where recall is 37.6%, as Fig. 2a draws. The claim contradicts itself (exception); every other value matches.",
     "evidence": [
-     "figure-reproduction/output/analysis.json (noloc.curves)"
+     "figure-reproduction/output/analysis.json (noloc.curves)",
+     "Fig. 2a: RW at 37.6% recall"
     ],
     "hypotheses": [
      {
@@ -431,10 +444,22 @@
       "hypothesis": "Only RW, not Prop, is counted.",
       "test": "Highest precision would be 24.4%, not 37.1%.",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "The text quotes the recall of the second RW threshold.",
+      "test": "RW at theta 0.0005: 29.0% recall, as printed.",
+      "result": "supported"
      }
     ],
-    "status": "open"
-   }
+    "status": "explained"
+   },
+   "exceptions": [
+    {
+     "field": "random walks, highest recall",
+     "category": "paper_error",
+     "evidence": "The claim contradicts itself and the paper's Fig. 2a. Its lowest precision, 1.3%, occurs only for RW at theta 0.0001, where recall is 37.6%. Without intervals, recall equals recall with intervals (every known pair lies in an interval of its disease), and Fig. 2a draws RW at 37.6% recall at that threshold. So 1.3% and a 29.0% maximum cannot both hold; 29.0% is RW's recall at theta 0.0005."
+    }
+   ]
   },
   {
    "id": "fig3",
@@ -819,7 +844,7 @@
    ]
   ],
   "items_caption": "Every figure, table and number of the paper, with the verdict check_results.py computes from our run. Figure values are read from the vector drawings in the paper's PDF.",
-  "claims_line": "The main findings of the paper hold: random walks are the most precise single methods, the consensus is Pareto optimal, and homophilic diseases are predicted better. Three Sec. 3.1 ranges and four Supp. Table 1 scores are slips in the paper; the consensus points differ because the forest's settings are not stated.",
+  "claims_line": "The main findings of the paper hold: random walks are the most precise single methods, the consensus is Pareto optimal, and homophilic diseases are predicted better. Three Sec. 3.1 ranges, one Sec. 3.2 recall and four Supp. Table 1 scores are slips in the paper; the consensus points differ because the forest's settings are not stated.",
   "came_back": [
    [
     "The methods",
@@ -868,6 +893,10 @@
    [
     "Fig. 4 bars",
     "Only method-disease pairs with a prediction; error bars are variances."
+   ],
+   [
+    "Fig. 4 and S2 lines",
+    "Least squares through each disease with a prediction; they equal the published lines within 1e-4."
    ]
   ],
   "closing": "Dug up on 11 November 2026 from the paper's 2010 web site, as the Wayback Machine kept it."
