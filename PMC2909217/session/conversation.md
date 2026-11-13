@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-13T17:06:13+00:00 / 2026-11-13T19:08:02+00:00 |
-| Wall clock | 121.8 min |
+| Started / ended (UTC) | 2026-11-13T17:06:13+00:00 / 2026-11-13T19:25:08+00:00 |
+| Wall clock | 138.9 min |
 | Models | claude-opus-5-5 |
 | Human prompts | 4 (0 sent mid-turn) |
-| Assistant responses (API calls) | 185 + 11 in subagents |
-| Tool calls | 208 + 11 in subagents |
-| Tokens: input / cache write / cache read / output | 390 / 986,500 / 58,441,014 / 221,593 |
-| Tokens: total (incl. subagents) | 59,649,497 |
+| Assistant responses (API calls) | 197 + 11 in subagents |
+| Tool calls | 221 + 11 in subagents |
+| Tokens: input / cache write / cache read / output | 414 / 1,449,673 / 64,018,449 / 227,699 |
+| Tokens: total (incl. subagents) | 65,696,235 |
 
 ## Conversation
 
@@ -802,3 +802,49 @@ The clean-clone run passes: every output matches the committed one. Now the ledg
 - `TaskUpdate` 
 
 - `Bash` Commit ledger and push the branch
+
+- `Bash` Check for PR template and read ledger totals
+
+- `Bash` Write PR body and open the pull request
+
+- `Bash` Open the PR through the REST API
+
+- `mcp__claude-code-remote__subscribe_pr_activity` 
+
+- `Bash` List CI check runs on the PR head
+
+- `Monitor` CI check runs on fossil PR 65
+
+### Claude · 2026-11-13 19:09:08
+
+PR [jeonglab-bcm/fossil#65](https://github.com/jeonglab-bcm/fossil/pull/65) is open. I'm now waiting for its CI checks, mainly the full pipeline rerun, which takes about 13 minutes.
+
+- `ReadNotifications` 
+
+- `Bash` Post the self-review comment on the PR
+
+### Claude · 2026-11-13 19:09:26
+
+The self-review is posted. Waiting on the CI monitor.
+
+- `Bash` Show current CI check states
+
+### Claude · 2026-11-13 19:09:31
+
+The results-check and skill jobs are green. The full reproduce job is still running; the monitor will report when it finishes.
+
+- `Bash` Wait until all CI checks complete
+
+- `Bash` Wait for the CI result file
+
+### Claude · 2026-11-13 19:19:56
+
+The results check passed too. Only the full reproduce job is left.
+
+- `Bash` Wait for the reproduce job result
+
+### Claude · 2026-11-13 19:25:04
+
+All four checks are green, including the full rerun on GitHub's runner. Last steps: push the final ledger and close the self-review's open checks.
+
+- `Bash` Push final ledger and close open checks on PR
