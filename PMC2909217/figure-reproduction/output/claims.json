@@ -1,0 +1,436 @@
+{
+ "text.operating_point": {
+  "fields": [
+   {
+    "name": "Best SSL sensitivity at 1 - specificity 0.09",
+    "expected": "0.92",
+    "observed": "0.20"
+   }
+  ],
+  "detail": {
+   "curve": "unlabelled20/ssl/weighted"
+  }
+ },
+ "text.ssl_above_svm": {
+  "fields": [
+   {
+    "name": "Fig. 2: SSL at or above SVM over at least 90% of the FPR range",
+    "expected": "yes",
+    "observed": "no",
+    "share": 0.01
+   },
+   {
+    "name": "Fig. 3: SSL at or above SVM over at least 90% of the FPR range",
+    "expected": "yes",
+    "observed": "no",
+    "share": 0.0
+   },
+   {
+    "name": "Fig. 4: SSL at or above SVM over at least 90% of the FPR range",
+    "expected": "yes",
+    "observed": "no",
+    "share": 0.0
+   }
+  ]
+ },
+ "text.fig2_start": {
+  "fields": [
+   {
+    "name": "SVM above SSL at FPR up to 0.05",
+    "expected": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "SSL at or above SVM at FPR above 0.05 (90% of the range)",
+    "expected": "yes",
+    "observed": "no"
+   }
+  ]
+ },
+ "text.small_training": {
+  "fields": [
+   {
+    "name": "Fig. 4: SSL area under the ROC curve above SVM's by more than 0.05",
+    "expected": "yes",
+    "observed": "no"
+   },
+   {
+    "name": "SSL's lead over SVM larger at 80% than at 20% unlabelled",
+    "expected": "yes",
+    "observed": "no"
+   }
+  ],
+  "detail": {
+   "unlabelled20": -0.0301,
+   "unlabelled50": -0.0293,
+   "unlabelled80": -0.0328
+  }
+ },
+ "text.weighted_above_binary": {
+  "fields": [
+   {
+    "name": "Weighted FGN at or above the binary network over at least 90% of the FPR range",
+    "expected": "yes",
+    "observed": "yes",
+    "share": 0.939
+   },
+   {
+    "name": "Weighted FGN area under the ROC curve above the binary network's",
+    "expected": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text.ks_all_significant": {
+  "fields": [
+   {
+    "name": "All Table 1 P-values below 0.05",
+    "expected": "yes",
+    "observed": "no"
+   }
+  ]
+ },
+ "text.sgi_higher": {
+  "fields": [
+   {
+    "name": "SGI pairs have the higher average degree (weighted FGN)",
+    "expected": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "SGI pairs have the higher average closeness (weighted FGN)",
+    "expected": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text.weighted_p_smaller": {
+  "fields": [
+   {
+    "name": "Weighted-network P below the binary network's for all 8 characteristics",
+    "expected": "yes",
+    "observed": "no"
+   }
+  ],
+  "detail": {
+   "rows_smaller": 1
+  }
+ },
+ "text.data_counts": {
+  "fields": [
+   {
+    "name": "Tong 2004 query genes",
+    "expected": "132",
+    "observed": "125"
+   },
+   {
+    "name": "Deletion-array genes (about 4,700)",
+    "expected": "4700",
+    "observed": "4747",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "name": "Tested pairs (about 650,000)",
+    "expected": "650000",
+    "observed": "586472",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "name": "Synthetic lethal and sick interactions (about 4,000)",
+    "expected": "4000",
+    "observed": "3411",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "name": "PPI interactions",
+    "expected": "12990",
+    "observed": "13007"
+   },
+   {
+    "name": "PPI proteins",
+    "expected": "4478",
+    "observed": "3915"
+   },
+   {
+    "name": "Complex interactions (about 49,000)",
+    "expected": "49000",
+    "observed": "48129",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "name": "Expression conditions",
+    "expected": "64",
+    "observed": "54"
+   }
+  ]
+ },
+ "text.arithmetic": {
+  "all_p_below_0.05": false,
+  "p_not_below_0.05": [
+   "avg_degree/binary"
+  ],
+  "weighted_p_smaller_rows": 7,
+  "weighted_p_not_smaller": [
+   "diff_closeness"
+  ],
+  "implied_effective_n": {
+   "avg_degree/binary": 246.0,
+   "avg_degree/weighted": 5509.0,
+   "avg_closeness/binary": 5809.0,
+   "avg_closeness/weighted": 5539.0,
+   "avg_betweenness/binary": 5782.0,
+   "avg_betweenness/weighted": 5535.0,
+   "avg_clustering/binary": 5781.0,
+   "avg_clustering/weighted": 5769.0,
+   "diff_degree/binary": 5781.0,
+   "diff_degree/weighted": 5527.0,
+   "diff_closeness/binary": 5781.0,
+   "diff_closeness/weighted": 5523.0,
+   "diff_betweenness/binary": 5793.0,
+   "diff_betweenness/weighted": 5446.0,
+   "diff_clustering/binary": 5785.0,
+   "diff_clustering/weighted": 9059.0
+  },
+  "implied_effective_n_median": {
+   "binary": 5782.0,
+   "weighted": 5531.0
+  },
+  "avg_degree_binary_p_at_median_n": 4.4344579686064134e-07,
+  "binary_diff_degree_equals_diff_closeness": true,
+  "fig6_labels_match_table1": {
+   "a": {
+    "D": true,
+    "P": true
+   },
+   "b": {
+    "D": true,
+    "P": true
+   },
+   "c": {
+    "D": true,
+    "P": false
+   },
+   "d": {
+    "D": true,
+    "P": true
+   }
+  },
+  "our_effective_n": 3029.0
+ },
+ "table1": {
+  "fields": [
+   {
+    "name": "avg_degree binary D",
+    "expected": "0.0364",
+    "observed": "0.1207"
+   },
+   {
+    "name": "avg_degree binary P",
+    "expected": "0.9",
+    "observed": "6.79405e-39"
+   },
+   {
+    "name": "avg_degree weighted D",
+    "expected": "0.0261",
+    "observed": "0.0960"
+   },
+   {
+    "name": "avg_degree weighted P",
+    "expected": "0.0011",
+    "observed": "1.0079e-24"
+   },
+   {
+    "name": "avg_closeness binary D",
+    "expected": "0.0212",
+    "observed": "0.0573"
+   },
+   {
+    "name": "avg_closeness binary P",
+    "expected": "0.0108",
+    "observed": "4.35142e-09"
+   },
+   {
+    "name": "avg_closeness weighted D",
+    "expected": "0.0385",
+    "observed": "0.0213"
+   },
+   {
+    "name": "avg_closeness weighted P (x 1E-07)",
+    "expected": "1.48",
+    "observed": "1.25377e+06"
+   },
+   {
+    "name": "avg_betweenness binary D",
+    "expected": "0.0319",
+    "observed": "0.1271"
+   },
+   {
+    "name": "avg_betweenness binary P (x 1E-05)",
+    "expected": "1.55",
+    "observed": "3.98759e-38"
+   },
+   {
+    "name": "avg_betweenness weighted D",
+    "expected": "0.0529",
+    "observed": "0.0961"
+   },
+   {
+    "name": "avg_betweenness weighted P (x 1E-14)",
+    "expected": "7.05",
+    "observed": "8.51884e-11"
+   },
+   {
+    "name": "avg_clustering binary D",
+    "expected": "0.0679",
+    "observed": "0.1171"
+   },
+   {
+    "name": "avg_clustering binary P (x 1E-23)",
+    "expected": "1.41",
+    "observed": "1.22617e-13"
+   },
+   {
+    "name": "avg_clustering weighted D",
+    "expected": "0.0691",
+    "observed": "0.1163"
+   },
+   {
+    "name": "avg_clustering weighted P (x 1E-24)",
+    "expected": "2.365",
+    "observed": "3.76071e-12"
+   },
+   {
+    "name": "diff_degree binary D",
+    "expected": "0.0587",
+    "observed": "0.0468"
+   },
+   {
+    "name": "diff_degree binary P (x 1E-17)",
+    "expected": "1.00",
+    "observed": "3.24078e+11"
+   },
+   {
+    "name": "diff_degree weighted D",
+    "expected": "0.0715",
+    "observed": "0.0444"
+   },
+   {
+    "name": "diff_degree weighted P (x 1E-25)",
+    "expected": "5.71",
+    "observed": "1.24632e+20"
+   },
+   {
+    "name": "diff_closeness binary D",
+    "expected": "0.0587",
+    "observed": "0.0561"
+   },
+   {
+    "name": "diff_closeness binary P (x 1E-17)",
+    "expected": "1.00",
+    "observed": "1.02022e+09"
+   },
+   {
+    "name": "diff_closeness weighted D",
+    "expected": "0.0441",
+    "observed": "0.0427"
+   },
+   {
+    "name": "diff_closeness weighted P (x 1E-10)",
+    "expected": "9.365",
+    "observed": "309319"
+   },
+   {
+    "name": "diff_betweenness binary D",
+    "expected": "0.0313",
+    "observed": "0.0945"
+   },
+   {
+    "name": "diff_betweenness binary P (x 1E-05)",
+    "expected": "2.35",
+    "observed": "5.54848e-19"
+   },
+   {
+    "name": "diff_betweenness weighted D",
+    "expected": "0.0414",
+    "observed": "0.0903"
+   },
+   {
+    "name": "diff_betweenness weighted P (x 1E-08)",
+    "expected": "1.56",
+    "observed": "5.78922e-14"
+   },
+   {
+    "name": "diff_clustering binary D",
+    "expected": "0.0615",
+    "observed": "0.0663"
+   },
+   {
+    "name": "diff_clustering binary P (x 1E-19)",
+    "expected": "1.97",
+    "observed": "4.90206e+07"
+   },
+   {
+    "name": "diff_clustering weighted D",
+    "expected": "0.0571",
+    "observed": "0.0666"
+   },
+   {
+    "name": "diff_clustering weighted P (x 1E-26)",
+    "expected": "4.435",
+    "observed": "3.98738e+14"
+   }
+  ]
+ },
+ "fig6.labels": {
+  "fields": [
+   {
+    "name": "Fig. 6a KSStat",
+    "expected": "0.0715",
+    "observed": "0.0444"
+   },
+   {
+    "name": "Fig. 6a P-value (x 1E-25)",
+    "expected": "5.7137",
+    "observed": "1.24632e+20"
+   },
+   {
+    "name": "Fig. 6b KSStat",
+    "expected": "0.0441",
+    "observed": "0.0427"
+   },
+   {
+    "name": "Fig. 6b P-value (x 1E-10)",
+    "expected": "9.3646",
+    "observed": "309319"
+   },
+   {
+    "name": "Fig. 6c KSStat",
+    "expected": "0.0414",
+    "observed": "0.0903"
+   },
+   {
+    "name": "Fig. 6c P-value (x 1E-08)",
+    "expected": "1.1590",
+    "observed": "5.78922e-14"
+   },
+   {
+    "name": "Fig. 6d KSStat",
+    "expected": "0.0571",
+    "observed": "0.0666"
+   },
+   {
+    "name": "Fig. 6d P-value (x 1E-26)",
+    "expected": "4.4346",
+    "observed": "3.98738e+14"
+   }
+  ]
+ }
+}
