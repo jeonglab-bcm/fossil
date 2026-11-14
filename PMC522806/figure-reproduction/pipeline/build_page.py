@@ -81,6 +81,11 @@ def stamp(v, small=""):
     return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
 
 
+def reviewed(its):
+    """'on review' when a reviewer set the verdict of any of these items (their review block)."""
+    return "on review" if any((i.get("review") or {}).get("verdict") == i.get("verdict") for i in its) else ""
+
+
 def worst(vs):
     order = ["differs", "inconclusive", "partly", "agrees", "exact"]
     vs = [v for v in vs if v in order]
@@ -139,7 +144,7 @@ def main(results, figs, pub, out, tables=None):
         note = " ".join(causes)
         stations.append(
             f'<section class="station surface" id="fig-{n}" aria-labelledby="fig-{n}-head">'
-            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v)}</header>'
+            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v, reviewed(its))}</header>'
             f'<div class="stage"><div class="pair">'
             f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Figure {n} as published" width="{w}" height="{h}"></figure>'
             f'<figure class="plate"><figcaption>Our run</figcaption><img src="{osrc}" alt="Figure {n} redrawn from our run" width="{w}" height="{h}"></figure>'
@@ -154,7 +159,7 @@ def main(results, figs, pub, out, tables=None):
                 f"<li>{esc(f['name'])}: paper {esc(fmt(f['expected']))}, ours <strong>{esc(fmt(f['observed']))}</strong></li>"
                 for f in i["values"]["fields"]) + "</ul>"
         cause = (i.get("cause") or {}).get("summary", "")
-        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'], reviewed([i]))}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
     extra = (f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
              f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'

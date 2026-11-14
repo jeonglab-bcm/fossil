@@ -9,19 +9,19 @@ the pipeline calls it and holds no second copy.
 
 <!-- table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-TABLE-->
-8 exact, 2 agrees, 6 partly, 3 differs, 4 not attempted; 8 open causes.
+8 exact, 7 agrees, 1 partly, 3 differs, 4 not attempted; 8 open causes; 5 verdicts set by a reviewer.
 
 | Item | Verdict | Measure | Why |
 | --- | --- | --- | --- |
 | Table 1, the seven datasets (genes, training and test samples per class) | exact | 32 of 32 fields as printed |  |
 | Fig. 1 (flow chart) | not attempted | not attempted | A flow chart of the method; there is nothing to recompute. |
 | Fig. 2 (the three networks) | not attempted | not attempted | A diagram of the three networks; there is nothing to recompute. |
-| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | partly | 1 of 3 fields as printed | Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is likely how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every hypothesis test (only the AdaBoost control gets it right, missing another). |
-| Table 2, LOOCV on the training samples | partly | 1 of 3 fields as printed | Lung comes back (32 of 32). ALL-AML 37 of 38 against 38 (training sample 29 is wrong in both runs we made), prostate 95 of 102 against 98. Weight decay 0.1 gains one prostate sample (96); no other setting we tried moves either. |
+| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is likely how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every hypothesis test (only the AdaBoost control gets it right, missing another). |
+| Table 2, LOOCV on the training samples | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | Lung comes back (32 of 32). ALL-AML 37 of 38 against 38 (training sample 29 is wrong in both runs we made), prostate 95 of 102 against 98. Weight decay 0.1 gains one prostate sample (96); no other setting we tried moves either. |
 | Table 2, bagged decision trees and the best methods (quoted) | not attempted | not attempted | Accuracies quoted from Tan and Gilbert (2003) and other papers, not results of this paper. They stay as published in Fig. 3. |
-| Fig. 3, 'Our method' bars (test sets) | partly | 1 of 3 fields as printed | The 'Our method' bars are Table 2's test accuracies (see table2.test): lung comes back; prostate is two samples short as found and back to 33 of 34 with per-array scaling; ALL-AML is one sample short. The published bars are drawn at their labels (within 0.25 points). |
-| Table 3, LOOCV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed | DLBCL comes back (46 of 47). Ovarian 252 of 253 against 251, one sample better. Colon 54 of 62 against 57; none of eight variants moves colon above 54. |
-| Table 3, 10-fold CV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed | DLBCL comes back (45 of 47). Ovarian 251 of 253 against the printed 98.82%, which is not a whole count of 253 (250/253 = 98.81%, our third fold assignment). Colon 54 of 62 against 56 (53 to 54 over three fold assignments). |
+| Fig. 3, 'Our method' bars (test sets) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | The 'Our method' bars are Table 2's test accuracies (see table2.test): lung comes back; prostate is two samples short as found and back to 33 of 34 with per-array scaling; ALL-AML is one sample short. The published bars are drawn at their labels (within 0.25 points). |
+| Table 3, LOOCV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | DLBCL comes back (46 of 47). Ovarian 252 of 253 against 251, one sample better. Colon 54 of 62 against 57; none of eight variants moves colon above 54. |
+| Table 3, 10-fold CV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | DLBCL comes back (45 of 47). Ovarian 251 of 253 against the printed 98.82%, which is not a whole count of 253 (250/253 = 98.81%, our third fold assignment). Colon 54 of 62 against 56 (53 to 54 over three fold assignments). |
 | Table 3, other methods (quoted) | not attempted | not attempted | Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper. |
 | Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed | DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, 0.43 above its label 98.82% and close to the LOOCV 99.21% (the other bars of this figure sit up to 0.36 off their labels). |
 | Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |  |
@@ -81,7 +81,8 @@ figure-reproduction/
 │   ├── check_reproduction.py the check step
 │   ├── make_results_check.py results.json for tools/check_results.py
 │   ├── update_readmes.py     the results tables of the READMEs, from ../results.json
-│   └── check_results.py, compare_runs.py, check_package.py   copied from Paper2Repro v0.5.0
+│   ├── check_results.py      copied from tools/paper2repro (Paper2Repro's checker with reviewer verdicts)
+│   └── compare_runs.py, check_package.py   copied from Paper2Repro v0.5.0
 ├── published/                the paper's figures (CC BY 2.0), with the licence note
 └── output/                   the committed outputs of a full run (runs/ holds every held-out prediction)
 ```

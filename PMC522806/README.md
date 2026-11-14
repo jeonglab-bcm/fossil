@@ -32,19 +32,19 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC522806/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-8 exact, 2 agrees, 6 partly, 3 differs, 4 not attempted; 8 open causes.
+8 exact, 7 agrees, 1 partly, 3 differs, 4 not attempted; 8 open causes; 5 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Table 1, the seven datasets (genes, training and test samples per class) | exact | 32 of 32 fields as printed |
 | Fig. 1 (flow chart) | not attempted | not attempted |
 | Fig. 2 (the three networks) | not attempted | not attempted |
-| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | partly | 1 of 3 fields as printed |
-| Table 2, LOOCV on the training samples | partly | 1 of 3 fields as printed |
+| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
+| Table 2, LOOCV on the training samples | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
 | Table 2, bagged decision trees and the best methods (quoted) | not attempted | not attempted |
-| Fig. 3, 'Our method' bars (test sets) | partly | 1 of 3 fields as printed |
-| Table 3, LOOCV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed |
-| Table 3, 10-fold CV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed |
+| Fig. 3, 'Our method' bars (test sets) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
+| Table 3, LOOCV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
+| Table 3, 10-fold CV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
 | Table 3, other methods (quoted) | not attempted | not attempted |
 | Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed |
 | Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |
