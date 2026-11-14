@@ -35,7 +35,7 @@ the pipeline calls it and holds no second copy.
 | Discussion: random genes in place of the selected features classify worse | exact | 1 of 1 fields as printed |  |
 | Discussion: a single network on all the same features classifies worse | exact | 1 of 1 fields as printed |  |
 | Discussion and Methods: AdaBoost in place of bagging classifies worse | exact | 1 of 1 fields as printed |  |
-| Python package cfsenn and its tutorial | agrees | cfsenn 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
+| Python package cfsenn and its tutorial | agrees | cfsenn 0.1.0: wheel installed in a fresh environment and imported from it; tests 11 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 <!--/RESULTS-TABLE-->
 
 Each accuracy is a count of samples, so one sample moves the ALL-AML and prostate test sets by 2.9
