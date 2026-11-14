@@ -14,7 +14,7 @@
 // Without --full, the slow experiments (ovarian and prostate-training LOOCV, and the LOOCV
 // hypothesis tests: about 3.5 of 4.5 CPU-hours) rerun every 25th fold and take the rest from the
 // committed output/runs; the reruns must equal the committed folds. With --full every fold runs
-// (about 75 minutes on 4 cores).
+// (about 90 minutes on 4 cores).
 
 params.outdir = 'results'
 params.python = 'python3'

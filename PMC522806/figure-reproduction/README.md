@@ -98,9 +98,9 @@ nextflow run PMC522806/figure-reproduction/main.nf --outdir results
 
 This reruns every classification except the slow ones: ovarian and prostate-training LOOCV and the
 LOOCV hypothesis tests rerun every 25th fold and take the rest from `output/runs`, and the check
-step fails if a rerun fold differs from the committed one. About 14 minutes on 4 cores, downloads included. CI runs the
+step fails if a rerun fold differs from the committed one. About 18 minutes on 4 cores, downloads included. CI runs the
 same command (`.github/workflows/reproduce-pmc522806.yml`) on every change to the paper's folder.
-To rerun every fold (about 75 minutes on 4 cores; the workflow's `full` input):
+To rerun every fold (about 90 minutes on 4 cores; the workflow's `full` input):
 
 ```bash
 nextflow run PMC522806/figure-reproduction/main.nf --outdir results --full

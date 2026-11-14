@@ -2,24 +2,24 @@
   "schema": "paper2repro/session-ledger/v1",
   "session_id": "7781c509-651c-53cf-8630-acc69a04e80f",
   "transcript": "7781c509-651c-53cf-8630-acc69a04e80f.jsonl",
-  "generated_at": "2026-11-14T01:59:52+00:00",
+  "generated_at": "2026-11-14T20:53:00+00:00",
   "started_at": "2026-11-13T23:28:56+00:00",
-  "ended_at": "2026-11-14T01:59:50+00:00",
-  "wall_clock_minutes": 150.9,
+  "ended_at": "2026-11-14T20:52:59+00:00",
+  "wall_clock_minutes": 1284.0,
   "models": [
     "claude-opus-5-5"
   ],
-  "human_prompts": 15,
+  "human_prompts": 31,
   "mid_turn_prompts": 0,
-  "assistant_responses": 199,
-  "tool_calls": 214,
+  "assistant_responses": 272,
+  "tool_calls": 269,
   "tool_calls_by_name": {
-    "Bash": 163,
+    "Bash": 201,
     "Read": 19,
+    "ReadNotifications": 17,
+    "TaskUpdate": 9,
     "Write": 8,
-    "TaskUpdate": 7,
-    "TaskCreate": 4,
-    "ReadNotifications": 3,
+    "TaskCreate": 5,
     "ToolSearch": 2,
     "Monitor": 2,
     "Skill": 1,
@@ -30,12 +30,12 @@
     "mcp__claude-code-remote__subscribe_pr_activity": 1
   },
   "tokens": {
-    "input": 435,
-    "cache_creation": 392902,
-    "cache_read": 59523728,
-    "output": 167218,
-    "thinking": 43413,
-    "total": 60084283
+    "input": 615,
+    "cache_creation": 880115,
+    "cache_read": 94924075,
+    "output": 197604,
+    "thinking": 51359,
+    "total": 96002409
   },
   "subagents": {
     "transcripts": 1,
@@ -51,12 +51,12 @@
     }
   },
   "tokens_all": {
-    "input": 491,
-    "cache_creation": 529799,
-    "cache_read": 62324350,
-    "output": 184179,
-    "thinking": 52490,
-    "total": 63038819
+    "input": 671,
+    "cache_creation": 1017012,
+    "cache_read": 97724697,
+    "output": 214565,
+    "thinking": 60436,
+    "total": 98956945
   },
   "prompts": [
     {
@@ -133,6 +133,105 @@
       "at": "2026-11-14T01:59:43.574Z",
       "text": "<task-notification>\n<task-id>brja6r4se</task-id>\n<tool-use-id>toolu_01XFsHXEvPX7jRQnjpDz7ai4</tool-use-id>\n<output-file>/tmp/claude-0/-home-user-fossil/7781c509-651c-53cf-8630-acc69a04e80f/tasks/brja6r4se.output</output-file>\n<status>completed</status>\n<summary>Monitor \"CI runs on PR #76\" stream ended</summary>\n<event>Results check: completed success\nReproduce PMC522806: completed success</event>\n</task-notification>",
       "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T02:10:24.649Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>2 unread notifications (GitHub activity on a subscribed PR: 2)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T02:31:37.122Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T02:32:03.928Z",
+      "text": "<task-notification>\n<task-id>binqjk3n9</task-id>\n<tool-use-id>toolu_01Eqjk2AMcNnvVib9MvsfMbN</tool-use-id>\n<output-file>/tmp/claude-0/-home-user-fossil/7781c509-651c-53cf-8630-acc69a04e80f/tasks/binqjk3n9.output</output-file>\n<status>completed</status>\n<summary>Background command \"Wait for CI on the final head commit\" completed (exit code 0)</summary>\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T18:35:46.678Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T18:38:11.223Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T18:42:03.085Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T18:44:41.690Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>3 unread notifications (GitHub activity on a subscribed PR: 3)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T18:44:49.152Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T19:02:26.501Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T19:06:53.282Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T19:10:06.832Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T19:13:17.552Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T19:38:17.187Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T20:34:23.722Z",
+      "text": "<task-notification>\n<task-id>bgpylusub</task-id>\n<tool-use-id>toolu_01NboirW4WRJrD71x9HTw4Si</tool-use-id>\n<output-file>/tmp/claude-0/-home-user-fossil/7781c509-651c-53cf-8630-acc69a04e80f/tasks/bgpylusub.output</output-file>\n<status>completed</status>\n<summary>Background command \"Full rerun with AVX2-pinned arithmetic\" completed (exit code 0)</summary>\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T20:35:47.899Z",
+      "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-14T20:52:48.021Z",
+      "text": "<task-notification>\n<task-id>b7z424e36</task-id>\n<tool-use-id>toolu_01Kb8iDw7vpVyB5rQ4tytK1F</tool-use-id>\n<output-file>/tmp/claude-0/-home-user-fossil/7781c509-651c-53cf-8630-acc69a04e80f/tasks/b7z424e36.output</output-file>\n<status>completed</status>\n<summary>Background command \"Exact CI command from clean clone\" completed (exit code 0)</summary>\n</task-notification>",
+      "mid_turn": false
     }
-  ]
+  ],
+  "cost_state": {
+    "totalCostUSD": 19.649131000000004,
+    "totalDuration": 9797409,
+    "totalAPIDuration": 1906445,
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 997,
+        "outputTokens": 170721,
+        "thinkingTokens": 46169,
+        "cacheReadInputTokens": 62802830,
+        "cacheCreationInputTokens": 510106,
+        "cacheCreationEphemeral5mInputTokens": 136897,
+        "cacheCreationEphemeral1hInputTokens": 373209,
+        "webSearchRequests": 0,
+        "costUSD": 19.649131000000004
+      }
+    },
+    "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+  }
 }

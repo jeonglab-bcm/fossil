@@ -8,12 +8,12 @@ name: Reproduce PMC522806
 # folds); Figs 3 and 4 are redrawn; check_results.py runs on the fresh results.json; the package is
 # built and tested in a fresh environment and its tutorial rerun; and the fresh run is compared with
 # the committed output/ (compare_runs.py). Started by hand with full = true, every fold reruns
-# (about 75 minutes on 4 cores).
+# (about 90 minutes on 4 cores).
 on:
   workflow_dispatch:
     inputs:
       full:
-        description: "Rerun every fold (about 75 minutes)"
+        description: "Rerun every fold (about 90 minutes)"
         type: boolean
         default: false
   pull_request:
