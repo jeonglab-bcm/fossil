@@ -35,6 +35,7 @@ FIGS = {
         "file": "figure-3.jpg",
         "ticks": {100: 119, 90: 282, 80: 443, 70: 606},
         "baseline": 606,
+        "gridlines": [119, 282, 443],
         "label_h": 19,  # height of the printed bar labels, px
         "bars": [  # (x0, x1, group, series, printed label)
             (158, 187, "ALL-AML", "bagged", "91.18"), (188, 216, "ALL-AML", "best", "97.06"),
@@ -50,6 +51,7 @@ FIGS = {
         "file": "figure-4.jpg",
         "ticks": {100: 129.5, 90: 343.5, 80: 557.5},
         "baseline": 557,
+        "gridlines": [129, 130],  # Fig. 4 draws only the 100% line; 90 and 80 are ticks
         "label_h": 27,
         "bars": [
             (149, 179, "DLBCL", "other", "96"), (180, 210, "DLBCL", "ours", "98"),
@@ -99,7 +101,7 @@ def draw(name, spec, pub_dir, acc, out_dir):
     im = Image.open(pub_dir / spec["file"]).convert("L")
     gray = np.asarray(im).astype(int)
     m, b, resid = calibration(spec["ticks"])
-    grid_rows = [int(round(r)) for r in spec["ticks"].values()]
+    grid_rows = spec["gridlines"]
     row_of = lambda v: (v - b) / m  # noqa: E731
     top_row = int(row_of(100)) - 15
     base = spec["baseline"]
@@ -135,6 +137,7 @@ def draw(name, spec, pub_dir, acc, out_dir):
         # Erase the bar and its printed label (label_h px above the bar, a little wider than it);
         # then put back what the label box covered of the neighbouring bars and the gridlines.
         d.rectangle([x0, pub_top - 1, x1 + 2, base - 1], fill=255)
+        d.rectangle([x1, pub_top - 3, x1 + 9, pub_top + 3], fill=255)  # the corner of the old top edge
         lh = spec["label_h"]
         d.rectangle([x0 - 8, pub_top - lh, x1 + 14, pub_top], fill=255)
         arr = np.asarray(pil).astype(int)
@@ -144,9 +147,24 @@ def draw(name, spec, pub_dir, acc, out_dir):
                 continue
             btop = bar_top(gray, bx0, bx1, grid_rows, top_row, base)
             c0, c1 = max(bx0, lx0), min(bx1 + 2, lx1)
+            if bx0 < x0:  # a bar to the left: stop short of our bar's columns
+                c1 = min(c1, x0)
+            else:
+                c0 = max(c0, x1 + 3)
             arr[btop - lh : pub_top + 1, c0:c1] = gray[btop - lh : pub_top + 1, c0:c1]
+        # The old bar's side edges just outside its columns, down to where a neighbouring bar starts.
+        for col in (x0 - 2, x0 - 1, x1 + 1, x1 + 2, x1 + 3):
+            stop = base
+            for bx0, bx1, _, bs, _ in spec["bars"]:
+                if bs != "ours" and bx0 <= col <= bx1 + 2:
+                    stop = bar_top(gray, bx0, bx1, grid_rows, top_row, base) - 1
+            if stop > pub_top - 1:
+                arr[pub_top - 1 : stop, col] = 255
+                for gr in grid_rows:  # keep the gridlines that cross these columns
+                    if pub_top - 1 <= gr < stop:
+                        arr[gr, col] = gray[gr, col - 3 if col < x0 else col + 3]
         for gr in grid_rows:
-            if pub_top - lh <= gr <= pub_top:
+            if pub_top - lh <= gr <= pub_top + 3:
                 arr[gr, x0 - 8 : x1 + 15] = gray[gr, x0 - 8 : x1 + 15]
         pil = Image.fromarray(arr.astype(np.uint8))
         d = ImageDraw.Draw(pil)

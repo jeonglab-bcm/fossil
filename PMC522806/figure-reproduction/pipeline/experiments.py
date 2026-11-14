@@ -92,6 +92,13 @@ def experiments():
     for s in SEEDS:
         E[f"hyp.scaled.test.prostate.s{s}"] = {"data": "prostate", "scheme": "test", "seed": s, "settings": {},
                                                "transform": "scale"}
+    # Array scaling on the other train/test sets and on prostate LOOCV; log2 for colon; weight decay
+    # 0.1 (which moves prostate's test set) on prostate LOOCV.
+    E["hyp.scaled.test.allaml"] = {"data": "allaml", "scheme": "test", "seed": 0, "settings": {}, "transform": "scale"}
+    for d in ("allaml", "prostate"):
+        E[f"hyp.scaled.loocv.{d}"] = {"data": d, "scheme": "loocv", "seed": 0, "settings": {}, "transform": "scale"}
+    E["hyp.alpha1e-1.loocv.prostate"] = {"data": "prostate", "scheme": "loocv", "seed": 0, "settings": {"alpha": 1e-1}}
+    E["hyp.log2.loocv.colon"] = {"data": "colon", "scheme": "loocv", "seed": 0, "settings": {}, "transform": "log2"}
     E["hyp.zerofill.loocv.dlbcl"] = {"data": "dlbcl", "scheme": "loocv", "seed": 0, "settings": {},
                                      "transform": "zerofill"}
     return E
@@ -122,7 +129,11 @@ def load(data_dir, key, transform=None):
         # Each array scaled to the same mean intensity (global scaling, as MAS5 does): a test of
         # the 10-fold intensity difference between the prostate training and test experiments.
         Xtr = Xtr / Xtr.mean(axis=1, keepdims=True) * 1000.0
-        Xte = Xte / Xte.mean(axis=1, keepdims=True) * 1000.0
+        if Xte is not None:
+            Xte = Xte / Xte.mean(axis=1, keepdims=True) * 1000.0
+    if transform == "log2":
+        # log2 of the intensities, floored at 10 (the colon values are positive intensities).
+        Xtr = np.log2(np.maximum(Xtr, 10.0))
     if transform == "zerofill":
         Xtr = np.where(np.isnan(Xtr), 0.0, Xtr)
     _CACHE[ck] = (Xtr, ytr, Xte, yte, classes)
@@ -244,6 +255,10 @@ def main():
         (out / "runs" / f"{eid}.json").write_text(json.dumps(doc, indent=0) + "\n")
         summary[eid] = dict(acc, misclassified=wrong)
         reran[eid] = "all" if len(rerun) == n else rerun
+    if a.only and (out / "accuracy.json").exists():  # a partial run adds to the earlier summary
+        old = json.loads((out / "accuracy.json").read_text())
+        summary = {**old, **summary}
+        summary = {k: summary[k] for k in experiments() if k in summary}
     (out / "accuracy.json").write_text(json.dumps(summary, indent=1) + "\n")
     # Which units this run computed (the rest came from --reuse); not compared between runs.
     (out / "reran.json").write_text(json.dumps(reran, indent=1) + "\n")

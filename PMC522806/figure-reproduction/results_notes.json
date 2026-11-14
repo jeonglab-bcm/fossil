@@ -1,367 +1,367 @@
 {
-  "paper": {
-    "id": "PMC522806",
-    "title": "A combinational feature selection and ensemble neural network method for classification of gene expression data",
-    "citation": "Liu B, Cui Q, Jiang T, Ma S. A combinational feature selection and ensemble neural network method for classification of gene expression data. BMC Bioinformatics 5:136 (2004).",
-    "doi": "10.1186/1471-2105-5-136",
-    "license": "CC BY 2.0"
+ "paper": {
+  "id": "PMC522806",
+  "title": "A combinational feature selection and ensemble neural network method for classification of gene expression data",
+  "citation": "Liu B, Cui Q, Jiang T, Ma S. A combinational feature selection and ensemble neural network method for classification of gene expression data. BMC Bioinformatics 5:136 (2004).",
+  "doi": "10.1186/1471-2105-5-136",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "pipeline": "PMC522806/figure-reproduction/main.nf",
+  "command": "nextflow run PMC522806/figure-reproduction/main.nf --outdir results"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "shared_assumptions": {
+  "training": {
+   "what": "Network training: tanh hidden units, logistic (or softmax) output, cross-entropy with weight decay 0.01, L-BFGS for at most 200 iterations, weights uniform in ±1/sqrt(fan-in), seeded. The paper gives only the architecture (one hidden layer of 10 units).",
+   "source": "our_choice",
+   "sensitivity": "Hypothesis tests hyp.alpha1e-3, hyp.alpha1e-1, hyp.iter50 and hyp.iter1000 on the ALL-AML and prostate test sets and colon LOOCV (output/accuracy.json); see the causes."
   },
-  "run": {
-    "pipeline": "PMC522806/figure-reproduction/main.nf",
-    "command": "nextflow run PMC522806/figure-reproduction/main.nf --outdir results"
+  "clustering": {
+   "what": "Jaeger's 'masked out clustering': k-means (k = 50, correlation distance) on the 500 genes with the largest Welch t, then genes taken in order of t, each masking the rest of its cluster. The paper gives only '50 clusters, then the top 30 genes by t-test'.",
+   "source": "our_choice",
+   "sensitivity": "hyp.prefilter2000 (2,000 genes clustered) on the same three runs."
   },
-  "session": {
-    "ledger": "session/ledger.json"
+  "scaling": {
+   "what": "Each feature scaled to z-scores on the bootstrap resample; PCA on centred, unscaled genes; the data used as found in the Kent Ridge 'transformed' files, as the paper says (the prostate test arrays average about 12 times the training arrays' intensity).",
+   "source": "our_choice",
+   "sensitivity": "hyp.scaled (each array scaled to the same mean intensity) on the prostate test set."
   },
-  "skill": {
-    "name": "paper2repro",
-    "version": "0.5.0",
-    "tag": "paper2repro-v0.5.0",
-    "commit": null,
-    "modified": null
+  "per_bag": {
+   "what": "Feature selection redone on every bootstrap resample (the paper: 'after obtaining the transformed resampling data, we extract and select features').",
+   "source": "paper",
+   "sensitivity": "hyp.once (features chosen once on all training samples) on the same three runs."
   },
-  "shared_assumptions": {
-    "training": {
-      "what": "Network training: tanh hidden units, logistic (or softmax) output, cross-entropy with weight decay 0.01, L-BFGS for at most 200 iterations, weights uniform in ±1/sqrt(fan-in), seeded. The paper gives only the architecture (one hidden layer of 10 units).",
-      "source": "our_choice",
-      "sensitivity": "Hypothesis tests hyp.alpha1e-3, hyp.alpha1e-1, hyp.iter50 and hyp.iter1000 on the ALL-AML and prostate test sets and colon LOOCV (output/accuracy.json); see the causes."
-    },
-    "clustering": {
-      "what": "Jaeger's 'masked out clustering': k-means (k = 50, correlation distance) on the 500 genes with the largest Welch t, then genes taken in order of t, each masking the rest of its cluster. The paper gives only '50 clusters, then the top 30 genes by t-test'.",
-      "source": "our_choice",
-      "sensitivity": "hyp.prefilter2000 (2,000 genes clustered) on the same three runs."
-    },
-    "scaling": {
-      "what": "Each feature scaled to z-scores on the bootstrap resample; PCA on centred, unscaled genes; the data used as found in the Kent Ridge 'transformed' files, as the paper says.",
-      "source": "our_choice",
-      "sensitivity": "hyp.scaled (each array scaled to the same mean intensity) on the prostate test set."
-    },
-    "per_bag": {
-      "what": "Feature selection redone on every bootstrap resample (the paper: 'after obtaining the transformed resampling data, we extract and select features').",
-      "source": "paper",
-      "sensitivity": "hyp.once (features chosen once on all training samples) on the same three runs."
-    },
-    "seeds": {
-      "what": "Seeds: our run is seed 0 (each fold seeded by its index); the paper gives none.",
-      "source": "our_choice",
-      "sensitivity": "Test sets rerun with seeds 0 to 4 (tables.json, seeds)."
-    },
-    "folds": {
-      "what": "10-fold CV folds stratified by class; our run is the first of three seeded fold assignments. The paper gives none.",
-      "source": "our_choice",
-      "sensitivity": "Three fold assignments (tables.json, folds)."
-    },
-    "missing": {
-      "what": "DLBCL has 5,978 missing values ('?'); each is filled with the gene's mean over the training samples. The paper does not mention them.",
-      "source": "our_choice",
-      "sensitivity": "hyp.zerofill (missing log ratios set to 0) on DLBCL LOOCV."
-    },
-    "multiclass": {
-      "what": "MLL (three classes): Kruskal-Wallis H and one-way F in place of the rank-sum and t tests, and three softmax outputs. The paper made 'minor adjustments to the corresponding parameters' and does not say which.",
-      "source": "our_choice",
-      "sensitivity": "Seeds 0 to 4 (tables.json, seeds)."
-    },
-    "cho_split": {
-      "what": "Cho and Won's DLBCL split: 22 training samples (11 of each class) and 25 test samples, drawn at random 20 times (seeds 1000 to 1019); the paper does not list the samples. Our bar is the mean over the 20 splits.",
-      "source": "our_choice",
-      "sensitivity": "Correct counts per split in tables.json (cho)."
-    }
+  "seeds": {
+   "what": "Seeds: our run is seed 0 (each fold seeded by its index); the paper gives none.",
+   "source": "our_choice",
+   "sensitivity": "Test sets rerun with seeds 0 to 4 (tables.json, seeds)."
   },
-  "items": [
-    {
-      "id": "table1",
-      "label": "Table 1, the seven datasets (genes, training and test samples per class)",
-      "kind": "table",
-      "source": "public_data"
-    },
-    {
-      "id": "fig1",
-      "label": "Fig. 1 (flow chart)",
-      "kind": "figure",
-      "source": "none",
-      "method": "none",
-      "cause": {
-        "category": "not_a_result",
-        "summary": "A flow chart of the method; there is nothing to recompute.",
-        "evidence": [
-          "figure-reproduction/published/figure-1.jpg"
-        ],
-        "status": "explained"
-      }
-    },
-    {
-      "id": "fig2",
-      "label": "Fig. 2 (the three networks)",
-      "kind": "figure",
-      "source": "none",
-      "method": "none",
-      "cause": {
-        "category": "not_a_result",
-        "summary": "A diagram of the three networks; there is nothing to recompute.",
-        "evidence": [
-          "figure-reproduction/published/figure-2.jpg"
-        ],
-        "status": "explained"
-      }
-    },
-    {
-      "id": "table2.test",
-      "label": "Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate)",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "table2.loocv",
-      "label": "Table 2, LOOCV on the training samples",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "table2.cited",
-      "label": "Table 2, bagged decision trees and the best methods (quoted)",
-      "kind": "table",
-      "source": "none",
-      "method": "none",
-      "cause": {
-        "category": "not_a_result",
-        "summary": "Accuracies quoted from Tan and Gilbert (2003) and other papers, not results of this paper. They stay as published in Fig. 3.",
-        "evidence": [
-          "Table 2 footnote: the row of the best methods refers to different methods in different datasets"
-        ],
-        "status": "explained"
-      }
-    },
-    {
-      "id": "fig3",
-      "label": "Fig. 3, 'Our method' bars (test sets)",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "table3.loocv",
-      "label": "Table 3, LOOCV (DLBCL, ovarian, colon)",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing"
-      ]
-    },
-    {
-      "id": "table3.cv10",
-      "label": "Table 3, 10-fold CV (DLBCL, ovarian, colon)",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing",
-        "folds"
-      ]
-    },
-    {
-      "id": "table3.cited",
-      "label": "Table 3, other methods (quoted)",
-      "kind": "table",
-      "source": "none",
-      "method": "none",
-      "cause": {
-        "category": "not_a_result",
-        "summary": "Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper.",
-        "evidence": [
-          "Table 3 footnote"
-        ],
-        "status": "explained"
-      }
-    },
-    {
-      "id": "fig4",
-      "label": "Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV)",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing",
-        "folds",
-        "cho_split"
-      ]
-    },
-    {
-      "id": "text.mll",
-      "label": "Text: MLL, 15 of 15 test samples correct",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "multiclass"
-      ]
-    },
-    {
-      "id": "text.features75",
-      "label": "Text: 75 features in all",
-      "kind": "value",
-      "source": "papers_data"
-    },
-    {
-      "id": "text.arithmetic",
-      "label": "Claims recomputed from the paper's own tables",
-      "kind": "code_check",
-      "source": "papers_data"
-    },
-    {
-      "id": "text.vs_bagging",
-      "label": "Text and Fig. 3: better than bagged decision trees on all three test sets",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "text.vs_best",
-      "label": "Text: better than the best cited method on all three test sets",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "text.prostate_loocv_lower",
-      "label": "Text: prostate LOOCV a little lower than its test accuracy",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "text.colon_vs_dettling",
-      "label": "Text: colon LOOCV better than Dettling and Buhlmann's boosting (85.48%)",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds"
-      ]
-    },
-    {
-      "id": "text.dlbcl_vs_cho",
-      "label": "Text: DLBCL on the 22/25 split better than Cho and Won's 96%",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing",
-        "cho_split"
-      ]
-    },
-    {
-      "id": "text.control_random",
-      "label": "Discussion: random genes in place of the selected features classify worse",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing"
-      ]
-    },
-    {
-      "id": "text.control_single",
-      "label": "Discussion: a single network on all the same features classifies worse",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing"
-      ]
-    },
-    {
-      "id": "text.control_adaboost",
-      "label": "Discussion and Methods: AdaBoost in place of bagging classifies worse",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "training",
-        "clustering",
-        "scaling",
-        "per_bag",
-        "seeds",
-        "missing"
-      ]
-    },
-    {
-      "id": "package",
-      "label": "Python package cfsenn and its tutorial",
-      "kind": "code_check",
-      "source": "reconstructed",
-      "outputs": [
-        "package/tutorial/TUTORIAL.md"
-      ]
-    }
-  ],
-  "page": {}
+  "folds": {
+   "what": "10-fold CV folds stratified by class; our run is the first of three seeded fold assignments. The paper gives none.",
+   "source": "our_choice",
+   "sensitivity": "Three fold assignments (tables.json, folds)."
+  },
+  "missing": {
+   "what": "DLBCL has 5,978 missing values ('?'); each is filled with the gene's mean over the training samples. The paper does not mention them.",
+   "source": "our_choice",
+   "sensitivity": "hyp.zerofill (missing log ratios set to 0) on DLBCL LOOCV."
+  },
+  "multiclass": {
+   "what": "MLL (three classes): Kruskal-Wallis H and one-way F in place of the rank-sum and t tests, and three softmax outputs. The paper made 'minor adjustments to the corresponding parameters' and does not say which.",
+   "source": "our_choice",
+   "sensitivity": "Seeds 0 to 4 (tables.json, seeds)."
+  },
+  "cho_split": {
+   "what": "Cho and Won's DLBCL split: 22 training samples (11 of each class) and 25 test samples, drawn at random 20 times (seeds 1000 to 1019); the paper does not list the samples. Our bar is the mean over the 20 splits.",
+   "source": "our_choice",
+   "sensitivity": "Correct counts per split in tables.json (cho)."
+  }
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, the seven datasets (genes, training and test samples per class)",
+   "kind": "table",
+   "source": "public_data"
+  },
+  {
+   "id": "fig1",
+   "label": "Fig. 1 (flow chart)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A flow chart of the method; there is nothing to recompute.",
+    "evidence": [
+     "figure-reproduction/published/figure-1.jpg"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2 (the three networks)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the three networks; there is nothing to recompute.",
+    "evidence": [
+     "figure-reproduction/published/figure-2.jpg"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table2.test",
+   "label": "Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "table2.loocv",
+   "label": "Table 2, LOOCV on the training samples",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "table2.cited",
+   "label": "Table 2, bagged decision trees and the best methods (quoted)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "Accuracies quoted from Tan and Gilbert (2003) and other papers, not results of this paper. They stay as published in Fig. 3.",
+    "evidence": [
+     "Table 2 footnote: the row of the best methods refers to different methods in different datasets"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, 'Our method' bars (test sets)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "table3.loocv",
+   "label": "Table 3, LOOCV (DLBCL, ovarian, colon)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "table3.cv10",
+   "label": "Table 3, 10-fold CV (DLBCL, ovarian, colon)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "folds"
+   ]
+  },
+  {
+   "id": "table3.cited",
+   "label": "Table 3, other methods (quoted)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper.",
+    "evidence": [
+     "Table 3 footnote"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "folds",
+    "cho_split"
+   ]
+  },
+  {
+   "id": "text.mll",
+   "label": "Text: MLL, 15 of 15 test samples correct",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "multiclass"
+   ]
+  },
+  {
+   "id": "text.features75",
+   "label": "Text: 75 features in all",
+   "kind": "value",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.vs_bagging",
+   "label": "Text and Fig. 3: better than bagged decision trees on all three test sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.vs_best",
+   "label": "Text: better than the best cited method on all three test sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.prostate_loocv_lower",
+   "label": "Text: prostate LOOCV a little lower than its test accuracy",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.colon_vs_dettling",
+   "label": "Text: colon LOOCV better than Dettling and Buhlmann's boosting (85.48%)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.dlbcl_vs_cho",
+   "label": "Text: DLBCL on the 22/25 split better than Cho and Won's 96%",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "cho_split"
+   ]
+  },
+  {
+   "id": "text.control_random",
+   "label": "Discussion: random genes in place of the selected features classify worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "text.control_single",
+   "label": "Discussion: a single network on all the same features classifies worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "text.control_adaboost",
+   "label": "Discussion and Methods: AdaBoost in place of bagging classifies worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "package",
+   "label": "Python package cfsenn and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {}
 }
