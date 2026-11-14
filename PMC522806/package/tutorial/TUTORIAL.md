@@ -113,15 +113,15 @@ The same run as `cfsenn TRAIN TEST -o predictions.csv`. With only a training tab
 train_path = cfsenn.example_path("example_train.csv")
 test_path = cfsenn.example_path("example_test.csv")
 !cfsenn "{train_path}" "{test_path}" -o predictions.csv
-!head -4 predictions.csv
+!cut -d, -f1-3 predictions.csv | head -4
 ```
 
 ```text
 20 of 20 correct (100.00%)
-sample,true,predicted,confidence
-1,normal,normal,0.955027
-2,normal,normal,0.920678
-3,normal,normal,0.807456
+sample,true,predicted
+1,normal,normal
+2,normal,normal
+3,normal,normal
 ```
 
 ## 6. Your own data

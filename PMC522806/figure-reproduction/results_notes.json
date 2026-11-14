@@ -492,7 +492,7 @@
    "cause": {
     "category": "undocumented_setting",
     "status": "explained",
-    "summary": "Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, as the paper says: the claim turns on the test-set scaling (see table2.test).",
+    "summary": "Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, the order the paper reports: the claim turns on the test-set scaling (see table2.test).",
     "evidence": [
      "figure-reproduction/output/runs/loocv.prostate.json",
      "figure-reproduction/output/runs/test.prostate.s0.json",
@@ -679,7 +679,7 @@
    ]
   ],
   "items_caption": "Each result of the paper, with our value and the verdict check_results.py computes from them. Accuracies are counts of samples; one sample moves a small test set by several points.",
-  "claims_line": "The main claim holds in part: our ensemble beats the bagged trees on all three test sets, and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML and falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses and the unlisted 22/25 split.",
+  "claims_line": "The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses, the unscaled prostate test arrays and the unlisted 22/25 split.",
   "came_back": [
    [
     "Table 1",

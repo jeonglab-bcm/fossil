@@ -9,6 +9,33 @@ the pipeline calls it and holds no second copy.
 
 <!-- table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-TABLE-->
+8 exact, 2 agrees, 6 partly, 3 differs, 4 not attempted; 8 open causes.
+
+| Item | Verdict | Measure | Why |
+| --- | --- | --- | --- |
+| Table 1, the seven datasets (genes, training and test samples per class) | exact | 32 of 32 fields as printed |  |
+| Fig. 1 (flow chart) | not attempted | not attempted | A flow chart of the method; there is nothing to recompute. |
+| Fig. 2 (the three networks) | not attempted | not attempted | A diagram of the three networks; there is nothing to recompute. |
+| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | partly | 1 of 3 fields as printed | Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every variant we tried. |
+| Table 2, LOOCV on the training samples | partly | 1 of 3 fields as printed | Lung comes back (32 of 32). ALL-AML 37 of 38 against 38 (training sample 29 is wrong in both runs we made), prostate 95 of 102 against 98. Weight decay 0.1 gains one prostate sample (96); no other setting we tried moves either. |
+| Table 2, bagged decision trees and the best methods (quoted) | not attempted | not attempted | Accuracies quoted from Tan and Gilbert (2003) and other papers, not results of this paper. They stay as published in Fig. 3. |
+| Fig. 3, 'Our method' bars (test sets) | partly | 1 of 3 fields as printed | The 'Our method' bars are Table 2's test accuracies (see table2.test): lung comes back; prostate is two samples short as found and back to 33 of 34 with per-array scaling; ALL-AML is one sample short. The published bars are drawn at their labels (within 0.25 points). |
+| Table 3, LOOCV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed | DLBCL comes back (46 of 47). Ovarian 252 of 253 against 251, one sample better. Colon 54 of 62 against 57; none of eight variants moves colon above 54. |
+| Table 3, 10-fold CV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed | DLBCL comes back (45 of 47). Ovarian 251 of 253 against the printed 98.82%, which is not a whole count of 253 (250/253 = 98.81%, our third fold assignment). Colon 54 of 62 against 56 (53 to 54 over three fold assignments). |
+| Table 3, other methods (quoted) | not attempted | not attempted | Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper. |
+| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed | DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, the LOOCV value, not at its label 98.82%. |
+| Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |  |
+| Text: 75 features in all | exact | 1 of 1 fields as printed |  |
+| Claims recomputed from the paper's own tables | agrees | 7 of 7 claims come back from the paper's own tables. 11 of 12 printed accuracies are whole counts of samples; not a whole count: Ovarian 98.82% of 253. Fig. 4's 98% on 25 test samples is not a whole count either (24/25 = 96, 25/25 = 100). |  |
+| Text and Fig. 3: better than bagged decision trees on all three test sets | exact | 3 of 3 fields as printed |  |
+| Text: better than the best cited method on all three test sets | partly | 2 of 3 fields as printed | Our ALL-AML test accuracy (33 of 34) equals the best cited method's 97.06% instead of beating it; lung and prostate hold. Follows table2.test. |
+| Text: prostate LOOCV a little lower than its test accuracy | differs | 0 of 1 fields as printed | Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, as the paper says: the claim turns on the test-set scaling (see table2.test). |
+| Text: colon LOOCV better than Dettling and Buhlmann's boosting (85.48%) | exact | 1 of 1 fields as printed |  |
+| Text: DLBCL on the 22/25 split better than Cho and Won's 96% | differs | 0 of 1 fields as printed | Our mean over 20 random 22/25 splits is 89.6%, below Cho and Won's 96%; see fig4. |
+| Discussion: random genes in place of the selected features classify worse | exact | 1 of 1 fields as printed |  |
+| Discussion: a single network on all the same features classifies worse | exact | 1 of 1 fields as printed |  |
+| Discussion and Methods: AdaBoost in place of bagging classifies worse | exact | 1 of 1 fields as printed |  |
+| Python package cfsenn and its tutorial | agrees | cfsenn 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 <!--/RESULTS-TABLE-->
 
 Each accuracy is a count of samples, so one sample moves the ALL-AML and prostate test sets by 2.9
@@ -18,6 +45,10 @@ page. The hypothesis tests (`hyp.*` in `output/accuracy.json`) each change one s
 gaps and are never counted as agreement.
 
 <!--CLAIMS-LINE-->
+The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses, the unscaled prostate test arrays and the unlisted 22/25 split.
+<!--/CLAIMS-LINE-->
+The main claim holds in part: our ensemble beats the bagged trees on all three test sets, and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML and falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses and the unlisted 22/25 split.
+<!--/CLAIMS-LINE-->
 
 ## What the code does, against the paper
 

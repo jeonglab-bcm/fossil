@@ -32,9 +32,40 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC522806/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
+8 exact, 2 agrees, 6 partly, 3 differs, 4 not attempted; 8 open causes.
+
+| Item | Verdict | Measure |
+| --- | --- | --- |
+| Table 1, the seven datasets (genes, training and test samples per class) | exact | 32 of 32 fields as printed |
+| Fig. 1 (flow chart) | not attempted | not attempted |
+| Fig. 2 (the three networks) | not attempted | not attempted |
+| Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate) | partly | 1 of 3 fields as printed |
+| Table 2, LOOCV on the training samples | partly | 1 of 3 fields as printed |
+| Table 2, bagged decision trees and the best methods (quoted) | not attempted | not attempted |
+| Fig. 3, 'Our method' bars (test sets) | partly | 1 of 3 fields as printed |
+| Table 3, LOOCV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed |
+| Table 3, 10-fold CV (DLBCL, ovarian, colon) | partly | 1 of 3 fields as printed |
+| Table 3, other methods (quoted) | not attempted | not attempted |
+| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed |
+| Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |
+| Text: 75 features in all | exact | 1 of 1 fields as printed |
+| Claims recomputed from the paper's own tables | agrees | 7 of 7 claims come back from the paper's own tables. 11 of 12 printed accuracies are whole counts of samples; not a whole count: Ovarian 98.82% of 253. Fig. 4's 98% on 25 test samples is not a whole count either (24/25 = 96, 25/25 = 100). |
+| Text and Fig. 3: better than bagged decision trees on all three test sets | exact | 3 of 3 fields as printed |
+| Text: better than the best cited method on all three test sets | partly | 2 of 3 fields as printed |
+| Text: prostate LOOCV a little lower than its test accuracy | differs | 0 of 1 fields as printed |
+| Text: colon LOOCV better than Dettling and Buhlmann's boosting (85.48%) | exact | 1 of 1 fields as printed |
+| Text: DLBCL on the 22/25 split better than Cho and Won's 96% | differs | 0 of 1 fields as printed |
+| Discussion: random genes in place of the selected features classify worse | exact | 1 of 1 fields as printed |
+| Discussion: a single network on all the same features classifies worse | exact | 1 of 1 fields as printed |
+| Discussion and Methods: AdaBoost in place of bagging classifies worse | exact | 1 of 1 fields as printed |
+| Python package cfsenn and its tutorial | agrees | cfsenn 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
+The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses, the unscaled prostate test arrays and the unlisted 22/25 split.
+<!--/CLAIMS-LINE-->
+The main claim holds in part: our ensemble beats the bagged trees on all three test sets, and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML and falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses and the unlisted 22/25 split.
+<!--/CLAIMS-LINE-->
 
 ## Kept local, not in the repository
 

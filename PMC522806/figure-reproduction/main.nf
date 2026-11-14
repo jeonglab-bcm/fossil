@@ -85,11 +85,13 @@ process COMPARE {
 
 process PACKAGE {
     publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path pkg  // the package folder, staged as a copy, so a change to it reruns this step
     output:
     path 'package.json'
     script:
     """
-    ${params.python} ${params.pipe}/check_package.py ${params.pkg} --json package.json || true
+    ${params.python} ${params.pipe}/check_package.py ${pkg} --json package.json || true
     test -s package.json
     """
 }
@@ -150,7 +152,7 @@ workflow {
     run = RUN(dl)
     fg = FIGURES(run.accuracy)
     cmp = COMPARE(run.accuracy, run.datasets, fg.collect())
-    pk = PACKAGE()
+    pk = PACKAGE(Channel.fromPath(params.pkg, type: 'dir'))
     res = RESULTS(cmp.comparison, pk)
     pg = PAGE(res, cmp.tables, fg.collect())
     CHECK(res, cmp.comparison, cmp.tables, pg.site, run[0], fg.mix(run.accuracy, run.datasets).flatten().collect())
