@@ -101,12 +101,13 @@ process RESULTS {
     input:
     path comparison
     path pkg
+    path notes  // results_notes.json, so an edit to it reruns this step
     output:
     path 'results.json'
     script:
     """
     ${params.python} ${params.pipe}/env_versions.py env.json
-    ${params.python} ${params.pipe}/build_results.py ${params.notes} ${comparison} results.json \
+    ${params.python} ${params.pipe}/build_results.py ${notes} ${comparison} results.json \
         --package ${pkg} --inputs ${params.pipe}/fetch_inputs.sh --env env.json --date \$(date -u +%F)
     ${params.python} ${params.pipe}/check_results.py results.json --write --root ${projectDir}/..
     """
@@ -118,6 +119,7 @@ process PAGE {
     path results
     path tables
     path 'f/*'
+    path notes
     output:
     path 'site', emit: site
     path 'report.md'
@@ -153,7 +155,8 @@ workflow {
     fg = FIGURES(run.accuracy)
     cmp = COMPARE(run.accuracy, run.datasets, fg.collect())
     pk = PACKAGE(Channel.fromPath(params.pkg, type: 'dir'))
-    res = RESULTS(cmp.comparison, pk)
-    pg = PAGE(res, cmp.tables, fg.collect())
+    notes = Channel.fromPath(params.notes)
+    res = RESULTS(cmp.comparison, pk, notes)
+    pg = PAGE(res, cmp.tables, fg.collect(), Channel.fromPath(params.notes))
     CHECK(res, cmp.comparison, cmp.tables, pg.site, run[0], fg.mix(run.accuracy, run.datasets).flatten().collect())
 }

@@ -62,9 +62,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC522806/>
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
-The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses, the unscaled prostate test arrays and the unlisted 22/25 split.
-<!--/CLAIMS-LINE-->
-The main claim holds in part: our ensemble beats the bagged trees on all three test sets, and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML and falls short of Cho and Won's DLBCL split; the causes are the one ALL-AML test sample every variant misses and the unlisted 22/25 split.
+The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are one ALL-AML test sample that every seed and hypothesis test misses, the unscaled prostate test arrays and the unlisted 22/25 split.
 <!--/CLAIMS-LINE-->
 
 ## Kept local, not in the repository

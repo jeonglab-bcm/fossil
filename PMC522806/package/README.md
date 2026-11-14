@@ -59,7 +59,7 @@ The [tutorial](tutorial/TUTORIAL.md) installs the package, runs it on the bundle
 | Missing values | the gene's training mean | our choice |
 | Resamples without two samples of every class | drawn again | our choice |
 
-Every setting is a keyword argument of `cfsenn.Ensemble`, with these defaults in `cfsenn.DEFAULTS`. `resample="adaboost"` (AdaBoost.M1 by weighted resampling), `resample="none"`, `vote="hard"`, `select_per_bag=False` and the feature sets `"random"` and `"combined"` give the variants the paper's Discussion compares.
+Every setting is a keyword argument of `cfsenn.Ensemble`, with these defaults in `cfsenn.DEFAULTS`. The paper's Discussion compares three controls: `feature_sets=["random"] * 3` (random genes), `feature_sets=["combined"], resample="none"` (one network on all 75 features) and `resample="adaboost"` (AdaBoost.M1 by weighted resampling). `vote="hard"` and `select_per_bag=False` are our own sensitivity variants.
 
 ## Licence
 

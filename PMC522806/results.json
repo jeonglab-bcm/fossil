@@ -332,7 +332,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every variant we tried.",
+        "summary": "Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is likely how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every hypothesis test (only the AdaBoost control gets it right, missing another).",
         "evidence": [
           "figure-reproduction/output/runs/test.prostate.s0.json",
           "figure-reproduction/output/runs/hyp.scaled.test.prostate.s0.json",
@@ -444,8 +444,8 @@
             "result": "inconclusive"
           },
           {
-            "hypothesis": "Seed noise",
-            "test": "The ALL-AML error is the training sample also hard for the test-set models; per-fold seeds differ by construction and the same sample fails",
+            "hypothesis": "Network training and selection settings (ALL-AML)",
+            "test": "Only the as-found run and hyp.scaled.loocv.allaml were made on ALL-AML LOOCV: both miss training sample 29; other seeds were not run on this LOOCV",
             "result": "inconclusive"
           }
         ]
@@ -844,7 +844,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, the LOOCV value, not at its label 98.82%.",
+        "summary": "DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, 0.43 above its label 98.82% and close to the LOOCV 99.21% (the other bars of this figure sit up to 0.36 off their labels).",
         "evidence": [
           "figure-reproduction/output/tables.json",
           "figure-reproduction/output/figures.json"
@@ -1139,7 +1139,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "explained",
-        "summary": "Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, as the paper says: the claim turns on the test-set scaling (see table2.test).",
+        "summary": "Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, the order the paper reports: the claim turns on the test-set scaling (see table2.test).",
         "evidence": [
           "figure-reproduction/output/runs/loocv.prostate.json",
           "figure-reproduction/output/runs/test.prostate.s0.json",

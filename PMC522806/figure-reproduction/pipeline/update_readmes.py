@@ -50,5 +50,9 @@ import json  # noqa: E402
 line = json.loads((paper / "figure-reproduction" / "results_notes.json").read_text())["page"]["claims_line"]
 for path in (paper / "README.md", paper / "figure-reproduction" / "README.md"):
     s = path.read_text()
-    s = re.sub(r"<!--CLAIMS-LINE-->.*?(<!--/CLAIMS-LINE-->|$)", "<!--CLAIMS-LINE-->\n" + line + "\n<!--/CLAIMS-LINE-->", s, count=1, flags=re.S | re.M)
+    block = "<!--CLAIMS-LINE-->\n" + line + "\n<!--/CLAIMS-LINE-->"
+    if "<!--/CLAIMS-LINE-->" in s:
+        s = re.sub(r"<!--CLAIMS-LINE-->.*?<!--/CLAIMS-LINE-->", lambda m: block, s, count=1, flags=re.S)
+    else:
+        s = s.replace("<!--CLAIMS-LINE-->", block, 1)
     path.write_text(s)
