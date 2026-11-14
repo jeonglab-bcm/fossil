@@ -1,0 +1,94 @@
+{
+"id": "test.mll.s2",
+"data": "mll",
+"scheme": "test",
+"settings": {
+"n_bags": 100,
+"n_rank": 30,
+"n_pc": 15,
+"n_clusters": 50,
+"n_cluster_genes": 30,
+"n_prefilter": 500,
+"hidden": 10,
+"alpha": 0.01,
+"maxiter": 200,
+"feature_sets": [
+"ranksum",
+"pca",
+"cluster"
+],
+"resample": "bagging",
+"vote": "soft",
+"select_per_bag": true,
+"seed": 2
+},
+"transform": null,
+"classes": [
+"ALL",
+"MLL",
+"AML"
+],
+"accuracy": {
+"correct": 15,
+"total": 15,
+"errors": 0,
+"percent": "100.00"
+},
+"misclassified": [],
+"units": [
+{
+"unit": 0,
+"held_out": [
+0,
+1,
+2,
+3,
+4,
+5,
+6,
+7,
+8,
+9,
+10,
+11,
+12,
+13,
+14
+],
+"predicted": [
+0,
+0,
+0,
+0,
+1,
+1,
+1,
+2,
+2,
+2,
+2,
+2,
+2,
+2,
+2
+],
+"confidence": [
+0.745787,
+0.887451,
+0.980725,
+0.603714,
+0.844902,
+0.808223,
+0.820337,
+0.778304,
+0.980278,
+0.927811,
+0.970256,
+0.882145,
+0.982134,
+0.974616,
+0.983056
+]
+}
+]
+}

@@ -1,0 +1,75 @@
+name: Reproduce PMC522806
+
+# Reruns the PMC522806 pipeline (Liu, Cui, Jiang and Ma 2004, combinational feature selection and
+# ensemble neural networks; the method rebuilt as the package cfsenn) and checks it: the seven Kent
+# Ridge datasets are downloaded and their SHA-256 checked; every classification is rerun except the
+# slow folds (ovarian and prostate-training LOOCV and the LOOCV hypothesis tests rerun every 25th
+# fold and take the rest from the committed output/runs; the reruns must equal the committed
+# folds); Figs 3 and 4 are redrawn; check_results.py runs on the fresh results.json; the package is
+# built and tested in a fresh environment and its tutorial rerun; and the fresh run is compared with
+# the committed output/ (compare_runs.py). Started by hand with full = true, every fold reruns
+# (about 75 minutes on 4 cores).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Rerun every fold (about 75 minutes)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC522806/figure-reproduction/**"
+      - "PMC522806/package/**"
+      - "PMC522806/results.json"
+      - ".github/workflows/reproduce-pmc522806.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC522806/figure-reproduction/**"
+      - "PMC522806/package/**"
+      - "PMC522806/results.json"
+      - ".github/workflows/reproduce-pmc522806.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 180 || 60 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Python packages
+        run: pip install -r PMC522806/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC522806/figure-reproduction/main.nf --outdir results -ansi-log false ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc522806-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

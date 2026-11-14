@@ -1,0 +1,728 @@
+{
+ "paper": {
+  "id": "PMC522806",
+  "title": "A combinational feature selection and ensemble neural network method for classification of gene expression data",
+  "citation": "Liu B, Cui Q, Jiang T, Ma S. A combinational feature selection and ensemble neural network method for classification of gene expression data. BMC Bioinformatics 5:136 (2004).",
+  "doi": "10.1186/1471-2105-5-136",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "pipeline": "PMC522806/figure-reproduction/main.nf",
+  "command": "nextflow run PMC522806/figure-reproduction/main.nf --outdir results"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "shared_assumptions": {
+  "training": {
+   "what": "Network training: tanh hidden units, logistic (or softmax) output, cross-entropy with weight decay 0.01, L-BFGS for at most 200 iterations, weights uniform in ±1/sqrt(fan-in), seeded. The paper gives only the architecture (one hidden layer of 10 units).",
+   "source": "our_choice",
+   "sensitivity": "Hypothesis tests hyp.alpha1e-3, hyp.alpha1e-1, hyp.iter50 and hyp.iter1000 on the ALL-AML and prostate test sets and colon LOOCV (output/accuracy.json); see the causes."
+  },
+  "clustering": {
+   "what": "Jaeger's 'masked out clustering': k-means (k = 50, correlation distance) on the 500 genes with the largest Welch t, then genes taken in order of t, each masking the rest of its cluster. The paper gives only '50 clusters, then the top 30 genes by t-test'.",
+   "source": "our_choice",
+   "sensitivity": "hyp.prefilter2000 (2,000 genes clustered) on the same three runs."
+  },
+  "scaling": {
+   "what": "Each feature scaled to z-scores on the bootstrap resample; PCA on centred, unscaled genes; the data used as found in the Kent Ridge 'transformed' files, as the paper says (the prostate test arrays average about 12 times the training arrays' intensity).",
+   "source": "our_choice",
+   "sensitivity": "hyp.scaled (each array scaled to the same mean intensity) on the prostate test set."
+  },
+  "per_bag": {
+   "what": "Feature selection redone on every bootstrap resample (the paper: 'after obtaining the transformed resampling data, we extract and select features').",
+   "source": "paper",
+   "sensitivity": "hyp.once (features chosen once on all training samples) on the same three runs."
+  },
+  "seeds": {
+   "what": "Seeds: our run is seed 0 (each fold seeded by its index); the paper gives none.",
+   "source": "our_choice",
+   "sensitivity": "Test sets rerun with seeds 0 to 4 (tables.json, seeds)."
+  },
+  "folds": {
+   "what": "10-fold CV folds stratified by class; our run is the first of three seeded fold assignments. The paper gives none.",
+   "source": "our_choice",
+   "sensitivity": "Three fold assignments (tables.json, folds)."
+  },
+  "missing": {
+   "what": "DLBCL has 5,978 missing values ('?'); each is filled with the gene's mean over the training samples. The paper does not mention them.",
+   "source": "our_choice",
+   "sensitivity": "hyp.zerofill (missing log ratios set to 0) on DLBCL LOOCV."
+  },
+  "multiclass": {
+   "what": "MLL (three classes): Kruskal-Wallis H and one-way F in place of the rank-sum and t tests, and three softmax outputs. The paper made 'minor adjustments to the corresponding parameters' and does not say which.",
+   "source": "our_choice",
+   "sensitivity": "Seeds 0 to 4 (tables.json, seeds)."
+  },
+  "cho_split": {
+   "what": "Cho and Won's DLBCL split: 22 training samples (11 of each class) and 25 test samples, drawn at random 20 times (seeds 1000 to 1019); the paper does not list the samples. Our bar is the mean over the 20 splits.",
+   "source": "our_choice",
+   "sensitivity": "Correct counts per split in tables.json (cho)."
+  }
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, the seven datasets (genes, training and test samples per class)",
+   "kind": "table",
+   "source": "public_data"
+  },
+  {
+   "id": "fig1",
+   "label": "Fig. 1 (flow chart)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A flow chart of the method; there is nothing to recompute.",
+    "evidence": [
+     "figure-reproduction/published/figure-1.jpg"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2 (the three networks)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the three networks; there is nothing to recompute.",
+    "evidence": [
+     "figure-reproduction/published/figure-2.jpg"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table2.test",
+   "label": "Table 2, our methods: test-set accuracy (ALL-AML, lung, prostate)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Lung comes back (149 of 149). Prostate: 31 of 34 against 33; scaling each array to the same mean intensity, a step the paper does not mention, gives exactly 33 of 34 on all five seeds, so the gap is likely how the test experiment, about 12 times brighter than the training arrays, was handled. ALL-AML: 33 of 34 against 34; the same test sample (31st in the file) is wrong in every seed and every hypothesis test (only the AdaBoost control gets it right, missing another).",
+    "evidence": [
+     "figure-reproduction/output/runs/test.prostate.s0.json",
+     "figure-reproduction/output/runs/hyp.scaled.test.prostate.s0.json",
+     "figure-reproduction/output/runs/test.allaml.s0.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The prostate test arrays (a different experiment, about 12 times the training arrays' mean intensity) need per-array scaling",
+      "test": "hyp.scaled.test.prostate.s0 to s4: each array scaled to the same mean intensity gives 33 of 34 on all five seeds, the paper's count; as found, seeds 0 to 4 give 31, 30, 31, 27, 31",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Seed noise",
+      "test": "test.allaml.s0 to s4: 33, 32, 32, 32, 33 of 34; test sample 31 (index 30) is wrong in every seed",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Network training settings",
+      "test": "weight decay 1e-3 and 1e-1, 50 and 1000 L-BFGS iterations (hyp.alpha*, hyp.iter*): 33, 29, 33, 33 of 34",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Features chosen once instead of per resample; hard instead of soft voting; 2,000 genes clustered",
+      "test": "hyp.once, hyp.hard, hyp.prefilter2000: 33 of 34 each",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Arrays on different intensity scales",
+      "test": "hyp.scaled.test.allaml: 33 of 34 (the ALL-AML train and test arrays have similar mean intensity, 626 and 576)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.loocv",
+   "label": "Table 2, LOOCV on the training samples",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Lung comes back (32 of 32). ALL-AML 37 of 38 against 38 (training sample 29 is wrong in both runs we made), prostate 95 of 102 against 98. Weight decay 0.1 gains one prostate sample (96); no other setting we tried moves either.",
+    "evidence": [
+     "figure-reproduction/output/runs/loocv.allaml.json",
+     "figure-reproduction/output/runs/loocv.prostate.json",
+     "figure-reproduction/output/runs/hyp.alpha1e-1.loocv.prostate.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Arrays on different intensity scales",
+      "test": "hyp.scaled.loocv.allaml 37 of 38, hyp.scaled.loocv.prostate 95 of 102: unchanged (inside one training set the arrays are already on one scale)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Network weight decay",
+      "test": "hyp.alpha1e-1.loocv.prostate: 96 of 102 (one more than ours, two short of the paper)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Network training and selection settings (ALL-AML)",
+      "test": "Only the as-found run and hyp.scaled.loocv.allaml were made on ALL-AML LOOCV: both miss training sample 29; other seeds were not run on this LOOCV",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.cited",
+   "label": "Table 2, bagged decision trees and the best methods (quoted)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "Accuracies quoted from Tan and Gilbert (2003) and other papers, not results of this paper. They stay as published in Fig. 3.",
+    "evidence": [
+     "Table 2 footnote: the row of the best methods refers to different methods in different datasets"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, 'Our method' bars (test sets)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The 'Our method' bars are Table 2's test accuracies (see table2.test): lung comes back; prostate is two samples short as found and back to 33 of 34 with per-array scaling; ALL-AML is one sample short. The published bars are drawn at their labels (within 0.25 points).",
+    "evidence": [
+     "figure-reproduction/output/runs/test.prostate.s0.json",
+     "figure-reproduction/output/runs/hyp.scaled.test.prostate.s0.json",
+     "figure-reproduction/output/runs/test.allaml.s0.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The prostate test arrays (a different experiment, about 12 times the training arrays' mean intensity) need per-array scaling",
+      "test": "hyp.scaled.test.prostate.s0 to s4: each array scaled to the same mean intensity gives 33 of 34 on all five seeds, the paper's count; as found, seeds 0 to 4 give 31, 30, 31, 27, 31",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Seed noise",
+      "test": "test.allaml.s0 to s4: 33, 32, 32, 32, 33 of 34; test sample 31 (index 30) is wrong in every seed",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Network training settings",
+      "test": "weight decay 1e-3 and 1e-1, 50 and 1000 L-BFGS iterations (hyp.alpha*, hyp.iter*): 33, 29, 33, 33 of 34",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Features chosen once instead of per resample; hard instead of soft voting; 2,000 genes clustered",
+      "test": "hyp.once, hyp.hard, hyp.prefilter2000: 33 of 34 each",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Arrays on different intensity scales",
+      "test": "hyp.scaled.test.allaml: 33 of 34 (the ALL-AML train and test arrays have similar mean intensity, 626 and 576)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.loocv",
+   "label": "Table 3, LOOCV (DLBCL, ovarian, colon)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "DLBCL comes back (46 of 47). Ovarian 252 of 253 against 251, one sample better. Colon 54 of 62 against 57; none of eight variants moves colon above 54.",
+    "evidence": [
+     "figure-reproduction/output/runs/loocv.dlbcl.json",
+     "figure-reproduction/output/runs/loocv.ovarian.json",
+     "figure-reproduction/output/runs/loocv.colon.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Colon: network training settings",
+      "test": "hyp.alpha1e-3, alpha1e-1, iter50, iter1000 on colon LOOCV: 54 of 62 each",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Colon: features once, hard voting, wider clustering",
+      "test": "hyp.once 53, hyp.hard 54, hyp.prefilter2000 54 of 62",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Colon: intensities on a log scale",
+      "test": "hyp.log2.loocv.colon: 54 of 62",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Ovarian: one borderline sample",
+      "test": "Our 10-fold runs miss sample 52 in every assignment, and sample 71 too: 251 of 253, the paper's LOOCV count; one sample is inside seed and fold noise",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.cv10",
+   "label": "Table 3, 10-fold CV (DLBCL, ovarian, colon)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "folds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "DLBCL comes back (45 of 47). Ovarian 251 of 253 against the printed 98.82%, which is not a whole count of 253 (250/253 = 98.81%, our third fold assignment). Colon 54 of 62 against 56 (53 to 54 over three fold assignments).",
+    "evidence": [
+     "figure-reproduction/output/runs/cv10.dlbcl.f0.json",
+     "figure-reproduction/output/runs/cv10.ovarian.f0.json",
+     "figure-reproduction/output/runs/cv10.ovarian.f2.json",
+     "figure-reproduction/output/runs/cv10.colon.f0.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Fold assignment",
+      "test": "Three assignments: DLBCL 45, 46, 45; ovarian 251, 251, 250; colon 54, 54, 53",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Colon: training and selection settings",
+      "test": "The eight colon LOOCV variants (see table3.loocv) stay at 53 to 54 of 62",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The printed ovarian value is a whole count",
+      "test": "No count of 253 gives 98.82% (250 gives 98.81, 251 gives 99.21)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.cited",
+   "label": "Table 3, other methods (quoted)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper.",
+    "evidence": [
+     "Table 3 footnote"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "folds",
+    "cho_split"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, 0.43 above its label 98.82% and close to the LOOCV 99.21% (the other bars of this figure sit up to 0.36 off their labels).",
+    "evidence": [
+     "figure-reproduction/output/tables.json",
+     "figure-reproduction/output/figures.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "A particular split",
+      "test": "20 random 11+11 splits give 18 to 25 correct of 25 (tables.json, cho)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "98% is a count of 25 test samples",
+      "test": "24/25 = 96%, 25/25 = 100%",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Colon and ovarian settings",
+      "test": "as in table3.loocv and table3.cv10",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.mll",
+   "label": "Text: MLL, 15 of 15 test samples correct",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "multiclass"
+   ]
+  },
+  {
+   "id": "text.features75",
+   "label": "Text: 75 features in all",
+   "kind": "value",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.vs_bagging",
+   "label": "Text and Fig. 3: better than bagged decision trees on all three test sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.vs_best",
+   "label": "Text: better than the best cited method on all three test sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Our ALL-AML test accuracy (33 of 34) equals the best cited method's 97.06% instead of beating it; lung and prostate hold. Follows table2.test.",
+    "evidence": [
+     "figure-reproduction/output/runs/test.allaml.s0.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Seed noise",
+      "test": "test.allaml.s0 to s4: 33, 32, 32, 32, 33 of 34; test sample 31 (index 30) is wrong in every seed",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Network training settings",
+      "test": "weight decay 1e-3 and 1e-1, 50 and 1000 L-BFGS iterations (hyp.alpha*, hyp.iter*): 33, 29, 33, 33 of 34",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.prostate_loocv_lower",
+   "label": "Text: prostate LOOCV a little lower than its test accuracy",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "Our prostate LOOCV (93.14%) is above our test accuracy as found (91.18%). With per-array scaling the test accuracy is 97.06% on all five seeds, above our LOOCV, the order the paper reports: the claim turns on the test-set scaling (see table2.test).",
+    "evidence": [
+     "figure-reproduction/output/runs/loocv.prostate.json",
+     "figure-reproduction/output/runs/test.prostate.s0.json",
+     "figure-reproduction/output/runs/hyp.scaled.test.prostate.s0.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The prostate test arrays (a different experiment, about 12 times the training arrays' mean intensity) need per-array scaling",
+      "test": "hyp.scaled.test.prostate.s0 to s4: each array scaled to the same mean intensity gives 33 of 34 on all five seeds, the paper's count; as found, seeds 0 to 4 give 31, 30, 31, 27, 31",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.colon_vs_dettling",
+   "label": "Text: colon LOOCV better than Dettling and Buhlmann's boosting (85.48%)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds"
+   ]
+  },
+  {
+   "id": "text.dlbcl_vs_cho",
+   "label": "Text: DLBCL on the 22/25 split better than Cho and Won's 96%",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing",
+    "cho_split"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Our mean over 20 random 22/25 splits is 89.6%, below Cho and Won's 96%; see fig4.",
+    "evidence": [
+     "figure-reproduction/output/tables.json",
+     "figure-reproduction/output/figures.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "A particular split",
+      "test": "20 random 11+11 splits give 18 to 25 correct of 25 (tables.json, cho)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "98% is a count of 25 test samples",
+      "test": "24/25 = 96%, 25/25 = 100%",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Colon and ovarian settings",
+      "test": "as in table3.loocv and table3.cv10",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.control_random",
+   "label": "Discussion: random genes in place of the selected features classify worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "text.control_single",
+   "label": "Discussion: a single network on all the same features classifies worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ],
+   "note": "Narrow: 310 against 313 correct. On the prostate test set the single network gets 33 of 34 against our 31, and on DLBCL LOOCV 47 against 46; it ties on ALL-AML (33) and is worse on lung (148 against 149) and colon (49 against 54)."
+  },
+  {
+   "id": "text.control_adaboost",
+   "label": "Discussion and Methods: AdaBoost in place of bagging classifies worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "training",
+    "clustering",
+    "scaling",
+    "per_bag",
+    "seeds",
+    "missing"
+   ]
+  },
+  {
+   "id": "package",
+   "label": "Python package cfsenn and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "We rebuilt the lost Matlab method from the paper and reran it on the seven Kent Ridge datasets. Of {attempted} results we tried, {exact} came back exactly, {agrees} agree, {partly} partly agree and {differs} differ.",
+  "label_rows": [
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4",
+    [
+     "fig4"
+    ]
+   ],
+   [
+    "tables",
+    "Table 1",
+    [
+     "table1"
+    ]
+   ],
+   [
+    "tables",
+    "Table 2",
+    [
+     "table2.test",
+     "table2.loocv"
+    ]
+   ],
+   [
+    "tables",
+    "Table 3",
+    [
+     "table3.loocv",
+     "table3.cv10"
+    ]
+   ],
+   [
+    "items",
+    "MLL",
+    [
+     "text.mll"
+    ]
+   ],
+   [
+    "items",
+    "Controls",
+    [
+     "text.control_random",
+     "text.control_single",
+     "text.control_adaboost"
+    ]
+   ],
+   [
+    "items",
+    "Package",
+    [
+     "package"
+    ]
+   ]
+  ],
+  "items_caption": "Each result of the paper, with our value and the verdict check_results.py computes from them. Accuracies are counts of samples; one sample moves a small test set by several points.",
+  "claims_line": "The main claim holds in part: our ensemble beats the bagged trees on all three test sets and each Discussion control classifies worse, but it only ties the best cited method on ALL-AML, its prostate LOOCV is not below its test accuracy, and it falls short of Cho and Won's DLBCL split; the causes are one ALL-AML test sample that every seed and hypothesis test misses, the unscaled prostate test arrays and the unlisted 22/25 split.",
+  "came_back": [
+   [
+    "Table 1",
+    "All seven datasets have the paper's genes and samples, class by class."
+   ],
+   [
+    "Lung and MLL",
+    "Every test sample right: 149 of 149 and 15 of 15, on every seed for MLL."
+   ],
+   [
+    "DLBCL",
+    "46 of 47 by LOOCV and 45 of 47 by 10-fold CV, as printed."
+   ],
+   [
+    "The method",
+    "cfsenn, a Python package with an executed tutorial."
+   ]
+  ],
+  "buried": [
+   "The authors' Matlab code and how they trained the networks.",
+   "How the genes were clustered for the third feature set.",
+   "The samples of Cho and Won's DLBCL split.",
+   "Why one ALL-AML test sample and three colon samples stay wrong for us."
+  ],
+  "matched_intro": "The datasets came back whole from a mirror of the lost Kent Ridge repository. Where our counts differ, they differ by one to three samples.",
+  "matched": [
+   [
+    "ALL-AML test",
+    "33 of 34 against 34"
+   ],
+   [
+    "Prostate test, as found",
+    "31 of 34 against 33"
+   ],
+   [
+    "Ovarian LOOCV",
+    "252 of 253 against 251"
+   ],
+   [
+    "Colon LOOCV",
+    "54 of 62 against 57"
+   ]
+  ],
+  "closing": "Liu and colleagues' ensemble came back from the paper alone, within three samples of every accuracy in Tables 2 and 3."
+ }
+}
