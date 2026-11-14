@@ -74,6 +74,8 @@ data, so none of it is committed; the package's example data are synthetic.
 
 ## Session
 
-The session that made this reproduction began with a request to install the Paper2Agent skills, in
-the same conversation, before the kickoff prompt; its ledger (`session/`) therefore counts that turn
-as well.
+`session/ledger.json` and `session/conversation.md` record the Claude Code session that made this
+reproduction. It began with one prompt asking to install the Paper2Agent skills, then the kickoff
+prompt; no other message was typed by a person. The ledger also counts as prompts the automated
+notifications of background runs and the Stop-hook reminders to push, and the session's container
+restarted once (the extra hypothesis tests were rerun after it).
