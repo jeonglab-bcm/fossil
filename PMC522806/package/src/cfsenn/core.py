@@ -380,6 +380,11 @@ def _params(**kw):
         raise TypeError(f"unknown settings: {sorted(unknown)}")
     p.update(kw)
     p["feature_sets"] = tuple(p["feature_sets"])
+    for key in ("n_bags", "n_rank", "n_pc", "n_clusters", "n_cluster_genes", "n_prefilter", "hidden", "maxiter"):
+        if isinstance(p[key], bool) or not isinstance(p[key], (int, np.integer)) or p[key] < 1:
+            raise ValueError(f"{key} must be a positive integer, got {p[key]!r}")
+    if not p["feature_sets"]:
+        raise ValueError("feature_sets must name at least one feature set")
     if p["resample"] not in ("bagging", "adaboost", "none"):
         raise ValueError("resample must be 'bagging', 'adaboost' or 'none'")
     if p["vote"] not in ("soft", "hard"):
@@ -453,7 +458,7 @@ class Ensemble:
             self.fill = np.where(seen > 0, total / np.maximum(seen, 1), 0.0)
         X = self._filled(X)
         p = self.p
-        seeds = np.random.SeedSequence(p["seed"]).spawn(max(p["n_bags"], 1))
+        seeds = np.random.SeedSequence(p["seed"]).spawn(p["n_bags"])
         self.members, self.weights = [], []
         n = len(y)
         # select_per_bag=False: the feature sets are chosen once, on all training samples.

@@ -35,6 +35,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if not args.train:
         ap.error("TRAIN is required")
+    if args.bags < 1:
+        ap.error(f"--bags must be at least 1, got {args.bags}")
     train = read_table(args.train)
     if args.test:
         res = run(train, read_table(args.test), n_bags=args.bags, seed=args.seed)

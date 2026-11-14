@@ -19,6 +19,10 @@ for key, it in comp.items():
             results.append({"id": f"{key}.{i}", "label": f"{key}, {f['name']} (paper {f['expected']})",
                             "file": "comparison.json", "path": f"item_list.key={key.replace('.', '_')}.values.fields.{i}.observed",
                             "expected": f["observed"]})
+    elif it.get("method") == "check":
+        results.append({"id": f"{key}.passed", "label": f"{key}, check passes",
+                        "file": "comparison.json", "path": f"item_list.key={key.replace('.', '_')}.check.passed",
+                        "expected": it["check"]["passed"]})
     elif it.get("method") == "pixels":
         for side in ("published_near_ours", "ours_near_published"):
             results.append({"id": f"{key}.{side}", "label": f"{key}, {side.replace('_', ' ')}",

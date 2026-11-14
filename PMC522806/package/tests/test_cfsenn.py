@@ -82,3 +82,15 @@ def test_too_few_samples_raise():
 def test_unknown_setting_raises():
     with pytest.raises(TypeError):
         cfsenn.Ensemble(bags=3)
+
+
+@pytest.mark.parametrize("bags", [0, -2])
+def test_nonpositive_bag_counts_raise(bags):
+    with pytest.raises(ValueError):
+        cfsenn.Ensemble(n_bags=bags)
+
+
+def test_command_line_rejects_nonpositive_bags():
+    r = subprocess.run([sys.executable, "-m", "cfsenn", str(cfsenn.example_path()), "--bags", "0"],
+                       capture_output=True, text=True)
+    assert r.returncode == 2 and "--bags must be at least 1" in r.stderr
