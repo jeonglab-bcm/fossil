@@ -103,7 +103,7 @@ score cannot settle a single bar; the values carry the comparison.
 ```bash
 pip install -r PMC2648748/figure-reproduction/requirements.txt
 sudo apt-get install r-base-core r-cran-randomforest r-cran-jsonlite r-cran-testthat r-cran-knitr r-cran-rmarkdown pandoc poppler-utils fonts-liberation
-nextflow run PMC2648748/figure-reproduction/main.nf --outdir results               # about 10 minutes
+nextflow run PMC2648748/figure-reproduction/main.nf --outdir results               # about 3 minutes on 4 cores
 nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --full        # every data set again: about 32 CPU hours
 nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --variants    # + the SWSFS and first-forest hypothesis tests, about 3 CPU hours
 ```

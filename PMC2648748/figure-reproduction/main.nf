@@ -5,7 +5,7 @@
 // Run from the repository root:
 //   nextflow run PMC2648748/figure-reproduction/main.nf --outdir results [--full] [--variants]
 //
-// Default (CI, about 10 minutes): read the published Figs 2 and 3, rerun three simulated data sets
+// Default (CI, about 3 minutes on 4 cores): read the published Figs 2 and 3, rerun three simulated data sets
 // from scratch and check them against the committed per-data-set records (output/sim), recompute
 // the power of every method and Fig. 3 from those records, draw and score both figures with their
 // negative controls, rerun the disease-model and B-statistic checks, check the package, and
