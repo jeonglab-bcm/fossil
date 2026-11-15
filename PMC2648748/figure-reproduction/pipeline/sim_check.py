@@ -2,7 +2,7 @@
 
 usage: sim_check.py SIM_DIR OUT_JSON [--rscript RSCRIPT]
 
-The full study (2,400 data sets, about 28 CPU hours) runs only with main.nf --full; a rerun in CI
+The full study (2,400 data sets, about 32 CPU hours) runs only with main.nf --full; a rerun in CI
 redraws these data sets from their seeds with sim_study.R and requires every recorded value
 (selected SNPs, out-of-bag error curve, ranks, gini, p-values, what each method found) to equal
 the committed record, apart from the run time.

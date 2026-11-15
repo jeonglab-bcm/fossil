@@ -56,7 +56,10 @@ for (rep in setdiff(first:last, done)) {
   # lr: stage 2 tests the full model (main effects and interaction) against the null model;
   # lr_int: stage 2 tests only the interaction terms, against the main-effects model
   for (meth in intersect(c("lr", "lr_int"), methods)) {
+    # "found" with stage 2 adjusted by its own number of tests; summarize.py derives the
+    # adjustment by all L(L-1)/2 and L(L-1)(L-2)/6 tests from the p-values
     lr <- stepwise_lr(d$geno, d$status, eps = 0.1, alpha = ALPHA, max_order = 3, focus = dis,
+                      stage2_correction = "tested",
                       stage2_test = if (meth == "lr") "full" else "interaction")
     kept <- attr(lr, "kept")
     m <- vapply(dis, function(s) min_p(lr, s, "p"), numeric(3))      # raw p, rows = order

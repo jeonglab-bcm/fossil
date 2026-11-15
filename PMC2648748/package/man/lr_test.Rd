@@ -2,9 +2,9 @@
 % Please edit documentation in R/comparators.R
 \name{lr_test}
 \alias{lr_test}
-\title{Likelihood-ratio test of the full logistic model for sets of SNPs}
+\title{Likelihood-ratio tests of logistic models for sets of SNPs}
 \usage{
-lr_test(geno, status, sets)
+lr_test(geno, status, sets, type = c("full", "interaction"))
 }
 \arguments{
 \item{geno}{Integer matrix of genotypes (individuals in rows, 0, 1 or 2 minor alleles).}
@@ -12,9 +12,13 @@ lr_test(geno, status, sets)
 \item{status}{1 for cases, 0 for controls.}
 
 \item{sets}{Matrix of column indices of \code{geno}, one row per test (k columns).}
+
+\item{type}{"full" or "interaction".}
 }
 \description{
-The model has a parameter for each observed genotype combination (two SNPs: main effects and
-interaction, 8 degrees of freedom when all nine combinations occur), tested against the
-intercept-only model.
+\code{type = "full"}: the model with a parameter for each observed genotype combination (two
+SNPs: main effects and interaction, 8 degrees of freedom when all nine combinations occur)
+against the intercept-only model. \code{type = "interaction"}: the same model against the
+model with main effects only (4 degrees of freedom for two SNPs, 20 for three), so only the
+interaction is tested.
 }

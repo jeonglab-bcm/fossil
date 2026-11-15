@@ -10,8 +10,9 @@ stepwise_lr(
   eps = 0.1,
   alpha = 0.05,
   max_order = 3,
-  stage2_correction = c("tested", "all"),
-  focus = NULL
+  stage2_correction = c("all", "tested"),
+  focus = NULL,
+  stage2_test = c("interaction", "full")
 )
 }
 \arguments{
@@ -25,10 +26,16 @@ stepwise_lr(
 
 \item{max_order}{Highest order tested in stage 2 (paper: 3).}
 
-\item{stage2_correction}{"tested" or "all".}
+\item{stage2_correction}{"all" (L(L-1)/2 and L(L-1)(L-2)/6) or "tested" (the number of
+stage-2 tests of each order).}
 
 \item{focus}{Optional SNP columns: only stage-2 tests that include one of them are run (faster
 when only some SNPs matter, as in a power study).}
+
+\item{stage2_test}{"interaction": only the interaction terms, against the main-effects model,
+so a locus with only a marginal effect is found in stage 1 alone (as epiMODE, by the same
+group, describes the method); "full": the full model against the null model (main effects
+and interaction together).}
 }
 \value{
 A data frame of tests (\code{order}, \code{snps}, \code{statistic}, \code{df}, \code{p},
@@ -37,8 +44,10 @@ A data frame of tests (\code{order}, \code{snps}, \code{statistic}, \code{df}, \
 \description{
 Stage 1 tests every SNP with the single-locus logistic model (2 degrees of freedom) and keeps
 the most significant fraction \code{eps}. Stage 2 tests every pair (and, as in the paper, every
-triple) of kept SNPs with the full logistic model. Single-locus results are adjusted by L; by
-default stage-2 results are adjusted by the number of stage-2 tests of each order, as in the
-two-stage strategy of Marchini et al. (2005); \code{stage2_correction = "all"} adjusts by
-L(L-1)/2 and L(L-1)(L-2)/6 instead.
+triple) of kept SNPs. Single-locus results are adjusted by L. The defaults are the reading that
+matches the paper's Fig. 2 best: stage 2 tests the interaction terms against the main-effects
+model and is adjusted by L(L-1)/2 and L(L-1)(L-2)/6, as the paper adjusts epiForest's tests.
+\code{stage2_test = "full", stage2_correction = "tested"} is the two-stage strategy of
+Marchini et al. (2005): the full model against the null model, adjusted by the number of
+stage-2 tests of each order.
 }

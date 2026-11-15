@@ -96,29 +96,32 @@ lr_test <- function(geno, status, sets, type = c("full", "interaction")) {
 #'
 #' Stage 1 tests every SNP with the single-locus logistic model (2 degrees of freedom) and keeps
 #' the most significant fraction \code{eps}. Stage 2 tests every pair (and, as in the paper, every
-#' triple) of kept SNPs with the full logistic model. Single-locus results are adjusted by L; by
-#' default stage-2 results are adjusted by the number of stage-2 tests of each order, as in the
-#' two-stage strategy of Marchini et al. (2005); \code{stage2_correction = "all"} adjusts by
-#' L(L-1)/2 and L(L-1)(L-2)/6 instead.
+#' triple) of kept SNPs. Single-locus results are adjusted by L. The defaults are the reading that
+#' matches the paper's Fig. 2 best: stage 2 tests the interaction terms against the main-effects
+#' model and is adjusted by L(L-1)/2 and L(L-1)(L-2)/6, as the paper adjusts epiForest's tests.
+#' \code{stage2_test = "full", stage2_correction = "tested"} is the two-stage strategy of
+#' Marchini et al. (2005): the full model against the null model, adjusted by the number of
+#' stage-2 tests of each order.
 #'
 #' @param geno Genotype matrix (individuals x SNPs, 0/1/2).
 #' @param status 1 for cases, 0 for controls.
 #' @param eps Fraction of SNPs kept after stage 1 (paper: 10\%).
 #' @param alpha Significance level.
 #' @param max_order Highest order tested in stage 2 (paper: 3).
-#' @param stage2_correction "tested" or "all".
+#' @param stage2_correction "all" (L(L-1)/2 and L(L-1)(L-2)/6) or "tested" (the number of
+#'   stage-2 tests of each order).
 #' @param focus Optional SNP columns: only stage-2 tests that include one of them are run (faster
 #'   when only some SNPs matter, as in a power study).
-#' @param stage2_test "full": stage 2 tests the full model against the null model (main effects
-#'   and interaction together); "interaction": only the interaction terms, against the main-effects
-#'   model, so a locus with only a marginal effect is found in stage 1 alone (as epiMODE, by the
-#'   same group, describes the method).
+#' @param stage2_test "interaction": only the interaction terms, against the main-effects model,
+#'   so a locus with only a marginal effect is found in stage 1 alone (as epiMODE, by the same
+#'   group, describes the method); "full": the full model against the null model (main effects
+#'   and interaction together).
 #' @return A data frame of tests (\code{order}, \code{snps}, \code{statistic}, \code{df}, \code{p},
 #'   \code{p_adj}, \code{reported}) with attribute \code{kept} (the stage-1 SNPs).
 #' @export
 stepwise_lr <- function(geno, status, eps = 0.1, alpha = 0.05, max_order = 3,
-                        stage2_correction = c("tested", "all"), focus = NULL,
-                        stage2_test = c("full", "interaction")) {
+                        stage2_correction = c("all", "tested"), focus = NULL,
+                        stage2_test = c("interaction", "full")) {
   stage2_correction <- match.arg(stage2_correction)
   stage2_test <- match.arg(stage2_test)
   .check_geno(geno, status)

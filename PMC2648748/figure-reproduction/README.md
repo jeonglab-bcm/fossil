@@ -60,8 +60,8 @@ score cannot settle a single bar; the values carry the comparison.
 pip install -r PMC2648748/figure-reproduction/requirements.txt
 sudo apt-get install r-base-core r-cran-randomforest r-cran-jsonlite r-cran-testthat r-cran-knitr r-cran-rmarkdown pandoc poppler-utils fonts-liberation
 nextflow run PMC2648748/figure-reproduction/main.nf --outdir results               # about 10 minutes
-nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --full        # every data set again: about 28 CPU hours
-nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --variants    # + the SWSFS hypothesis tests, about 2 CPU hours
+nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --full        # every data set again: about 32 CPU hours
+nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --variants    # + the SWSFS and first-forest hypothesis tests, about 3 CPU hours
 ```
 
 The default run rereads the published figures, reruns three data sets from scratch (one of each model) and checks

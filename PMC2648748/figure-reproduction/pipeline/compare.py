@@ -218,7 +218,7 @@ def sensitivity(pub, summ):
     by = {(s["model"], s["r2"], s["maf"]): s for s in summ["settings"]}
     out = {"fig2": {}, "fig3": {}}
     groups = {"epiforest": (0, ["epiforest"], ["epiforest_joint", "epiforest_one_way", "epiforest_bonf_candidates"]),
-              "lr": (2, ["lr"], ["lr_bonf_all", "lr_single_only", "lr_int", "lr_int_bonf_all"]),
+              "lr": (2, ["lr"], ["lr_int_tested", "lr_full_tested", "lr_full_bonf_all", "lr_single_only"]),
               "chisq": (3, ["chisq"], [])}
     for meth, (mi, prim, variants) in groups.items():
         for v in prim + variants:

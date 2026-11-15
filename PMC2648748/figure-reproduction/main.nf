@@ -11,8 +11,9 @@
 // negative controls, rerun the disease-model and B-statistic checks, check the package, and
 // compare the run with the committed outputs.
 // --full: simulate and analyse all 2,400 data sets again (3 models x 4 MAFs x 2 r^2 x 100), about
-//   28 CPU hours (7 hours on 4 cores); one task per 25 data sets.
-// --variants: also rerun the SWSFS hypothesis tests (ntree, mtry, stopping rule; about 2 CPU hours).
+//   32 CPU hours (8 hours on 4 cores); one task per 25 data sets.
+// --variants: also rerun the SWSFS and first-forest hypothesis tests (ntree, mtry, stopping rule,
+//   genotype coding; about 3 CPU hours).
 
 params.outdir = 'results'
 params.python = 'python3'
@@ -147,8 +148,14 @@ process CHECKS {
         done
       done
       ${params.python} ${params.pipe}/swsfs_summary.py sv checks/swsfs_variants.json
+      mkdir rv
+      for job in "2 0.05 1.0" "2 0.1 1.0" "3 0.05 1.0" "2 0.2 0.7"; do
+        set -- \$job
+        R_LIBS=${rlib} ${params.rscript} ${params.pipe}/rank_variants.R \$1 \$2 \$3 1 12 rv/\$1_\$2_\$3.json
+      done
+      ${params.python} ${params.pipe}/rank_summary.py rv checks/rank_variants.json ${params.committed}/sim
     else
-      cp ${params.committed}/checks/swsfs_variants.json checks/
+      cp ${params.committed}/checks/swsfs_variants.json ${params.committed}/checks/rank_variants.json checks/
     fi
     """
 }

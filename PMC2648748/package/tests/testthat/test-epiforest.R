@@ -68,3 +68,18 @@ test_that("bad input gives a clear error", {
   g[1, 1] <- NA
   expect_error(chisq_single(g, ex$status), "missing")
 })
+
+test_that("the interaction likelihood-ratio test equals glm's deviance difference", {
+  a <- factor(ex$geno[, disease[1]]); b <- factor(ex$geno[, disease[2]])
+  main <- glm(ex$status ~ a + b, family = binomial())
+  full <- glm(ex$status ~ a * b, family = binomial())
+  r <- lr_test(ex$geno, ex$status, matrix(disease, nrow = 1), type = "interaction")
+  expect_equal(r$statistic, deviance(main) - deviance(full), tolerance = 1e-6)
+  expect_equal(r$df, df.residual(main) - df.residual(full))
+  null <- glm(ex$status ~ 1, family = binomial())
+  g <- lr_test(ex$geno, ex$status, matrix(disease, nrow = 1), type = "full")
+  expect_equal(g$statistic, deviance(null) - deviance(full), tolerance = 1e-6)
+  s <- stepwise_lr(ex$geno, ex$status, focus = disease)
+  expect_true(all(disease %in% attr(s, "kept")))
+  expect_true(all(c("order", "p_adj", "reported") %in% names(s)))
+})

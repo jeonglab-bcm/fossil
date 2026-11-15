@@ -1,7 +1,8 @@
 """Reduce the simulation records to per-setting files and the figure summary.
 
 usage:
-  summarize.py reduce CHUNK_DIR SIM_DIR      JSON lines of sim_study.R -> SIM_DIR/m<model>_maf<maf>_r<r2>.json
+  summarize.py reduce CHUNK_DIR... SIM_DIR   JSON lines of sim_study.R -> SIM_DIR/m<model>_maf<maf>_r<r2>.json
+                                             (records of one data set from several passes are merged)
   summarize.py aggregate SIM_DIR SUMMARY     per-setting files -> summary.json (power, selected SNPs)
 
 Power is the share of the 100 data sets in which every disease marker is identified at
@@ -12,11 +13,13 @@ method, and the variants used to test hypotheses about unstated settings:
   test (Bonferroni over all L = 1000 markers). Variants: both markers in one reported test
   (`joint`); both reported in one-way tests (`one_way`); Bonferroni over the candidates only
   (`bonf_candidates`).
-* Stepwise logistic regression: single-locus tests adjusted by L, stage-2 tests by the number of
-  stage-2 tests of each order (Marchini et al.), stage 2 testing the full model. Variants: stage 2
-  adjusted by L(L-1)/2 and L(L-1)(L-2)/6 (`bonf_all`); single-locus tests only (`single_only`);
-  stage 2 testing only the interaction terms against the main-effects model (`lr_int`, and
-  `lr_int_bonf_all`).
+* Stepwise logistic regression: single-locus tests adjusted by L; stage 2 tests only the
+  interaction terms (against the main-effects model) and is adjusted by L(L-1)/2 and
+  L(L-1)(L-2)/6, as the paper adjusts epiForest's tests. This reading was chosen by its match to
+  the published bars among the variants: stage 2 adjusted by the number of stage-2 tests
+  (`lr_int_tested`); stage 2 testing the full model against the null model, adjusted either way
+  (`lr_full_tested`, Marchini et al.'s two-stage strategy, and `lr_full_bonf_all`); single-locus
+  tests only (`lr_single_only`).
 * Chi-squared: both disease markers significant after adjustment by L.
 """
 import glob
@@ -37,9 +40,10 @@ def key(model, maf, r2):
     return f"m{model}_maf{maf:g}_r{r2:g}"
 
 
-def reduce(chunk_dir, sim_dir):
+def reduce(chunk_dirs, sim_dir):
     rows = {}
-    for f in sorted(glob.glob(os.path.join(chunk_dir, "**", "*.jsonl"), recursive=True)):
+    files = [f for d in chunk_dirs for f in sorted(glob.glob(os.path.join(d, "**", "*.jsonl"), recursive=True))]
+    for f in files:
         for line in open(f):
             if not line.strip():
                 continue
@@ -98,7 +102,7 @@ def aggregate(sim_dir, out):
                 s = {"model": model, "maf": maf, "r2": r2, "n": len(rows), "complete": len(rows) == REPS}
                 s["power"] = {
                     "epiforest": share(rows, lambda r: all(r["ef"]["found"])),
-                    "lr": share(rows, lambda r: all(r["lr"]["found"])),
+                    "lr": share(rows, lambda r: all(lr_found_all(r, "lr_int"))),
                     "chisq": share(rows, lambda r: all(r["chisq"]["found"])),
                 }
                 s["variants"] = {
@@ -106,13 +110,16 @@ def aggregate(sim_dir, out):
                     "epiforest_one_way": share(rows, lambda r: all(r["ef"]["found_one_way"])),
                     "epiforest_bonf_candidates": share(rows, lambda r: all(r["ef"]["found_bonf_candidates"])),
                     "epiforest_in_candidates": share(rows, lambda r: all(r["ef"]["in_candidates"])),
-                    "lr_bonf_all": share(rows, lambda r: all(lr_found_all(r))),
+                    # upper bound on power if SWSFS returned the top i instead of the top i - w
+                    "epiforest_in_top_i": share(rows, lambda r: all(x <= r["ef"]["k"] + 20 for x in r["ef"]["rank"])),
+                    # ... and if it kept 46 SNPs, the published median
+                    "epiforest_in_top46": share(rows, lambda r: all(x <= 46 for x in r["ef"]["rank"])),
+                    "lr_int_tested": share(rows, lambda r: all(r["lr_int"]["found"])),
+                    "lr_full_tested": share(rows, lambda r: all(r["lr"]["found"])),
+                    "lr_full_bonf_all": share(rows, lambda r: all(lr_found_all(r, "lr"))),
                     "lr_single_only": share(rows, lambda r: all(num(p) is not None and p * L < ALPHA
                                                                 for p in r["lr"]["p1"])),
                 }
-                if all("lr_int" in r for r in rows):
-                    s["variants"]["lr_int"] = share(rows, lambda r: all(r["lr_int"]["found"]))
-                    s["variants"]["lr_int_bonf_all"] = share(rows, lambda r: all(lr_found_all(r, "lr_int")))
                 ks = [r["ef"]["k"] for r in rows]
                 s["selected"] = ks
                 s["selected_median"] = median(ks)
@@ -144,7 +151,7 @@ def aggregate(sim_dir, out):
 if __name__ == "__main__":
     cmd = sys.argv[1]
     if cmd == "reduce":
-        reduce(sys.argv[2], sys.argv[3])
+        reduce(sys.argv[2:-1], sys.argv[-1])
     elif cmd == "aggregate":
         aggregate(sys.argv[2], sys.argv[3])
     else:
