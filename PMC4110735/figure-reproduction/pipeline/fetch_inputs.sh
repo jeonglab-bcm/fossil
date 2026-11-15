@@ -28,6 +28,7 @@ FILES=(
 "GDS825.soft.gz 85b2e98ad94e9bf17f0d9921b8eb33827655cf8673b69979c2d7b67ee4f0b440 https://ftp.ncbi.nlm.nih.gov/geo/datasets/GDSnnn/GDS825/soft/GDS825.soft.gz"
 "logcho_237_4class.txt 2e753b4936f1519e15b22c4b5b3d550092237fe7af2b76020072e69194278e2e http://faculty.washington.edu/kayee/cluster/logcho_237_4class.txt"
 "normcho_237_4class.txt e543549032acd08203b56037d5b870ee6cf5f3ffc2e4789375cacddb9b641501 http://faculty.washington.edu/kayee/cluster/normcho_237_4class.txt"
+"raw_cellcycle_384_17.txt 25832b7ba17b7e0d45fe2bbb712d5d1bf6d01f3c8896fae4d187f7c3d4d0e340 http://faculty.washington.edu/kayee/cluster/raw_cellcycle_384_17.txt"
 "log_cellcycle_384_17.txt da0776b93460c1dedd8956bc3fd95cc258327ed5478422ef59a37e13aa4d7de7 http://faculty.washington.edu/kayee/cluster/log_cellcycle_384_17.txt"
 )
 if [ $GO = 1 ]; then

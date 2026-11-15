@@ -32,16 +32,59 @@
   "modified": null
  },
  "items": {
-  "fig1": {
-   "label": "Fig. 1, shifting and scaling patterns",
+  "fig1.shifting": {
+   "label": "Fig. 1, shifting patterns",
    "kind": "figure",
-   "source": "none",
-   "method": "none",
+   "source": "reconstructed",
+   "method": "pixels",
+   "threshold": 0.93,
+   "assumptions": [
+    {
+     "what": "The 30 marker values read off the figure (axes from the frame, x 0 to 6, y 0 to 65 and 0 to 90); the paper prints none",
+     "source": "read_from_figure",
+     "sensitivity": "Every value moved by one unit drops the score to 23% (shifting) and 55% (scaling); a 5% amplitude change to 84% and 89%"
+    },
+    {
+     "what": "Shifting G1 at condition 5 is under the legend; we take 49 (G2 + 30, as at the other four conditions)",
+     "source": "our_choice",
+     "sensitivity": "The legend is left out of the score, so this value is not scored"
+    },
+    {
+     "what": "Lines 1 px, markers 12 px (presentation)",
+     "source": "read_from_figure",
+     "sensitivity": "Width and marker size change only how much ink is drawn, not where the values sit"
+    }
+   ]
+  },
+  "fig1.scaling": {
+   "label": "Fig. 1, scaling patterns",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "threshold": 0.93,
+   "assumptions": [
+    {
+     "what": "The 30 marker values read off the figure (axes from the frame, x 0 to 6, y 0 to 65 and 0 to 90); the paper prints none",
+     "source": "read_from_figure",
+     "sensitivity": "Every value moved by one unit drops the score to 23% (shifting) and 55% (scaling); a 5% amplitude change to 84% and 89%"
+    },
+    {
+     "what": "Lines 1 px, markers 12 px (presentation)",
+     "source": "read_from_figure",
+     "sensitivity": "Width and marker size change only how much ink is drawn, not where the values sit"
+    }
+   ]
+  },
+  "text.fig1_patterns": {
+   "label": "GeCON captures shifting and scaling patterns (Fig. 1 and the Fig. 6 discussion)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
    "cause": {
-    "category": "not_a_result",
-    "summary": "A sketch of two kinds of pattern; it plots no data.",
+    "category": "paper_error",
+    "summary": "On Fig. 1's own shifting example GeCON at theta 0.5 does not connect G1 with G2 or G3: two of their four edges match (support exactly 0.5, not above theta). The scaling example is connected throughout.",
     "evidence": [
-     "figure-reproduction/published/fig1.jpg"
+     "figure-reproduction/output/fig1_fig6.json"
     ],
     "status": "explained"
    }
@@ -162,16 +205,110 @@
     }
    ]
   },
-  "fig6": {
-   "label": "Fig. 6, networks, profiles and heat maps of selected modules",
+  "fig6.a": {
+   "label": "Fig. 6a, GDS825 module profiles",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "threshold": 0.9,
+   "assumptions": [
+    {
+     "what": "The paper does not name its modules; each panel's module is the largest GeCON module of the standardised dataset at the best of tau 15, 20, 25 and theta 0.6, 0.7, 0.8",
+     "source": "found_by_search",
+     "sensitivity": "The neighbouring settings are the near-miss controls; their scores are in the item"
+    },
+    {
+     "what": "GDS825's 277 genes are the 277 most variable",
+     "source": "our_choice",
+     "sensitivity": "None of the 18 legible network labels is among them; drawn from the whole data set, those 18 genes span -0.6 to 2.0, the panel -4 to 2.5"
+    }
+   ],
+   "cause": {
+    "category": "data_differs",
+    "summary": "GEO's GDS825 has 4 samples, not the paper's 8, and the 18 legible network genes span -0.6 to 2.0 where the panel's lines reach -4. Random gene sets score as well as any module, so the panel cannot identify its genes in the data we have.",
+    "evidence": [
+     "figure-reproduction/output/fig1_fig6.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The panel's genes are the legible network labels",
+      "test": "Draw their 29 probes from the whole data set: 68% within 2 px against 79% to 83% for random sets of 29 probes",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The panel is a GeCON module of the 277 most variable genes",
+      "test": "9 settings; best 52%, random sets 45% to 47%",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  "fig6.b": {
+   "label": "Fig. 6b, Yeast KY module profiles",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "threshold": 0.9,
+   "assumptions": [
+    {
+     "what": "The paper does not name its modules; each panel's module is the largest GeCON module of the standardised dataset at the best of tau 15, 20, 25 and theta 0.6, 0.7, 0.8",
+     "source": "found_by_search",
+     "sensitivity": "The neighbouring settings are the near-miss controls; their scores are in the item"
+    }
+   ]
+  },
+  "fig6.c": {
+   "label": "Fig. 6c, yeast cell cycle module profiles",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "threshold": 0.93,
+   "assumptions": [
+    {
+     "what": "The paper does not name its modules; each panel's module is the largest GeCON module of the standardised dataset at the best of tau 15, 20, 25 and theta 0.6, 0.7, 0.8",
+     "source": "found_by_search",
+     "sensitivity": "The neighbouring settings are the near-miss controls; their scores are in the item"
+    },
+    {
+     "what": "The raw (unlogged) file, raw_cellcycle_384_17.txt, which matches the panel's 0 to 4000 axis",
+     "source": "our_choice",
+     "sensitivity": "The log and normalised files do not fit that axis"
+    }
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "summary": "The panel is a dense tangle of lines in about 210 x 170 px; 35 random genes reach 85% to 90%, so a module scoring 93% is only a little better than chance. The network labels are not legible.",
+    "evidence": [
+     "figure-reproduction/output/fig1_fig6.json"
+    ],
+    "status": "explained"
+   }
+  },
+  "fig6.d": {
+   "label": "Fig. 6d, sporulation module",
    "kind": "figure",
    "source": "none",
    "method": "none",
    "cause": {
-    "category": "undocumented_setting",
-    "summary": "Pictures of selected modules from the real datasets; the paper does not say which modules, which theta, or how a module was cut from the network, and gives no module's gene list except three GDS3702 modules in the text.",
+    "category": "data_unavailable",
+    "summary": "The sporulation file failed TLS verification from our runner and no archive was reachable.",
     "evidence": [
-     "figure-reproduction/published/fig6.jpg"
+     "figure-reproduction/output/table3.json"
+    ],
+    "status": "explained"
+   }
+  },
+  "fig6.e": {
+   "label": "Fig. 6e, Arabidopsis module",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The 517 x 13 Arabidopsis matrix was not found; the cited page holds a 138 x 8 example only.",
+    "evidence": [
+     "figure-reproduction/README.md"
     ],
     "status": "explained"
    }
@@ -276,7 +413,14 @@
      "source": "our_choice",
      "sensitivity": "Compares in kind only; the paper's Q values and interaction percentages are not recomputed"
     }
-   ]
+   ],
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/61#pullrequestreview-5909089873",
+    "note": "Review card \"Table 4\": Partly to Differs."
+   }
   },
   "table5": {
    "label": "Table 5, GO terms of selected modules (FuncAssociate)",
@@ -289,7 +433,14 @@
      "source": "our_choice",
      "sensitivity": "theta 0.7 finds 1 of the 7 terms, 0.8 finds 3, 0.9 finds 2 (enrich.json)"
     }
-   ]
+   ],
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/61#pullrequestreview-5909089873",
+    "note": "Review card \"Table 5\": Partly to Differs."
+   }
   },
   "text.arithmetic": {
    "label": "Claims recomputed from the paper's own Table 2",
@@ -438,6 +589,14 @@
   "lede": "In 2014 Roy, Bhattacharyya and Kalita built co-expression networks from the angles between neighbouring expression values. Their Java program is gone. We rebuilt it from the equations and reran the paper. Of {items} results, {exact} came back exactly, {agrees} agree, {partly} partly agree and {differs} differ; {not_attempted} were not attempted.",
   "label_rows": [
    [
+    "fig-1",
+    "Fig. 1, the patterns",
+    [
+     "fig1.shifting",
+     "fig1.scaling"
+    ]
+   ],
+   [
     "fig-2",
     "Fig. 2, rat profiles",
     [
@@ -477,6 +636,15 @@
     ]
    ],
    [
+    "fig-6",
+    "Fig. 6, module profiles",
+    [
+     "fig6.a",
+     "fig6.b",
+     "fig6.c"
+    ]
+   ],
+   [
     "fig-7",
     "Fig. 7, the worked example",
     [
@@ -499,6 +667,10 @@
    [
     "The method",
     "GeCON as the Python package gecon, from Eqs. (4) to (11). Fig. 7's worked example comes back exactly: 138 and 52 degrees."
+   ],
+   [
+    "Figs 1 and 6",
+    "Fig. 1's examples came back from values read off the figure. Fig. 6b's profile plot came back as a GeCON module of Yeast KY, holding 18 of the 20 legible network genes."
    ],
    [
     "Figs 2 and 3",
@@ -526,7 +698,7 @@
    "The authors' simulated DREAM3 data, their theta and tau per dataset, and how they scored a thresholded network.",
    "The yeast sporulation file (it would not download) and the 517 gene Arabidopsis matrix (never found).",
    "GeneMANIA's 2014 data and FuncAssociate, which gave Tables 4 and 5 their numbers.",
-   "Fig. 6, which shows modules the paper does not name."
+   "Fig. 6's GDS825 panel (GEO's data set has 4 samples, not 8) and its sporulation and Arabidopsis panels."
   ],
   "matched_intro": "What came back the same, and how we know.",
   "matched": [

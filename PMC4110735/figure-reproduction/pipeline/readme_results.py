@@ -12,7 +12,7 @@ res = sys.argv[1]
 md = subprocess.run([sys.executable, str(HERE / "check_results.py"), res, "--markdown", "--skip-files"],
                     capture_output=True, text=True).stdout
 table = "\n".join(l for l in md.splitlines() if l.startswith("|"))
-summary = next(l for l in md.splitlines() if "exact" in l and l.rstrip().endswith("causes."))
+summary = next(l for l in md.splitlines() if "exact" in l and "open cause" in l and not l.startswith("|"))
 R = json.loads(Path(res).read_text())
 notes = json.loads((HERE.parent / "results_notes.json").read_text())
 block = f"<!--RESULTS-->\n\n{R['summary']['items']} results. {summary}\n\n{table}\n\n{notes['page']['claims_line']}\n\n<!--/RESULTS-->"
@@ -24,8 +24,9 @@ for p in (HERE.parent.parent / "README.md", HERE.parent / "README.md"):
 
 # the row in the repository's README table: counts from the summary
 sm = R["summary"]
-status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {sm['differs']} differ, "
-          f"{sm['not_attempted']} not attempted (`results.json`): Figs 2, 3 and 7 redrawn from public data; Fig. 4 draws "
+status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, " + (f"{sm['inconclusive']} inconclusive, " if sm.get('inconclusive') else "") + f"{sm['differs']} differ, "
+          f"{sm['not_attempted']} not attempted"
+          + (f", {sm['reviewed']} set by a reviewer" if sm.get("reviewed") else "") + " (`results.json`): Figs 1, 2, 3, 6b and 7 redrawn on the published pixels; Fig. 4 draws "
           f"Table 2; GeCON rebuilt (`gecon`) ranks the DREAM pairs at chance, so the main claim does not hold; "
           f"GeneNetWeaver's simulation ported")
 top = HERE.parent.parent.parent / "README.md"

@@ -127,6 +127,8 @@ def draw_series(shape, pts, width=3, marker=None, msize=10, mwidth=2, canvas=Non
             for ang in (0, 45, 90, 135):
                 dx, dy = r * np.cos(np.radians(ang)), r * np.sin(np.radians(ang))
                 d.line([(x - dx, y - dy), (x + dx, y + dy)], fill=colour, width=mwidth)
+        elif marker == "s":
+            d.rectangle([x - r, y - r, x + r, y + r], outline=colour, width=mwidth)
         elif marker == "d":
             d.polygon([(x, y - r), (x + r, y), (x, y + r), (x - r, y)], outline=colour, width=mwidth)
     return canvas

@@ -27,13 +27,14 @@ def main():
     pv = json.load(open(paper_p))
     t2 = pv["table2"]
     dream, prof, fig4, fig5 = load(run, "dream.json"), load(run, "profiles.json"), load(run, "fig4.json"), load(run, "fig5.json")
+    f16 = load(run, "fig1_fig6.json")
     enr, claims, t3, norm = load(run, "enrich.json"), load(run, "claims.json"), load(run, "table3.json"), load(run, "normalisation.json")
     port, pkg, meta = load(run, "port_check.json"), load(run, "package.json"), load(run, "datasets.json")
     D = dream["datasets"]
     items = []
     for iid, n in notes["items"].items():
         it = {"id": iid}
-        for k in ("label", "kind", "source", "method", "assumptions", "outputs"):
+        for k in ("label", "kind", "source", "method", "assumptions", "outputs", "review"):
             if k in n:
                 it[k] = copy.deepcopy(n[k])
         if "cause" in n:
@@ -41,7 +42,23 @@ def main():
         if "cause_ref" in n:
             it["cause"] = copy.deepcopy(notes["causes"][n["cause_ref"]])
         fields = None
-        if iid in ("fig2", "fig3", "fig7"):
+        if iid.startswith("fig1.") or (iid.startswith("fig6.") and n["method"] == "pixels"):
+            fig, panel = iid.split(".")
+            p = f16[fig][panel]
+            it["pixels"] = {"tolerance_px": 2, "dpi": "1200 px wide (publisher original)",
+                            "published_near_ours": p["published_near_ours"], "ours_near_published": p["ours_near_published"],
+                            "threshold": n["threshold"], "controls": p["controls"]}
+            if fig == "fig6":
+                it["pixels"]["module"] = {"setting": p["setting"], "genes": p["genes"], "grid": p["grid"]}
+                if p.get("legible_labels"):
+                    it["pixels"]["legible_labels"] = {"in_our_module": len(p["legible_in_module"]), "in_dataset": len(p["legible_in_data"]),
+                                                      "read": len(p["legible_labels"])}
+            it["outputs"] = [f"figure-reproduction/output/figures/{fig}_ours.png", f"figure-reproduction/output/figures/{fig}_overlay.png"]
+        elif iid == "text.fig1_patterns":
+            fields = [{"name": f"GeCON connects all three {k} genes positively (theta 0.5, tau 20)", "expected": "yes",
+                       "observed": yn(f16["fig1"][k]["all_pairs_positive"])} for k in ("shifting", "scaling")]
+            it["ours"] = {k: {"pos": f16["fig1"][k]["supports_pos"], "neg": f16["fig1"][k]["supports_neg"]} for k in ("shifting", "scaling")}
+        elif iid in ("fig2", "fig3", "fig7"):
             p = prof[iid]
             it["pixels"] = {"tolerance_px": p["tolerance_px"], "dpi": "1200 px wide (publisher original)",
                             "published_near_ours": p["combined"]["published_near_ours"], "ours_near_published": p["combined"]["ours_near_published"],

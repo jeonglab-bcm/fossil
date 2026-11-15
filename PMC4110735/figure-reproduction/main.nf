@@ -7,7 +7,7 @@
 //
 // Default: download and check the inputs, simulate D1-D8 with the GNW port (one task per network),
 // score GeCON and minet's ARACNE, CLR and MRNET on all 13 datasets (Table 2), read Fig. 4's bars,
-// redraw and score Figs 2, 3 and 7, build the real-data modules and their GO enrichment (Tables 3-5),
+// redraw and score Figs 1, 2, 3, 6 (profile panels) and 7, build the real-data modules and their GO enrichment (Tables 3-5),
 // check the GNW port against the DREAM4 release, check the package, recompute the text's claims,
 // and compare the run with the committed outputs. Fig. 5 uses the committed run times.
 // --timing: measure the Fig. 5 run times again (about 10 minutes; they depend on the machine and are
@@ -90,6 +90,19 @@ process PROFILES {
     script:
     """
     PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/profile_figures.py ${downloads} ${projectDir}/published .
+    """
+}
+
+process FIG1_FIG6 {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path downloads
+    output:
+    path 'fig1_fig6.json', emit: json
+    path 'figures/*', emit: figures
+    script:
+    """
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/fig1_fig6.py ${downloads} ${projectDir}/published .
     """
 }
 
@@ -218,6 +231,7 @@ workflow {
     data = MERGE_DATA(parts.collect())
     ev = DREAM_EVAL(data.dream)
     pr = PROFILES(dl)
+    f16 = FIG1_FIG6(dl)
     f4 = FIG4(ev)
     tm = TIMING()
     f5 = FIG5(tm)
@@ -225,7 +239,7 @@ workflow {
     pc = PORT_CHECK(dl)
     cl = CLAIMS(ev, pr.json, rd.enrich, tm)
     pk = PACKAGE()
-    all = data.dream.mix(data.meta, ev, pr.json, pr.figures.flatten(), f4.json, f4.figures.flatten(), tm, f5.json,
+    all = data.dream.mix(data.meta, ev, pr.json, pr.figures.flatten(), f16.json, f16.figures.flatten(), f4.json, f4.figures.flatten(), tm, f5.json,
                          f5.figures.flatten(), rd.enrich, rd.table3, rd.norm, pc, cl, pk).collect()
     RESULTS(all)
 }

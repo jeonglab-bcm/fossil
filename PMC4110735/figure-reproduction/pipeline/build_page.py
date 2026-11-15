@@ -19,8 +19,10 @@ HERE = Path(__file__).resolve().parent
 esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
-FIGS = {"2": "fig2.", "3": "fig3.", "4": "fig4.", "5": "fig5.", "7": "fig7."}
+FIGS = {"1": "fig1.", "2": "fig2.", "3": "fig3.", "4": "fig4.", "5": "fig5.", "6": "fig6.", "7": "fig7."}
 CAPTIONS = {
+    "1": "Fig. 1. Shifting and scaling patterns: three example genes in each panel.",
+    "6": "Fig. 6. Network, profile plot and heat map of one module from each real dataset. We redraw the profile plots of (a) to (c).",
     "2": "Fig. 2. Expression of the rat genes Mrps26 and Pfn2 over the 12 samples of GDS3702: inverted profiles.",
     "3": "Fig. 3. Yeast genes YBL002W, YBL003C and YBL006W over 17 conditions: mixed regulation.",
     "4": "Fig. 4. AUPR, AUROC and F0.5 of GeCON, ARACNE, CLR and MRNET on the 13 in silico datasets of Table 1.",
