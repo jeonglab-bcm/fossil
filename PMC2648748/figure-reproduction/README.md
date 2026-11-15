@@ -111,7 +111,9 @@ nextflow run PMC2648748/figure-reproduction/main.nf --outdir results --variants 
 The default run rereads the published figures, reruns three data sets from scratch (one of each model) and checks
 them against `output/sim` value for value, recomputes every power and Fig. 3 from `output/sim`, redraws and scores
 both figures with their controls, reruns the disease-model and B-statistic checks, checks the package, and
-compares everything with the committed `output/`. `.github/workflows/reproduce-pmc2648748.yml` runs it on every
+compares everything with the committed `output/`. The drawings are compared pixel for pixel inside the scored frames; their
+text (titles, tick and axis labels) is rasterized differently by different FreeType and fontconfig setups with the
+same font file, so it is left out of that comparison. `.github/workflows/reproduce-pmc2648748.yml` runs it on every
 pull request that touches this paper; started by hand with `full` it reruns the whole study (it needs a runner
 with more cores to fit in its time limit).
 

@@ -56,23 +56,28 @@ R CMD check: Status: OK; 9 testthat blocks; vignette rebuilt; TUTORIAL.md render
 | File | Fresh vs committed | Detail |
 | --- | --- | --- |
 | comparison.json | same |  |
-| fig2_ours.png | same |  |
-| fig2_overlay.png | same |  |
-| fig3_ours.png | same |  |
-| fig3_overlay.png | same |  |
 | published_values.json | same |  |
 | summary.json | same |  |
 | checks/bstat_null.json | same |  |
 | checks/model_variants.json | same |  |
 | checks/rank_variants.json | same |  |
-| controls/fig2_minus5.png | same |  |
-| controls/fig2_plus5.png | same |  |
-| controls/fig2_wrong_model.png | same |  |
-| controls/fig2_wrong_r2.png | same |  |
-| controls/fig3_minus2.png | same |  |
-| controls/fig3_plus2.png | same |  |
-| controls/fig3_wrong_model.png | same |  |
 
-17 of 17 files agree.
+6 of 6 files agree.
+
+Renders and controls, inside the scored frames (text outside them depends on the font rasterizer):
+
+| File | Inside the scored frames | Pixels compared |
+| --- | --- | --- |
+| fig2_ours.png | same | 974274 |
+| fig2_overlay.png | same | 974274 |
+| fig3_ours.png | same | 1370334 |
+| fig3_overlay.png | same | 1370334 |
+| controls/fig2_minus5.png | same | 974274 |
+| controls/fig2_plus5.png | same | 974274 |
+| controls/fig2_wrong_model.png | same | 974274 |
+| controls/fig2_wrong_r2.png | same | 974274 |
+| controls/fig3_minus2.png | same | 1370334 |
+| controls/fig3_plus2.png | same | 1370334 |
+| controls/fig3_wrong_model.png | same | 1370334 |
 
 **PASS**

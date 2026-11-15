@@ -8,8 +8,12 @@ Fails (exit 1) when
 * the data sets rerun from scratch (sim_check.json) differ from the committed records;
 * the downloaded paper's figures are not the committed comparison copies (fetch.json);
 * the package check failed;
-* the fresh run differs from the committed outputs (compare_runs.py: numbers to 1e-6 relative,
-  images by decoded pixels).
+* the fresh run differs from the committed outputs (compare_runs.py: numbers to 1e-6 relative);
+  our renders and the negative controls are compared pixel for pixel inside the scored frames
+  (compare.py's masks: the six panels, legend and BEAM bars masked). Text outside those regions
+  (titles, tick and axis labels) is rasterized differently by different FreeType/fontconfig
+  setups with the same font file, so it is not compared; the pixel scores in comparison.json,
+  which only see the masked regions, are compared as numbers.
 With --full every data set was simulated again; the comparison with the committed outputs is then
 reported, not enforced (the same code and seeds, so it should still match).
 """
@@ -24,7 +28,43 @@ EXPECTED = ["published_values.json", "fetch.json", "summary.json", "comparison.j
             "checks/model_variants.json", "checks/bstat_null.json", "checks/swsfs_variants.json", "package.json"]
 # Run records that hold timings or this run's own state; the committed sim/ and checks/swsfs_variants
 # are inputs of the default run.
-IGNORE = ["package.json", "sim_check.json", "fetch.json", "report.md", "site/*", "sim/*", "checks/swsfs_variants.json"]
+IGNORE = ["package.json", "sim_check.json", "fetch.json", "report.md", "site/*", "sim/*", "checks/swsfs_variants.json",
+          "fig*.png", "controls/*"]
+RENDERS = ["fig2_ours.png", "fig2_overlay.png", "fig3_ours.png", "fig3_overlay.png",
+           "controls/fig2_minus5.png", "controls/fig2_plus5.png", "controls/fig2_wrong_model.png",
+           "controls/fig2_wrong_r2.png", "controls/fig3_minus2.png", "controls/fig3_plus2.png",
+           "controls/fig3_wrong_model.png"]
+
+
+def renders_in_frames(rundir, committed):
+    """Compare our renders with the committed ones inside the scored regions; return (ok, table)."""
+    import numpy as np
+    from PIL import Image
+    sys.path.insert(0, str(HERE))
+    from compare import masks
+    pub_values = json.loads((Path(rundir) / "published_values.json").read_text())
+    pub = {k: np.asarray(Image.open(HERE.parent / "published" / f"figure-{k[-1]}.png").convert("L"), float)
+           for k in ("fig2", "fig3")}
+    mk = {k: masks(pub[k], k, pub_values) for k in pub}
+    rows, ok = ["| File | Inside the scored frames | Pixels compared |", "| --- | --- | --- |"], True
+    for f in RENDERS:
+        kind = Path(f).name[:4]
+        a, b = Path(rundir) / f, Path(committed) / f
+        if not a.exists() or not b.exists():
+            rows.append(f"| {f} | missing | |")
+            ok = False
+            continue
+        x = np.asarray(Image.open(a).convert("RGB"), int)
+        y = np.asarray(Image.open(b).convert("RGB"), int)
+        if x.shape != y.shape:
+            rows.append(f"| {f} | size differs | |")
+            ok = False
+            continue
+        m = mk[kind]
+        n = int((np.abs(x - y).max(axis=2)[m] > 0).sum())
+        rows.append(f"| {f} | {'same' if n == 0 else f'{n} pixels differ'} | {int(m.sum())} |")
+        ok &= n == 0
+    return ok, "\n".join(rows)
 
 
 def run(cmd):
@@ -70,8 +110,11 @@ def main():
 
     rc, out = run([sys.executable, str(HERE / "compare_runs.py"), str(rundir), committed, "--ignore", *IGNORE])
     lines += ["## Fresh run against the committed outputs", "", out.strip(), ""]
+    rok, table = renders_in_frames(rundir, committed)
+    lines += ["Renders and controls, inside the scored frames (text outside them depends on the font rasterizer):",
+              "", table, ""]
     if not full:
-        ok &= rc == 0
+        ok &= rc == 0 and rok
 
     lines.append("**PASS**" if ok else "**FAIL**")
     Path(report).write_text("\n".join(lines) + "\n")
