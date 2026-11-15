@@ -211,6 +211,54 @@ def yes(b):
     return "yes" if b else "no"
 
 
+def sensitivity(pub, summ):
+    """Hypothesis tests about unstated settings: for each variant recorded by summarize.py, how many
+    published bars (or Fig. 3 medians) it puts within Monte Carlo error."""
+    MAFS = (0.05, 0.1, 0.2, 0.5)
+    by = {(s["model"], s["r2"], s["maf"]): s for s in summ["settings"]}
+    out = {"fig2": {}, "fig3": {}}
+    groups = {"epiforest": (0, ["epiforest"], ["epiforest_joint", "epiforest_one_way", "epiforest_bonf_candidates"]),
+              "lr": (2, ["lr"], ["lr_bonf_all", "lr_single_only", "lr_int", "lr_int_bonf_all"]),
+              "chisq": (3, ["chisq"], [])}
+    for meth, (mi, prim, variants) in groups.items():
+        for v in prim + variants:
+            n = hit = 0
+            misses = []
+            for p, (model, r2) in enumerate(PANELS):
+                for g in range(4):
+                    s = by.get((model, r2, MAFS[g]))
+                    val = None if s is None else (s["power"].get(v) if v in prim else s["variants"].get(v))
+                    if val is None:
+                        continue
+                    bar = next(b for b in pub["fig2"][p]["bars"] if b["maf_index"] == g and b["method_index"] == mi)
+                    n += 1
+                    if abs(val - bar["count"]) <= mc_tol(bar["count"], val):
+                        hit += 1
+                    else:
+                        misses.append(setting_name(model, r2, g))
+            if n:
+                out["fig2"][v] = {"within": hit, "of": n, "misses": misses}
+    # Fig. 3: the paper's rule (return the top i - w) against returning the top i
+    for name, shift in (("return_i_minus_w", 0), ("return_i", 20)):
+        hit = n = 0
+        meds = []
+        for p, (model, r2) in enumerate(PANELS):
+            for g in range(4):
+                ks = summ["panels"][p]["selected"][g]
+                if not ks:
+                    continue
+                a = np.array(ks, float) + shift
+                q1, q3 = np.percentile(a, [25, 75])
+                se = 1.2533 * max((q3 - q1) / 1.349, 1.0) / math.sqrt(len(a))
+                med = float(np.median(a))
+                meds.append(med)
+                n += 1
+                hit += abs(med - pub["fig3"][p]["boxes"][g]["median"]) <= 1.96 * math.sqrt(2) * se + 0.5
+        if n:
+            out["fig3"][name] = {"within": int(hit), "of": n, "medians_range": [min(meds), max(meds)]}
+    return out
+
+
 def main():
     pub_values, summary, render_dir, pub_dir, outp = sys.argv[1:6]
     pub = json.loads(Path(pub_values).read_text())
@@ -266,6 +314,7 @@ def main():
         cl["ours"]["fig3_max_below_80_settings"] = sum(1 for s in summ["settings"] if s["selected_max"] < 80)
         cl["ours"]["selected_median_below_100"] = float(np.median(all_k)) < 100
     res["claims"] = cl
+    res["sensitivity"] = sensitivity(pub, summ)
     Path(outp).write_text(json.dumps(res, indent=1, default=lambda o: o if not isinstance(o, np.generic) else o.item()))
     print(f"wrote {outp}")
 

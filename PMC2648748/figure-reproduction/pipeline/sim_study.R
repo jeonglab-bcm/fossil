@@ -1,7 +1,7 @@
 # One chunk of the simulation study (Figs 2 and 3): simulate the paper's data sets and run
 # epiForest and the comparators on each, writing one JSON line per data set.
 #
-# usage: Rscript sim_study.R MODEL MAF R2 FIRST LAST OUT.jsonl [--methods chisq,lr,ef] [--ntree N]
+# usage: Rscript sim_study.R MODEL MAF R2 FIRST LAST OUT.jsonl [--methods chisq,lr,lr_int,ef] [--ntree N]
 #
 # Every data set has its own seed (model * 100000 + MAF index * 10000 + r2 index * 1000 + rep), so
 # chunks can run in any order and any one data set can be rerun alone. The method is the package
@@ -10,7 +10,7 @@ suppressPackageStartupMessages({ library(epiforest); library(jsonlite) })
 args <- commandArgs(trailingOnly = TRUE)
 model <- as.integer(args[1]); maf <- as.numeric(args[2]); r2 <- as.numeric(args[3])
 first <- as.integer(args[4]); last <- as.integer(args[5]); out <- args[6]
-methods <- c("chisq", "lr", "ef")
+methods <- c("chisq", "lr", "lr_int", "ef")
 if (length(args) >= 8 && args[7] == "--methods") methods <- strsplit(args[8], ",")[[1]]
 
 LAMBDA <- c(0.3, 0.5, 1.0)
@@ -53,13 +53,16 @@ for (rep in setdiff(first:last, done)) {
     cs <- chisq_single(d$geno, d$status)
     rec$chisq <- list(p = cs$p[dis], found = (cs$p[dis] * L) < ALPHA)
   }
-  if ("lr" %in% methods) {
-    lr <- stepwise_lr(d$geno, d$status, eps = 0.1, alpha = ALPHA, max_order = 3, focus = dis)
+  # lr: stage 2 tests the full model (main effects and interaction) against the null model;
+  # lr_int: stage 2 tests only the interaction terms, against the main-effects model
+  for (meth in intersect(c("lr", "lr_int"), methods)) {
+    lr <- stepwise_lr(d$geno, d$status, eps = 0.1, alpha = ALPHA, max_order = 3, focus = dis,
+                      stage2_test = if (meth == "lr") "full" else "interaction")
     kept <- attr(lr, "kept")
     m <- vapply(dis, function(s) min_p(lr, s, "p"), numeric(3))      # raw p, rows = order
     found <- vapply(dis, function(s) s %in% identified_snps(lr), TRUE)
-    rec$lr <- list(kept = dis %in% kept, p1 = m[1, ], p2min = m[2, ], p3min = m[3, ],
-                   m2 = choose(length(kept), 2), m3 = choose(length(kept), 3), found = found)
+    rec[[meth]] <- list(kept = dis %in% kept, p1 = m[1, ], p2min = m[2, ], p3min = m[3, ],
+                        m2 = choose(length(kept), 2), m3 = choose(length(kept), 3), found = found)
   }
   if ("ef" %in% methods) {
     t0 <- proc.time()[["elapsed"]]

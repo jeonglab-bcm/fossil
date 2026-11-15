@@ -13,8 +13,10 @@ method, and the variants used to test hypotheses about unstated settings:
   (`joint`); both reported in one-way tests (`one_way`); Bonferroni over the candidates only
   (`bonf_candidates`).
 * Stepwise logistic regression: single-locus tests adjusted by L, stage-2 tests by the number of
-  stage-2 tests of each order (Marchini et al.). Variants: stage 2 adjusted by L(L-1)/2 and
-  L(L-1)(L-2)/6 (`bonf_all`); single-locus tests only (`single_only`).
+  stage-2 tests of each order (Marchini et al.), stage 2 testing the full model. Variants: stage 2
+  adjusted by L(L-1)/2 and L(L-1)(L-2)/6 (`bonf_all`); single-locus tests only (`single_only`);
+  stage 2 testing only the interaction terms against the main-effects model (`lr_int`, and
+  `lr_int_bonf_all`).
 * Chi-squared: both disease markers significant after adjustment by L.
 """
 import glob
@@ -42,7 +44,11 @@ def reduce(chunk_dir, sim_dir):
             if not line.strip():
                 continue
             r = json.loads(line)
-            rows.setdefault(key(r["model"], r["maf"], r["r2"]), {})[r["rep"]] = r
+            # records of one data set from separate passes (e.g. --methods lr_int) are merged
+            prev = rows.setdefault(key(r["model"], r["maf"], r["r2"]), {}).setdefault(r["rep"], {})
+            if prev and prev["seed"] != r["seed"]:
+                raise SystemExit(f"seed mismatch in {f} rep {r['rep']}")
+            prev.update(r)
     os.makedirs(sim_dir, exist_ok=True)
     for k, reps in sorted(rows.items()):
         recs = [reps[i] for i in sorted(reps)]
@@ -56,9 +62,9 @@ def num(v):
     return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
-def lr_found_all(r):
+def lr_found_all(r, meth="lr"):
     """Stepwise LR with stage 2 adjusted by all L(L-1)/2 and L(L-1)(L-2)/6 tests."""
-    lr = r["lr"]
+    lr = r[meth]
     out = []
     for i in range(2):
         p1 = num(lr["p1"][i])
@@ -104,6 +110,9 @@ def aggregate(sim_dir, out):
                     "lr_single_only": share(rows, lambda r: all(num(p) is not None and p * L < ALPHA
                                                                 for p in r["lr"]["p1"])),
                 }
+                if all("lr_int" in r for r in rows):
+                    s["variants"]["lr_int"] = share(rows, lambda r: all(r["lr_int"]["found"]))
+                    s["variants"]["lr_int_bonf_all"] = share(rows, lambda r: all(lr_found_all(r, "lr_int")))
                 ks = [r["ef"]["k"] for r in rows]
                 s["selected"] = ks
                 s["selected_median"] = median(ks)
