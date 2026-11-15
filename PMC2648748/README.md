@@ -35,7 +35,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2648748/>
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
 | Fig. 2, chi-squared | partly | 20 of 24 bars within Monte Carlo error; the four misses are model 3 at small MAF, where ours is higher (26 against 0 at r² = 0.7, MAF 0.05) |
-| Fig. 2, stepwise logistic regression | partly | 17 of 24, with the stage-2 test that fits best (interaction terms, adjusted by all tests; 4 of 24 with Marchini et al.'s two-stage strategy as published) |
+| Fig. 2, stepwise logistic regression | partly | 17 of 24, with the stage-2 test chosen by its match to these bars (interaction terms, adjusted by all tests; 4 of 24 with Marchini et al.'s two-stage strategy as published) |
 | Fig. 2, epiForest | partly | 15 of 24; above the paper where the signal is weak (r² = 0.7), below it where the paper's epiForest is far ahead of chi-squared (model 2, r² = 1, MAF 0.05: 2 against 16) |
 | Fig. 2, the drawing | inconclusive | The pixel score cannot tell our bars from our bars shifted by 5 points; the values carry the comparison |
 | Fig. 2, BEAM | not attempted | BEAM's program is gone |
@@ -45,7 +45,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2648748/>
 | Claims against the paper's own figures | agrees | 14 of 14 statements follow from the published bars, Table 1 and text |
 | The B statistic on null data | agrees | Our shift of the chi-squared gives the right mean and 5% tail for one- and two-way tests; three-way tests are conservative (2.8%) |
 | Package | agrees | `R CMD check` OK; the tutorial rendered from the vignette is the committed one |
-| AMD study (Figs 4 to 6, Table 1, 7 statements) | not attempted | The genotypes were never deposited |
+| AMD study (Figs 4 to 6, Table 1, 6 statements) | not attempted | The genotypes were never deposited |
 | Fig. 1 | not attempted | A diagram of the method |
 
 The main claim holds in part. epiForest is never below chi-squared, beats it where interactions matter (model 2),
@@ -53,8 +53,9 @@ and keeps far fewer candidates than stepwise logistic regression; in our run it 
 4 of 24 settings at small MAF, where the paper has it level or ahead. The gaps trace to settings the paper does not
 give: how it ran its forests (our first forest ranks a model-2 disease marker near 800 of 1000 at MAF 0.05; with
 mtry = 100 the markers rank higher at MAF 0.1), how it simulated model 3 (our exact chi-squared power is above
-its bars at small MAF under every documented reading) and which stage-2 test its logistic regression used. Fig.
-3's flat medians of 46 are not reproduced by any of five tested readings of SWSFS. All of these are open, with
+its bars at small MAF; the documented readings of the disease tables cannot move model 3's marginal power, and
+reading 0.7 as r overshoots the other way) and which stage-2 test its logistic regression used. Fig.
+3's flat medians (45 to 48, median 46) are not reproduced by any of five tested readings of SWSFS. All of these are open, with
 the tested candidates in `results.json`.
 
 Kept local and gitignored: `sources/` (the paper's PDF and XML, its figures, epiMODE's Text S1), `work/` (the

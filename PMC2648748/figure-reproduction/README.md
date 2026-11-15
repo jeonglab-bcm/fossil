@@ -24,7 +24,7 @@ The variants (`output/comparison.json`, `sensitivity.fig2`) put this many bars w
 
 | Reading | Bars |
 | --- | --- |
-| Logistic regression: interaction terms in stage 2, adjusted by all tests (used) | 17 |
+| Logistic regression: interaction terms in stage 2, adjusted by all tests (used; chosen by this match) | 17 |
 | ... adjusted by the number of stage-2 tests | 14 |
 | ... the full model in stage 2 (Marchini et al.'s two-stage strategy), adjusted by the stage-2 tests | 4 |
 | ... the full model, adjusted by all tests | 8 |
@@ -42,7 +42,7 @@ values carry the comparison.
 strong, as SWSFS's stopping rule makes them: when the disease markers rank first and second, the out-of-bag error
 is lowest after 2 SNPs and the window closes soon after. The paper's medians are 45 to 48 in every setting.
 Returning the top i rather than the top i − w (i = k + 20, the forests built; the AMD text's 84 SNPs and 104
-forests relate this way) brings 16 of 24 within error, but not the strong-signal settings (24 and 25.5 against 45
+forests relate this way) brings 16 of 24 within error, but not the strong-signal settings (25.5 and 24 against 45
 and 46).
 
 **Claims.** Model 1 alike for all methods: holds. SWSFS keeps fewer candidates than logistic regression's 100: holds
@@ -64,7 +64,7 @@ stage-2 logistic regression, and its SWSFS counts) are open, with the tested can
 | Stage 2: one-way B tests (Bonferroni L), two-way (skip if both reported, conditional B if one, L(L−1)/2), three-way (B or conditional B, L(L−1)(L−2)/6), alpha = 0.05 | `epiforest::hierarchical_tests`. A three-way test conditions on the SNPs of the triple already reported singly or in a reported pair, and is skipped when all three were. |
 | B statistic: ln[P1/P1] with P1 = Pjoin(D)[Pind(U) + Pjoin(U)], P0 = Pind(D,U) + Pjoin(D,U), Dirichlet pseudo-counts 0.5; 2B "shifted" chi-squared with 3^k − 1 df; conditional B with 3^k − 3^t df, not written out | `epiforest::b_from_counts`: the printed formula with P0 in the denominator. The shift from Stirling's expansion of each Dirichlet-multinomial term (`b_shift`), checked on null data (`output/checks/bstat_null.json`). The conditional B compares cases' joint distribution with a null where the reported SNPs keep their association and the rest are unlinked; its df are the paper's. |
 | Simulations: models 1-3 of Marchini et al. (2005), lambda 0.3, 0.5, 1.0, prevalence 0.1, MAF 0.05-0.5, r² 0.7 and 1.0, 100 data sets of 1000 markers x (1000 cases + 1000 controls), null MAF U(0, 0.5) | `epiforest::simulate_dataset` with `disease_model`: odds tables solved for the prevalence and lambda (the marginal odds ratio of heterozygote to wild type, minus 1); model 2 with the table of epiMODE (same group), chosen by the chi-squared powers (`output/checks/model_variants.json`); the marker of each locus at the locus's MAF with correlation sqrt(r²) per haplotype (epiMODE Text S1). One seed per data set. |
-| Comparators: BEAM (priors 0.001), stepwise logistic regression (epsilon 10%, two- and three-way), chi-squared with up to 2 df | BEAM not run (the program is gone). `epiforest::stepwise_lr`: 100 SNPs kept by the single-locus likelihood-ratio test; stage 2 tests the interaction terms of every pair and triple against the main-effects model, adjusted by L(L−1)/2 and L(L−1)(L−2)/6. The paper does not say which test stage 2 uses or how it is adjusted; this reading fits its bars best of five (found by search, `output/comparison.json` `sensitivity`). `epiforest::chisq_single`. |
+| Comparators: BEAM (priors 0.001), stepwise logistic regression (epsilon 10%, two- and three-way), chi-squared with up to 2 df | BEAM not run (the program is gone). `epiforest::stepwise_lr`: 100 SNPs kept by the single-locus likelihood-ratio test; stage 2 tests the interaction terms of every pair and triple against the main-effects model, adjusted by L(L−1)/2 and L(L−1)(L−2)/6. The paper does not say which test stage 2 uses or how it is adjusted; this reading fits its bars best of the four readings that have a stage 2, 17 of 24 (found by search, `output/comparison.json` `sensitivity`; single-locus tests alone fit 19 but are rejected, because the paper's stage 2 finds loci the single-locus test misses). `epiforest::chisq_single`. |
 | Power: share of the 100 data sets in which all disease loci are identified at 0.05 after Bonferroni | Both disease markers in some reported test. Variants in `output/summary.json`. |
 | AMD application (116,204 SNPs, 96 cases, 50 controls) | Not attempted: the genotypes are not public (see Limits). The statements that follow from Table 1 itself are checked (`text.arithmetic`). |
 
@@ -134,7 +134,7 @@ with more cores to fit in its time limit).
 
 - **BEAM** (Fig. 2's fourth method) was not run: BEAM 1.0 was distributed only as a binary from the authors'
   page, which is gone; the claims that need it are not attempted (on the paper's own bars they hold).
-- **The AMD study** (Figs 4 to 6, Table 1 and seven statements of the text) needs the genotypes of Klein et al.
+- **The AMD study** (Figs 4 to 6, Table 1 and six statements of the text) needs the genotypes of Klein et al.
   (2005) as the paper used them, 96 cases and 50 controls on the Affymetrix 100K array, which were never
   deposited; dbGaP's AREDS scan (phs000001) has controlled access and is not known to be the same sample. The
   statements that follow from Table 1 itself are checked.

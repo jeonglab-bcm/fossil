@@ -114,6 +114,10 @@
           "sensitivity": "summary.json, epiforest_bonf_candidates: Bonferroni over the candidates instead."
         }
       ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
       "values": {
         "fields": [
           {
@@ -402,6 +406,10 @@
           "sensitivity": "Chosen among five readings by the number of published bars within Monte Carlo error (comparison.json, sensitivity.fig2): this one 17 of 24; interaction terms adjusted by the number of stage-2 tests 14; the full model against the null model (Marchini's two-stage strategy) 4 adjusted by the stage-2 tests and 8 by all tests; single-locus tests alone 19. The full-model readings find a disease marker through its main effect in stage 2, which the single-locus test missed, and run 20 to 70 points above the paper."
         }
       ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
       "values": {
         "fields": [
           {
@@ -672,6 +680,10 @@
           "sensitivity": "summary.json gives epiForest's power when both markers must be in one reported test (epiforest_joint) or reported singly (epiforest_one_way)."
         }
       ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
       "values": {
         "fields": [
           {
@@ -873,7 +885,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; no documented reading fits all four.",
+        "summary": "20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; the documented table, scale and prevalence readings leave model 3's marginal power unchanged, and reading 0.7 as r overshoots in the other direction.",
         "status": "open",
         "evidence": [
           "figure-reproduction/output/checks/model_variants.json",
@@ -882,12 +894,12 @@
         "hypotheses": [
           {
             "hypothesis": "Marchini et al.'s tables (model 2 included) as odds, prevalence 0.1",
-            "test": "exact chi-squared power, model_variants.R (marchini_odds)",
+            "test": "exact chi-squared power, model_variants.R (marchini_odds): model 3's powers unchanged (its tables and lambda fix the marginal effect, so none of the table, scale or prevalence readings can move them)",
             "result": "rejected"
           },
           {
             "hypothesis": "The tables read as relative risks (epiMODE Text S1), prevalence 0.1 or 0.01",
-            "test": "model_variants.R (epimode_risk, epimode_risk_K01)",
+            "test": "model_variants.R (epimode_risk, epimode_risk_K01): model 3's powers unchanged, as above",
             "result": "rejected"
           },
           {
@@ -1039,6 +1051,10 @@
           "source": "paper",
           "sensitivity": "summary.json, epiforest_bonf_candidates: Bonferroni over the candidates instead."
         }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
       ],
       "values": {
         "fields": [
@@ -1241,7 +1257,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (24 and 25.5 against 45 and 46). Which count the paper plotted, and with what forests, is not stated.",
+        "summary": "None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (25.5 and 24 against 45 and 46). Which count the paper plotted, and with what forests, is not stated.",
         "status": "open",
         "evidence": [
           "figure-reproduction/output/comparison.json",
@@ -1265,7 +1281,7 @@
           },
           {
             "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-            "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+            "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
             "result": "rejected"
           },
           {
@@ -1369,7 +1385,7 @@
           },
           {
             "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-            "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+            "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
             "result": "rejected"
           },
           {
@@ -1580,7 +1596,7 @@
           },
           {
             "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-            "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+            "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
             "result": "rejected"
           },
           {

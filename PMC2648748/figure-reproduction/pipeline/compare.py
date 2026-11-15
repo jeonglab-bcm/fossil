@@ -204,6 +204,9 @@ def claims(power, ks):
     out["epiforest_sometimes_higher_than_chisq"] = any(x["epiforest"] > x["chisq"] + tol(x["epiforest"], x["chisq"]) for x in allp)
     n_ge = sum(1 for x in allp if x["epiforest"] >= x["lr"])
     out["epiforest_at_least_lr_settings"] = n_ge
+    out["epiforest_above_chisq_settings"] = sum(1 for x in allp if x["epiforest"] > x["chisq"] + tol(x["epiforest"], x["chisq"]))
+    out["epiforest_above_lr_settings"] = sum(1 for x in allp if x["epiforest"] > x["lr"] + tol(x["epiforest"], x["lr"]))
+    out["epiforest_below_lr_settings"] = sum(1 for x in allp if x["epiforest"] < x["lr"] - tol(x["epiforest"], x["lr"]))
     return out
 
 

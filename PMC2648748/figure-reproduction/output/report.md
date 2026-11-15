@@ -8,9 +8,9 @@
 | Fig. 2, power of epiForest (24 bars) | partly | 15 of 24 fields as printed | 15 of 24 bars within Monte Carlo error. Where the signal is weak (r2 = 0.7, models 2 and 3, MAF 0.05 to 0.2) ours is higher, as our chi-squared is in model 3; where the paper's epiForest is far ahead of chi-squared (models 2 and 3, r2 = 1, MAF 0.05 and 0.1) ours is lower: 2 against 16, 38 against 57, 87 against 97, 72 against 89. There our first forest ranks a disease marker low (model 2, MAF 0.05: the lower one at rank 800 in median), so neither SWSFS nor the B tests see it. The paper's forest settings are not given; mtry = 100 ranks the markers higher at MAF 0.1 but not at MAF 0.05. |
 | Fig. 2, power of BEAM (24 bars) | not attempted | not attempted | BEAM 1.0 (Zhang and Liu 2007) was distributed only as a binary from the authors' Harvard page, which now answers 403; the Pasteur mirror keeps only its README, and the Wayback Machine could not be reached from this session. BEAM3 and StrBEAM are other methods. Rebuilding BEAM's MCMC was out of scope. |
 | Fig. 2, power of stepwise logistic regression (24 bars) | partly | 17 of 24 fields as printed | With the reading that fits best (interaction terms in stage 2, adjusted by all tests; found by search) 17 of 24 bars within Monte Carlo error. Four misses are model 3 at small MAF, where our chi-squared is above the paper's as well; the other three are model 2 (22 against 10 at r2 = 0.7, MAF 0.2; 26 against 8 and 56 against 32 at r2 = 1, MAF 0.05 and 0.1). The paper does not say which models stage 2 compares or how it is adjusted. |
-| Fig. 2, power of the chi-squared test (24 bars) | partly | 20 of 24 fields as printed | 20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; no documented reading fits all four. |
+| Fig. 2, power of the chi-squared test (24 bars) | partly | 20 of 24 fields as printed | 20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; the documented table, scale and prevalence readings leave model 3's marginal power unchanged, and reading 0.7 as r overshoots in the other direction. |
 | Fig. 2, the figure (pixels, BEAM bars masked) | inconclusive | 68.58% within 2 px (pass 85.8%, best control 71.5%) | The pixel score (68.6% of our ink near the paper's) is no better than our own bars shifted by 5 power points (71.5%), a shift within Monte Carlo error, so the drawing cannot settle the comparison; the bar values do (fig2.epiforest, fig2.lr, fig2.chisq). Both wrong-input controls score lower (22.6%, 49.1%). |
-| Fig. 3, median number of SNPs SWSFS selects (24 boxes) | differs | 0 of 24 fields as printed | None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (24 and 25.5 against 45 and 46). Which count the paper plotted, and with what forests, is not stated. |
+| Fig. 3, median number of SNPs SWSFS selects (24 boxes) | differs | 0 of 24 fields as printed | None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (25.5 and 24 against 45 and 46). Which count the paper plotted, and with what forests, is not stated. |
 | Fig. 3, the figure (pixels) | inconclusive | 16.39% within 2 px (pass 58.9%, best control 17.8%) | The pixel score (16.4%) is no better than our boxes shifted by 2 SNPs (17.8%); the boxes sit about 14 SNPs below the paper's and are not flat across settings (fig3.medians). |
 | Text: all methods perform alike in model 1 | exact | 1 of 1 fields as printed |  |
 | Text: in models 2 and 3 epiForest beats logistic regression and chi-squared at small MAF, where chi-squared does poorly | partly | 2 of 4 fields as printed | Chi-squared is the lowest of the three at small MAF, as in the paper; epiForest is not above logistic regression there (model 2, r2 = 1: 2 and 38 against 26 and 56; model 3: 72 and 99 against 100 and 100), because our epiForest is below the paper's in these settings (fig2.epiforest). |
@@ -55,9 +55,24 @@ R CMD check: Status: OK; 9 testthat blocks; vignette rebuilt; TUTORIAL.md render
 
 | File | Fresh vs committed | Detail |
 | --- | --- | --- |
+| comparison.json | same |  |
+| fig2_ours.png | same |  |
+| fig2_overlay.png | same |  |
+| fig3_ours.png | same |  |
+| fig3_overlay.png | same |  |
+| published_values.json | same |  |
+| summary.json | same |  |
 | checks/bstat_null.json | same |  |
+| checks/model_variants.json | same |  |
 | checks/rank_variants.json | same |  |
+| controls/fig2_minus5.png | same |  |
+| controls/fig2_plus5.png | same |  |
+| controls/fig2_wrong_model.png | same |  |
+| controls/fig2_wrong_r2.png | same |  |
+| controls/fig3_minus2.png | same |  |
+| controls/fig3_plus2.png | same |  |
+| controls/fig3_wrong_model.png | same |  |
 
-2 of 2 files agree.
+17 of 17 files agree.
 
 **PASS**

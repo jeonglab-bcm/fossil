@@ -59,7 +59,11 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:fig2.values.epiforest",
-   "assumptions": "@sim_assumptions+ef_assumptions"
+   "assumptions": "@sim_assumptions+ef_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
   },
   {
    "id": "fig2.beam",
@@ -84,7 +88,11 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:fig2.values.lr",
-   "assumptions": "@sim_assumptions+lr_assumptions"
+   "assumptions": "@sim_assumptions+lr_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
   },
   {
    "id": "fig2.chisq",
@@ -93,7 +101,11 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:fig2.values.chisq",
-   "assumptions": "@sim_assumptions"
+   "assumptions": "@sim_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
   },
   {
    "id": "fig2",
@@ -115,7 +127,11 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:fig3.medians",
-   "assumptions": "@sim_assumptions+ef_assumptions"
+   "assumptions": "@sim_assumptions+ef_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ]
   },
   {
    "id": "fig3",
@@ -495,7 +511,7 @@
    ],
    [
     "Logistic regression",
-    "17 of 24 bars, with the reading of the stage-2 test that fits best."
+    "17 of 24 bars, with the stage-2 test chosen by its match to these bars (4 of 24 with Marchini et al.'s strategy as published)."
    ],
    [
     "The B statistic",
@@ -505,7 +521,7 @@
   "buried": [
    "The AMD study (Figs 4 to 6, Table 1): the genotypes were never deposited.",
    "BEAM, the fourth method of Fig. 2: its program is gone.",
-   "Fig. 3: SWSFS keeps about 32 SNPs where the paper's figure shows 46 in every setting; five readings of the stopping rule and the forests were tested.",
+   "Fig. 3: SWSFS keeps about 32 SNPs where the paper's figure shows 45 to 48 (median 46) in every setting; five readings of the stopping rule and the forests were tested.",
    "How the paper set up its forests, its model 3 and its stage-2 logistic regression: not stated, and no tested reading closes every gap."
   ],
   "matched_intro": "How each part of the paper's method was rebuilt.",
@@ -536,7 +552,7 @@
  "causes": {
   "fig2.chisq": {
    "category": "undocumented_setting",
-   "summary": "20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; no documented reading fits all four.",
+   "summary": "20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; the documented table, scale and prevalence readings leave model 3's marginal power unchanged, and reading 0.7 as r overshoots in the other direction.",
    "status": "open",
    "evidence": [
     "figure-reproduction/output/checks/model_variants.json",
@@ -545,12 +561,12 @@
    "hypotheses": [
     {
      "hypothesis": "Marchini et al.'s tables (model 2 included) as odds, prevalence 0.1",
-     "test": "exact chi-squared power, model_variants.R (marchini_odds)",
+     "test": "exact chi-squared power, model_variants.R (marchini_odds): model 3's powers unchanged (its tables and lambda fix the marginal effect, so none of the table, scale or prevalence readings can move them)",
      "result": "rejected"
     },
     {
      "hypothesis": "The tables read as relative risks (epiMODE Text S1), prevalence 0.1 or 0.01",
-     "test": "model_variants.R (epimode_risk, epimode_risk_K01)",
+     "test": "model_variants.R (epimode_risk, epimode_risk_K01): model 3's powers unchanged, as above",
      "result": "rejected"
     },
     {
@@ -567,7 +583,7 @@
   },
   "fig3.medians": {
    "category": "undocumented_setting",
-   "summary": "None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (24 and 25.5 against 45 and 46). Which count the paper plotted, and with what forests, is not stated.",
+   "summary": "None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (25.5 and 24 against 45 and 46). Which count the paper plotted, and with what forests, is not stated.",
    "status": "open",
    "evidence": [
     "figure-reproduction/output/comparison.json",
@@ -591,7 +607,7 @@
     },
     {
      "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-     "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
      "result": "rejected"
     },
     {
@@ -626,7 +642,7 @@
     },
     {
      "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-     "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
      "result": "rejected"
     },
     {
@@ -661,7 +677,7 @@
     },
     {
      "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
-     "test": "swsfs_variants.R (global_min): medians 72 to 99 on model 1, 47 to 74 on model 3; not flat either",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
      "result": "rejected"
     },
     {
