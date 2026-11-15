@@ -1,0 +1,879 @@
+{
+ "table1": [
+  {
+   "dataset": "ALL-AML",
+   "published": {
+    "genes": "7129",
+    "train": "38 (27:11)",
+    "test": "34 (20:14)"
+   },
+   "ours": {
+    "genes": "7129"
+   }
+  },
+  {
+   "dataset": "Lung",
+   "published": {
+    "genes": "12533",
+    "train": "32 (16:16)",
+    "test": "149 (15:134)"
+   },
+   "ours": {
+    "genes": "12533"
+   }
+  },
+  {
+   "dataset": "Prostate",
+   "published": {
+    "genes": "12600",
+    "train": "102 (52:50)",
+    "test": "34 (25:9)"
+   },
+   "ours": {
+    "genes": "12600"
+   }
+  },
+  {
+   "dataset": "DLBCL",
+   "published": {
+    "genes": "4026",
+    "train": "47 (24:23)",
+    "test": "0"
+   },
+   "ours": {
+    "genes": "4026"
+   }
+  },
+  {
+   "dataset": "Ovarian",
+   "published": {
+    "genes": "15154",
+    "train": "253 (91:162)",
+    "test": "0"
+   },
+   "ours": {
+    "genes": "15154"
+   }
+  },
+  {
+   "dataset": "Colon",
+   "published": {
+    "genes": "2000",
+    "train": "62 (40:22)",
+    "test": "0"
+   },
+   "ours": {
+    "genes": "2000"
+   }
+  },
+  {
+   "dataset": "MLL",
+   "published": {
+    "genes": "12582",
+    "train": "57 (20:17:20)",
+    "test": "15 (4:3:8)"
+   },
+   "ours": {
+    "genes": "12582"
+   }
+  }
+ ],
+ "table2": {
+  "test": {
+   "allaml": {
+    "published": "100",
+    "ours": {
+     "correct": 33,
+     "total": 34,
+     "errors": 1,
+     "percent": "97.06",
+     "misclassified": [
+      30
+     ]
+    }
+   },
+   "lung": {
+    "published": "100",
+    "ours": {
+     "correct": 149,
+     "total": 149,
+     "errors": 0,
+     "percent": "100.00",
+     "misclassified": []
+    }
+   },
+   "prostate": {
+    "published": "97.06",
+    "ours": {
+     "correct": 31,
+     "total": 34,
+     "errors": 3,
+     "percent": "91.18",
+     "misclassified": [
+      26,
+      29,
+      30
+     ]
+    }
+   }
+  },
+  "loocv": {
+   "allaml": {
+    "published": "100",
+    "ours": {
+     "correct": 37,
+     "total": 38,
+     "errors": 1,
+     "percent": "97.37",
+     "misclassified": [
+      28
+     ]
+    }
+   },
+   "lung": {
+    "published": "100",
+    "ours": {
+     "correct": 32,
+     "total": 32,
+     "errors": 0,
+     "percent": "100.00",
+     "misclassified": []
+    }
+   },
+   "prostate": {
+    "published": "96.08",
+    "ours": {
+     "correct": 95,
+     "total": 102,
+     "errors": 7,
+     "percent": "93.14",
+     "misclassified": [
+      13,
+      17,
+      30,
+      33,
+      41,
+      44,
+      83
+     ]
+    }
+   }
+  }
+ },
+ "table2_cited": {
+  "bagged": {
+   "allaml": "91.18",
+   "lung": "93.29",
+   "prostate": "73.53"
+  },
+  "best": {
+   "allaml": "97.06",
+   "lung": "97.99",
+   "prostate": "73.53"
+  }
+ },
+ "table3": {
+  "loocv": {
+   "dlbcl": {
+    "published": "97.87",
+    "ours": {
+     "correct": 46,
+     "total": 47,
+     "errors": 1,
+     "percent": "97.87",
+     "misclassified": [
+      19
+     ]
+    }
+   },
+   "ovarian": {
+    "published": "99.21",
+    "ours": {
+     "correct": 252,
+     "total": 253,
+     "errors": 1,
+     "percent": "99.60",
+     "misclassified": [
+      51
+     ]
+    }
+   },
+   "colon": {
+    "published": "91.94",
+    "ours": {
+     "correct": 54,
+     "total": 62,
+     "errors": 8,
+     "percent": "87.10",
+     "misclassified": [
+      2,
+      15,
+      23,
+      44,
+      48,
+      50,
+      54,
+      55
+     ]
+    }
+   }
+  },
+  "cv10": {
+   "dlbcl": {
+    "published": "95.74",
+    "ours": {
+     "correct": 45,
+     "total": 47,
+     "errors": 2,
+     "percent": "95.74",
+     "misclassified": [
+      34,
+      46
+     ]
+    }
+   },
+   "ovarian": {
+    "published": "98.82",
+    "ours": {
+     "correct": 251,
+     "total": 253,
+     "errors": 2,
+     "percent": "99.21",
+     "misclassified": [
+      51,
+      70
+     ]
+    }
+   },
+   "colon": {
+    "published": "90.32",
+    "ours": {
+     "correct": 54,
+     "total": 62,
+     "errors": 8,
+     "percent": "87.10",
+     "misclassified": [
+      2,
+      15,
+      23,
+      44,
+      48,
+      50,
+      54,
+      55
+     ]
+    }
+   }
+  }
+ },
+ "table3_cited": {
+  "colon_loocv_dettling": "85.48",
+  "ovarian_cv10_liu": "100",
+  "dlbcl_cho": "96"
+ },
+ "seeds": {
+  "allaml": [
+   {
+    "run": "test.allaml.s0",
+    "correct": 33,
+    "total": 34,
+    "percent": "97.06"
+   },
+   {
+    "run": "test.allaml.s1",
+    "correct": 32,
+    "total": 34,
+    "percent": "94.12"
+   },
+   {
+    "run": "test.allaml.s2",
+    "correct": 32,
+    "total": 34,
+    "percent": "94.12"
+   },
+   {
+    "run": "test.allaml.s3",
+    "correct": 32,
+    "total": 34,
+    "percent": "94.12"
+   },
+   {
+    "run": "test.allaml.s4",
+    "correct": 33,
+    "total": 34,
+    "percent": "97.06"
+   }
+  ],
+  "lung": [
+   {
+    "run": "test.lung.s0",
+    "correct": 149,
+    "total": 149,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.lung.s1",
+    "correct": 149,
+    "total": 149,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.lung.s2",
+    "correct": 148,
+    "total": 149,
+    "percent": "99.33"
+   },
+   {
+    "run": "test.lung.s3",
+    "correct": 148,
+    "total": 149,
+    "percent": "99.33"
+   },
+   {
+    "run": "test.lung.s4",
+    "correct": 149,
+    "total": 149,
+    "percent": "100.00"
+   }
+  ],
+  "prostate": [
+   {
+    "run": "test.prostate.s0",
+    "correct": 31,
+    "total": 34,
+    "percent": "91.18"
+   },
+   {
+    "run": "test.prostate.s1",
+    "correct": 30,
+    "total": 34,
+    "percent": "88.24"
+   },
+   {
+    "run": "test.prostate.s2",
+    "correct": 31,
+    "total": 34,
+    "percent": "91.18"
+   },
+   {
+    "run": "test.prostate.s3",
+    "correct": 27,
+    "total": 34,
+    "percent": "79.41"
+   },
+   {
+    "run": "test.prostate.s4",
+    "correct": 31,
+    "total": 34,
+    "percent": "91.18"
+   }
+  ],
+  "mll": [
+   {
+    "run": "test.mll.s0",
+    "correct": 15,
+    "total": 15,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.mll.s1",
+    "correct": 15,
+    "total": 15,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.mll.s2",
+    "correct": 15,
+    "total": 15,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.mll.s3",
+    "correct": 15,
+    "total": 15,
+    "percent": "100.00"
+   },
+   {
+    "run": "test.mll.s4",
+    "correct": 15,
+    "total": 15,
+    "percent": "100.00"
+   }
+  ]
+ },
+ "folds": {
+  "dlbcl": [
+   {
+    "run": "cv10.dlbcl.f0",
+    "correct": 45,
+    "total": 47,
+    "percent": "95.74"
+   },
+   {
+    "run": "cv10.dlbcl.f1",
+    "correct": 46,
+    "total": 47,
+    "percent": "97.87"
+   },
+   {
+    "run": "cv10.dlbcl.f2",
+    "correct": 45,
+    "total": 47,
+    "percent": "95.74"
+   }
+  ],
+  "ovarian": [
+   {
+    "run": "cv10.ovarian.f0",
+    "correct": 251,
+    "total": 253,
+    "percent": "99.21"
+   },
+   {
+    "run": "cv10.ovarian.f1",
+    "correct": 251,
+    "total": 253,
+    "percent": "99.21"
+   },
+   {
+    "run": "cv10.ovarian.f2",
+    "correct": 250,
+    "total": 253,
+    "percent": "98.81"
+   }
+  ],
+  "colon": [
+   {
+    "run": "cv10.colon.f0",
+    "correct": 54,
+    "total": 62,
+    "percent": "87.10"
+   },
+   {
+    "run": "cv10.colon.f1",
+    "correct": 54,
+    "total": 62,
+    "percent": "87.10"
+   },
+   {
+    "run": "cv10.colon.f2",
+    "correct": 53,
+    "total": 62,
+    "percent": "85.48"
+   }
+  ]
+ },
+ "cho": {
+  "mean_percent": 89.6,
+  "correct_per_split": [
+   18,
+   20,
+   21,
+   21,
+   22,
+   22,
+   22,
+   22,
+   22,
+   23,
+   23,
+   23,
+   23,
+   23,
+   23,
+   23,
+   24,
+   24,
+   24,
+   25
+  ],
+  "splits": 20
+ },
+ "controls": {
+  "random": {
+   "correct": 281,
+   "ours": 313,
+   "total": 326,
+   "per_run": {
+    "test.allaml": [
+     26,
+     33,
+     34
+    ],
+    "test.lung": [
+     147,
+     149,
+     149
+    ],
+    "test.prostate": [
+     11,
+     31,
+     34
+    ],
+    "loocv.dlbcl": [
+     45,
+     46,
+     47
+    ],
+    "loocv.colon": [
+     52,
+     54,
+     62
+    ]
+   }
+  },
+  "single": {
+   "correct": 310,
+   "ours": 313,
+   "total": 326,
+   "per_run": {
+    "test.allaml": [
+     33,
+     33,
+     34
+    ],
+    "test.lung": [
+     148,
+     149,
+     149
+    ],
+    "test.prostate": [
+     33,
+     31,
+     34
+    ],
+    "loocv.dlbcl": [
+     47,
+     46,
+     47
+    ],
+    "loocv.colon": [
+     49,
+     54,
+     62
+    ]
+   }
+  },
+  "adaboost": {
+   "correct": 305,
+   "ours": 313,
+   "total": 326,
+   "per_run": {
+    "test.allaml": [
+     33,
+     33,
+     34
+    ],
+    "test.lung": [
+     145,
+     149,
+     149
+    ],
+    "test.prostate": [
+     33,
+     31,
+     34
+    ],
+    "loocv.dlbcl": [
+     43,
+     46,
+     47
+    ],
+    "loocv.colon": [
+     51,
+     54,
+     62
+    ]
+   }
+  }
+ },
+ "hypotheses": {
+  "hyp.once.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.once.test.prostate": {
+   "correct": 30,
+   "total": 34,
+   "percent": "88.24"
+  },
+  "hyp.once.loocv.colon": {
+   "correct": 53,
+   "total": 62,
+   "percent": "85.48"
+  },
+  "hyp.hard.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.hard.test.prostate": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.hard.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.alpha1e-3.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.alpha1e-3.test.prostate": {
+   "correct": 31,
+   "total": 34,
+   "percent": "91.18"
+  },
+  "hyp.alpha1e-3.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.alpha1e-1.test.allaml": {
+   "correct": 29,
+   "total": 34,
+   "percent": "85.29"
+  },
+  "hyp.alpha1e-1.test.prostate": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.alpha1e-1.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.iter50.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.iter50.test.prostate": {
+   "correct": 31,
+   "total": 34,
+   "percent": "91.18"
+  },
+  "hyp.iter50.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.iter1000.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.iter1000.test.prostate": {
+   "correct": 31,
+   "total": 34,
+   "percent": "91.18"
+  },
+  "hyp.iter1000.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.prefilter2000.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.prefilter2000.test.prostate": {
+   "correct": 31,
+   "total": 34,
+   "percent": "91.18"
+  },
+  "hyp.prefilter2000.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.scaled.test.prostate.s0": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.test.prostate.s1": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.test.prostate.s2": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.test.prostate.s3": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.test.prostate.s4": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.test.allaml": {
+   "correct": 33,
+   "total": 34,
+   "percent": "97.06"
+  },
+  "hyp.scaled.loocv.allaml": {
+   "correct": 37,
+   "total": 38,
+   "percent": "97.37"
+  },
+  "hyp.scaled.loocv.prostate": {
+   "correct": 95,
+   "total": 102,
+   "percent": "93.14"
+  },
+  "hyp.alpha1e-1.loocv.prostate": {
+   "correct": 96,
+   "total": 102,
+   "percent": "94.12"
+  },
+  "hyp.log2.loocv.colon": {
+   "correct": 54,
+   "total": 62,
+   "percent": "87.10"
+  },
+  "hyp.zerofill.loocv.dlbcl": {
+   "correct": 46,
+   "total": 47,
+   "percent": "97.87"
+  }
+ },
+ "figures": {
+  "fig3": {
+   "published_bars": [
+    {
+     "group": "ALL-AML",
+     "series": "bagged",
+     "label": "91.18",
+     "drawn": 91.4,
+     "drawn_minus_label": 0.22
+    },
+    {
+     "group": "ALL-AML",
+     "series": "best",
+     "label": "97.06",
+     "drawn": 96.95,
+     "drawn_minus_label": -0.11
+    },
+    {
+     "group": "ALL-AML",
+     "series": "ours",
+     "label": "100",
+     "drawn": 99.97,
+     "drawn_minus_label": -0.03
+    },
+    {
+     "group": "Lung",
+     "series": "bagged",
+     "label": "93.29",
+     "drawn": 93.19,
+     "drawn_minus_label": -0.1
+    },
+    {
+     "group": "Lung",
+     "series": "best",
+     "label": "97.99",
+     "drawn": 98.0,
+     "drawn_minus_label": 0.01
+    },
+    {
+     "group": "Lung",
+     "series": "ours",
+     "label": "100",
+     "drawn": 100.03,
+     "drawn_minus_label": 0.03
+    },
+    {
+     "group": "Prostate",
+     "series": "bagged",
+     "label": "73.53",
+     "drawn": 73.52,
+     "drawn_minus_label": -0.01
+    },
+    {
+     "group": "Prostate",
+     "series": "best",
+     "label": "73.53",
+     "drawn": 73.52,
+     "drawn_minus_label": -0.01
+    },
+    {
+     "group": "Prostate",
+     "series": "ours",
+     "label": "97.06",
+     "drawn": 97.01,
+     "drawn_minus_label": -0.05
+    }
+   ],
+   "calibration": {
+    "value_per_row": -0.061652,
+    "intercept": 107.3488,
+    "tick_residual": 0.037,
+    "top_edge_offset": 0.197
+   }
+  },
+  "fig4": {
+   "published_bars": [
+    {
+     "group": "DLBCL",
+     "series": "other",
+     "label": "96",
+     "drawn": 96.21,
+     "drawn_minus_label": 0.21
+    },
+    {
+     "group": "DLBCL",
+     "series": "ours",
+     "label": "98",
+     "drawn": 98.36,
+     "drawn_minus_label": 0.36
+    },
+    {
+     "group": "Ovarian",
+     "series": "other",
+     "label": "100",
+     "drawn": 100.0,
+     "drawn_minus_label": 0.0
+    },
+    {
+     "group": "Ovarian",
+     "series": "ours",
+     "label": "98.82",
+     "drawn": 99.25,
+     "drawn_minus_label": 0.43
+    },
+    {
+     "group": "Colon",
+     "series": "other",
+     "label": "85.48",
+     "drawn": 85.65,
+     "drawn_minus_label": 0.17
+    },
+    {
+     "group": "Colon",
+     "series": "ours",
+     "label": "91.94",
+     "drawn": 92.01,
+     "drawn_minus_label": 0.07
+    }
+   ],
+   "calibration": {
+    "value_per_row": -0.046729,
+    "intercept": 106.0514,
+    "tick_residual": 0.0,
+    "top_edge_offset": 0.14
+   }
+  }
+ }
+}
