@@ -37,6 +37,7 @@ The pieces are exported too: `gini_importance`, `swsfs`, `hierarchical_tests`, `
 - **B statistic.** Pseudo-counts 0.5; the paper's formula has P1/P1 where P1/P0 is meant. The paper says 2B follows a "shifted" chi-squared distribution with 3^k − 1 degrees of freedom; `b_shift` derives the shift from Stirling's expansion of each Dirichlet-multinomial term. On data with no association the shifted statistic has the chi-squared mean and 5% tail for one- and two-way tests; three-way tests are conservative (about 2.8% below 0.05), because many of the 27 cells are sparse.
 - **Conditional B.** The paper names it but does not give it. Here it compares cases' joint distribution over all the SNPs with a null in which the reported SNPs keep their association and the others are unlinked; its degrees of freedom, 3^k − 3^t, are the paper's.
 - **Forests.** `ntree` is not given for the paper's simulations (500, randomForest's default, here); `mtry` is randomForest's default, floor(sqrt(number of SNPs)).
+- **Stepwise logistic regression** (`stepwise_lr`, the comparator). The paper cites Marchini et al. (2005) and extends it to three-way interactions, without saying which models stage 2 compares or how it is adjusted. The default, the reading closest to the paper's Fig. 2, tests the interaction terms against the main-effects model and adjusts by all L(L−1)/2 and L(L−1)(L−2)/6 tests; `stage2_test = "full", stage2_correction = "tested"` is Marchini et al.'s two-stage strategy.
 - **Missing genotypes** are not handled: impute or drop them first.
 
 ## How it was checked

@@ -434,7 +434,105 @@
    ]
   }
  },
- "page": {},
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {inconclusive} inconclusive, {differs} differ, {not_attempted} not attempted. epiForest was lost; it was rebuilt from the paper as an R package, and the paper's simulation study of 2,400 data sets was run again.",
+  "label_rows": [
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2.epiforest",
+     "fig2.lr",
+     "fig2.chisq"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3.medians"
+    ]
+   ],
+   [
+    "items",
+    "Main claim",
+    [
+     "text.main_claim"
+    ]
+   ],
+   [
+    "items",
+    "AMD study",
+    [
+     "fig4",
+     "fig5",
+     "fig6",
+     "table1"
+    ]
+   ],
+   [
+    "items",
+    "Package",
+    [
+     "package"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, table and claim of the paper. A power or a median agrees when it is within the Monte Carlo error of two independent sets of 100 data sets (1.96 standard errors of the difference).",
+  "claims_line": "The main claim holds in part: epiForest is never below chi-squared and beats it where interactions matter, but in our run it falls below logistic regression in 4 of 24 settings at small MAF, where the paper has it level or ahead. The causes, in how the paper ran its forests, simulated model 3 and set up logistic regression, are open with the tested candidates recorded; the AMD study needs genotypes that were never released.",
+  "came_back": [
+   [
+    "epiForest",
+    "The gini ranking, SWSFS and the hierarchical B-statistic tests, as the R package epiforest, with tests and a tutorial."
+   ],
+   [
+    "Chi-squared",
+    "20 of 24 bars of Fig. 2 within Monte Carlo error; the four misses are model 3 at small MAF."
+   ],
+   [
+    "epiForest's power",
+    "15 of 24 bars of Fig. 2."
+   ],
+   [
+    "Logistic regression",
+    "17 of 24 bars, with the reading of the stage-2 test that fits best."
+   ],
+   [
+    "The B statistic",
+    "Its shift, which the paper does not write out, derived and checked on null data."
+   ]
+  ],
+  "buried": [
+   "The AMD study (Figs 4 to 6, Table 1): the genotypes were never deposited.",
+   "BEAM, the fourth method of Fig. 2: its program is gone.",
+   "Fig. 3: SWSFS keeps about 32 SNPs where the paper's figure shows 46 in every setting; five readings of the stopping rule and the forests were tested.",
+   "How the paper set up its forests, its model 3 and its stage-2 logistic regression: not stated, and no tested reading closes every gap."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Forest",
+    "R randomForest 4.7-1.1, SNPs as three-level factors, 500 trees, mtry the square root of the number of SNPs; gini importance."
+   ],
+   [
+    "SWSFS",
+    "The paper's pseudocode, window 20, the out-of-bag error of each forest."
+   ],
+   [
+    "B tests",
+    "One-, two- and three-way, conditional on SNPs already reported; Bonferroni over all tests of each order."
+   ],
+   [
+    "Data",
+    "Marchini et al.'s three disease models (model 2 as in epiMODE), 1000 markers, 1000 cases and 1000 controls, 100 data sets per setting."
+   ],
+   [
+    "Comparators",
+    "The single-locus chi-squared test and stepwise logistic regression with three-way interactions."
+   ]
+  ],
+  "closing": "epiForest came back from the paper's text, and its simulation study was run again in full."
+ },
  "causes": {
   "fig2.chisq": {
    "category": "undocumented_setting",

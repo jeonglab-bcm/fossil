@@ -76,9 +76,11 @@ def main(results, figs, pub, out):
     sm = R["summary"]
 
     lede = N["lede"].format(**sm, attempted=sm["items"] - sm["not_attempted"])
-    label = "".join(
-        f'<a class="label-row" href="#{a}"><span>{esc(k)}</span><span>{esc(STAMP.get(worst([by[i]["verdict"] for i in ids]), ("", "Not attempted"))[1])}</span></a>'
-        for a, k, ids in N["label_rows"])
+    def label_row(a, k, ids):
+        v = worst([by[i]["verdict"] for i in ids])
+        dv, text = STAMP.get(v, ("none", "Not attempted"))
+        return f'<li><a href="#{a}"><span>{esc(k)}</span><span class="v" data-v="{dv}">{esc(text)}</span></a></li>'
+    label = "<ol>" + "".join(label_row(a, k, ids) for a, k, ids in N["label_rows"]) + "</ol>"
 
     stations, figjs = [], []
     for n, prefix in FIGS.items():

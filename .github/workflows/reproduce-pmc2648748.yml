@@ -6,10 +6,10 @@ name: Reproduce PMC2648748
 # the disease-model and B-statistic checks, the R package (R CMD check and the tutorial), and the
 # fresh run against the committed output/ (compare_runs.py).
 #
-# The full simulation study (2,400 data sets, about 28 CPU hours) does not run here: start the
-# workflow by hand with full = true to rerun it on the runner (about 7 hours on 4 cores, so it
-# needs a larger runner than the default), and with variants = true to rerun the SWSFS hypothesis
-# tests (about 2 CPU hours).
+# The full simulation study (2,400 data sets, about 32 CPU hours) does not run here: start the
+# workflow by hand with full = true to rerun it on the runner (about 8 hours on 4 cores, so it
+# needs a larger runner than the default), and with variants = true to rerun the SWSFS and
+# first-forest hypothesis tests (about 3 CPU hours).
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +18,7 @@ on:
         type: boolean
         default: false
       variants:
-        description: "Rerun the SWSFS hypothesis tests"
+        description: "Rerun the SWSFS and first-forest hypothesis tests"
         type: boolean
         default: false
   pull_request:
@@ -75,9 +75,15 @@ jobs:
           nextflow run PMC2648748/figure-reproduction/main.nf --outdir results -ansi-log false
           ${{ inputs.full && '--full' || '' }} ${{ inputs.variants && '--variants' || '' }}
 
+      - name: Check results.json against this run
+        if: ${{ !cancelled() }}
+        run: |
+          set -o pipefail
+          python3 tools/check_results.py PMC2648748/figure-reproduction/results.json results --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
       - name: Report
         if: always()
-        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -85,5 +91,6 @@ jobs:
           name: pmc2648748-reproduction
           path: |
             results
+            results-check
             .nextflow.log
           include-hidden-files: true
