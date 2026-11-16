@@ -102,7 +102,7 @@ nextflow run PMC2724427/figure-reproduction/main.nf --outdir results
 
 This reruns the whole study and one population of the spread (seed 1), and takes the other 19
 populations and the hypothesis run from `output/seeds`; the check step fails if the rerun
-population differs from its committed copy. About 8 minutes on 4 cores, downloads included. CI
+population differs from its committed copy. About 5 minutes on 4 cores, downloads included. CI
 runs the same command (`.github/workflows/reproduce-pmc2724427.yml`) on every change to the
 paper's folder. To rerun all 21 extra studies (about 50 minutes on 4 cores; the workflow's `full`
 input):

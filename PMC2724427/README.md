@@ -72,4 +72,5 @@ to download; the package's example data are synthetic.
 
 `session/ledger.json` and `session/conversation.md` record the Claude Code session that made this
 reproduction. It began with one prompt asking to install the Paper2Agent skills, then the kickoff
-prompt; no other message was typed by a person.
+prompt; no other message was typed by a person. The ledger also counts as prompts the automated
+notifications of background runs.
