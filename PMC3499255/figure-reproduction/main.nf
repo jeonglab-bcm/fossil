@@ -29,7 +29,7 @@ params.published = "${projectDir}/published"
 // real-data committed iteration counts (deterministic, reproduced exactly in CI)
 params.iters_real = 30000
 
-def PY = "PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python}"
+params.py = "PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python}"
 
 process FETCH {
     output:
@@ -49,7 +49,7 @@ process ANALYZE {
     tuple val(name), path("${name}.json")
     script:
     """
-    ${PY} ${params.pipe}/analyze.py ${name} --sources ${downloads} --iters ${iters} --seed ${seed} --out ${name}.json
+    ${params.py} ${params.pipe}/analyze.py ${name} --sources ${downloads} --iters ${iters} --seed ${seed} --out ${name}.json
     """
 }
 
@@ -59,7 +59,7 @@ process ANALYZE_TEST {
     script:
     if (params.full)
         """
-        ${PY} ${params.pipe}/analyze.py test --iters 15000 --seed 1 --sim-seed 0 --n 20 --out test.json
+        ${params.py} ${params.pipe}/analyze.py test --iters 15000 --seed 1 --sim-seed 0 --n 20 --out test.json
         """
     else
         """
@@ -75,7 +75,7 @@ process SERIES {
     script:
     if (params.full)
         """
-        ${PY} ${params.pipe}/series.py --sources ${downloads} --medians ${params.committed}/medians.json \
+        ${params.py} ${params.pipe}/series.py --sources ${downloads} --medians ${params.committed}/medians.json \
             --n-sims 12 --iters 3000 --out series.json
         """
     else
@@ -91,7 +91,7 @@ process TEXTCLAIMS {
     output:
     path 'textclaims.json'
     script:
-    "${PY} ${params.pipe}/textclaims.py ${a07} ${a01} --out textclaims.json"
+    "${params.py} ${params.pipe}/textclaims.py ${a07} ${a01} --out textclaims.json"
 }
 
 process CHECKS {
@@ -102,8 +102,8 @@ process CHECKS {
     path 'arithmetic_check.json'
     script:
     """
-    ${PY} ${params.pipe}/checks.py pseudolik --out pseudolik_check.json
-    ${PY} ${params.pipe}/checks.py arithmetic --sources ${downloads} --out arithmetic_check.json
+    ${params.py} ${params.pipe}/checks.py pseudolik --out pseudolik_check.json
+    ${params.py} ${params.pipe}/checks.py arithmetic --sources ${downloads} --out arithmetic_check.json
     """
 }
 
@@ -125,9 +125,9 @@ process RENDER {
     path 'fig*_overlay.png'
     script:
     """
-    ${PY} ${params.pipe}/render.py ${a07} --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
-    ${PY} ${params.pipe}/render.py ${a01} --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
-    ${PY} ${params.pipe}/render.py ${tst} --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
+    ${params.py} ${params.pipe}/render.py ${a07} --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
+    ${params.py} ${params.pipe}/render.py ${a01} --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
+    ${params.py} ${params.pipe}/render.py ${tst} --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
     """
 }
 
@@ -145,10 +145,10 @@ process RESULTS {
     mkdir run
     cp ${jsons} run/ 2>/dev/null || true
     cp ${figs} run/ 2>/dev/null || true
-    ${PY} ${params.pipe}/build_results.py run ${projectDir}/results_notes.json results.json \
+    ${params.py} ${params.pipe}/build_results.py run ${projectDir}/results_notes.json results.json \
         --check-results ${params.pipe}/check_results.py --root run
     cp results.json run/results.json
-    ${PY} ${params.pipe}/check_reproduction.py results.json run ${params.committed} report.md ${params.full ? '--full' : ''}
+    ${params.py} ${params.pipe}/check_reproduction.py results.json run ${params.committed} report.md ${params.full ? '--full' : ''}
     """
 }
 
@@ -160,7 +160,7 @@ process BUILD_PAGE {
     path 'site'
     script:
     """
-    ${PY} ${params.pipe}/build_page.py ${run}/results.json ${run} ${params.published} site/index.html
+    ${params.py} ${params.pipe}/build_page.py ${run}/results.json ${run} ${params.published} site/index.html
     """
 }
 
