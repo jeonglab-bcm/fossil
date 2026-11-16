@@ -32,7 +32,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2724427/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-5 exact, 2 agrees, 3 partly, 1 inconclusive, 7 differs, 1 not attempted; 8 open causes.
+4 exact, 2 agrees, 4 partly, 1 inconclusive, 7 differs, 1 not attempted; 8 open causes.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -42,7 +42,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2724427/>
 | Claims recomputed from the paper's own numbers (SE = estimate / t in Table 1; P(x>2.5) of Additional file 1) | differs | 4 of 5 come back from the paper's own numbers; not back: Table 1, discrete Intercept: SE = estimate / t (paper 0.00065, recomputed 0.00066) |
 | The paper against itself: Fig. 2's headings and Table 1's curve 2.011 + 23.9/n | differs | 1 of 6 Fig. 2 headings lie within 0.02 of Table 1's curve 2.011 + 23.9/n; n=100 2.262 against 2.250, n=150 2.129 against 2.170, n=300 2.051 against 2.091, n=500 2.019 against 2.059, n=750 2.011 against 2.043, n=1000 2.003 against 2.035 |
 | Additional file 1: P(x>2.5) = 0.2375 | exact | 1 of 1 fields as printed |
-| Abstract and Results: estimates biased away from zero, odds ratios away from one | exact | 3 of 3 fields as printed |
+| Abstract and Results: estimates biased away from zero, odds ratios away from one | partly | 4 of 5 fields as printed |
 | Results: the fit is better for the continuous than for the discrete variable | exact | 1 of 1 fields as printed |
 | Results and Fig. 2: the sampling distribution is skewed at small n and grows symmetric | exact | 2 of 2 fields as printed |
 | Results and Fig. 3: extreme estimates become rarer as n grows | exact | 2 of 2 fields as printed |
@@ -58,7 +58,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2724427/>
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
-The main claim holds: in our run logistic regression pushes both coefficients away from zero, more at small n, and the sampling distribution is skewed at small n and grows symmetric. Table 1's slopes, SEs and R squared values and the figures' spreads do not come back; the causes are open (the paper's per-size means scatter less than any population of Additional file 1's design gives), and the intercepts move with the population draw.
+The main claim holds in part: both slopes b1 point away from zero, the continuous mean lies farther from zero than the population value at every size, and the sampling distribution is skewed at small n and grows symmetric; the discrete mean does so at 257 of 281 sizes, and leaving out separated samples pulls it toward zero at n = 100 to 120. Table 1's slopes, SEs and R squared values and the figures' spreads do not come back; those causes are open (the paper's per-size means scatter less than any population of Additional file 1's design gives), and the intercepts move with the population draw.
 <!--/CLAIMS-LINE-->
 
 ## Kept local, not in the repository

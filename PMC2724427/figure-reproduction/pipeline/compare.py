@@ -153,12 +153,22 @@ items["text.supp_px"] = {"method": "values", "values": {"fields": [
 b1x = row(t1, "x", "inv_n")["estimate"]
 b1z = row(t1, "z", "inv_n")["estimate"]
 yn = lambda c: "yes" if c else "no"  # noqa: E731
+pop_glm = fit["population"]["glm"]
+away = {}
+for term in ("x", "z"):
+    ms = [(int(float(r["n"])), float(r["mean"])) for r in per_n if r["term"] == term]
+    away[term] = {"away": sum(abs(m) > abs(pop_glm[term]) for _, m in ms), "of": len(ms),
+                  "closer_at": [n for n, m in ms if abs(m) <= abs(pop_glm[term])]}
 items["text.away_from_null"] = {"method": "values", "values": {"fields": [
+    {"name": "Continuous: mean estimate farther from zero than our population's coefficient at every size", "expected": "yes",
+     "observed": yn(away["x"]["away"] == away["x"]["of"])},
+    {"name": "Discrete: mean estimate farther from zero than our population's coefficient at every size", "expected": "yes",
+     "observed": yn(away["z"]["away"] == away["z"]["of"])},
     {"name": "Continuous coefficient: b1 > 0 (bias away from zero)", "expected": "yes", "observed": yn(b1x > 0)},
     {"name": "Discrete coefficient: b1 < 0 (bias away from zero)", "expected": "yes", "observed": yn(b1z < 0)},
     {"name": "Odds ratio of the continuous exposure at n = 100 above the large-sample value", "expected": "yes",
      "observed": yn(math.exp(row(t1, "x", "intercept")["estimate"] + b1x / 100) > math.exp(row(t1, "x", "intercept")["estimate"]))},
-], "tolerance": {"printed": True}}}
+], "tolerance": {"printed": True}}, "away_from_population_value": away}
 items["text.fit_better_continuous"] = {"method": "values", "values": {"fields": [
     {"name": "R² higher for the continuous than for the discrete coefficient", "expected": "yes",
      "observed": yn(row(t1, "x", "intercept")["r2"] > row(t1, "z", "intercept")["r2"])}], "tolerance": {"printed": True}}}

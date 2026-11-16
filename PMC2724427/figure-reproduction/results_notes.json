@@ -71,20 +71,20 @@
    ],
    "cause": {
     "category": "unknown",
-    "summary": "The intercept is the population draw: 2.011 lies inside our 20 populations (1.962 to 2.023; ours 1.966). The n⁻¹ slope and both SEs do not: b1 is 26.7 to 30.0 over 20 populations against 23.9, and the SEs are about 1.5 times the paper's, because our per-size means scatter more. The analytic first-order bias of our population is 23.8, close to the paper's 23.9. A population with x of SD 1 comes closer (b1 25.2, SE 0.307, intercept SE 0.00080) but does not close the gap.",
+    "summary": "The intercept is the population draw: 2.011 lies inside our 20 populations (1.962 to 2.023; ours 1.966). The n⁻¹ slope and both SEs do not: b1 is 26.7 to 30.0 over 20 populations against 23.9, and the SEs are about 1.6 times the paper's, because our per-size means scatter more. The analytic first-order bias of our population is 23.8, close to the paper's 23.9. A population with x of SD 1 comes closer (b1 25.2, SE 0.307, intercept SE 0.00080) but does not close the gap.",
     "evidence": [
      "figure-reproduction/output/cmp/tables.json",
      "figure-reproduction/output/run/fit.json"
     ],
     "hypotheses": [
      {
-      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "hypothesis": "Another draw of the population moves the slopes, SEs and R squared values as far as the paper's (it does move the intercepts; the paper gives no seed and did not deposit its population)",
       "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
       "result": "rejected"
      },
      {
       "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
-      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "test": "OLS on all 279,594 kept estimates (tables.json, ours_all_estimates)",
       "result": "rejected"
      },
      {
@@ -114,26 +114,26 @@
    ],
    "cause": {
     "category": "unknown",
-    "summary": "The intercept is the population draw: -0.898 lies inside our 20 populations (-0.956 to -0.866; ours -0.855 is the far end of that spread). The slope does not come back: -1.9 here and -2.4 to -5.7 over 20 populations against -9.524, with SEs 2 to 3 times the paper's. Leaving out separated samples pulls the small-n means of the discrete coefficient toward zero; keeping the fits R does not warn about pushes them far away (b1 -67). The paper's rule is not stated. A population with x of SD 1 gives -8.1.",
+    "summary": "The intercept is the population draw: -0.898 lies inside our 20 populations (-0.956 to -0.866; ours, -0.855, lies just outside it). The slope does not come back: -1.9 here and -2.4 to -5.7 over 20 populations against -9.524, with SEs 2 to 3 times the paper's. Leaving out separated samples pulls the small-n means of the discrete coefficient toward zero; keeping the fits R does not warn about pushes them far away (b1 -67). The paper's rule is not stated. A population with x of SD 1 gives -8.1.",
     "evidence": [
      "figure-reproduction/output/cmp/tables.json",
      "figure-reproduction/output/run/fit.json"
     ],
     "hypotheses": [
      {
-      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "hypothesis": "Another draw of the population moves the slopes, SEs and R squared values as far as the paper's (it does move the intercepts; the paper gives no seed and did not deposit its population)",
       "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
       "result": "rejected"
      },
      {
       "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
-      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "test": "OLS on all 279,594 kept estimates (tables.json, ours_all_estimates)",
       "result": "rejected"
      },
      {
       "hypothesis": "The paper handled separated samples differently",
-      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns)",
-      "result": "rejected"
+      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns): no rule matches, but the rule moves the discrete values most (only R's warnings: b1 -67, t -29.6, R² 0.759)",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
@@ -157,25 +157,25 @@
    ],
    "cause": {
     "category": "unknown",
-    "summary": "Ours 0.940 and 0.034 against 0.963 and 0.836; over 20 populations 0.926 to 0.955 and 0.04 to 0.22. The R squared of the fit to all estimates is near 0.02, so the paper fitted the means. Our per-size means scatter more around the curve than the paper's, most for the discrete coefficient. A population with x of SD 1 gives 0.960 and 0.566. Follows table1.",
+    "summary": "Ours 0.940 and 0.034 against 0.963 and 0.836; over 20 populations 0.926 to 0.955 and 0.04 to 0.22. The R squared of the fit to all estimates is 0.015 and below 0.001, so the paper fitted the means. Our per-size means scatter more around the curve than the paper's, most for the discrete coefficient. A population with x of SD 1 gives 0.960 and 0.566. Follows table1.",
     "evidence": [
      "figure-reproduction/output/cmp/tables.json"
     ],
     "hypotheses": [
      {
-      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "hypothesis": "Another draw of the population moves the slopes, SEs and R squared values as far as the paper's (it does move the intercepts; the paper gives no seed and did not deposit its population)",
       "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
       "result": "rejected"
      },
      {
       "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
-      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "test": "OLS on all 279,594 kept estimates (tables.json, ours_all_estimates)",
       "result": "rejected"
      },
      {
       "hypothesis": "The paper handled separated samples differently",
-      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns)",
-      "result": "rejected"
+      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns): no rule matches, but the rule moves the discrete values most (only R's warnings: b1 -67, t -29.6, R² 0.759)",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
@@ -207,7 +207,7 @@
    "source": "papers_data",
    "cause": {
     "category": "paper_error",
-    "summary": "Fig. 2's headings are means at six sizes; Table 1's curve 2.011 + 23.9/n gives the means it implies. Five of six headings lie 0.02 to 0.04 below the curve (2.003 at n = 1000 against 2.035), and Fig. 3's medians sit higher still (about 2.07 at n = 1000). Figs 2 and 3 cannot come from the run behind Table 1 and Fig. 1.",
+    "summary": "Fig. 2's headings are means at six sizes; Table 1's curve 2.011 + 23.9/n gives the means it implies. Five of six headings lie 0.03 to 0.04 below the curve (2.003 at n = 1000 against 2.035), and Fig. 3's medians, read by eye, sit higher still (about 2.07 at n = 1000). Figs 2 and 3 cannot come from the run behind Table 1 and Fig. 1.",
     "evidence": [
      "figure-reproduction/output/cmp/comparison.json",
      "figure-reproduction/published/figure-2.jpg",
@@ -232,7 +232,23 @@
     "glm",
     "separation",
     "ols_means"
-   ]
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The continuous mean is farther from zero than our population's coefficient (1.971) at all 281 sizes, and both slopes b1 point away from zero. The discrete mean is farther from zero than our population's -0.840 at 257 of 281 sizes; it is closer at n = 100 to 120, where leaving out separated samples pulls it toward zero, and at 18 larger sizes, where it lies within Monte Carlo noise of the population value.",
+    "evidence": [
+     "figure-reproduction/output/cmp/comparison.json",
+     "figure-reproduction/output/run/per_n.csv"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Leaving out separated samples pulls the small-n discrete means toward zero",
+      "test": "Discrete mean at n = 100 with only R's warned fits left out: -1.70, against -0.79 with our rule (per_n.csv, mean_warning)",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
   },
   {
    "id": "text.fit_better_continuous",
@@ -328,7 +344,7 @@
      "figure-reproduction/output/cmp/comparison.json"
     ],
     "status": "open",
-    "summary": "Drawn on the published axes, 162 of our 281 means fall below them: our population sits lower (intercept 1.966 against 2.011) and our means scatter more. Moving our series by the difference of the intercepts raises the score from 12% to 54%; a population with x of SD 1 reaches 72%. Neither reaches the published points.",
+    "summary": "Drawn on the published axes, 162 of our 281 means fall below them: our population sits lower (intercept 1.966 against 2.011) and our means scatter more. Moving our series by the difference of the intercepts raises the score from 12% to 54%; a population with x of SD 1 reaches 72%. These are hypothesis runs and are not counted as agreement; neither is a setting the paper states.",
     "hypotheses": [
      {
       "hypothesis": "The population draw shifts the curve",
@@ -405,7 +421,7 @@
      "figure-reproduction/output/cmp/comparison.json"
     ],
     "status": "open",
-    "summary": "Our densities are wider and lower: the sampling SD at n = 1000 is 0.25 to 0.27 over 21 populations, while the published curve's peak of about 2.35 implies about 0.17. A kernel bandwidth 0.8 or 1.25 times ours does not help. A population with x of SD 1 (SD 0.20) raises the score from 13% to 54%.",
+    "summary": "Our densities are wider and lower: the sampling SD at n = 1000 is 0.25 to 0.27 over 21 populations, while the published curve's peak, read by eye at about 2.35, implies about 0.17. A kernel bandwidth 0.8 or 1.25 times ours does not help. A population with x of SD 1 (SD 0.20) raises the score from 13% to 54%.",
     "hypotheses": [
      {
       "hypothesis": "Another kernel bandwidth",
@@ -474,7 +490,7 @@
      "figure-reproduction/output/cmp/comparison.json"
     ],
     "status": "open",
-    "summary": "Our boxes are taller (our sampling spread is about 1.5 times the paper's) and our medians lower; the published medians stay near 2.07 to 2.2 at every size, above Fig. 2's means. The control shifted up by 1% of the axis scores better than ours, so a shift is part of the gap. A population with x of SD 1 raises the score from 42% to 60%.",
+    "summary": "Our boxes are taller (our sampling spread is about 1.5 times the paper's) and our medians lower; the published medians, read by eye, stay near 2.07 to 2.2 at every size, above Fig. 2's means. The control shifted up by 1% of the axis scores better than ours, so a shift is part of the gap. A population with x of SD 1 raises the score from 42% to 60%.",
     "hypotheses": [
      {
       "hypothesis": "The population draw",
@@ -556,11 +572,11 @@
    ]
   ],
   "items_caption": "Each verdict is computed from the numbers by check_results.py. Ours is one population (seed 2724427).",
-  "claims_line": "The main claim holds: in our run logistic regression pushes both coefficients away from zero, more at small n, and the sampling distribution is skewed at small n and grows symmetric. Table 1's slopes, SEs and R squared values and the figures' spreads do not come back; the causes are open (the paper's per-size means scatter less than any population of Additional file 1's design gives), and the intercepts move with the population draw.",
+  "claims_line": "The main claim holds in part: both slopes b1 point away from zero, the continuous mean lies farther from zero than the population value at every size, and the sampling distribution is skewed at small n and grows symmetric; the discrete mean does so at 257 of 281 sizes, and leaving out separated samples pulls it toward zero at n = 100 to 120. Table 1's slopes, SEs and R squared values and the figures' spreads do not come back; those causes are open (the paper's per-size means scatter less than any population of Additional file 1's design gives), and the intercepts move with the population draw.",
   "came_back": [
    [
     "The direction of the bias",
-    "Away from zero for both exposures, at every size."
+    "Both slopes point away from zero; the continuous mean lies above the population value at every size, the discrete mean beyond it at 257 of 281."
    ],
    [
     "The shape",
@@ -588,7 +604,7 @@
    ],
    [
     "Fig. 1",
-    "Most of our points fall off the published axes; no better than a wrong input."
+    "Most of our points fall off the published axes; the scores sit among the controls."
    ],
    [
     "Figs 2 and 3",
