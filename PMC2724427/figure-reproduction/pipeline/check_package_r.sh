@@ -23,7 +23,11 @@ if [ -z "$fail" ]; then
   tests=$(grep -oE "\[ FAIL [0-9]+ \| WARN [0-9]+ \| SKIP [0-9]+ \| PASS [0-9]+ \]" "$work/logitbias.Rcheck/tests/testthat.Rout" | tail -1)
   tests=$(echo "$tests" | sed -E 's/\[ FAIL ([0-9]+) \| WARN ([0-9]+) \| SKIP ([0-9]+) \| PASS ([0-9]+) \]/\4 passed, \1 failed, \2 warnings, \3 skipped/')
 fi
-R CMD INSTALL "$work/src" > "$work/install.log" 2>&1 || fail="${fail:-install failed}"
+# Install into a fresh library in the work folder (the system library may not be writable) and
+# render the tutorial from it.
+mkdir -p "$work/lib"
+R CMD INSTALL -l "$work/lib" "$work/src" > "$work/install.log" 2>&1 || { fail="${fail:-install failed}"; tail -20 "$work/install.log" >&2; }
+export R_LIBS="$work/lib${R_LIBS:+:$R_LIBS}"
 render() {  # render the vignette into DIR/TUTORIAL.md with relative figure paths
   mkdir -p "$1" && cp "$work/src/vignettes/tutorial.Rmd" "$1/TUTORIAL.Rmd"
   ( cd "$1" && Rscript -e "rmarkdown::render('TUTORIAL.Rmd', output_format = rmarkdown::github_document(html_preview = FALSE), quiet = TRUE)" ) > "$work/render.log" 2>&1

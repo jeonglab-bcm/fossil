@@ -121,7 +121,7 @@ nextflow run PMC2724427/figure-reproduction/main.nf --outdir results --full
 6. `PACKAGE`: `check_package_r.sh` on `../package`.
 7. `RESULTS`: `../results.json`, verdicts computed by `check_results.py`.
 8. `PAGE`: the results page and `report.md`.
-9. `CHECK`: `check_results.py` passes, no verdict changed against the committed `../results.json`, and `compare_runs.py` finds the fresh outputs equal to `output/`.
+9. `CHECK`: `check_results.py` passes, no verdict changed against the committed `../results.json`, and `compare_runs.py` finds the fresh outputs equal to `output/`. The renders (`fig*_ours.png`, `fig*_overlay.png`) are compared pixel by pixel inside the published panel boxes, the part that is scored; their titles and axis text are drawn with the machine's fonts and differ in antialiasing between machines (on the CI runner about 13,000 pixels of Fig. 1's text, none inside a box).
 
 ## Limits
 
