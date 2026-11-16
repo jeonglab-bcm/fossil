@@ -11,6 +11,13 @@ Usage:
 
 Verdicts are computed here from the numbers in the file, never typed by hand. The rules are
 in references/results-json.md. Standard library only.
+
+A reviewer can overrule a computed verdict with an item's "review" block:
+  "review": {"verdict": "agrees", "computed": "partly", "by": "<GitHub login>",
+             "url": "<the review on the pull request>", "note": "<why, optional>"}
+The item's verdict is then the reviewer's, and its measure says what was computed. "computed"
+is the verdict the reviewer saw; when the numbers later give another one, the check fails
+until the item is reviewed again.
 """
 
 import argparse
@@ -33,6 +40,7 @@ CAUSES = {
     "not_a_result", "metric_resolution", "unknown",
 }
 NEEDS_CAUSE = {"partly", "inconclusive", "differs", "not_attempted"}
+REVIEW_VERDICTS = {"agrees", "partly", "differs"}
 
 
 def number(v):
@@ -166,6 +174,23 @@ def check_cause(item, verdict, errors):
         errors.append(f"{iid}: cause.status must be explained or open")
 
 
+def apply_review(item, computed, measure, errors):
+    """The reviewer's verdict when the item has a review, else the computed one."""
+    r = item.get("review")
+    if r is None:
+        return computed, measure
+    iid = item.get("id", "?")
+    if r.get("verdict") not in REVIEW_VERDICTS:
+        errors.append(f"{iid}: review.verdict must be one of {sorted(REVIEW_VERDICTS)}")
+        return computed, measure
+    if not r.get("by") or not r.get("url"):
+        errors.append(f"{iid}: a review needs by and url")
+    if r.get("computed") != computed:
+        errors.append(f"{iid}: reviewed when the numbers gave {r.get('computed')!r}, now they give {computed!r}: review it again")
+        return computed, measure
+    return r["verdict"], f"{measure}; computed {computed.replace('_', ' ')}, reviewer {r['verdict']}"
+
+
 def check_item(item, root, errors):
     iid = item.get("id")
     if not iid:
@@ -191,6 +216,7 @@ def check_item(item, root, errors):
     verdict, measure = verdict_of(item, errors)
     if verdict:
         check_cause(item, verdict, errors)
+        verdict, measure = apply_review(item, verdict, measure, errors)
     return verdict, measure
 
 
@@ -229,7 +255,7 @@ def main():
         errors.append(f"duplicate item id {d}")
 
     counts = dict.fromkeys(VERDICTS, 0)
-    open_causes = 0
+    open_causes = reviewed = 0
     for item in items:
         verdict, measure = check_item(item, root, errors)
         if not verdict:
@@ -237,6 +263,8 @@ def main():
         counts[verdict] += 1
         if (item.get("cause") or {}).get("status") == "open":
             open_causes += 1
+        if item.get("review") and item["review"].get("verdict") == verdict:
+            reviewed += 1
         if item.get("verdict") != verdict:
             stale.append(f"{item.get('id')}: stored {item.get('verdict')!r}, computed {verdict!r}")
             item["verdict"] = verdict
@@ -247,6 +275,8 @@ def main():
         rows.append((item.get("label", item.get("id")), verdict, measure, why))
 
     summary = {"items": len(items), **counts, "open_causes": open_causes}
+    if reviewed:
+        summary["reviewed"] = reviewed
     if data.get("summary") != summary:
         stale.append("summary is out of date")
         data["summary"] = summary
@@ -263,7 +293,8 @@ def main():
         for label, v, m, why in rows:
             print(f"| {label} | {v.replace('_', ' ')} | {m} | {why} |")
         print()
-        print(", ".join(f"{summary[v]} {v.replace('_', ' ')}" for v in VERDICTS if summary[v]) + f"; {open_causes} open causes.")
+        print(", ".join(f"{summary[v]} {v.replace('_', ' ')}" for v in VERDICTS if summary[v]) + f"; {open_causes} open causes"
+              + (f"; {reviewed} verdicts set by a reviewer." if reviewed else "."))
 
     for e in errors:
         print(f"ERROR {e}", file=sys.stderr)
