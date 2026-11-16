@@ -56,7 +56,7 @@
         <h1 id="hero-head">Old methods, dug up and running again.</h1>
         <p class="lead">fossil is an archive of methods from published computational papers. An AI agent rebuilds each one from the paper and whatever survived, and every figure is checked against the one in print.</p>
         <div class="actions"><a class="btn btn--primary" href="#papers">See the papers</a><a class="btn" href="#about">Why we do it</a></div>
-        <p class="aside">Eight papers dug up so far, from 2007 to 2015.</p>
+        <p class="aside"><span data-count="papers" data-cap>Eleven</span> papers dug up so far, from <span data-count="first-year">2004</span> to <span data-count="last-year">2015</span>.</p>
       </div>
     </div>
   </section>
@@ -102,8 +102,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Eight papers, figure by figure</h2>
-        <p>Newest first. Two agree with their papers, six partly.</p>
+        <h2 id="index-head"><span data-count="papers" data-cap>Eleven</span> papers, figure by figure</h2>
+        <p>Newest first. <span data-count="agrees" data-cap>Two</span> agree with their papers, <span data-count="partly">nine</span> partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -288,6 +288,66 @@
                 <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
               </tr>
               <tr>
+                <td class="date" data-label="Published"><time datetime="2004-09-27">27 Sep 2004</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-14">14 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC522806</span>
+                  <a class="title" href="PMC522806/">A combinational feature selection and ensemble neural network method for classification of gene expression data</a>
+                  <span class="journal">Liu et al., BMC Bioinformatics</span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-5-136">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC522806">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The Matlab code of the ensemble</li>
+                  <li>The Kent Ridge data repository it linked</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC522806/package">The ensemble as a Python package</a>, rebuilt from the paper (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC522806/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC522806/">Tables 1 to 3 and Figs 3 and 4</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">Lung, MLL and DLBCL cross-validation came back</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2004-03-18">18 Mar 2004</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-13">13 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC407845</span>
+                  <a class="title" href="PMC407845/">Defining transcriptional networks through integrative modeling of mRNA expression and transcription factor binding data</a>
+                  <span class="journal">Gao et al., BMC Bioinformatics</span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2105-5-31">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC407845">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>MA-Networker and its online regression tool</li>
+                  <li>The 751-array expression library</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC407845/package">MA-Networker as a Python package</a>, rebuilt from the paper (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC407845/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC407845/">Tables 1 and 3 and Figs 1 to 3</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">Bound genes and the validations come back; coupling counts differ</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2010-02-24">24 Feb 2010</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-11">11 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2853684</span>
+                  <a class="title" href="PMC2853684/">The power of protein interaction networks for associating genes with diseases</a>
+                  <span class="journal">Navlakha and Kingsford, Bioinformatics</span>
+                  <span class="go"><a href="https://doi.org/10.1093/bioinformatics/btq076">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The code of all 13 methods and the consensus</li>
+                  <li>The graph summarization code</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2853684/package">Neighborhood, Oti, random walk and propagation as a Python package</a>, equal to the authors' scores on every pair (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2853684/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC2853684/">Figs 2 to 4 and S1 to S2</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claims hold; every single-method point came back</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
+              <tr>
                 <td class="date" data-label="Published"><time datetime="2012-11-15">15 Nov 2012</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-13">13 Nov 2026</time></td>
                 <td data-label="Paper">
@@ -327,8 +387,35 @@
       <a href="PMC4015815/">Remote homology figures</a>
       <a href="PMC1847688/">LIMPIC figures</a>
       <a href="PMC2666661/">Random forest LD figures</a>
+      <a href="PMC407845/">MA-Networker figures</a>
+      <a href="PMC2853684/">Disease gene network figures</a>
     </nav>
   </div>
 </footer>
+<script>
+// Counts on the page come from the papers table, so they stay right as rows are added.
+(function () {
+  var rows = document.querySelectorAll('#papers tbody tr');
+  var years = [].map.call(document.querySelectorAll('#papers td[data-label="Published"] time'),
+    function (t) { return +t.getAttribute('datetime').slice(0, 4); });
+  var words = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven',
+    'twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+  var verdicts = function (v) { return document.querySelectorAll('#papers .verdict[data-v="' + v + '"]').length; };
+  var values = {
+    'papers': rows.length,
+    'agrees': verdicts('agrees'),
+    'partly': verdicts('partly'),
+    'first-year': Math.min.apply(null, years),
+    'last-year': Math.max.apply(null, years)
+  };
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    var n = values[el.getAttribute('data-count')];
+    if (!isFinite(n)) return;
+    var text = /year/.test(el.getAttribute('data-count')) || n > 20 ? String(n) : words[n];
+    if (el.hasAttribute('data-cap')) text = text.charAt(0).toUpperCase() + text.slice(1);
+    el.textContent = text;
+  });
+})();
+</script>
 </body>
 </html>
