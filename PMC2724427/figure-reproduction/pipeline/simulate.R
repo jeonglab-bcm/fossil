@@ -43,8 +43,8 @@ res <- list(
                  not_converged = sum(s$not_converged[s$term == "x"]),
                  largest_n_with_drop = if (any(s$dropped > 0)) max(s$n[s$dropped > 0]) else NA,
                  by_n = s[s$term == "x" & s$dropped > 0, c("n", "dropped", "boundary", "separated", "not_converged")]),
-  six_sizes = six,
-  seconds = round(proc.time()[["elapsed"]] - t0, 1))
+  six_sizes = six)
+secs <- round(proc.time()[["elapsed"]] - t0, 1)  # printed only, so a rerun writes the same files
 num <- function(x) if (is.numeric(x)) signif(x, 15) else x
 tojson <- function(x, ind = "") {
   nx <- paste0(ind, " ")
@@ -72,4 +72,4 @@ if (light) {
   w(s, "per_n.csv")
   w(sim$samples, "samples_fig.csv")
 }
-cat(sprintf("seed %d: %.1f s\n", seed, res$seconds))
+cat(sprintf("seed %d: %.1f s\n", seed, secs))

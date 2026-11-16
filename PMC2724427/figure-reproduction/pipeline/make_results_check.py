@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 committed, out = sys.argv[1:3]
-comp = json.load(open(Path(committed) / "comparison.json"))["items"]
+comp = json.load(open(Path(committed) / "cmp" / "comparison.json"))["items"]
 results = []
 for key, it in comp.items():
     if it.get("method") == "values":
@@ -17,16 +17,16 @@ for key, it in comp.items():
             if f["observed"] is None:
                 continue
             results.append({"id": f"{key}.{i}", "label": f"{key}, {f['name']} (paper {f['expected']})",
-                            "file": "comparison.json", "path": f"item_list.key={key.replace('.', '_')}.values.fields.{i}.observed",
+                            "file": "cmp/comparison.json", "path": f"item_list.key={key.replace('.', '_')}.values.fields.{i}.observed",
                             "expected": f["observed"]})
     elif it.get("method") == "check":
         results.append({"id": f"{key}.passed", "label": f"{key}, check passes",
-                        "file": "comparison.json", "path": f"item_list.key={key.replace('.', '_')}.check.passed",
+                        "file": "cmp/comparison.json", "path": f"item_list.key={key.replace('.', '_')}.check.passed",
                         "expected": it["check"]["passed"]})
     elif it.get("method") == "pixels":
         for side in ("published_near_ours", "ours_near_published"):
             results.append({"id": f"{key}.{side}", "label": f"{key}, {side.replace('_', ' ')}",
-                            "file": "comparison.json", "path": f"item_list.key={key.replace('.', '_')}.pixels.{side}",
+                            "file": "cmp/comparison.json", "path": f"item_list.key={key.replace('.', '_')}.pixels.{side}",
                             "expected": it["pixels"][side], "tolerance": {"abs": 1e-9}})
 doc = {"paper": "PMC2724427",
        "title": "Nemes S, Jonasson JM, Genell A, Steineck G. Bias in odds ratios by logistic regression modelling and sample size. BMC Medical Research Methodology 9:56 (2009)",

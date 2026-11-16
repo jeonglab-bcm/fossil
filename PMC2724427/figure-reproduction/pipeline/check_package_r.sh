@@ -21,6 +21,7 @@ if [ -z "$fail" ]; then
   status=$(grep -E "^Status:" "$work/check.log" | tail -1)
   case "$status" in *WARNING*|*ERROR*) fail="R CMD check: $status" ;; esac
   tests=$(grep -oE "\[ FAIL [0-9]+ \| WARN [0-9]+ \| SKIP [0-9]+ \| PASS [0-9]+ \]" "$work/logitbias.Rcheck/tests/testthat.Rout" | tail -1)
+  tests=$(echo "$tests" | sed -E 's/\[ FAIL ([0-9]+) \| WARN ([0-9]+) \| SKIP ([0-9]+) \| PASS ([0-9]+) \]/\4 passed, \1 failed, \2 warnings, \3 skipped/')
 fi
 R CMD INSTALL "$work/src" > "$work/install.log" 2>&1 || fail="${fail:-install failed}"
 render() {  # render the vignette into DIR/TUTORIAL.md with relative figure paths

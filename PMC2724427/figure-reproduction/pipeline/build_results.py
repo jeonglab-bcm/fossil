@@ -39,7 +39,7 @@ for n in notes["items"]:
             it["check"] = {"passed": False, "detail": "check_package.py report missing"}
     it["method"] = method
     if method != "none":
-        for key in ("values", "check"):
+        for key in ("values", "check", "pixels"):
             if key in c:
                 it[key] = dict(c[key])
     if "exceptions" in n and "values" in it:

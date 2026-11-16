@@ -1,260 +1,605 @@
 {
-  "paper": {
-    "id": "PMC2724427",
-    "title": "Bias in odds ratios by logistic regression modelling and sample size",
-    "citation": "Nemes S, Jonasson JM, Genell A, Steineck G. BMC Medical Research Methodology 9:56 (2009)",
-    "doi": "10.1186/1471-2288-9-56",
-    "license": "CC BY 2.0"
+ "paper": {
+  "id": "PMC2724427",
+  "title": "Bias in odds ratios by logistic regression modelling and sample size",
+  "citation": "Nemes S, Jonasson JM, Genell A, Steineck G. BMC Medical Research Methodology 9:56 (2009)",
+  "doi": "10.1186/1471-2288-9-56",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "pipeline": "PMC2724427/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2724427/figure-reproduction/main.nf --outdir results"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "shared_assumptions": {
+  "seed": {
+   "what": "One population of 100,000 drawn once with seed 2724427 (the paper gives no seed); samples of size n drawn with a seed derived from it and n",
+   "source": "our_choice",
+   "sensitivity": "Over 20 other populations the Table 1 values move as shown in the seed-spread columns of tables.json"
   },
-  "run": {
-    "pipeline": "PMC2724427/figure-reproduction/main.nf",
-    "command": "nextflow run PMC2724427/figure-reproduction/main.nf --outdir results"
+  "glm": {
+   "what": "Each sample fitted with R's glm.fit (binomial family, default control); the paper names no fitting function (Additional file 1 points to Harrell's Design library)",
+   "source": "our_choice",
+   "sensitivity": "glm.fit and Design's lrm reach the same maximum likelihood estimate when it exists; they differ only in which separated samples fail, see the separation rule"
   },
-  "session": {
-    "ledger": "session/ledger.json"
+  "separation": {
+   "what": "Samples without a finite estimate left out: any fitted probability within 1e-8 of 0 or 1, or no convergence (the paper does not say how it handled them)",
+   "source": "our_choice",
+   "sensitivity": "Leaving out only the fits R warns about, or keeping every fit, changes the discrete slope and R squared most (tables.json, sensitivity columns)"
   },
-  "skill": {
-    "name": "paper2repro",
-    "version": "0.5.0",
-    "tag": "paper2repro-v0.5.0",
-    "commit": null,
-    "modified": null
+  "ols_means": {
+   "what": "Table 1's OLS fits the 281 per-size means, the points Fig. 1 draws (the paper does not say means or individual estimates)",
+   "source": "our_choice",
+   "sensitivity": "The fit to all individual estimates gives nearly the same estimates and SEs but an R squared near 0.02, far from the paper's 0.963 and 0.836"
   },
-  "shared_assumptions": {
-    "seed": {
-      "what": "One population of 100,000 drawn once with seed 2724427 (the paper gives no seed); samples of size n drawn with a seed derived from it and n",
-      "source": "our_choice",
-      "sensitivity": "Over 20 other populations the Table 1 values move as shown in the seed-spread columns of tables.json"
-    },
-    "glm": {
-      "what": "Each sample fitted with R's glm.fit (binomial family, default control); the paper names no fitting function (Additional file 1 points to Harrell's Design library)",
-      "source": "our_choice",
-      "sensitivity": "glm.fit and Design's lrm reach the same maximum likelihood estimate when it exists; they differ only in which separated samples fail, see the separation rule"
-    },
-    "separation": {
-      "what": "Samples without a finite estimate left out: any fitted probability within 1e-8 of 0 or 1, or no convergence (the paper does not say how it handled them)",
-      "source": "our_choice",
-      "sensitivity": "Leaving out only the fits R warns about, or keeping every fit, changes the discrete slope and R squared most (tables.json, sensitivity columns)"
-    },
-    "ols_means": {
-      "what": "Table 1's OLS fits the 281 per-size means, the points Fig. 1 draws (the paper does not say means or individual estimates)",
-      "source": "our_choice",
-      "sensitivity": "The fit to all individual estimates gives nearly the same estimates and SEs but an R squared near 0.02, far from the paper's 0.963 and 0.836"
-    },
-    "axes": {
-      "what": "Our figures are drawn on the published axes, fitted to the published tick marks (largest residual 0.72 px)",
-      "source": "read_from_figure",
-      "sensitivity": "The tick fits leave under 1 px of error; the scores use a 2 px tolerance"
-    },
-    "kernel": {
-      "what": "lokern::lokerns (local plug-in bandwidth) for the kernel derivative, and a log-log slope within 2 ± 0.5 between n = 150 and 1400 as confirming a 1/n convergence (the paper names no software and reports no numbers)",
-      "source": "our_choice",
-      "sensitivity": "The continuous slope is near -2; the result would change only if the band were narrower than its distance from -2"
-    },
-    "vline": {
-      "what": "Fig. 2's vertical line drawn at 2, the population value; the paper does not say (at n = 1000 the heading 2.003 and 2 are 0.4 px apart)",
-      "source": "read_from_figure",
-      "sensitivity": "The line is masked (2 px either side) before scoring"
-    }
+  "axes": {
+   "what": "Our figures are drawn on the published axes, fitted to the published tick marks (largest residual 0.72 px)",
+   "source": "read_from_figure",
+   "sensitivity": "The tick fits leave under 1 px of error; the scores use a 2 px tolerance"
   },
-  "items": [
-    {
-      "id": "table1.continuous",
-      "label": "Table 1, continuous variable (intercept and n⁻¹: estimate, SE, t, p)",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "ols_means"
-      ]
-    },
-    {
-      "id": "table1.discrete",
-      "label": "Table 1, discrete variable (intercept and n⁻¹: estimate, SE, t, p)",
-      "kind": "table",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "ols_means"
-      ]
-    },
-    {
-      "id": "text.r2",
-      "label": "Text: R² of the OLS fit, 0.963 (continuous) and 0.836 (discrete)",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "ols_means"
-      ]
-    },
-    {
-      "id": "text.arithmetic",
-      "label": "Claims recomputed from the paper's own numbers (SE = estimate / t in Table 1; P(x>2.5) of Additional file 1)",
-      "kind": "code_check",
-      "source": "papers_data"
-    },
-    {
-      "id": "text.figures_vs_table1",
-      "label": "The paper against itself: Fig. 2's headings and Table 1's curve 2.011 + 23.9/n",
-      "kind": "code_check",
-      "source": "papers_data"
-    },
-    {
-      "id": "text.supp_px",
-      "label": "Additional file 1: P(x>2.5) = 0.2375",
-      "kind": "value",
-      "source": "papers_data",
-      "assumptions_ref": [
-        "seed"
-      ]
-    },
-    {
-      "id": "text.away_from_null",
-      "label": "Abstract and Results: estimates biased away from zero, odds ratios away from one",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "ols_means"
-      ]
-    },
-    {
-      "id": "text.fit_better_continuous",
-      "label": "Results: the fit is better for the continuous than for the discrete variable",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "ols_means"
-      ]
-    },
-    {
-      "id": "text.skewness",
-      "label": "Results and Fig. 2: the sampling distribution is skewed at small n and grows symmetric",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation"
-      ]
-    },
-    {
-      "id": "text.extremes",
-      "label": "Results and Fig. 3: extreme estimates become rarer as n grows",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation"
-      ]
-    },
-    {
-      "id": "text.kernel",
-      "label": "Methods: kernel regression derivatives confirm the convergence rate",
-      "kind": "value",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "kernel"
-      ]
-    },
-    {
-      "id": "text.long1997",
-      "label": "Discussion: maximum likelihood is risky under n = 100 and adequate above 500 (Long 1997)",
-      "kind": "value",
-      "source": "none",
-      "method": "none"
-    },
-    {
-      "id": "fig1.continuous",
-      "label": "Fig. 1, continuous variable",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "axes"
-      ]
-    },
-    {
-      "id": "fig1.discrete",
-      "label": "Fig. 1, discrete variable",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "axes"
-      ]
-    },
-    {
-      "id": "fig2",
-      "label": "Fig. 2, densities at n = 100, 150, 300, 500, 750 and 1000",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "axes",
-        "vline"
-      ]
-    },
-    {
-      "id": "fig2.headings",
-      "label": "Fig. 2, the mean in each panel heading",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation"
-      ]
-    },
-    {
-      "id": "fig3",
-      "label": "Fig. 3, box plots at the same six sizes",
-      "kind": "figure",
-      "source": "reconstructed",
-      "assumptions_ref": [
-        "seed",
-        "glm",
-        "separation",
-        "axes"
-      ]
-    },
-    {
-      "id": "port",
-      "label": "simulate_population() against the R lines of Additional file 1",
-      "kind": "code_check",
-      "source": "port"
-    },
-    {
-      "id": "package",
-      "label": "R package logitbias and its tutorial",
-      "kind": "code_check",
-      "source": "reconstructed",
-      "outputs": [
-        "package/tutorial/TUTORIAL.md"
-      ]
-    }
+  "kernel": {
+   "what": "lokern::lokerns (local plug-in bandwidth) for the kernel derivative, and a log-log slope within 2 ± 0.5 between n = 150 and 1400 as confirming a 1/n convergence (the paper names no software and reports no numbers)",
+   "source": "our_choice",
+   "sensitivity": "The continuous slope is near -2; the result would change only if the band were narrower than its distance from -2"
+  },
+  "vline": {
+   "what": "Fig. 2's vertical line drawn at 2, the population value; the paper does not say (at n = 1000 the heading 2.003 and 2 are 0.4 px apart)",
+   "source": "read_from_figure",
+   "sensitivity": "The line is masked (2 px either side) before scoring"
+  }
+ },
+ "items": [
+  {
+   "id": "table1.continuous",
+   "label": "Table 1, continuous variable (intercept and n⁻¹: estimate, SE, t, p)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "ols_means"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The intercept is the population draw: 2.011 lies inside our 20 populations (1.962 to 2.023; ours 1.966). The n⁻¹ slope and both SEs do not: b1 is 26.7 to 30.0 over 20 populations against 23.9, and the SEs are about 1.5 times the paper's, because our per-size means scatter more. The analytic first-order bias of our population is 23.8, close to the paper's 23.9. A population with x of SD 1 comes closer (b1 25.2, SE 0.307, intercept SE 0.00080) but does not close the gap.",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/run/fit.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
+      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper handled separated samples differently",
+      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "table1.discrete",
+   "label": "Table 1, discrete variable (intercept and n⁻¹: estimate, SE, t, p)",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "ols_means"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The intercept is the population draw: -0.898 lies inside our 20 populations (-0.956 to -0.866; ours -0.855 is the far end of that spread). The slope does not come back: -1.9 here and -2.4 to -5.7 over 20 populations against -9.524, with SEs 2 to 3 times the paper's. Leaving out separated samples pulls the small-n means of the discrete coefficient toward zero; keeping the fits R does not warn about pushes them far away (b1 -67). The paper's rule is not stated. A population with x of SD 1 gives -8.1.",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/run/fit.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
+      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper handled separated samples differently",
+      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.r2",
+   "label": "Text: R² of the OLS fit, 0.963 (continuous) and 0.836 (discrete)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "ols_means"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Ours 0.940 and 0.034 against 0.963 and 0.836; over 20 populations 0.926 to 0.955 and 0.04 to 0.22. The R squared of the fit to all estimates is near 0.02, so the paper fitted the means. Our per-size means scatter more around the curve than the paper's, most for the discrete coefficient. A population with x of SD 1 gives 0.960 and 0.566. Follows table1.",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Another draw of the population moves these values (the paper gives no seed and did not deposit its population)",
+      "test": "The study rerun on 20 more populations (seeds 1 to 20; tables.json, seed_spread)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Table 1 fits every individual estimate, not the per-size means",
+      "test": "OLS on all 280,733 kept estimates (tables.json, ours_all_estimates)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper handled separated samples differently",
+      "test": "Leave out only the fits R warns about, or keep every fit (tables.json, sensitivity columns)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own numbers (SE = estimate / t in Table 1; P(x>2.5) of Additional file 1)",
+   "kind": "code_check",
+   "source": "papers_data",
+   "cause": {
+    "category": "paper_error",
+    "summary": "In Table 1 the discrete intercept's printed estimate and t (-0.898, -1369.34) imply an SE of 0.000656, printed as 0.00065 (cut, not rounded). The other three SEs and P(x>2.5) come back.",
+    "evidence": [
+     "figure-reproduction/output/cmp/comparison.json"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.figures_vs_table1",
+   "label": "The paper against itself: Fig. 2's headings and Table 1's curve 2.011 + 23.9/n",
+   "kind": "code_check",
+   "source": "papers_data",
+   "cause": {
+    "category": "paper_error",
+    "summary": "Fig. 2's headings are means at six sizes; Table 1's curve 2.011 + 23.9/n gives the means it implies. Five of six headings lie 0.02 to 0.04 below the curve (2.003 at n = 1000 against 2.035), and Fig. 3's medians sit higher still (about 2.07 at n = 1000). Figs 2 and 3 cannot come from the run behind Table 1 and Fig. 1.",
+    "evidence": [
+     "figure-reproduction/output/cmp/comparison.json",
+     "figure-reproduction/published/figure-2.jpg",
+     "figure-reproduction/published/figure-3.jpg"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.supp_px",
+   "label": "Additional file 1: P(x>2.5) = 0.2375",
+   "kind": "value",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.away_from_null",
+   "label": "Abstract and Results: estimates biased away from zero, odds ratios away from one",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "ols_means"
+   ]
+  },
+  {
+   "id": "text.fit_better_continuous",
+   "label": "Results: the fit is better for the continuous than for the discrete variable",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "ols_means"
+   ]
+  },
+  {
+   "id": "text.skewness",
+   "label": "Results and Fig. 2: the sampling distribution is skewed at small n and grows symmetric",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation"
+   ]
+  },
+  {
+   "id": "text.extremes",
+   "label": "Results and Fig. 3: extreme estimates become rarer as n grows",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation"
+   ]
+  },
+  {
+   "id": "text.kernel",
+   "label": "Methods: kernel regression derivatives confirm the convergence rate",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "kernel"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The continuous coefficient's kernel derivative has the sign of -b1/n² everywhere and falls as n to the power -2.07. The discrete check fails because our discrete means have almost no 1/n trend (b1 -1.9, R² 0.03, see table1.discrete), which depends on the unstated handling of separated samples.",
+    "evidence": [
+     "figure-reproduction/output/run/checks.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The discrete trend depends on the rule for separated samples",
+      "test": "Discrete b1 under the three rules (tables.json): -1.9 (ours), -67 (only R's warnings), -128 (every fit)",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.long1997",
+   "label": "Discussion: maximum likelihood is risky under n = 100 and adequate above 500 (Long 1997)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A citation of Long (1997), not a result of the paper.",
+    "evidence": [
+     "https://doi.org/10.1186/1471-2288-9-56"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "fig1.continuous",
+   "label": "Fig. 1, continuous variable",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "axes"
+   ],
+   "cause": {
+    "category": "unknown",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/cmp/comparison.json"
+    ],
+    "status": "open",
+    "summary": "Drawn on the published axes, 162 of our 281 means fall below them: our population sits lower (intercept 1.966 against 2.011) and our means scatter more. Moving our series by the difference of the intercepts raises the score from 12% to 54%; a population with x of SD 1 reaches 72%. Neither reaches the published points.",
+    "hypotheses": [
+     {
+      "hypothesis": "The population draw shifts the curve",
+      "test": "Our series moved by Table 1's intercept minus ours (hypotheses/fig1_population.png)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The separation rule changes the small-n points",
+      "test": "Controls with R's warning rule and with every fit kept score 13% and 8%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.discrete",
+   "label": "Fig. 1, discrete variable",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "axes"
+   ],
+   "cause": {
+    "category": "unknown",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/cmp/comparison.json"
+    ],
+    "status": "open",
+    "summary": "267 of our 281 means fall outside the published axes: our population's discrete coefficient is -0.840 (Table 1 -0.898) and our means have almost no 1/n trend (see table1.discrete). Moving our series by the difference of the intercepts gives 19%; a population with x of SD 1 gives 1%.",
+    "hypotheses": [
+     {
+      "hypothesis": "The population draw shifts the curve",
+      "test": "Our series moved by Table 1's intercept minus ours",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The separation rule changes the small-n points",
+      "test": "Controls with R's warning rule and with every fit kept score 3% and 3%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, densities at n = 100, 150, 300, 500, 750 and 1000",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "axes",
+    "vline"
+   ],
+   "cause": {
+    "category": "unknown",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/cmp/comparison.json"
+    ],
+    "status": "open",
+    "summary": "Our densities are wider and lower: the sampling SD at n = 1000 is 0.25 to 0.27 over 21 populations, while the published curve's peak of about 2.35 implies about 0.17. A kernel bandwidth 0.8 or 1.25 times ours does not help. A population with x of SD 1 (SD 0.20) raises the score from 13% to 54%.",
+    "hypotheses": [
+     {
+      "hypothesis": "Another kernel bandwidth",
+      "test": "Controls with bandwidth ×0.8 and ×1.25 score 14% and 12%",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The population draw",
+      "test": "SD at n = 1000 over 20 populations: 0.248 to 0.271",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig2.headings",
+   "label": "Fig. 2, the mean in each panel heading",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation"
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "Each heading is a mean of 1,000 random estimates and is printed to three decimals, so it cannot come back exactly. Over 20 populations our means at five of the six sizes span the paper's heading; at n = 150 the paper's 2.129 is 0.006 below our lowest (2.135). Figs 2 and 3 also disagree with Table 1 (text.figures_vs_table1).",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The population draw moves the headings",
+      "test": "Means at the six sizes over 20 populations (tables.json, seed_spread.fig2_headings)",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "A population with x of SD 1",
+      "test": "Its means at the six sizes: 2.271, 2.169, 2.091, 2.056, 2.041, 2.047",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, box plots at the same six sizes",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "seed",
+    "glm",
+    "separation",
+    "axes"
+   ],
+   "cause": {
+    "category": "unknown",
+    "evidence": [
+     "figure-reproduction/output/cmp/tables.json",
+     "figure-reproduction/output/cmp/comparison.json"
+    ],
+    "status": "open",
+    "summary": "Our boxes are taller (our sampling spread is about 1.5 times the paper's) and our medians lower; the published medians stay near 2.07 to 2.2 at every size, above Fig. 2's means. The control shifted up by 1% of the axis scores better than ours, so a shift is part of the gap. A population with x of SD 1 raises the score from 42% to 60%.",
+    "hypotheses": [
+     {
+      "hypothesis": "The population draw",
+      "test": "SD at n = 1000 over 20 populations: 0.248 to 0.271, against an IQR of about 0.23 in the figure",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The spread is right and only the level differs",
+      "test": "Controls with the spread ×0.9 and ×1.1 score 43% and 38%",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The published population had a wider x than Additional file 1 states (SD 1 in place of 0.7), giving smaller sampling spreads",
+      "test": "The study rerun with x ~ N(2, 1), seed 2724427 (output/seeds/xsd1)",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "port",
+   "label": "simulate_population() against the R lines of Additional file 1",
+   "kind": "code_check",
+   "source": "port"
+  },
+  {
+   "id": "package",
+   "label": "R package logitbias and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "We ran the study again: 281 sample sizes, 1,000 samples each, 281,000 logistic fits, and 20 more populations to see how far a rerun moves. Of {items} results, {exact} came back exactly and {agrees} agree; {partly} partly agree and {differs} differ.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1",
+    [
+     "fig1.continuous",
+     "fig1.discrete"
+    ]
+   ],
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2",
+     "fig2.headings"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "tables",
+    "Table 1",
+    [
+     "table1.continuous",
+     "table1.discrete"
+    ]
+   ],
+   [
+    "items",
+    "The claims",
+    [
+     "text.away_from_null",
+     "text.fit_better_continuous",
+     "text.skewness",
+     "text.extremes"
+    ]
+   ]
   ],
-  "page": {}
+  "items_caption": "Each verdict is computed from the numbers by check_results.py. Ours is one population (seed 2724427).",
+  "claims_line": "The main claim holds: in our run logistic regression pushes both coefficients away from zero, more at small n, and the sampling distribution is skewed at small n and grows symmetric. Table 1's slopes, SEs and R squared values and the figures' spreads do not come back; the causes are open (the paper's per-size means scatter less than any population of Additional file 1's design gives), and the intercepts move with the population draw.",
+  "came_back": [
+   [
+    "The direction of the bias",
+    "Away from zero for both exposures, at every size."
+   ],
+   [
+    "The shape",
+    "Skewed at n = 100, near symmetric at n = 1000; fewer extreme estimates as n grows."
+   ],
+   [
+    "The intercepts",
+    "2.011 and -0.898 lie inside our 20 populations."
+   ],
+   [
+    "The population",
+    "Additional file 1's R lines run unchanged, and P(x>2.5) = 0.2375."
+   ]
+  ],
+  "buried": [
+   "Table 1's slopes, SEs and R squared values: our means scatter more than the paper's.",
+   "The spreads of Figs 2 and 3: about 1.5 times wider in our run.",
+   "How the paper handled separated samples, and its seed."
+  ],
+  "matched_intro": "Each line is a part of the paper and how close our run came.",
+  "matched": [
+   [
+    "Table 1",
+    "Intercepts within the spread of 20 populations; slopes and SEs not."
+   ],
+   [
+    "Fig. 1",
+    "Most of our points fall off the published axes; no better than a wrong input."
+   ],
+   [
+    "Figs 2 and 3",
+    "Same shapes, wider spreads."
+   ],
+   [
+    "The text",
+    "Bias away from zero, skew and extremes all come back; the discrete kernel check does not."
+   ]
+  ],
+  "closing": "The bias came back. The paper's exact numbers did not.",
+  "front_note": "The bias away from zero comes back; Table 1's slopes do not"
+ }
 }

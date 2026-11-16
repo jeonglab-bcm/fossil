@@ -313,6 +313,11 @@ if spread:
                          "share_below_paper": float((vals < pv).mean())}
     sd1000 = [next(r for r in s_["six_sizes"] if r["n"] == 1000 and r["term"] == "x")["sd"] for s_ in spread]
     spread_tab["sd_x_at_1000"] = {"min": min(sd1000), "max": max(sd1000)}
+    spread_tab["fig2_headings"] = {}
+    for n, h in heads.items():
+        ms = [next(r for r in s_["six_sizes"] if r["n"] == n and r["term"] == "x")["mean"] for s_ in spread]
+        spread_tab["fig2_headings"][str(n)] = {"paper": float(h), "min": min(ms), "max": max(ms),
+                                               "paper_inside_range": min(ms) <= float(h) <= max(ms)}
     pops = [s_["population"]["glm"] for s_ in spread]
     spread_tab["population_glm"] = {k: {"min": min(p[k] for p in pops), "max": max(p[k] for p in pops)} for k in ("x", "z")}
 tables = {

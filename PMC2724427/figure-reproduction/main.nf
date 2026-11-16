@@ -79,18 +79,20 @@ process SEEDS {
 }
 
 process FIGURES {
-    publishDir "${params.outdir}", mode: 'copy', pattern: 'figs/fig*_ours.png'
+    publishDir "${params.outdir}/figs", mode: 'copy', pattern: 'ours/*', saveAs: { f -> file(f).name }
     input:
     path per_n
     path samples
     path seeds
     output:
     path 'figs', emit: figs
+    path 'ours/*', emit: ours
     path 'calib.json', emit: calib
     script:
     """
     ${params.python} ${params.pipe}/calibrate.py ${params.published} calib.json
     Rscript ${params.pipe}/figures.R calib.csv ${per_n} ${samples} figs ${seeds}/xsd1/per_n.csv ${seeds}/xsd1/samples_fig.csv
+    mkdir -p ours && cp figs/fig*_ours.png ours/
     """
 }
 
