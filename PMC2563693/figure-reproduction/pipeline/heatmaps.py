@@ -10,6 +10,10 @@ its colour is redder in the poor-prognosis (metastatic) patients than in the oth
 
 Fig. 4 is read from the PLOS PNG (published/figure-4.png); the class boundaries are the ends of the
 magenta and green bars above each heatmap, the heatmap rows the band of coloured rows under them.
+Its cells are large enough to read one by one: each class's span holds as many equal columns as
+Table S1 has patients in that class (Boston 31 and 31, Michigan 24 and 62; the colour changes in the
+picture fall on these column edges), and "cells" keeps red minus green at the centre of every cell,
+rows in the printed order, poor-prognosis columns first, in the published left-to-right order.
 Fig. S4 is read from the supplementary PDF rendered at 300 dpi; its class boundaries and rows come
 from the PDF's own drawing commands (the bars) and image placements (the heatmaps).
 """
@@ -56,6 +60,7 @@ FIGS4_ROWS = [
     ("IL22 pathway", "il22bpPathway"),
     ("MMP/Cytokine connection", "SA_MMP_CYTOKINE_CONNECTION"),
 ]
+FIG4_COLUMNS = {"lung_boston": (31, 31), "lung_michigan": (24, 62)}  # Table S1: poor, good
 S4_DPI = 300
 MAGENTA, GREEN = np.array([236, 0, 140]), np.array([140, 198, 63])
 
@@ -72,6 +77,17 @@ def rows_of(im, x0, x1, y0, y1, n):
         a, b = int(round(y0 + (i + 0.25) * band)), int(round(y0 + (i + 0.75) * band))
         cells = im[a:b, int(x0):int(x1)].astype(float)
         out.append(float(np.mean(cells[..., 0] - cells[..., 1])))
+    return out
+
+
+def cells_of(im, x0, x1, ncol, y0, y1, nrow):
+    """Red minus green at the centre (middle 40% each way) of each of nrow x ncol equal cells."""
+    w, h = (x1 - x0) / ncol, (y1 - y0) / nrow
+    out = np.zeros((nrow, ncol))
+    for i in range(nrow):
+        for j in range(ncol):
+            c = im[int(y0 + (i + 0.3) * h):int(y0 + (i + 0.7) * h), int(x0 + (j + 0.3) * w):int(x0 + (j + 0.7) * w)].astype(float)
+            out[i, j] = np.mean(c[..., 0] - c[..., 1])
     return out
 
 
@@ -101,9 +117,13 @@ def fig4(pub):
         while y1 + 1 < h and coloured[y1 + 1]:
             y1 += 1
         poor, good = block(im, xs, y0, y1 + 1, len(FIG4_ROWS))
+        npoor, ngood = FIG4_COLUMNS[name]
+        cells = np.hstack([cells_of(im, xs[0], xs[1], npoor, y0, y1 + 1, len(FIG4_ROWS)),
+                           cells_of(im, xs[1], xs[2], ngood, y0, y1 + 1, len(FIG4_ROWS))])
         out[name] = {"box": [int(xs[0]), int(y0), int(xs[2]), int(y1 + 1)], "boundary": int(xs[1]),
                      "rows": [{"label": l, "set": s, "poor": round(p, 2), "good": round(g, 2), "redder_in_poor": p > g}
-                              for (l, s), p, g in zip(FIG4_ROWS, poor, good)]}
+                              for (l, s), p, g in zip(FIG4_ROWS, poor, good)],
+                     "columns": [npoor, ngood], "cells": np.round(cells, 1).tolist()}
     return out
 
 

@@ -104,6 +104,46 @@ def yn(b):
     return "yes" if b else "no"
 
 
+def match_columns(pub, ours, cases):
+    """Our patient for each published column, one to one within each class: the assignment that
+    maximizes the summed correlation of the columns over the rows (rows z-scored first)."""
+    import numpy as np
+    from scipy.optimize import linear_sum_assignment
+
+    z = lambda m: (m - m.mean(axis=1, keepdims=True)) / m.std(axis=1, keepdims=True)
+    P, O = z(np.asarray(pub, float)), z(np.asarray(ours, float))
+    order = []
+    for lo, hi in ((0, cases), (cases, P.shape[1])):
+        _, col = linear_sum_assignment(-(P[:, lo:hi].T @ O[:, lo:hi]))
+        order += [lo + int(c) for c in col]
+    return order
+
+
+def row_follow(pub, ours, cases, seeds=20):
+    """Each row's correlation with the published row across patients, after the columns are matched,
+    and the best the same matching reaches from wrong inputs: our rows shifted onto other pathways
+    (13 shifts) and random matrices of the same shape (seeds 0 to 19)."""
+    import numpy as np
+
+    P, A = np.asarray(pub, float), np.asarray(ours, float)
+    r = lambda X: [float(np.corrcoef(P[i], X[i])[0, 1]) for i in range(len(P))]
+    order = match_columns(P, A, cases)
+    ours_r = r(A[:, order])
+    ctl = []
+    for k in range(1, len(A)):
+        S = np.roll(A, k, axis=0)
+        ctl.append(r(S[:, match_columns(P, S, cases)]))
+    for seed in range(seeds):
+        Z = np.random.default_rng(seed).standard_normal(A.shape)
+        ctl.append(r(Z[:, match_columns(P, Z, cases)]))
+    ctl = np.max(np.asarray(ctl), axis=0)
+    cells = float(np.corrcoef(P.ravel(), A[:, order].ravel())[0, 1])
+    same_sign = float(np.mean(np.sign(P) == np.sign(A[:, order])))
+    return {"order": order, "r": [round(x, 3) for x in ours_r], "best_control": [round(float(x), 3) for x in ctl],
+            "cells_r": round(cells, 3), "same_sign": round(same_sign, 3),
+            "cells_r_file_order": round(float(np.corrcoef(P.ravel(), A.ravel())[0, 1]), 3)}
+
+
 def corg_key(symbols, mapping):
     """Paper's printed CORG symbols as row keys of the dataset (Entrez IDs, or symbols for lung)."""
     return [mapping.get(s, s) for s in symbols.split()]
@@ -207,6 +247,18 @@ def main(run: Path, out: Path):
                 ours = sum(row[:c]) / c > sum(row[c:]) / (len(row) - c)
                 fields.append({"name": f"{r['label']}, {LABELS[d]}: higher in {case}",
                                "expected": yn(r["redder_in_poor"]), "observed": yn(ours)})
+        if tid == "fig4":
+            # Fig. 4's cells can be read one by one: put our patients in the published column order
+            # and ask whether each row follows the published row from patient to patient
+            res["fig4_columns"] = {}
+            for d, h in hm[tid].items():
+                a = fig4["heatmap"][tid][d]
+                ours = [a["activity"][a["pathways"].index(r["set"])] for r in h["rows"]]
+                m = row_follow(h["cells"], ours, a["cases"])
+                res["fig4_columns"][d] = m
+                fields += [{"name": f"{r['label']}, {LABELS[d]}: follows the published row patient by patient",
+                            "expected": "yes", "observed": yn(rv > c)}
+                           for r, rv, c in zip(h["rows"], m["r"], m["best_control"])]
         res[tid] = {"fields": fields}
 
     # ---- Fig. S1 (vector values)

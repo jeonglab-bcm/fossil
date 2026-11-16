@@ -23,8 +23,8 @@ FIGS = {"2": "fig2.", "3": "fig3.", "4": "fig4.", "S1": "fig_s1.", "S2": "fig_s2
 CAPTIONS = {
     "2": "Fig. 2. Mean |t| of the top 1% to 10% pathway markers (PAC, PAC_all), their CORGs and as many top genes, in the dataset the markers come from (A, C, E, G) and in the other cohort (B, D, F, H). Ours drawn in the published colours.",
     "3": "Fig. 3. AUC of logistic-regression classifiers over 100 runs of 5-fold cross-validation, within datasets (A) and across datasets (B). Our bars in the published colours; -log(p) labels are the paper's.",
-    "4": "Fig. 4. Activity of the Table 1 pathways in the two lung datasets, poor-prognosis patients first, red for high and green for low. Ours is painted into the published heatmaps, each class ordered by its patients' mean activity; what is scored is each row's direction.",
-    "S4": "Fig. S4. As Fig. 4 for the Table S2 pathways in the two breast datasets, metastatic patients first.",
+    "4": "Fig. 4. Activity of the Table 1 pathways in the two lung datasets, poor-prognosis patients first, red for high and green for low. Ours is painted into the published heatmaps, our patients matched one to one to the published columns; what is scored is each row's direction and whether it follows the published row patient by patient.",
+    "S4": "Fig. S4. As Fig. 4 for the Table S2 pathways in the two breast datasets, metastatic patients first; its cells are too narrow to read one by one, so each class is ordered by its patients' mean activity and only each row's direction is scored.",
     "S1": "Fig. S1. Overlap of the top markers between the two halves of 100 random splits: pathways, their CORGs and genes.",
     "S2": "Fig. S2. Fig. 3 with k-nearest neighbours (k = 3, 5; accuracy), naive Bayes and LDA (AUC).",
     "S3": "Fig. S3. Sequential against forward selection, logistic regression, within datasets.",
@@ -46,6 +46,11 @@ def stamp(v, small=""):
         return '<span class="stamp" data-v="running">Not attempted</span>'
     cls, word = STAMP[v]
     return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
+
+
+def reviewed(its):
+    """'on review' when a reviewer set the verdict of any of these items (their review block)."""
+    return "on review" if any((i.get("review") or {}).get("verdict") == i.get("verdict") for i in its) else ""
 
 
 def worst(vs):
@@ -108,7 +113,7 @@ def main(results, figs, pub, out):
         note = " ".join(causes)
         stations.append(
             f'<section class="station surface" id="fig-{n}" aria-labelledby="fig-{n}-head">'
-            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v)}</header>'
+            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v, reviewed(its))}</header>'
             f'<div class="stage"><div class="pair">'
             f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Figure {n} as published" width="{w}" height="{h}"></figure>'
             f'<figure class="plate"><figcaption>{esc(ocap)}</figcaption><img src="{osrc}" alt="Figure {n} redrawn from our run" width="{ow}" height="{oh}"></figure>'
@@ -124,7 +129,7 @@ def main(results, figs, pub, out):
                 f"<li>{esc(f['name'])}: paper {esc(fmt(f['expected']))}, ours <strong>{esc(fmt(f['observed']))}</strong></li>"
                 for f in i["values"]["fields"]) + "</ul>"
         cause = (i.get("cause") or {}).get("summary", "")
-        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'], reviewed([i]))}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
     extra = (f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
              f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'

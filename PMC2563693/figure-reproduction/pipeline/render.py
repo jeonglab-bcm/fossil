@@ -8,7 +8,8 @@ in the published colours; the overlay draws ours in black on the untouched figur
 Vector figures (Figs S1, S2, S3, S5): the PDF page is rasterized at 200 dpi and ours is drawn
 in black over it through the calibration read from the PDF; ours alone is re-plotted with
 matplotlib in the published colours. Figs 4 and S4 are heatmaps without printed values: ours is
-drawn as a heatmap, and the overlay puts the published figure above it.
+painted into the published heatmap boxes (Fig. 4 with our patients in the published column order,
+Fig. S4 with each class ordered by mean activity), and the overlay blends it with the published one.
 """
 
 from __future__ import annotations
@@ -144,10 +145,10 @@ def heat_colour(v):
     return (int(round(240 * v)), 0, 0) if v >= 0 else (0, int(round(-220 * v)), 0)
 
 
-def draw_heatmap(im, box, boundary, rows, activity, cases, scale=1.0, dx=0.0, dy=0.0):
+def draw_heatmap(im, box, boundary, rows, activity, cases, scale=1.0, dx=0.0, dy=0.0, order=None):
     """Paint our activity into the published heatmap box: rows in the published order, the case
-    columns between box[0] and the boundary, the others after it, each class ordered by its
-    patients' mean activity."""
+    columns between box[0] and the boundary, the others after it. Columns in the given order (our
+    patient for each published column), else each class ordered by its patients' mean activity."""
     d = ImageDraw.Draw(im)
     A = np.asarray(activity)
     tx = lambda x: (x * scale) - dx
@@ -156,9 +157,9 @@ def draw_heatmap(im, box, boundary, rows, activity, cases, scale=1.0, dx=0.0, dy
     xb = tx(boundary)
     n = len(rows)
     for cls, (a, b) in ((np.arange(cases), (x0, xb)), (np.arange(cases, A.shape[1]), (xb, x1))):
-        order = cls[np.argsort(-A[:, cls].mean(axis=0), kind="stable")]
-        w = (b - a) / len(order)
-        for j, col in enumerate(order):
+        cols = [c for c in order if c in set(cls)] if order is not None else cls[np.argsort(-A[:, cls].mean(axis=0), kind="stable")]
+        w = (b - a) / len(cols)
+        for j, col in enumerate(cols):
             for i, r in enumerate(rows):
                 d.rectangle([a + j * w, y0 + i * (y1 - y0) / n, a + (j + 1) * w, y0 + (i + 1) * (y1 - y0) / n],
                             fill=heat_colour(A[r, col]))
@@ -169,14 +170,15 @@ def heatmaps(run, pub, supp, out):
 
     hm = json.loads((run / "published_heatmaps.json").read_text())
     act = json.loads((run / "figure4.json").read_text())["heatmap"]
+    matched = json.loads((run / "comparison.json").read_text())["fig4_columns"]
     outputs = {}
-    # Fig. 4: on the PLOS PNG
+    # Fig. 4: on the PLOS PNG, our patients in the published column order (compare.py, fig4_columns)
     base = Image.open(pub / "figure-4.png").convert("RGB")
     ours = base.copy()
     for d_, h in hm["fig4"].items():
         a = act["fig4"][d_]
         rows = [a["pathways"].index(r["set"]) for r in h["rows"]]
-        draw_heatmap(ours, h["box"], h["boundary"], rows, a["activity"], a["cases"])
+        draw_heatmap(ours, h["box"], h["boundary"], rows, a["activity"], a["cases"], order=matched[d_]["order"])
     save(ours, out / "fig4_ours.png")
     save(Image.blend(base, ours, 0.5), out / "fig4_overlay.png")
     outputs["fig4"] = ["figure-reproduction/output/figures/fig4_ours.png", "figure-reproduction/output/figures/fig4_overlay.png"]

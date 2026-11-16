@@ -18,24 +18,24 @@ is typed by hand except the prose.
 | Fig. 1, schematic of CORG identification | not attempted | not attempted | A diagram of the method; there is nothing to recompute. |
 | Table S1, class sizes of the seven datasets | partly | 12 of 14 fields as printed | GEO's clinical table for GSE2034 has 107 patients with a distant relapse and 179 without; the paper (and GEO's series summary) say 106 and 180. All other class sizes come back. |
 | Methods: MSigDB v1.0 C2 gene sets, genes and the top 10% | exact | 3 of 3 fields as printed |  |
-| Fig. 2A | partly | 11 of 20 fields as printed | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
-| Fig. 2B | partly | 7 of 18 fields as printed | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
-| Fig. 2C | partly | 7 of 17 fields as printed | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
-| Fig. 2D | partly | 9 of 19 fields as printed | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
-| Fig. 2E | partly | 19 of 20 fields as printed | One point is off: PAC_all at 2% reads 2.43 on the figure and 2.55 in our run; the other 19 are within 0.1. |
-| Fig. 2F | partly | 17 of 18 fields as printed | One point is off: PAC at 2% reads 1.73 on the figure and 1.37 in our run (the paper's curve rises at 2% and falls again); every other readable point is within 0.1. |
-| Fig. 2G | partly | 14 of 20 fields as printed | Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H. |
-| Fig. 2H | partly | 5 of 20 fields as printed | Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H. |
-| Fig. 3A, AUC within datasets (bar heights) | partly | 23 of 42 fields as printed | 23 of 42 bars within 0.02. PAC_random differs because the paper's random sets skip the CORG search (supported); NF-kB is near 1 for every method in our data (open); the rest differ by up to 0.07 with unstated classifier settings. |
-| Fig. 3B, AUC across datasets (bar heights) | partly | 5 of 8 fields as printed | 5 of 8 bars within 0.02. Boston to Michigan: our PAC is 0.56 against 0.66; the paper's Boston markers were not Tian's top 52 (a sensitivity run without the pre-selection gives PAC 0.71); the Gene bars of both lung directions are 0.02 to 0.03 high. |
+| Fig. 2A | agrees | 11 of 20 fields as printed; computed partly, reviewer agrees | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
+| Fig. 2B | agrees | 7 of 18 fields as printed; computed partly, reviewer agrees | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
+| Fig. 2C | agrees | 7 of 17 fields as printed; computed partly, reviewer agrees | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
+| Fig. 2D | agrees | 9 of 19 fields as printed; computed partly, reviewer agrees | The breast datasets' preprocessing and probe-to-gene mapping are not stated, and our breast data are not the paper's: only 3 of Table S2's 15 CORG lists come back. The source curves (A, C) keep the published shape and order; the verification curves (B, D) differ by up to 1.0. |
+| Fig. 2E | agrees | 19 of 20 fields as printed; computed partly, reviewer agrees | One point is off: PAC_all at 2% reads 2.43 on the figure and 2.55 in our run; the other 19 are within 0.1. |
+| Fig. 2F | agrees | 17 of 18 fields as printed; computed partly, reviewer agrees | One point is off: PAC at 2% reads 1.73 on the figure and 1.37 in our run (the paper's curve rises at 2% and falls again); every other readable point is within 0.1. |
+| Fig. 2G | agrees | 14 of 20 fields as printed; computed partly, reviewer agrees | Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H. |
+| Fig. 2H | agrees | 5 of 20 fields as printed; computed partly, reviewer agrees | Boston's top pathways are not those of Tian's statistic on the GSEA Boston file: Table 1's Boston-to-Michigan pathways rank as low as 375th in it. The Boston CORGs themselves are exact (Table 1), so the difference is in which pathways are ranked; our PAC is up to 0.43 above the figure in G and up to 0.54 below it in H. |
+| Fig. 3A, AUC within datasets (bar heights) | agrees | 23 of 42 fields as printed; computed partly, reviewer agrees | 23 of 42 bars within 0.02. PAC_random differs because the paper's random sets skip the CORG search (supported); NF-kB is near 1 for every method in our data (open); the rest differ by up to 0.07 with unstated classifier settings. |
+| Fig. 3B, AUC across datasets (bar heights) | agrees | 5 of 8 fields as printed; computed partly, reviewer agrees | 5 of 8 bars within 0.02. Boston to Michigan: our PAC is 0.56 against 0.66; the paper's Boston markers were not Tian's top 52 (a sensitivity run without the pre-selection gives PAC 0.71); the Gene bars of both lung directions are 0.02 to 0.03 high. |
 | Fig. 3, -log(p) of PAC against Gene (printed labels) | differs | 0 of 9 fields as printed | -log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across. |
 | Table 1 (lung), CORGs of each frequently used pathway | exact | 18 of 18 fields as printed |  |
 | Table 1 (lung), number of CORGs / members | exact | 18 of 18 fields as printed |  |
-| Table 1 (lung), how often each pathway is used in 500 classifiers | partly | 1 of 18 fields as printed | Michigan to Boston: our eight most frequent pathways are the paper's eight, in its order but for one swap, used more often (477 to 294 times against 433 to 102): our classifiers keep more markers. Boston to Michigan: seven of the ten pathways are not in Boston's Tian top 52 and are never used. |
+| Table 1 (lung), how often each pathway is used in 500 classifiers | differs | 1 of 18 fields as printed; computed partly, reviewer differs | Michigan to Boston: our eight most frequent pathways are the paper's eight, in its order but for one swap, used more often (477 to 294 times against 433 to 102): our classifiers keep more markers. Boston to Michigan: seven of the ten pathways are not in Boston's Tian top 52 and are never used. |
 | Table S2 (breast), CORGs of each frequently used pathway | partly | 3 of 15 fields as printed | 3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's. |
 | Table S2 (breast), number of CORGs / members | partly | 4 of 15 fields as printed | 3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's. |
 | Table S2 (breast), how often each pathway is used in 500 classifiers | partly | 2 of 15 fields as printed | Follows from the breast data (table_s2.corgs) and the marker count (table1.frequency). |
-| Fig. 4, each pathway's activity higher or lower in poor prognosis (lung) | agrees | 28 of 28 fields as printed | Assumed: Each published heatmap row's direction read from its colours: the mean of red minus green over the cell centres of the poor-prognosis (metastatic) columns against the others; class boundaries from the magenta and green bars |
+| Fig. 4, each pathway's activity in poor prognosis and patient by patient (lung) | agrees | 56 of 56 fields as printed | Assumed: Each published heatmap row's direction read from its colours: the mean of red minus green over the cell centres of the poor-prognosis (metastatic) columns against the others; class boundaries from the magenta and green bars; Our patients matched one to one to the published columns of each class (the assignment that maximizes the summed column correlation over the 14 rows); the published column order is not given, and the heatmap does not label its patients |
 | Text on Fig. 4: glycolysis and estrogen signalling over-expressed in poor prognosis in both lung datasets | exact | 6 of 6 fields as printed |  |
 | Fig. S1, marker overlap over 100 two-fold splits, NF-kB | partly | 10 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
 | Fig. S1, marker overlap over 100 two-fold splits, Leukemia | partly | 6 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
@@ -69,7 +69,7 @@ is typed by hand except the prose.
 | Port against the authors' code | not attempted | not attempted | The authors' software is lost: no link, no availability statement and no code in the supplement; searches of GitHub, CRAN, Bioconductor, PyPI and the authors' lab pages found nothing (issue #47). pacorg is written from the Methods and checked against the paper. |
 | pacorg, the method as a Python package | agrees | pacorg 0.1.0: wheel installed in a fresh environment and imported from it; tests 5 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
-4 exact, 8 agrees, 34 partly, 5 differs, 2 not attempted; 36 open causes.
+4 exact, 18 agrees, 23 partly, 6 differs, 2 not attempted; 36 open causes; 11 verdicts set by a reviewer. The reviewer's verdicts (Fig. 2, Fig. 3's AUC bars, Table 1's frequencies) are review blocks in `results_notes.json`; each keeps the computed verdict it overrules, so a later change to the numbers fails the check until the item is reviewed again.
 
 The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds in Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston, with Leukemia and Netherlands to USA showing no PAC advantage as in the paper. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs. Our breast and NF-kB data are not the authors' (open); Boston's pathway pre-selection differs (open; in a sensitivity run without it, PAC is above Gene from Boston to Michigan, 0.71 against 0.62, the paper's PAC being 0.66); Prostate's gap (Gene 0.961 against PAC 0.955) has no tested cause beyond the unstated classifier settings.
 
@@ -106,15 +106,24 @@ are anchored on their bars' common bottom edge, the 0.4 axis: their tick labels'
 
 Figs 4 and S4 are heatmaps without values (`pipeline/heatmaps.py`). Each row's colour is read over
 the cell centres of the poor-prognosis (metastatic) patients and of the others; what is scored is
-the row's direction, against the direction of our activity. Red is read as high activity: the
+the row's direction, against the direction of our activity. Fig. 4's cells are also read one by
+one (each class's span split into Table S1's number of patients, 31 and 31 for Boston, 24 and 62 for
+Michigan). The heatmap does not label its patients, so `compare.py` matches ours to its columns, one
+to one within each class, by the assignment that maximizes the summed column correlation, and then
+asks whether each row follows the published row patient by patient better than the same matching
+does from wrong inputs (our rows shifted onto the other 13 pathways, and 20 random matrices). All
+28 rows do (r 0.93 to 0.99 against at most 0.86); in file order the cells correlate 0.17 and 0.27,
+matched 0.97 and 0.95, with 99.7% and 99.5% of the cells the same colour (`output/comparison.json`,
+`fig4_columns`). Fig. S4's cells, 3 px wide at 300 dpi, are scored by row direction only. Red is read as high activity: the
 text calls glycolysis and estrogen signalling over-expressed in poor prognosis, and their rows are
 red there, though the legends say green is up.
 
 Every render is drawn on the published figure's own grid and has the published picture's size:
 Figs 2 and 3 on the PLOS PNGs with the published series removed; Figs S1, S2, S3 and S5 on their
 supplementary pages rebuilt from the PDF's own drawing commands without the published data marks
-(`pipeline/render_vector.py`); Figs 4 and S4 painted into the published heatmap boxes, each class
-ordered by its patients' mean activity.
+(`pipeline/render_vector.py`); Figs 4 and S4 painted into the published heatmap boxes, Fig. 4 with
+our patients in the matched published column order, Fig. S4 with each class ordered by its
+patients' mean activity.
 
 ## Layout
 
@@ -130,7 +139,7 @@ ordered by its patients' mean activity.
 | `pipeline/export_bioc.py`, `prepare_data.py` | The two Bioconductor packages read without R; the seven gene-level datasets and their gene sets. |
 | `pipeline/markers.py`, `fig2.py`, `robustness.py`, `cv.py` | CORGs of every pathway, Fig. 2, Figs S1 and S5, the cross-validation. |
 | `pipeline/pack_cv.py`, `reduce_cv.py` | Pack and check repeats; means, standard errors, Wilcoxon tests and frequencies. |
-| `pipeline/read_published.py`, `digitize.py`, `heatmaps.py` | The published values: vector supplements, raster figures, heatmap row directions. |
+| `pipeline/read_published.py`, `digitize.py`, `heatmaps.py` | The published values: vector supplements, raster figures, heatmap row directions and Fig. 4's cells. |
 | `pipeline/compare.py`, `render.py`, `render_vector.py`, `hypotheses.py` | Paper against ours; the renders and overlays on the published grids; the hypothesis tests. |
 | `pipeline/usa_cel_normalize.R`, `usa_cel_check.py` | A one-off hypothesis test: the USA arrays re-normalized from their CEL files (`variants/usa_cel.json`). |
 | `pipeline/build_results.py`, `check_results.py`, `check_reproduction.py`, `compare_runs.py`, `check_package.py`, `build_page.py`, `make_results_check.py` | results.json, the checks, the results page and the repository's results-check file. |

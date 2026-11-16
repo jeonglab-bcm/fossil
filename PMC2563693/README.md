@@ -34,20 +34,20 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 
 <!-- summary from results.json (check_results.py); the full table: python3 figure-reproduction/pipeline/check_results.py results.json --markdown -->
 
-53 results: 4 exact, 8 agree, 34 partly agree, 5 differ, 2 not attempted; 36 open causes.
+53 results: 4 exact, 18 agree, 23 partly agree, 6 differ, 2 not attempted; 36 open causes. 11 verdicts were set in review by hyunhwan-bcm ([#59](https://github.com/jeonglab-bcm/fossil/pull/59#issuecomment-6931328785)): Fig. 2 and Fig. 3's AUC bars agree, Table 1's frequencies differ.
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
 | Table 1, CORG lists and sizes | exact | All 18 CORG lists and all 18 "CORGs / members" counts, from the GSEA lung files (e.g. Glycolysis: ENO2 PGK1 ALDOA) |
-| Table 1, frequencies | partly | Michigan to Boston: the paper's eight pathways are our eight most used, in its order but for one swap, used more often; Boston to Michigan: seven of ten pathways are outside Boston's Tian top 52 |
-| Fig. 2, lung source and Michigan to Boston (E, F) | partly | 36 of 38 readable points within 0.1 (e.g. PAC 6.68 against 6.7 at 1%) |
-| Fig. 2, breast and Boston panels | partly | The source panels keep the paper's order of curves; 5 to 14 of 17 to 20 points within 0.1 |
-| Fig. 3, AUC bars | partly | 23 of 42 within datasets and 5 of 8 across within 0.02 (Breast Netherlands PAC 0.677 against 0.676) |
+| Table 1, frequencies | differs (reviewer; computed partly) | Michigan to Boston: the paper's eight pathways are our eight most used, in its order but for one swap, used more often; Boston to Michigan: seven of ten pathways are outside Boston's Tian top 52 and so are never used (0); with all 521 pathways as input all ten are among the 45 most used |
+| Fig. 2, lung source and Michigan to Boston (E, F) | agrees (reviewer; computed partly) | 36 of 38 readable points within 0.1 (e.g. PAC 6.68 against 6.7 at 1%) |
+| Fig. 2, breast and Boston panels | agrees (reviewer; computed partly) | The source panels keep the paper's order of curves; 5 to 14 of 17 to 20 points within 0.1 |
+| Fig. 3, AUC bars | agrees (reviewer; computed partly) | 23 of 42 within datasets and 5 of 8 across within 0.02 (Breast Netherlands PAC 0.677 against 0.676) |
 | Fig. 3, -log(p) labels | differs | None to its decimal; Breast Netherlands 19.2 against 16.9 |
 | PAC beats Gene (text) | partly | 4 of 7 datasets and 2 of 4 transfers as in the paper |
 | Table S1, class sizes | partly | 12 of 14; GEO's clinical table gives Breast USA 107 / 179, the paper 106 / 180 |
 | Table S2, breast CORGs | partly | 3 of 15 lists exact; the breast preprocessing is not stated |
-| Fig. 4, lung heatmaps | agrees | All 28 rows go the way of the published heatmaps (higher or lower in poor prognosis; read off the figure) |
+| Fig. 4, lung heatmaps | agrees | All 28 rows go the way of the published heatmaps (higher or lower in poor prognosis); with our patients matched one to one to the published columns, all 28 rows follow the published ones patient by patient (r 0.93 to 0.99, best wrong-input control 0.86; cells r 0.97 Boston, 0.95 Michigan) |
 | Text on Fig. 4 | exact | Glycolysis and estrogen signalling higher in poor prognosis in both lung datasets |
 | Fig. S4, breast heatmaps | partly | 25 of 26 rows; KRAS up-regulated genes in Breast USA goes the other way (our USA CORGs for it differ) |
 | Figs S1, S2, S3, S5 (vector values) | partly | A third to 77% of the values within tolerance per panel (S2's naive Bayes and LDA panels: under a third); S5 medians in 5 of 7 datasets |
