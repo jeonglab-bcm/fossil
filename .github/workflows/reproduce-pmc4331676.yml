@@ -1,0 +1,70 @@
+name: Reproduce PMC4331676
+
+# Reruns the PMC4331676 pipeline (Xu et al. 2015, SVM-PSSM-DT) on pull requests and pushes to main
+# that touch it, and by hand from the Actions tab. The run starts from the committed PSSMs
+# (PSI-BLAST against UniRef100 2014_01 needs a 22 GB download and about 200 CPU hours; it runs on a
+# cluster with --blastdb), recomputes every grid search, jackknife, cross validation, model, figure,
+# score and results.json, checks the pssmdt package from a fresh install, and fails if anything
+# differs from the committed outputs or a rule of results.json breaks.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC4331676/figure-reproduction/**"
+      - "PMC4331676/package/**"
+      - "PMC4331676/results.json"
+      - ".github/workflows/reproduce-pmc4331676.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4331676/figure-reproduction/**"
+      - "PMC4331676/package/**"
+      - "PMC4331676/results.json"
+      - ".github/workflows/reproduce-pmc4331676.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC4331676/figure-reproduction/requirements.txt ./PMC4331676/package
+
+      - uses: astral-sh/setup-uv@v6
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC4331676/figure-reproduction/main.nf --outdir results --cpus 4 -ansi-log false
+
+      - name: Check the committed results.json and its files
+        run: python3 PMC4331676/figure-reproduction/pipeline/check_results.py PMC4331676/results.json --root PMC4331676
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4331676-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
