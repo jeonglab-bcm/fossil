@@ -24,8 +24,8 @@ on the data, so that ours and the published figure overlay:
                      and printed, not drawn; ``xlim = range(breaks)``,
                      ``ylim = c(0, max(density))`` (the published height unless
                      ours is taller), R's 4% extension, axis ticks
-                     from ``pretty(usr, 5)`` with R's label formatting and a
-                     skipped label wherever two would collide; the exponential
+                     from R's axis code (GEPretty on usr) with R's label
+                     formatting, a label skipped within one "m" of the last; the exponential
                      priors: mean latency beta1 ~ Exp(mean 100) and mean distance
                      2 * alpha2 with alpha2 ~ Exp(mean 100), i.e. Exp(mean 200).
 
@@ -92,7 +92,10 @@ CONFIG = {
         map=dict(kind="km"),             # simulated: coordinates are already km
         label_pos=None,                  # below every point
         # histogram breaks (lo, hi, width) and max density, read from the published axes
-        hist=dict(lat=(3.7, 8.3, 0.1, 0.904), dist=(4.0, 104.0, 2.0, 0.0384)),
+        hist=dict(lat=(3.7, 8.3, 0.1), dist=(4.0, 104.0, 2.0)),
+        # axis limits (usr: xmin, xmax, ymin, ymax) of the map and the two histograms
+        usr=dict(TR=(-0.7234, 18.693, -4.466, 15.076), BL=(3.504, 8.487, -0.0364, 0.9397),
+                 BR=(0.0, 107.822, -0.0015, 0.0399)),
         show_true=True,
     ),
     "fig3": dict(
@@ -102,10 +105,12 @@ CONFIG = {
         order=["IP1b", "IP2b", "IP5", "IP4b", "IP3b", "IP3c", "IP6b", "IP7", "IP8"],
         # first premise (IP1b) in the paper's map km, and 1/cos(mean latitude)
         map=dict(kind="lonlat", first=(0.685, -1.339), east_scale=1.60236,
-                 ylabel_every=2),
+                 xlabel_every=2, ylabel_every=2),
         label_pos={"IP1b": (3, -8.0), "IP2b": 4, "IP3b": 4, "IP3c": 4, "IP4b": 1,
                    "IP5": 4, "IP6b": 2, "IP7": 2, "IP8": 4},
-        hist=dict(lat=(0.0, 220.0, 5.0, 0.0777), dist=(0.0, 155.0, 5.0, 0.0497)),
+        hist=dict(lat=(0.0, 220.0, 5.0), dist=(0.0, 155.0, 5.0)),
+        usr=dict(TR=(-2.258, 21.244, -2.207, 21.241), BL=(-9.324, 228.438, -0.003, 0.081),
+                 BR=(-6.565, 160.832, -0.0019, 0.0518)),
         show_true=False,
     ),
     "fig4": dict(
@@ -117,7 +122,9 @@ CONFIG = {
                  xlabel_every=2, ylabel_every=2),
         label_pos={"K": 3, "L": 4, "D": 4, "M": 1, "O": 1, "F": 3, "G": 2,
                    "I": 1, "J": 1, "E": 1, "C": 1, "P": 1},
-        hist=dict(lat=(10.0, 68.0, 1.0, 0.120), dist=(4.0, 142.0, 2.0, 0.0293)),
+        hist=dict(lat=(10.0, 68.0, 1.0), dist=(4.0, 142.0, 2.0)),
+        usr=dict(TR=(-1.171, 23.707, -4.254, 20.782), BL=(7.791, 70.368, -0.0046, 0.1251),
+                 BR=(-1.754, 147.307, -0.0011, 0.0305)),
         show_true=False,
     ),
 }
@@ -125,11 +132,15 @@ CONFIG = {
 
 # ------------------------------------------------------------------ R rules
 
-def r_pretty(lo: float, hi: float, n: int = 5, min_n: int | None = None) -> np.ndarray:
-    """R's pretty(): about n+1 equally spaced round values covering [lo, hi]."""
+def r_pretty(lo: float, hi: float, n: int = 5, min_n: int | None = None,
+             h: float = 1.5, h5: float = 0.5 + 1.5 * 1.5) -> np.ndarray:
+    """R's pretty(): about n+1 equally spaced round values covering [lo, hi].
+
+    h and h5 are its rounding biases: pretty() uses 1.5 and 2.75; the axis code
+    (GEPretty, which places the tick marks) uses 0.8 and 1.7.
+    """
     if min_n is None:
         min_n = n // 3
-    h, h5 = 1.5, 0.5 + 1.5 * 1.5
     dx = hi - lo
     if dx == 0 and hi == 0:
         cell, i_small = 1.0, True
@@ -181,8 +192,8 @@ def r_extend(lo: float, hi: float) -> tuple[float, float]:
 
 
 def r_axticks(u0: float, u1: float) -> np.ndarray:
-    """axTicks(): pretty(usr) kept inside usr."""
-    t = r_pretty(u0, u1, 5)
+    """The tick marks R's axis() draws: GEPretty on usr, kept inside usr."""
+    t = r_pretty(u0, u1, 5, min_n=1, h=0.8, h5=1.7)
     fuzz = 1e-7 * (u1 - u0)
     return t[(t >= u0 - fuzz) & (t <= u1 + fuzz)]
 
@@ -239,7 +250,11 @@ def _label_width(s: str, size: float) -> float:
     return sum(w.get(c, 0.556) for c in s) * size
 
 
-def _side1(p: Panel, at, labels, title, gap=5.5, size=EM, right_slack=1.0, left_slack=6.0, every=1):
+# R skips an axis label that comes closer than the width of one "m" to the last label it drew
+GAP = 0.833 * EM
+
+
+def _side1(p: Panel, at, labels, title, gap=GAP, size=EM, every=1):
     ax = p.ax
     xs = p.px(at)
     _line(ax, [xs[0], xs[-1]], [p.y1, p.y1])
@@ -249,14 +264,14 @@ def _side1(p: Panel, at, labels, title, gap=5.5, size=EM, right_slack=1.0, left_
         if i % every:
             continue
         w = _label_width(lab, size)
-        if x - w / 2 < last + gap or x + w / 2 > p.x1 + right_slack or x - w / 2 < p.x0 - left_slack:
+        if x - w / 2 < last + gap:
             continue
         _text(ax, x, p.y1 + LINE_TICKLAB, lab, size, ha="center", va="baseline")
         last = x + w / 2
     _text(ax, (p.x0 + p.x1) / 2, p.y1 + LINE_TITLE, title, size, ha="center", va="baseline")
 
 
-def _side2(p: Panel, at, labels, title, gap=8.0, size=EM, every=1):
+def _side2(p: Panel, at, labels, title, gap=GAP, size=EM, every=1):
     ax = p.ax
     ys = p.py(at)
     _line(ax, [p.x0, p.x0], [ys[0], ys[-1]])
@@ -362,10 +377,16 @@ def _map_panel(ax, box, post, cfg, true_tree):
     scale = min(w / (xmax - xmin), h / (ymax - ymin))
     xadd = 0.5 * (w / scale - (xmax - xmin))
     yadd = 0.5 * (h / scale - (ymax - ymin))
-    p = Panel(ax, box, (*r_extend(xmin - xadd, xmax + xadd), *r_extend(ymin - yadd, ymax + yadd)))
+    usr = (*r_extend(xmin - xadd, xmax + xadd), *r_extend(ymin - yadd, ymax + yadd))
+    usr = cfg["usr"]["TR"] if "usr" in cfg else usr      # the paper's axes
+    p = Panel(ax, box, usr)
     clip = p.clip()
     X, Y = p.px(x), p.py(y)
+    outside = [nm for nm, xi, yi in zip(names, x, y)
+               if not (usr[0] <= xi <= usr[1] and usr[2] <= yi <= usr[3])]
     for i in range(len(names)):
+        if names[i] in outside:
+            continue
         ax.add_patch(Circle((X[i], Y[i]), 2.5, color=POINT, lw=0, zorder=2))
     best = post["best_tree"]
     for i, s in enumerate(best):
@@ -377,6 +398,8 @@ def _map_panel(ax, box, post, cfg, true_tree):
                 _arrow(ax, X[s], Y[s], X[i], Y[i], ls=(0, (4, 3)), clip=clip)
     off = 0.3 * EM_MAP
     for i, nm in enumerate(names):
+        if nm in outside:
+            continue
         pos = (cfg["label_pos"] or {}).get(nm, 1)
         pos, dx = pos if isinstance(pos, tuple) else (pos, 0.0)   # (R pos, pixel nudge)
         X_i = X[i] + dx
@@ -392,26 +415,29 @@ def _map_panel(ax, box, post, cfg, true_tree):
     xt, yt = r_axticks(p.u[0], p.u[1]), r_axticks(p.u[2], p.u[3])
     _side1(p, xt, r_labels(xt), "West–East (km)", every=mcfg.get("xlabel_every", 1))
     _side2(p, yt, r_labels(yt), "South–North (km)", every=mcfg.get("ylabel_every", 1))
+    return dict(outside=outside, n=len(names))
 
 
 def _breaks(s, pub):
-    """The paper's breaks and height; without them R's default here, pretty(range(x), 50)."""
+    """The paper's breaks; without them R's default here, pretty(range(x), 50)."""
     if pub is None:
-        return r_pretty(s.min(), s.max(), 50, min_n=1), 0.0
-    lo, hi, w, ymax = pub
-    return lo + w * np.arange(round((hi - lo) / w) + 1), ymax
+        return r_pretty(s.min(), s.max(), 50, min_n=1)
+    lo, hi, w = pub
+    return lo + w * np.arange(round((hi - lo) / w) + 1)
 
 
-def _hist_panel(ax, box, samples, xlabel, median, lo, hi, prior_mean, pub=None, true_val=None):
+def _hist_panel(ax, box, samples, xlabel, median, lo, hi, prior_mean, pub=None, usr=None,
+                true_val=None):
     s = np.asarray(samples, float)
-    br, ymax = _breaks(s, pub)
-    # densities over all our samples; any outside the paper's axis are counted, not drawn
+    br = _breaks(s, pub)
+    # densities over all our samples; samples outside the paper's breaks and bars above the
+    # paper's axis are counted (and printed), not drawn
     counts, _ = np.histogram(s, bins=br)
     dens = counts / (len(s) * np.diff(br))
     outside = int(np.sum((s < br[0]) | (s > br[-1])))
-    # ylim = c(0, max(density)) as R draws it; the published height unless ours is taller
-    ymax = max(ymax, dens.max())
-    p = Panel(ax, box, (*r_extend(br[0], br[-1]), *r_extend(0.0, ymax)))
+    if usr is None:   # R's own limits: xlim = range(breaks), ylim = c(0, max(density))
+        usr = (*r_extend(br[0], br[-1]), *r_extend(0.0, dens.max()))
+    p = Panel(ax, box, usr)
     clip = p.clip()
     for a, b, d in zip(br[:-1], br[1:], dens):
         if d > 0:
@@ -430,7 +456,8 @@ def _hist_panel(ax, box, samples, xlabel, median, lo, hi, prior_mean, pub=None, 
     _side1(p, xt, r_labels(xt), xlabel)
     _side2(p, yt, r_labels(yt), "Density")
     return dict(outside=outside, n=len(s), axis=[float(br[0]), float(br[-1])],
-                ymax=float(ymax), ours_max_density=float(dens.max()))
+                ymax=float(usr[3]), ours_max_density=float(dens.max()),
+                bars_above=int(np.sum(dens > usr[3])))
 
 
 def render(post, out_ours, key):
@@ -446,14 +473,13 @@ def render(post, out_ours, key):
     ax.set_ylim(H, 0)
     ax.axis("off")
     _dot_panel(ax, cfg["TL"], post, order, true_tree)
-    _map_panel(ax, cfg["TR"], post, cfg, true_tree)
+    notes = {"map": _map_panel(ax, cfg["TR"], post, cfg, true_tree)}
     lat, dist = post["mean_latency"], post["mean_distance"]
-    notes = {}
     notes["mean_latency"] = _hist_panel(ax, cfg["BL"], post["samples"]["mean_latency"], "Mean latency duration (days)",
-                lat["median"], lat["lo"], lat["hi"], 100.0, cfg["hist"]["lat"],
+                lat["median"], lat["lo"], lat["hi"], 100.0, cfg["hist"]["lat"], cfg["usr"]["BL"],
                 true_val=truth["mean_latency"] if true_tree is not None else None)
     notes["mean_distance"] = _hist_panel(ax, cfg["BR"], post["samples"]["mean_distance"], "Mean connectivity distance (km)",
-                dist["median"], dist["lo"], dist["hi"], 200.0, cfg["hist"]["dist"],
+                dist["median"], dist["lo"], dist["hi"], 200.0, cfg["hist"]["dist"], cfg["usr"]["BR"],
                 true_val=truth["mean_distance"] if true_tree is not None else None)
     fig.savefig(out_ours, dpi=72, facecolor="white")
     plt.close(fig)
@@ -485,9 +511,13 @@ def main():
     args = ap.parse_args()
     post = json.load(open(args.posterior))
     for k, v in render(post, args.ours, args.key).items():
+        if k == "map":
+            print(f"{args.key} map: {len(v['outside'])} of {v['n']} premises outside the paper's axes"
+                  + (f" ({', '.join(v['outside'])})" if v["outside"] else ""))
+            continue
         print(f"{args.key} {k}: {v['outside']} of {v['n']} samples outside the paper's axis "
-              f"{v['axis'][0]:g}-{v['axis'][1]:g}; height {v['ymax']:.4g} "
-              f"(ours {v['ours_max_density']:.4g})")
+              f"{v['axis'][0]:g}-{v['axis'][1]:g}; {v['bars_above']} bars above its height "
+              f"{v['ymax']:.4g} (our tallest {v['ours_max_density']:.4g})")
     overlay(args.published, args.ours, args.overlay)
     print("wrote", args.ours, args.overlay)
 

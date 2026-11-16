@@ -98,17 +98,23 @@ its tutorial. `RENDER` draws Figs 2-4. `RESULTS` merges everything into
   rendering is not bit-reproducible); the numbers behind them are checked, and
   `compare_runs` ignores `*.png`.
 - **How the figures are drawn.** `render.py` redraws Figs 2-4 the way the paper
-  drew them in R base graphics, on each published JPEG's pixel grid, so ours
-  overlays the original: the panel boxes measured from the JPEG; the dot plot in
-  the paper's row order with dot diameter 10.9 px x p^(1/4) and the paper's legend;
-  the maps with `asp = 1` on uncorrected longitude and latitude (109.8 km per
-  degree and an origin read from the published ticks; the model's own distances
-  stay cosine-corrected); the histograms on the paper's breaks with R's axis rules;
-  the priors Exp(mean 100) for the mean latency and Exp(mean 200) for the mean
-  distance (2 x alpha2). The 2007 row order, the map scale and origin and the side
-  of each map label are read from the figures. A few of our posterior samples fall
-  outside the paper's histogram axes and are not drawn: Fig. 2 latency 2 and
-  distance 3 of 3,000, Fig. 4 latency 13 of 3,000 (`render.py` prints the counts).
+  drew them in R base graphics, on each published JPEG's pixel grid, with every
+  map and histogram on the paper's own axes (limits measured from the published
+  ticks), so the scales are the same and ours overlays the original: the panel
+  boxes measured from the JPEG; the dot plot in the paper's row order with dot
+  diameter 10.9 px x p^(1/4) and the paper's legend; the maps on uncorrected
+  longitude and latitude (109.8 km per degree and an origin read from the published
+  ticks; the model's own distances stay cosine-corrected); the histograms on the
+  paper's breaks; tick marks and labels by R's axis rules; the priors Exp(mean 100)
+  for the mean latency and Exp(mean 200) for the mean distance (2 x alpha2). The
+  2007 row order, the axis limits, the map scale and origin and the side of each
+  map label are read from the figures. What falls outside the paper's axes is not
+  drawn (`render.py` prints the counts): Fig. 2 map 4 of 20 premises (F7, F9, F14,
+  F20; a different simulated outbreak), Fig. 2 latency 2 and distance 3 of 3,000
+  samples, Fig. 4 latency 13 of 3,000; and the tops of a few bars taller than the
+  paper's axis are cut at it (Fig. 2: 2 latency and 2 distance bars; Fig. 3: 1
+  distance bar; Fig. 4: 2 distance bars), because our 3,000 samples per run give a
+  noisier histogram than the paper's 5x10^5 iterations.
 - **Not attempted:** the 100-premise simulation (about a month of compute), Fig. S14
   (external TCS program) and the lesion-age sensitivity analysis (prior variances
   given only as images). See `results.json`.
