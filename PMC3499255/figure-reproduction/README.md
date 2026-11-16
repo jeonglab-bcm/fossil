@@ -44,7 +44,7 @@ figure-reproduction/
 │   ├── series.py                 Table 1 / Table S1 simulation series
 │   ├── textclaims.py             spatial-connectivity numbers in the text
 │   ├── checks.py                 pseudo-likelihood (Fig. S1) and arithmetic checks
-│   ├── render.py                 draw our Figs 2-4 and the side-by-side overlays
+│   ├── render.py                 draw our Figs 2-4 and their overlays on the published figures
 │   ├── build_results.py          merge everything into results.json; check_results --write
 │   ├── check_reproduction.py     verdicts + fresh-vs-committed (compare_runs) + report.md
 │   ├── build_page.py             the results page from results.json

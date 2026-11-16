@@ -38,7 +38,8 @@ with a pixel nudge where the paper moved one) are read from the
 published figures and recorded in CONFIG.
 
 Writes ``<fig>_ours.png`` at the published pixel size and ``<fig>_overlay.png``,
-the published figure and ours side by side. The panels are MCMC output, so the
+the published figure and ours on top of each other (red channel = published,
+green and blue = ours). The panels are MCMC output, so the
 verdicts are computed from the printed medians, intervals and tree structure,
 not pixel by pixel (see results.json).
 """
@@ -55,7 +56,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Circle, Rectangle
-from PIL import Image, ImageDraw
+from PIL import Image
 
 # R draws in Helvetica; Liberation Sans and Arial share its metrics.
 FONTS = ["Helvetica", "Arial", "Liberation Sans", "Nimbus Sans", "DejaVu Sans"]
@@ -487,18 +488,16 @@ def render(post, out_ours, key):
 
 
 def overlay(published_path, ours_path, out_path):
-    pub = Image.open(published_path).convert("RGB")
-    ours = Image.open(ours_path).convert("RGB")
-    h = 520
-    pub = pub.resize((int(pub.width * h / pub.height), h))
-    ours = ours.resize((int(ours.width * h / ours.height), h))
-    canvas = Image.new("RGB", (pub.width + ours.width + 20, h + 26), "white")
-    canvas.paste(pub, (0, 26))
-    canvas.paste(ours, (pub.width + 20, 26))
-    d = ImageDraw.Draw(canvas)
-    d.text((4, 6), "Published", fill="black")
-    d.text((pub.width + 24, 6), "Reproduced", fill="black")
-    canvas.save(out_path)
+    """The two figures on top of each other, on the published pixel grid.
+
+    Red channel = the published figure, green and blue = ours: black is ink in
+    both, cyan is ink only in the paper, red is ink only in ours.
+    """
+    pub = Image.open(published_path).convert("L")
+    ours = Image.open(ours_path).convert("L")
+    if ours.size != pub.size:
+        raise SystemExit(f"{ours_path} is {ours.size}, the published figure {pub.size}")
+    Image.merge("RGB", (pub, ours, ours)).save(out_path)
 
 
 def main():
