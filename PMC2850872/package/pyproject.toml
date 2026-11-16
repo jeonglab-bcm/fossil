@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "diabclass"
+version = "0.1.0"
+description = "SVM classifiers of diabetes and pre-diabetes from simple variables (Yu et al. 2010, rebuilt)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = [
+    "numpy>=2.1,<3",
+    "scipy>=1.14,<2",
+    "scikit-learn>=1.5,<2",
+    "joblib>=1.4",
+]
+
+[project.scripts]
+diabclass = "diabclass.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2850872/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diabclass"]
