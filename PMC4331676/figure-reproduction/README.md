@@ -88,7 +88,7 @@ the colour bar's 150 and our tallest bar is the tallest published bar.
 | `main.nf`, `nextflow.config`, `run_skyriver.sbatch` | The pipeline and the cluster profile. |
 | `requirements.txt` | Pinned Python packages. |
 | `results_notes.json` | What a person writes: labels, the paper's values, assumptions, causes, page prose. |
-| `pipeline/` | The scripts above, plus `check_results.py`, `compare_runs.py` and `check_package.py` (from the paper2repro skill), `readme_tables.py`, `page_template.html`. |
+| `pipeline/` | The scripts above, plus `check_results.py` (the repository's review-aware copy in `tools/paper2repro`: a reviewer's `review` block sets an item's verdict), `compare_runs.py` and `check_package.py` (from the paper2repro skill), `readme_tables.py`, `page_template.html`. |
 | `published/` | The paper's figures (CC BY 4.0). |
 | `output/pssm/` | The PSSMs of the 1,261 chains, packed (int8 scores), for UniRef100 and UniRef90 2014_01. |
 | `output/run/` | Every number of the run (JSON). |
