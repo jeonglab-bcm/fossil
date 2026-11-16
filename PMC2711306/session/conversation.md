@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-13T22:25:19+00:00 |
-| Wall clock | 6138.3 min |
+| Started / ended (UTC) | 2026-11-09T16:06:59+00:00 / 2026-11-16T23:11:39+00:00 |
+| Wall clock | 10504.7 min |
 | Models | claude-haiku-5-5, claude-opus-5-5 |
-| Human prompts | 9 (0 sent mid-turn) |
-| Assistant responses (API calls) | 403 + 24 in subagents |
-| Tool calls | 423 + 24 in subagents |
-| Tokens: input / cache write / cache read / output | 864 / 2,912,239 / 131,021,435 / 364,784 |
-| Tokens: total (incl. subagents) | 134,299,322 |
+| Human prompts | 16 (0 sent mid-turn) |
+| Assistant responses (API calls) | 479 + 24 in subagents |
+| Tool calls | 493 + 24 in subagents |
+| Tokens: input / cache write / cache read / output | 1,030 / 3,207,966 / 139,724,667 / 404,000 |
+| Tokens: total (incl. subagents) | 143,337,663 |
 
 ## Conversation
 
@@ -1514,3 +1514,346 @@ CI is green. I'll post a short note on the pin, then update the session ledger a
 - `Bash` Post pin note; check ledger script
 
 - `Bash` Regenerate and push session ledger
+
+- `Bash` Regenerate ledger from transcript path
+
+- `Bash` Update project memory
+
+### Claude · 2026-11-13 22:25:45
+
+I've applied hyunhwan's 13 verdict changes and worked out why Fig 5's 3,000-edge curve is off; I've redrawn that curve. Everything is pushed to PR #38, all checks pass, and I replied to the review on the PR.
+
+**Fig 5: why the 3,000 curve looked off.** The paper drew its 3,000 curve from a different embedding than the other three, and doesn't say so.
+- **The 500–2,000 curves** match an embedding of the largest connected part of the network left after the deletion. That is the method's own rule, and what we did before.
+- **The 3,000 curve** matches an embedding that also keeps the proteins the deletion cut off. The authors' code puts those at the "unreachable" distance (200). Scaling each axis to [0, 1] then squeezes the rest together, so the curve starts high and levels off at 0.97, as published.
+- **Evidence:** I scored single deletions against each published curve.
+  - On the 3,000 curve, keeping cut-off proteins scores up to 84% (median about 48%). Using only the largest part tops out at 45%.
+  - On the 2,000 curve, keeping cut-off proteins scores 11% at best, so that curve really was drawn the other way.
+- **The redraw:** the 3,000 curve now has the published shape. Its AUC over 10 deletions is 0.88–0.91, against the paper's ~0.90 (it was 0.95–0.96).
+- **What's still off:** it sits further right than the published curve. The paper drew one deletion, and the squeeze varies a lot between deletions (scores from 7% to 84%); ours is the mean of 10. Fig 5 stays "partly", which the reviewer accepted.
+
+**Verdicts.** Each change is recorded the way an earlier reproduction in the repo (PMC2850872) records its reviewer verdicts:
+- Each changed item stores the reviewer's verdict next to the computed one, and the results page marks it "on review".
+- If later numbers produce a different verdict, the check fails until someone reviews it again.
+- Totals went from 1 exact, 6 agree, 8 partly, 3 inconclusive, 9 differ, 3 not attempted to 1 exact, 18 agree (13 on review), 2 partly, 6 differ, 3 not attempted.
+
+**CI fix.** The first CI run failed: the new embedding that keeps cut-off proteins moved one count in 489,097 between the Skyriver nodes and GitHub's runners. That came from OpenBLAS choosing a different CPU kernel. I pinned it to one kernel for every step, as PMC2850872 does. A pinned run on the cluster now matches the CI run exactly, and the committed outputs come from it.
+
+**Also:**
+- I merged main into the branch, which added the front-page Paper2Repro version cell (v0.4.0) that main's new check requires.
+- I updated the session ledger.
+- All runs went through Slurm debugq, not the login node.
+
+One slip along the way: while resolving the merge I briefly overwrote `site/index.html` with main's copy. I restored the conflict and resolved it again, and checked that our front-page row is intact.
+
+### User · 2026-11-16 22:45:34
+
+I have recieved new request for changes on this PR, please address them
+
+- `Bash` Fetch latest reviews and comments on PR #38
+
+- `Bash` Inspect yeast.py Fig 5 code
+
+- `Bash` Read Fig 5 code in yeast.py and figures.py
+
+- `Bash` Read figures.py Fig 5 and helpers
+
+- `Bash` Find Fig 5 text to revise
+
+### Claude · 2026-11-16 22:46:44
+
+Hyunhwan's new review asks me to redraw Fig. 5 by averaging sensitivity at equal false-positive rates and to fix three statements; I'm reading the Fig. 5 notes now, then I'll change the pipeline.
+
+- `Bash` Print Fig 5 notes blocks
+
+- `Bash` Inspect figtools helpers
+
+- `Bash` Read yeast.py main start and one-off script
+
+### Claude · 2026-11-16 22:47:25
+
+Now the pipeline change: yeast.py will record each deletion's full ROC curve and average sensitivity at fixed false-positive rates.
+
+- `Bash` Add full-ROC vertical averaging to yeast.py
+
+- `Bash` Simplify AUC range code
+
+- `Bash` Rewrite Fig 5 drawing with ROC vertical averaging
+
+### Claude · 2026-11-16 22:48:23
+
+Now I'll rerun the pipeline on a Slurm compute node (the light run, about 4 minutes).
+
+- `Bash` Find the light-run sbatch script
+
+- `Bash` Recover the light-run sbatch command from transcript
+
+- `Bash` Extract light-run command from transcript
+
+- `Bash` Submit light pipeline run to debugq
+
+### Claude · 2026-11-16 22:48:52
+
+While it runs, I'll fix the one-off script's docstring, which repeats the "one deletion" claim.
+
+- `Bash` Fix one-off script docstring
+
+- `ToolSearch` select:Monitor
+
+- `Bash` Wait for Slurm job 1610164 to finish
+
+### Claude · 2026-11-16 22:49:04
+
+The light run is on debugq (job 1610164); I'll pick up the Fig. 5 numbers when it finishes.
+
+### User · 2026-11-16 22:54:33
+
+<task-notification>
+<task-id>bde26sqey</task-id>
+<tool-use-id>toolu_01M8QYTte5jHQRKDxVRXPJvj</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/bde26sqey.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for Slurm job 1610164 to finish" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show light-run log and outputs
+
+### Claude · 2026-11-16 22:54:39
+
+Expected failure (outputs changed). Let me look at the new Fig. 5 numbers.
+
+- `Bash` Print new Fig 5 scores and controls
+
+- `Bash` Test Fig 5 drawing variants on a compute node
+
+### Claude · 2026-11-16 22:55:09
+
+Node-local /tmp; copy the script into the work dir.
+
+- `Bash` Run Fig 5 drawing variants test on debugq
+
+- `Bash` Record smoothed-sampling test in figures.py
+
+### Claude · 2026-11-16 22:55:40
+
+Now the notes. Let me see the remaining Fig. 5 text to revise.
+
+- `Bash` Find README and page Fig 5 text
+
+- `Bash` Read verdict rules and page notes
+
+### Claude · 2026-11-16 22:56:02
+
+The computed verdict will become **inconclusive**: the plain line scores 48.8% and the same-epsilon mean, kept as a near-miss control, scores 50.1%. Now the numbers for the notes:
+
+- `Bash` Get full-ROC AUCs per embedding
+
+- `Bash` Read one-off record's text fields
+
+### Claude · 2026-11-16 22:56:18
+
+Now the notes edits (cause, hypotheses, assumptions, page text):
+
+- `Bash` Rewrite Fig 5 notes per review
+
+- `Bash` Compare file trailing bytes
+
+- `Bash` Restore original no-trailing-newline style
+
+### Claude · 2026-11-16 22:56:51
+
+Now the README's Deletions row and Limits line:
+
+- `Bash` Update README Fig 5 rows
+
+### Claude · 2026-11-16 22:56:59
+
+Rerunning the pipeline (resumed, so only the figures and results steps run again):
+
+- `Bash` Submit resumed pipeline run
+
+- `Bash` Wait for job 1610176 and summarize
+
+### Claude · 2026-11-16 22:57:09
+
+Resumed run submitted (job 1610176); I'll copy its outputs in once it finishes.
+
+### User · 2026-11-16 22:57:23
+
+<task-notification>
+<task-id>blkfmcqdm</task-id>
+<tool-use-id>toolu_013MngBZj6HJYy61igisri1F</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/blkfmcqdm.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for job 1610176 and summarize" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show resumed run summary
+
+### Claude · 2026-11-16 22:57:29
+
+The run took only 6 seconds, which is too fast for the figures step. Checking whether FIGURES actually reran:
+
+- `Bash` Check resumed run log head
+
+### Claude · 2026-11-16 22:57:34
+
+FIGURES was served from cache because Nextflow doesn't hash the script it calls. I'll delete that task's work dir so it reruns:
+
+- `Bash` Rerun pipeline with FIGURES uncached
+
+- `Bash` Wait for job 1610177 and summarize
+
+### Claude · 2026-11-16 22:57:42
+
+Job 1610177 is running with the figures step forced to rerun.
+
+### User · 2026-11-16 22:58:26
+
+<task-notification>
+<task-id>b2i9t224j</task-id>
+<tool-use-id>toolu_01Wp7safMvoT5m6aXrte3hWh</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/b2i9t224j.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for job 1610177 and summarize" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show run result and output layout
+
+### Claude · 2026-11-16 22:58:35
+
+Scores are as in the test (48.8% plain line, 61.5% sampled and smoothed). I'll copy the fresh outputs over the committed ones, then rerun so the check passes and the results files are regenerated.
+
+- `Bash` Copy fresh outputs into committed output
+
+- `Bash` Regenerate results.json and page on compute node
+
+- `Bash` Locate committed results files and README tooling
+
+- `Bash` Install regenerated results and page
+
+- `Bash` Regenerate README tables, view root rows
+
+- `Bash` Show summary cells in root README and site
+
+### Claude · 2026-11-16 22:59:09
+
+Outputs and the results page are regenerated; now updating the root README summary (Fig. 5 moves from partly to inconclusive).
+
+- `Bash` Update root README verdict counts
+
+### Claude · 2026-11-16 22:59:13
+
+Now a full pipeline rerun from scratch to confirm that a fresh run equals the committed outputs, and a look at the new render.
+
+- `Bash` Submit clean full light run
+
+- `Read` /home/sofias/fossil-issue17/PMC2711306/figure-reproduction/output/fig5_overlay.png
+
+- `Bash` Wait for clean run 1610179
+
+- `Edit` /home/sofias/.claude/projects/-home-sofias-fossil/memory/pmc2711306-reproduction.md
+
+### Claude · 2026-11-16 22:59:28
+
+Memory updated; waiting on the clean run before committing.
+
+### User · 2026-11-16 23:03:23
+
+<task-notification>
+<task-id>bru7tqxyv</task-id>
+<tool-use-id>toolu_019LaqwfmUQF546rwycDvy68</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/bru7tqxyv.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for clean run 1610179" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show clean run result
+
+- `Bash` Check report and generated files equal committed
+
+### Claude · 2026-11-16 23:03:34
+
+The clean run matches the committed files exactly (29 of 29). Running the repository checks, then committing:
+
+- `Bash` Run repo-level checks
+
+- `Bash` Run check_skill fully
+
+- `Bash` Run check_skill against main
+
+- `Bash` Commit and push Fig 5 revision
+
+### Claude · 2026-11-16 23:04:05
+
+Pushed. Watching CI:
+
+- `Bash` Wait for PR #38 CI checks to finish
+
+### Claude · 2026-11-16 23:04:10
+
+Meanwhile, the reply to the review (posted once CI is green):
+
+- `Bash` Draft PR reply to review
+
+### Claude · 2026-11-16 23:04:25
+
+The reply is drafted; I'll post it once CI finishes.
+
+### User · 2026-11-16 23:04:39
+
+<task-notification>
+<task-id>b5vrjjhcs</task-id>
+<tool-use-id>toolu_015DcVdwt2NXUwMhy5GRyK1k</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/b5vrjjhcs.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for PR #38 CI checks to finish" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show CI check results
+
+- `Bash` List PR checks and runs
+
+### Claude · 2026-11-16 23:04:53
+
+No CI runs for the new commit; checking that the push landed:
+
+- `Bash` Compare local and remote heads
+
+### Claude · 2026-11-16 23:05:07
+
+The push landed, but the PR now conflicts with main, so the pull-request workflows didn't start. Merging main:
+
+- `Bash` Merge main and list conflicts
+
+- `Bash` Show README conflict hunks
+
+- `Bash` Diff the two conflicting sentences
+
+### Claude · 2026-11-16 23:05:24
+
+Main's line plus our PMC2711306 sentence, as last time:
+
+- `Bash` Resolve README conflict
+
+- `Bash` Verify merge result and run checks
+
+- `Bash` Commit merge and push
+
+- `Bash` Wait for PR #38 CI on merged head
+
+### Claude · 2026-11-16 23:05:50
+
+Merged main (one README conflict, resolved) and pushed; waiting for CI on f1e8507.
+
+### User · 2026-11-16 23:11:34
+
+<task-notification>
+<task-id>bd86thej3</task-id>
+<tool-use-id>toolu_01VRcvfRLyn2x3Hxks4pSymS</tool-use-id>
+<output-file>/tmp/claude-264982/-home-sofias-fossil/266fa43b-6721-40cf-a90f-32e8b7dfa79d/tasks/bd86thej3.output</output-file>
+<status>completed</status>
+<summary>Background command "Wait for PR #38 CI on merged head" completed (exit code 0)</summary>
+</task-notification>
+
+- `Bash` Show CI results
