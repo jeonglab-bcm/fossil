@@ -2,8 +2,10 @@
 
 Figure 1, Tables 1 and 2, and the checks against Supplementary Tables S1, S3 and S5 of Bleazard,
 Lamb and Griffiths-Jones (2015), rerun from public data. The authors' script
-(sgjlab.org/empirical-go) is gone; the empirical test is rebuilt from the Methods and checked
-against the supplement.
+(sgjlab.org/empirical-go/empiricalGO.py.gz) is gone: the site no longer resolves and the Internet
+Archive never captured the file. Its README was captured (2015-01-27) and is kept in
+`published/README-empirical-go.txt`. The empirical test is rebuilt from the Methods and that
+README, and checked against the supplement.
 
 ## Run
 
@@ -17,9 +19,10 @@ sbatch run_skyriver.sbatch --full                  # from this folder; SOURCES=d
 # Resample only some nulls and read the rest from output/empirical (what CI does):
 nextflow run main.nf --outdir results --rerun Human:39,Human:1,Mouse:10
 
-# Table 2's multi-hit column under six readings of the method (132 nulls on Slurm; needs the
-# UTR maps and miRanda pair files of a --full run, see the script):
+# Table 2's multi-hit column under twelve readings of the method (22 nulls per reading on Slurm;
+# needs the UTR maps and miRanda pair files of a --full run, see the script):
 bash run_multihit_readings.sh WORK
+READINGS="last_mart idkey" bash run_multihit_readings.sh WORK   # only some readings
 ```
 
 A `--full` run on Skyriver (Slurm job 1535972: 2 UTR tasks, 91 miRanda tasks, about 40 minutes
@@ -103,7 +106,7 @@ From `output/report.md` (the committed run):
 | Table 1 | Identical from S1; same setup from our null | See above. Our null: the paper's 10 terms at ranks 1–10 (8 and 9 swapped); 7 of 10 P-values identical. |
 | Fig. 1 | Same setup | Empirical mean 250.57 (paper 250.60); hypergeometric P of the mean 5.97e-07 (paper 5.97e-07). Every empirical bar within 0.001 of the published height (pixel resolution 0.0004). |
 | Table 2, basic | Same setup | 28 of 29 zero/non-zero calls; large lists within 0.4%. Collino: 1 significant term against 0. |
-| Table 2, multi-hit | Not reproduced at count level | 28 of 29 zero/non-zero calls (Liu: 0 against 1); counts differ by up to 3.3× (Munch 72 against 22), in both directions. Six readings of the method and a second seed do not close the gap (below). |
+| Table 2, multi-hit | Not reproduced at count level | 28 of 29 zero/non-zero calls (Liu: 0 against 1); counts differ by up to 3.3× (Munch 72 against 22), in both directions. Twelve readings of the method and a second seed do not close the gap (below). |
 | S5 | Same setup | 1,552 significant terms (S5 1,580), 1,551 in both. |
 
 ### What the multi-hit test is for
@@ -151,9 +154,9 @@ the large lists are within 0.4%. What only the multi-hit column uses:
    tried too.
 4. **The significance cut** (`table2.py`): BH at 0.05 over all terms, the rule that reproduces S5.
 
-`run_multihit_readings.sh` reruns every null under six readings, each changing one thing against
-Table 2's reference (most sites on any one of the gene's UTRs). Significant terms, all lists with
-a non-zero count anywhere (`output/multihit_readings.csv`):
+`run_multihit_readings.sh` reruns every null under twelve readings, each changing one thing against
+Table 2's reference (most sites on any one of the gene's UTRs). The first six, significant terms
+for all lists with a non-zero count anywhere (`output/multihit_readings.csv`):
 
 | List (miRNAs) | Paper | Reference | Other seed | Longest UTR | Sum, UTRs | Sum, transcripts | GO-gene denominator | All pairs | Reference at FDR 0.025 / 0.1 | FDR giving the paper's count |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -171,8 +174,58 @@ a non-zero count anywhere (`output/multihit_readings.csv`):
 | Chartoumpekis (mouse, 10) | 17 | 17 | 3 | 17 | 2 | 2 | 17 | 0 | 2 / 68 | 0.050 |
 | Liu (mouse, 27) | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 / 0 | 0.23 |
 
-The other 16 lists have no significant multi-hit term under any reading, as in the paper.
+The other 16 lists have no significant multi-hit term under any of these readings, as in the paper.
 `output/multihit_terms.tsv.gz` lists, per list, every term significant under any reading.
+
+**The authors' script README (PR #34 review).** The Internet Archive kept the README of
+`empiricalGO.py` (`published/README-empirical-go.txt`), though not the script. It settles two
+things and leaves one open:
+
+- Sites are what our reference counts. The script reads only miRanda's `>>` summary lines from a
+  default run (`miranda hsa-mature-miRNA.fa ensembl3utr.txt -quiet | grep '>>hsa'`), so a site
+  is one entry of a pair's position list (site score ≥ 140), and the score and energy cut-offs
+  can only be applied to the pair totals, as in #32. Per-site filtering, the option left untried
+  before, is ruled out: the script never sees per-site scores.
+- The UTRs are a BioMart 3′ UTR export, one record per transcript (header Ensembl Gene ID |
+  Ensembl Transcript ID | Associated Gene Name), so the script gets one `>>` line per
+  transcript and must combine them per gene. The README does not say how. A dictionary filled
+  while reading the file (`d[gene][mirna] = sites`) keeps the last transcript; our UTR maps and
+  pair files hold the same per-transcript lines, so these readings need no new miRanda run.
+- It also takes NCBI `gene_info` synonyms and miRBase `aliases.txt`. Neither can matter here:
+  S3's target lists use Ensembl 75 names throughout, including 585 human and 997 mouse names that
+  a synonym map would rename, and no renamed symbol; and all 452 list miRNAs are miRBase 20
+  mature names already, which aliases leave as they are. (The `gene_info` of 2014 is not
+  archived; the check used the current one.)
+
+Six more readings of how the transcripts combine. BioMart's export order in 2014 is unknown, so
+"last" is tried in three orders: the row order of the Ensembl 75 mart table
+`*_gene_ensembl__transcript__main` (what a query without ORDER BY returns), transcript ID, and
+GTF. miRanda writes one miRNA's lines in FASTA order. Keying by Ensembl gene ID scores the copies
+of a gene on haplotypes and patches separately (1,236 human gene names have several IDs); each
+copy then adds to the multi-hit sums. Against the reference these readings change 1–9% of the
+miRNA–gene site counts:
+
+| List (miRNAs) | Paper | Reference | Last, mart order | Last, ID order | Last, GTF order | First, mart order | By gene ID | By gene ID, last (mart) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Chen (176) | 1,193 | 1,300 | 1,255 | 1,247 | 1,240 | 1,286 | 1,388 | 1,316 |
+| Romero-Cordoba (130) | 206 | 266 | 217 | 252 | 218 | 282 | 285 | 242 |
+| Tanic (46) | 317 | 526 | 477 | 497 | 482 | 521 | 519 | 485 |
+| Sokolov (39) | 337 | 842 | 779 | 794 | 793 | 822 | 730 | 716 |
+| Sanchez-Diaz (26) | 28 | 31 | 38 | 28 | 39 | 39 | 38 | 49 |
+| Wu (25) | 138 | 192 | 171 | 165 | 172 | 182 | 181 | 170 |
+| Chen 2013b (15) | 6 | 5 | 4 | 4 | 4 | 4 | 5 | 4 |
+| Raponi (15) | 239 | 120 | 116 | 117 | 107 | 117 | 116 | 117 |
+| Munch (10) | 22 | 72 | 77 | 75 | 76 | 71 | 70 | 78 |
+| Presneau (5) | 0 | 0 | 0 | 11 | 0 | 11 | 0 | 0 |
+| Chartoumpekis (mouse, 10) | 17 | 17 | 17 | 17 | 17 | 2 | 17 | 17 |
+| Liang (mouse, 37) | 0 | 0 | 0 | 0 | 2 | 0 | 0 | 0 |
+| Liu (mouse, 27) | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+
+None is closer to the paper than the reference. Mean |log((ours + 1) / (paper + 1))| over the 29
+lists is 0.168 for the reference and 0.166–0.329 for these six (0.166 for last in mart order);
+keeping the last transcript moves the four largest lists toward the paper by 4–18%, but Sokolov
+stays 2.1–2.4× and Munch 3.2–3.5× too high and Raponi about half, and Presneau or Liang gain terms the
+paper does not have.
 
 What the table shows:
 
@@ -195,12 +248,10 @@ What the table shows:
   (Jaccard 0.91–1.00 except Chartoumpekis, 0.18); between site-counting readings 0.12–1.00.
 
 **Verdict: not reproducible from the paper's Methods.** The site counts per gene are not
-defined by the text, are not in the supplement, and the authors' script is gone. Six readings
-and a second seed do not reproduce the counts, and the errors point both ways. Still untried:
-per-site score and energy filters for the site counts (needs miRanda's full alignment output,
-which our runs did not keep: a rerun of about 45 CPU hours) and other miRanda options. Neither
-is suggested by the paper, and with the counts this fragile, a match on a few lists would not
-identify the method.
+defined by the text, are not in the supplement, and the authors' script is gone (its README
+survives and pins down what a site is, but not how a gene's transcripts combine). Twelve readings
+and a second seed do not reproduce the counts, and the errors point both ways. With the counts
+this fragile, a match on a few lists would not identify the method; only the script would.
 
 ### Comparing counts
 

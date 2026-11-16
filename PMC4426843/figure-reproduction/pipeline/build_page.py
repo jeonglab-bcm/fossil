@@ -182,7 +182,10 @@ EXTRA = f"""<section class="container after-bench" aria-labelledby="tables-head"
 </section>"""
 
 MH_COLS = [("max", "Reference"), ("seed2", "Other seed"), ("longest", "Longest UTR"), ("sum", "Sum, UTRs"),
-           ("sum_tx", "Sum, transcripts"), ("univ", "GO-gene denominator"), ("allpairs", "All pairs")]
+           ("sum_tx", "Sum, transcripts"), ("univ", "GO-gene denominator"), ("allpairs", "All pairs"),
+           ("last_mart", "Last transcript, mart order"), ("last_txid", "Last transcript, ID order"),
+           ("last_gtf", "Last transcript, GTF order"), ("first_mart", "First transcript, mart order"),
+           ("idkey", "By gene ID"), ("idkey_last_mart", "By gene ID, last transcript")]
 mh_rows = [r for r in mh if any(int(r[c] or 0) for c in ["paper_multi_hit"] + [c for c, _ in MH_COLS])]
 mh_rows.sort(key=lambda r: (r["species"] != "Human", -int(r["mirnas"])))
 mh_body = "".join(
@@ -202,7 +205,7 @@ MULTI = f"""<section class="container after-bench" aria-labelledby="multi-head">
     <p class="note"><strong>What it is.</strong> The basic test counts each target gene once: a gene hit by one site of one miRNA weighs as much as a gene hit by ten miRNAs. The multi-hit test (Section 3.4) scores each gene by its predicted binding sites summed over the list’s miRNAs, and a term by the summed scores of its genes over the total. Both compare the list with 999,999 random lists, so both correct the targeting bias; the multi-hit version puts back convergence, several miRNAs hitting the same genes, to show the corrected test can still find biology.</p>
     <p class="note"><strong>How much rests on it.</strong> Little. The main claim (5 of 22 human and 0 of 7 mouse lists enriched after correction), Figure 1 and Table 1 stand on the basic test. From the multi-hit test the paper takes only a pattern, which our run shows too: lists enriched under the basic test stay enriched with fewer terms, and five of the paper’s six lists that gain terms gain them here (Liu does not).</p>
     <div class="table-wrap"><table class="record dense"><caption>Significant multi-hit terms per list: paper, then our readings; our reference at FDR 0.025–0.1; the FDR at which our ranking gives the paper’s count</caption><thead><tr><th scope="col">List</th><th scope="col" class=num>miRNAs</th><th scope="col" class=num>Paper</th>{mh_head}<th scope="col" class=num>FDR 0.025–0.1</th><th scope="col" class=num>FDR at paper’s count</th></tr></thead><tbody>{mh_body}</tbody></table></div>
-    <p class="note"><strong>Why the counts differ.</strong> The paper does not say how sites are counted on a gene with several transcripts, or whether sites on pairs failing the score and energy cut count, and no supplementary table records site counts. The targets feeding both columns agree with S3 to 99.8%, so the gap lies in the site counts. No reading reproduces the paper, and the errors point both ways: seven lists come out too high, three too low. The paper’s counts are not ours at another threshold either: the FDR that would give them runs from {min(fdr_paper):.2g} to {max(fdr_paper):.2g}. Many multi-hit P-values sit near the cut, so the counts are fragile; under another seed Chartoumpekis goes from {chart['max']} to {chart['seed2']}, so its exact match is chance.</p>
+    <p class="note"><strong>Why the counts differ.</strong> The paper does not say how sites are counted on a gene with several transcripts, or whether sites on pairs failing the score and energy cut count, and no supplementary table records site counts. The targets feeding both columns agree with S3 to 99.8%, so the gap lies in the site counts. The authors’ script README, kept by the Internet Archive without the script, shows it counted sites on miRanda’s per-transcript summary lines but not how it combined a gene’s transcripts; keeping the last or first transcript in three file orders, or scoring each Ensembl gene ID, does no better than our reference. No reading reproduces the paper, and the errors point both ways: seven lists come out too high, three too low. The paper’s counts are not ours at another threshold either: the FDR that would give them runs from {min(fdr_paper):.2g} to {max(fdr_paper):.2g}. Many multi-hit P-values sit near the cut, so the counts are fragile; under another seed Chartoumpekis goes from {chart['max']} to {chart['seed2']}, so its exact match is chance.</p>
     <p class="note"><strong>Comparing counts.</strong> <code>table2.csv</code> gives ours − paper and (ours − paper) / paper. The paper publishes no multi-hit term lists, so the term sets cannot be compared; the readings, the FDR range and the FDR at the paper’s count show how far a count can move.</p>
   </div>
 </section>"""
@@ -225,10 +228,10 @@ RECOVERED = f"""<section class="notes" aria-labelledby="back-head">
     <div class="plastic buried-band">
       <h2 id="buried-head">What stayed buried</h2>
       <ul>
-        <li>The authors’ Python script (sgjlab.org/empirical-go no longer resolves)</li>
+        <li>The authors’ Python script (sgjlab.org/empirical-go no longer resolves, and the Internet Archive kept only its README)</li>
         <li>Table 3 (rice): psRNATarget’s 2011 server and the agriGO tables it used</li>
         <li>The robustness runs of Section 3.3: PITA v6, DIANA-microT-v4, starBase v2 CLIP sets and DAVID’s 2014 BP_FAT</li>
-        <li>The multi-hit counts of Table 2: how sites are counted per gene is not stated, and six readings do not reproduce them</li>
+        <li>The multi-hit counts of Table 2: how a gene’s transcripts combine is not stated, and twelve readings do not reproduce them</li>
         <li>Why {s3_total - s3_both} of S3’s {s3_total:,} study–gene pairs are not in ours: the genes have short 3′ UTRs here, and no Ensembl 75 table we found gives them longer ones</li>
       </ul>
       <p class="so">The bias the paper reports comes back: with regenerated predictions, the mean ion-transport count of 39 random miRNAs is {ion['our_mean']:.1f}, and the hypergeometric test calls it significant at {ion['our_p']:.2e}. Corrected, almost nothing is enriched.</p>
