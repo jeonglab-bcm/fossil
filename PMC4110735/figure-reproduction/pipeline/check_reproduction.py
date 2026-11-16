@@ -14,7 +14,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 EXPECTED = ["dream.json", "datasets.json", "profiles.json", "fig4.json", "fig5.json", "enrich.json", "claims.json",
-            "table3.json", "normalisation.json", "fig1_fig6.json", "port_check.json", "timing.json", "package.json", "results.json"] + \
+            "table3.json", "normalisation.json", "fig1_fig6.json", "table2_density.json", "port_check.json", "timing.json", "package.json", "results.json"] + \
            [f"figures/fig{n}_{k}.png" for n in (1, 2, 3, 4, 5, 6, 7) for k in ("ours", "overlay")] + ["figures/fig4_run.png"] + \
            [f"dream/D{i}.tsv" for i in range(1, 14)]
 IGNORE = ["package.json", "report.md", "site/*", "results.json"]

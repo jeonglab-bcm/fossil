@@ -80,6 +80,18 @@ process DREAM_EVAL {
     """
 }
 
+process DENSITY {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path dream
+    output:
+    path 'table2_density.json'
+    script:
+    """
+    PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python} ${params.pipe}/table2_density.py ${dream} ${projectDir}/paper_values.json table2_density.json
+    """
+}
+
 process PROFILES {
     publishDir "${params.outdir}", mode: 'copy'
     input:
@@ -230,6 +242,7 @@ workflow {
     parts = DREAM_DATA(channel.of(1..13).map { "D${it}" }.combine(dl))
     data = MERGE_DATA(parts.collect())
     ev = DREAM_EVAL(data.dream)
+    dn = DENSITY(data.dream)
     pr = PROFILES(dl)
     f16 = FIG1_FIG6(dl)
     f4 = FIG4(ev)
@@ -239,7 +252,7 @@ workflow {
     pc = PORT_CHECK(dl)
     cl = CLAIMS(ev, pr.json, rd.enrich, tm)
     pk = PACKAGE()
-    all = data.dream.mix(data.meta, ev, pr.json, pr.figures.flatten(), f16.json, f16.figures.flatten(), f4.json, f4.figures.flatten(), tm, f5.json,
+    all = data.dream.mix(data.meta, ev, dn, pr.json, pr.figures.flatten(), f16.json, f16.figures.flatten(), f4.json, f4.figures.flatten(), tm, f5.json,
                          f5.figures.flatten(), rd.enrich, rd.table3, rd.norm, pc, cl, pk).collect()
     RESULTS(all)
 }

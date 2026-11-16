@@ -390,6 +390,13 @@
      "figure-reproduction/output/table3.json"
     ],
     "status": "explained"
+   },
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/61#pullrequestreview-5921880769",
+    "note": "Review card \"Table 3\": Partly to Agrees. The cause below stays as written: the reviewer accepts the gap it describes."
    }
   },
   "table4": {
@@ -541,10 +548,11 @@
   "table2": {
    "category": "unknown",
    "status": "open",
-   "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered.",
+   "summary": "GeCON as the paper describes it ranks pairs no better than chance on these data (mean AUPR 0.203, the share of true pairs is 0.203; mean AUROC 0.485), while minet's methods reach AUPR 0.275 to 0.291 and AUROC 0.535 to 0.61. At theta 0.5 and tau 20 it connects 84% to 100% of all pairs, because on positive values almost every edge angle of Eq. (5) sits near 45 or 135 degrees. No variant we tried brings GeCON's mean scores near the paper's (best mean AUPR 0.255 against 0.633); the few single cells that fall within printed precision are not counted as agreement. The comparators' values differ too, so the authors' simulations and scoring cannot be recovered. The paper's GeCON columns follow each network's share of true pairs p: a network that connects every pair, scored as one precision-recall point with a straight line from (0, 1), gets (1 + p) / 2, and the paper's GeCON AUROC averages 0.603 against 0.601 for that formula (r 0.97, 12 of 13 datasets within 0.05). This suggests the paper scored a nearly complete network in a way that rewards density, but it matches only 5 of 13 values at printed precision, so it stays a hypothesis.",
    "evidence": [
     "figure-reproduction/output/dream.json",
-    "figure-reproduction/output/datasets.json"
+    "figure-reproduction/output/datasets.json",
+    "figure-reproduction/output/table2_density.json"
    ],
    "hypotheses": [
     {
@@ -580,6 +588,11 @@
     {
      "hypothesis": "Scoring on directed pairs explains the comparators' low AUPR on the size 50 and 100 networks",
      "test": "Directed scoring of every method (dream.json: directed)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "The paper scored GeCON's thresholded, nearly complete network as one precision-recall point with a straight line from (0, 1), so its scores measure the network's density (area (1 + p) / 2 for share of true pairs p)",
+     "test": "Compare the paper's GeCON columns with (1 + p) / 2 and with our thresholded network scored that way (table2_density.json): AUROC r 0.97, means 0.601 and 0.603, 12 of 13 within 0.05 but 5 of 13 at printed precision; AUPR r 0.90, up to 0.12 above",
      "result": "inconclusive"
     }
    ]
