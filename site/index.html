@@ -56,7 +56,7 @@
         <h1 id="hero-head">Old methods, dug up and running again.</h1>
         <p class="lead">fossil is an archive of methods from published computational papers. An AI agent rebuilds each one from the paper and whatever survived, and every figure is checked against the one in print.</p>
         <div class="actions"><a class="btn btn--primary" href="#papers">See the papers</a><a class="btn" href="#about">Why we do it</a></div>
-        <p class="aside">Eight papers dug up so far, from 2007 to 2015.</p>
+        <p class="aside"><span data-count="papers" data-cap>Eleven</span> papers dug up so far, from <span data-count="first-year">2004</span> to <span data-count="last-year">2015</span>.</p>
       </div>
     </div>
   </section>
@@ -102,8 +102,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head">Eight papers, figure by figure</h2>
-        <p>Newest first. Two agree with their papers, six partly.</p>
+        <h2 id="index-head"><span data-count="papers" data-cap>Eleven</span> papers, figure by figure</h2>
+        <p>Newest first. <span data-count="agrees" data-cap>Two</span> agree with their papers, <span data-count="partly">nine</span> partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -373,5 +373,30 @@
     </nav>
   </div>
 </footer>
+<script>
+// Counts on the page come from the papers table, so they stay right as rows are added.
+(function () {
+  var rows = document.querySelectorAll('#papers tbody tr');
+  var years = [].map.call(document.querySelectorAll('#papers td[data-label="Published"] time'),
+    function (t) { return +t.getAttribute('datetime').slice(0, 4); });
+  var words = ['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven',
+    'twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+  var verdicts = function (v) { return document.querySelectorAll('#papers .verdict[data-v="' + v + '"]').length; };
+  var values = {
+    'papers': rows.length,
+    'agrees': verdicts('agrees'),
+    'partly': verdicts('partly'),
+    'first-year': Math.min.apply(null, years),
+    'last-year': Math.max.apply(null, years)
+  };
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    var n = values[el.getAttribute('data-count')];
+    if (!isFinite(n)) return;
+    var text = /year/.test(el.getAttribute('data-count')) || n > 20 ? String(n) : words[n];
+    if (el.hasAttribute('data-cap')) text = text.charAt(0).toUpperCase() + text.slice(1);
+    el.textContent = text;
+  });
+})();
+</script>
 </body>
 </html>
