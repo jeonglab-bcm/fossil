@@ -215,12 +215,18 @@ def main(yeast_json, human_json, pub_dir, out):
     cal = ft.excel_axes(a, (12, 12, a.shape[1] - 12, a.shape[0] - 12), [i / 10 for i in range(11)], (0, 1))
 
     n_all = Y["network"]["proteins"] * (Y["network"]["proteins"] - 1) // 2 - Y["network"]["interactions"]
+    R = Y["fig5_roc"]
+    fpr = np.array(R["fpr"])
 
-    def mean_curve(dim, k, all_deleted=True, embedding=None):
-        """Mean over the repeats. With all_deleted, every deleted edge is a positive and every
-        non-edge of Yhigh a negative, so edges cut off from the largest component stay false
-        negatives until the last point (the published curves level off below 1). embedding is
-        "lcc" (the largest component) or "whole" (every protein), by default as FIG5_EMBEDDING."""
+    def roc_mean(dim, k, embedding=None):
+        """Fig. 5's curve: each deletion's full ROC curve, averaged as sensitivity at the same false-
+        positive rate (every deleted edge a positive, every non-edge of Yhigh a negative). embedding
+        is "lcc" (the largest component) or "whole" (every protein), by default as FIG5_EMBEDDING."""
+        return list(fpr), R["curves"][f"{dim}:{k}:{embedding or FIG5_EMBEDDING[k]}"]["sens"]
+
+    def eps_mean(dim, k, all_deleted=True, embedding=None):
+        """The mean of the deletions' points at the same epsilon (our earlier drawing; a control).
+        Without all_deleted, positives and negatives are counted within the embedded proteins."""
         emb = embedding or FIG5_EMBEDDING[k]
         runs = [on_grid((r if emb == "lcc" else r["whole"])["grid"], FIG5_GRID) for r in Y["fig5"][f"{dim}:{k}"]]
         n = min(len(r) for r in runs)
@@ -233,44 +239,87 @@ def main(yeast_json, human_json, pub_dir, out):
         return with_end((x, y))
 
     ks = [500, 1000, 2000, 3000]
-    fig5 = {dim: [mean_curve(dim, k) for k in ks] for dim in ("4", "5", "7")}
+    fig5 = {dim: [roc_mean(dim, k) for k in ks] for dim in ("4", "5", "7")}
     # The dimension of Fig. 5 is not stated: draw each candidate and keep the best (a search,
-    # recorded as such); the others are near-miss controls.
+    # recorded as such); the others are near-miss controls. The mean curves have no epsilon, so
+    # they are drawn as lines without markers (the score leaves the published markers out).
     region = plot_region(a.shape, cal, [(745, 285, 1220, 535)])
     pubs = pub_masks(a, EXCEL4, region)
     w = float(np.median([ft.line_width(m) for m in pubs if m.any()]))
     ex = np.zeros(a.shape[:2], bool)
     for m in pubs:
         ex |= ft.marker_mask(m, w)
-    search = {dim: score_panel(pubs, series, cal, a.shape, w, ex)[0]["score"] for dim, series in fig5.items()}
+    search = {dim: score_panel(pubs, series, cal, a.shape, w, ex, smooth=False)[0]["score"]
+              for dim, series in fig5.items()}
     best = max(search, key=search.get)
     ours = fig5[best]
-    all_lcc = [mean_curve(best, k, embedding="lcc") for k in ks]
-    all_whole = [mean_curve(best, k, embedding="whole") for k in ks]
+    all_lcc = [roc_mean(best, k, "lcc") for k in ks]
+    all_whole = [roc_mean(best, k, "whole") for k in ks]
     controls = [("deletion sizes in reverse order (3000 drawn as 500)", "wrong_input", ours[::-1]),
                 ("every curve from the largest component (3,000 too)", "near_miss", all_lcc),
                 ("every curve from every protein (500 to 2,000 too)", "near_miss", all_whole),
-                ("positives and negatives within the embedded proteins only", "near_miss",
-                 [mean_curve(best, k, all_deleted=False) for k in ks])]
+                ("mean of the deletions' points at the same epsilon", "near_miss",
+                 [eps_mean(best, k) for k in ks]),
+                ("same epsilon, positives and negatives within the embedded proteins only", "near_miss",
+                 [eps_mean(best, k, all_deleted=False) for k in ks])]
     controls += [(f"dimension {d} instead of {best}", "near_miss", fig5[d]) for d in fig5 if d != best]
     controls += [("y x 1.05", "near_miss", scale(ours, 1.05, ymax=1.0)),
                  ("y x 0.95", "near_miss", scale(ours, 0.95)),
                  ("x shifted by 0.01 (1% of the axis)", "near_miss", scale(ours, dx=0.01))]
-    res["fig5"] = run_panel("fig5", a, cal, EXCEL4, [(745, 285, 1220, 535)], ours, controls, out)
+    res["fig5"] = run_panel("fig5", a, cal, EXCEL4, [(745, 285, 1220, 535)], ours, controls, out, smooth=False)
     res["fig5"]["dimension_search"] = search
+    res["fig5"]["averaging"] = "sensitivity at the same false-positive rate over each deletion's full ROC curve"
     res["fig5"]["embedding"] = {str(k): v for k, v in FIG5_EMBEDDING.items()}
-    res["fig5"]["series_scores_all_lcc"] = [
-        round(min(x["published_near_ours"], x["ours_near_published"]), 4)
-        for x in score_panel(pubs, all_lcc, cal, a.shape, w, ex)[0]["series"]]
-    res["fig5"]["series_scores_all_whole"] = [
-        round(min(x["published_near_ours"], x["ours_near_published"]), 4)
-        for x in score_panel(pubs, all_whole, cal, a.shape, w, ex)[0]["series"]]
+
+    def series_scores(series):
+        return [round(min(x["published_near_ours"], x["ours_near_published"]), 4)
+                for x in score_panel(pubs, series, cal, a.shape, w, ex, smooth=False)[0]["series"]]
+
+    res["fig5"]["series_scores_all_lcc"] = series_scores(all_lcc)
+    res["fig5"]["series_scores_all_whole"] = series_scores(all_whole)
+    res["fig5"]["series_scores_same_epsilon"] = series_scores([eps_mean(best, k) for k in ks])
+    # A test of how the published lines were drawn: Excel joins about ten markers with a smoothed
+    # line, which cuts below a dense ROC curve between markers. Read our mean curve at the false-
+    # positive rates of the same-epsilon means only and smooth it the same way.
+    sampled = []
+    for k, (x, y) in zip(ks, ours):
+        xs = np.array(eps_mean(best, k)[0])
+        sampled.append((xs, np.interp(xs, x, y)))
+    r = score_panel(pubs, sampled, cal, a.shape, w, ex, smooth=True)[0]
+    res["fig5"]["mean_curve_at_ten_points_smoothed"] = {
+        "score": round(r["score"], 4),
+        "series": [round(min(x["published_near_ours"], x["ours_near_published"]), 4) for x in r["series"]]}
+
+    # Trace the published curves (column by column, markers left out) and measure the mean vertical
+    # distance of each mean curve to them over false-positive rates 0 to 0.5.
+    def trace(m):
+        xs, ys = [], []
+        for c in range(int(cal["left"]), int(cal["right"]) + 1):
+            rows = np.flatnonzero(m[:, c] & ~ex[:, c])
+            if rows.size:
+                xs.append((c - cal["bx"]) / cal["ax"])
+                ys.append((float(np.median(rows)) - cal["by"]) / cal["ay"])
+        return np.array(xs), np.array(ys)
+
+    traces = [trace(m) for m in pubs]
+
+    def distance(series):
+        out = []
+        for (tx, ty), (x, y) in zip(traces, series):
+            sel = (tx >= 0) & (tx <= 0.5)
+            out.append(round(float(np.mean(np.abs(ty[sel] - np.interp(tx[sel], x, y)))), 4))
+        return out
+
+    res["fig5"]["mean_vertical_distance_fpr_0_0.5"] = {
+        "ours": distance(ours), "every_curve_largest_component": distance(all_lcc),
+        "every_curve_every_protein": distance(all_whole),
+        "same_epsilon_mean": distance([eps_mean(best, k) for k in ks])}
+    res["fig5"]["auc"] = {f"{k}": R["curves"][f"{best}:{k}:{FIG5_EMBEDDING[k]}"]["auc"] for k in ks}
     res["fig5"]["auc_range_over_repeats"] = {
-        f"{k}": [min(r["auc"] for r in Y["fig5"][f"{best}:{k}"]),
-                 max(r["auc"] for r in Y["fig5"][f"{best}:{k}"])] for k in ks}
-    res["fig5"]["auc_range_over_repeats_every_protein"] = {
-        f"{k}": [min(r["whole"]["auc"] for r in Y["fig5"][f"{best}:{k}"]),
-                 max(r["whole"]["auc"] for r in Y["fig5"][f"{best}:{k}"])] for k in ks}
+        f"{k}": R["curves"][f"{best}:{k}:{FIG5_EMBEDDING[k]}"]["auc_range_over_repeats"] for k in ks}
+    res["fig5"]["auc_published_traced"] = {
+        f"{k}": round(float(np.trapezoid(np.r_[0.0, ty, 1.0], np.r_[0.0, tx, 1.0])), 3)
+        for k, (tx, ty) in zip(ks, traces)}
     FIG5 = best
     res["fig5"]["dimension"] = FIG5
 

@@ -8,7 +8,7 @@
     "license": "CC BY"
   },
   "run": {
-    "date": "2026-11-13",
+    "date": "2026-11-16",
     "pipeline": "PMC2711306/figure-reproduction/main.nf",
     "command": "nextflow run PMC2711306/figure-reproduction/main.nf --outdir results",
     "inputs": [
@@ -555,54 +555,59 @@
       "pixels": {
         "tolerance_px": 2,
         "dpi": 300,
-        "published_near_ours": 0.5567,
-        "ours_near_published": 0.6901,
+        "published_near_ours": 0.5307,
+        "ours_near_published": 0.4877,
         "threshold": 0.9,
         "controls": [
           {
             "name": "deletion sizes in reverse order (3000 drawn as 500)",
             "kind": "wrong_input",
-            "score": 0.1636
+            "score": 0.1275
           },
           {
             "name": "every curve from the largest component (3,000 too)",
             "kind": "near_miss",
-            "score": 0.5302
+            "score": 0.3834
           },
           {
             "name": "every curve from every protein (500 to 2,000 too)",
             "kind": "near_miss",
-            "score": 0.3078
+            "score": 0.3483
           },
           {
-            "name": "positives and negatives within the embedded proteins only",
+            "name": "mean of the deletions' points at the same epsilon",
             "kind": "near_miss",
-            "score": 0.272
+            "score": 0.5014
+          },
+          {
+            "name": "same epsilon, positives and negatives within the embedded proteins only",
+            "kind": "near_miss",
+            "score": 0.2466
           },
           {
             "name": "dimension 4 instead of 5",
             "kind": "near_miss",
-            "score": 0.3848
+            "score": 0.3612
           },
           {
             "name": "dimension 7 instead of 5",
             "kind": "near_miss",
-            "score": 0.474
+            "score": 0.3006
           },
           {
             "name": "y x 1.05",
             "kind": "near_miss",
-            "score": 0.1483
+            "score": 0.1021
           },
           {
             "name": "y x 0.95",
             "kind": "near_miss",
-            "score": 0.068
+            "score": 0.1737
           },
           {
             "name": "x shifted by 0.01 (1% of the axis)",
             "kind": "near_miss",
-            "score": 0.4581
+            "score": 0.4121
           }
         ]
       },
@@ -634,17 +639,17 @@
         {
           "what": "Fig. 5's 500, 1,000 and 2,000 curves embed the largest component of what is left after the deletion; its 3,000 curve embeds every protein, including those the deletion cut off (embed_novi.m puts unreachable pairs at path length 200)",
           "source": "found_by_search",
-          "sensitivity": "Only the 3,000 curve changes: its score rises from 33.1% to 40.4% and its AUC falls from 0.950-0.960 to 0.882-0.909, around the published 0.90. Drawing all four curves either way is a near-miss control (output/figures.json: series_scores_all_lcc, series_scores_all_whole)."
+          "sensitivity": "Only the 3,000 curve changes. Over false-positive rates 0 to 0.5 its mean vertical distance to the published curve is 0.012 from every protein and 0.091 from the largest component; its AUC is 0.894 against 0.895 traced from the published curve. Drawing all four curves either way is a near-miss control (output/figures.json: series_scores_all_lcc, series_scores_all_whole, mean_vertical_distance_fpr_0_0.5)."
         },
         {
-          "what": "Fig. 5 draws the mean of 10 random deletions per size; the paper does not say how many it ran",
+          "what": "Fig. 5 draws, for each size, the mean of 10 random deletions: each deletion's full ROC curve, averaged as sensitivity at the same false-positive rate. The paper says only that the edges \"were removed at random\", not how many deletions it ran or how it combined them",
           "source": "our_choice",
-          "sensitivity": "AUC ranges over the repeats are in output/figures.json (auc_range_over_repeats, auc_range_over_repeats_every_protein). Single deletions spread widely when every protein is embedded: the 3,000 curve scores 7% to 84% in dimension 5 (output/run/fig5_single_deletions.json)."
+          "sensitivity": "The AUC of each deletion's full ROC curve spreads over the repeats (output/figures.json: auc_range_over_repeats; 0.882 to 0.909 for the 3,000 curve). Averaging the deletions' points at the same epsilon instead puts the 3,000 curve right of every deletion (mean vertical distance 0.126 to the published curve, against 0.012); it is a near-miss control. Single deletions' epsilon points scored against the published 3,000 curve give pixel scores from 7% to 84% in dimension 5 (output/run/fig5_single_deletions.json)."
         }
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "The 3,000-edge curve was drawn from an embedding of every protein, cut-off ones included, while the 500 to 2,000 curves match an embedding of the largest component. The paper does not say this. Drawn that way, our 3,000 curve takes the published shape: it starts at sensitivity 0.45 at the first marker and levels off at 0.97. Its AUC (0.88 to 0.91 over 10 deletions) brackets the published 0.90. It still lies to the right of the published curve (40% within 2 px), because the paper drew one deletion and how far the cut-off proteins squeeze the rest varies from deletion to deletion. The 500, 1,000 and 2,000 curves are unchanged and lie close to the published ones (70.5%, 45.2% and 75.3% within 2 px).",
+        "summary": "Two settings that the paper does not state. The 3,000-edge curve was drawn from an embedding of every protein, cut-off ones included, while the 500 to 2,000 curves match an embedding of the largest component (the Methods say only the largest component is embedded). Drawn as the mean of 10 deletions' full ROC curves at the same false-positive rate, our curves lie on the published ones: mean vertical distance 0.007, 0.034, 0.006 and 0.012 for 500, 1,000, 2,000 and 3,000 edges over false-positive rates 0 to 0.5, and AUC 0.952, 0.948, 0.933 and 0.894 against 0.955, 0.938, 0.936 and 0.895 traced from the published curves. The pixel score is lower (48.8%) and does not beat the mean of the deletions' points at the same epsilon (50.1%), so the verdict is inconclusive. The published lines are Excel's smoothed lines through about ten markers, which cut below a dense ROC curve between markers: our mean curve read at ten points and smoothed the same way scores 61.5%. The published 1,000 curve lies lower than ours (0.034), and no setting we tested moves it there.",
         "evidence": [
           "figure-reproduction/output/figures.json",
           "figure-reproduction/output/run/yeast.json",
@@ -653,33 +658,48 @@
         "hypotheses": [
           {
             "hypothesis": "The 3,000 curve embeds every protein, including those the deletion cut off",
-            "test": "Single deletions scored against the published 3,000 curve (fig5_single_deletions.json, 10 per dimension): every protein, median 48%, 48% and 50% and best 84%, 83% and 81% in dimensions 5, 6 and 7; largest component, median 13% to 15% and best 43% to 45%. The published curve's plateau (0.97) and its first marker (sensitivity 0.35 at 3% false positives) occur only when cut-off proteins are embedded: the per-axis [0, 1] scaling then squeezes the main component, so even epsilon 0.01 accepts many pairs.",
+            "test": "Mean curves at the same false-positive rate, dimension 5: mean vertical distance to the published 3,000 curve 0.012 from every protein, 0.091 from the largest component; pixel scores of that curve 42.4% and 3.9%. Single deletions scored against the published 3,000 curve (fig5_single_deletions.json, 10 per dimension): every protein, median 48%, 48% and 50% and best 84%, 83% and 81% in dimensions 5, 6 and 7; largest component, median 13% to 15% and best 43% to 45%. The published curve's first marker (sensitivity 0.35 at 3% false positives) fits it: embed_novi.m puts cut-off proteins at the unreachable distance and the per-axis [0, 1] scaling squeezes the main component, so even epsilon 0.01 accepts many pairs.",
             "result": "supported"
           },
           {
             "hypothesis": "All four curves embed every protein",
-            "test": "The 2,000 curve rejects it: single deletions score at most 8% to 11% that way in dimensions 4 to 7, against 18% to 34% from the largest component; drawn as a control, all four curves that way score 30.8%",
+            "test": "The 2,000 curve rejects it: mean vertical distance 0.138 that way against 0.006 from the largest component; drawn as a control, all four curves that way score 34.8%",
             "result": "rejected"
           },
           {
+            "hypothesis": "The curves are means of the deletions' points at the same epsilon",
+            "test": "Mean vertical distance to the published curves 0.009, 0.025, 0.011 and 0.126 against 0.007, 0.034, 0.006 and 0.012 at the same false-positive rate: the cut-off proteins squeeze each deletion by a different amount, so one epsilon falls at different false-positive rates and the mean lies right of every deletion. Its pixel score (50.1%, a near-miss control) is higher than ours only because it is smoothed through ten points like the published lines (next hypothesis).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The pixel score is held down by how the published lines are drawn: smoothed through about ten markers",
+            "test": "Our mean curve read at the false-positive rates of the ten same-epsilon points and smoothed like Excel scores 61.5% (69.6%, 44.9%, 74.1% and 57.9% per curve), against 48.8% drawn as a dense line",
+            "result": "supported"
+          },
+          {
             "hypothesis": "Positives and negatives within the embedded proteins only",
-            "test": "Drawn as a control: no plateau below 1, score 27.2%",
+            "test": "Drawn as a control (same epsilon): score 24.7%",
             "result": "rejected"
           },
           {
             "hypothesis": "Another dimension (4, 5 or 7)",
-            "test": "All three drawn with the same embeddings; dimension 5 scores best (55.7%), 4 and 7 score 38.5% and 47.4%",
+            "test": "All three drawn with the same embeddings and averaging; dimension 5 scores best (48.8%), 4 and 7 score 36.1% and 30.1%",
             "result": "rejected"
           },
           {
-            "hypothesis": "A single unlucky deletion from the largest component",
-            "test": "AUC of the 3,000 curve from the largest component ranges 0.950-0.960 over 10 deletions, never near 0.90",
+            "hypothesis": "A single unlucky deletion from the largest component gives the 3,000 curve",
+            "test": "AUC does not separate the two: with every deleted edge counted, deletions from the largest component give 0.882 to 0.945 and from every protein 0.882 to 0.909 (published, traced: 0.895). The shape does: single deletions from the largest component score at most 43% to 45% against the published 3,000 curve, from every protein up to 84%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Some tested setting lowers the 1,000 curve to the published one",
+            "test": "Mean vertical distance of the 1,000 curve: 0.034 from the largest component, 0.040 from every protein, 0.025 at the same epsilon; dimensions 4 and 7 score lower in pixels. None closes the gap",
             "result": "rejected"
           }
         ],
         "status": "open"
       },
-      "verdict": "partly"
+      "verdict": "inconclusive"
     },
     {
       "id": "figS1",
@@ -2046,8 +2066,8 @@
     "items": 30,
     "exact": 1,
     "agrees": 18,
-    "partly": 2,
-    "inconclusive": 0,
+    "partly": 1,
+    "inconclusive": 1,
     "differs": 6,
     "not_attempted": 3,
     "open_causes": 5,

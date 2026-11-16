@@ -67,6 +67,27 @@ def dense_summary(d, pos):
     }, (thr, tp, fp, P, N)
 
 
+# False-positive rates at which Fig. 5's deletions are averaged (vertical averaging of ROC curves):
+# fine near 0, where the curves rise steeply
+FIG5_FPR = ([round(0.0002 * i, 4) for i in range(100)] + [round(0.02 + 0.001 * i, 3) for i in range(80)]
+            + [round(0.1 + 0.005 * i, 3) for i in range(181)])
+
+
+def sens_at_fpr(d, pos, k, n_all, grid=FIG5_FPR):
+    """One deletion's full ROC curve, every deleted edge a positive (k) and every non-edge of Yhigh a
+    negative (n_all), read as sensitivity at each false-positive rate of grid (linear between the
+    curve's points, and from its last point to (1, 1) when the embedding left pairs out)."""
+    _, tp, fp, _, _ = gd.roc_curve(d, pos)
+    last = np.r_[np.flatnonzero(np.diff(fp)), fp.size - 1]  # highest tp at each fp
+    x = np.r_[0.0, fp[last] / n_all, 1.0]
+    y = np.r_[0.0, tp[last] / k, 1.0]
+    if x[1] == 0.0:
+        x, y = x[1:], y[1:]
+    if x[-2] == 1.0:
+        x, y = x[:-1], y[:-1]
+    return np.interp(grid, x, y)
+
+
 def iterate(net, dim, eps, max_iter, ni, nj):
     """Algorithm 1 iterated: add the predictions and re-embed until no new pair is predicted."""
     edges = net.edges
@@ -165,11 +186,15 @@ def main():
     # Each deletion is embedded twice: the largest component only (the method's rule) and every
     # protein, including those the deletion cut off (embed_novi.m puts them at the unreachable
     # distance). Neither embedding draws random numbers, so the deletions are the same for both.
+    # Each deletion's full ROC curve is kept as sensitivity at the false-positive rates of FIG5_FPR;
+    # fig5_roc holds their mean (the curves of Fig. 5).
     rng = np.random.default_rng(SEED)
-    fig5 = {}
+    n_all = net.n * (net.n - 1) // 2 - net.m
+    fig5, fig5_roc = {}, {}
     for dim in (4, 5, 7):
         for k in (500, 1000, 2000, 3000):
             runs = []
+            sens = {"lcc": [], "whole": []}
             for r in range(a.fig5_repeats):
                 drop = rng.choice(net.m, size=k, replace=False)
                 keep = np.ones(net.m, dtype=bool)
@@ -187,6 +212,7 @@ def main():
                     s, _ = dense_summary(d, cpos)
                     s["grid"] = grid_points(d, cpos, cP, cN, [e for e in EPS_GRID if e <= d.max() + 0.1])
                     s["positives"] = cP
+                    sens[name].append(sens_at_fpr(d, cpos, k, n_all))
                     if name == "lcc":
                         summ = s
                         summ["lcc_proteins"] = lcc.n
@@ -194,10 +220,18 @@ def main():
                         summ["whole"] = {"auc": s["auc"], "grid": s["grid"], "positives": cP}
                 runs.append(summ)
             fig5[f"{dim}:{k}"] = runs
+            for name, v in sens.items():
+                m = np.mean(v, axis=0)
+                aucs = [float(np.trapezoid(t, FIG5_FPR)) for t in v]
+                fig5_roc[f"{dim}:{k}:{name}"] = {
+                    "sens": [round(float(t), 6) for t in m],
+                    "auc": round(float(np.trapezoid(m, FIG5_FPR)), 6),
+                    "auc_range_over_repeats": [round(min(aucs), 6), round(max(aucs), 6)]}
             print(f"fig5 dim {dim} k {k}: AUC {np.mean([r['auc'] for r in runs]):.3f} largest component, "
                   f"{np.mean([r['whole']['auc'] for r in runs]):.3f} every protein "
                   f"({time.time() - t0:.0f} s)", flush=True)
     res["fig5"] = fig5
+    res["fig5_roc"] = {"fpr": FIG5_FPR, "negatives": n_all, "curves": fig5_roc}
     json.dump(res, open(out / "yeast.json", "w"), indent=1)
     with open(out / "roc_dense.csv", "w") as f:
         f.write("dim,threshold,tp,fp\n")

@@ -1,6 +1,7 @@
-"""One-off hypothesis test for Fig. 5 (not part of the pipeline run). The paper draws one deletion
-per size; this scores single deletions, each embedded two ways (the largest component only, or every
-protein including those the deletion cut off), against the matching published curve.
+"""One-off hypothesis test for Fig. 5 (not part of the pipeline run): which embedding each published
+curve comes from. It scores single deletions, each embedded two ways (the largest component only, or
+every protein including those the deletion cut off), against the matching published curve. The
+scores are pixel scores of one deletion's epsilon points against one published curve.
 
 Usage: fig5_single_deletions.py YHIGH.tsv PUBLISHED_DIR OUT.json [--repeats N]
 (committed as output/run/fig5_single_deletions.json)

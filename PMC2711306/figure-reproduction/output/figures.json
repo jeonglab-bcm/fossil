@@ -288,33 +288,33 @@
   "threshold": 0.9
  },
  "fig5": {
-  "published_near_ours": 0.556686501722518,
-  "ours_near_published": 0.690076726342711,
-  "score": 0.556686501722518,
+  "published_near_ours": 0.530692139054181,
+  "ours_near_published": 0.487739221871714,
+  "score": 0.487739221871714,
   "series": [
    {
-    "published_near_ours": 0.9049255441008018,
-    "ours_near_published": 0.7049778973669037,
+    "published_near_ours": 0.781786941580756,
+    "ours_near_published": 0.6236031154757873,
     "published_px": 1746,
-    "ours_px": 5203
+    "ours_px": 5906
    },
    {
-    "published_near_ours": 0.4523258802364431,
-    "ours_near_published": 0.6892259821081291,
+    "published_near_ours": 0.34566949370341815,
+    "ours_near_published": 0.4474570562478949,
     "published_px": 3891,
-    "ours_px": 5142
+    "ours_px": 5938
    },
    {
-    "published_near_ours": 0.7529550827423168,
-    "ours_near_published": 0.8712811171827566,
+    "published_near_ours": 0.7915681639085894,
+    "ours_near_published": 0.45695476029709653,
     "published_px": 2538,
-    "ours_px": 4941
+    "ours_px": 5924
    },
    {
-    "published_near_ours": 0.4043941701109419,
-    "ours_near_published": 0.4629455909943715,
+    "published_near_ours": 0.4479008048727431,
+    "ours_near_published": 0.42433827201598134,
     "published_px": 4597,
-    "ours_px": 4264
+    "ours_px": 6007
    }
   ],
   "line_width_px": 4.0,
@@ -324,55 +324,61 @@
    {
     "name": "deletion sizes in reverse order (3000 drawn as 500)",
     "kind": "wrong_input",
-    "score": 0.16356091450046978
+    "score": 0.1275446288756655
    },
    {
     "name": "every curve from the largest component (3,000 too)",
     "kind": "near_miss",
-    "score": 0.5302223614155966
+    "score": 0.38341684935797055
    },
    {
     "name": "every curve from every protein (500 to 2,000 too)",
     "kind": "near_miss",
-    "score": 0.30778264954588164
+    "score": 0.3482618227372377
    },
    {
-    "name": "positives and negatives within the embedded proteins only",
+    "name": "mean of the deletions' points at the same epsilon",
     "kind": "near_miss",
-    "score": 0.27200125274036957
+    "score": 0.5014093329157532
+   },
+   {
+    "name": "same epsilon, positives and negatives within the embedded proteins only",
+    "kind": "near_miss",
+    "score": 0.24655496398371438
    },
    {
     "name": "dimension 4 instead of 5",
     "kind": "near_miss",
-    "score": 0.3848261822737238
+    "score": 0.3611807077983088
    },
    {
     "name": "dimension 7 instead of 5",
     "kind": "near_miss",
-    "score": 0.474005637331663
+    "score": 0.30057939242092074
    },
    {
     "name": "y x 1.05",
     "kind": "near_miss",
-    "score": 0.14829314124647666
+    "score": 0.10209834011901034
    },
    {
     "name": "y x 0.95",
     "kind": "near_miss",
-    "score": 0.06803946132164108
+    "score": 0.17366113373003444
    },
    {
     "name": "x shifted by 0.01 (1% of the axis)",
     "kind": "near_miss",
-    "score": 0.4581114938928907
+    "score": 0.4120732853116192
    }
   ],
   "threshold": 0.9,
   "dimension_search": {
-   "4": 0.3848261822737238,
-   "5": 0.556686501722518,
-   "7": 0.474005637331663
+   "4": 0.3611807077983088,
+   "5": 0.487739221871714,
+   "7": 0.30057939242092074
   },
+  "averaging": "sensitivity at the same false-positive rate over each deletion's full ROC curve",
   "embedding": {
    "500": "lcc",
    "1000": "lcc",
@@ -380,52 +386,87 @@
    "3000": "whole"
   },
   "series_scores_all_lcc": [
-   0.705,
-   0.4523,
-   0.753,
-   0.3309
+   0.6236,
+   0.3457,
+   0.457,
+   0.0387
   ],
   "series_scores_all_whole": [
-   0.4244,
-   0.3362,
-   0.0091,
-   0.4044
+   0.3963,
+   0.3845,
+   0.0792,
+   0.4243
   ],
-  "auc_range_over_repeats": {
-   "500": [
-    0.9592550528534077,
-    0.9680217316448259
-   ],
-   "1000": [
-    0.9610871346038097,
-    0.9666129495600211
-   ],
-   "2000": [
-    0.9508774033907967,
-    0.9645068324285486
-   ],
-   "3000": [
-    0.9495188573129485,
-    0.9603137850212582
+  "series_scores_same_epsilon": [
+   0.7715,
+   0.457,
+   0.5894,
+   0.3879
+  ],
+  "mean_curve_at_ten_points_smoothed": {
+   "score": 0.6147,
+   "series": [
+    0.6956,
+    0.449,
+    0.7407,
+    0.5786
    ]
   },
-  "auc_range_over_repeats_every_protein": {
+  "mean_vertical_distance_fpr_0_0.5": {
+   "ours": [
+    0.0068,
+    0.0339,
+    0.0064,
+    0.0118
+   ],
+   "every_curve_largest_component": [
+    0.0068,
+    0.0339,
+    0.0064,
+    0.091
+   ],
+   "every_curve_every_protein": [
+    0.0291,
+    0.0402,
+    0.1375,
+    0.0118
+   ],
+   "same_epsilon_mean": [
+    0.0089,
+    0.0252,
+    0.011,
+    0.1258
+   ]
+  },
+  "auc": {
+   "500": 0.951626,
+   "1000": 0.947613,
+   "2000": 0.93308,
+   "3000": 0.894082
+  },
+  "auc_range_over_repeats": {
    "500": [
-    0.9158375664143039,
-    0.9540988010589939
+    0.944288,
+    0.957
    ],
    "1000": [
-    0.8751965792720731,
-    0.9466026268864085
+    0.937989,
+    0.959917
    ],
    "2000": [
-    0.8722432545684761,
-    0.9130559354344924
+    0.894558,
+    0.948875
    ],
    "3000": [
-    0.8822923050618587,
-    0.9094445014375041
+    0.882266,
+    0.909453
    ]
+  },
+  "auc_published_traced": {
+   "500": 0.955,
+   "1000": 0.938,
+   "2000": 0.936,
+   "3000": 0.895
   },
   "dimension": "5"
  },
