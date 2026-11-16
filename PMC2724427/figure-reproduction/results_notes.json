@@ -1,0 +1,260 @@
+{
+  "paper": {
+    "id": "PMC2724427",
+    "title": "Bias in odds ratios by logistic regression modelling and sample size",
+    "citation": "Nemes S, Jonasson JM, Genell A, Steineck G. BMC Medical Research Methodology 9:56 (2009)",
+    "doi": "10.1186/1471-2288-9-56",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "pipeline": "PMC2724427/figure-reproduction/main.nf",
+    "command": "nextflow run PMC2724427/figure-reproduction/main.nf --outdir results"
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "shared_assumptions": {
+    "seed": {
+      "what": "One population of 100,000 drawn once with seed 2724427 (the paper gives no seed); samples of size n drawn with a seed derived from it and n",
+      "source": "our_choice",
+      "sensitivity": "Over 20 other populations the Table 1 values move as shown in the seed-spread columns of tables.json"
+    },
+    "glm": {
+      "what": "Each sample fitted with R's glm.fit (binomial family, default control); the paper names no fitting function (Additional file 1 points to Harrell's Design library)",
+      "source": "our_choice",
+      "sensitivity": "glm.fit and Design's lrm reach the same maximum likelihood estimate when it exists; they differ only in which separated samples fail, see the separation rule"
+    },
+    "separation": {
+      "what": "Samples without a finite estimate left out: any fitted probability within 1e-8 of 0 or 1, or no convergence (the paper does not say how it handled them)",
+      "source": "our_choice",
+      "sensitivity": "Leaving out only the fits R warns about, or keeping every fit, changes the discrete slope and R squared most (tables.json, sensitivity columns)"
+    },
+    "ols_means": {
+      "what": "Table 1's OLS fits the 281 per-size means, the points Fig. 1 draws (the paper does not say means or individual estimates)",
+      "source": "our_choice",
+      "sensitivity": "The fit to all individual estimates gives nearly the same estimates and SEs but an R squared near 0.02, far from the paper's 0.963 and 0.836"
+    },
+    "axes": {
+      "what": "Our figures are drawn on the published axes, fitted to the published tick marks (largest residual 0.72 px)",
+      "source": "read_from_figure",
+      "sensitivity": "The tick fits leave under 1 px of error; the scores use a 2 px tolerance"
+    },
+    "kernel": {
+      "what": "lokern::lokerns (local plug-in bandwidth) for the kernel derivative, and a log-log slope within 2 ± 0.5 between n = 150 and 1400 as confirming a 1/n convergence (the paper names no software and reports no numbers)",
+      "source": "our_choice",
+      "sensitivity": "The continuous slope is near -2; the result would change only if the band were narrower than its distance from -2"
+    },
+    "vline": {
+      "what": "Fig. 2's vertical line drawn at 2, the population value; the paper does not say (at n = 1000 the heading 2.003 and 2 are 0.4 px apart)",
+      "source": "read_from_figure",
+      "sensitivity": "The line is masked (2 px either side) before scoring"
+    }
+  },
+  "items": [
+    {
+      "id": "table1.continuous",
+      "label": "Table 1, continuous variable (intercept and n⁻¹: estimate, SE, t, p)",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "ols_means"
+      ]
+    },
+    {
+      "id": "table1.discrete",
+      "label": "Table 1, discrete variable (intercept and n⁻¹: estimate, SE, t, p)",
+      "kind": "table",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "ols_means"
+      ]
+    },
+    {
+      "id": "text.r2",
+      "label": "Text: R² of the OLS fit, 0.963 (continuous) and 0.836 (discrete)",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "ols_means"
+      ]
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own numbers (SE = estimate / t in Table 1; P(x>2.5) of Additional file 1)",
+      "kind": "code_check",
+      "source": "papers_data"
+    },
+    {
+      "id": "text.figures_vs_table1",
+      "label": "The paper against itself: Fig. 2's headings and Table 1's curve 2.011 + 23.9/n",
+      "kind": "code_check",
+      "source": "papers_data"
+    },
+    {
+      "id": "text.supp_px",
+      "label": "Additional file 1: P(x>2.5) = 0.2375",
+      "kind": "value",
+      "source": "papers_data",
+      "assumptions_ref": [
+        "seed"
+      ]
+    },
+    {
+      "id": "text.away_from_null",
+      "label": "Abstract and Results: estimates biased away from zero, odds ratios away from one",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "ols_means"
+      ]
+    },
+    {
+      "id": "text.fit_better_continuous",
+      "label": "Results: the fit is better for the continuous than for the discrete variable",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "ols_means"
+      ]
+    },
+    {
+      "id": "text.skewness",
+      "label": "Results and Fig. 2: the sampling distribution is skewed at small n and grows symmetric",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation"
+      ]
+    },
+    {
+      "id": "text.extremes",
+      "label": "Results and Fig. 3: extreme estimates become rarer as n grows",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation"
+      ]
+    },
+    {
+      "id": "text.kernel",
+      "label": "Methods: kernel regression derivatives confirm the convergence rate",
+      "kind": "value",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "kernel"
+      ]
+    },
+    {
+      "id": "text.long1997",
+      "label": "Discussion: maximum likelihood is risky under n = 100 and adequate above 500 (Long 1997)",
+      "kind": "value",
+      "source": "none",
+      "method": "none"
+    },
+    {
+      "id": "fig1.continuous",
+      "label": "Fig. 1, continuous variable",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "axes"
+      ]
+    },
+    {
+      "id": "fig1.discrete",
+      "label": "Fig. 1, discrete variable",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "axes"
+      ]
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, densities at n = 100, 150, 300, 500, 750 and 1000",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "axes",
+        "vline"
+      ]
+    },
+    {
+      "id": "fig2.headings",
+      "label": "Fig. 2, the mean in each panel heading",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation"
+      ]
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, box plots at the same six sizes",
+      "kind": "figure",
+      "source": "reconstructed",
+      "assumptions_ref": [
+        "seed",
+        "glm",
+        "separation",
+        "axes"
+      ]
+    },
+    {
+      "id": "port",
+      "label": "simulate_population() against the R lines of Additional file 1",
+      "kind": "code_check",
+      "source": "port"
+    },
+    {
+      "id": "package",
+      "label": "R package logitbias and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {}
+}
