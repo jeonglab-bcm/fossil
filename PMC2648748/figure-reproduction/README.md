@@ -92,10 +92,10 @@ score cannot settle a single bar; the values carry the comparison.
 | `requirements.txt` | Pinned Python packages (R 4.3.3 and randomForest 4.7-1.1 come from Ubuntu 24.04; see the workflow). |
 | `results_notes.json` | Labels, assumptions and causes, written by hand; merged with the run into `../results.json`. |
 | `results.json` | The repository's results check (`tools/check_results.py`): our value for every compared bar and median, and the pixel scores. |
-| `pipeline/` | `fetch_inputs.sh`, `read_published.py`, `sim_study.R` (one chunk of the study), `summarize.py`, `sim_check.py`, `render.R`, `compare.py`, `build_results.py`, `check_reproduction.py`, `build_page.py` + `page_template.html`, `make_results_check.py`; the checks `model_variants.R`, `bstat_null.R`, `swsfs_variants.R` + `swsfs_summary.py`, `rank_variants.R` + `rank_summary.py`, `check_package.sh`; copies of the skill's `check_results.py` and `compare_runs.py`. |
+| `pipeline/` | `fetch_inputs.sh`, `read_published.py`, `sim_study.R` (one chunk of the study), `summarize.py`, `sim_check.py`, `render.R`, `compare.py`, `build_results.py`, `check_reproduction.py`, `build_page.py` + `page_template.html`, `make_results_check.py`; the checks `model_variants.R`, `bstat_null.R`, `swsfs_variants.R` + `swsfs_summary.py`, `rank_variants.R` + `rank_summary.py`, `error_variants.R`, `check_package.sh`; copies of the skill's `check_results.py` and `compare_runs.py`. |
 | `published/` | The paper's Figs 2 and 3 (CC BY 2.0). |
 | `output/sim/` | One record per simulated data set (2,400): seed, disease marker columns, the chi-squared and logistic regression p-values (both stage-2 tests), and epiForest's ranks, out-of-bag error curve, candidates and what it found. |
-| `output/checks/` | The disease-model variants, the B statistic's null distribution, the SWSFS variants and the first-forest variants. |
+| `output/checks/` | The disease-model variants, the B statistic's null distribution, the SWSFS variants, the first-forest variants and the SWSFS error definitions. |
 | `output/` | `fig2_ours.png`, `fig3_ours.png` (our run drawn as the paper drew it, on its pixel grid), `fig2_overlay.png`, `fig3_overlay.png` (paper in dark ink, ours in green), `controls/`, `published_values.json`, `summary.json`, `comparison.json`, `report.md`. |
 
 ## Run
@@ -127,7 +127,7 @@ with more cores to fit in its time limit).
 5. `SIM_CHECK`: three data sets rerun from scratch against the committed records.
 6. `SUMMARY`: power per method and setting, the selected-SNP counts; `render.R` draws Figs 2 and 3 and the
    controls; `compare.py` scores them and computes the claims.
-7. `CHECKS`: `model_variants.R`, `bstat_null.R`; the committed SWSFS and first-forest variants (or, with `--variants`, rerun).
+7. `CHECKS`: `model_variants.R`, `bstat_null.R`; the committed SWSFS, first-forest and error-definition variants (or, with `--variants`, rerun).
 8. `PACKAGE`: `R CMD build`, `R CMD check`, the tutorial rendered and compared with `../package/tutorial/TUTORIAL.md`.
 9. `RESULTS`: `results.json` (`build_results.py`, verdicts by `check_results.py`), the check step (`report.md`)
    and the results page.

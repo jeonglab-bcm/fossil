@@ -154,8 +154,11 @@ process CHECKS {
         R_LIBS=${rlib} ${params.rscript} ${params.pipe}/rank_variants.R \$1 \$2 \$3 1 12 rv/\$1_\$2_\$3.json
       done
       ${params.python} ${params.pipe}/rank_summary.py rv checks/rank_variants.json ${params.committed}/sim
+      mkdir ev
+      R_LIBS=${rlib} ${params.rscript} ${params.pipe}/error_variants.R 3 0.2 1.0 1 8 ev/ev.json
+      ${params.python} -c "import json,statistics as st; r=json.load(open('ev/ev.json')); s={v:{'k':[x['k'][v] for x in r],'median_k':st.median(x['k'][v] for x in r)} for v in r[0]['k']}; json.dump({'setting':{'model':3,'maf':0.2,'r2':1.0,'reps':[x['rep'] for x in r]},'published_median':45,'study_median':5.5,'variants':s,'records':r},open('checks/error_variants.json','w'),indent=1)"
     else
-      cp ${params.committed}/checks/swsfs_variants.json ${params.committed}/checks/rank_variants.json checks/
+      cp ${params.committed}/checks/swsfs_variants.json ${params.committed}/checks/rank_variants.json ${params.committed}/checks/error_variants.json checks/
     fi
     """
 }

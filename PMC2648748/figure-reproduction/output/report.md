@@ -59,10 +59,11 @@ R CMD check: Status: OK; 9 testthat blocks; vignette rebuilt; TUTORIAL.md render
 | published_values.json | same |  |
 | summary.json | same |  |
 | checks/bstat_null.json | same |  |
+| checks/error_variants.json | same |  |
 | checks/model_variants.json | same |  |
 | checks/rank_variants.json | same |  |
 
-6 of 6 files agree.
+7 of 7 files agree.
 
 Renders and controls, inside the scored frames (text outside them depends on the font rasterizer):
 

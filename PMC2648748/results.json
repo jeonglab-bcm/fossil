@@ -1261,7 +1261,8 @@
         "status": "open",
         "evidence": [
           "figure-reproduction/output/comparison.json",
-          "figure-reproduction/output/checks/swsfs_variants.json"
+          "figure-reproduction/output/checks/swsfs_variants.json",
+          "figure-reproduction/output/checks/error_variants.json"
         ],
         "hypotheses": [
           {
@@ -1288,6 +1289,11 @@
             "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
             "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
             "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+            "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+            "result": "rejected"
           }
         ]
       },
@@ -1392,6 +1398,11 @@
             "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
             "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
             "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+            "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+            "result": "rejected"
           }
         ]
       },
@@ -1603,6 +1614,11 @@
             "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
             "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
             "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+            "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+            "result": "rejected"
           }
         ]
       },
