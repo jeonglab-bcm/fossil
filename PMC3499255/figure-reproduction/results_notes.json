@@ -18,7 +18,7 @@
     ]
   },
   "mc_assumption": {
-    "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision.",
+    "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn at the published figure's pixel size, with the same four-panel layout, the same axis ranges, and premises ordered by inferred infection time, so the panels line up with the published ones; the maps use the paper's un-cosine-corrected longitude scaling for display.",
     "source": "read_from_figure",
     "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
   },
@@ -37,7 +37,7 @@
         {"name": "true mean distance in 95% interval", "expected": "yes", "obs": "bool:test:truth.mean_distance in test:mean_distance.lo,test:mean_distance.hi"},
         {"name": "correctly reconstructed transmissions (of 20)", "expected": "19", "obs": "tree_correct:test", "tolerance": {"abs": 3}}
       ],
-      "cause": {"category": "nondeterminism", "summary": "A single simulated outbreak reconstructed from the model; the tree, like the paper's, misses at most a couple of transmissions, and the true mean latency and mean transmission distance fall inside the 95% intervals. Exact dot sizes and the specific simulated dataset depend on the (undeposited) random seed.", "evidence": ["figure-reproduction/output/test.json"], "status": "explained"}
+      "cause": {"category": "nondeterminism", "summary": "The paper deposited no seed and no data for the simulated test outbreak, so this is a fresh realization of the same model, not the same dataset. The specific map and dot pattern therefore differ by construction; the panels are drawn at the published size and axis ranges for comparison. What the paper reports for Fig. 2 reproduces: the tree misses at most a couple of the 20 transmissions, and the true mean latency and mean transmission distance fall inside the 95% intervals.", "evidence": ["figure-reproduction/output/test.json"], "status": "explained"}
     },
     "fig3": {"label": "Fig. 3 (2007 UK outbreak)", "kind": "figure", "source": "reconstructed", "method": "values",
       "outputs": ["figure-reproduction/output/fig3_ours.png", "figure-reproduction/output/fig3_overlay.png"],

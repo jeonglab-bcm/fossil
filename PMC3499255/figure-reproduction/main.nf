@@ -125,9 +125,9 @@ process RENDER {
     path 'fig*_overlay.png'
     script:
     """
-    ${PY} ${params.pipe}/render.py ${a07} --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --title "Fig 3: 2007 UK outbreak (reproduced)"
-    ${PY} ${params.pipe}/render.py ${a01} --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --title "Fig 4: 2001 Darlington cluster (reproduced)"
-    ${PY} ${params.pipe}/render.py ${tst} --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --title "Fig 2: simulated outbreak (reproduced)"
+    ${PY} ${params.pipe}/render.py ${a07} --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
+    ${PY} ${params.pipe}/render.py ${a01} --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
+    ${PY} ${params.pipe}/render.py ${tst} --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
     """
 }
 
