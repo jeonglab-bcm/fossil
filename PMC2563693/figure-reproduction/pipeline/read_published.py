@@ -111,7 +111,12 @@ def bars(page, values, group_names_by_panel):
         panels[key].append((a, m, r))
     out = []
     for key, lst in panels.items():
-        a = lst[0][0]
+        # The tick labels' centres sit about 2 pt off the tick lines; the bars stand on the axis, so
+        # their common bottom edge anchors the axis at its lowest value (the label spacing gives the scale).
+        a = dict(lst[0][0])
+        floor = float(np.median([r.y1 for _, _, r in lst]))
+        a["a"] = min(values) - a["b"] * floor
+        a["anchor"] = "bar bottoms"
         lst.sort(key=lambda t: t[2].x0)
         groups, cur = [], []
         for _, m, r in lst:
@@ -220,9 +225,13 @@ def read_s3(path):
         cur.append((m, r, a))
     groups.append(cur)
     names = ["NF-kB", "Leukemia", "Prostate", "Breast Netherlands", "Breast USA", "Lung Michigan", "Lung Boston"]
-    vals = {n: {m: round(a["a"] + a["b"] * r.y0, 4) for m, r, a in g} for n, g in zip(names, groups)}
-    pos = {n: {m: [round(r.x0, 2), round(r.x1, 2)] for m, r, a in g} for n, g in zip(names, groups)}
-    return vals, pos, groups[0][0][2], max(a["resid"] for a in ax)
+    # anchor the axis on the bars' common bottom edge (0.4), as for Fig. S2
+    axis = dict(groups[0][0][2])
+    axis["a"] = 0.4 - axis["b"] * float(np.median([r.y1 for g in groups for _, r, _ in g]))
+    axis["anchor"] = "bar bottoms"
+    vals = {n: {m: round(axis["a"] + axis["b"] * r.y0, 4) for m, r, _ in g} for n, g in zip(names, groups)}
+    pos = {n: {m: [round(r.x0, 2), round(r.x1, 2)] for m, r, _ in g} for n, g in zip(names, groups)}
+    return vals, pos, axis, max(a["resid"] for a in ax)
 
 
 def read_s1(path):

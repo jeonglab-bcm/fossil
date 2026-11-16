@@ -4,8 +4,8 @@ Usage: compare.py RUN_DIR OUT.json
 
 RUN_DIR holds: datasets.json, fig2.json, digitized.json (Figs 2 and 3 read off the raster figures),
 published_vector.json (Figs S1, S2, S3, S5 read from the vector PDFs), cv_summary.json,
-robustness.json, and from markers.py: corgs/<dataset>.json, figure4.json, c2_counts.json and
-symbol_map.json.
+robustness.json, published_heatmaps.json (heatmaps.py), and from markers.py: corgs/<dataset>.json,
+figure4.json, c2_counts.json and symbol_map.json.
 Each item gets "fields" (name, expected, observed) in the form check_results.py reads; the
 expected values of printed numbers are strings so their printed precision is kept.
 """
@@ -189,9 +189,25 @@ def main(run: Path, out: Path):
         res[f"{tid}.sizes"] = {"fields": size_fields}
         res[f"{tid}.frequency"] = {"fields": freq_fields}
 
-    # ---- Fig. 4: direction of the glycolysis and estrogen-signalling activities
-    res["fig4"] = {"fields": [{"name": f"{p} up in Poor, {LABELS[d]}", "expected": "yes", "observed": yn(v > 0)}
-                              for d, per in fig4["t"].items() for p, v in per.items()]}
+    # ---- Text on Fig. 4: glycolysis and estrogen signalling over-expressed in poor prognosis
+    res["text.glycolysis_estrogen_poor"] = {"fields": [
+        {"name": f"{p} up in Poor, {LABELS[d]}", "expected": "yes", "observed": yn(v > 0)}
+        for d, per in fig4["t"].items() for p, v in per.items()]}
+
+    # ---- Figs 4 and S4: each heatmap row's direction (redder in the poor-prognosis or metastatic
+    # patients than in the others), published against our activities
+    hm = J("published_heatmaps.json")
+    for tid, case in (("fig4", "poor prognosis"), ("fig_s4", "metastatic")):
+        fields = []
+        for d, h in hm[tid].items():
+            a = fig4["heatmap"][tid][d]
+            c = a["cases"]
+            for r in h["rows"]:
+                row = a["activity"][a["pathways"].index(r["set"])]
+                ours = sum(row[:c]) / c > sum(row[c:]) / (len(row) - c)
+                fields.append({"name": f"{r['label']}, {LABELS[d]}: higher in {case}",
+                               "expected": yn(r["redder_in_poor"]), "observed": yn(ours)})
+        res[tid] = {"fields": fields}
 
     # ---- Fig. S1 (vector values)
     for d in WITHIN_ORDER:

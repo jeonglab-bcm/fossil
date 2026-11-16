@@ -17,8 +17,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 EXPECTED = ["comparison.json", "cv_summary.json", "fig2.json", "robustness.json", "hypotheses.json", "digitized.json",
-            "published_vector.json", "datasets.json", "figure4.json", "cv_check.json", "package.json"] + [
-            f"figures/{f}_{k}.png" for f in ("fig2", "fig3", "fig4", "figS1", "figS2", "figS3", "figS5", "fig_s4")
+            "published_vector.json", "published_heatmaps.json", "datasets.json", "figure4.json", "cv_check.json", "package.json"] + [
+            f"figures/{f}_{k}.png" for f in ("fig2", "fig3", "fig4", "figS1", "figS2", "figS3", "figS4", "figS5")
             for k in ("ours", "overlay")]
 # package.json holds timings and temporary paths (its pass/fail is in results.json, which is compared);
 # cv_check.json is this run's own record; cv/ holds the committed full run, an input of this one.
@@ -39,6 +39,11 @@ def main():
     lines += ["## results.json", "", out.strip(), ""]
     ok &= rc == 0
     missing = [e for e in EXPECTED if not (rundir / e).exists()]
+    # every render and overlay that results.json lists must be in the run (figure-reproduction/output/...)
+    for it in json.loads(Path(results).read_text())["items"]:
+        for o in it.get("outputs", []):
+            if o.startswith("figure-reproduction/output/") and not (rundir / o[len("figure-reproduction/output/"):]).exists():
+                missing.append(f"{o} (outputs of {it['id']})")
     if missing:
         ok = False
         lines += ["## Missing outputs", ""] + [f"- {m}" for m in missing] + [""]

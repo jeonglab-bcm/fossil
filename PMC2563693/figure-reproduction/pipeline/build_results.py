@@ -1,7 +1,9 @@
 """Merge results_notes.json (written by hand: labels, sources, tolerances, assumptions, causes) with
 the numbers of a run into results.json, then let check_results.py compute verdicts and the summary.
 
-  build_results.py RUN_DIR OUT.json
+  build_results.py RUN_DIR FIGURES_DIR OUT.json
+
+FIGURES_DIR is render.py's output; its outputs.json names each figure item's render and overlay.
 
 A notes item takes its numbers from the run folder:
   "fields_from": "<id>"            values.fields = comparison.json[<id>].fields
@@ -34,11 +36,11 @@ def check_detail(run, name):
     return d["passed"], d.get("detail", "")
 
 
-def main(run, out):
-    run = Path(run)
+def main(run, figures, out):
+    run, figures = Path(run), Path(figures)
     notes = json.loads(NOTES.read_text())
     comp = json.loads((run / "comparison.json").read_text())
-    outputs = json.loads((run / "figures" / "outputs.json").read_text()) if (run / "figures" / "outputs.json").exists() else {}
+    outputs = json.loads((figures / "outputs.json").read_text())
     items = []
     for n in notes["items"]:
         it = copy.deepcopy(n)
@@ -51,6 +53,8 @@ def main(run, out):
             it["check"] = {"passed": bool(passed), "detail": detail}
         if it["id"] in outputs and "outputs" not in it:
             it["outputs"] = outputs[it["id"]]
+        if it["kind"] == "figure" and it["method"] != "none" and not it.get("outputs"):
+            raise SystemExit(f"{it['id']}: an attempted figure needs its render and overlay (render.py outputs.json)")
         items.append(it)
     doc = {k: notes[k] for k in ("schema", "paper", "run", "session", "skill")}
     doc["items"] = items
@@ -59,4 +63,4 @@ def main(run, out):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:3])
+    main(*sys.argv[1:4])

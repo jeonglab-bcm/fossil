@@ -164,6 +164,7 @@ process COMPARE {
     ${py()} ${params.pipe}/reduce_cv.py ${packs} run/cv_summary.json
     ${py()} ${params.pipe}/read_published.py ${downloads}/paper/supp run/published_vector.json > /dev/null
     ${py()} ${params.pipe}/digitize.py ${projectDir}/published run/digitized.json > /dev/null
+    ${py()} ${params.pipe}/heatmaps.py ${projectDir}/published ${downloads}/paper/supp run/published_heatmaps.json > /dev/null
     ${py()} ${params.pipe}/compare.py run run/comparison.json
     ${py()} ${params.pipe}/render.py run ${projectDir}/published ${downloads}/paper/supp figures
     """
@@ -194,7 +195,7 @@ process RESULTS {
     script:
     """
     cp ${cv_check} ${package_json} ${run}/
-    ${py()} ${params.pipe}/build_results.py ${run} results.json
+    ${py()} ${params.pipe}/build_results.py ${run} ${figures} results.json
     mkdir -p output && cp -r ${run}/. output/ && rm -rf output/figures && cp -r ${figures} output/figures
     ${py()} ${params.pipe}/check_reproduction.py results.json output ${params.committed} report.md
     ${py()} ${params.pipe}/build_page.py results.json output ${projectDir}/published site/index.html

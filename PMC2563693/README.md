@@ -34,7 +34,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 
 <!-- summary from results.json (check_results.py); the full table: python3 figure-reproduction/pipeline/check_results.py results.json --markdown -->
 
-52 results: 4 exact, 7 agree, 33 partly agree, 5 differ, 3 not attempted; 35 open causes.
+53 results: 4 exact, 8 agree, 34 partly agree, 5 differ, 2 not attempted; 36 open causes.
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
@@ -47,11 +47,13 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 | PAC beats Gene (text) | partly | 4 of 7 datasets and 2 of 4 transfers as in the paper |
 | Table S1, class sizes | partly | 12 of 14; GEO's clinical table gives Breast USA 107 / 179, the paper 106 / 180 |
 | Table S2, breast CORGs | partly | 3 of 15 lists exact; the breast preprocessing is not stated |
-| Fig. 4, glycolysis and estrogen signalling | exact | Higher in poor prognosis in both lung datasets |
+| Fig. 4, lung heatmaps | agrees | All 28 rows go the way of the published heatmaps (higher or lower in poor prognosis; read off the figure) |
+| Text on Fig. 4 | exact | Glycolysis and estrogen signalling higher in poor prognosis in both lung datasets |
+| Fig. S4, breast heatmaps | partly | 25 of 26 rows; KRAS up-regulated genes in Breast USA goes the other way (our USA CORGs for it differ) |
 | Figs S1, S2, S3, S5 (vector values) | partly | A third to 77% of the values within tolerance per panel (S2's naive Bayes and LDA panels: under a third); S5 medians in 5 of 7 datasets |
 | Other claims of the text | 4 agree, 3 partly | PAC above its CORGs and PAC_all, genes above CORGs, the trend with other classifiers and the CORG sizes hold; PAC above PAC_random fails in two datasets and Mean, Median and PCA above PAC_random in four, because our random sets run the CORG search (explained); PAC above Genes in Fig. 2 holds in 5 of 8 panels |
 | Package, reruns and the paper's own arithmetic | agrees | pacorg's tests and tutorial; 22 cross-validation repeats rerun equal the committed run |
-| Fig. 1, Fig. S4, the authors' code | not attempted | A schematic; a heatmap without values; the code is lost |
+| Fig. 1, the authors' code | not attempted | A schematic; the code is lost |
 
 The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds in Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston, with Leukemia and Netherlands to USA showing no PAC advantage as in the paper. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs. Our breast and NF-kB data are not the authors' (open); Boston's pathway pre-selection differs (open; in a sensitivity run without it, PAC is above Gene from Boston to Michigan, 0.71 against 0.62, the paper's PAC being 0.66); Prostate's gap (Gene 0.961 against PAC 0.955) has no tested cause beyond the unstated classifier settings.
 

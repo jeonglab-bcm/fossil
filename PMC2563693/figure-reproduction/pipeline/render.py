@@ -69,14 +69,9 @@ def fig2(run, pub, out):
                 cross_mark(dv, x, y, 6, BLACK, 2)
     save(im_ours, out / "fig2_ours.png")
     save(im_over, out / "fig2_overlay.png")
-    for panel, p in dig.items():
-        x0, y0, x1, y1 = p["box"]
-        crop = (max(x0 - 130, 0), max(y0 - 110, 0), min(x1 + 40, base.shape[1]), min(y1 + 130, base.shape[0]))
-        for kind, im in (("ours", im_ours), ("overlay", im_over)):
-            name = f"fig2{panel.lower()}_{kind}.png"
-            save(im.crop(crop), out / name)
-            outputs.setdefault(f"fig2.{panel.lower()}", []).append(f"figure-reproduction/output/figures/{name}")
-    return outputs
+    # the whole figure, on the published grid, for every panel's item
+    files = ["figure-reproduction/output/figures/fig2_ours.png", "figure-reproduction/output/figures/fig2_overlay.png"]
+    return {f"fig2.{panel.lower()}": files for panel in dig}
 
 
 # ----------------------------------------------------------------------------- Fig. 3
@@ -97,200 +92,125 @@ def fig3(run, pub, out):
             sc = cv[kind][key]["scores"]
             for m, (xa, xb) in p["extent"][label].items():
                 top = row(sc[f"{m}/lr"]["mean"])
-                # remove the published bar (and its error bar) and draw ours
+                # remove the published bar (and its error bar), put the grid lines back, and draw ours
                 do.rectangle([xa - 1, row(1.0) - 30, xb + 1, floor - 1], fill=(255, 255, 255))
+                for gv in (0.5, 0.6, 0.7, 0.8, 0.9, 1.0):
+                    do.line([(xa - 1, row(gv)), (xb + 1, row(gv))], fill=(128, 128, 128), width=2)
                 do.rectangle([xa, top, xb, floor - 1], fill=DG.FIG3_COLOURS[m])
                 dv.line([(xa - 3, top), (xb + 3, top)], fill=BLACK, width=3)
     save(im_ours, out / "fig3_ours.png")
     save(im_over, out / "fig3_overlay.png")
-    h = base.shape[0]
-    outputs = {}
-    for panel, crop in (("a", (0, 0, base.shape[1], 590)), ("b", (0, 590, base.shape[1], h))):
-        for kind, im in (("ours", im_ours), ("overlay", im_over)):
-            name = f"fig3{panel}_{kind}.png"
-            save(im.crop(crop), out / name)
-            outputs.setdefault(f"fig3.{panel}", []).append(f"figure-reproduction/output/figures/{name}")
-    outputs["fig3.pvalues"] = list(outputs["fig3.a"]) + list(outputs["fig3.b"])
-    return outputs
+    files = ["figure-reproduction/output/figures/fig3_ours.png", "figure-reproduction/output/figures/fig3_overlay.png"]
+    return {"fig3.a": files, "fig3.b": files, "fig3.pvalues": files}
 
 
 # ----------------------------------------------------------------------------- vector figures
 
-def page_image(path):
-    pix = pymupdf.open(path)[0].get_pixmap(matrix=pymupdf.Matrix(ZOOM, ZOOM))
-    return Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+def vector_figs(run, supp, out):
+    import render_vector as RV
 
-
-def ypx(axis, v):
-    return (v - axis["a"]) / axis["b"] * ZOOM
-
-
-def fig_s1(run, supp, out):
-    vec = json.loads((run / "published_vector.json").read_text())["figS1"]
-    rob = json.loads((run / "robustness.json").read_text())["figS1"]
-    im = page_image(supp / "pcbi.1000217.s003.pdf")
-    d = ImageDraw.Draw(im)
-    colours = {"Pathways": (40, 40, 115), "CORGs": (186, 84, 158), "Genes": (245, 235, 23)}
-    for L, pub in vec.items():
-        a = pub["_axis"]
-        xs = [x * ZOOM for x in pub["_x"]]
-        for s in colours:
-            pts = [(x, ypx(a, v)) for x, v in zip(xs, rob[L][s])]
-            d.line(pts, fill=BLACK, width=3)
-            for x, y in pts:
-                d.ellipse([x - 5, y - 5, x + 5, y + 5], outline=BLACK, width=2)
-    save(im, out / "figS1_overlay.png")
-    fig, axs = plt.subplots(4, 2, figsize=(8, 11))
-    for ax, d_ in zip(axs.flat, WITHIN_ORDER):
-        for s, c in colours.items():
-            ax.plot(range(6), rob[LABELS[d_]][s], marker="o", color=np.array(c) / 255, label=s)
-        ax.set_title(LABELS[d_].replace(" ", "_"), fontsize=10)
-        ax.set_ylim(0, 0.8)
-        ax.set_xticks(range(6), ["1%", "2%", "3%", "5%", "10%", "20%"])
-        ax.set_ylabel("Overlap")
-    axs.flat[-1].axis("off")
-    axs.flat[0].legend(fontsize=8)
-    fig.tight_layout()
-    fig.savefig(out / "figS1_ours.png", dpi=110)
-    plt.close(fig)
-    return {f"fig_s1.{d_}": ["figure-reproduction/output/figures/figS1_ours.png",
-                             "figure-reproduction/output/figures/figS1_overlay.png"] for d_ in WITHIN_ORDER}
-
-
-def fig_s2(run, supp, out):
-    vec = json.loads((run / "published_vector.json").read_text())["figS2"]
-    cv = json.loads((run / "cv_summary.json").read_text())
-    kinds = {"A": "knn3", "B": "knn5", "C": "nb", "D": "lda"}
-    im = page_image(supp / "pcbi.1000217.s004.pdf")
-    d = ImageDraw.Draw(im)
-    colours = {"Gene": (79, 129, 189), "PAC": (192, 80, 77), "Mean": (155, 187, 89), "Median": (128, 100, 162), "PCA": (75, 172, 198)}
-    for panel, kind in kinds.items():
-        for part, names in (("within", [(d_, LABELS[d_]) for d_ in WITHIN_ORDER]),
-                            ("cross", [(f"{s}__{t}", cross_label(s, t)) for s, t in CROSS_ORDER])):
-            a = vec[panel]["axes"][part]
-            for key, label in names:
-                g = vec[panel][part][label]
-                sc = cv[part][key]["scores"]
-                for m, (x0, x1) in g["xs"].items():
-                    y = ypx(a, sc[f"{m}/{kind}"]["mean"])
-                    d.line([(x0 * ZOOM - 3, y), (x1 * ZOOM + 3, y)], fill=BLACK, width=3)
-    save(im, out / "figS2_overlay.png")
-    fig, axs = plt.subplots(4, 2, figsize=(11, 12), gridspec_kw={"width_ratios": [7, 4]})
-    for row, (panel, kind) in enumerate(kinds.items()):
-        for col, (part, keys, labels, methods) in enumerate((
-                ("within", WITHIN_ORDER, [LABELS[x] for x in WITHIN_ORDER], list(colours)),
-                ("cross", [f"{s}__{t}" for s, t in CROSS_ORDER], [cross_label(s, t).replace(" -> ", "\n-> ") for s, t in CROSS_ORDER], ["Gene", "PAC"]))):
-            ax = axs[row, col]
-            w = 0.8 / len(methods)
-            for i, m in enumerate(methods):
-                vals = [cv[part][k]["scores"][f"{m}/{kind}"]["mean"] for k in keys]
-                ax.bar(np.arange(len(keys)) + i * w, vals, w, color=np.array(colours[m]) / 255, label=m, bottom=0)
-            ax.set_ylim(0.4, 1)
-            ax.set_xticks(np.arange(len(keys)) + 0.4 - w / 2, labels, fontsize=7)
-            ax.set_ylabel("Accuracy" if kind.startswith("knn") else "AUC")
-            if col == 0:
-                ax.set_title(panel, loc="left")
-    axs[0, 0].legend(fontsize=7, ncol=5)
-    fig.tight_layout()
-    fig.savefig(out / "figS2_ours.png", dpi=100)
-    plt.close(fig)
-    files = ["figure-reproduction/output/figures/figS2_ours.png", "figure-reproduction/output/figures/figS2_overlay.png"]
-    return {**{f"fig_s2.{p.lower()}": files for p in kinds}, **{f"fig_s2.{p.lower()}.pvalues": files for p in kinds}}
-
-
-def fig_s3(run, supp, out):
     vec = json.loads((run / "published_vector.json").read_text())
-    cv = json.loads((run / "cv_summary.json").read_text())["within"]
-    a = vec["figS3_axis"]
-    im = page_image(supp / "pcbi.1000217.s005.pdf")
-    d = ImageDraw.Draw(im)
-    keys = {"PAC_SEQ": "PAC/lr", "PAC_FWD": "PAC/fwd", "Gene_SEQ": "Gene/lr", "Gene_FWD": "Gene/fwd"}
-    colours = {"PAC_SEQ": (155, 187, 89), "PAC_FWD": (79, 129, 189), "Gene_SEQ": (128, 100, 162), "Gene_FWD": (192, 80, 77)}
-    for d_ in WITHIN_ORDER:
-        for m, (x0, x1) in vec["figS3_positions"][LABELS[d_]].items():
-            y = ypx(a, cv[d_]["scores"][keys[m]]["mean"])
-            d.line([(x0 * ZOOM - 3, y), (x1 * ZOOM + 3, y)], fill=BLACK, width=3)
-    save(im, out / "figS3_overlay.png")
-    fig, ax = plt.subplots(figsize=(8, 3.5))
-    w = 0.2
-    for i, m in enumerate(keys):
-        ax.bar(np.arange(7) + i * w, [cv[d_]["scores"][keys[m]]["mean"] for d_ in WITHIN_ORDER], w,
-               color=np.array(colours[m]) / 255, label=m)
-    ax.set_xticks(np.arange(7) + 0.3, [LABELS[d_].replace(" ", "\n") for d_ in WITHIN_ORDER], fontsize=8)
-    ax.set_ylim(0.4, 1)
-    ax.set_ylabel("AUC")
-    ax.legend(fontsize=7)
-    fig.tight_layout()
-    fig.savefig(out / "figS3_ours.png", dpi=110)
-    plt.close(fig)
-    return {"fig_s3": ["figure-reproduction/output/figures/figS3_ours.png", "figure-reproduction/output/figures/figS3_overlay.png"]}
-
-
-def fig_s5(run, supp, out):
-    vec = json.loads((run / "published_vector.json").read_text())["figS5"]
+    cv = json.loads((run / "cv_summary.json").read_text())
     rob = json.loads((run / "robustness.json").read_text())
-    a = vec["_axis"]
-    im = page_image(supp / "pcbi.1000217.s007.pdf")
+    within = [(d, LABELS[d]) for d in WITHIN_ORDER]
+    cross = [(f"{s}__{t}", cross_label(s, t)) for s, t in CROSS_ORDER]
+    f = lambda n, k: str(out / f"fig{n}_{k}.png")
+    # Fig. S1: the legend sits in its own box; its markers stay
+    page = pymupdf.open(supp / "pcbi.1000217.s003.pdf")[0]
+    hit = page.search_for("Pathways")
+    legend = None
+    if hit:
+        cands = [d["rect"] for d in page.get_drawings() if d["rect"].contains(hit[0]) and d["rect"].width < 150]
+        legend = min(cands, key=lambda r: r.width * r.height) if cands else None
+    RV.figs1(supp / "pcbi.1000217.s003.pdf", vec["figS1"], rob["figS1"], legend, f("S1", "ours"), f("S1", "overlay"))
+    RV.figs2(supp / "pcbi.1000217.s004.pdf", vec["figS2"], cv, [("within", within), ("cross", cross)],
+             {"A": "knn3", "B": "knn5", "C": "nb", "D": "lda"}, f("S2", "ours"), f("S2", "overlay"))
+    RV.figs3(supp / "pcbi.1000217.s005.pdf", vec["figS3_axis"], vec["figS3_positions"], cv["within"], within,
+             f("S3", "ours"), f("S3", "overlay"))
+    RV.figs5(supp / "pcbi.1000217.s007.pdf", vec["figS5"], rob, within, f("S5", "ours"), f("S5", "overlay"))
+    files = lambda n: [f"figure-reproduction/output/figures/fig{n}_ours.png", f"figure-reproduction/output/figures/fig{n}_overlay.png"]
+    outputs = {f"fig_s1.{d}": files("S1") for d in WITHIN_ORDER}
+    outputs.update({f"fig_s2.{p}": files("S2") for p in "abcd"})
+    outputs.update({f"fig_s2.{p}.pvalues": files("S2") for p in "abcd"})
+    outputs.update({"fig_s3": files("S3"), "fig_s5": files("S5")})
+    return outputs
+
+
+# ----------------------------------------------------------------------------- heatmaps
+
+def heat_colour(v):
+    """Published palette: red for high activity, green for low, black in between (clipped at +-2)."""
+    v = max(-2.0, min(2.0, v)) / 2
+    return (int(round(240 * v)), 0, 0) if v >= 0 else (0, int(round(-220 * v)), 0)
+
+
+def draw_heatmap(im, box, boundary, rows, activity, cases, scale=1.0, dx=0.0, dy=0.0):
+    """Paint our activity into the published heatmap box: rows in the published order, the case
+    columns between box[0] and the boundary, the others after it, each class ordered by its
+    patients' mean activity."""
     d = ImageDraw.Draw(im)
-    for d_ in WITHIN_ORDER:
-        L = LABELS[d_]
-        x = vec[L]["x"] * ZOOM
-        s = rob["figS5"][L]
-        for k in ("q1", "q3"):
-            d.line([(x - 22, ypx(a, s[k])), (x + 22, ypx(a, s[k]))], fill=BLACK, width=3)
-        d.line([(x - 22, ypx(a, s["median"])), (x + 22, ypx(a, s["median"]))], fill=(0, 160, 0), width=3)
-        d.line([(x, ypx(a, s["whisker_low"])), (x, ypx(a, s["whisker_high"]))], fill=BLACK, width=1)
-        for o in s["outliers"]:
-            d.ellipse([x + 8 - 5, ypx(a, o) - 5, x + 8 + 5, ypx(a, o) + 5], outline=BLACK, width=2)
-    save(im, out / "figS5_overlay.png")
-    fig, ax = plt.subplots(figsize=(7, 4.5))
-    ax.boxplot([rob["figS5_sizes"][LABELS[d_]] for d_ in WITHIN_ORDER], whis=1.5,
-               tick_labels=[LABELS[d_].replace(" ", "\n") for d_ in WITHIN_ORDER])
-    ax.set_ylabel("number of CORGs")
-    fig.tight_layout()
-    fig.savefig(out / "figS5_ours.png", dpi=110)
-    plt.close(fig)
-    return {"fig_s5": ["figure-reproduction/output/figures/figS5_ours.png", "figure-reproduction/output/figures/figS5_overlay.png"]}
+    A = np.asarray(activity)
+    tx = lambda x: (x * scale) - dx
+    ty = lambda y: (y * scale) - dy
+    x0, y0, x1, y1 = tx(box[0]), ty(box[1]), tx(box[2]), ty(box[3])
+    xb = tx(boundary)
+    n = len(rows)
+    for cls, (a, b) in ((np.arange(cases), (x0, xb)), (np.arange(cases, A.shape[1]), (xb, x1))):
+        order = cls[np.argsort(-A[:, cls].mean(axis=0), kind="stable")]
+        w = (b - a) / len(order)
+        for j, col in enumerate(order):
+            for i, r in enumerate(rows):
+                d.rectangle([a + j * w, y0 + i * (y1 - y0) / n, a + (j + 1) * w, y0 + (i + 1) * (y1 - y0) / n],
+                            fill=heat_colour(A[r, col]))
 
 
 def heatmaps(run, pub, supp, out):
-    f4 = json.loads((run / "figure4.json").read_text())["heatmap"]
+    import render_vector as RV
+
+    hm = json.loads((run / "published_heatmaps.json").read_text())
+    act = json.loads((run / "figure4.json").read_text())["heatmap"]
     outputs = {}
-    for tid, title, published in (("fig4", "Lung", pub / "figure-4.png"), ("fig_s4", "Breast", None)):
-        parts = f4[tid]
-        fig, axs = plt.subplots(1, len(parts), figsize=(12, 3.2))
-        for ax, (d_, h) in zip(np.atleast_1d(axs), parts.items()):
-            A = np.array(h["activity"])
-            ax.imshow(np.clip(A, -2.5, 2.5), aspect="auto", cmap="RdYlGn_r", vmin=-2.5, vmax=2.5,
-                      interpolation="nearest")
-            ax.axvline(h["cases"] - 0.5, color="k", lw=1)
-            ax.set_yticks(range(len(h["pathways"])), h["pathways"], fontsize=6)
-            ax.set_xticks([])
-            ax.set_title(f"{LABELS[d_]} (cases left of the line)", fontsize=8)
-        fig.tight_layout()
-        fig.savefig(out / f"{tid}_ours.png", dpi=110)
-        plt.close(fig)
-        ours = Image.open(out / f"{tid}_ours.png").convert("RGB")
-        if published is None:
-            p = page_image(supp / "pcbi.1000217.s006.pdf")
-        else:
-            p = Image.open(published).convert("RGB")
-        p = p.resize((ours.width, int(p.height * ours.width / p.width)))
-        both = Image.new("RGB", (ours.width, p.height + ours.height), "white")
-        both.paste(p, (0, 0))
-        both.paste(ours, (0, p.height))
-        save(both, out / f"{tid}_overlay.png")
-        outputs[tid] = [f"figure-reproduction/output/figures/{tid}_ours.png", f"figure-reproduction/output/figures/{tid}_overlay.png"]
+    # Fig. 4: on the PLOS PNG
+    base = Image.open(pub / "figure-4.png").convert("RGB")
+    ours = base.copy()
+    for d_, h in hm["fig4"].items():
+        a = act["fig4"][d_]
+        rows = [a["pathways"].index(r["set"]) for r in h["rows"]]
+        draw_heatmap(ours, h["box"], h["boundary"], rows, a["activity"], a["cases"])
+    save(ours, out / "fig4_ours.png")
+    save(Image.blend(base, ours, 0.5), out / "fig4_overlay.png")
+    outputs["fig4"] = ["figure-reproduction/output/figures/fig4_ours.png", "figure-reproduction/output/figures/fig4_overlay.png"]
+    # Fig. S4: on the supplementary page rasterized as published/figure-S4.png
+    page = pymupdf.open(supp / "pcbi.1000217.s006.pdf")[0]
+    clip = RV.clip_of(page)
+    base = Image.open(pub / "figure-S4.png").convert("RGB")
+    ours = base.copy()
+    for d_, h in hm["fig_s4"].items():
+        a = act["fig_s4"][d_]
+        rows = [a["pathways"].index(r["set"]) for r in h["rows"]]
+        sc = RV.DPI / h["dpi"]
+        draw_heatmap(ours, h["box"], h["boundary"], rows, a["activity"], a["cases"], scale=sc,
+                     dx=clip.x0 * RV.DPI / 72, dy=clip.y0 * RV.DPI / 72)
+    save(ours, out / "figS4_ours.png")
+    save(Image.blend(base, ours, 0.5), out / "figS4_overlay.png")
+    outputs["fig_s4"] = ["figure-reproduction/output/figures/figS4_ours.png", "figure-reproduction/output/figures/figS4_overlay.png"]
     return outputs
 
 
 def main(run: Path, pub: Path, supp: Path, out: Path):
     out.mkdir(parents=True, exist_ok=True)
     outputs = {}
-    for f in (lambda: fig2(run, pub, out), lambda: fig3(run, pub, out), lambda: fig_s1(run, supp, out),
-              lambda: fig_s2(run, supp, out), lambda: fig_s3(run, supp, out), lambda: fig_s5(run, supp, out),
+    for f in (lambda: fig2(run, pub, out), lambda: fig3(run, pub, out), lambda: vector_figs(run, supp, out),
               lambda: heatmaps(run, pub, supp, out)):
         outputs.update(f())
+    # every render is drawn on the published figure's own grid: same size as the published picture
+    for item, files in outputs.items():
+        for fpath in files:
+            name = Path(fpath).name
+            n = name.split("_")[0][3:]
+            pubf = pub / f"figure-{n}.png"
+            if pubf.exists() and Image.open(out / name).size != Image.open(pubf).size:
+                raise SystemExit(f"{name}: {Image.open(out / name).size} is not the published size {Image.open(pubf).size}")
     (out / "outputs.json").write_text(json.dumps(outputs, indent=1))
 
 

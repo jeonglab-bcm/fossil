@@ -35,7 +35,8 @@ is typed by hand except the prose.
 | Table S2 (breast), CORGs of each frequently used pathway | partly | 3 of 15 fields as printed | 3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's. |
 | Table S2 (breast), number of CORGs / members | partly | 4 of 15 fields as printed | 3 of 15 breast CORG lists come back exactly (Netherlands: cyclin regulated genes, actinY; USA: cell cycle checkpoint II); most others share their first genes. The breast preprocessing is not stated and our matrices are not the paper's. |
 | Table S2 (breast), how often each pathway is used in 500 classifiers | partly | 2 of 15 fields as printed | Follows from the breast data (table_s2.corgs) and the marker count (table1.frequency). |
-| Fig. 4, glycolysis and estrogen-signalling activity higher in poor prognosis | exact | 6 of 6 fields as printed |  |
+| Fig. 4, each pathway's activity higher or lower in poor prognosis (lung) | agrees | 28 of 28 fields as printed | Assumed: Each published heatmap row's direction read from its colours: the mean of red minus green over the cell centres of the poor-prognosis (metastatic) columns against the others; class boundaries from the magenta and green bars |
+| Text on Fig. 4: glycolysis and estrogen signalling over-expressed in poor prognosis in both lung datasets | exact | 6 of 6 fields as printed |  |
 | Fig. S1, marker overlap over 100 two-fold splits, NF-kB | partly | 10 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
 | Fig. S1, marker overlap over 100 two-fold splits, Leukemia | partly | 6 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
 | Fig. S1, marker overlap over 100 two-fold splits, Prostate | partly | 9 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
@@ -45,14 +46,14 @@ is typed by hand except the prose.
 | Fig. S1, marker overlap over 100 two-fold splits, Lung Boston | partly | 10 of 18 fields as printed | The pathway and gene curves follow the figure within about 0.1 at most points. The paper does not say how the CORG overlap was computed: ours is close to the figure for NF-kB and below it in the other six datasets (0 to 0.12 against 0.13 to 0.23 in the breast and lung sets). |
 | Fig. S2A, kNN, k = 3 (bar heights) | partly | 30 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
 | Fig. S2A, kNN, k = 3, -log(p) labels | differs | 0 of 6 fields as printed | -log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across. |
-| Fig. S2B, kNN, k = 5 (bar heights) | partly | 33 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
+| Fig. S2B, kNN, k = 5 (bar heights) | partly | 32 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
 | Fig. S2B, kNN, k = 5, -log(p) labels | differs | 0 of 7 fields as printed | -log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across. |
-| Fig. S2C, naive Bayes (bar heights) | partly | 12 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
+| Fig. S2C, naive Bayes (bar heights) | partly | 13 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
 | Fig. S2C, naive Bayes, -log(p) labels | differs | 0 of 6 fields as printed | -log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across. |
-| Fig. S2D, LDA (bar heights) | partly | 13 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
+| Fig. S2D, LDA (bar heights) | partly | 14 of 43 fields as printed | The classifiers' settings (distance and ties for kNN, the naive Bayes model, LDA's covariance) are not stated; NF-kB and Leukemia are near 1 in our data; our bars differ by up to 0.3 (Lung Boston to Michigan with LDA). |
 | Fig. S2D, LDA, -log(p) labels | differs | 0 of 8 fields as printed | -log10 p of a Wilcoxon test on 500 paired AUCs moves with every unstated setting and with the random partitions; no printed value comes back to its decimal. Where both are significant the sizes are close (Breast Netherlands 19.2 against 16.9); the significance pattern is compared in text.pac_beats_gene_within and _across. |
 | Fig. S3, sequential against forward selection | partly | 18 of 28 fields as printed | 18 of 28 bars within 0.02. The forward selection's stopping rule is not stated; NF-kB is near 1 for every method in our data. |
-| Fig. S4, breast pathway activity heatmaps | not attempted | not attempted | A heatmap without values or a claim in the text beyond Table S2; the clustering and colour scale are not stated. Our heatmap of the Table S2 pathways is drawn for reference (figure-reproduction/output/figures/fig_s4_ours.png). |
+| Fig. S4, each pathway's activity higher or lower in metastasis (breast) | partly | 25 of 26 fields as printed | 25 of 26 rows go the same way as the published heatmaps. The miss is KRAS up-regulated genes in Breast USA: the heatmap uses each dataset's own CORGs, and ours for this set (COL4A1 TUFT1 TGFBI) are not the paper's (TUFT1 P4HA2 COL4A1), because our USA data are not the authors'. |
 | Fig. S5, CORGs per pathway in the top 10% | partly | 25 of 42 fields as printed | The box plots summarize the CORG counts of each dataset's top 52 pathways; the medians come back in 5 of 7 datasets. Which 52 pathways the paper counted is not certain (Boston's differ, fig2.g), and the breast data differ. |
 | PAC markers discriminate better than gene markers (Fig. 2) | partly | 5 of 8 fields as printed | PAC is above the top genes in all four source panels and in Michigan to Boston; not at every fraction in the two breast verification panels (our breast data differ) and in Boston to Michigan (Boston's top pathways differ). |
 | PAC above its own CORGs and above PAC_all in the source datasets (Fig. 2) | agrees | 8 of 8 fields as printed | Assumed: Tian et al.'s pathway score as |sum of member t| / sqrt(members) (Tian 2005's standardized statistic), not the plain mean the Methods name |
@@ -68,7 +69,7 @@ is typed by hand except the prose.
 | Port against the authors' code | not attempted | not attempted | The authors' software is lost: no link, no availability statement and no code in the supplement; searches of GitHub, CRAN, Bioconductor, PyPI and the authors' lab pages found nothing (issue #47). pacorg is written from the Methods and checked against the paper. |
 | pacorg, the method as a Python package | agrees | pacorg 0.1.0: wheel installed in a fresh environment and imported from it; tests 5 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
-4 exact, 7 agrees, 33 partly, 5 differs, 3 not attempted; 35 open causes.
+4 exact, 8 agrees, 34 partly, 5 differs, 2 not attempted; 36 open causes.
 
 The main claim, that classifiers on CORG-based pathway activity beat classifiers on genes, holds in Breast Netherlands, Lung Michigan, Lung Boston and Michigan to Boston, with Leukemia and Netherlands to USA showing no PAC advantage as in the paper. It does not hold in our NF-kB, Prostate, Breast USA, USA to Netherlands and Boston to Michigan runs. Our breast and NF-kB data are not the authors' (open); Boston's pathway pre-selection differs (open; in a sensitivity run without it, PAC is above Gene from Boston to Michigan, 0.71 against 0.62, the paper's PAC being 0.66); Prostate's gap (Gene 0.961 against PAC 0.955) has no tested cause beyond the unstated classifier settings.
 
@@ -99,7 +100,21 @@ each panel's y axis is calibrated on its grid lines (residual below 0.05 of a un
 are read at the five category positions, and points where two series overlap are left out. Figs
 S1, S2, S3 and S5 are vector PDFs; `pipeline/read_published.py` reads the exact bar tops, marker
 centres and box edges from their drawing commands. Values read off a raster figure carry the
-assumption `read_from_figure`, which caps a figure's verdict at "agrees".
+assumption `read_from_figure`, which caps a figure's verdict at "agrees". The bar figures (S2, S3)
+are anchored on their bars' common bottom edge, the 0.4 axis: their tick labels' centres sit about
+2 pt off the tick lines.
+
+Figs 4 and S4 are heatmaps without values (`pipeline/heatmaps.py`). Each row's colour is read over
+the cell centres of the poor-prognosis (metastatic) patients and of the others; what is scored is
+the row's direction, against the direction of our activity. Red is read as high activity: the
+text calls glycolysis and estrogen signalling over-expressed in poor prognosis, and their rows are
+red there, though the legends say green is up.
+
+Every render is drawn on the published figure's own grid and has the published picture's size:
+Figs 2 and 3 on the PLOS PNGs with the published series removed; Figs S1, S2, S3 and S5 on their
+supplementary pages rebuilt from the PDF's own drawing commands without the published data marks
+(`pipeline/render_vector.py`); Figs 4 and S4 painted into the published heatmap boxes, each class
+ordered by its patients' mean activity.
 
 ## Layout
 
@@ -110,13 +125,13 @@ assumption `read_from_figure`, which caps a figure's verdict at "agrees".
 | `results_notes.json` | Labels, sources, tolerances, assumptions and causes, written by hand; merged with the run's numbers into `../results.json`. |
 | `annotation/` | Identifier tables built once from NCBI Gene and GEO annotations (`pipeline/build_annotation.py`). |
 | `variants/` | Summaries of the cross-validation runs that test hypotheses (PAC_VARIANT, below). |
-| `published/` | The paper's figures (CC BY 4.0): Figs 1 to 4 and Table 1 as PLOS serves them, Figs S1, S2, S3, S5 rasterized from the supplementary PDFs. |
+| `published/` | The paper's figures (CC BY 4.0): Figs 1 to 4 and Table 1 as PLOS serves them, Figs S1 to S5 rasterized from the supplementary PDFs at 150 dpi. |
 | `pipeline/fetch_inputs.sh` | Downloads every input and checks its SHA-256. |
 | `pipeline/export_bioc.py`, `prepare_data.py` | The two Bioconductor packages read without R; the seven gene-level datasets and their gene sets. |
 | `pipeline/markers.py`, `fig2.py`, `robustness.py`, `cv.py` | CORGs of every pathway, Fig. 2, Figs S1 and S5, the cross-validation. |
 | `pipeline/pack_cv.py`, `reduce_cv.py` | Pack and check repeats; means, standard errors, Wilcoxon tests and frequencies. |
-| `pipeline/read_published.py`, `digitize.py` | The published values. |
-| `pipeline/compare.py`, `render.py`, `hypotheses.py` | Paper against ours; the renders and overlays; the hypothesis tests. |
+| `pipeline/read_published.py`, `digitize.py`, `heatmaps.py` | The published values: vector supplements, raster figures, heatmap row directions. |
+| `pipeline/compare.py`, `render.py`, `render_vector.py`, `hypotheses.py` | Paper against ours; the renders and overlays on the published grids; the hypothesis tests. |
 | `pipeline/usa_cel_normalize.R`, `usa_cel_check.py` | A one-off hypothesis test: the USA arrays re-normalized from their CEL files (`variants/usa_cel.json`). |
 | `pipeline/build_results.py`, `check_results.py`, `check_reproduction.py`, `compare_runs.py`, `check_package.py`, `build_page.py`, `make_results_check.py` | results.json, the checks, the results page and the repository's results-check file. |
 | `output/` | The committed run: `cv/` (all 1,100 cross-validation repeats), `comparison.json`, `cv_summary.json`, `hypotheses.json`, the renders in `figures/`. |
@@ -183,4 +198,3 @@ repeats that finished: 32 to 80 per pair).
 - The classifier settings, the random splits and the CORG overlap of Fig. S1 are not stated; AUC
   bars agree within 0.02 for about half the bars, the -log(p) labels do not come back to their
   decimal, and the frequencies of Tables 1 and S2 are higher in our run.
-- Fig. S4 has no values and no claim beyond Table S2; ours is drawn but not scored.

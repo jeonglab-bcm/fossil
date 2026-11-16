@@ -1004,11 +1004,39 @@
   },
   {
    "id": "fig4",
-   "label": "Fig. 4, glycolysis and estrogen-signalling activity higher in poor prognosis",
+   "label": "Fig. 4, each pathway's activity higher or lower in poor prognosis (lung)",
    "kind": "figure",
    "source": "public_data",
    "method": "values",
    "fields_from": "fig4",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Each published heatmap row's direction read from its colours: the mean of red minus green over the cell centres of the poor-prognosis (metastatic) columns against the others; class boundaries from the magenta and green bars",
+     "source": "read_from_figure",
+     "sensitivity": "Every published row differs between the classes by 20 to 126 units of red minus green (published_heatmaps.json); none is near zero"
+    },
+    {
+     "what": "Red means higher activity. The text says glycolysis and estrogen signalling are over-expressed in poor prognosis, and their rows are red there; the legends of Figs 4 and S4 say the reverse (green up, red down)",
+     "source": "paper",
+     "sensitivity": "With the legends' reading every field flips"
+    },
+    {
+     "what": "The rows of the right-hand heatmap (Michigan, USA) are in the same order as the labels printed beside the left one",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ]
+  },
+  {
+   "id": "text.glycolysis_estrogen_poor",
+   "label": "Text on Fig. 4: glycolysis and estrogen signalling over-expressed in poor prognosis in both lung datasets",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "text.glycolysis_estrogen_poor",
    "values": {
     "tolerance": {}
    }
@@ -1787,16 +1815,56 @@
   },
   {
    "id": "fig_s4",
-   "label": "Fig. S4, breast pathway activity heatmaps",
+   "label": "Fig. S4, each pathway's activity higher or lower in metastasis (breast)",
    "kind": "figure",
-   "source": "none",
-   "method": "none",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "fig_s4",
+   "values": {
+    "tolerance": {}
+   },
+   "assumptions": [
+    {
+     "what": "Each published heatmap row's direction read from its colours: the mean of red minus green over the cell centres of the poor-prognosis (metastatic) columns against the others; class boundaries from the magenta and green bars",
+     "source": "read_from_figure",
+     "sensitivity": "Every published row differs between the classes by 20 to 126 units of red minus green (published_heatmaps.json); none is near zero"
+    },
+    {
+     "what": "Red means higher activity. The text says glycolysis and estrogen signalling are over-expressed in poor prognosis, and their rows are red there; the legends of Figs 4 and S4 say the reverse (green up, red down)",
+     "source": "paper",
+     "sensitivity": "With the legends' reading every field flips"
+    },
+    {
+     "what": "The rows of the right-hand heatmap (Michigan, USA) are in the same order as the labels printed beside the left one",
+     "source": "paper",
+     "sensitivity": ""
+    }
+   ],
    "cause": {
     "category": "undocumented_setting",
-    "status": "explained",
-    "summary": "A heatmap without values or a claim in the text beyond Table S2; the clustering and colour scale are not stated. Our heatmap of the Table S2 pathways is drawn for reference (figure-reproduction/output/figures/fig_s4_ours.png).",
-    "evidence": [
-     "Figure S4 legend: 'Pathways are clustered based on the similarity of their activities across patients.'"
+    "status": "open",
+    "summary": "25 of 26 rows go the same way as the published heatmaps. The miss is KRAS up-regulated genes in Breast USA: the heatmap uses each dataset's own CORGs, and ours for this set (COL4A1 TUFT1 TGFBI) are not the paper's (TUFT1 P4HA2 COL4A1), because our USA data are not the authors'.",
+    "hypotheses": [
+     {
+      "hypothesis": "The USA arrays were used as log2 values rather than GEO's MAS5 scale",
+      "test": "Table S2's USA CORG lists on log2(max(x, 1)) and log2(max(x, 20)) values: 0 to 1 of 10 lists (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Probes were collapsed to genes another way (mean, highest mean, highest variance, or keeping multi-gene probes)",
+      "test": "Table S2's USA CORG lists under 12 combinations of scale (MAS5, log2 with floor 1 or 20) and collapse (per-sample max, mean, highest-mean probe, highest-variance probe): at most 1 of 10 lists exact and 2 of 10 as sets (output/hypotheses.json, usa_preprocess)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "One USA patient is labelled differently (GEO's table has 107 relapses, the paper and GEO's summary 106)",
+      "test": "Relabel each of the 107 relapses as metastasis-free in turn: at best 1 of 10 USA CORG sets (output/hypotheses.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The USA arrays were re-normalized from their CEL files (RMA or MAS5 with affy)",
+      "test": "Table S2's USA CORG lists from RMA and MAS5 of GSE2034_RAW.tar, probes collapsed by maximum or mean: at most 1 of 10 lists exact, 2 as sets (variants/usa_cel.json, pipeline/usa_cel_check.py)",
+      "result": "rejected"
+     }
     ]
    }
   },
@@ -2183,6 +2251,13 @@
     ]
    ],
    [
+    "fig-S4",
+    "Fig. S4",
+    [
+     "fig_s4"
+    ]
+   ],
+   [
     "fig-S1",
     "Fig. S1",
     [
@@ -2226,7 +2301,7 @@
    ],
    [
     "Fig. 4",
-    "Glycolysis and estrogen signalling higher in poor prognosis in both lung datasets."
+    "All 28 rows of the two lung heatmaps go the way of the published ones; Fig. S4, 25 of 26 breast rows."
    ],
    [
     "Table 1 frequencies",

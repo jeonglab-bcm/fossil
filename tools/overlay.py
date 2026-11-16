@@ -1,6 +1,7 @@
 """Overlay each published figure with this run's render of it, for the PR comment.
 
-A render (output/fig<N>_ours.png, or output/figures/ours-figure-<N>.png) sits on the published figure's pixel grid, so the two overlay
+A render (output/fig<N>_ours.png, output/figures/fig<N>_ours.png or output/figures/ours-figure-<N>.png;
+N may be a supplementary figure such as S1) sits on the published figure's pixel grid, so the two overlay
 directly. Ink is any pixel darker than INK. Where the paper's ink and ours lie within 2 px of each
 other the overlay is grey; ink only in the paper is drawn dark, ink only in this run green. The
 overlay is shrunk to at most WIDTH px wide, keeping a thin line visible.
@@ -20,7 +21,7 @@ from PIL import Image
 from scipy import ndimage
 
 INK = 150
-RENDERS = ("fig*_ours.png", "figures/ours-figure-*.png")  # the layouts the reproductions use
+RENDERS = ("fig*_ours.png", "figures/fig*_ours.png", "figures/ours-figure-*.png")  # the layouts the reproductions use
 WIDTH = 760
 GREY, PAPER_ONLY, OURS_ONLY = (196, 201, 198), (22, 46, 40), (0, 150, 95)
 
@@ -60,18 +61,29 @@ def shrink(classes, f):
 
 
 def figure_number(path):
-    """The figure a render draws (fig2_ours.png or ours-figure-2.png: "2"), or None."""
-    m = re.fullmatch(r"fig(\d+)_ours\.png|ours-figure-(\d+)\.png", os.path.basename(path))
-    return (m.group(1) or m.group(2)) if m else None
+    """The figure a render draws (fig2_ours.png or ours-figure-2.png: "2"; figS1_ours.png: "S1"), or None."""
+    m = re.fullmatch(r"fig(S?\d+)_ours\.png|ours-figure-(S?\d+)\.png", os.path.basename(path), re.IGNORECASE)
+    return (m.group(1) or m.group(2)).upper() if m else None
+
+
+def figure_order(n):
+    """Main figures first, then the supplementary ones, each by number."""
+    return (n.startswith("S"), int(n.lstrip("S")))
 
 
 def main(pub_dir, run_out, out_dir):
     os.makedirs(out_dir, exist_ok=True)
     manifest = []
     renders = [r for p in RENDERS for r in glob.glob(os.path.join(run_out, p)) if figure_number(r)]
-    for r in sorted(renders, key=lambda p: int(figure_number(p))):
+    seen = set()
+    for r in sorted(renders, key=lambda p: figure_order(figure_number(p))):
         n = figure_number(r)
-        pubs = [p for p in glob.glob(os.path.join(pub_dir, f"figure-{n}.*")) if p.lower().endswith((".png", ".jpg", ".jpeg"))]
+        if n in seen:  # one render per figure (output/ before output/figures/)
+            continue
+        seen.add(n)
+        pubs = [p for p in glob.glob(os.path.join(pub_dir, "figure-*.*"))
+                if os.path.basename(p).lower().split(".")[0] == f"figure-{n.lower()}"
+                and p.lower().endswith((".png", ".jpg", ".jpeg"))]
         if not pubs:
             continue
         pub, ours = load(pubs[0]), load(r)

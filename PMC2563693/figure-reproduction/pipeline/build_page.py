@@ -19,11 +19,12 @@ HERE = Path(__file__).resolve().parent
 esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
-FIGS = {"2": "fig2.", "3": "fig3.", "4": "fig4.", "S1": "fig_s1.", "S2": "fig_s2.", "S3": "fig_s3.", "S5": "fig_s5."}
+FIGS = {"2": "fig2.", "3": "fig3.", "4": "fig4.", "S1": "fig_s1.", "S2": "fig_s2.", "S3": "fig_s3.", "S4": "fig_s4.", "S5": "fig_s5."}
 CAPTIONS = {
     "2": "Fig. 2. Mean |t| of the top 1% to 10% pathway markers (PAC, PAC_all), their CORGs and as many top genes, in the dataset the markers come from (A, C, E, G) and in the other cohort (B, D, F, H). Ours drawn in the published colours.",
     "3": "Fig. 3. AUC of logistic-regression classifiers over 100 runs of 5-fold cross-validation, within datasets (A) and across datasets (B). Our bars in the published colours; -log(p) labels are the paper's.",
-    "4": "Fig. 4. Activity of the Table 1 pathways in the two lung datasets, poor-prognosis patients first. Above: published; below: ours (no values are printed; the text's claim is the direction).",
+    "4": "Fig. 4. Activity of the Table 1 pathways in the two lung datasets, poor-prognosis patients first, red for high and green for low. Ours is painted into the published heatmaps, each class ordered by its patients' mean activity; what is scored is each row's direction.",
+    "S4": "Fig. S4. As Fig. 4 for the Table S2 pathways in the two breast datasets, metastatic patients first.",
     "S1": "Fig. S1. Overlap of the top markers between the two halves of 100 random splits: pathways, their CORGs and genes.",
     "S2": "Fig. S2. Fig. 3 with k-nearest neighbours (k = 3, 5; accuracy), naive Bayes and LDA (AUC).",
     "S3": "Fig. S3. Sequential against forward selection, logistic regression, within datasets.",
@@ -95,7 +96,7 @@ def main(results, figs, pub, out):
         pf = Path(pub) / f"figure-{n}.png"
         psrc, (w, h) = b64(pf if pf.exists() else Path(pub) / f"figure-{n}.jpg")
         # Vector supplements: ours drawn in black over the published page, on the same grid.
-        kind, ocap = ("overlay", "Ours (black) over the published") if n.startswith("S") else ("ours", "Our run")
+        kind, ocap = "ours", "Our run, on the published axes"
         osrc, (ow, oh) = b64(next(p for p in (Path(figs) / d / f"fig{n}_{kind}.png" for d in ("figures", ".")) if p.exists()))
         stats = "".join(f"<div><dt>{esc(i['label'])}</dt><dd>{esc(measure(i))} · {esc(STAMP[i['verdict']][1] if i['verdict'] in STAMP else '')}</dd></div>"
                         .replace(" · ", ", ") for i in its)
