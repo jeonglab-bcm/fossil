@@ -48,8 +48,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends r-base-core r-base-dev r-cran-knitr \
             r-cran-rmarkdown r-cran-testthat pandoc fonts-liberation
-          sudo Rscript -e 'install.packages("https://cloud.r-project.org/src/contrib/Archive/lokern/lokern_1.1-12.tar.gz", repos = NULL, type = "source", lib = .Library.site[1])' \
-            || sudo Rscript -e 'install.packages("https://cloud.r-project.org/src/contrib/lokern_1.1-12.tar.gz", repos = NULL, type = "source", lib = .Library.site[1])'
+          # lokern 1.1-12 and its dependency sfsmisc 1.1-16 from CRAN source, current or archived copy
+          for p in sfsmisc_1.1-16 lokern_1.1-12; do
+            n=${p%%_*}
+            curl -fsSL --retry 3 -o "/tmp/$p.tar.gz" "https://cloud.r-project.org/src/contrib/$p.tar.gz" \
+              || curl -fsSL --retry 3 -o "/tmp/$p.tar.gz" "https://cloud.r-project.org/src/contrib/Archive/$n/$p.tar.gz"
+            sudo R CMD INSTALL "/tmp/$p.tar.gz"
+          done
           sudo R CMD INSTALL PMC2724427/package
           Rscript -e 'cat(R.version.string, "lokern", as.character(packageVersion("lokern")), "\n")'
 
