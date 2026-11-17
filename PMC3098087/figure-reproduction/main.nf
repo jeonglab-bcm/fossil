@@ -87,10 +87,10 @@ process HYPOTHESES {
     input:
     path rds
     output:
-    path 'svm_hypotheses.json'
+    path 'hypotheses.json'
     script:
     """
-    Rscript ${params.pipe}/svm_hypotheses.R ${rds} svm_hypotheses.json --reps 200
+    Rscript ${params.pipe}/hypotheses.R ${rds} hypotheses.json --reps 200
     """
 }
 

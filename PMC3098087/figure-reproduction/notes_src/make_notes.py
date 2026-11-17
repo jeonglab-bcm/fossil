@@ -24,7 +24,7 @@ A = {
         {"what": "PAM: pamr.train with its default 30 thresholds; the largest threshold with the smallest training error (as stated).", "source": "paper"},
         {"what": "PLR: stepPlr::plr with lambda = 1 (as stated), Class 1 coded 1.", "source": "paper"},
         {"what": "AUC scores: share of neighbour votes (k-NN), difference of the two discriminants (DLDA, DQDA), vote share (RF), decision value (SVM), posterior (PAM), fitted probability (PLR). The paper says only that Hmisc was used.", "source": "our_choice"},
-        {"what": "Means over replicates keep NA when a replicate has none (PV1 when PA1 = 0 and PA2 = 1), as the paper's tables show NA; figures use the mean over the replicates where the value exists.", "source": "our_choice"},
+        {"what": "A predictive value has no value in a replicate whose denominator is 0 (PV1 when PA1 = 0 and PA2 = 1). Means are over the replicates where the value exists; a cell the paper prints as NA or NaN counts as equal when some of our replicates have no value.", "source": "our_choice"},
     ],
     "corrections": [
         {"what": "Over-sampling draws the max(n1, n2) - min(n1, n2) replicated minority samples with replacement; down-sizing keeps min(n1, n2) majority samples drawn without replacement.", "source": "our_choice"},
@@ -51,6 +51,34 @@ A = {
     "claims": [
         {"what": "Words such as 'about' are read as within 0.05; each claim's reading is stated in its fields and recomputed from the paper's own values first (text.arithmetic).", "source": "our_choice"},
     ],
+}
+
+
+CAUSES = {
+    "svm": {"category": "undocumented_setting",
+            "summary": "The SVM differs (other classifiers agree): the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). No single cost and weighting fits both.",
+            "evidence": ["figure-reproduction/output/hypotheses.json"],
+            "hypotheses": [
+                {"hypothesis": "Default cost (1) with weights equal to the class proportions, as stated", "test": "Our main run; hypotheses.R grid, cost 1", "result": "rejected"},
+                {"hypothesis": "A smaller cost with the stated weights", "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)", "result": "inconclusive"},
+                {"hypothesis": "Weights inverse to the class proportions (the weight vector applied to the other class)", "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-", "result": "inconclusive"}],
+            "status": "open"},
+    "dqda_auc": {"category": "undocumented_setting",
+                 "summary": "DQDA's AUC is lower than the paper's when the training set is imbalanced (Additional file 3, k1train 0.1: {dqda_auc_ours} against 0.91). The paper does not say which score it ranked. Ranking by the ratio of the two discriminants instead of their difference gives the paper's AUC at every k1train ({dqda_ratio}) and leaves DLDA's AUC where the paper has it ({dlda_ratio} at 0.1 against 0.94); the predictions do not change. Found by search over five scores; our run keeps the difference.",
+                 "evidence": ["figure-reproduction/output/hypotheses.json"],
+                 "hypotheses": [
+                     {"hypothesis": "The AUC ranks the ratio of the DQDA discriminants", "test": "hypotheses.R: DQDA on the same data, AUC by five scores, k1train 0.1-0.5", "result": "supported"},
+                     {"hypothesis": "The AUC ranks the predicted class", "test": "The same: 0/1 scores give 0.56 at k1train 0.1", "result": "rejected"}],
+                 "status": "explained"},
+    "af1": {"category": "paper_error",
+            "summary": "Additional file 1 prints the same PA, PA1, PA2, PV1 and PV2 (and SDs) for all nine classifiers; they are PLR's: the paper's own Fig. 1 and Fig. 2 (same settings, p = 40) show other values for the other eight (RF and PAM PA1 near 0 at k1train 0.1, DLDA near 0.2), which our run reproduces. Those cells are listed as paper errors; the AUC columns, which differ by classifier, and PLR's cells are compared.",
+            "evidence": ["figure-reproduction/output/published_values.json (af1 against fig1 and fig2)", "figure-reproduction/output/comparison.json"],
+            "status": "explained"},
+    "af10": {"category": "paper_error",
+             "summary": "Additional file 10's caption says the test sets held 500 samples, but its interval ends all sit on a 0.05 grid, which only a 20-sample test set gives. Compared with our 20-sample test sets, {af10_hits} of {af10_n} interval ends match within one step; with 500-sample test sets, {af10_500_hits} of {af10_500_n}.",
+             "evidence": ["figure-reproduction/output/comparison.json (af10, af10.ntest500)"],
+             "hypotheses": [{"hypothesis": "The intervals come from 20-sample test sets, not 500", "test": "Compare the bar ends with our percentiles for both test sizes", "result": "supported"}],
+             "status": "explained"},
 }
 
 paper = {"id": "PMC3098087", "title": "Class prediction for high-dimensional class-imbalanced data",
@@ -152,7 +180,7 @@ notes = {
     "session": {"ledger": "session/ledger.json"},
     "skill": old.get("skill", {}),
     "assumption_sets": A,
-    "causes": old.get("causes", {}),
+    "causes": CAUSES,
     "items": items,
     "page": old.get("page", {}),
 }

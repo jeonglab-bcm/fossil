@@ -135,12 +135,14 @@ def table_item(cells, summary, keyf, n_paper):
     fields, missing = [], 0
     for c in cells:
         key = keyf(c)
-        o = ours(summary, key, strict=True)
+        o = ours(summary, key, strict=False)
         if o is None:
             missing += 1
             continue
         name = " ".join(str(c[k]) for k in ("classifier", "k1train", "ntest", "n_pos", "n_neg", "metric") if k in c)
         exp = "NA" if c["value"] in NAN_STRINGS else c["value"]
+        if exp == "NA" and o["n_na"] > 0:
+            o = dict(o, mean=None)  # the paper prints NA where some replicate has no value
         sd_p = num(c.get("sd"))
         printed = 0.5 * 10 ** -len(exp.split(".")[1]) if "." in exp else 0.5
         f = field(name, exp, o["mean"], o["sd"], o["n"], sd_p, n_paper, printed, z,
@@ -195,6 +197,53 @@ def main():
                               control=lambda r, x, k: (k[0].replace("multds", "down").replace("over", "alt20") if r["correction"] in ("multds", "over") else k[0].replace("down", "alt20").replace("alt20_p1000", "down_p1000") if r["correction"] == "none" else k[0].replace("down", "alt20"), k[1], k[2], k[3]))
     for af in ("af4", "af5", "af7", "af8", "af9", "af11"):
         out[af] = figure_item(by(af), summary)
+    # Hypothesis tests, not our results.
+    # (1) The alternative case without centring the samples (settings nocenter_*, 200 replicates):
+    #     the p = 40 and pDE = p points of Fig. 3 and Additional files 4 and 5.
+    def nocenter(recs):
+        sub = [dict(r, figure="hyp_nocenter") for r in recs if r["p"] == 40 or r["p_de"] == "p"]
+        res = {"fields": [], "matched": 0, "n_fields": 0}
+        z = zcrit(sum(len(r["points"]) for r in sub))
+        for r in sub:
+            fam = "alt20" if r["p_de"] == 20 else "altall"
+            for x, y in r["points"]:
+                for name, pref in (("centred", ""), ("not centred", "nocenter_")):
+                    o = ours(summary, (f"{pref}{fam}_p{r['p']}_k{kfmt(x)}", "bal20", r["classifier"], "PA1"), strict=False)
+                    if o is None:
+                        continue
+                    f = field(f"{r['classifier']} {r['p_de']} {r['p']} PA1, x = {x}, {name}", f"{y:.4f}", o["mean"], o["sd"], o["n"], None, 1000, 0.0005, z)
+                    ok = abs(f["observed"] - y) <= f["tolerance"]["abs"]
+                    res.setdefault(name, {"matched": 0, "n": 0})
+                    res[name]["matched"] += ok
+                    res[name]["n"] += 1
+                    res["fields"].append(f)
+        nc = res.get("not centred", {"matched": 0, "n": 0})
+        res["matched"], res["n_fields"] = nc["matched"], nc["n"]
+        return res
+    for key in ("fig3", "af4", "af5"):
+        out[f"{key}.hyp_nocenter"] = nocenter(by(key))
+    # (2) Fig. 5 and Additional file 8, over-sampling: the overall PA of a test set as imbalanced as the
+    #     training set, PA = k1 PA1 + (1 - k1) PA2, from our class-specific means.
+    for key in ("fig5", "af8"):
+        res = {"balanced": {"matched": 0, "n": 0}, "as_imbalanced_as_training": {"matched": 0, "n": 0}, "fields": []}
+        recs = [r for r in by(key) if r["correction"] == "over" and r["metric"] == "PA"]
+        z = zcrit(sum(len(r["points"]) for r in recs))
+        for r in recs:
+            for x, y in r["points"]:
+                o1 = ours(summary, (f"over_p1000_k{kfmt(x)}", "bal20", r["classifier"], "PA1"), strict=False)
+                o2 = ours(summary, (f"over_p1000_k{kfmt(x)}", "bal20", r["classifier"], "PA2"), strict=False)
+                o = ours(summary, (f"over_p1000_k{kfmt(x)}", "bal20", r["classifier"], "PA"), strict=False)
+                if None in (o, o1, o2):
+                    continue
+                matched_pa = x * o1["mean"] + (1 - x) * o2["mean"]
+                sd = math.sqrt((x * o1["sd"]) ** 2 + ((1 - x) * o2["sd"]) ** 2)
+                for name, m, s_ in (("balanced", o["mean"], o["sd"]), ("as_imbalanced_as_training", matched_pa, sd)):
+                    f = field(f"{r['classifier']} over PA, x = {x}, {name}", f"{y:.4f}", m, s_, o["n"], None, 1000, 0.0005, z)
+                    res[name]["matched"] += abs(f["observed"] - y) <= f["tolerance"]["abs"]
+                    res[name]["n"] += 1
+                    res["fields"].append(f)
+        res["matched"], res["n_fields"] = res["as_imbalanced_as_training"]["matched"], res["as_imbalanced_as_training"]["n"]
+        out[f"{key}.hyp_over_test"] = res
     # Fig. 6: class-specific PA (%) of no correction and MultDS on the ER data, with PIs.
     f6 = []
     for r in by("fig6"):

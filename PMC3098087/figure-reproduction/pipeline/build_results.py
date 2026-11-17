@@ -37,6 +37,51 @@ def matches(f):
     return field_matches(f, {"printed": True} if "tolerance" not in f else None)
 
 
+def facts_of(run):
+    """Numbers the hand-written causes cite, taken from the run so the prose cannot drift from it."""
+    run = Path(run)
+    h = json.load(open(run / "hypotheses.json"))
+    c = json.load(open(run / "comparison.json"))
+    S = {}
+    import csv
+    with open(run / "summary.csv") as f:
+        for r in csv.DictReader(f):
+            S[(r["setting"], r["test"], r["method"], r["metric"])] = r
+    def grid(case, cost, w, i):
+        for k, v in h[case]["grid"].items():
+            if abs(float(k) - cost) < 1e-12:
+                return v[w][i]
+        raise KeyError((case, cost))
+    dq = h["dqda_auc"]
+    return {
+        "svm_af3_ours": f"{float(S[('alt20_p1000_k0.10', 'bal20', 'SVM', 'PA1')]['mean']):.2f}",
+        "svm_c01_af3": f"{grid('af3_k0.1', 0.1, 'proportion', 0):.2f}",
+        "svm_c003_af3": f"{grid('af3_k0.1', 0.03, 'proportion', 0):.2f}",
+        "svm_c01_null": f"{grid('null_k0.2', 0.1, 'proportion', 0):.3f}",
+        "svm_inv_er": f"{grid('er_20_5', 0.1, 'inverse', 1):.2f}",
+        "svm_prop_er": f"{grid('er_20_5', 1, 'proportion', 1):.2f}",
+        "dqda_auc_ours": f"{float(S[('alt20_p1000_k0.10', 'bal20', 'DQDA', 'AUC')]['mean']):.2f}",
+        "dqda_ratio": ", ".join(f"{v['by_score']['ratio of the discriminants']:.2f}" for v in dq.values()),
+        "dlda_ratio": f"{dq['k1train 0.1']['by_score']['DLDA: ratio']:.2f}",
+        "af10_hits": c["af10"]["matched"], "af10_n": c["af10"]["n_fields"],
+        "af10_500_hits": c["af10.ntest500"]["matched"], "af10_500_n": c["af10.ntest500"]["n_fields"],
+    }
+
+
+def fill(obj, F):
+    if isinstance(obj, str):
+        def rep(m):
+            if m.group(1) not in F:
+                raise KeyError(f"results_notes.json cites an unknown fact {{{m.group(1)}}}")
+            return str(F[m.group(1)])
+        return re.sub(r"\{([a-z0-9_]+)\}", rep, obj)
+    if isinstance(obj, list):
+        return [fill(x, F) for x in obj]
+    if isinstance(obj, dict):
+        return {k: fill(v, F) for k, v in obj.items()}
+    return obj
+
+
 def af1_identical(fields):
     """Cells of Additional file 1 whose printed value is the same for all nine classifiers."""
     by = {}
@@ -89,6 +134,7 @@ def main():
         del args[i:i + 2]
     run, out = args
     notes = json.load(open(NOTES))
+    notes["causes"] = fill(notes["causes"], facts_of(run))
     res = {"schema": "paper2repro/results/v1", "paper": notes["paper"], "run": copy.deepcopy(notes["run"]),
            "session": notes["session"], "skill": notes["skill"], "items": []}
     if env:
@@ -103,8 +149,10 @@ def main():
         always = it.pop("cause_always", False)
         rule = it.pop("exceptions_rule", None)
         src = it.pop("from", None)
-        if cause_key:
+        if cause_key and cause_key in notes["causes"]:
             it["cause"] = copy.deepcopy(notes["causes"][cause_key])
+        elif cause_key:
+            problems.append(f"{it['id']}: the notes name a cause '{cause_key}' they do not define")
         if src == "arithmetic":
             it["check"] = {k: v for k, v in arithmetic(run).items() if k in ("passed", "detail")}
         elif src == "port":

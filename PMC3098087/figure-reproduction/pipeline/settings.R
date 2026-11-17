@@ -12,13 +12,12 @@ bal <- function(n) list(id = paste0("bal", n), ntest = n, k1test = 0.5)
 
 all_settings <- function() {
   s <- list()
-  # Replicates: 1,000 as in the paper, except the settings of Fig. 4 / Additional file 7, of MultDS,
-  # of Additional file 9,
-  # pDE = p (Fig. 3 right) and of p = 10,000: 500 each, to fit the compute budget. The comparison's
-  # Monte Carlo tolerance uses our SDs and replicate counts.
+  # Replicates: 1,000 as in the paper for the settings behind the printed tables and Fig. 1
+  # (null, p = 40; alternative, p = 1000, which is also Fig. 5's first column); 500 for every other
+  # setting, to fit the compute budget. The comparison's Monte Carlo tolerance uses our SDs and counts.
   add <- function(family, x) {
     x$family <- family
-    x$reps <- if (family %in% c("mu", "altall", "multds", "af9") || x$p == 10000) 500L else 1000L
+    x$reps <- if (family == "hyp") 200L else if (grepl("^(null_p40|alt20_p1000)_", x$name)) 1000L else 500L
     s[[x$name]] <<- x
   }
   for (k in K19) {
@@ -49,6 +48,13 @@ all_settings <- function() {
   for (k in K_RIGHT) for (p in c(40, 1000, 10000))
     add("altall", simulation_settings(sprintf("altall_p%d_k%.2f", p, k), p = p, p_de = p, mu2 = 1,
         k1train = k, G = 40, tests = list(bal(20)), methods = NINE))
+  # Hypothesis test (not our result): the alternative case of Fig. 3 and Additional files 4 and 5
+  # without centring the samples, 200 replicates each.
+  for (k in K19) add("hyp", simulation_settings(sprintf("nocenter_alt20_p40_k%.2f", k), p = 40, p_de = 20, mu2 = 1,
+      k1train = k, G = 40, center = "none", tests = list(bal(20)), methods = NINE))
+  for (k in K_RIGHT) for (p in c(40, 1000, 10000))
+    add("hyp", simulation_settings(sprintf("nocenter_altall_p%d_k%.2f", p, k), p = p, p_de = p, mu2 = 1,
+        k1train = k, G = 40, center = "none", tests = list(bal(20)), methods = NINE))
   # Difference between classes and normalization (Fig. 4, Additional file 7).
   for (ctr in c("samples", "variables")) for (k in c(0.5, 0.6, 0.7, 0.8, 0.9)) for (mu in MU_GRID)
     add("mu", simulation_settings(sprintf("mu_%s_k%.1f_mu%.1f", ctr, k, mu), p = 1000, p_de = 20,

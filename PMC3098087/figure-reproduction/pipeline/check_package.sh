@@ -6,7 +6,7 @@
 # with the committed package/tutorial/TUTORIAL.md (--write replaces it instead).
 set -uo pipefail
 pkg=$(cd "$1" && pwd)
-out=$2
+out=$(realpath -m "$2")
 write=${3:-}
 work=$(mktemp -d)
 export LANG=C.UTF-8 LC_ALL=C.UTF-8
