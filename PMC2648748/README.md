@@ -30,16 +30,18 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2648748/>
 
 <!-- summary from results.json (check_results.py); the full table: python3 figure-reproduction/pipeline/check_results.py results.json --markdown -->
 
-27 results: 2 exact, 3 agree, 5 partly agree, 2 inconclusive, 2 differ, 13 not attempted; 8 open causes.
+27 results: 2 exact, 3 agree, 2 partly agree, 7 differ, 13 not attempted; 8 open causes. Six verdicts were set by a
+reviewer ([review](https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665)): every Fig. 2 and Fig. 3 item differs, where the numbers alone give partly or
+inconclusive. The measures below are unchanged.
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
-| Fig. 2, chi-squared | partly | 20 of 24 bars within Monte Carlo error; the four misses are model 3 at small MAF, where ours is higher (26 against 0 at r² = 0.7, MAF 0.05) |
-| Fig. 2, stepwise logistic regression | partly | 17 of 24, with the stage-2 test chosen by its match to these bars (interaction terms, adjusted by all tests; 4 of 24 with Marchini et al.'s two-stage strategy as published) |
-| Fig. 2, epiForest | partly | 15 of 24; above the paper where the signal is weak (r² = 0.7), below it where the paper's epiForest is far ahead of chi-squared (model 2, r² = 1, MAF 0.05: 2 against 16) |
-| Fig. 2, the drawing | inconclusive | The pixel score cannot tell our bars from our bars shifted by 5 points; the values carry the comparison |
+| Fig. 2, chi-squared | differs (reviewer; computed partly) | 20 of 24 bars within Monte Carlo error; the four misses are model 3 at small MAF, where ours is higher (26 against 0 at r² = 0.7, MAF 0.05) |
+| Fig. 2, stepwise logistic regression | differs (reviewer; computed partly) | 17 of 24, with the stage-2 test chosen by its match to these bars (interaction terms, adjusted by all tests; 4 of 24 with Marchini et al.'s two-stage strategy as published) |
+| Fig. 2, epiForest | differs (reviewer; computed partly) | 15 of 24; above the paper where the signal is weak (r² = 0.7), below it where the paper's epiForest is far ahead of chi-squared (model 2, r² = 1, MAF 0.05: 2 against 16) |
+| Fig. 2, the drawing | differs (reviewer; computed inconclusive) | The pixel score cannot tell our bars from our bars shifted by 5 points; the values carry the comparison |
 | Fig. 2, BEAM | not attempted | BEAM's program is gone |
-| Fig. 3, SNPs selected by SWSFS | differs | 0 of 24 medians: ours 4 to 37 (median 32), the paper's 45 to 48 in every setting |
+| Fig. 3, SNPs selected by SWSFS (and the drawing) | differs (the drawing: reviewer; computed inconclusive) | 0 of 24 medians: ours 4 to 37 (median 32), the paper's 45 to 48 in every setting |
 | Main claim: epiForest comparable to, sometimes better than, the other methods | partly | Never below chi-squared and above it in 5 settings; above logistic regression in 2, below it in 4 (small MAF) where the paper has it level or ahead |
 | Other claims of the text | 2 exact, 1 partly, 1 differs | Model 1 alike (holds); SWSFS keeps fewer than 100 (holds); "epiForest best at small MAF" (partly); "about 45 SNPs" (32) |
 | Claims against the paper's own figures | agrees | 14 of 14 statements follow from the published bars, Table 1 and text |

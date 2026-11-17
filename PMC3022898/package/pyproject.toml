@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "esrisk"
+version = "0.1.0"
+description = "Exposure-specific risk from two independent samples: simple and revised product-based estimators and their CIs (Reichmann, Gagnon, Horsburgh and Losina 2011)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.scripts]
+esrisk = "esrisk.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC3022898"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC3022898/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/esrisk"]

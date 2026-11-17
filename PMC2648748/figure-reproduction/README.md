@@ -9,7 +9,9 @@ the paper's PDF on PMC. Nothing else of the paper is in this folder.
 
 ## Results
 
-27 results: 2 exact, 3 agree, 5 partly agree, 2 inconclusive, 2 differ, 13 not attempted; 8 open causes
+27 results: 2 exact, 3 agree, 2 partly agree, 7 differ, 13 not attempted; 8 open causes; six verdicts set by a
+reviewer ([review](https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665): every Fig. 2 and Fig. 3 item differs, where the numbers alone give partly or
+inconclusive)
 (`../results.json`; the full table is in `output/report.md`).
 
 **Fig. 2.** Bars within Monte Carlo error of the published ones:
@@ -35,7 +37,7 @@ The variants (`output/comparison.json`, `sensitivity.fig2`) put this many bars w
 | ... Bonferroni over the candidates instead of all 1000 markers | 7 |
 
 The pixel scores (Fig. 2: 68.6% of our ink within 2 px of the paper's; Fig. 3: 16.4%) are no better than our own
-drawing shifted by 5 power points or 2 SNPs, shifts within Monte Carlo error, so they are inconclusive; the
+drawing shifted by 5 power points or 2 SNPs, shifts within Monte Carlo error, so they are inconclusive (both set to differs in review); the
 values carry the comparison.
 
 **Fig. 3.** None of the 24 medians is within error. Ours run from 4 to 37 (median 32) and drop where the signal is
