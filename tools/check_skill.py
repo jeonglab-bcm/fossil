@@ -20,6 +20,9 @@ added afterwards say how the version was found:
   none        no Paper2Repro skill was used (version null); "note" says why
   unknown     not known yet (version null); allowed only for papers already on the base branch
 
+An optional "site_note" is a short line shown under the version on the front page
+(tools/site_versions.py).
+
 Every version must be a paper2repro-v<version> tag in jeonglab-bcm/Paper2Repro.
 """
 import argparse

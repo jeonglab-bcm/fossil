@@ -1,0 +1,71 @@
+name: Reproduce PMC3022898
+
+# Reruns the whole PMC3022898 pipeline (Reichmann, Gagnon, Horsburgh and Losina 2011, exposure-specific
+# risk from two independent samples) and checks it: the figures and supplement are downloaded and their
+# SHA-256 checked; the simulation runs again in full (119 settings x 1,000 pairs of samples, with the
+# hypothesis variants and a second run); every printed cell of Tables 2-4 and S1-S7, every bar of
+# Figs 1-4, Table 5 and the claims are compared; check_results.py runs on the fresh results.json; the
+# package esrisk is built and tested in a fresh environment and its tutorial rerun; and the fresh run
+# is compared with the committed outputs, results.json, figure-reproduction/results.json and the page.
+# Everything runs in about a minute, so nothing is left to a manual run.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC3022898/figure-reproduction/**"
+      - "PMC3022898/package/**"
+      - "PMC3022898/results.json"
+      - "site/PMC3022898/**"
+      - ".github/workflows/reproduce-pmc3022898.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3022898/figure-reproduction/**"
+      - "PMC3022898/package/**"
+      - "PMC3022898/results.json"
+      - "site/PMC3022898/**"
+      - ".github/workflows/reproduce-pmc3022898.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package esrisk
+        run: pip install -r PMC3022898/figure-reproduction/requirements.txt ./PMC3022898/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3022898/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3022898-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

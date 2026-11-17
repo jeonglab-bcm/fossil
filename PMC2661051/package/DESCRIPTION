@@ -1,0 +1,21 @@
+Package: gseamod
+Title: Modular Gene Set Enrichment Analysis (Ackermann and Strimmer 2009)
+Version: 0.1.0
+Authors@R: person("fossil contributors", role = c("aut", "cre"), email = "noreply@github.com")
+Description: The modular framework for gene set enrichment analysis of Ackermann and
+    Strimmer (2009, BMC Bioinformatics 10:47, <doi:10.1186/1471-2105-10-47>): a gene-level
+    statistic (t, moderated t, correlation), a transformation (none, squared, rank of
+    squared, binary, local FDR), a gene set statistic (mean, median, maxmean, enrichment
+    score, Wilcoxon, conditional FDR) and a significance assessment (gene sampling,
+    sample label permutation, restandardization, parametric), plus globaltest and
+    Hotelling's T-squared with a shrinkage correlation matrix. Rebuilt from the paper's
+    text; the authors' code is lost.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports: limma (>= 3.58), fdrtool (>= 1.2.17), corpcor (>= 1.6.10), stats, utils
+Suggests: globaltest (>= 5.56), testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+biocViews: GeneSetEnrichment, DifferentialExpression
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1
