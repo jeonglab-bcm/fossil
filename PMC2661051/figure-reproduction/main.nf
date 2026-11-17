@@ -205,7 +205,8 @@ process RESULTS {
     path 'results.json'
     script:
     """
-    R_LIBS=rlib ${params.rscript} ${params.pipe}/env_versions.R env.json ${params.python}
+    R_LIBS=rlib ${params.rscript} ${params.pipe}/env_versions.R env.json
+    ${params.python} ${params.pipe}/env_versions_py.py env.json
     ${params.python} ${params.pipe}/build_results.py ${params.notes} ${comparison} results.json \
         --package ${pkg} --inputs ${params.pipe}/fetch_inputs.sh --env env.json --date \$(date -u +%F)
     ${params.python} ${params.pipe}/check_results.py results.json --write --root ${projectDir}/..

@@ -83,7 +83,7 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC2661051/pa
 | Main claim: the mean of squared mod.t beats GSEA's ES | exact | 1 of 1 fields as printed |
 | Main claim: the mean of squared mod.t beats Hotelling | exact | 1 of 1 fields as printed |
 | Claims recomputed from the paper's own tables | agrees | 22 of 22 claims come back from the paper's own tables and figure bars |
-| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 11 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md |
+| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 11 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md (figures by name) |
 <!--/RESULTS-SUMMARY-->
 
 For a simulated detection rate, "exact" means within its Monte Carlo band: a 99% band for two shares

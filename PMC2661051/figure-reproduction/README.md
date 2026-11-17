@@ -58,7 +58,7 @@ its text. The paper is CC BY 2.0; `published/` holds its Figs 2 to 4 for compari
 | Main claim: the mean of squared mod.t beats GSEA's ES | exact | 1 of 1 fields as printed |  |
 | Main claim: the mean of squared mod.t beats Hotelling | exact | 1 of 1 fields as printed |  |
 | Claims recomputed from the paper's own tables | agrees | 22 of 22 claims come back from the paper's own tables and figure bars |  |
-| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 11 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md |  |
+| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 11 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md (figures by name) |  |
 <!--/RESULTS-TABLE-->
 
 The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 2, 4 and 5 come back and Tables 3 and 6 partly. Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).
