@@ -51,7 +51,8 @@ def hits(i):
 
 s1 = [hits(t) for t in ("tableS1", "tableS2", "tableS3", "tableS4", "tableS5", "tableS7")]
 sm = R["summary"]
-status = (f"{sm['agrees']} agree, {sm['partly']} partly, {sm['differs']} differs, {sm['not_attempted']} not attempted (`results.json`): "
+status = (f"{sm['agrees']} agree, {sm['partly']} partly, {sm['differs']} {'differs' if sm['differs'] == 1 else 'differ'}, {sm['not_attempted']} not attempted"
+          + (f"; {sm['reviewed']} verdicts set in review" if sm.get('reviewed') else "") + " (`results.json`): "
           f"the SAS simulation rebuilt as `esrisk` and rerun; Tables S1-S5 and S7 {min(h for h, _ in s1)} to {max(h for h, _ in s1)} "
           f"of 112 cells within Monte Carlo error; Table S6 and the ESR_R log bars of Figs 1-4 behave as if eq. 10's first "
           f"term were left out ({F['s6_nofirst_within']} of 112 cells and {F['bars_nofirst_within']} of {F['bars']} bars without it, "

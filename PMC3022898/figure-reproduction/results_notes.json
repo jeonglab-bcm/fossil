@@ -204,7 +204,14 @@
         "Scenario 2, 1000/1000, RR 3.0, ESR_R",
         "Scenario 2, 1000/1000, RR 3.0, ESR_S"
       ],
-      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both."
+      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both.",
+      "review": {
+        "verdict": "differs",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 2 Partly to Differs: \"These numbers are quite different from the original, especially some of the negative numbers.\" The ESR_R columns are relative biases whose true value is 0, so each printed cell is Monte Carlo noise: one 1,000-pair estimate has a standard error of 1.4 to 3.3 points in Scenario 1 at 1000/1000. The sign differs between the paper and our run in 16 of 40 ESR_R cells, and between two runs of our own in 18 of 40. The reviewer's verdict stands; the cause below stays as written."
+      }
     },
     {
       "id": "table3",
@@ -222,7 +229,14 @@
         "Scenario 2, 1000/1000, RR 5.0, ESR_R",
         "Scenario 3, 5000/5000, RR 1.0, ESR_R"
       ],
-      "notes": "Every ESR_S column comes back (40 of 40). Table 3 prints 96.1 for ESR_R, Scenario 2, RR 4.0, 1000/1000; Table S6 prints 96.9."
+      "notes": "Every ESR_S column comes back (40 of 40). Table 3 prints 96.1 for ESR_R, Scenario 2, RR 4.0, 1000/1000; Table S6 prints 96.9.",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 3 Partly to Agrees."
+      }
     },
     {
       "id": "table4",
@@ -237,7 +251,14 @@
       "cause_from": "chance",
       "expect_misses": [
         "Scenario 3, 5000/5000, RR 1.0"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 4 Partly to Agrees."
+      }
     },
     {
       "id": "tableS1",
@@ -355,7 +376,14 @@
       "outputs": [
         "figure-reproduction/output/fig1_ours.png",
         "figure-reproduction/output/fig1_overlay.png"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 1 Partly to Agrees."
+      }
     },
     {
       "id": "fig2",
@@ -373,7 +401,14 @@
       "outputs": [
         "figure-reproduction/output/fig2_ours.png",
         "figure-reproduction/output/fig2_overlay.png"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 2 Partly to Agrees."
+      }
     },
     {
       "id": "fig3",
@@ -391,7 +426,14 @@
       "outputs": [
         "figure-reproduction/output/fig3_ours.png",
         "figure-reproduction/output/fig3_overlay.png"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 3 Partly to Agrees."
+      }
     },
     {
       "id": "fig4",
@@ -409,7 +451,14 @@
       "outputs": [
         "figure-reproduction/output/fig4_ours.png",
         "figure-reproduction/output/fig4_overlay.png"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 4 Partly to Agrees."
+      }
     },
     {
       "id": "fig1.bars",
@@ -511,7 +560,14 @@
         "60-69, ESR_R",
         "70-79, ESR_S",
         "70-79, ESR_R"
-      ]
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 5, ESR_S and ESR_R from the printed inputs, Partly to Agrees."
+      }
     },
     {
       "id": "table5.ci",
@@ -549,6 +605,13 @@
             "result": "rejected"
           }
         ]
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 5, log CI of ESR_R predicted from the other two CIs, Partly to Agrees."
       }
     },
     {
@@ -790,7 +853,7 @@
     }
   ],
   "page": {
-    "lede": "Reichmann and colleagues ran their simulation in SAS and published it in 2011 without the code. In November 2026 we rebuilt it from the paper and reran all 119 settings. Of {items} results, {agrees} agree, {partly} partly agree and {differs} differs. Every gap has a tested cause.",
+    "lede": "Reichmann and colleagues ran their simulation in SAS and published it in 2011 without the code. In November 2026 we rebuilt it from the paper and reran all 119 settings. Of {items} results, {agrees} agree, {partly} partly agree and {differs} {differs_verb}, {reviewed} of these verdicts set in review. Every gap has a tested cause.",
     "label_rows": [
       [
         "fig-1",

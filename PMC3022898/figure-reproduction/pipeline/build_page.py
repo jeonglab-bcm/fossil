@@ -126,7 +126,8 @@ def main(results, figs, pub, out):
     R = json.loads(Path(results).read_text())
     from build_results import facts_of, fill
     sm = R["summary"]
-    facts = {**facts_of(Path(figs)), **sm, "attempted": sm["items"] - sm["not_attempted"]}
+    facts = {**facts_of(Path(figs)), **sm, "attempted": sm["items"] - sm["not_attempted"],
+             "differs_verb": "differs" if sm["differs"] == 1 else "differ", "reviewed": sm.get("reviewed", 0)}
     N = fill(json.loads((HERE.parent / "results_notes.json").read_text())["page"], facts)
     items = R["items"]
     by = {i["id"]: i for i in items}
