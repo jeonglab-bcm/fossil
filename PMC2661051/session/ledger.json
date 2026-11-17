@@ -1,0 +1,69 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "26163e74-5a6f-5cce-b273-6b27d7e0e783",
+  "transcript": "26163e74-5a6f-5cce-b273-6b27d7e0e783.jsonl",
+  "generated_at": "2026-11-17T16:13:55+00:00",
+  "started_at": "2026-11-17T14:49:45+00:00",
+  "ended_at": "2026-11-17T16:13:55+00:00",
+  "wall_clock_minutes": 84.2,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 2,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 228,
+  "tool_calls": 257,
+  "tool_calls_by_name": {
+    "Bash": 206,
+    "Read": 16,
+    "Write": 16,
+    "TaskUpdate": 8,
+    "TaskCreate": 5,
+    "ToolSearch": 2,
+    "mcp__claude-code-remote__add_repo": 1,
+    "mcp__github__issue_read": 1,
+    "ReadNotifications": 1,
+    "Agent": 1
+  },
+  "tokens": {
+    "input": 458,
+    "cache_creation": 491287,
+    "cache_read": 76287156,
+    "output": 236545,
+    "thinking": 77112,
+    "total": 77015446
+  },
+  "subagents": {
+    "transcripts": 1,
+    "assistant_responses": 17,
+    "tool_calls": 18,
+    "tokens": {
+      "input": 34,
+      "cache_creation": 117877,
+      "cache_read": 1483548,
+      "output": 13214,
+      "thinking": 7577,
+      "total": 1614673
+    }
+  },
+  "tokens_all": {
+    "input": 492,
+    "cache_creation": 609164,
+    "cache_read": 77770704,
+    "output": 249759,
+    "thinking": 84689,
+    "total": 78630119
+  },
+  "prompts": [
+    {
+      "at": "2026-11-17T14:49:47.398Z",
+      "text": "Read https://github.com/jeonglab-bcm/Paper2Repro and install all skills\nfrom skills/paper2agent for Claude Code. Install nested skills as well",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-17T14:54:03.035Z",
+      "text": "<command-message>paper2repro</command-message>\n<command-name>/paper2repro</command-name>\n<command-args>Reproduce https://pmc.ncbi.nlm.nih.gov/articles/PMC2661051/ with the paper2repro skill. Follow its definition of done. Open one pull request at the end. To address issue #64 of the github https://github.com/jeonglab-bcm/fossil/</command-args>",
+      "mid_turn": false
+    }
+  ]
+}
