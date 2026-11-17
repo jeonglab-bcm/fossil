@@ -1,0 +1,26 @@
+Package: filterfdr
+Type: Package
+Title: Filtering, FDR Bias and Power in Two-Group Testing
+Version: 0.1.0
+Authors@R: person("fossil contributors", role = c("aut", "cre"), email = "noreply@example.org")
+Description: Rebuilds the methods of van Iterson, Boer and Menezes (2010)
+    <doi:10.1186/1471-2105-11-450>: the bitriangular two-group simulation,
+    signal, fold-change and variance filters, achieved FDR and power under
+    BH, BY, adaptive BH and q-value correction after filtering, the
+    permutation test for filtering-induced FDR bias, and the p-value
+    densities of the Student t test after filtering.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports:
+    stats,
+    utils,
+    multtest (>= 2.58),
+    qvalue (>= 2.34)
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    markdown
+VignetteBuilder: knitr
+biocViews: MultipleComparison, DifferentialExpression, Microarray
+Config/testthat/edition: 3
