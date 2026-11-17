@@ -34,7 +34,8 @@ def check_detail(run, src):
         detail = (f"{a['back']} of {a['checked']} claim fields come back when computed from the paper's own "
                   f"figure values")
         if a["not_back"]:
-            detail += "; not: " + "; ".join(a["not_back"])
+            detail += (f"; the {len(a['not_back'])} that do not are where the text contradicts its own figures "
+                       "(listed in comparison.json, arithmetic.not_back)")
         return True, detail
     raise KeyError(src)
 

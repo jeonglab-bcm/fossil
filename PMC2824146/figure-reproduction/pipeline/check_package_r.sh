@@ -25,6 +25,7 @@ Rscript -e "rmarkdown::render('src/vignettes/tutorial.Rmd', output_format = rmar
 if [[ "$write" == "--write" ]]; then mkdir -p "$pkg/tutorial" && cp tut/TUTORIAL.md "$pkg/tutorial/TUTORIAL.md"; fi
 if cmp -s tut/TUTORIAL.md "$pkg/tutorial/TUTORIAL.md"; then tut_ok=true; fi
 passed=false; if $build_ok && $check_ok && $tut_ok; then passed=true; fi
+tests=${tests// | /, }
 detail="R CMD build $($build_ok && echo ok || echo failed); R CMD check: ${status#Status: }; testthat ${tests:-none}; TUTORIAL.md $($tut_ok && echo 'same as the vignette rendered now' || echo 'differs from the vignette rendered now')"
 python3 - "$out" "$passed" "$detail" <<'PY'
 import json, sys
