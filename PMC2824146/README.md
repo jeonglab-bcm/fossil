@@ -33,7 +33,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-4 exact, 7 agrees, 15 partly, 1 differs, 2 not attempted; 15 open causes.
+4 exact, 13 agrees, 8 partly, 2 differs, 2 not attempted; 15 open causes; 7 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -48,18 +48,18 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 | Table 3, odds ratios between missingness indicators | agrees | 15 of 15 fields as printed |
 | Table 4, the missing data methods | not attempted | not attempted |
 | Figs 2 and 3, reference lines: true values and empirical SEs (20,000 complete-data cohorts) | partly | 10 of 18 fields as printed |
-| Fig. 2, coefficient estimates under MAR | partly | 301 of 333 fields as printed |
+| Fig. 2, coefficient estimates under MAR | agrees | 301 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 2 (bias, 0.5 SE, 10% bias) | partly | 11 of 18 fields as printed, 5 paper errors |
-| Fig. 3, average SEs under MAR | partly | 164 of 333 fields as printed |
+| Fig. 3, average SEs under MAR | agrees | 164 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 3 (SEs) | exact | 6 of 6 fields as printed, 3 paper errors |
-| Fig. 4, coverage under MAR | partly | 322 of 333 fields as printed |
+| Fig. 4, coverage under MAR | agrees | 322 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 4 (coverage) | partly | 14 of 18 fields as printed, 1 paper errors |
-| Fig. 5, mean p-values under MAR | partly | 295 of 333 fields as printed |
+| Fig. 5, mean p-values under MAR | agrees | 295 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 5 (significance) | partly | 1 of 2 fields as printed, 2 paper errors |
-| Fig. 6, model performance under MAR (LR p, R2, D, 2-year survival) | partly | 125 of 148 fields as printed |
+| Fig. 6, model performance under MAR (LR p, R2, D, 2-year survival) | differs | 125 of 148 fields as printed; computed partly, reviewer differs |
 | Claims about Fig. 6 (model performance) | partly | 5 of 7 fields as printed |
-| Fig. 7, coefficients of X2 to X5 under MAR and MNAR | partly | 119 of 140 fields as printed |
-| Fig. 8, coverage of X2 to X4 under MAR and MNAR | partly | 94 of 105 fields as printed |
+| Fig. 7, coefficients of X2 to X5 under MAR and MNAR | agrees | 119 of 140 fields as printed; computed partly, reviewer agrees |
+| Fig. 8, coverage of X2 to X4 under MAR and MNAR | agrees | 94 of 105 fields as printed; computed partly, reviewer agrees |
 | Claims about Figs 7 and 8 (MNAR against MAR) | partly | 7 of 10 fields as printed, 1 paper errors |
 | MCAR and combined like MAR; NORM and MIX like MICE (Results text, not plotted) | partly | 1 of 4 fields as printed |
 | Main claim (Abstract and Conclusions): MICE-PMM least biased, fails from 50% and under MNAR | exact | 6 of 6 fields as printed |
