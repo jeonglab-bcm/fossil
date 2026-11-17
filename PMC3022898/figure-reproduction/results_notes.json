@@ -63,7 +63,7 @@
       {
         "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
         "source": "found_by_search",
-        "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z {s5_missing_rms} against {s5_rms} and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves {s5_notcov_within} of 112 S5 cells within (RMS z {s5_notcov_rms}); adding 0.5 to the cells leaves {s7_half_within} of 112 S7 cells within (RMS z {s7_half_rms}). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+        "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z {s5_missing_rms} against {s5_rms}, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves {s5_notcov_within} of 112 S5 cells within (RMS z {s5_notcov_rms}); adding 0.5 to the cells leaves {s7_half_within} of 112 S7 cells within (RMS z {s7_half_rms}). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
       },
       {
         "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -80,12 +80,12 @@
       {
         "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
         "source": "read_from_figure",
-        "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+        "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
       },
       {
         "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
         "source": "found_by_search",
-        "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+        "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
       }
     ]
   },
@@ -147,7 +147,7 @@
         },
         {
           "hypothesis": "A systematic difference in the setting",
-          "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+          "test": "The RMS z of the tables with a chance miss is {chance_rms_min} to {chance_rms_max}, near the 1 expected of Monte Carlo error alone",
           "result": "rejected"
         }
       ]
@@ -204,7 +204,7 @@
         "Scenario 2, 1000/1000, RR 3.0, ESR_R",
         "Scenario 2, 1000/1000, RR 3.0, ESR_S"
       ],
-      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 2.0%, is within tolerance of both."
+      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both."
     },
     {
       "id": "table3",
@@ -844,7 +844,7 @@
     "came_back": [
       [
         "The bias of the two estimators",
-        "Tables S1 to S4 came back cell by cell within Monte Carlo error, one chance miss at most per table. ESR_S is off by up to 94% when exposure is common; ESR_R stays near 0."
+        "Tables S1 to S4 came back cell by cell within Monte Carlo error, one chance miss at most per table. ESR_S is off by up to 94% when exposure is common; ESR_R stays within a few percent of 0."
       ],
       [
         "Two of the three intervals",
@@ -852,7 +852,7 @@
       ],
       [
         "The figures",
-        "Every bar of Figs 1 to 4 for ESR_S, the binomial interval and the empirical interval came back within a few pixels."
+        "Every bar of Figs 1 to 4 for ESR_S, the binomial interval and the empirical interval came back within Monte Carlo error, by up to 7 px."
       ],
       [
         "The text",
@@ -860,7 +860,7 @@
       ],
       [
         "The case study",
-        "Table 5 follows from its printed inputs to the last digit once their rounding is allowed for, and its interval of ESR_R follows from eq. 10 as printed."
+        "Table 5 follows from its printed inputs once their rounding is allowed for, and eq. 10 as printed predicts 5 of its 6 ESR_R interval bounds to the last digit, the sixth within that rounding."
       ],
       [
         "The method",

@@ -143,7 +143,7 @@ a fresh environment) included. `.github/workflows/reproduce-pmc3022898.yml` runs
 
 - **The SAS code is lost.** The method is rebuilt from the paper's text and checked against its tables and figures only (`port` is not attempted).
 - **Eq. 10.** The reading that the simulation left out its first term rests on Table S6 and the figures; the two variants that fit (term left out, or the variance of the proportion in place of that of its log) cannot be told apart, as both make the term about 0.
-- **Monte Carlo error.** Every simulated cell carries it; the tolerance lets two runs of the same design disagree in about one cell in a hundred, and our run has one such miss in each of Tables 2, 4, S1, S2, S4, S5 and S7 (one setting, Scenario 2 at 1000/1000 and RR 3.0, accounts for four of them). The second run puts each back within tolerance.
+- **Monte Carlo error.** Every simulated cell carries it; the tolerance lets two runs of the same design disagree in about one cell in a hundred, and our run has one such miss in each of Tables 4, S1, S2, S4, S5 and S7 and two in Table 2 (one setting, Scenario 2 at 1000/1000 and RR 3.0, accounts for five missed cells in four tables). The second run puts each back within tolerance.
 - **Zero cells and the true ESR** are settings we chose by comparing with the paper's tables (`found_by_search` in `results.json`); every simulated item carries them as assumptions, so none can be "exact".
 - **Figures.** The JPEGs are 600 x 464 px; one pixel is 0.00075 on the y axis. The empirical CI is a difference of two percentiles of 1,000 values, and its bars move by a few pixels between runs.
 - **Table 5's CIs** rest on sample sizes solved from the paper's own intervals; only the log CI of ESR_R is a prediction.

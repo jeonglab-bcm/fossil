@@ -49,7 +49,9 @@ def facts_of(run):
     bars = sum(f["summary"]["fields"] for f in c["figures"].values())
     outside = [1 - v["within"] / c["tables"][t]["summary"]["fields"]
                for t in ("S1", "S3", "S5", "S6", "S7") for v in c["controls"][t].values()]
+    chance_rms = [c["tables"][t]["summary"]["rms_z"] for t in ("table2", "table4", "S1", "S2", "S4", "S5", "S7")]
     return {
+        "chance_rms_min": f"{min(chance_rms):.2f}", "chance_rms_max": f"{max(chance_rms):.2f}",
         "ctrl_out_min": f"{100 * min(outside):.0f}", "ctrl_out_max": f"{100 * max(outside):.0f}",
         "s6_ctrl_max": max(v["within"] for v in c["controls"]["S6"].values()),
         "own_within": own["within"], "own_cells": own["cells"], "own_miss": own["cells"] - own["within"],

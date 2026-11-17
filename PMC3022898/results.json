@@ -84,7 +84,7 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
-      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 2.0%, is within tolerance of both.",
+      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both.",
       "assumptions": [
         {
           "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
@@ -94,7 +94,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -846,7 +846,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -869,7 +869,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -1665,7 +1665,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -2705,7 +2705,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -2727,7 +2727,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -3767,7 +3767,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -3789,7 +3789,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -4829,7 +4829,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -4851,7 +4851,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -5893,7 +5893,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -6933,7 +6933,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -6955,7 +6955,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -7995,7 +7995,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -8017,7 +8017,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -9101,7 +9101,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10141,7 +10141,7 @@
           },
           {
             "hypothesis": "A systematic difference in the setting",
-            "test": "No other cell of the same scenario and N1/N2 misses; the RMS z of the table is 0.97 to 1.22",
+            "test": "The RMS z of the tables with a chance miss is 0.97 to 1.27, near the 1 expected of Monte Carlo error alone",
             "result": "rejected"
           }
         ]
@@ -10167,7 +10167,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10182,12 +10182,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "pixels": {
@@ -10290,7 +10290,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10305,12 +10305,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "pixels": {
@@ -10413,7 +10413,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10428,12 +10428,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "pixels": {
@@ -10536,7 +10536,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10551,12 +10551,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "pixels": {
@@ -10659,7 +10659,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10674,12 +10674,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "values": {
@@ -10857,7 +10857,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -10872,12 +10872,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "values": {
@@ -11055,7 +11055,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11070,12 +11070,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "values": {
@@ -11253,7 +11253,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11268,12 +11268,12 @@
         {
           "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
           "source": "read_from_figure",
-          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Moving every bar by one pixel changes no verdict (each misses by 4 px or more, or passes by more than 1 px)."
+          "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
         },
         {
           "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
           "source": "found_by_search",
-          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the bars' tolerance; it is scored as a near-miss control."
+          "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
         }
       ],
       "values": {
@@ -11611,7 +11611,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11627,18 +11627,18 @@
       "values": {
         "fields": [
           {
-            "name": "largest relative bias of ESR_R (%)",
+            "name": "largest relative bias of ESR_R in magnitude (%)",
             "expected": "4.0",
             "arithmetic": 4.0,
-            "observed": 2.9271,
+            "observed": 4.4084,
             "tolerance": {
-              "abs": 11.240172
+              "abs": 10.185895
             },
-            "second_run": 4.1398,
-            "without_eq10_first_term": 2.9271
+            "second_run": 4.6474,
+            "without_eq10_first_term": 4.4084
           },
           {
-            "name": "largest relative bias of ESR_S (%)",
+            "name": "largest relative bias of ESR_S in magnitude (%)",
             "expected": "93.9",
             "arithmetic": 93.9,
             "observed": 94.2143,
@@ -11667,7 +11667,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11748,7 +11748,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11794,7 +11794,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -11921,7 +11921,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12000,7 +12000,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12069,7 +12069,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12114,7 +12114,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12167,7 +12167,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12289,7 +12289,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
@@ -12469,7 +12469,7 @@
         {
           "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
           "source": "found_by_search",
-          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
         },
         {
           "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",

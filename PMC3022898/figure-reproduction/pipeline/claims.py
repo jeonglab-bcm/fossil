@@ -85,14 +85,16 @@ def claims(P, F, S, T5):
 
     # --- Abstract and main claim -----------------------------------------------------------------------
     def max_bias(src, t):
-        vals = [(src.cell(t, s, sz, rr), (s, sz, rr)) for s in (1, 2, 3, 4) for sz in SIZE_KEYS for rr in RR_KEYS]
-        return max(vals)
+        """The relative bias furthest from 0 (the abstract's "max"), signed, and where it is."""
+        vals = [(abs(src.cell(t, s, sz, rr)), src.cell(t, s, sz, rr), (s, sz, rr)) for s in (1, 2, 3, 4) for sz in SIZE_KEYS for rr in RR_KEYS]
+        _, v, k = max(vals)
+        return abs(v), k
     (pr, pk), (orr, ok) = both(lambda x: max_bias(x, "S2"))
     (ps, psk), (os_, osk) = both(lambda x: max_bias(x, "S1"))
     out["text.abstract_max_bias"] = {
         "label": "Abstract: largest relative bias, ESR_R 4.0% and ESR_S 93.9%",
-        "fields": [num_field("largest relative bias of ESR_R (%)", "4.0", pr, orr, se_of(sim, "S2", ok[0], ok[1], ok[2])),
-                   num_field("largest relative bias of ESR_S (%)", "93.9", ps, os_, se_of(sim, "S1", osk[0], osk[1], osk[2]))],
+        "fields": [num_field("largest relative bias of ESR_R in magnitude (%)", "4.0", pr, orr, se_of(sim, "S2", ok[0], ok[1], ok[2])),
+                   num_field("largest relative bias of ESR_S in magnitude (%)", "93.9", ps, os_, se_of(sim, "S1", osk[0], osk[1], osk[2]))],
         "where": {"paper": [pk, psk], "ours": [ok, osk]}}
 
     def main_claim(src):

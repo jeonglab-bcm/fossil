@@ -84,18 +84,20 @@ is enough to make a 112-cell table "partly".
 
 **What came back.** The bias of both estimators (Tables 2, S1-S4), the log CI of ESR_S (Table S5), the
 binomial CI of ESR_R (Tables 4 and S7), every bar of Figs 1-4 for those intervals and the empirical CI, the
-numbers given only in the text for Scenario 4 at 250/250, and the case study (Table 5) to its last digit once
-the rounding of its printed inputs is allowed for.
+numbers given only in the text for Scenario 4 at 250/250, and the case study (Table 5), whose printed values
+all follow from its inputs once their rounding is allowed for.
 
 **What did not, and why.** The log CI of ESR_R (eq. 10): our intervals, computed as printed, cover more often
 than the paper's Table S6 says, most of all at N1/N2 1000/5000 (96.1% to 99.9% against the paper's 85.6% to 94.7%). The
 same samples with the first term of eq. 10 left out (the variance of ln P1(D|not E)) give back every cell of
 Table S6 and every ESR_R bar of Figs 1-4; so does that term computed as p(1-p)/n1, the variance of the
 proportion instead of its log. Using n2 for n1, or P1(D) for P1(D|not E), does not. The case study used eq. 10
-as printed: with the sample sizes solved from Table 5's other two intervals, eq. 10 predicts its ESR_R
-intervals to the last digit and the shortened variance does not. The SAS code is lost, so this is read from
-the results; it makes the paper's simulation understate the coverage of the interval it recommends for
-1000/1000 and 5000/5000 by under a point, and overstate its failure at 1000/5000.
+as printed: with the sample sizes solved from Table 5's other two intervals, eq. 10 predicts 5 of the 6 ESR_R
+interval bounds to the last digit (the sixth, 0.0290 against 0.0289, within the rounding of the inputs), and
+the shortened variance predicts none. The SAS code is lost, so this is read from
+the results. With the term, as printed, the log CI of ESR_R covers about a point more than the paper reports
+at 1000/1000 and 5000/5000 (up to 2.3 points), and it reaches 95% at 1000/5000, where the paper says it
+never does.
 
 **Settings the paper does not state**, each tested against its tables: the true ESR is RR x P(D|not E)
 unrounded (the rounded table labels, such as .14 for 0.135, miss many cells); a log interval whose sample 2 has
@@ -111,8 +113,8 @@ Bernoulli draws, samples without replacement (exact proportions change nothing).
 - Discussion: the case study "most closely resemble[s] scenario two ... exposure probability of 0.20 and ... .02"; that is Scenario 3.
 - Discussion: "equation 11" and "equation 12" for the log and binomial variances of ESR_R; they are equations 10 and 11.
 
-The main claim holds: ESR_R removes the bias of ESR_S (largest relative bias 2.9% against 94.2% in our run;
-4.0% and 93.9% in the paper), and the binomial CI of ESR_R and the log CI of ESR_S behave as the paper reports.
+The main claim holds: ESR_R removes the bias of ESR_S (largest relative bias in magnitude 4.4% against 94.2%
+in our run; 4.0% and 93.9% in the paper), and the binomial CI of ESR_R and the log CI of ESR_S behave as the paper reports.
 The claims that do not match come from eq. 10's first term, from cells near the 95% line, or from the rounding
 of the case study's inputs.
 
