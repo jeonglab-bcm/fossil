@@ -495,7 +495,9 @@ def main():
     oc = claims(ours, ours.truth, ours.emp_se)
     ci, arith = claim_items(pc, oc, None)
     items.update(ci)
-    item_list = [{"key": k.replace(".", ""), "id": k, "fields": v["fields"]} for k, v in items.items()]
+    item_list = [dict({"key": k.replace(".", ""), "id": k, "fields": v["fields"]},
+                      **({"matched": v["matched"], "of": v["of"]} if "matched" in v else {}))
+                 for k, v in items.items()]
     res = {"items": items, "item_list": item_list, "arithmetic": arith,
            "truth": {"ours": ours.truth, "ours_empirical_se": ours.emp_se, "paper_figures": paper.truth,
                      "paper_figures_empirical_se": paper.emp_se},
