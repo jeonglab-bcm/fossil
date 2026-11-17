@@ -152,4 +152,7 @@ workflow does that when started by hand with `full`.
   finds more significant sets, with the same pattern across statistics.
 - **Fig. 3.** Our within-set correlations run lower than the paper's (median 0.022 against about 0.03);
   the data behind the figure are not described.
+- **Renders.** The committed `fig*_ours.png` and overlays come from the CI runner (`ubuntu-24.04`, the
+  pinned R); `compare_runs.py` compares them by decoded pixels, so a run on a machine with other fonts
+  differs in the text pixels only. Every number they draw is checked separately (`figures.json`).
 - **Figs 2 and 4, left panels.** Drawn and overlaid but not scored: the curves' letter markers overlap.
