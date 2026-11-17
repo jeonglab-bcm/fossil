@@ -86,11 +86,11 @@
       "method": "values",
       "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both.",
       "review": {
-        "verdict": "differs",
+        "verdict": "agrees",
         "computed": "partly",
         "by": "hyunhwan-bcm",
-        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
-        "note": "Review: Table 2 Partly to Differs: \"These numbers are quite different from the original, especially some of the negative numbers.\" The ESR_R columns are relative biases whose true value is 0, so each printed cell is Monte Carlo noise: one 1,000-pair estimate has a standard error of 1.4 to 3.3 points in Scenario 1 at 1000/1000. The sign differs between the paper and our run in 16 of 40 ESR_R cells, and between two runs of our own in 18 of 40. The reviewer's verdict stands; the cause below stays as written."
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Table 2 Differs to Agrees, after the explanation on the PR: the ESR_R columns are Monte Carlo noise around a true bias of 0 (signs differ between the paper and our run in 16 of 40 cells, and between two runs of our own in 18 of 40); the ESR_S columns match. First review (https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164) had set it to Differs."
       },
       "assumptions": [
         {
@@ -858,7 +858,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "table3",
@@ -10699,6 +10699,13 @@
         "figure-reproduction/output/fig1_ours.png",
         "figure-reproduction/output/fig1_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 1 (drawing and bar heights) Agrees."
+      },
       "assumptions": [
         {
           "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
@@ -10885,7 +10892,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig2.bars",
@@ -10897,6 +10904,13 @@
         "figure-reproduction/output/fig2_ours.png",
         "figure-reproduction/output/fig2_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 2 (drawing and bar heights) Agrees."
+      },
       "assumptions": [
         {
           "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
@@ -11083,7 +11097,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig3.bars",
@@ -11095,6 +11109,13 @@
         "figure-reproduction/output/fig3_ours.png",
         "figure-reproduction/output/fig3_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 3 (drawing and bar heights) Agrees."
+      },
       "assumptions": [
         {
           "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
@@ -11281,7 +11302,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig4.bars",
@@ -11293,6 +11314,13 @@
         "figure-reproduction/output/fig4_ours.png",
         "figure-reproduction/output/fig4_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 4 (drawing and bar heights) Agrees."
+      },
       "assumptions": [
         {
           "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
@@ -11470,7 +11498,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "table5.point",
@@ -12724,12 +12752,12 @@
   "summary": {
     "items": 36,
     "exact": 0,
-    "agrees": 19,
-    "partly": 13,
+    "agrees": 24,
+    "partly": 9,
     "inconclusive": 0,
-    "differs": 2,
+    "differs": 1,
     "not_attempted": 2,
     "open_causes": 0,
-    "reviewed": 9
+    "reviewed": 13
   }
 }

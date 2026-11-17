@@ -34,12 +34,12 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-19 agrees, 13 partly, 2 differs, 2 not attempted; 0 open causes; 9 verdicts set by a reviewer.
+24 agrees, 9 partly, 1 differs, 2 not attempted; 0 open causes; 13 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Table 1, the parameter grid | not attempted | not attempted |
-| Table 2, relative bias of ESR_S and ESR_R (1000/1000 and 5000/5000) | differs | 78 of 80 fields as printed; computed partly, reviewer differs |
+| Table 2, relative bias of ESR_S and ESR_R (1000/1000 and 5000/5000) | agrees | 78 of 80 fields as printed; computed partly, reviewer agrees |
 | Table 3, coverage of the log CIs of ESR_S and ESR_R (1000/1000 and 5000/5000) | agrees | 77 of 80 fields as printed; computed partly, reviewer agrees |
 | Table 4, coverage of the binomial CI of ESR_R (four N1/N2, seven RRs) | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
 | Table S1, relative bias of ESR_S | partly | 111 of 112 fields as printed |
@@ -53,10 +53,10 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 | Fig. 2, expected length given coverage, Scenario 2 (drawn) | agrees | 75.00% within 2 px (pass 90.0%, best control 50.0%); computed partly, reviewer agrees |
 | Fig. 3, expected length given coverage, Scenario 3 (drawn) | agrees | 66.67% within 2 px (pass 90.0%, best control 58.3%); computed partly, reviewer agrees |
 | Fig. 4, expected length given coverage, Scenario 4 (drawn) | agrees | 54.55% within 2 px (pass 90.0%, best control 45.5%); computed partly, reviewer agrees |
-| Fig. 1, the 12 bar heights | partly | 10 of 12 fields as printed |
-| Fig. 2, the 12 bar heights | partly | 9 of 12 fields as printed |
-| Fig. 3, the 12 bar heights | partly | 9 of 12 fields as printed |
-| Fig. 4, the 11 bar heights (no ESR_S bar at RR 5.0: coverage 0) | partly | 8 of 11 fields as printed |
+| Fig. 1, the 12 bar heights | agrees | 10 of 12 fields as printed; computed partly, reviewer agrees |
+| Fig. 2, the 12 bar heights | agrees | 9 of 12 fields as printed; computed partly, reviewer agrees |
+| Fig. 3, the 12 bar heights | agrees | 9 of 12 fields as printed; computed partly, reviewer agrees |
+| Fig. 4, the 11 bar heights (no ESR_S bar at RR 5.0: coverage 0) | agrees | 8 of 11 fields as printed; computed partly, reviewer agrees |
 | Table 5, ESR_S and ESR_R of the case study from the printed inputs | agrees | 2 of 6 fields as printed; computed partly, reviewer agrees |
 | Table 5, log CI of ESR_R predicted from the other two CIs | agrees | 5 of 6 fields as printed; computed partly, reviewer agrees |
 | Abstract: largest relative bias 4.0% for ESR_R and 93.9% for ESR_S | agrees | 2 of 2 fields as printed |
