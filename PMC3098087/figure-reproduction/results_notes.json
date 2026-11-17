@@ -1,0 +1,979 @@
+{
+  "paper": {
+    "id": "PMC3098087",
+    "title": "Class prediction for high-dimensional class-imbalanced data",
+    "citation": "Blagus R, Lusa L. Class prediction for high-dimensional class-imbalanced data. BMC Bioinformatics 11:523 (2010)",
+    "doi": "10.1186/1471-2105-11-523",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-17",
+    "pipeline": "PMC3098087/figure-reproduction/main.nf",
+    "command": "nextflow run PMC3098087/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "PMC3098087.1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/PMC3098087.1.pdf",
+        "sha256": "5246f69cb9cea98e479f36cef93792d2fac20ee24ebdb99002d72e27082d1931"
+      },
+      {
+        "name": "1471-2105-11-523-1.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-1.jpg",
+        "sha256": "0715612eebf7eb9af7e18db9ad8c67eb45dd14961989e7d558dafe4f8ea942cf"
+      },
+      {
+        "name": "1471-2105-11-523-2.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-2.jpg",
+        "sha256": "841053709429c4a61ac53a3a4e16ad32d2f492c624a32b1b7a6ba4b861d0f685"
+      },
+      {
+        "name": "1471-2105-11-523-3.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-3.jpg",
+        "sha256": "f6cb3130ae332ad4e1d201564924e5ba1a951c1f7bcb5298ac7fcead476d16cc"
+      },
+      {
+        "name": "1471-2105-11-523-4.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-4.jpg",
+        "sha256": "a3074b844e59014e8bab0580cc15eb6fef566ba49c334e83fc1d6a7dd24e4a37"
+      },
+      {
+        "name": "1471-2105-11-523-5.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-5.jpg",
+        "sha256": "11c7f655e68aed639fc300912b5faf6aee69f2f628c36a1f82759e923005edad"
+      },
+      {
+        "name": "1471-2105-11-523-6.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-6.jpg",
+        "sha256": "05e15b6f5e44efe9949c343f48113463c4e039fca856fabf712f2c1078ab2723"
+      },
+      {
+        "name": "1471-2105-11-523-S1.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S1.PDF",
+        "sha256": "d102837073e81d3e948b8fb9d117d0c1742e7ed891ec4e64817f1b8f019f038b"
+      },
+      {
+        "name": "1471-2105-11-523-S2.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S2.PDF",
+        "sha256": "17fd4b3f9024a4b6aaaf010ed8c49e9a94e27422d53333c42c031cf4655e93c6"
+      },
+      {
+        "name": "1471-2105-11-523-S3.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S3.PDF",
+        "sha256": "0989bccc1e06dcaf854e366d7f6c6e3c91c1051bbe626bdccbb207b2b3449b29"
+      },
+      {
+        "name": "1471-2105-11-523-S4.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S4.PDF",
+        "sha256": "bae6ee470f0f46d07631c28937810d740399b53f53831e06eb8768b4a6d81d0c"
+      },
+      {
+        "name": "1471-2105-11-523-S5.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S5.PDF",
+        "sha256": "1938c867d04f7682c8406d856d0eac233f49d720c17132696fb330bd68ce09e9"
+      },
+      {
+        "name": "1471-2105-11-523-S6.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S6.PDF",
+        "sha256": "67b51985936cb63f772be1b0ac091f34e2cb90df951d9cee28e37cdb224bd160"
+      },
+      {
+        "name": "1471-2105-11-523-S7.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S7.PDF",
+        "sha256": "60aed0a80080bf399b8a8ca476c9a26a36a504d3bfca1de50cbdf533ab770b4d"
+      },
+      {
+        "name": "1471-2105-11-523-S8.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S8.PDF",
+        "sha256": "b0f9c29d5631b5dfb1d0786a830b3599ee9bac90649e2d4a093ec17fbf83135a"
+      },
+      {
+        "name": "1471-2105-11-523-S9.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S9.PDF",
+        "sha256": "fbb0ef3858fffdd979109d898d1bfa6413872bda7a4d0bc2f50ac945daa76503"
+      },
+      {
+        "name": "1471-2105-11-523-S10.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S10.PDF",
+        "sha256": "1ee06a296ebb3565b32c45ebfd856121c9b3ae75d12fa6b3abaf412215840315"
+      },
+      {
+        "name": "1471-2105-11-523-S11.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S11.PDF",
+        "sha256": "453ba4965aee14aae54460a5bff10b4a4a9eb3ce993a5cb496525843de6b753c"
+      },
+      {
+        "name": "1471-2105-11-523-S12.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S12.PDF",
+        "sha256": "a45eaae05b7dec437d5d3eb3510b630ed9d3a650ce17c11a952871529c5193c8"
+      },
+      {
+        "name": "1471-2105-11-523-S13.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S13.PDF",
+        "sha256": "9972a4b7ce020a81fdf18097249fd6f7cadbd97a1800d63eb8b04f87f05bd5d2"
+      },
+      {
+        "name": "1471-2105-11-523-S14.PDF",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3098087.1/1471-2105-11-523-S14.PDF",
+        "sha256": "a6e35040f4baa2b107167a569b003f5d8aaa80fe5990a4a9d9befb863a57b783"
+      },
+      {
+        "name": "Sotiriou-Breast-PNAS-2003-Project.zip",
+        "url": "https://brb.nci.nih.gov/data_archive/Sotiriou-Breast-PNAS-2003-Project.zip",
+        "sha256": "f94c0be17ee2306d153f1b4439e27b1f8fce97eba6f24f85fa9fad8f68514eef"
+      },
+      {
+        "name": "sma_0.5.15.tar.gz",
+        "url": "https://cran.r-project.org/src/contrib/Archive/sma/sma_0.5.15.tar.gz",
+        "sha256": "bf4a54c1b4ad27978d71eaf0a2589eda3288ab64c27f7066962a8acadcc4934c"
+      }
+    ]
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "assumption_sets": {
+    "simulation": [
+      {
+        "what": "Each simulated data set is a training set of 80 and separate test sets drawn from the same distributions, with round(80 k1train) Class 1 samples; the paper splits 100 samples into 80 and 20.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Random seeds: one per setting and replicate (from the setting's name); the paper's seeds are not given.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Replicates: 1,000 per setting as in the paper, except 500 for the settings of Fig. 4 and Additional file 7, of Fig. 3's right panels, of p = 10,000 and of MultDS (compute budget); the tolerance uses our replicate count.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Ties: DLDA and DQDA give ties to Class 1 (as sma::stat.diag.da); k-NN breaks ties at random (class::knn); PLR breaks ties at 0.5 at random (as stated).",
+        "source": "our_choice"
+      },
+      {
+        "what": "RF: randomForest defaults (500 trees, mtry = sqrt(p)) with classwt = the training class proportions, as stated; RF-THR classifies as Class 1 when the vote share exceeds k1train.",
+        "source": "paper"
+      },
+      {
+        "what": "SVM: e1071::svm, linear kernel, scale = FALSE, class.weights = the training class proportions (as stated) and the default cost 1 (not stated).",
+        "source": "our_choice"
+      },
+      {
+        "what": "PAM: pamr.train with its default 30 thresholds; the largest threshold with the smallest training error (as stated).",
+        "source": "paper"
+      },
+      {
+        "what": "PLR: stepPlr::plr with lambda = 1 (as stated), Class 1 coded 1.",
+        "source": "paper"
+      },
+      {
+        "what": "AUC scores: share of neighbour votes (k-NN), difference of the two discriminants (DLDA, DQDA), vote share (RF), decision value (SVM), posterior (PAM), fitted probability (PLR). The paper says only that Hmisc was used.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Means over replicates keep NA when a replicate has none (PV1 when PA1 = 0 and PA2 = 1), as the paper's tables show NA; figures use the mean over the replicates where the value exists.",
+        "source": "our_choice"
+      }
+    ],
+    "corrections": [
+      {
+        "what": "Over-sampling draws the max(n1, n2) - min(n1, n2) replicated minority samples with replacement; down-sizing keeps min(n1, n2) majority samples drawn without replacement.",
+        "source": "our_choice"
+      },
+      {
+        "what": "MultDS: 101 down-sized sets, t-test selection of 40 variables inside each, majority vote (as stated). At k1train = 0.5 no sample is left out, so all 101 classifiers are the same.",
+        "source": "paper"
+      },
+      {
+        "what": "Variable centering is applied to the training set the classifier is fitted on (after over- or down-sizing, inside each MultDS set) and to the test set separately.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Predictive values use the original training proportion (k1train), also after a correction.",
+        "source": "our_choice"
+      }
+    ],
+    "er": [
+      {
+        "what": "Data: the BRB-ArrayTools project of Sotiriou et al. (2003) in the NCI BRB data archive; its RawData, ProcessedLog and FilteredAndNormalizedLog arrays are identical (median-centred log ratios); missing values set to 0, as stated.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Each of the 500 draws per design takes the training samples and 20 test samples per class without replacement from the ER+ and ER- tumours; class 1 is ER+; predictive values use the training proportion of ER+.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Fig. 6 and Additional file 12 draw the designs at their ER+ share (50, 66.7, 80, 85.7, 90% with 5 ER-; 50, 66.7, 75, 81.8% with 10 ER-); each plotted point is matched to the nearest design.",
+        "source": "read_from_figure",
+        "sensitivity": "The nearest design is at least 4 points of ER+ share away from the next; a wrong match would put a point 5 or more points off in x."
+      }
+    ],
+    "figure_values": [
+      {
+        "what": "Published values are read from the vector figures: the paper's markers and the supplements' polyline vertices, mapped through each panel's tick marks (largest tick-fit residual below 0.0002 in y); points within 0.0005 of ours count as equal for reading error.",
+        "source": "our_choice"
+      },
+      {
+        "what": "Monte Carlo tolerance: |ours - paper| <= printed + z sqrt(se_ours^2 + se_paper^2), se = SD / sqrt(replicates), with the paper's SD where printed and ours otherwise, the paper's 1,000 (500 for the breast cancer data) replicates, and z the Bonferroni value for a 5% chance of any false miss in the item.",
+        "source": "our_choice"
+      }
+    ],
+    "mu_grid": [
+      {
+        "what": "The mu2 grid of Fig. 4 is 0, 0.1, ..., 2.0 and 3, read from the figure's markers; Methods gives 0.1, 0.2, ..., 1.9, 2, 3 and Results 0, 0.25, ..., 2, 2.5, 3.",
+        "source": "read_from_figure",
+        "sensitivity": "All 22 plotted x positions fall within 0.0002 of this grid; neither printed grid fits them (0.25 steps would put 13 of the 22 points off the grid)."
+      }
+    ],
+    "pi": [
+      {
+        "what": "Prediction-interval ends are our 2.5th and 97.5th percentiles over replicates (R's quantile type 7); with a 20-sample test set they move in steps of 0.05, and they count as equal within one step.",
+        "source": "our_choice"
+      }
+    ],
+    "claims": [
+      {
+        "what": "Words such as 'about' are read as within 0.05; each claim's reading is stated in its fields and recomputed from the paper's own values first (text.arithmetic).",
+        "source": "our_choice"
+      }
+    ]
+  },
+  "causes": {},
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1: null case, p = 40, no selection; PA, PA1, PA2 against k1train (nine classifiers)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig1",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2: null case, G = 40 of p = 40, 1000, 10000; PA1 (nine classifiers)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig2",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3: alternative case, pDE = 20 or p, G = 40; PA1 (1-NN, DLDA, PLR)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig3",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "cause_from": "mc"
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4: overall PA against mu2, k1train 0.5-0.9, centred samples or variables (1-NN, DLDA, PLR)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig4",
+      "assumptions_from": [
+        "simulation",
+        "figure_values",
+        "mu_grid"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "cause_from": "mc"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5: no correction, over-sampling, down-sizing, MultDS; PA, PA1, PA2 (3-NN, DLDA, PLR)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig5",
+      "assumptions_from": [
+        "simulation",
+        "figure_values",
+        "corrections"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5_ours.png",
+        "figure-reproduction/output/fig5_overlay.png"
+      ],
+      "cause_from": "mc"
+    },
+    {
+      "id": "fig6",
+      "label": "Fig. 6: ER status, class-specific PA, no correction and MultDS (3-NN, DLDA, PLR), means",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig6",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig6_ours.png",
+        "figure-reproduction/output/fig6_overlay.png"
+      ],
+      "cause_from": "er"
+    },
+    {
+      "id": "fig6.pi",
+      "label": "Fig. 6: 95% prediction intervals of the class-specific PA",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:fig6.pi",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "figure_values",
+        "pi"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig6_ours.png",
+        "figure-reproduction/output/fig6_overlay.png"
+      ],
+      "cause_from": "er_pi"
+    },
+    {
+      "id": "af1",
+      "label": "Additional file 1: null case, p = 40, balanced test sets of 20 and 500; PA, PA1, PA2, PV1, PV2, AUC",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af1",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "exceptions_rule": "af1_plr_columns",
+      "cause_from": "af1"
+    },
+    {
+      "id": "af2",
+      "label": "Additional file 2: eight variable-selection methods under the null and alternative",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The paper does not give the settings of the eight selection methods (SAM, WSS and the others), and the figure's panels are not labelled with them in a way we could match to settings; not attempted.",
+        "evidence": [
+          "Methods: 'We observed this behavior not only for t-test with equal variances but also for other commonly used parametric and non-parametric variable selection methods (Additional File 2)'; no settings are given."
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "af3",
+      "label": "Additional file 3: alternative case, p = 1000, pDE = 20, mu2 = 1, test sets of 20 and 500; all measures",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af3",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "af4",
+      "label": "Additional file 4: Fig. 3 left for all nine classifiers",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af4",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af4_ours.png",
+        "figure-reproduction/output/af4_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "af5",
+      "label": "Additional file 5: Fig. 3 right (pDE = p) for all nine classifiers",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af5",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af5_ours.png",
+        "figure-reproduction/output/af5_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "af6",
+      "label": "Additional file 6: alternative case without variable selection (G = p = 1000), nine classifiers",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Placeholder",
+        "evidence": [],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "af7",
+      "label": "Additional file 7: Fig. 4 for all nine classifiers",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af7",
+      "assumptions_from": [
+        "simulation",
+        "figure_values",
+        "mu_grid"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af7_ours.png",
+        "figure-reproduction/output/af7_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "af8",
+      "label": "Additional file 8: Fig. 5 for all nine classifiers (MultDS for six)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af8",
+      "assumptions_from": [
+        "simulation",
+        "figure_values",
+        "corrections"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af8_ours.png",
+        "figure-reproduction/output/af8_overlay.png"
+      ],
+      "cause_from": "svm"
+    },
+    {
+      "id": "af9",
+      "label": "Additional file 9: over-sampling with centred variables",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Placeholder",
+        "evidence": [],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "af10",
+      "label": "Additional file 10: 95% prediction intervals of the overall PA, four corrections (3-NN, DLDA, RF, PLR)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af10",
+      "assumptions_from": [
+        "simulation",
+        "figure_values",
+        "corrections",
+        "pi"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af10_ours.png",
+        "figure-reproduction/output/af10_overlay.png"
+      ],
+      "cause_from": "af10",
+      "cause_always": true
+    },
+    {
+      "id": "af11",
+      "label": "Additional file 11: RF-THR and PLR-THR; PA, PA1, PA2",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af11",
+      "assumptions_from": [
+        "simulation",
+        "figure_values"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af11_ours.png",
+        "figure-reproduction/output/af11_overlay.png"
+      ],
+      "cause_from": "mc"
+    },
+    {
+      "id": "af12",
+      "label": "Additional file 12: Fig. 6 for all nine classifiers, 95% prediction intervals",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af12",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "figure_values",
+        "pi"
+      ],
+      "outputs": [
+        "figure-reproduction/output/af12_ours.png",
+        "figure-reproduction/output/af12_overlay.png"
+      ],
+      "cause_from": "er_pi"
+    },
+    {
+      "id": "af13",
+      "label": "Additional file 13: ER status, no correction; all measures, nine classifiers",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af13",
+      "assumptions_from": [
+        "er",
+        "figure_values"
+      ],
+      "cause_from": "er"
+    },
+    {
+      "id": "af14",
+      "label": "Additional file 14: ER status, MultDS; all measures, nine classifiers",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "comparison:af14",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "figure_values"
+      ],
+      "cause_from": "er"
+    },
+    {
+      "id": "text.null_balanced",
+      "label": "Text: null case, PA = 0.5 and AUC = 0.5 with balanced test sets",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.null_balanced",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.fig2_1nn",
+      "label": "Text: 1-NN, k1train 0.1, G = 40: PA1 0.02 / 0.00, PA2 0.98 / 1.00 (p = 1000 / 10000)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.fig2_1nn",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.selection_bias",
+      "label": "Text: variable selection biases most classifiers further towards the majority class",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.selection_bias",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.most_sensitive_null",
+      "label": "Text: RF, SVM and PAM most sensitive to imbalance without selection",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.most_sensitive_null",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.dlda_least_sensitive",
+      "label": "Text: DLDA shows the smallest decrease in minority-class PA",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.dlda_least_sensitive",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.fig4_balanced",
+      "label": "Text: balanced training set, PA reaches 1 at mu2 between 1 and 1.5",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.fig4_balanced",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.fig4_imbalanced",
+      "label": "Text: highly imbalanced training set needs mu2 >= 2",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.fig4_imbalanced",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.fig4_selection",
+      "label": "Text: all non-null variables selected in almost all runs when mu2 >= 1.5",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.fig4_selection",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.variable_centering",
+      "label": "Text: centring the variables worsens PA on imbalanced data",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.variable_centering",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.oversampling",
+      "label": "Text: over-sampling changes little; only 3-NN and 5-NN benefit, 1-NN not at all",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.oversampling",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.downsizing",
+      "label": "Text: down-sizing at k1train 0.1 gives PA about 0.70 in both classes; full data PA1 = 0",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.downsizing",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.pam_downsizing",
+      "label": "Text: PAM, k1train 0.2, PA1 0.5 to 0.8 with down-sizing",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.pam_downsizing",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.downsizing_pi",
+      "label": "Text: down-sizing prediction intervals 0.8-1.0 (k1train 0.5) and 0.50-0.90 (0.10)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.downsizing_pi",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "pi",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.multds_flat",
+      "label": "Text: MultDS PA flat for k1train 0.20-0.80",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.multds_flat",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.multds_k01",
+      "label": "Text: MultDS at k1train 0.1, PA about 0.85, interval 0.7-1.0",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.multds_k01",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "pi",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.multds_vs_down",
+      "label": "Text: MultDS consistently better than down-sizing",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.multds_vs_down",
+      "assumptions_from": [
+        "simulation",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.thr_null",
+      "label": "Text: RF-THR and PLR-THR reduce but do not remove the dependence on imbalance (null case)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.thr_null",
+      "assumptions_from": [
+        "simulation",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.data_counts",
+      "label": "Text: 99 tumours, 7650 probes, ER- 34 / ER+ 65, grade 54 / 45",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "from": "claims:text.data_counts",
+      "assumptions_from": [
+        "er"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.er_20_5",
+      "label": "Text: ER, 20 ER+ / 5 ER-: PA ER+ > 0.90, PA ER- 0.2-0.6, PV and AUC ranges",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.er_20_5",
+      "assumptions_from": [
+        "er",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.er_downsizing",
+      "label": "Text: ER down-sizing, class-specific PA about 0.75 (5 per class) and 0.85 (10 per class)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.er_downsizing",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.er_oversampling",
+      "label": "Text: ER over-sampling, gap of 0.22 between class-specific PA (DQDA, 20 ER+ / 10 ER-)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.er_oversampling",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.er_multds_pi",
+      "label": "Text: ER, MultDS lower interval limits above 0.60 for most classifiers; down-sized intervals include 0.50",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.er_multds_pi",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "pi",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.pam_multds",
+      "label": "Text: ER, PAM benefits the most from MultDS",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.pam_multds",
+      "assumptions_from": [
+        "er",
+        "corrections",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.er_variable_centering",
+      "label": "Text: ER, centring the variables increases the bias",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "from": "claims:text.er_variable_centering",
+      "assumptions_from": [
+        "er",
+        "claims"
+      ],
+      "exceptions_rule": "arithmetic"
+    },
+    {
+      "id": "text.grade",
+      "label": "Text: grade 1-2 against 3: overall PA about 0.60 and 0.70, minority PA 0.10-0.20",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The training and test sizes of the grade problem are not stated and its results are 'data not shown'; not attempted.",
+        "evidence": [
+          "Results: 'Grade of breast cancer was more difficult to predict than ER status (overall PA about 0.60 using the small balanced training set and about 0.70 when using the larger training set, data not shown)'."
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "methods.equations",
+      "label": "Equations 1-6: classification rules and measures",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Definitions, not results: they are implemented in multds (dlda, dqda, evaluate, predictive_values) and checked by the port check and the package tests.",
+        "evidence": [
+          "package/R/classifiers.R",
+          "package/R/metrics.R"
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims in the text recomputed from the paper's own figures and tables",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "from": "arithmetic"
+    },
+    {
+      "id": "port",
+      "label": "DLDA and DQDA against sma::stat.diag.da (the code the paper used); AUC against Hmisc",
+      "kind": "code_check",
+      "source": "port",
+      "method": "check",
+      "from": "port"
+    },
+    {
+      "id": "package",
+      "label": "R package multds and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "from": "package",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {}
+}

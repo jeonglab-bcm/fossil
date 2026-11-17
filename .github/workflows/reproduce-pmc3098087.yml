@@ -1,0 +1,82 @@
+name: Reproduce PMC3098087
+
+# Reruns the PMC3098087 pipeline (Blagus and Lusa 2010, class prediction for high-dimensional
+# class-imbalanced data) and checks it: the paper, its supplements, the Sotiriou breast cancer data
+# and sma 0.5.15 are downloaded and their SHA-256 checked; the published values are read again from
+# the vector figures and the supplement tables; DLDA and DQDA are checked against sma::stat.diag.da;
+# the first 3 replicates of every simulation setting and breast cancer design are rerun from their
+# seeds and must equal the committed ones; the SVM hypothesis grid is rerun; every comparison, figure, claim and the results page are
+# rebuilt from the committed summary of all replicates and must equal the committed outputs; and the
+# R package multds is built, checked and its tutorial rendered. About 15 minutes.
+# Started by hand with "full", it reruns every replicate (about 4 hours on 4 cores; over the
+# 6-hour job limit on a standard runner it may not finish).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Rerun every replicate (about 4 hours)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC3098087/figure-reproduction/**"
+      - "PMC3098087/package/**"
+      - "PMC3098087/results.json"
+      - "site/PMC3098087/**"
+      - ".github/workflows/reproduce-pmc3098087.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3098087/figure-reproduction/**"
+      - "PMC3098087/package/**"
+      - "PMC3098087/results.json"
+      - "site/PMC3098087/**"
+      - ".github/workflows/reproduce-pmc3098087.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 350 || 40 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install R and the R packages
+        run: bash PMC3098087/figure-reproduction/pipeline/install_r_deps.sh
+
+      - name: Install the package multds
+        run: sudo R CMD INSTALL PMC3098087/package
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC3098087/figure-reproduction/requirements.txt
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3098087/figure-reproduction/main.nf --outdir results -ansi-log false ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3098087-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
