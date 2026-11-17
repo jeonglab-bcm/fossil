@@ -34,17 +34,17 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC2661051/pa
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-19 exact, 7 agrees, 9 partly, 6 differs, 5 not attempted; 11 open causes.
+19 exact, 7 agrees, 8 partly, 8 differs, 4 not attempted; 11 open causes; 4 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Table 1, methods in the literature | not attempted | not attempted |
 | Fig. 1, the five modules | not attempted | not attempted |
 | Text: 3 x 5 x 6 x 3 - 9 = 261 variants | exact | 1 of 1 fields as printed |
-| Table 2, gene-level statistic x transformation (mean, resampling) | agrees | 135 of 135 fields as printed |
+| Table 2, gene-level statistic x transformation (mean, resampling) | partly | 135 of 135 fields as printed; computed agrees, reviewer partly |
 | Table 3, gene set statistics (squared mod.t, resampling) | partly | 51 of 54 fields as printed |
 | Table 4, significance assessment (mean of squared mod.t) | exact | 36 of 36 fields as printed |
-| Table 5, globaltest | partly | 35 of 36 fields as printed |
+| Table 5, globaltest | agrees | 35 of 36 fields as printed; computed partly, reviewer agrees |
 | Table 6, Hotelling T2 with a shrinkage correlation | partly | 25 of 27 fields as printed |
 | Text check: Tables 2, 3 and 4 print the same squared mod.t / mean / resampling cell | exact | 9 of 9 fields as printed |
 | Text: untransformed statistics miss sets 6 to 9 | exact | 1 of 1 fields as printed |
@@ -72,8 +72,8 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC2661051/pa
 | Fig. 3 bottom, mean absolute pairwise correlation | partly | 11 of 40 fields as printed |
 | Text: correlations within p53 sets are comparatively weak | agrees | 1 of 1 fields as printed |
 | Text: Hedenfalk data, 7 BRCA1 and 8 BRCA2, 2,200 mapped genes, 89 sets | partly | 3 of 5 fields as printed |
-| Fig. 4 left, significant Hedenfalk sets against the cutoff | not attempted | not attempted |
-| Fig. 4 right, Hedenfalk sets with p <= 0.01 | partly | 1 of 16 fields as printed |
+| Fig. 4 left, significant Hedenfalk sets against the cutoff | differs | not attempted; computed not attempted, reviewer differs |
+| Fig. 4 right, Hedenfalk sets with p <= 0.01 | differs | 1 of 16 fields as printed; computed partly, reviewer differs |
 | Text: Hedenfalk, resampling finds very few sets | differs | 0 of 1 fields as printed |
 | Text: Hedenfalk, Hotelling, mean, maxmean and globaltest find the most sets | exact | 1 of 1 fields as printed |
 | Text: Hedenfalk, cond. FDR is conservative | exact | 1 of 1 fields as printed |
@@ -90,7 +90,7 @@ For a simulated detection rate, "exact" means within its Monte Carlo band: a 99%
 of 100 data sets, fixed before the comparison. Neither the seeds nor the code survive, so no rate can
 come back to the digit.
 
-The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 2, 4 and 5 come back and Tables 3 and 6 partly. Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).
+The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 4 and 5 come back, and Tables 2, 3 and 6 partly (Table 2 has every rate in the Monte Carlo band; the reviewer set it to partly for the chosen binary cutoff). Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).
 
 ## Kept local, not in the repository
 

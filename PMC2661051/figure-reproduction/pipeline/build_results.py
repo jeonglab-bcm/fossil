@@ -45,7 +45,7 @@ for n in notes["items"]:
     assumptions = [shared[r] for r in n.get("assumptions_ref", [])] + n.get("assumptions", [])
     if assumptions:
         it["assumptions"] = assumptions
-    for k in ("cause", "note"):
+    for k in ("review", "cause", "note"):
         if k in n:
             it[k] = n[k]
     outs = n.get("outputs") or c.get("outputs")

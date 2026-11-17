@@ -126,12 +126,14 @@ process VARIANTS {
     cpus params.cpus
     input:
     path downloads
+    path data
     path rlib
     output:
     path 'variants.json'
     script:
     if (params.full)
         """
+        cp ${data}/p53.rds p53_for_variants.rds
         R_LIBS=rlib ${params.rscript} ${params.pipe}/variants.R ${downloads} variants.json ${task.cpus}
         """
     else
@@ -261,7 +263,7 @@ workflow {
     rc = RERUN_CHECK(sim, real)
     figs = FIGURES(prep.data, rc.real, lib)
     pv = READ_PUBLISHED()
-    va = VARIANTS(dl, lib)
+    va = VARIANTS(dl, prep.data, lib)
     cmp = COMPARE(rc.sim, rc.real, prep[1], figs.collect(), pv, va)
     pk = PACKAGE()
     res = RESULTS(cmp.comparison, pk, lib)

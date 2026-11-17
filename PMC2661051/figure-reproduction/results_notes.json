@@ -147,7 +147,30 @@
     "one_sided",
     "binary",
     "lfdr"
-   ]
+   ],
+   "review": {
+    "verdict": "partly",
+    "computed": "agrees",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/89#pullrequestreview-5945209320",
+    "note": "Review card \"Table 2\": Partly. 135 of 135 rates lie in the Monte Carlo band, but the binary cutoff was chosen after seeing the paper's rates; the reviewer gave no further reason on the card."
+   },
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "Every rate lies in the 99% Monte Carlo band (135 of 135), but two settings are not in the paper: the binary transformation's cutoff (two-sided p <= 0.05, chosen because a local fdr <= 0.2 rule called almost no gene) and the local fdr null. The reviewer set the verdict to partly.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The paper's binary rule is local fdr <= 0.2",
+      "test": "Variant binary_lfdr02 over the same 100 data sets",
+      "result": "rejected",
+      "detail": "Rates fall far below the paper's (set 1, mod.t: 0.13 against 0.61)."
+     }
+    ]
+   }
   },
   {
    "id": "table3",
@@ -237,6 +260,13 @@
       "detail": "Permutation, which is exact, also gives 0.12 on our 100 data sets and 0.045 on the 400."
      }
     ]
+   },
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/89#pullrequestreview-5945209320",
+    "note": "Review card \"Table 5\": Agrees. The one rate outside the band (set 3, parametric) is 0.050 on 400 more data sets."
    }
   },
   {
@@ -532,22 +562,35 @@
    "cause": {
     "category": "undocumented_setting",
     "status": "open",
-    "summary": "9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35 (our cond. FDR is not the paper's, as in Table 3); Wilcoxon, median and the mean by permutation differ by 3 to 5 sets.",
+    "summary": "9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35. On p53, fdrtool sets the local fdr of every gene to 1 (no gene below 0.2), so our cond. FDR keeps only its membership-probability part and loses power; in the simulation the fdr is informative and the same statistic lands close (Table 3). Wilcoxon, median and the mean by permutation differ by 3 to 5 sets.",
     "evidence": [
-     "figure-reproduction/output/tables.json"
+     "figure-reproduction/output/tables.json",
+     "figure-reproduction/output/variants.json"
     ],
     "hypotheses": [
      {
       "hypothesis": "Cond. FDR is the logistic slope",
-      "test": "Reasoning from the simulation: under resampling the slope gives exactly the mean's p-values (Table 3, variant condslope); not run on p53",
+      "test": "Reasoning from the simulation: under resampling the slope gives exactly the mean's p-values (Table 3, variant condslope)",
       "result": "rejected",
-      "detail": "The paper's p53 cond. FDR (38 sets) is far from its mean (25), so it is not the slope either."
+      "detail": "The paper's p53 cond. FDR (38 sets) is far from its mean (25)."
      },
      {
-      "hypothesis": "Cond. FDR is the mean of 1 - fdr_S",
-      "test": "Our run",
+      "hypothesis": "Our cond. FDR is weak on p53 because the gene-level fdr is uninformative there",
+      "test": "variants.json p53_condfdr: fdrtool on the p53 moderated t",
+      "result": "supported",
+      "detail": "0 genes have local fdr below 0.2 and the median is 1, so 1 - fdr_S depends only on the fitted membership probability; with 200 random sets ours finds 12 sets at 0.01 against 26 for the mean."
+     },
+     {
+      "hypothesis": "The paper's statistic is the mean fitted membership probability pi_S",
+      "test": "variants.json p53_condfdr pi_mean, 200 random sets",
       "result": "rejected",
-      "detail": "10 and 7 sets against 38 and 35."
+      "detail": "26 sets at 0.01 against the paper's 38."
+     },
+     {
+      "hypothesis": "The paper's statistic is the mean gain fdr - fdr_S",
+      "test": "variants.json p53_condfdr gain",
+      "result": "rejected",
+      "detail": "12 sets, equal to ours since every fdr is 1."
      },
      {
       "hypothesis": "The p53 preprocessing differs",
@@ -769,6 +812,13 @@
       "detail": "Neighbouring curves are within a few pixels; no score was kept."
      }
     ]
+   },
+   "review": {
+    "verdict": "differs",
+    "computed": "not_attempted",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/89#pullrequestreview-5945209320",
+    "note": "Review card \"Fig. 4\" (both panels): Differs."
    }
   },
   {
@@ -804,6 +854,13 @@
       "detail": "61 by permutation, 4 by resampling."
      }
     ]
+   },
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/89#pullrequestreview-5945209320",
+    "note": "Review card \"Fig. 4\" (both panels): Differs. 1 of 16 bars equal; counts higher for 14."
    }
   },
   {
@@ -1010,7 +1067,7 @@
   "tables_caption": "Each rate is the share of 100 simulated data sets in which a set was significant at p <= 0.05. Neither the paper's seeds nor its code survive, so a rate matches when it lies in the 99% band for two shares of 100.",
   "tables_note": "Table 2, Table 4 and Table 5 came back within Monte Carlo error but for one rate, Table 5's set 3 parametric, which is 0.050 on 400 more data sets. Our cond. FDR misses sets 8 and 9 of Table 3, and our Hotelling finds the correlated set 1 more often than the paper's.",
   "items_caption": "Every figure, table and claim of the paper, with its verdict from results.json. Exact for a simulated rate means within its Monte Carlo band.",
-  "claims_line": "The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 2, 4 and 5 come back and Tables 3 and 6 partly. Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).",
+  "claims_line": "The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 4 and 5 come back, and Tables 2, 3 and 6 partly (Table 2 has every rate in the Monte Carlo band; the reviewer set it to partly for the chosen binary cutoff). Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).",
   "came_back": [
    [
     "The modules",
@@ -1061,5 +1118,5 @@
   "closing": "Ackermann and Strimmer's modules came back as an R package."
  },
  "status_note": "every module rebuilt as the R package `gseamod`; Tables 2, 4 and 5 within Monte Carlo error (206 of 207 rates) and Tables 3 and 6 at 51 of 54 and 25 of 27; p53 preprocessing exact (8,768 genes, 290 sets) and Fig. 2 within one set for Hotelling, globaltest, ES and maxmean; our cond. FDR is not the paper's; Hedenfalk pattern back, counts higher",
- "site_note": "The main claims hold; Tables 2, 4 and 5 come back"
+ "site_note": "The main claims hold; Tables 4 and 5 come back"
 }
