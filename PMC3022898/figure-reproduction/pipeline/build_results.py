@@ -105,7 +105,7 @@ def arithmetic(claims):
     detail = (f"{len(back)} of {len(back) + len(missed)} statements follow from the paper's own tables and figures. "
               f"Not: " + "; ".join(missed) + ". "
               f"Tables 2-4 restate Tables S1, S2, S5-S7 in every cell but {len(inc)}: "
-              + "; ".join(f"{i['table']} {i['cell']} {i['value']} against {i['supplement']} {i['supplement_value']}" for i in inc))
+              + "; ".join(f"{i['table']} {i['cell'].replace('|', ', ')}: {i['value']} against {i['supplement']} {i['supplement_value']}" for i in inc))
     return True, detail
 
 
