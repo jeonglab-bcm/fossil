@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-16T17:43:21+00:00 / 2026-11-17T01:15:45+00:00 |
-| Wall clock | 452.4 min |
+| Started / ended (UTC) | 2026-11-16T17:43:21+00:00 / 2026-11-17T01:34:50+00:00 |
+| Wall clock | 471.5 min |
 | Models | claude-opus-5-5 |
-| Human prompts | 9 (0 sent mid-turn) |
-| Assistant responses (API calls) | 236 + 18 in subagents |
-| Tool calls | 244 + 18 in subagents |
-| Tokens: input / cache write / cache read / output | 494 / 5,330,720 / 83,248,013 / 296,918 |
-| Tokens: total (incl. subagents) | 88,876,145 |
+| Human prompts | 11 (0 sent mid-turn) |
+| Assistant responses (API calls) | 269 + 18 in subagents |
+| Tool calls | 274 + 18 in subagents |
+| Tokens: input / cache write / cache read / output | 559 / 6,509,047 / 102,393,486 / 312,181 |
+| Tokens: total (incl. subagents) | 109,215,273 |
 
 ## Conversation
 
@@ -969,3 +969,190 @@ Now the session ledger.
 - `Bash` Find the session transcript
 
 - `Bash` Write the session ledger
+
+### Claude · 2026-11-17 01:15:48
+
+Checking the conversation record for anything private before committing it.
+
+- `Bash` Scan conversation record for private data
+
+### Claude · 2026-11-17 01:15:51
+
+Nothing private in it. Committing, pushing and opening the pull request.
+
+- `Bash` Check results with files, commit and push
+
+- `Bash` Open the pull request
+
+### Claude · 2026-11-17 01:16:14
+
+The unquoted heredoc mangled the backticks. Redoing it with a quoted script, and creating the PR through the REST API.
+
+- `Bash` Build PR body and open the pull request
+
+- `mcp__claude-code-remote__subscribe_pr_activity` 
+
+- `Bash` List CI checks on the PR head
+
+- `Bash` List CI checks on the PR head
+
+### Claude · 2026-11-17 01:16:36
+
+CI is running. Meanwhile, posting the self-review on the PR, as the skill asks.
+
+- `Bash` Post the self-review comment
+
+### Claude · 2026-11-17 01:16:48
+
+The self-review is posted. I'll check the CI result when it reports in.
+
+- `Bash` Wait for CI checks to finish
+
+### Claude · 2026-11-17 01:17:03
+
+The pull request is open: [jeonglab-bcm/fossil#87](https://github.com/jeonglab-bcm/fossil/pull/87). It closes issue #66. CI is still running, so the CI step of the definition of done isn't met yet, and the final ledger push waits until CI is green.
+
+The paper released no simulation code, so I rebuilt it from the text as an R package, `misscox`, and reran it. The paper used 1,000 replicates per mechanism; I ran 200 for MAR and MNAR and 100 for MCAR and the combined mechanism, plus 20,000 true-value cohorts. That took about 24 CPU hours. The article PDF has the figures as vector drawings, so I read every plotted point out of them and compared each with our run, within Monte Carlo error.
+
+Of 29 results, 4 are exact, 7 agree, 15 partly agree, 1 differs and 2 were not attempted (Tables 2 and 4 are design inputs).
+
+**What came back exactly or nearly:**
+- Table 1, the skewness and correlation values in the text, and all nine Cox coefficients match at the printed digit. All 82 readable bars of Fig. 1 match.
+- All 15 odds ratios in Table 3 match once the missingness shares are counted as whole cases of 1,000, rounded half up.
+- The main claim holds, 6 of 6 fields. Without transformation, MICE-PMM is the least biased imputation method under MAR, and stays within 10% bias at 25% missingness. At 50% it is more than 0.5 SE off under MAR, MCAR and the combined mechanism. Under MNAR every imputation method is off for X3 from 25%.
+
+**Points within Monte Carlo error, by figure:**
+
+| Figure | What it shows | Points matching |
+| --- | --- | --- |
+| Fig. 2 | Coefficient estimates | 301 of 333 |
+| Fig. 3 | Standard errors | 164 of 333 |
+| Fig. 4 | Coverage | 322 of 333 |
+| Fig. 5 | p-values | 295 of 333 |
+| Fig. 6 | Model performance | 125 of 148 |
+| Fig. 7 | Estimates, MAR vs MNAR | 119 of 140 |
+| Fig. 8 | Coverage, MAR vs MNAR | 94 of 105 |
+
+**The gaps:**
+- **Generated covariates differ from the paper's.** Cutting the binary covariates at 0.5, as the text says, weakens their correlations. That makes the SEs of age and menopausal status about 14% smaller than the paper's, which drives the Fig. 3 and Fig. 5 misses. Keeping the correlations instead overshoots the paper's SEs.
+- **The pooled likelihood-ratio p-values after imputation (Fig. 6a) don't come back.** The paper's reach 0.0046; ours stay below 3 × 10⁻⁶. None of the four pooling rules I tried gives the paper's values.
+- **Some X3 and X4 estimates are further from the truth than the paper's.** This holds under MNAR for X4 with every method and X3 with MICE. I couldn't test whether the 2004–2005 package versions explain it: mice 1.13.1 is gone and the others don't build on today's R.
+- **Censoring differs.** The paper's stated hazards give 36.4% censored; the text says about 35%.
+
+**Where the paper contradicts itself:** the text disagrees with its own figures in 18 of 77 claim fields. In the 12 where our run sides with the figures, the field is recorded as a paper error. For example, by Fig. 2 MICE-PMM without transformation passes 10% bias for X2 and X3 at 75% missingness, not 50% as the text says. Separately, in Fig. 6b the SI line is drawn in MICE-PMM's colour and carries MICE-PMM's values.
+
+**Checks so far:**
+- A run of the CI command from a fresh clone took 13 minutes and matched every committed output.
+- Rerunning MAR and MNAR replicate 1 and 200 true-value cohorts from scratch gave identical results.
+- R CMD check passes with 19 tests.
+- I had an independent reviewer check every sentence of the write-up against the data. It found 8 wording errors and no wrong verdicts; all 8 are fixed.
+
+The container restarted once mid-run. 8 unfinished chunks of the combined mechanism were rerun and no results were lost.
+
+- `Bash` Check branch tracking and remote state
+
+### Claude · 2026-11-17 01:17:10
+
+The remote branch already has the latest commit (5cc2981); only the local upstream link was missing. Setting it.
+
+- `Bash` Restore upstream tracking
+
+- `Bash` Push with upstream tracking
+
+### Claude · 2026-11-17 01:17:19
+
+Nothing was actually unpushed. GitHub already had the latest commit (5cc2981); the local branch had just lost its link to the remote copy, which made the hook report four unpushed commits. I've restored that link, and the branch now matches the remote.
+
+CI on [jeonglab-bcm/fossil#87](https://github.com/jeonglab-bcm/fossil/pull/87) is still running. Once it's green I'll push the final session ledger.
+
+### User · 2026-11-17 01:17:20
+
+<task-notification>
+<task-type>queued-remote-notifications</task-type>
+<status>pending</status>
+<summary>3 unread notifications (GitHub activity on a subscribed PR: 3)</summary>
+Notifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.
+</task-notification>
+
+- `ReadNotifications` 
+
+### Claude · 2026-11-17 01:17:23
+
+The results-check job failed. Reading its log.
+
+- `Bash` Read the failing check's log
+
+- `Bash` Show the check step and comment step output
+
+- `Bash` Locate the failing step in the log
+
+### Claude · 2026-11-17 01:17:37
+
+The values check itself passed. The step that failed is the one that posts the PR comment, which GitHub rejected with HTTP 422. Checking whether that's the comment length.
+
+- `Bash` Inspect PR comment tool and other papers' sizes
+
+- `Bash` Read how the comment body is built
+
+- `Bash` Shrink results-check file; measure comment size
+
+### Claude · 2026-11-17 01:18:02
+
+The dry run printed nothing; checking why.
+
+- `Bash` Show the dry-run error
+
+- `Bash` Rerun the comment dry run with scipy
+
+### Claude · 2026-11-17 01:18:16
+
+The comment is now 37.7 KB, well under the limit. Committing and pushing the fix.
+
+- `Bash` Commit and push the results-check fix
+
+### Claude · 2026-11-17 01:18:23
+
+Pushed. Watching CI on the new head.
+
+- `Bash` Wait for CI on the new head
+
+### Claude · 2026-11-17 01:18:27
+
+The results-check failure is fixed and pushed. The check had passed every value; it failed only when posting its PR comment, which was over GitHub's size limit. CI is rerunning on the new head, and I'll report back when it finishes.
+
+- `Bash` Compare local and remote branch heads
+
+### Claude · 2026-11-17 01:18:33
+
+Local and remote are both at e83665b, so everything is pushed. The hook can't see that because this shallow clone has no remote-tracking ref for the branch. Adding one.
+
+- `Bash` Create the remote-tracking ref
+
+### Claude · 2026-11-17 01:18:37
+
+Nothing was unpushed: the branch and GitHub were already at the same commit (e83665b). The hook reported unpushed commits only because this shallow clone didn't keep a local reference to the GitHub copy of the branch. I added that reference, and git now shows the branch level with GitHub.
+
+CI is still running on that commit, and I'll report back when it finishes.
+
+### User · 2026-11-17 01:19:07
+
+<task-notification>
+<task-type>queued-remote-notifications</task-type>
+<status>pending</status>
+<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>
+Notifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.
+</task-notification>
+
+- `ReadNotifications` 
+
+### Claude · 2026-11-17 01:19:10
+
+The results check now posts its comment: all 279 results agree with the committed files. Still waiting for the reproduce job.
+
+- `Bash` Wait for all CI checks to complete
+
+- `Bash` Show CI results on the previous head
+
+- `Bash` Wait for CI on the new head
+
+- `Bash` Write and push the final ledger
