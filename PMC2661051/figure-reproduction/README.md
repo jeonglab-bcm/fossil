@@ -38,18 +38,18 @@ its text. The paper is CC BY 2.0; `published/` holds its Figs 2 to 4 for compari
 | Text: Hotelling improves with permutation | exact | 1 of 1 fields as printed |  |
 | Text: p53 data, 50 cell lines, 8,768 genes, 290 sets of 15 to 321 genes | agrees | 8 of 8 fields as printed | Assumed: p53 genes from GSEA's collapsed-symbol file (10,100 genes), kept when the maximum is at least 5 on the log2 scale and the max/min ratio is at least 2 (both criteria), then log2 |
 | Fig. 2 left, significant p53 sets against the cutoff | not attempted | not attempted | Drawn and overlaid, not scored: sixteen curves with letter markers overlap, so their values cannot be read off the figure. The cutoff 0.01 is scored through the right panel, and the ranking claims are scored as text. |
-| Fig. 2 right, p53 sets with p <= 0.01 | partly | 9 of 16 fields as printed | 9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35 (our cond. FDR is not the paper's, as in Table 3); Wilcoxon and median differ by 3 to 5 sets. |
+| Fig. 2 right, p53 sets with p <= 0.01 | partly | 9 of 16 fields as printed | 9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35 (our cond. FDR is not the paper's, as in Table 3); Wilcoxon, median and the mean by permutation differ by 3 to 5 sets. |
 | Text: p53, Hotelling and cond. FDR find the most sets (resampling) | differs | 0 of 1 fields as printed | Hotelling finds the most sets as in the paper, but our cond. FDR finds few (see Fig. 2 right). |
 | Text: p53, Hotelling and cond. FDR find the most sets (permutation) | differs | 0 of 1 fields as printed | Hotelling finds the most sets as in the paper, but our cond. FDR finds few (see Fig. 2 right). |
 | Text: p53, ES, median and Wilcoxon find the fewest sets (resampling) | differs | 0 of 1 fields as printed | Our cond. FDR (10 sets) falls among the three lowest; without it median, Wilcoxon and ES are the three lowest as in the paper. |
 | Text: p53, ES, median and Wilcoxon find the fewest sets (permutation) | differs | 0 of 1 fields as printed | Our cond. FDR (7 sets) falls among the three lowest; without it median, Wilcoxon and ES are the three lowest as in the paper. |
-| Fig. 3 top, mean pairwise correlation of the 290 p53 sets | partly | 8 of 31 fields as printed | 8 of 31 bins equal: our correlations are lower (median 0.022 against about 0.03 in the paper, 6 sets below -0.01 where the paper has none). The paper does not say on which data the correlations were computed. |
+| Fig. 3 top, mean pairwise correlation of the 290 p53 sets | partly | 8 of 31 fields as printed | 8 of 31 bins equal: our correlations are lower (median 0.022 against about 0.03 in the paper, 6 sets below -0.01 where the paper has none). The paper does not say on which data the correlations were computed; three variants each improve one measure and none closes the gap. |
 | Fig. 3 bottom, mean absolute pairwise correlation | partly | 11 of 40 fields as printed | 11 of 40 bins equal; our histogram sits about 0.005 lower (median 0.160 against about 0.166). |
 | Text: correlations within p53 sets are comparatively weak | agrees | 1 of 1 fields as printed | Assumed: p53 genes from GSEA's collapsed-symbol file (10,100 genes), kept when the maximum is at least 5 on the log2 scale and the max/min ratio is at least 2 (both criteria), then log2 |
 | Text: Hedenfalk data, 7 BRCA1 and 8 BRCA2, 2,200 mapped genes, 89 sets | partly | 3 of 5 fields as printed | Samples and array size agree; we map 2,233 genes (2,200 in the paper) and keep 84 sets (89). The paper's UniGene build and set selection are not given. |
 | Fig. 4 left, significant Hedenfalk sets against the cutoff | not attempted | not attempted | Drawn and overlaid, not scored, as Fig. 2 left: the overlapping letter markers cannot be read. |
-| Fig. 4 right, Hedenfalk sets with p <= 0.01 | partly | 1 of 16 fields as printed | 1 of 16 bars equal. The pattern comes back (resampling finds few sets, permutation many; Hotelling, mean, maxmean and globaltest highest; cond. FDR none by permutation), but our counts are higher: mean 56 against 41 by permutation, 8 against 0 by resampling. Our gene mapping and set catalogue differ from the paper's (84 sets, not 89). |
-| Text: Hedenfalk, resampling finds very few sets | differs | 0 of 1 fields as printed | Our resampling finds 2 to 9 sets per statistic at 0.01 against 0 or 1 in the paper; few compared with permutation, but more than 2. |
+| Fig. 4 right, Hedenfalk sets with p <= 0.01 | partly | 1 of 16 fields as printed | 1 of 16 bars equal. The pattern comes back (resampling finds few sets, permutation many; Hotelling, mean, maxmean and globaltest highest; cond. FDR none by permutation), but our counts are higher for 14 of 16 bars (ES by permutation is lower, 3 against 8; cond. FDR by permutation is 0 in both): mean 56 against 41 by permutation, 8 against 0 by resampling. Our gene mapping and set catalogue differ from the paper's (84 sets, not 89). |
+| Text: Hedenfalk, resampling finds very few sets | differs | 0 of 1 fields as printed | Our resampling finds 2 to 10 sets per statistic at 0.01 against 0 or 1 in the paper: few compared with permutation, but more than 2 for every statistic except median and ES (2 each). |
 | Text: Hedenfalk, Hotelling, mean, maxmean and globaltest find the most sets | exact | 1 of 1 fields as printed |  |
 | Text: Hedenfalk, cond. FDR is conservative | exact | 1 of 1 fields as printed |  |
 | Table 7, Hedenfalk sets with p <= 0.01 (mean, permutation) | partly | 27 of 42 fields as printed | 27 of the 41 sets come back at the printed p within Monte Carlo error, breast_cancer_estrogen_signalling first at 0.000 as in the paper; 5 of the paper's sets are not in our 84, and we find 56 sets at p <= 0.01 against 41. |
@@ -58,12 +58,10 @@ its text. The paper is CC BY 2.0; `published/` holds its Figs 2 to 4 for compari
 | Main claim: the mean of squared mod.t beats GSEA's ES | exact | 1 of 1 fields as printed |  |
 | Main claim: the mean of squared mod.t beats Hotelling | exact | 1 of 1 fields as printed |  |
 | Claims recomputed from the paper's own tables | agrees | 22 of 22 claims come back from the paper's own tables and figure bars |  |
-| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 10 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md |  |
+| R package gseamod and its tutorial | agrees | R package gseamod: R CMD check OK; tests 11 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md |  |
 <!--/RESULTS-TABLE-->
 
-The main claims hold: the mean of squared moderated t beats ES and Hotelling, and the simulation tables
-come back. The claims that do not match come from our cond. FDR, which is not the paper's, and from the
-Hedenfalk gene mapping.
+The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 2, 4 and 5 come back and Tables 3 and 6 partly. Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).
 
 ## What the code does, against the paper
 
@@ -76,7 +74,7 @@ Hedenfalk gene mapping.
 | Cond. FDR, "linear logistic regression of the probability of gene set membership" | mean over the set of 1 - fdr_S, Efron's conditional fdr from that regression (the statistic is not given; see Table 3) |
 | Resampling, permutation, restandardization, 1000 each | as described; one-sided, p = share of null statistics at or above the observed |
 | Parametric (mean and Wilcoxon only) | m x mean of squared statistics against chi-squared with m degrees of freedom; normal approximation of the rank sum |
-| globaltest | its statistic in closed form (equal to `globaltest::gt` up to a constant, tested); `gt`'s asymptotic p-value for the parametric column |
+| globaltest | its statistic in closed form (equal to `globaltest::gt` up to a constant, a package test); `gt`'s asymptotic p-value for the parametric column |
 | Hotelling T2 with a shrinkage correlation | t' R^-1 t with corpcor's `cor.shrink` of the data centred within each class |
 | p53: filter max < 5 on log2 and < 2-fold, 8,768 genes, 290 sets | GSEA's collapsed-symbol file, both criteria: exactly 8,768 genes and 290 sets of 15 to 321 |
 | Hedenfalk: 2,200 genes mapped to UniGene symbols, 89 sets | UniGene build 236 (2013): 2,233 genes and 84 sets of 15 to 500 genes |

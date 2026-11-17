@@ -69,12 +69,12 @@
   "globaltest_version": {
    "what": "globaltest 5.56.0 (Bioconductor 3.18) with a logistic model; the paper's 2008 version is not stated",
    "source": "our_choice",
-   "sensitivity": "Its statistic equals ours up to a constant (checked), so only the parametric column depends on the version's asymptotic p-value."
+   "sensitivity": "Its statistic equals ours up to a constant (a test of the package), so only the parametric column depends on the version's asymptotic p-value."
   },
   "p53_filter": {
    "what": "p53 genes from GSEA's collapsed-symbol file (10,100 genes), kept when the maximum is at least 5 on the log2 scale and the max/min ratio is at least 2 (both criteria), then log2",
    "source": "found_by_search",
-   "sensitivity": "The paper's wording allows either criterion and either file. Both criteria on the collapsed file give exactly 8,768 genes; either criterion keeps 10,100, the maximum alone 8,819; the probe-level file gives 10,743."
+   "sensitivity": "The paper's wording allows either criterion and either file. Both criteria on the collapsed file give exactly 8,768 genes; either criterion keeps 10,100, the maximum alone 8,819; both criteria on the probe-level file keep 10,743 probe sets (datasets.json)."
   },
   "hedenfalk_map": {
    "what": "Hedenfalk clones mapped to gene symbols through NCBI UniGene build 236 (2013, the last build): clones in exactly one UniGene cluster with a symbol, clones of one symbol averaged; C2 sets of 15 to 500 mapped genes (the size rule the paper states for p53)",
@@ -184,9 +184,9 @@
      },
      {
       "hypothesis": "Our correlated sets are less correlated than the paper's (rho 0.8 or 0.9 instead of 0.6)",
-      "test": "variants.json: mean and Wilcoxon with resampling at rho 0.6, 0.8, 0.9",
-      "result": "rejected",
-      "detail": "Set 8 of the mean stays at 0.52 to 0.57 at every rho; the paper's ES and cond. FDR gaps are on set 8 only."
+      "test": "variants.json: mean and Wilcoxon with resampling at rho 0.6, 0.8, 0.9 (ES and cond. FDR were not rerun)",
+      "result": "inconclusive",
+      "detail": "The mean's set 8 stays at 0.52 to 0.57 at every rho. The ES gap is on set 8 only; cond. FDR misses sets 8 and 9; neither statistic was rerun at higher rho."
      }
     ]
    }
@@ -448,7 +448,7 @@
       "hypothesis": "The gap is Monte Carlo error",
       "test": "gseamod::rate_tolerance(0.86, 0.92) on the two rates",
       "result": "supported",
-      "detail": "The 99% band for two shares of 100 is 0.10."
+      "detail": "gseamod::rate_tolerance(0.86, 0.92) is 0.12: the 99% band for two shares of 100."
      }
     ]
    }
@@ -532,14 +532,14 @@
    "cause": {
     "category": "undocumented_setting",
     "status": "open",
-    "summary": "9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35 (our cond. FDR is not the paper's, as in Table 3); Wilcoxon and median differ by 3 to 5 sets.",
+    "summary": "9 of 16 bars within one set: Hotelling (32 and 35 against 33 and 35), globaltest, ES and maxmean come back. Cond. FDR finds 10 and 7 sets against 38 and 35 (our cond. FDR is not the paper's, as in Table 3); Wilcoxon, median and the mean by permutation differ by 3 to 5 sets.",
     "evidence": [
      "figure-reproduction/output/tables.json"
     ],
     "hypotheses": [
      {
       "hypothesis": "Cond. FDR is the logistic slope",
-      "test": "On the simulation (Table 3), the slope gives exactly the mean's resampling p-values",
+      "test": "Reasoning from the simulation: under resampling the slope gives exactly the mean's p-values (Table 3, variant condslope); not run on p53",
       "result": "rejected",
       "detail": "The paper's p53 cond. FDR (38 sets) is far from its mean (25), so it is not the slope either."
      },
@@ -642,7 +642,7 @@
    "cause": {
     "category": "undocumented_setting",
     "status": "open",
-    "summary": "8 of 31 bins equal: our correlations are lower (median 0.022 against about 0.03 in the paper, 6 sets below -0.01 where the paper has none). The paper does not say on which data the correlations were computed.",
+    "summary": "8 of 31 bins equal: our correlations are lower (median 0.022 against about 0.03 in the paper, 6 sets below -0.01 where the paper has none). The paper does not say on which data the correlations were computed; three variants each improve one measure and none closes the gap.",
     "evidence": [
      "figure-reproduction/output/fig3_variants.json"
     ],
@@ -650,20 +650,20 @@
      {
       "hypothesis": "Correlations on the raw intensity scale",
       "test": "fig3_variants.json raw_scale",
-      "result": "rejected",
-      "detail": "11 of 31 bins, sum of absolute differences 132 against 116 on log2."
+      "result": "inconclusive",
+      "detail": "More equal bins (11 of 31 against 8) but a larger sum of absolute differences (132 against 116) and a lower median (0.020)."
      },
      {
       "hypothesis": "Spearman correlation",
       "test": "fig3_variants.json spearman",
-      "result": "rejected",
-      "detail": "5 of 31 bins, sum 106."
+      "result": "inconclusive",
+      "detail": "Smaller sum of absolute differences (106) but fewer equal bins (5 of 31)."
      },
      {
       "hypothesis": "Correlation within the two classes",
       "test": "fig3_variants.json within_class",
-      "result": "rejected",
-      "detail": "7 of 31 bins, sum 108."
+      "result": "inconclusive",
+      "detail": "Sum 108, 7 of 31 bins; median 0.022 against about 0.03 in the paper."
      }
     ]
    }
@@ -689,13 +689,13 @@
       "hypothesis": "Raw intensity scale",
       "test": "fig3_variants.json raw_scale",
       "result": "rejected",
-      "detail": "13 of 40 bins, but the median falls to 0.150."
+      "detail": "13 of 40 bins, but the sum of absolute differences rises to 269 and the median falls to 0.150."
      },
      {
       "hypothesis": "Correlation within the two classes",
       "test": "fig3_variants.json within_class",
-      "result": "rejected",
-      "detail": "15 of 40 bins, median 0.161."
+      "result": "inconclusive",
+      "detail": "The closest fit so far: 15 of 40 bins and a sum of 133 against 11 and 147; median 0.161 against about 0.166."
      }
     ]
    }
@@ -736,7 +736,7 @@
       "hypothesis": "One clone per symbol instead of the mean of its clones",
       "test": "variants.json first_clone_15",
       "result": "rejected",
-      "detail": "Same 2,233 genes and 84 sets."
+      "detail": "Same 2,233 genes and 84 sets; 61 sets significant by permutation against 56."
      }
     ]
    }
@@ -785,7 +785,7 @@
    "cause": {
     "category": "data_differs",
     "status": "open",
-    "summary": "1 of 16 bars equal. The pattern comes back (resampling finds few sets, permutation many; Hotelling, mean, maxmean and globaltest highest; cond. FDR none by permutation), but our counts are higher: mean 56 against 41 by permutation, 8 against 0 by resampling. Our gene mapping and set catalogue differ from the paper's (84 sets, not 89).",
+    "summary": "1 of 16 bars equal. The pattern comes back (resampling finds few sets, permutation many; Hotelling, mean, maxmean and globaltest highest; cond. FDR none by permutation), but our counts are higher for 14 of 16 bars (ES by permutation is lower, 3 against 8; cond. FDR by permutation is 0 in both): mean 56 against 41 by permutation, 8 against 0 by resampling. Our gene mapping and set catalogue differ from the paper's (84 sets, not 89).",
     "evidence": [
      "figure-reproduction/output/tables.json",
      "figure-reproduction/output/variants.json"
@@ -793,13 +793,13 @@
     "hypotheses": [
      {
       "hypothesis": "Sets of 10 or more genes",
-      "test": "variants.json mean_of_clones_10",
+      "test": "variants.json mean_of_clones_10, against its baseline mean_of_clones_15 (56 by permutation, 6 by resampling)",
       "result": "rejected",
-      "detail": "86 significant sets by permutation and 10 by resampling: further from the paper."
+      "detail": "86 by permutation and 8 by resampling: further from the paper's 41 and 0."
      },
      {
       "hypothesis": "One clone per symbol",
-      "test": "variants.json first_clone_15",
+      "test": "variants.json first_clone_15, against the same baseline",
       "result": "rejected",
       "detail": "61 by permutation, 4 by resampling."
      }
@@ -817,22 +817,22 @@
    "cause": {
     "category": "data_differs",
     "status": "open",
-    "summary": "Our resampling finds 2 to 9 sets per statistic at 0.01 against 0 or 1 in the paper; few compared with permutation, but more than 2.",
+    "summary": "Our resampling finds 2 to 10 sets per statistic at 0.01 against 0 or 1 in the paper: few compared with permutation, but more than 2 for every statistic except median and ES (2 each).",
     "evidence": [
      "figure-reproduction/output/tables.json"
     ],
     "hypotheses": [
      {
       "hypothesis": "Sets of 10 or more genes",
-      "test": "variants.json",
+      "test": "variants.json, against its own baseline (mean_of_clones_15: 6 sets by resampling)",
       "result": "rejected",
-      "detail": "10 sets for the mean."
+      "detail": "8 sets for the mean."
      },
      {
       "hypothesis": "One clone per symbol",
-      "test": "variants.json",
+      "test": "variants.json, against the same baseline",
       "result": "rejected",
-      "detail": "4 sets for the mean."
+      "detail": "4 sets for the mean, still more than the paper's 0."
      }
     ]
    }
@@ -878,13 +878,13 @@
       "hypothesis": "Sets of 10 or more genes would bring in the missing sets",
       "test": "variants.json mean_of_clones_10",
       "result": "rejected",
-      "detail": "It brings them in but 86 sets are then significant."
+      "detail": "It brings the missing sets in, but 86 sets are then significant (56 in the variants' baseline)."
      },
      {
       "hypothesis": "One clone per symbol",
       "test": "variants.json first_clone_15",
       "result": "rejected",
-      "detail": "61 significant sets."
+      "detail": "61 significant sets (56 in the variants' baseline)."
      }
     ]
    }
@@ -1010,7 +1010,7 @@
   "tables_caption": "Each rate is the share of 100 simulated data sets in which a set was significant at p <= 0.05. Neither the paper's seeds nor its code survive, so a rate matches when it lies in the 99% band for two shares of 100.",
   "tables_note": "Table 2, Table 4 and Table 5 came back within Monte Carlo error but for one rate, Table 5's set 3 parametric, which is 0.050 on 400 more data sets. Our cond. FDR misses sets 8 and 9 of Table 3, and our Hotelling finds the correlated set 1 more often than the paper's.",
   "items_caption": "Every figure, table and claim of the paper, with its verdict from results.json. Exact for a simulated rate means within its Monte Carlo band.",
-  "claims_line": "The main claims hold: the mean of squared moderated t beats ES and Hotelling, and the simulation tables come back. The claims that do not match come from our cond. FDR, which is not the paper's, and from the Hedenfalk gene mapping.",
+  "claims_line": "The main claims hold: the mean of squared moderated t beats ES and Hotelling; Tables 2, 4 and 5 come back and Tables 3 and 6 partly. Of the claims that do not match, four come from our cond. FDR, which is not the paper's, one from the Hedenfalk gene mapping and one from Monte Carlo error (globaltest against the mean).",
   "came_back": [
    [
     "The modules",
@@ -1034,7 +1034,7 @@
    ]
   ],
   "buried": [
-   "The paper's cond. FDR statistic: neither of two readings of it gives its Table 3 or Fig. 2 numbers.",
+   "The paper's cond. FDR statistic: neither of two readings of it gives its Table 3 numbers, and the mean-of-fdr reading also misses Fig. 2.",
    "Its Hotelling correlation estimate: ours finds the correlated set 1 more often.",
    "Its Hedenfalk gene mapping and its 89 sets: ours has 2,233 genes and 84 sets, and finds more sets.",
    "The data behind Fig. 3: our within-set correlations run a little lower."
@@ -1061,5 +1061,5 @@
   "closing": "Ackermann and Strimmer's modules came back as an R package."
  },
  "status_note": "every module rebuilt as the R package `gseamod`; Tables 2, 4 and 5 within Monte Carlo error (206 of 207 rates) and Tables 3 and 6 at 51 of 54 and 25 of 27; p53 preprocessing exact (8,768 genes, 290 sets) and Fig. 2 within one set for Hotelling, globaltest, ES and maxmean; our cond. FDR is not the paper's; Hedenfalk pattern back, counts higher",
- "site_note": "The main claims hold; the simulation tables come back"
+ "site_note": "The main claims hold; Tables 2, 4 and 5 come back"
 }

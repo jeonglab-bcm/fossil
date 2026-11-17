@@ -58,3 +58,15 @@ test_that("bad input gives a clear error", {
   expect_error(gene_stats(matrix(1:6, 2), c(0, 1, 1)), "at least two samples")
   expect_error(gsea(matrix(rnorm(20), 2), rep(0:1, 5), list(a = "nope")), "no genes")
 })
+
+test_that("the globaltest statistic equals globaltest::gt up to one constant", {
+  skip_if_not_installed("globaltest")
+  d <- example_data()
+  idx <- lapply(d$sets, match, rownames(d$X))
+  g <- vapply(idx, function(i) {
+    A <- t(d$X[i, ])
+    globaltest::result(globaltest::gt(factor(d$y), A))[, "Statistic"]
+  }, numeric(1))
+  ratio <- g / global_stats(d$X, d$y, idx)[, 1]
+  expect_equal(unname(ratio), rep(unname(ratio[1]), length(ratio)), tolerance = 1e-8)
+})

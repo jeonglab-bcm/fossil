@@ -50,7 +50,8 @@ sel <- e$hedenfalk.mutation %in% c("BRCA1", "BRCA2")
 Hs <- t(e$hedenfalk[sel, ])
 y <- as.numeric(e$hedenfalk.mutation[sel] == "BRCA2")
 mapped <- !is.na(symbol)
-Xmean <- rowsum(Hs[mapped, ], symbol[mapped]) / as.vector(table(symbol[mapped])[sort(unique(symbol[mapped]))])
+grp <- symbol[mapped]
+Xmean <- rowsum(Hs[mapped, ], grp, reorder = FALSE) / as.vector(table(factor(grp, levels = unique(grp))))
 first <- mapped & !duplicated(symbol)
 Xfirst <- Hs[first, ]; rownames(Xfirst) <- symbol[first]
 count <- function(X, lo) {

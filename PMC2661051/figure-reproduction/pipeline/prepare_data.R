@@ -34,11 +34,14 @@ y <- as.numeric(cls == "MUT")
 sets <- pick_sets(rownames(X))
 saveRDS(list(X = X, y = y, sets = sets), file.path(out, "p53.rds"))
 sz <- lengths(sets)
+probe <- read_gct(file.path(dl, "P53_hgu95av2.gct"))
+pmx <- apply(probe, 1, max); pmn <- apply(probe, 1, min)
 probe_header <- strsplit(readLines(file.path(dl, "P53_hgu95av2.gct"), n = 2)[2], "\t")[[1]]
 p53 <- list(probe_sets = as.integer(probe_header[1]), probe_samples = as.integer(probe_header[2]), collapsed_genes = nrow(raw), samples = ncol(raw),
             wild_type = sum(cls == "WT"), mutant = sum(cls == "MUT"),
             genes_after_filter = nrow(X), keep_max_only = sum(log2(mx) >= 5), keep_fold_only = sum(mx / mn >= 2),
             keep_either = sum(log2(mx) >= 5 | mx / mn >= 2),
+            probe_level_keep_both = sum(log2(pmx) >= 5 & pmx / pmn >= 2),
             c2_sets = length(gmt), gene_sets = length(sets), min_set_size = min(sz), max_set_size = max(sz))
 
 ## Hedenfalk
@@ -56,7 +59,9 @@ symbol <- ifelse(clone %in% ok_clone, sym[clone], NA)
 sel <- mut %in% c("BRCA1", "BRCA2")
 Hs <- t(H[sel, ])                                # clones x 15
 mapped <- !is.na(symbol)
-Xh <- rowsum(Hs[mapped, ], symbol[mapped]) / as.vector(table(symbol[mapped])[sort(unique(symbol[mapped]))])
+# Genes in order of first appearance on the array (not sorted: sort order depends on the locale)
+grp <- symbol[mapped]
+Xh <- rowsum(Hs[mapped, ], grp, reorder = FALSE) / as.vector(table(factor(grp, levels = unique(grp))))
 yh <- as.numeric(mut[sel] == "BRCA2")
 setsh <- pick_sets(rownames(Xh))
 saveRDS(list(X = Xh, y = yh, sets = setsh), file.path(out, "hedenfalk.rds"))

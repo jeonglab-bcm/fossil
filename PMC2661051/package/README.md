@@ -53,8 +53,8 @@ R too. A Python port would have to reimplement each of them.
 ## How it was checked
 
 - The moderated t equals `limma::eBayes`, the globaltest statistic equals `globaltest::gt` up to a
-  constant factor, the logistic fit of `condfdr` equals `glm`, and the enrichment score equals a
-  direct running sum (`tests/testthat`).
+  constant factor, the logistic regression inside `condfdr` (its slope, `condslope`) equals `glm`, and
+  the enrichment score equals a direct running sum (`tests/testthat`).
 - There is no original code to check against (the authors' R code is lost), so the package was
   checked against the paper: the simulation tables, the p53 and Hedenfalk analyses and the text's
   claims. The reproduction is in
