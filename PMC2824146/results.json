@@ -1041,7 +1041,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
@@ -1051,7 +1051,7 @@
       ],
       "cause": {
         "category": "paper_error",
-        "summary": "The text's 'approximately 35%' is a rounded figure: the stated hazards (0.0002 for censoring against 0.00027 exp(LP) for events) give 36.4 to 36.6% censored with every variant of our generator.",
+        "summary": "The text's 'approximately 35%' is a rounded figure: the stated hazards (0.0002 for censoring against 0.00027 exp(LP) for events) give 36.4% censored in our run and 36.6% with every variant of our generator.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/truth_variants.json"
         ],
@@ -1063,7 +1063,7 @@
           },
           {
             "hypothesis": "The stated hazards give about 36%, which the text rounds to 35",
-            "test": "Every variant gives 36.6% (20,000 cohorts) and our 200 replicates 36.4%",
+            "test": "Every variant gives 36.6% (2000 cohorts each) and our 200 replicates 36.4%",
             "result": "supported"
           }
         ],
@@ -1588,7 +1588,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -1598,7 +1598,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Our generator's empirical SEs are 14% smaller for X1 and X6 and 14% larger for X4 than the paper's, and its true values 1 to 3% larger in magnitude for X2, X3, X5 and X7. Keeping the binaries' observed correlations takes the X1 and X6 SEs past the paper's (0.0064 and 0.132 against 0.0060 and 0.119, ours 0.0051 and 0.104); the unrounded coefficients move X2's true value from 0.0517 to 0.0513 (paper 0.0507); the X4 SE and the larger magnitudes stay open.",
+        "summary": "Our generator's empirical SEs are 14% smaller for X1 and X6 and 14% larger for X4 than the paper's, and its true values 1 to 5% larger in magnitude for X2, X3, X4 and X5 (X7 0.8%). Keeping the binaries' observed correlations takes the X1 and X6 SEs past the paper's (0.0064 and 0.132 against 0.0060 and 0.119, ours 0.0051 and 0.104); the unrounded coefficients move X2's true value from 0.0517 to 0.0513 (paper 0.0507); the X4 SE and the larger magnitudes stay open.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/truth_variants.json",
           "PMC2824146/figure-reproduction/output/comparison.json"
@@ -1792,7 +1792,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -1826,7 +1826,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Most points fall within Monte Carlo error; the misses are MI estimates of X2, X3, X4 and X5 at 50 and 75%, where our MIX without truncating, MICE-PMM and SI are further from or nearer the truth than the paper's. The offset of the true values does not explain them; the 2004 to 2005 package versions could not be tested.",
+        "summary": "Most points fall within Monte Carlo error. Most of the 32 misses are estimates of X2, X3, X4 and X5 at 50 and 75% (five at 25%), mostly MI and SI, where our MIX without truncating, MICE-PMM and SI are further from or nearer the truth than the paper's. The offset of the true values does not explain them; the 2004 to 2005 package versions could not be tested.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/comparison.json"
         ],
@@ -4767,7 +4767,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -4801,7 +4801,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Every point of X1, X4 and X6 misses by a constant factor across methods and levels (ours 0.84, 1.15 and 0.85 times the paper's), the same factor as their empirical SEs with no missing data: the generated covariates differ (see the reference lines). Keeping the binaries' correlations moves the X1 and X6 SEs past the paper's. The other misses (X2, X5) are MI SEs at 50 and 75%.",
+        "summary": "Every point of X1, X4 and X6 misses by a near-constant factor across methods and levels (ours 0.83 to 0.91, 1.12 to 1.29 and 0.83 to 0.87 times the paper's, medians 0.86, 1.14 and 0.86), close to the ratio of their empirical SEs with no missing data (0.86, 1.14, 0.87): the generated covariates differ (see the reference lines). Keeping the binaries' correlations moves the X1 and X6 SEs past the paper's. The other misses (X2, X5) are MI SEs at 50 and 75%.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/comparison.json",
           "PMC2824146/figure-reproduction/output/truth_variants.json"
@@ -7645,7 +7645,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -10576,7 +10576,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -10610,7 +10610,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Most misses are X6, whose mean p-value is lower in our run at every level and method, as its SE is 15% smaller (Fig. 3); the rest are scattered MI points for X2 to X5.",
+        "summary": "Most misses are X6, whose mean p-value is lower in our run at every level and method, as its SE is about 14% smaller (Fig. 3); the rest are scattered MI points for X2 to X5.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/comparison.json",
           "PMC2824146/figure-reproduction/output/truth_variants.json"
@@ -13419,7 +13419,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -14793,7 +14793,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -14827,7 +14827,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "The MAR series match as in Fig. 2. Under MNAR our MI estimates of X3 and X4 are further from the truth than the paper's at 50 and 75% (X4 with MICE-PMM at 75%: -0.00049 against -0.00036), so the MNAR gap the paper reports is larger in our run. The scale of X3's own term does not explain it.",
+        "summary": "The MAR series match as in Fig. 2. Under MNAR our X4 estimates (every MI method shown) and X3 with MICE are further from the truth than the paper's at 50 and 75% (X4 with MICE-PMM at 75%: -0.00049 against -0.00036); X3 with MICE-PMM is nearer. The scale of X3's own term does not explain it.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/comparison.json",
           "PMC2824146/figure-reproduction/output/hypotheses.json"
@@ -16023,7 +16023,7 @@
         {
           "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
           "source": "paper",
-          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0063 and of X6 from 0.104 to 0.128 (paper 0.0060 and 0.119); see truth_variants.json"
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
         },
         {
           "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
@@ -17170,7 +17170,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "59 of 77 claim fields come back when computed from the paper's own figure values; not: text.fig2: SI more than 0.5 SE away for X2, X3 and X4 from 25% (figures give no); text.fig2: Most MI more than 0.5 SE away for X2, X3 and X4 from 25% (figures give no); text.fig2: X2 MICE: first level with bias over 10% (figures give 50); text.fig2: X2 MICE-PMM: first level with bias over 10% (figures give 50); text.fig2: X2 MICE-PMM no transformation: first level with bias over 10% (figures give 75); text.fig2: X2 aregImpute: first level with bias over 10% (figures give 50); text.fig2: X2 MIX no truncating: first level with bias over 10% (figures give 50); text.fig2: X3 MICE-PMM no transformation: first level with bias over 10% (figures give 75); text.fig2: X3 aregImpute: first level with bias over 10% (figures give 50); text.fig2: X5 bias over 10% at 50% with every MI (figures give no); text.fig2: X4: MICE-PMM no transformation least biased MI at 75% (figures give no); text.fig3: X2: every MI SE between SI and CC at 25 to 75% (figures give no); text.fig3: X3: every MI SE between SI and CC at 25 to 75% (figures give no); text.fig3: X4: CC SE rises by over 10% at 75%, SI and MI within 10% of full data (figures give no); text.fig4: X3 MICE-PMM no transformation: first level with coverage below 90% (figures give 75); text.fig5: CC X5: first level with p over 0.05 (figures give 75); text.fig5: CC X7: first level with p over 0.05 (figures give 75); text.mnar: X3 coverage lower under MNAR than MAR at 75%, every MI (figures give no)"
+        "detail": "59 of 77 claim fields come back when computed from the paper's own figure values; the 18 that do not are where the text contradicts its own figures (listed in comparison.json, arithmetic.not_back)"
       },
       "verdict": "agrees"
     },
@@ -17197,7 +17197,7 @@
       ],
       "check": {
         "passed": true,
-        "detail": "R CMD build ok; R CMD check: OK; testthat [ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]; TUTORIAL.md same as the vignette rendered now"
+        "detail": "R CMD build ok; R CMD check: OK; testthat [ FAIL 0, WARN 0, SKIP 0, PASS 19 ]; TUTORIAL.md same as the vignette rendered now"
       },
       "verdict": "agrees"
     }
