@@ -34,7 +34,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-24 agrees, 9 partly, 1 differs, 2 not attempted; 0 open causes; 13 verdicts set by a reviewer.
+30 agrees, 4 partly, 2 not attempted; 0 open causes; 19 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -42,13 +42,13 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 | Table 2, relative bias of ESR_S and ESR_R (1000/1000 and 5000/5000) | agrees | 78 of 80 fields as printed; computed partly, reviewer agrees |
 | Table 3, coverage of the log CIs of ESR_S and ESR_R (1000/1000 and 5000/5000) | agrees | 77 of 80 fields as printed; computed partly, reviewer agrees |
 | Table 4, coverage of the binomial CI of ESR_R (four N1/N2, seven RRs) | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
-| Table S1, relative bias of ESR_S | partly | 111 of 112 fields as printed |
-| Table S2, relative bias of ESR_R | partly | 111 of 112 fields as printed |
+| Table S1, relative bias of ESR_S | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
+| Table S2, relative bias of ESR_R | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
 | Table S3, absolute bias of ESR_S | agrees | 112 of 112 fields as printed |
-| Table S4, absolute bias of ESR_R | partly | 111 of 112 fields as printed |
-| Table S5, coverage of the log CI of ESR_S | partly | 111 of 112 fields as printed |
+| Table S4, absolute bias of ESR_R | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
+| Table S5, coverage of the log CI of ESR_S | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
 | Table S6, coverage of the log CI of ESR_R | partly | 82 of 112 fields as printed |
-| Table S7, coverage of the binomial CI of ESR_R | partly | 111 of 112 fields as printed |
+| Table S7, coverage of the binomial CI of ESR_R | agrees | 111 of 112 fields as printed; computed partly, reviewer agrees |
 | Fig. 1, expected length given coverage, Scenario 1 (drawn) | agrees | 75.00% within 2 px (pass 90.0%, best control 58.3%); computed partly, reviewer agrees |
 | Fig. 2, expected length given coverage, Scenario 2 (drawn) | agrees | 75.00% within 2 px (pass 90.0%, best control 50.0%); computed partly, reviewer agrees |
 | Fig. 3, expected length given coverage, Scenario 3 (drawn) | agrees | 66.67% within 2 px (pass 90.0%, best control 58.3%); computed partly, reviewer agrees |
@@ -61,7 +61,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 | Table 5, log CI of ESR_R predicted from the other two CIs | agrees | 5 of 6 fields as printed; computed partly, reviewer agrees |
 | Abstract: largest relative bias 4.0% for ESR_R and 93.9% for ESR_S | agrees | 2 of 2 fields as printed |
 | Main claim: ESR_R has little bias, ESR_S a large one, and the log CI of ESR_R covers better in most settings | agrees | 3 of 3 fields as printed |
-| Scenario 1: the CI of ESR_S covers at least 95% when RR is 2.0 or less | differs | 0 of 1 fields as printed |
+| Scenario 1: the CI of ESR_S covers at least 95% when RR is 2.0 or less | agrees | 0 of 1 fields as printed; computed differs, reviewer agrees |
 | Scenarios 1-3: the log CI of ESR_R reaches 95% except at N1/N2 1000/5000, where it never does | partly | 3 of 6 fields as printed |
 | The binomial CI of ESR_R reaches 95% only at 1000/5000 (Scenario 1, smallest 98.9%), and is above 99% there in Scenarios 2 and 3 | agrees | 3 of 3 fields as printed, 1 paper errors |
 | Relative bias of ESR_S over 20% at RR 5.0 (Scenario 2) and over 10%, 20%, 80% at RR 1.5, 2.0, 5.0 (Scenario 3) | agrees | 4 of 4 fields as printed |
