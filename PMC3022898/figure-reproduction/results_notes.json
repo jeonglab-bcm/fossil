@@ -1,0 +1,990 @@
+{
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": "2aa66c4e44dd4ec5f9f1f83bcaa92a13a7c337d1",
+    "modified": false
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "paper": {
+    "id": "PMC3022898",
+    "title": "Evaluation of exposure-specific risks from two independent samples: a simulation study",
+    "citation": "Reichmann WM, Gagnon D, Horsburgh CR, Losina E. Evaluation of exposure-specific risks from two independent samples: a simulation study. BMC Medical Research Methodology 11:1 (2011)",
+    "doi": "10.1186/1471-2288-11-1",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-17",
+    "pipeline": "PMC3022898/figure-reproduction/main.nf",
+    "command": "nextflow run PMC3022898/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "1471-2288-11-1-1.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/1471-2288-11-1-1.jpg",
+        "sha256": "4ad3c91768d0c05a57745e6dd21e00562a365fe5c7b3f4fd5b9380cde016392e"
+      },
+      {
+        "name": "1471-2288-11-1-2.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/1471-2288-11-1-2.jpg",
+        "sha256": "d63e7540c3cfbcc73884ab057ee1a507fd81ff54485144f294a23593778093dc"
+      },
+      {
+        "name": "1471-2288-11-1-3.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/1471-2288-11-1-3.jpg",
+        "sha256": "706c2933bc936b8ce3a957d4fa190d29c5a1c6da32bb4ce83d70e1903827751a"
+      },
+      {
+        "name": "1471-2288-11-1-4.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/1471-2288-11-1-4.jpg",
+        "sha256": "8da79b4d2b6f3eb16d02800a3b6001ee073a01e26a2736ea783983135ea2b203"
+      },
+      {
+        "name": "1471-2288-11-1-S1.DOC (Additional file 1, Tables S1-S7)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/1471-2288-11-1-S1.DOC",
+        "sha256": "f4bd31f1898812be015cc0af2f1d628b4dc9d1b16d73c0deeac9524a32263433"
+      },
+      {
+        "name": "PMC3022898.1.xml (article, Tables 2-5)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3022898.1/PMC3022898.1.xml",
+        "sha256": "040b539a660c1299a4db574e774a5e144a08df3fb4d01937fe0ce65a5e72078b"
+      }
+    ]
+  },
+  "assumption_sets": {
+    "simulation": [
+      {
+        "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
+        "source": "found_by_search",
+        "sensitivity": "The rounded label leaves {s1_label_within} of 112 cells of Table S1 and {s2_label_within} of S2 within tolerance (RMS z {s1_label_rms} and {s2_label_rms} against {s1_rms} and {s2_rms}); the population's realized ESR gives the same as RR x P(D|not E) (RMS z {s1_realized_rms} and {s2_realized_rms}). comparison.json, hypotheses."
+      },
+      {
+        "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
+        "source": "found_by_search",
+        "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z {s5_missing_rms} against {s5_rms}, and in Scenario 1 at N2 = 1000 puts our coverage below the paper's on average in two runs (mean z -0.66 and -0.98 over those 14 cells); counting them as not covering leaves {s5_notcov_within} of 112 S5 cells within (RMS z {s5_notcov_rms}); adding 0.5 to the cells leaves {s7_half_within} of 112 S7 cells within (RMS z {s7_half_rms}). Only Scenario 1 at N2 = 1000 has many such pairs (up to 39%); the 250/250 runs have at most 1%."
+      },
+      {
+        "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
+        "source": "our_choice",
+        "sensitivity": "Exact cell proportions instead of draws change nothing (Tables S1, S2, S5, S7 112 of 112 each, exact_population in comparison.json). The seeds are ours: two runs of ours differ by more than the tolerance in {own_miss} of {own_cells} cells."
+      },
+      {
+        "what": "Comparison tolerance: half a printed unit plus 3 x sqrt(2) Monte Carlo standard errors of one 1,000-pair estimate, fixed before the comparison",
+        "source": "our_choice",
+        "sensitivity": "With it two runs of our own design agree in {own_within} of {own_cells} cells ({own_pct}%). Wrong inputs (scenario or N1/N2 swapped) fall outside in {ctrl_out_min}% to {ctrl_out_max}% of the cells of Tables S1, S3, S5, S6 and S7; in Tables S2 and S4, where the true bias is 0 everywhere, a wrong input is almost as good as a right one."
+      }
+    ],
+    "figures": [
+      {
+        "what": "Bar heights read off the PMC figure JPEGs (600 x 464 px): y from the eleven tick labels, each bar's top where its column profile crosses half-way to its border's darkest pixel",
+        "source": "read_from_figure",
+        "sensitivity": "Tick fits within 0.00011 (0.15 px); one pixel is 0.00075, and is added to every bar's tolerance. Some bars sit within a pixel of their tolerance (the ESR_R log bars of Figs 2 and 3 at RR 1.0 miss by 3.1 px, 0.6 px beyond it; several binomial bars at RR 1.0 pass by 0.4 to 0.6 px), so a reading error of a pixel could move a bar count by one or two. The pixel scores of fig1-fig4 do not depend on this reading."
+      },
+      {
+        "what": "The empirical CI in the figures is that of ESR_R (the caption says 'the direct estimator')",
+        "source": "found_by_search",
+        "sensitivity": "The empirical CI of ESR_S is 2 to 189 px longer than the published bars and misses 9 of the 12 at the tolerance its own standard errors give; it is scored as a near-miss control."
+      }
+    ]
+  },
+  "causes": {
+    "eq10": {
+      "category": "code_differs_from_paper",
+      "status": "explained",
+      "summary": "The paper's log CI of ESR_R behaves as if the first term of eq. 10, the variance of ln P1(D|not E), had been left out of the simulation (or computed as p(1-p)/n1, the variance of the proportion rather than of its log, which is close to 0). With eq. 10 as printed, our intervals cover more often, most of all at N1/N2 1000/5000 where that term is largest; without it, {s6_nofirst_within} of {s6_cells} cells of Table S6 (against {s6_within} with it) and {bars_nofirst_within} of {bars} bars of Figs 1-4 come back. The case study (Table 5) used eq. 10 as printed. The SAS code is lost, so this is read from the results.",
+      "evidence": [
+        "figure-reproduction/output/comparison.json",
+        "figure-reproduction/output/figures.json",
+        "figure-reproduction/output/table5.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "The first term of eq. 10 is left out",
+          "test": "Same samples, log CI of ESR_R without (1 - P1(D|not E)) / (n1 P1(D|not E)): Table S6 {s6_nofirst_within} of {s6_cells} (RMS z {s6_nofirst_rms}, against {s6_rms} as printed)",
+          "result": "supported"
+        },
+        {
+          "hypothesis": "The first term is P1(D|not E)(1 - P1(D|not E))/n1, the variance of the proportion",
+          "test": "Same samples with that term: Table S6 {s6_varnotlog_within} of {s6_cells}",
+          "result": "supported"
+        },
+        {
+          "hypothesis": "n2 is used in place of n1 in the first term",
+          "test": "Same samples with n2: Table S6 {s6_n2_within} of {s6_cells}",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "P1(D) is used in place of P1(D|not E) in the first term",
+          "test": "Same samples with P1(D): Table S6 {s6_p1d_within} of {s6_cells}",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "Zero cells handled another way",
+          "test": "Missing, not covering, or 0.5 added: Table S6 stays at {s6_zero_range} of {s6_cells}",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "The case study used the same shortened variance",
+          "test": "Table 5: n1 solved from the binomial CI and Var(ln RR2) from the CI of ESR_S; the log CI of ESR_R predicted with and without the first term",
+          "result": "rejected"
+        }
+      ]
+    },
+    "chance": {
+      "category": "nondeterminism",
+      "status": "explained",
+      "summary": "Monte Carlo error: the paper's seeds are not given, and two runs of our own design differ by more than the tolerance in {own_miss} of {own_cells} cells ({own_miss_pct}%). Our second run, with another seed, puts each of these cells within tolerance.",
+      "evidence": [
+        "figure-reproduction/output/comparison.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "The cell is a chance miss of our run",
+          "test": "The same design with another seed (replicate in comparison.json)",
+          "result": "supported"
+        },
+        {
+          "hypothesis": "A systematic difference in the setting",
+          "test": "The RMS z of the tables with a chance miss is {chance_rms_min} to {chance_rms_max}, near the 1 expected of Monte Carlo error alone",
+          "result": "rejected"
+        }
+      ]
+    },
+    "case_rounding": {
+      "category": "undocumented_setting",
+      "status": "explained",
+      "summary": "The case study's inputs are printed rounded (overall risk to 4 decimals, RR 1.91). From the printed inputs, ESR_S and ESR_R at ages 60-69 and 70-79 come out one unit low in the last digit (0.0166 against 0.0167, 0.0124 against 0.0125, 0.0281 against 0.0282, 0.0210 against 0.0211). An overall risk in [0.008719, 0.008750) and [0.014742, 0.014750), both of which round to the printed 0.0087 and 0.0147, gives every printed value.",
+      "evidence": [
+        "figure-reproduction/output/table5.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "Unrounded overall risks behind the printed ones",
+          "test": "Scan P1(D) across its rounding interval for values giving both printed estimates",
+          "result": "supported"
+        },
+        {
+          "hypothesis": "Another RR or P(obese) than printed",
+          "test": "RR 1.91 and 0.371 give the printed 50-59 values exactly and every age with the scanned P1(D)",
+          "result": "rejected"
+        }
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "table1",
+      "label": "Table 1, the parameter grid",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "The design of the simulation (P(E), P(D|not E), RR, N1/N2); used as input, nothing to compare.",
+        "evidence": [
+          "figure-reproduction/pipeline/simulate.py"
+        ]
+      }
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, relative bias of ESR_S and ESR_R (1000/1000 and 5000/5000)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/table2",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 2, 1000/1000, RR 3.0, ESR_R",
+        "Scenario 2, 1000/1000, RR 3.0, ESR_S"
+      ],
+      "notes": "Table 2 prints -0.8% for ESR_S, Scenario 4, RR 1.0, 1000/1000; Table S1 prints 0.8%. Ours, 1.4%, is within tolerance of both.",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Table 2 Differs to Agrees, after the explanation on the PR: the ESR_R columns are Monte Carlo noise around a true bias of 0 (signs differ between the paper and our run in 16 of 40 cells, and between two runs of our own in 18 of 40); the ESR_S columns match. First review (https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164) had set it to Differs."
+      }
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, coverage of the log CIs of ESR_S and ESR_R (1000/1000 and 5000/5000)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/table3",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "Scenario 1, 1000/1000, RR 4.0, ESR_R",
+        "Scenario 2, 1000/1000, RR 5.0, ESR_R",
+        "Scenario 3, 5000/5000, RR 1.0, ESR_R"
+      ],
+      "notes": "Every ESR_S column comes back (40 of 40). Table 3 prints 96.1 for ESR_R, Scenario 2, RR 4.0, 1000/1000; Table S6 prints 96.9.",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 3 Partly to Agrees."
+      }
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, coverage of the binomial CI of ESR_R (four N1/N2, seven RRs)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/table4",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 3, 5000/5000, RR 1.0"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 4 Partly to Agrees."
+      }
+    },
+    {
+      "id": "tableS1",
+      "label": "Table S1, relative bias of ESR_S",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S1",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 2, 1000/1000, RR 3.0"
+      ]
+    },
+    {
+      "id": "tableS2",
+      "label": "Table S2, relative bias of ESR_R",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S2",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 2, 1000/1000, RR 3.0"
+      ]
+    },
+    {
+      "id": "tableS3",
+      "label": "Table S3, absolute bias of ESR_S",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S3",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "tableS4",
+      "label": "Table S4, absolute bias of ESR_R",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S4",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 2, 1000/1000, RR 3.0"
+      ]
+    },
+    {
+      "id": "tableS5",
+      "label": "Table S5, coverage of the log CI of ESR_S",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S5",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 2, 5000/1000, RR 5.0"
+      ]
+    },
+    {
+      "id": "tableS6",
+      "label": "Table S6, coverage of the log CI of ESR_R",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S6",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": "S6"
+    },
+    {
+      "id": "tableS7",
+      "label": "Table S7, coverage of the binomial CI of ESR_R",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:tables/S7",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "chance",
+      "expect_misses": [
+        "Scenario 3, 5000/5000, RR 1.0"
+      ]
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1, expected length given coverage, Scenario 1 (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "figures.json:figures/fig1",
+      "threshold": 0.9,
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 1 Partly to Agrees."
+      }
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, expected length given coverage, Scenario 2 (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "figures.json:figures/fig2",
+      "threshold": 0.9,
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 2 Partly to Agrees."
+      }
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, expected length given coverage, Scenario 3 (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "figures.json:figures/fig3",
+      "threshold": 0.9,
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 3 Partly to Agrees."
+      }
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4, expected length given coverage, Scenario 4 (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "figures.json:figures/fig4",
+      "threshold": 0.9,
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Fig. 4 Partly to Agrees."
+      }
+    },
+    {
+      "id": "fig1.bars",
+      "label": "Fig. 1, the 12 bar heights",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:figures/fig1",
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "RR 2.0, esr_r_log",
+        "RR 5.0, esr_r_log"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 1 (drawing and bar heights) Agrees."
+      }
+    },
+    {
+      "id": "fig2.bars",
+      "label": "Fig. 2, the 12 bar heights",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:figures/fig2",
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "RR 1.0, esr_r_log",
+        "RR 2.0, esr_r_log",
+        "RR 5.0, esr_r_log"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 2 (drawing and bar heights) Agrees."
+      }
+    },
+    {
+      "id": "fig3.bars",
+      "label": "Fig. 3, the 12 bar heights",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:figures/fig3",
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "RR 1.0, esr_r_log",
+        "RR 2.0, esr_r_log",
+        "RR 5.0, esr_r_log"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 3 (drawing and bar heights) Agrees."
+      }
+    },
+    {
+      "id": "fig4.bars",
+      "label": "Fig. 4, the 11 bar heights (no ESR_S bar at RR 5.0: coverage 0)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:figures/fig4",
+      "assumptions_from": [
+        "simulation",
+        "figures"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "RR 1.0, esr_r_log",
+        "RR 2.0, esr_r_log",
+        "RR 5.0, esr_r_log"
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5944889915",
+        "note": "Second review: Fig. 4 (drawing and bar heights) Agrees."
+      }
+    },
+    {
+      "id": "table5.point",
+      "label": "Table 5, ESR_S and ESR_R of the case study from the printed inputs",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "table5.json:point",
+      "cause_from": "case_rounding",
+      "expect_misses": [
+        "60-69, ESR_S",
+        "60-69, ESR_R",
+        "70-79, ESR_S",
+        "70-79, ESR_R"
+      ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 5, ESR_S and ESR_R from the printed inputs, Partly to Agrees."
+      }
+    },
+    {
+      "id": "table5.ci",
+      "label": "Table 5, log CI of ESR_R predicted from the other two CIs",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "table5.json:ci",
+      "expect_misses": [
+        "70-79, upper"
+      ],
+      "assumptions": [
+        {
+          "what": "n1 per age group (Oliveria et al. 1995 person-years, not printed: 14,632, 14,171 and 11,817) solved from the width of the binomial CI of ESR_R, and Var(ln RR2) (Niu et al. 2009, not printed: 0.0191, an RR CI of 1.46 to 2.50) from the log CI of ESR_S; each age's overall risk at the middle of its rounding interval",
+          "source": "found_by_search",
+          "sensitivity": "Rounding the printed inputs and CIs within half a unit moves the predicted bounds by at most 0.0001 (table5.json, esr_r_log_ci_rounding_range); without eq. 10's first term the bounds move by 0.0005 to 0.0013 and none of the six comes back."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "5 of 6 bounds come back as printed; the 70-79 upper bound is 0.0290 against 0.0289. Rounding of the printed inputs and CIs alone spans 0.0289 to 0.0291 for it.",
+        "evidence": [
+          "figure-reproduction/output/table5.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Rounding of the printed overall risk and CIs",
+            "test": "Scan P1(D) across its rounding interval and the CI bounds by half a unit; solve n1 and Var(ln RR2) again",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The case study left out eq. 10's first term, as the simulation seems to",
+            "test": "Predicted bounds without it: 0.0043-0.0075, 0.0095-0.0164, 0.0161-0.0276",
+            "result": "rejected"
+          }
+        ]
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/88#pullrequestreview-5943914164",
+        "note": "Review: Table 5, log CI of ESR_R predicted from the other two CIs, Partly to Agrees."
+      }
+    },
+    {
+      "id": "text.abstract_max_bias",
+      "label": "Abstract: largest relative bias 4.0% for ESR_R and 93.9% for ESR_S",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_abstract_max_bias",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.main_claim",
+      "label": "Main claim: ESR_R has little bias, ESR_S a large one, and the log CI of ESR_R covers better in most settings",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_main_claim",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.s1_esrs_coverage_rr2",
+      "label": "Scenario 1: the CI of ESR_S covers at least 95% when RR is 2.0 or less",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_s1_esrs_coverage_rr2",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": [
+        "Scenario 1, RR <= 2.0, all N1/N2"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "status": "explained",
+        "summary": "One of the 12 cells of our run is at 94.4% (1000/5000, RR 2.0; the paper 96.0%). The paper's 12 cells are 95.4% to 97.5%, each within a point or two of the line; our second run has all 12 at 95% or more.",
+        "evidence": [
+          "figure-reproduction/output/claims.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Chance: cells near 95% fall either side",
+            "test": "The claim on our second run (claims.json, second_run)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Zero-cell rule",
+            "test": "With zero-cell intervals left out instead, five of the 12 cells fall below 95% (zero_missing in simulation.json)",
+            "result": "rejected"
+          }
+        ]
+      }
+    },
+    {
+      "id": "text.log_ci_esrr_pattern",
+      "label": "Scenarios 1-3: the log CI of ESR_R reaches 95% except at N1/N2 1000/5000, where it never does",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_log_ci_esrr_pattern",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "cause_from": "eq10",
+      "expect_misses": [
+        "Scenario 1: log CI of ESR_R below 95% for every RR at 1000/5000",
+        "Scenario 2: log CI of ESR_R below 95% for every RR at 1000/5000",
+        "Scenario 3: log CI of ESR_R below 95% for every RR at 1000/5000"
+      ],
+      "notes": "Without eq. 10's first term, the 1000/5000 statements hold in Scenarios 2 and 3; in Scenario 1 the paper's own cell at RR 1.0 is 94.7%, on the line."
+    },
+    {
+      "id": "text.binomial_ci_1000_5000",
+      "label": "The binomial CI of ESR_R reaches 95% only at 1000/5000 (Scenario 1, smallest 98.9%), and is above 99% there in Scenarios 2 and 3",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_binomial_ci_1000_5000",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": [
+        "Scenario 3: above 99% for every RR at 1000/5000"
+      ],
+      "exceptions": [
+        {
+          "field": "Scenario 3: above 99% for every RR at 1000/5000",
+          "category": "paper_error",
+          "evidence": "Table 4 and Table S7, Scenario 3, 1000/5000: 99.7, 99.1, 99.4, 99.0, 98.0, 98.8, 98.1; the sentence repeats the one written for Scenario 2"
+        }
+      ]
+    },
+    {
+      "id": "text.esrs_bias_thresholds",
+      "label": "Relative bias of ESR_S over 20% at RR 5.0 (Scenario 2) and over 10%, 20%, 80% at RR 1.5, 2.0, 5.0 (Scenario 3)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_esrs_bias_thresholds",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.s3_esrr_largest_bias",
+      "label": "Scenario 3: the largest relative bias of ESR_R is -1.8%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_s3_esrr_largest_bias",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.most_cases",
+      "label": "Scenario 2: the CI of ESR_S is below 95% in most cases; with equal N1 and N2 the binomial CI of ESR_R covers 87% to 95% in most cases",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_most_cases",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.restated_cells",
+      "label": "Numbers of the Results and Discussion that restate a table cell",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_restated_cells",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.s4_250",
+      "label": "Scenario 4 at N1/N2 250/250 (given only in the text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_s4_250",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": []
+    },
+    {
+      "id": "text.figures",
+      "label": "Figs 1-3 as the text reads them",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_figures",
+      "assumptions_from": [
+        "simulation"
+      ],
+      "expect_misses": [
+        "Fig. 1: the CI of ESR_S is the longest at each RR"
+      ],
+      "cause": {
+        "category": "code_differs_from_paper",
+        "status": "explained",
+        "summary": "With eq. 10 as printed, our log CI of ESR_R at RR 1.0 in Fig. 1 is as long as the CI of ESR_S (0.0413 against 0.0412); the paper's is shorter (0.0399 against 0.0416). Without eq. 10's first term the statement holds, and so it does on our second run (a near tie at RR 1.0).",
+        "evidence": [
+          "figure-reproduction/output/claims.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "eq. 10's first term (see Table S6)",
+            "test": "The statement on the run without it",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Chance at RR 1.0 alone",
+            "test": "Second run: holds; the two bars differ by 0.0001 in our first run",
+            "result": "inconclusive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "text.case_study",
+      "label": "Case study: ESR_R 0.57% to 2.11%, ESR_S higher, largest over-estimation 0.71% at ages 70-79",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "claims.json:text_case_study",
+      "cause_from": "case_rounding",
+      "expect_misses": [
+        "ESR_R, largest (%)"
+      ]
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables and figures",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check_from": "claims.json"
+    },
+    {
+      "id": "port",
+      "label": "The authors' SAS 9.2 programs",
+      "kind": "code_check",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "status": "explained",
+        "summary": "The paper ran in SAS 9.2 and released no code; none was found (issue #68 lists the search). The method was rebuilt from the text as esrisk and checked against the paper's tables and figures only.",
+        "evidence": [
+          "https://github.com/jeonglab-bcm/fossil/issues/68"
+        ]
+      }
+    },
+    {
+      "id": "package",
+      "label": "Python package esrisk and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "package.json",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {
+    "lede": "Reichmann and colleagues ran their simulation in SAS and published it in 2011 without the code. In November 2026 we rebuilt it from the paper and reran all 119 settings. Of {items} results, {agrees} agree, {partly} partly agree and {differs} {differs_verb}, {reviewed} of these verdicts set in review. Every gap has a tested cause.",
+    "label_rows": [
+      [
+        "fig-1",
+        "Figs 1 to 4",
+        [
+          "fig1",
+          "fig2",
+          "fig3",
+          "fig4",
+          "fig1.bars",
+          "fig2.bars",
+          "fig3.bars",
+          "fig4.bars"
+        ]
+      ],
+      [
+        "tables",
+        "Tables S1 to S5, S7",
+        [
+          "tableS1",
+          "tableS2",
+          "tableS3",
+          "tableS4",
+          "tableS5",
+          "tableS7"
+        ]
+      ],
+      [
+        "tableS6",
+        "Table S6",
+        [
+          "tableS6"
+        ]
+      ],
+      [
+        "items",
+        "Table 5",
+        [
+          "table5.point",
+          "table5.ci"
+        ]
+      ],
+      [
+        "items",
+        "Main claim",
+        [
+          "text.main_claim"
+        ]
+      ]
+    ],
+    "came_back": [
+      [
+        "The bias of the two estimators",
+        "Tables S1 to S4 came back cell by cell within Monte Carlo error, one chance miss at most per table. ESR_S is off by up to 94% when exposure is common; ESR_R stays within a few percent of 0."
+      ],
+      [
+        "Two of the three intervals",
+        "The log interval of ESR_S (Table S5) and the binomial interval of ESR_R (Tables 4 and S7) came back the same way."
+      ],
+      [
+        "The figures",
+        "Every bar of Figs 1 to 4 for ESR_S, the binomial interval and the empirical interval came back within Monte Carlo error, by up to 7 px."
+      ],
+      [
+        "The text",
+        "The numbers given only in the text, Scenario 4 at 250/250, came back within Monte Carlo error."
+      ],
+      [
+        "The case study",
+        "Table 5 follows from its printed inputs once their rounding is allowed for, and eq. 10 as printed predicts 5 of its 6 ESR_R interval bounds to the last digit, the sixth within that rounding."
+      ],
+      [
+        "The method",
+        "esrisk, a Python package with the two estimators, the three intervals and the simulation, with a tutorial."
+      ]
+    ],
+    "buried": [
+      "The SAS programs. The paper names SAS 9.2 and released nothing; no copy was found.",
+      "The log interval of ESR_R in the simulation. Table S6 and the ESR_R bars of Figs 1 to 4 behave as if the first term of eq. 10 were left out; with it, as printed, our intervals cover more often. The case study used eq. 10 as printed.",
+      "The seeds. Each table carries Monte Carlo error; about one cell in a hundred misses by chance, as between two runs of our own."
+    ],
+    "matched_intro": "What the paper does not say, and what we chose. Each choice was tested against the paper's tables.",
+    "matched": [
+      [
+        "True ESR",
+        "RR times the risk in the unexposed, unrounded (0.135, not the label .14). The rounded label misses many cells of Tables S1 and S2."
+      ],
+      [
+        "Zero cells",
+        "With no cases in one group of sample 2, the log interval is (0, infinity). Leaving those pairs out lowers coverage in Scenario 1; counting them as misses or adding 0.5 misses Tables S5 and S7."
+      ],
+      [
+        "Population",
+        "10 million people per setting, both samples drawn without replacement. Fixed proportions instead of random draws change nothing."
+      ],
+      [
+        "Tolerance",
+        "Half a printed unit plus three combined Monte Carlo standard errors, fixed before the comparison."
+      ]
+    ],
+    "closing": "Reichmann and colleagues, 2011. The simulation came back in November 2026, from the paper alone.",
+    "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
+    "tables_caption": "Every cell of the supplement's seven tables and of Table 4. Tables 2 and 3 repeat cells of Tables S1, S2, S5 and S6 and are in the list below.",
+    "claims_line": "The main claim holds: ESR_R removes the bias of ESR_S, and the binomial interval and the log interval of ESR_S behave as reported. The log interval of ESR_R does not, as printed: the paper's simulation left out the first term of eq. 10. The other claims that miss are chance, near the 95% line, or rounding."
+  }
+}
