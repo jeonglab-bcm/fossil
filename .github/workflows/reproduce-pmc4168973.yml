@@ -1,0 +1,81 @@
+name: Reproduce PMC4168973
+
+# Reruns the PMC4168973 pipeline (pathway deregulation scores with a Cox-LASSO model for breast
+# cancer relapse, Huang et al. 2014) and checks it: the four GEO series, the clinical tables, the
+# gene sets and the NKI70 and PAM50 gene lists are downloaded and their SHA-256 checked; the
+# package pdscox is installed from the repository; the pathway deregulation scores of 4 of the 403
+# pathways in each data set and the first 2 cross-validation runs of every model are rerun from
+# scratch and must equal the committed ones; every model is fitted from the committed scores and
+# penalties; Table 1, Fig. 1, Tables 2 and 3, Figs 3 to 6 and S1 to S4 are rebuilt and compared with
+# the paper; check_results.py runs on the fresh results.json; the R package is built and checked
+# and its tutorial rendered; and the fresh run is compared with the committed output/
+# (compare_runs.py). Started by hand with full = true, it scores all 403 pathways in every data set
+# and runs every cross-validation run (about 4 hours on 4 cores) and builds everything from the
+# fresh run.
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Score every pathway and run every cross-validation run (slow)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC4168973/figure-reproduction/**"
+      - "PMC4168973/package/**"
+      - "PMC4168973/results.json"
+      - ".github/workflows/reproduce-pmc4168973.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4168973/figure-reproduction/**"
+      - "PMC4168973/package/**"
+      - "PMC4168973/results.json"
+      - ".github/workflows/reproduce-pmc4168973.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 360 || 60 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC4168973/figure-reproduction/requirements.txt
+
+      - name: Install R 4.3.3 and the pinned R packages
+        run: bash PMC4168973/figure-reproduction/pipeline/install_r.sh
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC4168973/figure-reproduction/main.nf --outdir results -ansi-log false
+          --cpus 4 ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4168973-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
