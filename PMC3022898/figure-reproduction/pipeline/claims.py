@@ -167,6 +167,19 @@ def claims(P, F, S, T5):
         "fields": [num_field("Scenario 3: relative bias of ESR_R furthest from 0 (%)", "-1.8", pv, ov, se_of(sim, "S2", *okk))],
         "where": {"paper": pk, "ours": okk}}
 
+    # "In most cases" statements, as a majority of the settings they speak of.
+    def most(src):
+        s2 = [src.cell("S5", 2, sz, rr) for sz in SIZE_KEYS for rr in RR_KEYS]
+        eq = [src.cell("S7", s, sz, rr) for s in (1, 2, 3, 4) for sz in ("1000/1000", "5000/5000") for rr in RR_KEYS]
+        return (sum(v < 95 for v in s2) > len(s2) / 2, sum(87 <= v <= 95 for v in eq) > len(eq) / 2,
+                sum(v < 95 for v in s2), len(s2), sum(87 <= v <= 95 for v in eq), len(eq))
+    a_, o_ = both(most)
+    out["text.most_cases"] = {
+        "label": "Scenario 2: the CI of ESR_S is below 95% in most cases; with equal N1 and N2 the binomial CI of ESR_R covers 87% to 95% in most cases",
+        "fields": [yn_field("Scenario 2: CI of ESR_S below 95% in most of its 28 settings", "yes", a_[0], o_[0]),
+                   yn_field("Equal N1/N2: binomial CI of ESR_R between 87% and 95% in most of the 56 settings", "yes", a_[1], o_[1])],
+        "counts": {"paper": [a_[2], a_[3], a_[4], a_[5]], "ours": [o_[2], o_[3], o_[4], o_[5]]}}
+
     # Numbers that restate one table cell (Results and Discussion).
     restated = [("Scenario 1, 1000/1000, RR 5.0: relative bias of ESR_S (%)", "31.4", "S1", 1, "1000/1000", "5.0"),
                 ("Scenario 1, 1000/1000, RR 5.0: relative bias of ESR_R (%)", "3.4", "S2", 1, "1000/1000", "5.0"),

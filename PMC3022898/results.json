@@ -12100,6 +12100,59 @@
       "verdict": "agrees"
     },
     {
+      "id": "text.most_cases",
+      "label": "Scenario 2: the CI of ESR_S is below 95% in most cases; with equal N1 and N2 the binomial CI of ESR_R covers 87% to 95% in most cases",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The 'assumed population ESR' is RR x P(D|not E) unrounded (0.135 for the label .14), not the rounded label of the tables",
+          "source": "found_by_search",
+          "sensitivity": "The rounded label leaves 102 of 112 cells of Table S1 and 101 of S2 within tolerance (RMS z 1.972 and 2.277 against 1.139 and 1.168); the population's realized ESR gives the same as RR x P(D|not E) (RMS z 1.123 and 1.154). comparison.json, hypotheses."
+        },
+        {
+          "what": "When sample 2 has no cases among its exposed (or its unexposed), the log interval is (0, infinity): it covers, and it has no finite length, so it is left out of the expected length. The paper does not say.",
+          "source": "found_by_search",
+          "sensitivity": "Leaving those intervals out of the coverage instead (missing) gives Table S5 RMS z 1.144 against 1.08 and puts the paper 1.5 to 3 points above us in Scenario 1 at N2 = 1000, in two runs; counting them as not covering leaves 101 of 112 S5 cells within (RMS z 4.061); adding 0.5 to the cells leaves 107 of 112 S7 cells within (RMS z 2.638). Only Scenario 1 at N2 = 1000 and the 250/250 runs have many such pairs (up to 39%)."
+        },
+        {
+          "what": "One population of 10 million per setting, by Bernoulli draws of exposure and disease; both samples drawn from it without replacement, independently of each other; 1,000 pairs per setting; our own seeds",
+          "source": "our_choice",
+          "sensitivity": "Exact cell proportions instead of draws change nothing (Tables S1, S2, S5, S7 112 of 112 each, exact_population in comparison.json). The seeds are ours: two runs of ours differ by more than the tolerance in 8 of 784 cells."
+        },
+        {
+          "what": "Comparison tolerance: half a printed unit plus 3 x sqrt(2) Monte Carlo standard errors of one 1,000-pair estimate, fixed before the comparison",
+          "source": "our_choice",
+          "sensitivity": "With it two runs of our own design agree in 776 of 784 cells (99.0%). Wrong inputs (scenario or N1/N2 swapped) fall outside in 21% to 81% of the cells of Tables S1, S3, S5, S6 and S7; in Tables S2 and S4, where the true bias is 0 everywhere, a wrong input is almost as good as a right one."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "Scenario 2: CI of ESR_S below 95% in most of its 28 settings",
+            "expected": "yes",
+            "arithmetic": "yes",
+            "observed": "yes",
+            "second_run": "yes",
+            "without_eq10_first_term": "yes"
+          },
+          {
+            "name": "Equal N1/N2: binomial CI of ESR_R between 87% and 95% in most of the 56 settings",
+            "expected": "yes",
+            "arithmetic": "yes",
+            "observed": "yes",
+            "second_run": "yes",
+            "without_eq10_first_term": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
       "id": "text.restated_cells",
       "label": "Numbers of the Results and Discussion that restate a table cell",
       "kind": "value",
@@ -12569,7 +12622,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "40 of 46 statements follow from the paper's own tables and figures. Not: text_binomial_ci_1000_5000: Scenario 3: above 99% for every RR at 1000/5000 (yes against no); text_discussion_self: case study overall risk ranges from (0.0087 against 0.0040); text_discussion_self: case study overall risk ranges to (0.0132 against 0.0147); text_discussion_self: the scenario with exposure .20 and disease in the unexposed .02 (scenario two against Scenario 3); text_discussion_self: equation of the log-based variance of ESR_R (11 against 10); text_discussion_self: equation of the binomial variance of ESR_R (12 against 11). Tables 2-4 restate Tables S1, S2, S5-S7 in every cell but 2: table2 S4|1000/1000|1.0|S -0.8 against S1 0.8; table3 S2|1000/1000|4.0|R 96.1 against S6 96.9"
+        "detail": "42 of 48 statements follow from the paper's own tables and figures. Not: text_binomial_ci_1000_5000: Scenario 3: above 99% for every RR at 1000/5000 (yes against no); text_discussion_self: case study overall risk ranges from (0.0087 against 0.0040); text_discussion_self: case study overall risk ranges to (0.0132 against 0.0147); text_discussion_self: the scenario with exposure .20 and disease in the unexposed .02 (scenario two against Scenario 3); text_discussion_self: equation of the log-based variance of ESR_R (11 against 10); text_discussion_self: equation of the binomial variance of ESR_R (12 against 11). Tables 2-4 restate Tables S1, S2, S5-S7 in every cell but 2: table2 S4|1000/1000|1.0|S -0.8 against S1 0.8; table3 S2|1000/1000|4.0|R 96.1 against S6 96.9"
       },
       "verdict": "agrees"
     },
@@ -12606,9 +12659,9 @@
     }
   ],
   "summary": {
-    "items": 35,
+    "items": 36,
     "exact": 0,
-    "agrees": 10,
+    "agrees": 11,
     "partly": 22,
     "inconclusive": 0,
     "differs": 1,

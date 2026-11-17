@@ -34,7 +34,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-10 agrees, 22 partly, 1 differs, 2 not attempted; 0 open causes.
+11 agrees, 22 partly, 1 differs, 2 not attempted; 0 open causes.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -66,11 +66,12 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3022898/>
 | The binomial CI of ESR_R reaches 95% only at 1000/5000 (Scenario 1, smallest 98.9%), and is above 99% there in Scenarios 2 and 3 | agrees | 3 of 3 fields as printed, 1 paper errors |
 | Relative bias of ESR_S over 20% at RR 5.0 (Scenario 2) and over 10%, 20%, 80% at RR 1.5, 2.0, 5.0 (Scenario 3) | agrees | 4 of 4 fields as printed |
 | Scenario 3: the largest relative bias of ESR_R is -1.8% | agrees | 1 of 1 fields as printed |
+| Scenario 2: the CI of ESR_S is below 95% in most cases; with equal N1 and N2 the binomial CI of ESR_R covers 87% to 95% in most cases | agrees | 2 of 2 fields as printed |
 | Numbers of the Results and Discussion that restate a table cell | agrees | 8 of 8 fields as printed |
 | Scenario 4 at N1/N2 250/250 (given only in the text) | agrees | 12 of 12 fields as printed |
 | Figs 1-3 as the text reads them | partly | 5 of 6 fields as printed |
 | Case study: ESR_R 0.57% to 2.11%, ESR_S higher, largest over-estimation 0.71% at ages 70-79 | partly | 4 of 5 fields as printed |
-| Claims recomputed from the paper's own tables and figures | agrees | 40 of 46 statements follow from the paper's own tables and figures. Not: text_binomial_ci_1000_5000: Scenario 3: above 99% for every RR at 1000/5000 (yes against no); text_discussion_self: case study overall risk ranges from (0.0087 against 0.0040); text_discussion_self: case study overall risk ranges to (0.0132 against 0.0147); text_discussion_self: the scenario with exposure .20 and disease in the unexposed .02 (scenario two against Scenario 3); text_discussion_self: equation of the log-based variance of ESR_R (11 against 10); text_discussion_self: equation of the binomial variance of ESR_R (12 against 11). Tables 2-4 restate Tables S1, S2, S5-S7 in every cell but 2: table2 S4 |
+| Claims recomputed from the paper's own tables and figures | agrees | 42 of 48 statements follow from the paper's own tables and figures. Not: text_binomial_ci_1000_5000: Scenario 3: above 99% for every RR at 1000/5000 (yes against no); text_discussion_self: case study overall risk ranges from (0.0087 against 0.0040); text_discussion_self: case study overall risk ranges to (0.0132 against 0.0147); text_discussion_self: the scenario with exposure .20 and disease in the unexposed .02 (scenario two against Scenario 3); text_discussion_self: equation of the log-based variance of ESR_R (11 against 10); text_discussion_self: equation of the binomial variance of ESR_R (12 against 11). Tables 2-4 restate Tables S1, S2, S5-S7 in every cell but 2: table2 S4 |
 | The authors' SAS 9.2 programs | not attempted | not attempted |
 | Python package esrisk and its tutorial | agrees | esrisk 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |
 <!--/RESULTS-SUMMARY-->
