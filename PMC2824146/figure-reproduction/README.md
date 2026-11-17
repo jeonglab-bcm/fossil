@@ -95,9 +95,13 @@ combined Monte Carlo SEs (ours from 200 or 100 replicates, the paper's for 1000 
 plus one grid step. Two controls are scored at the same tolerance: the other mechanism's values
 (MAR for MNAR and the reverse) and our values at the neighbouring missingness level.
 
-The figures are drawn on the published axes (`fig*_ours.png`) and laid over the published vector
-figure rasterised at 144 dpi (`fig*_overlay.png`, ours in magenta). The published JPEGs in
-`published/` are the PMC figure files, kept for reference.
+Our figures (`fig*_ours.png`) are the paper's own vector pages with the plotted data taken out
+(series lines and markers, dashed reference lines, histogram bars) and ours drawn in their place, in
+the published colours, markers, line width and dash pattern, so the axes, labels, panel titles and
+key are the paper's and only the data are ours. They line up with the published figures rasterised
+from the same pages at 144 dpi (`fig*_published.png`); `fig*_overlay.png` lays ours in magenta over
+the published figure in grey. The published JPEGs in `published/` are the PMC figure files, kept
+for reference.
 
 ## Layout
 

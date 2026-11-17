@@ -4,7 +4,8 @@ The published figure is the vector drawing in the article PDF, rasterised here a
 Each panel's data-to-point map comes from its tick marks (extract_published.py), so our points land
 where the paper's would for the same values.
 
-  fig<N>_ours.png     our series, reference lines and bars on the published axes (white background)
+  fig<N>_ours.png     the published figure with its plotted data taken out and ours drawn in: axes,
+                      labels, titles and key are the paper's own, only the data are ours
   fig<N>_overlay.png  the published figure in grey with our series in magenta on top
   fig<N>_published.png the published figure, rasterised on the same grid (for the results page)
 
@@ -19,6 +20,8 @@ from pathlib import Path
 import numpy as np
 import pymupdf
 from PIL import Image, ImageDraw
+
+import extract_published as X
 
 SCALE = 2.0
 PAGES = {1: 2, 2: 6, 3: 8, 4: 9, 5: 10, 6: 11, 7: 12, 8: 13}
@@ -98,30 +101,6 @@ def to_pt(mp, v):
     return (v - a) / b
 
 
-def draw_axes(c, p):
-    ax = p["axes"]
-    x = ax["y_axis_x"]
-    c.line([(x, min(ax["y_ticks"])), (x, max(ax["y_ticks"]))], (0, 0, 0), 1)
-    for t in ax["y_ticks"]:
-        c.line([(x - 3.6, t), (x, t)], (0, 0, 0), 1)
-    y = ax["x_axis_y"]
-    c.line([(min(ax["x_ticks"]), y), (max(ax["x_ticks"]), y)], (0, 0, 0), 1)
-    for t in ax["x_ticks"]:
-        c.line([(t, y), (t, y + 3.6)], (0, 0, 0), 1)
-    for t, v in zip(ax["y_ticks"], tick_labels(p["y_map"], ax["y_ticks"])):
-        c.text(x - 30, t - 4, v)
-    for t, v in zip(ax["x_ticks"], tick_labels(p["x_map"], ax["x_ticks"])):
-        c.text(t - 4, y + 5, v)
-
-
-def tick_labels(mp, ticks):
-    """The printed tick values: the fitted map rounded to the tick step."""
-    a, b = mp
-    vals = [a + b * t for t in ticks]
-    step = float(f"{abs(vals[1] - vals[0]):.2g}")
-    return [f"{round(v / step) * step:.6g}" for v in vals]
-
-
 class Ours:
     def __init__(self, s):
         self.idx = {(r["mechanism"], r["method"], round(100 * r["level"]), r["variable"], r["quantity"]): r["value"]
@@ -153,16 +132,209 @@ def lighten(img, keep=0.35):
     return Image.fromarray(a.astype(np.uint8)).convert("RGB")
 
 
+# ---------------------------------------------------------------- our figure on the paper's own page
+
+LW = 0.454          # the published series line width (pt)
+DASH = "[1.9 1.77] 0"  # the published reference-line dash pattern (pt)
+
+
+def data_drawings(page, fig, pub):
+    """Indices of the page's drawings that carry plotted data: series lines and markers, dashed
+    reference lines, histogram bars. Everything else (axes, ticks, labels, titles, legend) stays."""
+    drs = page.get_drawings()
+    segs = X.segments(page)
+    F = pub["figures"][f"fig{fig}"]
+    erase = set()
+    for name, p in F["panels"].items():
+        ax = p["axes"]
+        ytk, xtk = ax["y_ticks"], ax["x_ticks"]
+        x0, x1 = ax["y_axis_x"] + 0.5, max(xtk) + 12
+        y0, y1 = min(ytk) - 30, ax["x_axis_y"] - 0.5
+
+        def inside(x, y):
+            return x0 <= x <= x1 and y0 <= y <= y1
+        if fig == 1:
+            base = max(ytk)
+            for (a, b, h) in p["bars"]:
+                xa, xb, yh = to_pt(p["x_map"], a), to_pt(p["x_map"], b), to_pt(p["y_map"], h)
+                for sg in segs:
+                    if not X.is_black(sg["col"]):
+                        continue
+                    if abs(sg["x0"] - sg["x1"]) < X.EPS and min(abs(sg["x0"] - xa), abs(sg["x0"] - xb)) < 0.3 \
+                            and abs(max(sg["y0"], sg["y1"]) - base) < 0.6:
+                        erase.add(sg["order"])
+                    if abs(sg["y0"] - sg["y1"]) < X.EPS and abs(sg["y0"] - yh) < 0.3 \
+                            and min(sg["x0"], sg["x1"]) > xa - 0.3 and max(sg["x0"], sg["x1"]) < xb + 0.3:
+                        erase.add(sg["order"])
+            continue
+        grid = [to_pt(p["x_map"], v) for v in X.DATA_X]
+        on_grid = lambda x: min(abs(x - g) for g in grid) < 0.6
+        dashes = {}
+        for sg in segs:
+            mx, my = (sg["x0"] + sg["x1"]) / 2, (sg["y0"] + sg["y1"]) / 2
+            if sg["col"] is None or not inside(mx, my):
+                continue
+            if not X.is_black(sg["col"]):
+                erase.add(sg["order"])
+            elif X.length(sg) >= 5 and on_grid(sg["x0"]) and on_grid(sg["x1"]):
+                erase.add(sg["order"])
+            elif abs(sg["y0"] - sg["y1"]) < X.EPS and X.length(sg) < 12:
+                dashes.setdefault("all", []).append((sg["y0"], sg["order"]))
+        # dashed lines: clusters of short horizontal segments at one height (within 0.3 pt)
+        cluster, last = [], None
+        for y, o in sorted(dashes.get("all", [])) + [(1e9, None)]:
+            if last is not None and y - last > 0.3:
+                if len(cluster) >= 8:
+                    erase.update(cluster)
+                cluster = []
+            cluster.append(o)
+            last = y
+        cc = [(to_pt(p["x_map"], x), to_pt(p["y_map"], y)) for x, y in p["series"].get("CC", [])]
+        for i, d in enumerate(drs):
+            r = d["rect"]
+            cx, cy = (r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2
+            if not inside(cx, cy) or r.width > 9 or r.height > 9:
+                continue
+            col = d.get("color") or d.get("fill")
+            kinds = {it[0] for it in d["items"]}
+            if col is not None and not X.is_black(tuple(round(c, 2) for c in col)):
+                erase.add(i)          # coloured markers
+            elif "c" in kinds and any(abs(cx - a) < 3 and abs(cy - b) < 3 for a, b in cc):
+                erase.add(i)          # CC's circles
+    return erase
+
+
+def white_out(shape, d, extra=0.9):
+    """Paint one drawing over in white, slightly wider than drawn."""
+    w = (d.get("width") or 0.3) + extra
+    for it in d["items"]:
+        if it[0] == "l":
+            shape.draw_line(it[1], it[2])
+        elif it[0] == "c":
+            shape.draw_bezier(it[1], it[2], it[3], it[4])
+        elif it[0] == "re":
+            shape.draw_rect(it[1])
+        elif it[0] == "qu":
+            shape.draw_quad(it[1])
+    filled = d["type"] in ("f", "fs")
+    shape.finish(color=(1, 1, 1), fill=(1, 1, 1) if filled else None, width=w, closePath=False, lineCap=1)
+
+
+def redraw(shape, d):
+    """Draw one of the page's drawings again with its own style."""
+    for it in d["items"]:
+        if it[0] == "l":
+            shape.draw_line(it[1], it[2])
+        elif it[0] == "c":
+            shape.draw_bezier(it[1], it[2], it[3], it[4])
+        elif it[0] == "re":
+            shape.draw_rect(it[1])
+        elif it[0] == "qu":
+            shape.draw_quad(it[1])
+    filled = d["type"] in ("f", "fs")
+    stroked = d["type"] in ("s", "fs")
+    shape.finish(color=d.get("color") if stroked else None, fill=d.get("fill") if filled else None,
+                 width=d.get("width") or 0, closePath=d.get("closePath", False))
+
+
+def vector_marker(shape, x, y, kind, col):
+    P = pymupdf.Point
+    if kind == "circle":
+        shape.draw_circle(P(x, y), 1.15)
+    elif kind in ("x", "star", "square"):
+        shape.draw_line(P(x - 1.35, y - 1.35), P(x + 1.35, y + 1.35))
+        shape.draw_line(P(x - 1.35, y + 1.35), P(x + 1.35, y - 1.35))
+    if kind in ("plus", "star"):
+        shape.draw_line(P(x - 1.82, y), P(x + 1.82, y))
+        shape.draw_line(P(x, y - 1.82), P(x, y + 1.82))
+    if kind == "square":
+        shape.draw_rect(pymupdf.Rect(x - 1.35, y - 1.35, x + 1.35, y + 1.35))
+    if kind == "tri_up":
+        shape.draw_polyline([P(x, y - 1.55), P(x + 1.82, y + 1.0), P(x - 1.82, y + 1.0), P(x, y - 1.55)])
+    if kind == "tri_down":
+        shape.draw_polyline([P(x, y + 1.55), P(x + 1.82, y - 1.0), P(x - 1.82, y - 1.0), P(x, y + 1.55)])
+    shape.finish(color=col, width=LW, closePath=False)
+
+
+def ours_on_published(doc, fig, pub, ours, targets):
+    """The paper's page with its plotted data taken out and ours drawn in, rasterised like the paper."""
+    src = doc[PAGES[fig]]
+    erase = data_drawings(src, fig, pub)
+    drs = src.get_drawings()
+    nd = pymupdf.open()
+    pg = nd.new_page(width=src.rect.width, height=src.rect.height)
+    pg.show_pdf_page(pg.rect, doc, PAGES[fig])
+    sh = pg.new_shape()
+    for i in sorted(erase):
+        white_out(sh, drs[i])
+    sh.commit()
+    # put back the plot boxes and axis lines the white-out may have nicked
+    sh = pg.new_shape()
+    for i, d in enumerate(drs):
+        r = d["rect"]
+        col = d.get("color") or d.get("fill")
+        if i in erase or col is None or not X.is_black(tuple(round(c, 2) for c in col)):
+            continue
+        if max(r.width, r.height) > 15 and (d["type"] in ("s", "fs") or min(r.width, r.height) < 1.5):
+            redraw(sh, d)
+    sh.commit()
+    sh = pg.new_shape()
+    P = pymupdf.Point
+    F = pub["figures"][f"fig{fig}"]
+    if fig == 1:
+        for name, p in F["panels"].items():
+            h = targets["histograms"][name]
+            base = to_pt(p["y_map"], 0)
+            for a, b, n in zip(h["breaks"], h["breaks"][1:], h["counts"]):
+                if n == 0:
+                    continue
+                xa, xb, yh = to_pt(p["x_map"], a), to_pt(p["x_map"], b), to_pt(p["y_map"], n)
+                sh.draw_polyline([P(xa, base), P(xa, yh), P(xb, yh), P(xb, base)])
+                sh.finish(color=(0, 0, 0), width=LW, closePath=False)
+    else:
+        legend = {e["label"]: e for e in F["legend"]}
+        for name, p in F["panels"].items():
+            xs = (to_pt(p["x_map"], -3.0), to_pt(p["x_map"], 78.0))
+            for r in reference_lines(fig, name, ours):
+                y = to_pt(p["y_map"], r)
+                sh.draw_line(P(xs[0], y), P(xs[1], y))
+                sh.finish(color=(0, 0, 0), width=LW, dashes=DASH)
+            for label, e in legend.items():
+                mech, method = label.split(":") if ":" in label else ("MAR", label)
+                var, qty = ("model", name) if fig == 6 else (name, QTY[fig])
+                pts = ours.series(mech, method, var, qty)
+                if not pts:
+                    continue
+                q = [P(to_pt(p["x_map"], x), to_pt(p["y_map"], v)) for x, v in pts]
+                col = tuple(e["col"])
+                sh.draw_polyline(q)
+                sh.finish(color=col, width=LW, closePath=False)
+                for pt in q:
+                    vector_marker(sh, pt.x, pt.y, e["marker"], col)
+    sh.commit()
+    return published_raster(pg, figure_clip(src, fig))
+
+
+def reference_lines(fig, name, ours):
+    if fig in (2, 7):
+        t, se = ours.truth[name], ours.se[name]
+        return [t - 0.5 * se, t, t + 0.5 * se]
+    if fig == 3:
+        return [ours.se[name]]
+    if fig in (4, 8):
+        return [80, 90, 95]
+    if fig == 5:
+        return [0.05]
+    return []
+
+
 def render_lines(fig, page, pub, ours, out):
     F = pub["figures"][f"fig{fig}"]
     clip = figure_clip(page, fig)
     pubimg = published_raster(page, clip)
     legend = {e["label"]: e for e in F["legend"]}
-    mine = Canvas(clip, Image.new("RGB", pubimg.size, "white"))
     over = Canvas(clip, lighten(pubimg))
     for name, p in F["panels"].items():
-        draw_axes(mine, p)
-        mine.text(p["axes"]["y_axis_x"] + 8, min(p["axes"]["y_ticks"]) - 2, name)
         xs = (min(p["axes"]["x_ticks"]) - 4, max(p["axes"]["x_ticks"]) + 4)
         # our reference lines
         if fig in (2, 7):
@@ -178,8 +350,7 @@ def render_lines(fig, page, pub, ours, out):
             refs = []
         for r in refs:
             y = to_pt(p["y_map"], r)
-            for cv, col in ((mine, (0, 0, 0)), (over, MAGENTA)):
-                cv.line([(xs[0], y), (xs[1], y)], col, 1, dash=4)
+            over.line([(xs[0], y), (xs[1], y)], MAGENTA, 1, dash=4)
         for label, e in legend.items():
             mech, method = label.split(":") if ":" in label else ("MAR", label)
             var, qty = ("model", name) if fig == 6 else (name, QTY[fig])
@@ -187,25 +358,10 @@ def render_lines(fig, page, pub, ours, out):
             if not pts:
                 continue
             q = [(to_pt(p["x_map"], x), to_pt(p["y_map"], v)) for x, v in pts]
-            col = tuple(int(255 * c) for c in e["col"])
-            mine.line(q, col, 2)
             over.line(q, MAGENTA, 2)
             for (x, y) in q:
-                mine.marker(x, y, e["marker"], col)
                 over.marker(x, y, e["marker"], MAGENTA, 4)
     pubimg.save(out / f"fig{fig}_published.png", optimize=True)
-    # legend under the panels
-    bottom = max(p["axes"]["x_axis_y"] for p in F["panels"].values()) + 34
-    left = min(p["axes"]["y_axis_x"] for p in F["panels"].values())
-    for k, (label, e) in enumerate(legend.items()):
-        x0 = left + 190 * (k // 4)
-        y0 = bottom + 14 * (k % 4)
-        col = tuple(int(255 * c) for c in e["col"])
-        mine.line([(x0, y0), (x0 + 30, y0)], col, 2)
-        mine.marker(x0 + 15, y0, e["marker"], col)
-        mech, _, meth = label.rpartition(":")
-        mine.text(x0 + 36, y0 - 5, (f"{mech} - " if mech else "") + NAMES.get(meth, meth) + " (our run)")
-    mine.img.save(out / f"fig{fig}_ours.png", optimize=True)
     over.img.save(out / f"fig{fig}_overlay.png", optimize=True)
 
 
@@ -213,11 +369,8 @@ def render_hist(page, pub, t, out):
     F = pub["figures"]["fig1"]
     clip = figure_clip(page, 1)
     pubimg = published_raster(page, clip)
-    mine = Canvas(clip, Image.new("RGB", pubimg.size, "white"))
     over = Canvas(clip, lighten(pubimg))
     for name, p in F["panels"].items():
-        draw_axes(mine, p)
-        mine.text(p["axes"]["y_axis_x"] + 8, min(p["axes"]["y_ticks"]) - 14, name)
         h = t["histograms"][name]
         base = to_pt(p["y_map"], 0)
         for a, b, n in zip(h["breaks"], h["breaks"][1:], h["counts"]):
@@ -226,10 +379,8 @@ def render_hist(page, pub, t, out):
             x0, x1 = to_pt(p["x_map"], a), to_pt(p["x_map"], b)
             y = to_pt(p["y_map"], n)
             box = [(x0, base), (x0, y), (x1, y), (x1, base)]
-            mine.line(box, (0, 0, 0), 2)
             over.line(box, MAGENTA, 2)
     pubimg.save(out / "fig1_published.png", optimize=True)
-    mine.img.save(out / "fig1_ours.png", optimize=True)
     over.img.save(out / "fig1_overlay.png", optimize=True)
 
 
@@ -240,9 +391,13 @@ def main():
     doc = pymupdf.open(pdf)
     pub = json.load(open(pubf))
     ours = Ours(json.load(open(sumf)))
-    render_hist(doc[PAGES[1]], pub, json.load(open(tf)), out)
+    targets = json.load(open(tf))
+    render_hist(doc[PAGES[1]], pub, targets, out)
     for fig in range(2, 9):
         render_lines(fig, doc[PAGES[fig]], pub, ours, out)
+    # our figures on the paper's own pages
+    for fig in range(1, 9):
+        ours_on_published(doc, fig, pub, ours, targets).save(out / f"fig{fig}_ours.png", optimize=True)
 
 
 if __name__ == "__main__":
