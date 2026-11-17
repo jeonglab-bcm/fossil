@@ -1,0 +1,666 @@
+{
+ "text_abstract_max_bias": {
+  "label": "Abstract: largest relative bias, ESR_R 4.0% and ESR_S 93.9%",
+  "fields": [
+   {
+    "name": "largest relative bias of ESR_R (%)",
+    "expected": "4.0",
+    "arithmetic": 4.0,
+    "observed": 2.9271,
+    "tolerance": {
+     "abs": 11.240172
+    },
+    "cell": null,
+    "second_run": 4.1398,
+    "without_eq10_first_term": 2.9271
+   },
+   {
+    "name": "largest relative bias of ESR_S (%)",
+    "expected": "93.9",
+    "arithmetic": 93.9,
+    "observed": 94.2143,
+    "tolerance": {
+     "abs": 10.763128
+    },
+    "cell": null,
+    "second_run": 94.2904,
+    "without_eq10_first_term": 94.2143
+   }
+  ],
+  "where": {
+   "paper": [
+    [
+     1,
+     "1000/1000",
+     "1.5"
+    ],
+    [
+     3,
+     "1000/1000",
+     "5.0"
+    ]
+   ],
+   "ours": [
+    [
+     1,
+     "5000/1000",
+     "1.5"
+    ],
+    [
+     3,
+     "1000/1000",
+     "5.0"
+    ]
+   ]
+  }
+ },
+ "text_main_claim": {
+  "label": "Main claim: ESR_R has little bias and ESR_S a large one; the log CI of ESR_R covers better in most settings",
+  "fields": [
+   {
+    "name": "relative bias of ESR_R within 5% in all 112 settings",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "relative bias of ESR_S above 50% somewhere",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "log CI of ESR_R reaches 95% in more settings than the CI of ESR_S",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   }
+  ],
+  "counts": {
+   "paper": {
+    "esr_r_log_95": 84,
+    "esr_s_log_95": 29
+   },
+   "ours": {
+    "esr_r_log_95": 112,
+    "esr_s_log_95": 28
+   }
+  }
+ },
+ "text_s1_esrs_coverage_rr2": {
+  "label": "Scenario 1: CI of ESR_S covers at least 95% when RR is 2.0 or less, for every N1/N2",
+  "fields": [
+   {
+    "name": "Scenario 1, RR <= 2.0, all N1/N2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "second_run": "yes",
+    "without_eq10_first_term": "no"
+   }
+  ]
+ },
+ "text_log_ci_esrr_pattern": {
+  "label": "Scenarios 1-3: log CI of ESR_R reaches 95% except at N1/N2 1000/5000, where it never does",
+  "fields": [
+   {
+    "name": "Scenario 1: log CI of ESR_R at least 95% for every RR at 1000/1000, 5000/1000, 5000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 1: log CI of ESR_R below 95% for every RR at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "second_run": "no",
+    "without_eq10_first_term": "no"
+   },
+   {
+    "name": "Scenario 2: log CI of ESR_R at least 95% for every RR at 1000/1000, 5000/1000, 5000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "no"
+   },
+   {
+    "name": "Scenario 2: log CI of ESR_R below 95% for every RR at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "second_run": "no",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3: log CI of ESR_R at least 95% for every RR at 1000/1000, 5000/1000, 5000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3: log CI of ESR_R below 95% for every RR at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "second_run": "no",
+    "without_eq10_first_term": "yes"
+   }
+  ]
+ },
+ "text_binomial_ci_1000_5000": {
+  "label": "Binomial CI of ESR_R reaches 95% only at N1/N2 1000/5000 (Scenario 1, smallest 98.9%); above 99% there in Scenarios 2 and 3",
+  "fields": [
+   {
+    "name": "Scenario 1: 95% reached only at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 1, 1000/5000: smallest coverage (%)",
+    "expected": "98.9",
+    "arithmetic": 98.9,
+    "observed": 98.3,
+    "tolerance": {
+     "abs": 1.784353
+    },
+    "cell": null,
+    "second_run": 98.4,
+    "without_eq10_first_term": 98.3
+   },
+   {
+    "name": "Scenario 2: above 99% for every RR at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3: above 99% for every RR at 1000/5000",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no",
+    "second_run": "no",
+    "without_eq10_first_term": "no"
+   }
+  ]
+ },
+ "text_esrs_bias_thresholds": {
+  "label": "Relative bias of ESR_S: over 20% at RR 5.0 in Scenario 2; over 10%, 20% and 80% at RR 1.5, 2.0 and 5.0 in Scenario 3",
+  "fields": [
+   {
+    "name": "Scenario 2, RR 5.0: over 20% for every N1/N2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "no",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3, RR 1.5: over 10% for every N1/N2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3, RR 2.0: over 20% for every N1/N2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Scenario 3, RR 5.0: over 80% for every N1/N2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   }
+  ]
+ },
+ "text_s3_esrr_largest_bias": {
+  "label": "Scenario 3: the largest relative bias of ESR_R is -1.8% (RR 3.0, 1000/1000)",
+  "fields": [
+   {
+    "name": "Scenario 3: relative bias of ESR_R furthest from 0 (%)",
+    "expected": "-1.8",
+    "arithmetic": -1.8,
+    "observed": 1.31,
+    "tolerance": {
+     "abs": 4.802687
+    },
+    "cell": null,
+    "second_run": -1.8333,
+    "without_eq10_first_term": 1.31
+   }
+  ],
+  "where": {
+   "paper": [
+    3,
+    "1000/1000",
+    "3.0"
+   ],
+   "ours": [
+    3,
+    "1000/1000",
+    "2.0"
+   ]
+  }
+ },
+ "text_restated_cells": {
+  "label": "Numbers in the text that restate a table cell",
+  "fields": [
+   {
+    "name": "Scenario 1, 1000/1000, RR 5.0: relative bias of ESR_S (%)",
+    "expected": "31.4",
+    "arithmetic": 31.4,
+    "observed": 26.7201,
+    "tolerance": {
+     "abs": 9.426527
+    },
+    "cell": "S1|S1|1000/1000|5.0",
+    "second_run": 27.9618,
+    "without_eq10_first_term": 26.7201
+   },
+   {
+    "name": "Scenario 1, 1000/1000, RR 5.0: relative bias of ESR_R (%)",
+    "expected": "3.4",
+    "arithmetic": 3.4,
+    "observed": 0.2172,
+    "tolerance": {
+     "abs": 6.022981
+    },
+    "cell": "S2|S1|1000/1000|5.0",
+    "second_run": 0.9927,
+    "without_eq10_first_term": 0.2172
+   },
+   {
+    "name": "Scenario 1, 5000/5000, RR 5.0: coverage of the CI of ESR_S (%)",
+    "expected": "87.1",
+    "arithmetic": 87.1,
+    "observed": 88.1,
+    "tolerance": {
+     "abs": 4.394079
+    },
+    "cell": "S5|S1|5000/5000|5.0",
+    "second_run": 87.6,
+    "without_eq10_first_term": 88.1
+   },
+   {
+    "name": "Scenario 2, 5000/5000, RR 5.0: coverage of the CI of ESR_S, the smallest (%)",
+    "expected": "45",
+    "arithmetic": 45.0,
+    "observed": 49.7,
+    "tolerance": {
+     "abs": 7.208083
+    },
+    "cell": "S5|S2|5000/5000|5.0",
+    "second_run": 50.2,
+    "without_eq10_first_term": 49.7
+   },
+   {
+    "name": "Scenario 3, 5000/5000, RR 5.0: coverage of the CI of ESR_S (%)",
+    "expected": "4.2",
+    "arithmetic": 4.2,
+    "observed": 5.3,
+    "tolerance": {
+     "abs": 3.055725
+    },
+    "cell": "S5|S3|5000/5000|5.0",
+    "second_run": 3.6,
+    "without_eq10_first_term": 5.3
+   },
+   {
+    "name": "Discussion, Scenario 1, 1000/1000, RR 1.0: binomial coverage (%)",
+    "expected": "66",
+    "arithmetic": 66.1,
+    "observed": 62.4,
+    "tolerance": {
+     "abs": 6.99864
+    },
+    "cell": "S7|S1|1000/1000|1.0",
+    "second_run": 63.3,
+    "without_eq10_first_term": 62.4
+   },
+   {
+    "name": "Discussion, Scenario 1, 1000/1000, RR 1.5: binomial coverage (%)",
+    "expected": "78",
+    "arithmetic": 78.1,
+    "observed": 75.1,
+    "tolerance": {
+     "abs": 6.301708
+    },
+    "cell": "S7|S1|1000/1000|1.5",
+    "second_run": 78.7,
+    "without_eq10_first_term": 75.1
+   },
+   {
+    "name": "Discussion, Scenario 1, 1000/1000, RR 2.0: binomial coverage (%)",
+    "expected": "83",
+    "arithmetic": 83.2,
+    "observed": 82.7,
+    "tolerance": {
+     "abs": 5.57472
+    },
+    "cell": "S7|S1|1000/1000|2.0",
+    "second_run": 83.6,
+    "without_eq10_first_term": 82.7
+   }
+  ]
+ },
+ "text_s4_250": {
+  "label": "Scenario 4 at N1/N2 250/250 (numbers given only in the text)",
+  "fields": [
+   {
+    "name": "relative bias of ESR_S, RR 1.0 (%)",
+    "expected": "7.8",
+    "arithmetic": null,
+    "observed": 6.1315,
+    "tolerance": {
+     "abs": 8.513247
+    },
+    "cell": null,
+    "second_run": 7.1,
+    "without_eq10_first_term": 6.1315
+   },
+   {
+    "name": "relative bias of ESR_S, RR 5.0 (%)",
+    "expected": "84.9",
+    "arithmetic": null,
+    "observed": 92.741,
+    "tolerance": {
+     "abs": 8.664021
+    },
+    "cell": null,
+    "second_run": 91.0983,
+    "without_eq10_first_term": 92.741
+   },
+   {
+    "name": "relative bias of ESR_R, smallest (%)",
+    "expected": "-1.1",
+    "arithmetic": null,
+    "observed": -1.3449,
+    "tolerance": {
+     "abs": 4.190018
+    },
+    "cell": null,
+    "second_run": -0.3175,
+    "without_eq10_first_term": -1.3449
+   },
+   {
+    "name": "relative bias of ESR_R, largest (%)",
+    "expected": "1.1",
+    "arithmetic": null,
+    "observed": 0.8221,
+    "tolerance": {
+     "abs": 2.728982
+    },
+    "cell": null,
+    "second_run": 1.5671,
+    "without_eq10_first_term": 0.8221
+   },
+   {
+    "name": "coverage of the CI of ESR_S, RR 1.0 (%)",
+    "expected": "96.8",
+    "arithmetic": null,
+    "observed": 97.1,
+    "tolerance": {
+     "abs": 2.30136
+    },
+    "cell": null,
+    "second_run": 97.3,
+    "without_eq10_first_term": 97.1
+   },
+   {
+    "name": "coverage of the CI of ESR_S, RR 1.5 (%)",
+    "expected": "92.3",
+    "arithmetic": null,
+    "observed": 95.1,
+    "tolerance": {
+     "abs": 2.946173
+    },
+    "cell": null,
+    "second_run": 96.1,
+    "without_eq10_first_term": 95.1
+   },
+   {
+    "name": "coverage of the CI of ESR_S, RR 5.0 (%)",
+    "expected": "56.8",
+    "arithmetic": null,
+    "observed": 51.7,
+    "tolerance": {
+     "abs": 6.754325
+    },
+    "cell": null,
+    "second_run": 54.3,
+    "without_eq10_first_term": 51.7
+   },
+   {
+    "name": "log CI of ESR_R above 95% for every RR",
+    "expected": "yes",
+    "arithmetic": null,
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "binomial CI of ESR_R, smallest coverage (%)",
+    "expected": "85.7",
+    "arithmetic": null,
+    "observed": 86.7,
+    "tolerance": {
+     "abs": 4.605873
+    },
+    "cell": null,
+    "second_run": 85.9,
+    "without_eq10_first_term": 86.7
+   },
+   {
+    "name": "binomial CI of ESR_R, largest coverage (%)",
+    "expected": "92.5",
+    "arithmetic": null,
+    "observed": 92.0,
+    "tolerance": {
+     "abs": 3.68978
+    },
+    "cell": null,
+    "second_run": 92.1,
+    "without_eq10_first_term": 92.0
+   },
+   {
+    "name": "binomial CI shorter than the log CI of ESR_R at every RR",
+    "expected": "yes",
+    "arithmetic": null,
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "binomial CI length closer to the empirical length than the log CI's, at every RR",
+    "expected": "yes",
+    "arithmetic": null,
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   }
+  ],
+  "zero_cell_pairs": {
+   "1.0": 10,
+   "1.5": 0,
+   "2.0": 1,
+   "2.5": 0,
+   "3.0": 0,
+   "4.0": 0,
+   "5.0": 0
+  }
+ },
+ "text_figures": {
+  "label": "Figs 1-3 as the text reads them (expected length given coverage, 5000/5000)",
+  "fields": [
+   {
+    "name": "Fig. 1: the CI of ESR_S is the longest at each RR",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Fig. 1: the binomial CI of ESR_R is shorter than its log CI at each RR",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Fig. 2: every interval lengthens as RR rises",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Fig. 2: ESR_S and ESR_R log CIs similar at RR 1.0 (within 5%), ESR_S longer by over 10% at RR 5.0",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Fig. 3: every interval shorter than in Figs 1 and 2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "Fig. 3: every interval lengthens as RR rises",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   }
+  ]
+ },
+ "text_case_study": {
+  "label": "Case study: ESR_R 0.57% to 2.11%; ESR_S higher; the CIs overlap; largest over-estimation 0.71% at ages 70-79",
+  "fields": [
+   {
+    "name": "ESR_R, smallest (%)",
+    "expected": "0.57",
+    "arithmetic": "0.57",
+    "observed": "0.57",
+    "second_run": "0.57",
+    "without_eq10_first_term": "0.57"
+   },
+   {
+    "name": "ESR_R, largest (%)",
+    "expected": "2.11",
+    "arithmetic": "2.11",
+    "observed": "2.10",
+    "second_run": "2.10",
+    "without_eq10_first_term": "2.10"
+   },
+   {
+    "name": "ESR_S above ESR_R in every age group",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "second_run": "yes",
+    "without_eq10_first_term": "yes"
+   },
+   {
+    "name": "the three CIs overlap in every age group",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": null
+   },
+   {
+    "name": "largest over-estimation (%)",
+    "expected": "0.71",
+    "arithmetic": "0.71",
+    "observed": "0.71",
+    "second_run": "0.71",
+    "without_eq10_first_term": "0.71"
+   },
+   {
+    "name": "largest over-estimation at ages",
+    "expected": "70-79",
+    "arithmetic": "70-79",
+    "observed": "70-79",
+    "second_run": "70-79",
+    "without_eq10_first_term": "70-79"
+   }
+  ]
+ },
+ "text_discussion_self": {
+  "label": "Discussion statements checked against the paper's own tables and methods",
+  "fields": [
+   {
+    "name": "case study overall risk ranges from",
+    "expected": "0.0087",
+    "arithmetic": "0.0040"
+   },
+   {
+    "name": "case study overall risk ranges to",
+    "expected": "0.0132",
+    "arithmetic": "0.0147"
+   },
+   {
+    "name": "the scenario with exposure .20 and disease in the unexposed .02",
+    "expected": "scenario two",
+    "arithmetic": "Scenario 3"
+   },
+   {
+    "name": "equation of the log-based variance of ESR_R",
+    "expected": "11",
+    "arithmetic": "10"
+   },
+   {
+    "name": "equation of the binomial variance of ESR_R",
+    "expected": "12",
+    "arithmetic": "11"
+   }
+  ]
+ },
+ "_table_inconsistencies": [
+  {
+   "table": "table2",
+   "cell": "S4|1000/1000|1.0|S",
+   "value": "-0.8",
+   "supplement": "S1",
+   "supplement_value": "0.8"
+  },
+  {
+   "table": "table3",
+   "cell": "S2|1000/1000|4.0|R",
+   "value": "96.1",
+   "supplement": "S6",
+   "supplement_value": "96.9"
+  }
+ ]
+}
