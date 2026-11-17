@@ -105,10 +105,13 @@ def score(m_pub, m_ours):
 
 
 def draw(page, lines, color, width, dashes=None):
+    """R draws dotted lines as zero-length dashes with round caps ("[ 0 6 ] 0"): without round caps they
+    would not show at all, so dashed series get R's round caps and joins."""
     sh = page.new_shape()
     for pl in lines:
         sh.draw_polyline(pl)
-    sh.finish(color=color, width=width, closePath=False, dashes=dashes)
+    round_ = 1 if dashes else 0
+    sh.finish(color=color, width=width, closePath=False, dashes=dashes, lineCap=round_, lineJoin=round_)
     sh.commit()
 
 
