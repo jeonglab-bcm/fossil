@@ -1,0 +1,1288 @@
+{
+ "text.null_balanced": {
+  "statement": "Under the null case the overall PA was 0.5 for every classifier with a balanced test set, and the AUC 0.5.",
+  "source": "Results, null case; Additional file 1",
+  "fields": [
+   {
+    "name": "PA within 0.01 of 0.5, every classifier and k1train, balanced test sets",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "AUC within 0.015 of 0.5, every classifier and k1train, 500 test samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": ""
+ },
+ "text.fig2_1nn": {
+  "statement": "For 1-NN with k1train = 0.1, p = 1000 and 10000 and G = 40: PA1 = 0.02 and 0.00, PA2 = 0.98 and 1.00.",
+  "source": "Results, null case (Fig. 2)",
+  "fields": [
+   {
+    "name": "1-NN PA1, p = 1000",
+    "expected": "0.02",
+    "tolerance": {
+     "abs": 0.011358
+    },
+    "arithmetic": 0.0107,
+    "observed": 0.0118
+   },
+   {
+    "name": "1-NN PA2, p = 1000",
+    "expected": "0.98",
+    "tolerance": {
+     "abs": 0.011226
+    },
+    "arithmetic": null,
+    "observed": 0.9888
+   },
+   {
+    "name": "1-NN PA1, p = 10000",
+    "expected": "0.00",
+    "tolerance": {
+     "abs": 0.007907
+    },
+    "arithmetic": 0.0024,
+    "observed": 0.0024
+   },
+   {
+    "name": "1-NN PA2, p = 10000",
+    "expected": "1.00",
+    "tolerance": {
+     "abs": 0.008133
+    },
+    "arithmetic": null,
+    "observed": 0.9972
+   }
+  ],
+  "note": "Fig. 2 plots PA1 only; PA2 has no arithmetic check."
+ },
+ "text.selection_bias": {
+  "statement": "For most classifiers, variable selection further increased the probability of classifying a new sample in the training-set majority class.",
+  "source": "Results, null case (Fig. 2)",
+  "fields": [
+   {
+    "name": "classifiers whose PA1 at k1train 0.1 is lower (by over 0.01) with p = 1000 than with p = 40 (G = 40): at least 5 of 9",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_count": 5,
+    "observed_count": 6
+   }
+  ],
+  "note": ""
+ },
+ "text.most_sensitive_null": {
+  "statement": "Without variable selection RF, SVM and PAM were the most sensitive to class imbalance (largest difference between the class-specific PA, Fig. 1).",
+  "source": "Results, null case (Fig. 1)",
+  "fields": [
+   {
+    "name": "the three classifiers with the largest |PA2 - PA1| at k1train 0.2 and 0.8 (mean of the two; Fig. 1) are RF, SVM and PAM",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "arithmetic_top3": [
+     "PAM",
+     "RF",
+     "SVM"
+    ],
+    "observed_top3": [
+     "PAM",
+     "RF",
+     "5-NN"
+    ]
+   }
+  ],
+  "note": ""
+ },
+ "text.thr_null": {
+  "statement": "When the classification rules of RF and PLR were adjusted to the class imbalance (RF-THR, PLR-THR), the dependency of the class-specific PA on class imbalance diminished but did not disappear.",
+  "source": "Results, null case",
+  "fields": [
+   {
+    "name": "RF-THR: PA1 rises less from k1train 0.1 to 0.9 than with RF, but by more than 0.05 (null, p = 40)",
+    "expected": "yes",
+    "observed": "no",
+    "observed_spread": -0.04279999999999995,
+    "observed_spread_plain": 0.9998
+   },
+   {
+    "name": "PLR-THR: PA1 rises less from k1train 0.1 to 0.9 than with PLR, but by more than 0.05 (null, p = 40)",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_spread": 0.4588,
+    "observed_spread_plain": 0.9043
+   }
+  ],
+  "note": "Data not shown in the paper: no arithmetic check."
+ },
+ "text.dlda_least_sensitive": {
+  "statement": "DLDA showed the smallest decrease in the PA of the minority class.",
+  "source": "Results, alternative case (Fig. 3, Additional file 4)",
+  "fields": [
+   {
+    "name": "DLDA has the highest PA1 of the nine at k1train 0.1, pDE = 20, p = 40",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA has the highest PA1 of the nine at k1train 0.1, pDE = 20, p = 1000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA has the highest PA1 of the nine at k1train 0.1, pDE = 20, p = 10000",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": ""
+ },
+ "text.fig4_balanced": {
+  "statement": "For the balanced training set the overall PA reached 1 when mu2 was between 1 and 1.5 for all the classifiers.",
+  "source": "Results (Fig. 4, Additional file 7)",
+  "fields": [
+   {
+    "name": "1-NN: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.4,
+    "observed_mu": 1.4
+   },
+   {
+    "name": "DLDA: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.2,
+    "observed_mu": 1.2
+   },
+   {
+    "name": "PLR: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.2,
+    "observed_mu": 1.2
+   },
+   {
+    "name": "3-NN: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.3,
+    "observed_mu": 1.3
+   },
+   {
+    "name": "5-NN: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.3,
+    "observed_mu": 1.3
+   },
+   {
+    "name": "DQDA: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.2,
+    "observed_mu": 1.2
+   },
+   {
+    "name": "RF: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.3,
+    "observed_mu": 1.3
+   },
+   {
+    "name": "SVM: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 1.2,
+    "observed_mu": 1.3
+   },
+   {
+    "name": "PAM: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no",
+    "arithmetic_mu": 2.0,
+    "observed_mu": 3.0
+   }
+  ],
+  "note": "Reaching 1 is read as a mean PA of 0.98 or more. Fig. 4 plots 1-NN, DLDA and PLR; the other six are read from Additional file 7."
+ },
+ "text.fig4_imbalanced": {
+  "statement": "Much larger differences (mu2 >= 2) were needed for the highly imbalanced data (k1train = 0.1).",
+  "source": "Results (Fig. 4)",
+  "fields": [
+   {
+    "name": "1-NN: smallest mu2 with PA >= 0.98 at k1train 0.9 is at least 2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 2.0,
+    "observed_mu": 2.0
+   },
+   {
+    "name": "DLDA: smallest mu2 with PA >= 0.98 at k1train 0.9 is at least 2",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no",
+    "arithmetic_mu": 1.7,
+    "observed_mu": 1.7
+   },
+   {
+    "name": "PLR: smallest mu2 with PA >= 0.98 at k1train 0.9 is at least 2",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_mu": 3.0,
+    "observed_mu": 2.0
+   }
+  ],
+  "note": "Fig. 4 shows k1train = 0.5 to 0.9 with the shift in Class 2; the text's k1train = 0.1 is the same imbalance with the classes swapped, so 0.9 is compared."
+ },
+ "text.fig4_selection": {
+  "statement": "All the non-null variables were selected in almost all simulations when mu2 >= 1.5.",
+  "source": "Results (Fig. 4)",
+  "fields": [
+   {
+    "name": "all 20 non-null variables selected in at least 95% of runs, mu2 = 1.5, k1train 0.5",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_share": 1.0
+   },
+   {
+    "name": "all 20 non-null variables selected in at least 95% of runs, mu2 = 1.5, k1train 0.6",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_share": 1.0
+   },
+   {
+    "name": "all 20 non-null variables selected in at least 95% of runs, mu2 = 1.5, k1train 0.7",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_share": 0.998
+   },
+   {
+    "name": "all 20 non-null variables selected in at least 95% of runs, mu2 = 1.5, k1train 0.8",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_share": 0.956
+   },
+   {
+    "name": "all 20 non-null variables selected in at least 95% of runs, mu2 = 1.5, k1train 0.9",
+    "expected": "yes",
+    "observed": "no",
+    "observed_share": 0.266
+   }
+  ],
+  "note": "Data not shown in the paper: no arithmetic check. 'Almost all' is read as 95% of runs or more."
+ },
+ "text.variable_centering": {
+  "statement": "Normalizing the variables worsened the PA on class-imbalanced data.",
+  "source": "Results (Fig. 4)",
+  "fields": [
+   {
+    "name": "1-NN: PA at k1train 0.9, mu2 = 1 lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA: PA at k1train 0.9, mu2 = 1 lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "PLR: PA at k1train 0.9, mu2 = 1 lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": ""
+ },
+ "text.oversampling": {
+  "statement": "Over-sampling produced almost no change in PA for most classifiers; only 3-NN and 5-NN benefitted, while 1-NN was not modified at all.",
+  "source": "Results, over-sampling (Fig. 5, Additional file 8)",
+  "fields": [
+   {
+    "name": "1-NN: over-sampling changes the overall PA by less than 0.02 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": 0.011678421052631569,
+    "observed_gain": 0.013586842105263163
+   },
+   {
+    "name": "3-NN: over-sampling raises the overall PA by more than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": 0.059779473684210535,
+    "observed_gain": 0.05513684210526315
+   },
+   {
+    "name": "5-NN: over-sampling raises the overall PA by more than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": 0.08154842105263159,
+    "observed_gain": 0.0742657894736842
+   },
+   {
+    "name": "DLDA: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": -0.005097894736842096,
+    "observed_gain": -0.01997894736842105
+   },
+   {
+    "name": "DQDA: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": -0.021383684210526322,
+    "observed_gain": -0.04225526315789475
+   },
+   {
+    "name": "RF: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": 0.02968315789473684,
+    "observed_gain": 0.023052631578947366
+   },
+   {
+    "name": "SVM: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": -0.005776842105263162,
+    "observed_gain": 0.008428947368421041
+   },
+   {
+    "name": "PAM: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "arithmetic_gain": -0.027738421052631572,
+    "observed_gain": 0.09205526315789474
+   },
+   {
+    "name": "PLR: over-sampling changes the overall PA by less than 0.05 on average over k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes",
+    "arithmetic_gain": 0.03602421052631579,
+    "observed_gain": 0.037231578947368414
+   }
+  ],
+  "note": "'Benefitted' is read as a mean rise of more than 0.05 in the overall PA over the 19 imbalance levels, 'almost no change' as less than 0.05 and 'not modified at all' as less than 0.02."
+ },
+ "text.downsizing": {
+  "statement": "Using only 4 samples per class (k1train = 0.1), all the classifiers achieved a PA of about 0.70 for both classes, while the full-data analysis gave PA1 = 0 and PA2 = 1 (n1 = 4 and n2 = 76).",
+  "source": "Results, down-sizing (Fig. 5, Additional file 8)",
+  "fields": [
+   {
+    "name": "1-NN: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7104,
+    "observed": 0.7094
+   },
+   {
+    "name": "1-NN: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6952,
+    "observed": 0.6992
+   },
+   {
+    "name": "3-NN: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7233,
+    "observed": 0.7238
+   },
+   {
+    "name": "3-NN: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7139,
+    "observed": 0.709
+   },
+   {
+    "name": "5-NN: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.729,
+    "observed": 0.7392
+   },
+   {
+    "name": "5-NN: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7213,
+    "observed": 0.7212
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.704,
+    "observed": 0.7242
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7045,
+    "observed": 0.698
+   },
+   {
+    "name": "DQDA: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6671,
+    "observed": 0.6752
+   },
+   {
+    "name": "DQDA: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6635,
+    "observed": 0.6552
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6885,
+    "observed": 0.6966
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6757,
+    "observed": 0.6808
+   },
+   {
+    "name": "SVM: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7333,
+    "observed": 0.7316
+   },
+   {
+    "name": "SVM: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7349,
+    "observed": 0.71
+   },
+   {
+    "name": "PAM: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6812,
+    "observed": 0.6808
+   },
+   {
+    "name": "PAM: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.68,
+    "observed": 0.6606
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.1, PA1",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.737,
+    "observed": 0.7476
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.1, PA2",
+    "expected": "0.70",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7387,
+    "observed": 0.7308
+   },
+   {
+    "name": "1-NN: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0037,
+    "observed": 0.0051
+   },
+   {
+    "name": "3-NN: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0011,
+    "observed": 0.0006
+   },
+   {
+    "name": "5-NN: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0003,
+    "observed": 0.0002
+   },
+   {
+    "name": "DLDA: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0088,
+    "observed": 0.0107
+   },
+   {
+    "name": "DQDA: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0001,
+    "observed": 0.0005
+   },
+   {
+    "name": "RF: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": -0.0,
+    "observed": 0.0
+   },
+   {
+    "name": "SVM: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": -0.0,
+    "observed": 0.0045
+   },
+   {
+    "name": "PAM: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0002,
+    "observed": 0.0003
+   },
+   {
+    "name": "PLR: no correction, n1 = 4, n2 = 76 (k1train 0.05), PA1",
+    "expected": "0",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.0,
+    "observed": 0.0001
+   }
+  ],
+  "note": "The sentence mixes two imbalances: k1train = 0.1 is 8 samples per class, n1 = 4 is k1train = 0.05. Down-sizing is compared at 0.1 (as the text names), the full data at 0.05 (as its n1 = 4)."
+ },
+ "text.pam_downsizing": {
+  "statement": "PA1 increased from 0.5 (full data) to 0.8 when we down-sized the training set using PAM with k1train = 0.2.",
+  "source": "Results, down-sizing (Additional file 8)",
+  "fields": [
+   {
+    "name": "PAM, k1train 0.2, no correction, PA1",
+    "expected": "0.5",
+    "tolerance": {
+     "abs": 0.074337
+    },
+    "arithmetic": 0.4763,
+    "observed": 0.4836
+   },
+   {
+    "name": "PAM, k1train 0.2, down-sizing, PA1",
+    "expected": "0.8",
+    "tolerance": {
+     "abs": 0.075028
+    },
+    "arithmetic": 0.8591,
+    "observed": 0.8538
+   }
+  ],
+  "note": ""
+ },
+ "text.downsizing_pi": {
+  "statement": "The 95% prediction intervals obtained by down-sizing were between 0.8 and 1.0 for k1train = 0.5 and between 0.50 and 0.90 for k1train = 0.10.",
+  "source": "Results, down-sizing (Additional file 10)",
+  "fields": [
+   {
+    "name": "3-NN: down-sizing, k1train 0.5, 95% PI lower end",
+    "expected": "0.8",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.8,
+    "observed": 0.8
+   },
+   {
+    "name": "3-NN: down-sizing, k1train 0.5, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "3-NN: down-sizing, k1train 0.1, 95% PI lower end",
+    "expected": "0.50",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.5,
+    "observed": 0.45
+   },
+   {
+    "name": "3-NN: down-sizing, k1train 0.1, 95% PI upper end",
+    "expected": "0.90",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.9,
+    "observed": 0.92625
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.5, 95% PI lower end",
+    "expected": "0.8",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.85,
+    "observed": 0.85
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.5, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.1, 95% PI lower end",
+    "expected": "0.50",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.45,
+    "observed": 0.5
+   },
+   {
+    "name": "DLDA: down-sizing, k1train 0.1, 95% PI upper end",
+    "expected": "0.90",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.9,
+    "observed": 0.9
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.5, 95% PI lower end",
+    "expected": "0.8",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.85,
+    "observed": 0.85
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.5, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.1, 95% PI lower end",
+    "expected": "0.50",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.45,
+    "observed": 0.45
+   },
+   {
+    "name": "RF: down-sizing, k1train 0.1, 95% PI upper end",
+    "expected": "0.90",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.9,
+    "observed": 0.9
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.5, 95% PI lower end",
+    "expected": "0.8",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.85,
+    "observed": 0.85
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.5, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.1, 95% PI lower end",
+    "expected": "0.50",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.5,
+    "observed": 0.5
+   },
+   {
+    "name": "PLR: down-sizing, k1train 0.1, 95% PI upper end",
+    "expected": "0.90",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.95,
+    "observed": 0.95
+   }
+  ],
+  "note": "Percentiles of the PA on a 20-sample test set move in steps of 0.05; the tolerance is one step. Additional file 10's intervals match a 20-sample test set, not the 500 of its caption (item af10)."
+ },
+ "text.multds_flat": {
+  "statement": "With MultDS the PA of all classifiers did not vary for k1train = 0.20 to 0.80.",
+  "source": "Results, MultDS (Fig. 5)",
+  "fields": [
+   {
+    "name": "3-NN: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "PLR: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "1-NN: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "5-NN: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DQDA: MultDS PA varies by 0.03 or less over k1train 0.20-0.80 (0.5 left out)",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no"
+   }
+  ],
+  "note": "'Did not vary' is read as a range of 0.03 or less. At k1train = 0.5 the training set is balanced and MultDS is a single classifier, so its PA dips there, in the paper as in ours; that point is left out. MultDS was run for six classifiers (not RF, SVM, PAM)."
+ },
+ "text.multds_k01": {
+  "statement": "When k1train = 0.1 the average PA of MultDS was around 0.85 for most classifiers and the 95% prediction intervals were between 0.7 and 1.0.",
+  "source": "Results, MultDS (Additional file 10)",
+  "fields": [
+   {
+    "name": "3-NN: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.871,
+    "observed": 0.8673
+   },
+   {
+    "name": "DLDA: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.8396,
+    "observed": 0.8389
+   },
+   {
+    "name": "PLR: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.8753,
+    "observed": 0.869
+   },
+   {
+    "name": "1-NN: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.8649,
+    "observed": 0.8611
+   },
+   {
+    "name": "5-NN: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.8738,
+    "observed": 0.8682
+   },
+   {
+    "name": "DQDA: MultDS, k1train 0.1, mean PA",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.7992,
+    "observed": 0.7987
+   },
+   {
+    "name": "3-NN: MultDS, k1train 0.1, 95% PI lower end",
+    "expected": "0.7",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.7,
+    "observed": 0.7
+   },
+   {
+    "name": "3-NN: MultDS, k1train 0.1, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "DLDA: MultDS, k1train 0.1, 95% PI lower end",
+    "expected": "0.7",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.65,
+    "observed": 0.65
+   },
+   {
+    "name": "DLDA: MultDS, k1train 0.1, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   },
+   {
+    "name": "PLR: MultDS, k1train 0.1, 95% PI lower end",
+    "expected": "0.7",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 0.7,
+    "observed": 0.7
+   },
+   {
+    "name": "PLR: MultDS, k1train 0.1, 95% PI upper end",
+    "expected": "1.0",
+    "tolerance": {
+     "abs": 0.0505
+    },
+    "arithmetic": 1.0,
+    "observed": 1.0
+   }
+  ],
+  "note": ""
+ },
+ "text.multds_vs_down": {
+  "statement": "MultDS was similar but consistently better than down-sizing in terms of average PA.",
+  "source": "Results, MultDS (Fig. 5)",
+  "fields": [
+   {
+    "name": "3-NN: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "PLR: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "1-NN: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "5-NN: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DQDA: MultDS PA at least that of down-sizing at every k1train",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": "'At least' allows 0.005 for Monte Carlo noise."
+ },
+ "text.data_counts": {
+  "statement": "99 tumours, 7650 probes; ER- 34, ER+ 65; grade 1 or 2: 54, grade 3: 45.",
+  "source": "Methods, microarray data",
+  "fields": [
+   {
+    "name": "tumours",
+    "expected": "99",
+    "observed": "99",
+    "tolerance": {
+     "printed": true
+    }
+   },
+   {
+    "name": "probes",
+    "expected": "7650",
+    "observed": "7650",
+    "tolerance": {
+     "printed": true
+    }
+   },
+   {
+    "name": "ER-",
+    "expected": "34",
+    "observed": "34",
+    "tolerance": {
+     "printed": true
+    }
+   },
+   {
+    "name": "ER+",
+    "expected": "65",
+    "observed": "65",
+    "tolerance": {
+     "printed": true
+    }
+   },
+   {
+    "name": "grade 1 or 2",
+    "expected": "54",
+    "observed": "54",
+    "tolerance": {
+     "printed": true
+    }
+   },
+   {
+    "name": "grade 3",
+    "expected": "45",
+    "observed": "45",
+    "tolerance": {
+     "printed": true
+    }
+   }
+  ],
+  "note": "Counted in the BRB-ArrayTools project of the NCI archive (read_sotiriou.R)."
+ },
+ "text.er_20_5": {
+  "statement": "With 20 ER+ and 5 ER- training samples PA ER+ was above 0.90 for all classifiers, PA ER- ranged from about 0.2 to 0.6, PV ER+ was about 0.9, PV ER- ranged between 0.7 and 0.8, and the AUC was between 0.8 and 0.9.",
+  "source": "Results, breast cancer data (Additional file 13)",
+  "fields": [
+   {
+    "name": "PA ER+ above 0.90 for all nine",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "PA ER-, smallest of the nine",
+    "expected": "0.2",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.3,
+    "observed": 0.2874
+   },
+   {
+    "name": "PA ER-, largest of the nine",
+    "expected": "0.6",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": 0.6,
+    "observed": 0.5468
+   },
+   {
+    "name": "PV ER+ about 0.9 (0.85-0.95) for all nine",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no"
+   },
+   {
+    "name": "PV ER- between 0.7 and 0.8 for all nine (within 0.005)",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no"
+   },
+   {
+    "name": "AUC between 0.8 and 0.9 for all nine (within 0.005)",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no"
+   }
+  ],
+  "note": ""
+ },
+ "text.er_downsizing": {
+  "statement": "Using the smaller balanced training set (down-sizing) the class-specific PA were approximately the same (about 0.75 and 0.85, using 5 or 10 samples per class).",
+  "source": "Results, breast cancer data",
+  "fields": [
+   {
+    "name": "down-sizing to 5 per class: mean class-specific PA over classifiers, classes and ER+ counts",
+    "expected": "0.75",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": null,
+    "observed": 0.7601
+   },
+   {
+    "name": "down-sizing to 10 per class: mean class-specific PA over classifiers, classes and ER+ counts",
+    "expected": "0.85",
+    "tolerance": {
+     "abs": 0.05
+    },
+    "arithmetic": null,
+    "observed": 0.8288
+   }
+  ],
+  "note": "Data not shown in the paper: no arithmetic check."
+ },
+ "text.er_oversampling": {
+  "statement": "Over-sampling did not remove the dependency of class-specific PA on class imbalance, with differences as large as 0.22 (20 ER+ against 10 ER-, DQDA).",
+  "source": "Results, breast cancer data",
+  "fields": [
+   {
+    "name": "DQDA over-sampling, 20 ER+ / 10 ER-: PA ER+ minus PA ER-",
+    "expected": "0.22",
+    "tolerance": {
+     "abs": 0.032213
+    },
+    "arithmetic": null,
+    "observed": 0.2227
+   }
+  ],
+  "note": "Data not shown in the paper: no arithmetic check."
+ },
+ "text.er_multds_pi": {
+  "statement": "With 5 ER- samples the lower limits of the prediction intervals obtained by MultDS were above 0.60 for most classifiers even for the largest degree of class imbalance.",
+  "source": "Results, breast cancer data (Fig. 6, Additional file 12)",
+  "fields": [
+   {
+    "name": "MultDS, 45 ER+ / 5 ER-: lower limit of the ER+ prediction interval above 0.60 for most (5 or more) of the nine",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "no",
+    "arithmetic_values": [
+     65.004,
+     68.869,
+     65.004,
+     65.004,
+     49.992,
+     60.0,
+     64.995,
+     59.991,
+     64.995
+    ],
+    "observed_values": [
+     0.6,
+     0.62375,
+     0.6,
+     0.6,
+     0.5,
+     0.6,
+     0.6,
+     0.55,
+     0.6
+    ]
+   },
+   {
+    "name": "MultDS, 45 ER+ / 5 ER-: lower limit of the ER- prediction interval above 0.60 for most (5 or more) of the nine",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no",
+    "arithmetic_values": [
+     54.996,
+     54.996,
+     54.996,
+     45.005,
+     49.992,
+     45.005,
+     59.991,
+     53.866,
+     58.87
+    ],
+    "observed_values": [
+     0.55,
+     0.55,
+     0.55,
+     0.45,
+     0.45,
+     0.45,
+     0.55,
+     0.5,
+     0.55
+    ]
+   },
+   {
+    "name": "5 ER+ / 5 ER- (the down-sized set): the prediction interval includes 0.50 for all nine classifiers (both classes)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": "Arithmetic from the bars of Additional file 12 (all nine classifiers, in %). Down-sizing to 5 per class is the balanced 5 / 5 design, which the figure shows for every imbalance."
+ },
+ "text.pam_multds": {
+  "statement": "PAM seemed to benefit the most from MultDS; the gains over simple down-sizing were not as large as in the simulations.",
+  "source": "Results, breast cancer data",
+  "fields": [
+   {
+    "name": "PAM has the largest mean gain in overall PA of MultDS over down-sizing (7 imbalanced ER designs)",
+    "expected": "yes",
+    "observed": "yes",
+    "observed_gains": {
+     "1-NN": 0.0369,
+     "3-NN": 0.0325,
+     "5-NN": 0.0322,
+     "DLDA": 0.035,
+     "DQDA": 0.0484,
+     "RF": 0.0367,
+     "SVM": 0.0387,
+     "PAM": 0.0674,
+     "PLR": 0.0299
+    }
+   }
+  ],
+  "note": "The paper prints no down-sizing results for the ER data (Fig. 6 and Additional file 13 show no correction), so there is no arithmetic check."
+ },
+ "text.er_variable_centering": {
+  "statement": "Variable normalization further increased the effect of class imbalance, causing even more cases to be classified in the training set majority class.",
+  "source": "Results, breast cancer data (Fig. 6)",
+  "fields": [
+   {
+    "name": "3-NN: PA ER- at 45 ER+ / 5 ER- lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "DLDA: PA ER- at 45 ER+ / 5 ER- lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "PLR: PA ER- at 45 ER+ / 5 ER- lower with centred variables than with centred samples",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ],
+  "note": ""
+ }
+}
