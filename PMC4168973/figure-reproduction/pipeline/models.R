@@ -45,7 +45,16 @@ fit <- function(name, x, time, event, runs = RUNS, seed = 1) {
       check_log[[name]] <<- list(runs = length(k), equal = isTRUE(all.equal(re, lam[k], tolerance = 1e-8)))
     }
   } else {
-    lam <- cv_lambdas(x, time, event, runs = runs, seed = seed, cores = cores)
+    # Optional cache (environment variable LAMBDA_CACHE): a model's runs are saved once computed,
+    # so an interrupted full run resumes; the runs are seeded, so the cache does not change them.
+    cache <- Sys.getenv("LAMBDA_CACHE")
+    cf <- if (nzchar(cache)) file.path(cache, paste0(name, ".rds"))
+    if (!is.null(cf) && file.exists(cf)) {
+      lam <- readRDS(cf)
+    } else {
+      lam <- cv_lambdas(x, time, event, runs = runs, seed = seed, cores = cores)
+      if (!is.null(cf)) { dir.create(cache, showWarnings = FALSE, recursive = TRUE); saveRDS(lam, cf) }
+    }
   }
   lambda_log[[name]] <<- lam
   cox_lasso(x, time, event, lambdas = lam)
