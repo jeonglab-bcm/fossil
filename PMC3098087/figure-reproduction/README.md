@@ -75,7 +75,7 @@ pip install -r PMC3098087/figure-reproduction/requirements.txt
 nextflow run PMC3098087/figure-reproduction/main.nf --outdir results
 ```
 
-Options: `--full` reruns every replicate of every setting and design (about 4 hours on 4 cores) and
+Options: `--full` reruns every replicate of every setting and design (about 6 hours on 4 cores) and
 builds everything from the fresh summary; `--check_reps N` reruns the first N replicates (default 3);
 `--sources DIR` uses local copies of the downloads; `--cores N`.
 

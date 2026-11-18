@@ -69,5 +69,5 @@ nextflow run PMC3098087/figure-reproduction/main.nf --outdir results
 
 The default run reruns the first 3 replicates of every setting and design from their seeds and
 builds everything else from the committed summary of all replicates (about 15 minutes); `--full`
-reruns every replicate (about 4 hours on 4 cores). See
+reruns every replicate (about 6 hours on 4 cores). See
 [`figure-reproduction/README.md`](figure-reproduction/README.md).

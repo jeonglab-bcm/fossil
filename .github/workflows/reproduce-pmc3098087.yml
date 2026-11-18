@@ -5,16 +5,16 @@ name: Reproduce PMC3098087
 # and sma 0.5.15 are downloaded and their SHA-256 checked; the published values are read again from
 # the vector figures and the supplement tables; DLDA and DQDA are checked against sma::stat.diag.da;
 # the first 3 replicates of every simulation setting and breast cancer design are rerun from their
-# seeds and must equal the committed ones; the SVM and DQDA hypothesis tests are rerun; every comparison, figure, claim and the results page are
+# seeds and must equal the committed ones; the hypothesis tests (SVM, DQDA AUC, PAM, over-sampling, RF-THR) are rerun; every comparison, figure, claim and the results page are
 # rebuilt from the committed summary of all replicates and must equal the committed outputs; and the
 # R package multds is built, checked and its tutorial rendered. About 15 minutes.
-# Started by hand with "full", it reruns every replicate (about 4 hours on 4 cores; over the
-# 6-hour job limit on a standard runner it may not finish).
+# Started by hand with "full", it reruns every replicate (about 6 hours on 4 cores; at the
+# 6-hour job limit of a standard runner it may not finish).
 on:
   workflow_dispatch:
     inputs:
       full:
-        description: "Rerun every replicate (about 4 hours)"
+        description: "Rerun every replicate (about 6 hours on 4 cores)"
         type: boolean
         default: false
   pull_request:
