@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-18T16:11:25+00:00 / 2026-11-18T22:21:48+00:00 |
-| Wall clock | 370.4 min |
+| Started / ended (UTC) | 2026-11-18T16:11:25+00:00 / 2026-11-18T22:38:46+00:00 |
+| Wall clock | 387.4 min |
 | Models | (model), (model) |
 | Human prompts | 5 (1 sent mid-turn) |
-| Assistant responses (API calls) | 227 + 10 in subagents |
-| Tool calls | 235 + 12 in subagents |
-| Tokens: input / cache write / cache read / output | 477 / 975,024 / 77,372,642 / 257,160 |
-| Tokens: total (incl. subagents) | 78,605,303 |
+| Assistant responses (API calls) | 237 + 10 in subagents |
+| Tool calls | 246 + 12 in subagents |
+| Tokens: input / cache write / cache read / output | 497 / 985,630 / 83,067,704 / 264,331 |
+| Tokens: total (incl. subagents) | 84,318,162 |
 
 ## Conversation
 
@@ -934,3 +934,49 @@ The clean-clone CI command passed in 15.8 minutes on 4 cores: the fresh run equa
 - `TaskUpdate` 
 
 - `Bash` sed -i 's/ timeout-minutes: 75/ timeout-minutes: 60/' .github/workflows/reproduce-pmc3392844.yml && sed -i 's/in about 20 minutes; the SVM seeds/in about 16 min
+
+### Claude · 2026-11-18 22:21:59
+
+Model identifiers are masked and no personal email or tokens appear. Reading the human prompts as recorded before committing them:
+
+- `Bash` grep -n -A3 -iE "^#+ .*(prompt|human|user)" PMC3392844/session/conversation.md | head -60; grep -niE "sofia|salazar" PMC3392844/session/conversation.md | head
+
+### Claude · 2026-11-18 22:22:05
+
+The recorded prompts are fine to publish. Checking for a repository PR template, then committing, pushing and opening the pull request:
+
+- `Bash` ls .github/ | grep -i template; git add -A PMC3392844/session .github/workflows/reproduce-pmc3392844.yml README.md && git commit -qm "PMC3392844: session ledger
+
+- `Bash` git log --oneline -1 && git -c push.negotiate=true push -u origin pmc3392844-adr-prediction 2>&1 | tail -3; git ls-remote origin pmc3392844-adr-prediction
+
+### Claude · 2026-11-18 22:22:23
+
+Pushed. Generating the PR body from `results.json` (the verdict table and one line per non-exact item, both computed, not typed):
+
+- `Bash` B=/tmp/claude-0/-home-user-fossil/18e3d718-4594-568e-aaa2-1e371e3b683e/scratchpad/pr_body.md && P=PMC3392844/.venv/bin/python && $P - <<'EOF' > $B import json, 
+
+### Claude · 2026-11-18 22:22:45
+
+The ledger's transcript does start at the first prompt, so I'm dropping the hedge about the restart. `gh pr create` needs GraphQL, which is blocked here, so I'm opening the PR through the REST API:
+
+- `Bash` B=/tmp/claude-0/-home-user-fossil/18e3d718-4594-568e-aaa2-1e371e3b683e/scratchpad/pr_body.md && sed -i 's/ The ledger covers the transcript after a worker resta
+
+### Claude · 2026-11-18 22:22:54
+
+Opened [jeonglab-bcm/fossil#100](https://github.com/jeonglab-bcm/fossil/pull/100). Now driving CI to green: subscribing to the PR's activity and checking which workflows started.
+
+- `mcp__claude-code-remote__subscribe_pr_activity` 
+
+- `Bash` sleep 15; gh api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc3392844-adr-prediction&per_page=10" --jq '.workflow_runs[] | [.name, .status, .conclusion, .h
+
+- `Bash` C=/tmp/claude-0/-home-user-fossil/18e3d718-4594-568e-aaa2-1e371e3b683e/scratchpad/review.md && cat > $C <<'EOF' ## Self-review **Results that did not come back*
+
+- `Bash` for i in $(seq 1 27); do s=$(gh api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc3392844-adr-prediction&per_page=10" --jq '[.workflow_runs[] | .status] | a
+
+### Claude · 2026-11-18 22:32:59
+
+`Results check` passed. The reproduction workflow is still running:
+
+- `Bash` for i in $(seq 1 27); do s=$(gh api "repos/jeonglab-bcm/fossil/actions/runs?branch=pmc3392844-adr-prediction&per_page=10" --jq '[.workflow_runs[] | .status] | a
+
+- `Bash` bash /tmp/claude-0/-home-user-fossil/18e3d718-4594-568e-aaa2-1e371e3b683e/scratchpad/ledger.sh && git add PMC3392844/session && git commit -qm "PMC3392844: fina
