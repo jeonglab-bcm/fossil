@@ -2,31 +2,34 @@
  "schema": "paper2repro/session-ledger/v1",
  "session_id": "d4870247-d045-5117-9ea3-0e28503951ed",
  "transcript": "d4870247-d045-5117-9ea3-0e28503951ed.jsonl",
- "generated_at": "2026-11-18T09:15:25+00:00",
+ "generated_at": "2026-11-18T09:55:01+00:00",
  "started_at": "2026-11-17T21:07:52+00:00",
- "ended_at": "2026-11-18T09:15:23+00:00",
- "wall_clock_minutes": 727.5,
- "human_prompts": 13,
+ "ended_at": "2026-11-18T09:55:01+00:00",
+ "wall_clock_minutes": 767.1,
+ "human_prompts": 18,
  "mid_turn_prompts": 1,
- "assistant_responses": 351,
- "tool_calls": 357,
+ "assistant_responses": 380,
+ "tool_calls": 382,
  "tool_calls_by_name": {
-  "Bash": 329,
+  "Bash": 347,
   "Read": 16,
+  "ReadNotifications": 5,
   "TaskCreate": 4,
   "TaskUpdate": 4,
   "Skill": 1,
   "mcp__claude-code-remote__add_repo": 1,
   "mcp__claude-code-remote__register_repo_root": 1,
-  "Agent": 1
+  "Agent": 1,
+  "mcp__claude-code-remote__subscribe_pr_activity": 1,
+  "mcp__claude-code-remote__send_later": 1
  },
  "tokens": {
-  "input": 722,
-  "cache_creation": 1137396,
-  "cache_read": 83716831,
-  "output": 287653,
-  "thinking": 83529,
-  "total": 85142602
+  "input": 786,
+  "cache_creation": 1172671,
+  "cache_read": 92494720,
+  "output": 298802,
+  "thinking": 85005,
+  "total": 93966979
  },
  "subagents": {
   "transcripts": 1,
@@ -42,12 +45,12 @@
   }
  },
  "tokens_all": {
-  "input": 760,
-  "cache_creation": 1269473,
-  "cache_read": 85464315,
-  "output": 305247,
-  "thinking": 95057,
-  "total": 87039795
+  "input": 824,
+  "cache_creation": 1304748,
+  "cache_read": 94242204,
+  "output": 316396,
+  "thinking": 96533,
+  "total": 95864172
  },
  "prompts": [
   {
@@ -114,6 +117,50 @@
    "at": "2026-11-18T09:15:10.997Z",
    "text": "<task-notification>\n<task-id>bng8euazg</task-id>\n<tool-use-id>toolu_01Kc9PeCRUdSrJfFjQiXBX6Q</tool-use-id>\n<output-file>/tmp/claude-0/-home-user-fossil/d4870247-d045-5117-9ea3-0e28503951ed/tasks/bng8euazg.output</output-file>\n<status>completed</status>\n<summary>Background command \"Rerun CI command from clean clone\" completed (exit code 0)</summary>\n</task-notification>",
    "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T09:16:22.107Z",
+   "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>2 unread notifications (GitHub activity on a subscribed PR: 2)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T09:16:59.224Z",
+   "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T09:23:45.324Z",
+   "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T09:27:29.243Z",
+   "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T09:54:40.567Z",
+   "text": "<task-notification>\n<task-type>queued-remote-notifications</task-type>\n<status>pending</status>\n<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>\nNotifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.\n</task-notification>",
+   "mid_turn": false
   }
- ]
+ ],
+ "cost_state": {
+  "totalCostUSD": 35.92672239999999,
+  "totalDuration": 26998350,
+  "totalAPIDuration": 3358180,
+  "modelUsage": {
+   "claude-opus-5-5": {
+    "inputTokens": 9441,
+    "outputTokens": 324625,
+    "thinkingTokens": 96429,
+    "cacheReadInputTokens": 96753307,
+    "cacheCreationInputTokens": 1305300,
+    "cacheCreationEphemeral5mInputTokens": 132201,
+    "cacheCreationEphemeral1hInputTokens": 1173099,
+    "webSearchRequests": 0,
+    "costUSD": 35.92672239999999
+   }
+  },
+  "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+ }
 }
