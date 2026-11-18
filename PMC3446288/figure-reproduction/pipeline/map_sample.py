@@ -17,6 +17,7 @@ import argparse
 import gzip
 import json
 import os
+import pickle
 import subprocess
 import sys
 import tempfile
@@ -67,52 +68,77 @@ def main():
     a = ap.parse_args()
     os.makedirs(a.outdir, exist_ok=True)
     t0 = time.time()
-    tmp = tempfile.mkdtemp(dir=a.outdir)
+    # Checkpoints: each pass saves its state in OUTDIR/ckpt, and a rerun skips the passes already done
+    # (the mapping takes hours; a killed run resumes where it stopped).
+    tmp = os.path.join(a.outdir, "ckpt")
+    os.makedirs(tmp, exist_ok=True)
+
+    def done(name):
+        return os.path.exists(os.path.join(tmp, name))
+
+    def save(name, obj):
+        with open(os.path.join(tmp, name + ".part"), "wb") as fo:
+            pickle.dump(obj, fo, protocol=4)
+        os.replace(os.path.join(tmp, name + ".part"), os.path.join(tmp, name))
+
+    def load(name):
+        with open(os.path.join(tmp, name), "rb") as fi:
+            return pickle.load(fi)
+
     plain = os.path.join(tmp, "reads.fq")
-    with gzip.open(a.reads, "rb") as fi, open(plain, "wb") as fo:
-        while chunk := fi.read(1 << 24):
-            fo.write(chunk)
-    n = os.path.getsize(plain)
+    if not done("reads.ok"):
+        with gzip.open(a.reads, "rb") as fi, open(plain, "wb") as fo:
+            while chunk := fi.read(1 << 24):
+                fo.write(chunk)
+        save("reads.ok", True)
     global FIRST
     with open(plain, "rb") as f:
         FIRST = int(f.readline().split(b" ", 1)[0].rsplit(b".", 1)[1])
         n = (sum(1 for _ in f) + 1) // 4
     print(f"{n} reads", file=sys.stderr)
 
-    chroms = []
-    g_mm = np.full(n, 99, np.int8)
-    g_chrom = np.zeros(n, np.int8)
-    g_pos = np.zeros(n, np.int32)
-    for f in bowtie(a.genome, plain, a.threads):
-        i = read_index(f[0])
-        if f[2] not in chroms:
-            chroms.append(f[2])
-        g_mm[i] = n_mismatches(f[4] if len(f) > 4 else "")
-        g_chrom[i] = chroms.index(f[2])
-        g_pos[i] = int(f[3])
+    if done("genome.pkl"):
+        chroms, g_mm, g_chrom, g_pos = load("genome.pkl")
+    else:
+        chroms = []
+        g_mm = np.full(n, 99, np.int8)
+        g_chrom = np.zeros(n, np.int8)
+        g_pos = np.zeros(n, np.int32)
+        for f in bowtie(a.genome, plain, a.threads):
+            i = read_index(f[0])
+            if f[2] not in chroms:
+                chroms.append(f[2])
+            g_mm[i] = n_mismatches(f[4] if len(f) > 4 else "")
+            g_chrom[i] = chroms.index(f[2])
+            g_pos[i] = int(f[3])
+        save("genome.pkl", (chroms, g_mm, g_chrom, g_pos))
     print(f"genome pass {time.time() - t0:.0f}s, {(g_mm < 99).sum()} mapped", file=sys.stderr)
 
     # A read with a perfect genome hit cannot lose to a junction hit (ties go to the genome), so only
     # the other reads go through the junction database.
-    jpath = os.path.join(tmp, "for_junctions.fq")
-    with open(plain) as fi, open(jpath, "w") as fo:
-        for k, line in enumerate(fi):
-            if g_mm[k // 4] != 0:
-                fo.write(line)
-    counts = {}
-    is_junction = np.zeros(n, bool)
-    j_mm = np.full(n, 99, np.int8)
-    for f in bowtie(a.junctions, jpath, a.threads):
-        i = read_index(f[0])
-        mm = n_mismatches(f[4] if len(f) > 4 else "")
-        j_mm[i] = mm
-        name = f[2]
-        jid, left = name.rsplit(":", 1)
-        off = int(f[3])
-        if off <= int(left) - OVERHANG and off + 75 >= int(left) + OVERHANG and mm < g_mm[i]:
-            is_junction[i] = True
-            counts[jid] = counts.get(jid, 0) + 1
-    os.remove(jpath)
+    if done("junction.pkl"):
+        counts, is_junction = load("junction.pkl")
+    else:
+        jpath = os.path.join(tmp, "for_junctions.fq")
+        with open(plain) as fi, open(jpath, "w") as fo:
+            for k, line in enumerate(fi):
+                if g_mm[k // 4] != 0:
+                    fo.write(line)
+        counts = {}
+        is_junction = np.zeros(n, bool)
+        j_mm = np.full(n, 99, np.int8)
+        for f in bowtie(a.junctions, jpath, a.threads):
+            i = read_index(f[0])
+            mm = n_mismatches(f[4] if len(f) > 4 else "")
+            j_mm[i] = mm
+            name = f[2]
+            jid, left = name.rsplit(":", 1)
+            off = int(f[3])
+            if off <= int(left) - OVERHANG and off + 75 >= int(left) + OVERHANG and mm < g_mm[i]:
+                is_junction[i] = True
+                counts[jid] = counts.get(jid, 0) + 1
+        os.remove(jpath)
+        save("junction.pkl", (counts, is_junction))
     print(f"junction pass {time.time() - t0:.0f}s, {is_junction.sum()} junction reads", file=sys.stderr)
 
     genome_final = (g_mm < 99) & ~is_junction
@@ -134,8 +160,18 @@ def main():
                 seqs[r] = line.rstrip("\n")
             elif k % 4 == 3 and r in want:
                 seqs[r] = (seqs[r], line.rstrip("\n"))
-    os.remove(plain)
     for L in TRUNCATIONS:
+        if done(f"trunc{L}.pkl"):
+            st_, inc_counts, inc_genome, recovered = load(f"trunc{L}.pkl")
+            stats["truncation"][str(L)] = st_
+            for k_, v_ in inc_counts.items():
+                trunc_counts[k_] = trunc_counts.get(k_, 0) + v_
+            trunc_genome.extend(inc_genome)
+            recovered_total += len(recovered)
+            pending = np.array([r for r in pending if r not in recovered], dtype=np.int64)
+            print(f"truncation {L}: {len(recovered)} recovered (checkpoint)", file=sys.stderr)
+            continue
+        inc_counts, inc_genome = {}, []
         path = os.path.join(tmp, f"t{L}.fq")
         with open(path, "w") as fo:
             for r in pending:
@@ -174,19 +210,22 @@ def main():
             g = gm.get(key)
             j = jn.get(key)
             if j is not None and (g is None or j[0] < g[0]):
-                trunc_counts[j[1]] = trunc_counts.get(j[1], 0) + 1
+                inc_counts[j[1]] = inc_counts.get(j[1], 0) + 1
                 jreads += 1
             elif g is not None:
-                trunc_genome.append((g[1], g[2]))
+                inc_genome.append((g[1], g[2]))
             recovered.add(r)
         stats["truncation"][str(L)] = {"input": int(len(pending)), "recovered": len(recovered),
                                        "junction_hits": jreads}
+        save(f"trunc{L}.pkl", (stats["truncation"][str(L)], inc_counts, inc_genome, recovered))
+        for k_, v_ in inc_counts.items():
+            trunc_counts[k_] = trunc_counts.get(k_, 0) + v_
+        trunc_genome.extend(inc_genome)
         recovered_total += len(recovered)
         pending = np.array([r for r in pending if r not in recovered], dtype=np.int64)
         os.remove(path)
         os.remove(jpath)
         print(f"truncation {L}: {len(recovered)} recovered, {time.time() - t0:.0f}s", file=sys.stderr)
-    os.rmdir(tmp)
     stats["truncation_recovered"] = int(recovered_total)
     stats["unmapped"] = int(len(pending))
     stats["seconds"] = round(time.time() - t0)
@@ -204,6 +243,8 @@ def main():
     )
     with open(os.path.join(a.outdir, "mapping_stats.json"), "w") as fo:
         json.dump(stats, fo, indent=1)
+    import shutil
+    shutil.rmtree(tmp)
     print(json.dumps(stats), file=sys.stderr)
 
 

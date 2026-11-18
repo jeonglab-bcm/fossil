@@ -178,8 +178,9 @@ notes = {
     "skill": old.get("skill"),
     "items": items,
 }
-for k in ("page", "status_note", "site_note"):
-    if k in old:
-        notes[k] = old[k]
+PAGE = json.loads((Path(__file__).parent / "page_notes.json").read_text())
+notes["page"] = PAGE["page"]
+notes["status_note"] = PAGE["status_note"]
+notes["site_note"] = PAGE["site_note"]
 out.write_text(json.dumps(notes, indent=1, ensure_ascii=False) + "\n")
 print(len(items), "items")

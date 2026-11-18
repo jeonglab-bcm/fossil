@@ -223,11 +223,16 @@ def main(pv_path, an_path, fig_path, cons_path, stops_path, jdb_path, port_path,
         fl.append(field("mm9 RefSeq exons", pv["fig5"]["refseq_exons"], cons["refseq_internal_exons"]))
         items[iid] = values(fl)
 
-    # ---- pixel-scored panels
-    for key, iid in (("fig6", "fig6"), ("fig7a", "fig7a")):
-        items[iid] = {"method": "pixels", "pixels": dict(fg[key], tolerance_px=3, dpi=150)}
+    # ---- pixel-scored panels. Pass mark: 90% of pixels within 3 px both ways, and always above the
+    # best negative control (by at least one point), so a known-wrong series can never pass.
+    def pixels(d):
+        best = max(c["score"] for c in d["controls"])
+        return {"method": "pixels", "pixels": dict(d, tolerance_px=3, dpi=150, threshold=round(min(0.999, max(0.90, best + 0.01)), 4))}
+
+    for key in ("fig6", "fig7a"):
+        items[key] = pixels(fg[key])
     for p in ("a", "b"):
-        items[f"fig5.{p}"] = {"method": "pixels", "pixels": dict(fg["fig5"][p], tolerance_px=3, dpi=150)}
+        items[f"fig5.{p}"] = pixels(fg["fig5"][p])
 
     # ---- Fig. 7a / S5 position counts, Fig. 7b
     c7 = cons["fig7a"]

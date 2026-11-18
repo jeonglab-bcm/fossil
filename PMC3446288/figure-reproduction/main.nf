@@ -28,8 +28,10 @@ params.committed = "${projectDir}/output"
 params.notes = "${projectDir}/results_notes.json"
 params.pkg = "${projectDir}/../package"
 
-def SAMPLES = [['BMM_WT', 'SRR094621', 'GSM653000_BMM_WT'], ['BMM_KO', 'SRR094622', 'GSM653001_BMM_KO'],
+def samples() {
+    return [['BMM_WT', 'SRR094621', 'GSM653000_BMM_WT'], ['BMM_KO', 'SRR094622', 'GSM653001_BMM_KO'],
                ['Liver_WT', 'SRR094623', 'GSM653002_Liver_WT'], ['Liver_KO', 'SRR094624', 'GSM653003_Liver_KO']]
+}
 
 process FETCH {
     output:
@@ -41,6 +43,7 @@ process FETCH {
 }
 
 process JUNCTION_DB {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}/mapping", mode: 'copy', pattern: '*.json'
     input:
     path inputs
@@ -56,6 +59,7 @@ process JUNCTION_DB {
 }
 
 process MAP {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     cpus params.cpus
     publishDir "${params.outdir}/mapping", mode: 'copy', pattern: '*_mapping_stats.json'
     input:
@@ -73,6 +77,7 @@ process MAP {
 }
 
 process SUMMARIZE {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}/mapping", mode: 'copy'
     input:
     tuple val(sample), path(mapdir), val(gsm), path(inputs)
@@ -96,7 +101,7 @@ process JUNCTION_TABLE {
     output:
     path 'junctions.tsv.gz'
     script:
-    def args = SAMPLES.collect { "--db ${it[0]} ${it[0]}.db.tsv --tophat ${it[0]} ${it[0]}.tophat.tsv" }.join(' ')
+    def args = samples().collect { "--db ${it[0]} ${it[0]}.db.tsv --tophat ${it[0]} ${it[0]}.tophat.tsv" }.join(' ')
     """
     ${params.python} ${params.pipe}/build_junction_table.py junctions.tsv.gz ${args}
     """
@@ -123,6 +128,7 @@ process GATHER_MAPPING {
 }
 
 process REFSEQ_STOPS {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}", mode: 'copy'
     input:
     path inputs
@@ -135,6 +141,7 @@ process REFSEQ_STOPS {
 }
 
 process ANALYZE {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}", mode: 'copy', pattern: '{analysis.json,events.tsv.gz,figure_data.json}'
     input:
     path inputs
@@ -152,6 +159,7 @@ process ANALYZE {
 }
 
 process CONSERVATION {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}", mode: 'copy'
     input:
     path inputs
@@ -172,6 +180,7 @@ process CONSERVATION {
 }
 
 process PORT_CHECKS {
+    stageInMode 'symlink'  // the downloaded inputs (genome, reads) are only read; copying them would double the disk use
     publishDir "${params.outdir}", mode: 'copy'
     input:
     path inputs
@@ -237,8 +246,9 @@ process RESULTS {
     """
     ${params.python} ${params.pipe}/env_versions.py env.json
     ${params.python} ${params.pipe}/build_results.py ${params.notes} ${comparison} results.json \
-        --package ${pkg} --inputs ${params.pipe}/fetch_inputs.sh --env env.json
-    ${params.python} ${params.pipe}/check_results.py results.json --write --root ${projectDir}/..
+        --package ${pkg} --inputs ${params.pipe}/fetch_inputs.sh --env env.json --date \$(date -u +%F)
+    # verdicts and summary are written here; CHECK fails the run if a rule is broken
+    ${params.python} ${params.pipe}/check_results.py results.json --write --root ${projectDir}/.. > check_results.log 2>&1 || true
     """
 }
 
@@ -285,9 +295,9 @@ workflow {
     inputs = FETCH()
     if (params.full) {
         jdb = JUNCTION_DB(inputs)
-        samples = Channel.fromList(SAMPLES)
-        mapped = MAP(samples.combine(inputs).combine(jdb.jdb).map { s, r, g, i, j -> tuple(s, r, g, i, j) })
-        gsm = Channel.fromList(SAMPLES).map { s, r, g -> tuple(s, g) }
+        sample_ch = channel.fromList(samples())
+        mapped = MAP(sample_ch.combine(inputs).combine(jdb.jdb).map { s, r, g, i, j -> tuple(s, r, g, i, j) })
+        gsm = channel.fromList(samples()).map { s, _r, g -> tuple(s, g) }
         sm = SUMMARIZE(mapped.mapped.join(gsm).combine(inputs))
         jt = JUNCTION_TABLE(sm.db.collect(), sm.tophat.collect())
         mapping = GATHER_MAPPING(sm[0].flatten().mix(jt, jdb[1], mapped[1]).collect())
