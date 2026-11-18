@@ -4,6 +4,7 @@
 # Writes OUTDIR/<set>.rds (list: expr = genes x samples matrix of log2 values, clin = data.frame),
 # OUTDIR/genesets.rds (the 403 KEGG + BioCarta gene sets) and OUTDIR/datasets.json (counts).
 suppressPackageStartupMessages({library(pdscox); library(jsonlite)})
+invisible(Sys.setlocale("LC_COLLATE", "C"))  # group order ("LN+" before "LN-") must not depend on the locale
 args <- commandArgs(TRUE)
 dl <- args[1]; out <- args[2]
 dir.create(out, showWarnings = FALSE, recursive = TRUE)

@@ -7,6 +7,7 @@
 # MODE check: the penalties of the committed runs (COMMITTED_DIR/models/lambdas.json) are used, and
 #   the first CHECK_RUNS runs of each model are recomputed and must equal them.
 suppressPackageStartupMessages({library(pdscox); library(survival); library(jsonlite)})
+invisible(Sys.setlocale("LC_COLLATE", "C"))  # group order ("LN+" before "LN-") must not depend on the locale
 a <- commandArgs(TRUE)
 dd <- a[1]; pd <- a[2]; out <- a[3]; cores <- as.integer(a[4]); mode <- a[5]
 committed <- if (length(a) >= 6) a[6] else NA

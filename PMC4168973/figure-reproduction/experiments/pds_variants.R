@@ -3,7 +3,8 @@ suppressMessages({library(pdscox); library(survival)})
 d <- readRDS("data/miller.rds"); G <- readRDS("data/genesets.rds")
 pw <- c("BIOCARTA_VIP_PATHWAY","BIOCARTA_AKAP13_PATHWAY","BIOCARTA_PYK2_PATHWAY","BIOCARTA_G1_PATHWAY","BIOCARTA_RNA_PATHWAY")
 paper <- c(4.6676, 2.4547, 3.8894, 5.5751, 4.1152)
-up <- function(S) apply(S, 1, function(v) round(-log10(summary(coxph(Surv(d$clin$time, d$clin$event) ~ v))$waldtest[3]),2))
+tm <- d$clin$time; tm[is.na(tm)] <- 0  # the two Miller patients without a relapse time count as 0, as in the pipeline
+up <- function(S) apply(S, 1, function(v) round(-log10(summary(coxph(Surv(tm, d$clin$event) ~ v))$waldtest[3]),2))
 run <- function(lbl, expr, ...) { S <- pathway_scores(expr, G[pw], cores = 4, ...); cat(sprintf("%-28s", lbl), up(S)[pw], "\n") }
 cat(sprintf("%-28s", "paper -log10 p"), paper, "\n")
 run("default seed 1", d$expr)

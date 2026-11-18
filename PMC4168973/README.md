@@ -100,7 +100,7 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC4168973/pa
 
 The clinical side comes back: Table 1, Fig. 1's p-values and curves, the clinical model, Table 3's
 genomic genes and NKI70. The pathway model does not: on our pathway scores the paper's 15 pathways
-are much weaker, our model keeps 5 of them, and it does not carry to Desmedt. Adding clinical
+are much weaker, our model keeps 5 pathways (3 of them the paper's), and it does not carry to Desmedt. Adding clinical
 features still helps on both sets the paper shows. Test set 2 (Ivshina) shares 232 of its 249
 arrays with the training set.
 

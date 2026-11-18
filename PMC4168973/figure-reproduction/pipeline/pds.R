@@ -6,6 +6,7 @@
 # the same subsamplings (seed 1), so chunking does not change any score. Writes pathways x samples,
 # with a column "flipped" (TRUE when the ends were swapped so that the score rises with expression).
 suppressPackageStartupMessages(library(pdscox))
+invisible(Sys.setlocale("LC_COLLATE", "C"))  # group order ("LN+" before "LN-") must not depend on the locale
 a <- commandArgs(TRUE)
 d <- readRDS(file.path(a[1], paste0(a[2], ".rds")))
 gs <- readRDS(file.path(a[1], "genesets.rds"))

@@ -14,7 +14,7 @@
 // scores and penalties; Table 1, Fig. 1, Tables 2 and 3, Figs 3 to 6 and S1 to S4; score the
 // figure panels; check the package; write results.json and the results page; check the run
 // against the committed outputs.
-// --full: score all 403 pathways in each data set (about 2 hours on 4 cores) and run every
+// --full: score all 403 pathways in each data set (about 7 hours on 4 cores) and run every
 //   cross-validation run (about 2 hours more), then build everything from the fresh run.
 
 params.outdir = 'results'

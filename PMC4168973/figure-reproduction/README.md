@@ -162,11 +162,12 @@ nextflow run PMC4168973/figure-reproduction/main.nf --outdir results --full
 ## Limits
 
 - **Our pathway scores are not the paper's.** On our scores 11 of the paper's 15 selected pathways
-  have univariate p-values more than ten times larger than printed. pathifier gives the same scores
-  with any seed here; skipping the normalization, pathifier's filters or its stability option, or
+  have univariate p-values more than ten times larger than printed. On five of them, pathifier gives the
+  same scores with seeds 1, 2 and 3, and skipping the normalization, pathifier's filters or its stability option, or
   giving it linear expression, does not bring them back (`experiments/pds_variants.txt`). The
   paper's gene mapping (biomaRt, release not given), its MSigDB release and its CONOR step are not
-  available. Every model result that differs follows from this.
+  available. Every pathway and combined model result that differs follows from this; the gene
+  models differ too (Fig. 5), where our gene mapping and normalization are the open difference.
 - **Desmedt.** Neither its pathways nor its genes carry enough relapse signal for cross-validation
   to keep any (`experiments/desmedt_penalty.txt`); the paper's Fig. 5 Desmedt results need a far
   smaller penalty.
@@ -176,6 +177,6 @@ nextflow run PMC4168973/figure-reproduction/main.nf --outdir results --full
   from GSE4922; two patients without a relapse time count as time 0, which gives Fig. 1's p-values.
 - **Clustering.** How the paper clustered the PAM50 genes (Fig. 1A) and the pathways (Fig. 3) is
   not given; no variant we tried gives its chi-square p-values (`experiments/`).
-- **Fig. S1** uses 25 cross-validation runs per model, not 250 (90 models).
+- **Fig. S1** uses 25 cross-validation runs per model, not 250 (72 models: 4 fractions, 18 draws each).
 - **Renders.** The committed `fig*_ours.png` and overlays are drawn with Pillow (no text is drawn);
   `compare_runs.py` compares them with a fresh run by decoded pixels, and the pixel scores to 1e-9.

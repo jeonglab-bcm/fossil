@@ -3,6 +3,7 @@
 # Table 3 is computed from the paper's Table 2 (pathways and coefficients) and MSigDB v6.0; the
 # coverage numbers from the 403 gene sets and the U133A genes of the Miller data.
 suppressPackageStartupMessages({library(pdscox); library(jsonlite)})
+invisible(Sys.setlocale("LC_COLLATE", "C"))  # group order ("LN+" before "LN-") must not depend on the locale
 a <- commandArgs(TRUE)
 gs <- readRDS(file.path(a[1], "genesets.rds"))
 coef <- c(KEGG_MELANOGENESIS = 1.075908, BIOCARTA_SRCRPTP_PATHWAY = 0.914698,

@@ -2,6 +2,7 @@
 #   Rscript clinical.R DATA_DIR OUT_DIR
 # Writes OUT_DIR/clinical.json and OUT_DIR/curves/fig1_<panel>.csv (Kaplan-Meier steps per group).
 suppressPackageStartupMessages({library(pdscox); library(survival); library(jsonlite)})
+invisible(Sys.setlocale("LC_COLLATE", "C"))  # group order ("LN+" before "LN-") must not depend on the locale
 a <- commandArgs(TRUE)
 dd <- a[1]; out <- a[2]
 dir.create(file.path(out, "curves"), recursive = TRUE, showWarnings = FALSE)

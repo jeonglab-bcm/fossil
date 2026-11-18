@@ -13,3 +13,8 @@ for (l in c(4.69, 3, 2, 1)) {
   e <- evaluate_model(pi, d$clin$time, d$clin$event, quantile(pi, 1 - mean(d$clin$event)))
   cat("lambda", l, ":", length(cf), "pathways, log-rank p", signif(e$p, 3), "AUC", round(e$auc, 3), "\n")
 }
+# How much relapse signal is there? Smallest univariate Cox p over pathways and expressed genes.
+uni <- function(M) apply(M, 2, function(v) summary(coxph(Surv(d$clin$time, d$clin$event) ~ v))$waldtest[3])
+pp <- uni(X); E <- t(d$expr[rowMeans(d$expr) > 7, ]); pg <- uni(E)
+cat("pathways: smallest univariate p", signif(min(pp), 3), "of", length(pp), "\n")
+cat("genes with mean log2 > 7:", signif(min(pg), 3), "smallest univariate p of", length(pg), "\n")
