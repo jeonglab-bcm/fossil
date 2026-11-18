@@ -37,6 +37,14 @@ def main(mapdir, annot, fai, sample, outdir):
     by_chrom = defaultdict(list)
     for t in ref:
         by_chrom[t.chrom].append(t)
+    # Hypothesis test for Fig. 1a: exons and transcripts of all five repositories instead of RefSeq only
+    others = []
+    for src in ("knownGene", "ensGene", "genscan", "exoniphy"):
+        others += [t for t in read_genepred(f"{annot}/{src}.txt.gz", src) if t.chrom in sizes]
+    oth_by_chrom = defaultdict(list)
+    for t in others:
+        oth_by_chrom[t.chrom].append(t)
+    alt = {"exonic": 0, "intronic": 0, "intergenic": 0}
     counts = np.zeros(len(genes), np.int64)
     cat = {"exonic": 0, "intronic": 0, "intergenic": 0}
     for ci, c in enumerate(names):
@@ -59,6 +67,16 @@ def main(mapdir, annot, fai, sample, outdir):
         cat["exonic"] += int(e.sum())
         cat["intronic"] += int((gn & ~e).sum())
         cat["intergenic"] += int((~gn).sum())
+        for t in oth_by_chrom.get(c, ()):
+            if t.source in ("knownGene", "ensGene"):
+                genic[t.tx_start : t.tx_end] = True
+            for a, b in t.exons:
+                exon[a:b] = True
+        e2 = exon[p]
+        g2 = genic[p]
+        alt["exonic"] += int(e2.sum())
+        alt["intronic"] += int((g2 & ~e2).sum())
+        alt["intergenic"] += int((~g2).sum())
         gid = gene_id[p]
         gid = gid[gid >= 0]
         counts += np.bincount(gid, minlength=len(genes))
@@ -92,6 +110,7 @@ def main(mapdir, annot, fai, sample, outdir):
     cat["mapping_frequency"] = cat["total_mapped"] / stats["reads"]
     cat["truncation_recovered"] = stats["truncation_recovered"]
     cat["junction_full_length"] = stats["junction_reads_full_length"]
+    cat["all_repositories"] = alt
     with open(f"{outdir}/{sample}_categories.json", "w") as fo:
         json.dump(cat, fo, indent=1)
     with open(f"{outdir}/{sample}_gene_counts.tsv", "w") as fo:
