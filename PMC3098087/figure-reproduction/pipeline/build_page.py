@@ -5,7 +5,7 @@ Usage: build_page.py RESULTS_JSON OUTPUT_DIR PUBLISHED_DIR OUT_DIR   (writes OUT
 Every verdict and number on the page is read from results.json (verdicts computed there by
 check_results.py); the prose that is not a number comes from results_notes.json ("page"), with
 {name} replaced by numbers from results.json. Images are embedded (downscaled to at most 800 px
-wide), so the page works offline; it links ../results.css like the site's other results pages.
+wide, 128 colours), so the page works offline; it links ../results.css like the site's other results pages.
 """
 import base64
 import html
@@ -59,7 +59,8 @@ def b64(path):
     if im.width > MAXW:
         im = im.resize((MAXW, round(im.height * MAXW / im.width)), Image.LANCZOS)
     buf = io.BytesIO()
-    im.save(buf, "PNG", optimize=True)
+    # A 128-colour palette keeps the ink, the series colours and the green overlay, at a third of the size.
+    im.quantize(128, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).save(buf, "PNG", optimize=True)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
 
@@ -158,8 +159,8 @@ def main(results, outdir, pubdir, out):
     F, by = facts(R)
     N = fill(json.loads((HERE.parent / "results_notes.json").read_text())["page"], F)
     label = "<ol>" + "".join(
-        f'<li><a href="#{a}"><span>{esc(name)}</span><span class="v" data-v="{STAMP.get(worst([by[i]["verdict"] for i in ids]), ("running", ""))[0]}">'
-        f'{esc(STAMP.get(worst([by[i]["verdict"] for i in ids]), ("running", "Not attempted"))[1])}</span></a></li>'
+        f'<li><a href="#{a}"><span>{esc(name)}</span><span class="v" data-v="{STAMP.get(worst([by[i]["verdict"] for i in ids if i in by]), ("running", ""))[0]}">'
+        f'{esc(STAMP.get(worst([by[i]["verdict"] for i in ids if i in by]), ("running", "Not attempted"))[1])}</span></a></li>'
         for a, name, ids in N["label_rows"]) + "</ol>"
     stations, figjs = [], []
     for fid, ids, cap in STATIONS:

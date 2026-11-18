@@ -287,9 +287,9 @@ PAGE = {
     ],
     "matched_intro": "What the paper does not say, what it says that its figures contradict, and what we chose. Each was tested against the paper's own values.",
     "matched": [
-        ["Sample centring", "Stated for every setting, but the p = 40 and pDE = p panels of Fig. 3 and Additional files 4 and 5 come back only without it ({fig3_hyp_nocenter_hits} of {fig3_hyp_nocenter_n} points of Fig. 3)."],
+        ["Sample centring", "Stated for every setting, but the p = 40 and pDE = p panels of Fig. 3 and Additional files 4 and 5 come back without it (see the cause of Fig. 3)."],
         ["Over-sampling", "The paper's DLDA and DQDA fit selection on the original training set, and its PAM keeps the original class prior after over-sampling. Our run follows the Methods (selection on the over-sampled set, pamr's default prior); both alternatives are tested in hypotheses.json."],
-        ["Fig. 5's test set", "Its over-sampling PA is that of a test set as imbalanced as the training set ({fig5_hyp_over_test_hits} of {fig5_hyp_over_test_n} points); Additional file 8, the same panel for all nine classifiers, uses a balanced one."],
+        ["Fig. 5's test set", "Its over-sampling PA is that of a test set as imbalanced as the training set; Additional file 8, the same panel for all nine classifiers, uses a balanced one."],
         ["DQDA's AUC", "Ranked by the ratio of the two discriminants, not their difference: found by search; the predictions are the same."],
         ["Additional file 1", "Prints PLR's PA and PV for all nine classifiers; those cells are listed as paper slips and the rest compared."],
         ["Tolerance", "The printed precision plus a Bonferroni multiple of the combined Monte Carlo standard error, from the paper's replicate count and the paper's SD where printed (ours otherwise)."],
