@@ -64,12 +64,23 @@ def facts_of(run):
         "dqda_ratio": ", ".join(f"{v['by_score']['ratio of the discriminants']:.2f}" for v in dq.values()),
         "dlda_ratio": f"{dq['k1train 0.1']['by_score']['DLDA: ratio']:.2f}",
         "af10_hits": c["af10"]["matched"], "af10_n": c["af10"]["n_fields"],
-        **more_facts(h, c),
+        **more_facts(h, c, run),
         "af10_500_hits": c["af10.ntest500"]["matched"], "af10_500_n": c["af10.ntest500"]["n_fields"],
     }
 
 
-def more_facts(h, c):
+def claim_facts(run, h):
+    cl = json.load(open(Path(run) / "claims.json"))
+    sh = [f["observed_share"] for f in cl["text.fig4_selection"]["fields"]]
+    rt = h["rf_thr_null"]
+    g = lambda k: f"{rt['k1train_0.1'][k]:.2f} and {rt['k1train_0.9'][k]:.2f}"  # noqa: E731
+    ge_flat = abs(rt["k1train_0.9"]["class weights, >= at the cutoff"] - rt["k1train_0.1"]["class weights, >= at the cutoff"]) <= 0.05
+    return {"sel_shares": ", ".join(f"{v:.2f}" for v in sh), "sel_pooled": f"{sum(sh) / len(sh):.2f}",
+            "rf_thr_ours": g("class weights (ours)"), "rf_thr_nocw": g("no class weights"), "rf_thr_ge": g("class weights, >= at the cutoff"),
+            "rf_thr_ge_result": "rejected" if ge_flat else "supported"}
+
+
+def more_facts(h, c, run_dir="."):
     """Facts of the PAM, SVM, over-sampling, centring and interval hypotheses."""
     R = lambda case, key, m: h[case]["res"][key][m]  # noqa: E731
     paper = {f["name"]: f["expected"] for f in c["af8"]["fields"]}
@@ -78,11 +89,13 @@ def more_facts(h, c):
           for k in ("fig3", "af4", "af5")}
     ot = {k: c[f"{k}.hyp_over_test"] for k in ("fig5", "af8")}
     f2 = lambda v: f"{v:.2f}"  # noqa: E731
+    pv = lambda v, k, i=0: v[k] if isinstance(v, dict) else v[i] if isinstance(v, list) else v  # noqa: E731  (R vectors lose their names)
     return {
         "svm_over_w": f"Additional file 8, k1train 0.1: PA1 {f2(R('over_k0.10', 'SVM weights from the over-sampled set', 'PA1'))} and "
                       f"{f2(R('over_k0.10', 'SVM weights from the original set', 'PA1'))}",
         "nc_fig3_c": nc["fig3"]["centred"]["matched"], "nc_fig3_cn": nc["fig3"]["centred"]["n"],
         "nc_fig3": nc["fig3"]["not centred"]["matched"], "nc_fig3_n": nc["fig3"]["not centred"]["n"],
+        "nc_af4_c": nc["af4"]["centred"]["matched"], "nc_af5_c": nc["af5"]["centred"]["matched"],
         "nc_af4": nc["af4"]["not centred"]["matched"], "nc_af4_n": nc["af4"]["not centred"]["n"],
         "nc_af5": nc["af5"]["not centred"]["matched"], "nc_af5_n": nc["af5"]["not centred"]["n"],
         "ot_fig5_i": ot["fig5"]["as_imbalanced_as_training"]["matched"], "ot_fig5_b": ot["fig5"]["balanced"]["matched"], "ot_fig5_n": ot["fig5"]["balanced"]["n"],
@@ -94,14 +107,15 @@ def more_facts(h, c):
         "ord_3nn_a": f2(R("over_k0.20", "3-NN selection after over-sampling (ours)", "PA")),
         "ord_3nn_b": f2(R("over_k0.20", "3-NN selection before over-sampling", "PA")),
         "ord_dlda_p": f2(float(paper["DLDA over PA, x = 0.2"])), "ord_dqda_p": f2(float(paper["DQDA over PA, x = 0.2"])),
-        "pp_af8_p": f2(h["over_k0.10"]["paper_af8"]["PAM_PA"]), "pp_af8_a": f2(R("over_k0.10", "PAM: ours", "PA")),
+        "pp_af8_p": f2(pv(h["over_k0.10"]["paper_af8"], "PAM_PA")), "pp_af8_a": f2(R("over_k0.10", "PAM: ours", "PA")),
         "pp_af8_b": f2(R("over_k0.10", "PAM: original prior", "PA")),
-        "pp_af9_p": f2(h["af9_k0.05"]["paper_af9"]["PAM_PA1"]), "pp_af9_a": f2(R("af9_k0.05", "PAM: ours", "PA1")),
+        "pp_af9_p": f2(pv(h["af9_k0.05"]["paper_af9"], "PAM_PA1", 0)), "pp_af9_a": f2(R("af9_k0.05", "PAM: ours", "PA1")),
         "pp_af9_b": f2(R("af9_k0.05", "PAM: original prior", "PA1")),
         "pt_null_a": f2(R("pam_null_k0.45", "PAM: ours", "PA1")), "pt_null_s": f2(R("pam_null_k0.45", "PAM: smallest threshold", "PA1")),
         "pt_null_cv": f2(R("pam_null_k0.45", "PAM: 10-fold CV", "PA1")), "pt_null_e": f2(R("pam_null_k0.45", "PAM: equal priors", "PA1")),
         "pt_er_a": f2(R("pam_er_45_5", "PAM: ours", "PA2")), "pt_er_s": f2(R("pam_er_45_5", "PAM: smallest threshold", "PA2")),
         "pt_er_cv": f2(R("pam_er_45_5", "PAM: 10-fold CV", "PA2")), "pt_er_e": f2(R("pam_er_45_5", "PAM: equal priors", "PA2")),
+        **claim_facts(run_dir, h),
         "pi_fig6": c["fig6.pi"]["matched"], "pi_fig6_n": c["fig6.pi"]["n_fields"],
         "pi_af12": c["af12"]["matched"], "pi_af12_n": c["af12"]["n_fields"],
         "pi_fig6_norm": c["fig6.pi.normal"]["matched"], "pi_af12_norm": c["af12.normal"]["matched"],

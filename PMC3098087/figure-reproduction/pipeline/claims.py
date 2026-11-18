@@ -190,12 +190,14 @@ def main():
                    "arithmetic": yn(pm is not None and pm >= 2), "observed": yn(om is not None and om >= 2),
                    "arithmetic_mu": pm, "observed_mu": om})
     for c in ("3-NN", "5-NN", "DQDA", "RF", "SVM", "PAM"):
+        pm = first_mu(lambda m: P.point("af7", m, classifier=c, center="samples", k1train=0.5))
         om = first_mu(lambda m: O.get(f"mu_samples_k0.5_mu{m:.1f}", "bal20", c, "PA"))
         f1.append({"name": f"{c}: smallest mu2 with PA >= 0.98 at k1train 0.5 lies in [1, 1.5]", "expected": "yes",
-                   "observed": yn(om is not None and 1 <= om <= 1.5), "observed_mu": om})
+                   "arithmetic": yn(pm is not None and 1 <= pm <= 1.5), "observed": yn(om is not None and 1 <= om <= 1.5),
+                   "arithmetic_mu": pm, "observed_mu": om})
     C["text.fig4_balanced"] = claim("For the balanced training set the overall PA reached 1 when mu2 was between 1 and 1.5 for all the classifiers.",
                                     "Results (Fig. 4, Additional file 7)", f1,
-                                    "Reaching 1 is read as a mean PA of 0.98 or more. Fig. 4 plots 1-NN, DLDA and PLR, so the other six have no arithmetic check.")
+                                    "Reaching 1 is read as a mean PA of 0.98 or more. Fig. 4 plots 1-NN, DLDA and PLR; the other six are read from Additional file 7.")
     C["text.fig4_imbalanced"] = claim("Much larger differences (mu2 >= 2) were needed for the highly imbalanced data (k1train = 0.1).",
                                       "Results (Fig. 4)", f2,
                                       "Fig. 4 shows k1train = 0.5 to 0.9 with the shift in Class 2; the text's k1train = 0.1 is the same imbalance with the classes swapped, so 0.9 is compared.")

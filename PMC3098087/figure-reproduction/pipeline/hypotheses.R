@@ -168,6 +168,28 @@ er_pam <- function(n_neg, n_pos) {
   setNames(lapply(keys, function(k) avg(lapply(res, `[[`, k))), paste("PAM", keys, sep = ": "))
 }
 
+# RF-THR in the null case: the paper says the dependence on imbalance diminished but did not
+# disappear (data not shown). PA1 of RF-THR with the stated class weights (ours), without them, and
+# with ">=" instead of ">" at the cutoff.
+rf_thr <- function(name) {
+  s <- S[[name]]
+  one <- function(r) {
+    set.seed(multds:::seed_of(s$name) + r, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
+    n1 <- round(s$ntrain * s$k1train)
+    tr <- simulate_data(n1, s$ntrain - n1, s$p, s$p_de, s$mu2)
+    tests <- lapply(s$tests, function(d) { m1 <- round(d$ntest * d$k1test); simulate_data(m1, d$ntest - m1, s$p, s$p_de, s$mu2) })
+    g <- match("bal20", vapply(s$tests, `[[`, "", "id"))
+    xtr <- center_data(tr$x, "samples"); xte <- center_data(tests[[g]]$x, "samples"); yte <- tests[[g]]$y
+    w <- c(mean(tr$y == 1), mean(tr$y == 2))
+    p1 <- predict(randomForest::randomForest(xtr, factor(tr$y, levels = 1:2), classwt = w), xte, type = "prob")[, "1"]
+    p2 <- predict(randomForest::randomForest(xtr, factor(tr$y, levels = 1:2)), xte, type = "prob")[, "1"]
+    k1 <- s$k1train
+    c("class weights (ours)" = mean(p1[yte == 1] > k1), "no class weights" = mean(p2[yte == 1] > k1),
+      "class weights, >= at the cutoff" = mean(p1[yte == 1] >= k1))
+  }
+  round(Reduce(`+`, parallel::mclapply(reps, one, mc.cores = cores)) / length(reps), 4) |> as.list()
+}
+
 tidy <- function(a) lapply(dimnames(a)[[1]], function(cst) lapply(setNames(dimnames(a)[[2]], dimnames(a)[[2]]),
                                                                    function(w) round(a[cst, w, ], 4))) |> setNames(dimnames(a)[[1]])
 out <- list(
@@ -186,6 +208,7 @@ out <- list(
   over_k0.10 = list(paper_af8 = c(PAM_PA = 0.5077), res = alt_case("over_p1000_k0.10", "bal20", c("pam", "svm"))),
   over_k0.20 = list(res = alt_case("over_p1000_k0.20", "bal20", c("pam", "svm", "order"))),
   af9_k0.05 = list(paper_af9 = c(PAM_PA1 = 0.0231, SVM_PA = 0.5567), res = alt_case("af9_p1000_k0.05", "bal20", c("pam", "svm"))),
-  af9_k0.25 = list(res = alt_case("af9_p1000_k0.25", "bal20", c("order"))))
+  af9_k0.25 = list(res = alt_case("af9_p1000_k0.25", "bal20", c("order"))),
+  rf_thr_null = list(k1train_0.1 = rf_thr("null_p40_k0.10"), k1train_0.9 = rf_thr("null_p40_k0.90")))
 writeLines(toJSON(out, auto_unbox = TRUE, pretty = TRUE, digits = NA), args[2])
 cat("hypotheses written\n")
