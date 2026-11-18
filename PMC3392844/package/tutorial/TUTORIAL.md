@@ -132,7 +132,7 @@ print((tmp / "scores.csv").read_text().splitlines()[:3])
 
 ```text
 {'auc': 0.8342, 'acc': 0.8386, 'precision': 0.5738, 'recall': 0.7443}
-['drug,adr,label,score', 'D001,ADR0,0,-0.9577270407329447', 'D002,ADR0,0,-1.220476769737414']
+['drug,adr,label,score', 'D001,ADR0,0,-0.9577270407329385', 'D002,ADR0,0,-1.220476769737426']
 ```
 
 ## 6. Your own data

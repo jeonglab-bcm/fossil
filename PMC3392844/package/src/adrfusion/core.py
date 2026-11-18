@@ -225,6 +225,18 @@ def group_label(data: ADRData, group: Sequence[int]) -> np.ndarray:
 # ------------------------------------------------------------------------------------------ learners
 
 
+def rbf_kernel(dist: np.ndarray, gamma: float = SVM_GAMMA) -> np.ndarray:
+    """exp(-gamma * d) for integer squared distances d, from a table computed with math.exp and rounded to
+    14 significant digits, so the kernel (and the SVM after it) is the same on every CPU: numpy's SIMD exp
+    can differ in the last bit between processors."""
+    d = np.rint(dist).astype(np.int64)
+    if d.size and d.min() < 0:
+        raise ValueError("distances must be non-negative")
+    n = int(d.max()) + 1 if d.size else 1
+    table = np.array([float(f"{math.exp(-gamma * k):.14g}") for k in range(n)])
+    return table[d]
+
+
 class _SVM:
     """scikit-learn's SVC (libsvm) on a precomputed kernel. scikit-learn 1.9 deprecates its probability
     option (LIBSVM's -b 1, Platt scaling with an internal 5-fold CV), which the paper's scores need;
@@ -315,7 +327,7 @@ def _scores_one(data: ADRData, D, feature_set: str, algorithm: str, y: np.ndarra
     kernel_like = algorithm in ("svm", "knn")
     if kernel_like:
         Dist = distance_for(data, D, feature_set, exclude)
-        K = np.exp(-SVM_GAMMA * Dist) if algorithm == "svm" else None
+        K = rbf_kernel(Dist) if algorithm == "svm" else None
     else:
         X = features_for(data, feature_set, exclude)
     for k in np.unique(fold):
@@ -402,7 +414,7 @@ def predict_held_out(data: ADRData, drug: int, adrs: Sequence[int] | Sequence[Se
     for a in adrs:
         group = [int(x) for x in a] if isinstance(a, (list, tuple, np.ndarray)) else [int(a)]
         y = group_label(data, group).astype(np.int8)
-        K = np.exp(-SVM_GAMMA * distance_for(data, D, feature_set, group))
+        K = rbf_kernel(distance_for(data, D, feature_set, group))
         m = _svm(True, seed, SVM_C).fit(K[np.ix_(others, others)], y[others])
         kt = K[np.ix_([drug], others)]
         dec = float(m.decision_function(kt)[0])

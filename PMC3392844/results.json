@@ -1,0 +1,3385 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC3392844",
+    "title": "Large-scale prediction of adverse drug reactions using chemical, biological, and phenotypic properties of drugs",
+    "citation": "Liu M, Wu Y, Chen Y, Sun J, Zhao Z, Chen XW, Matheny ME, Xu H. Large-scale prediction of adverse drug reactions using chemical, biological, and phenotypic properties of drugs. J Am Med Inform Assoc 19(e1):e28-e35 (2012)",
+    "doi": "10.1136/amiajnl-2011-000699",
+    "license": "CC BY-NC 2.0"
+  },
+  "run": {
+    "date": "2026-11-18",
+    "pipeline": "PMC3392844/figure-reproduction/main.nf",
+    "command": "nextflow run PMC3392844/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "12859_2015_774_MOESM1_ESM.zip (Zhang et al. 2015, PMC4634905, Additional file 1, CC BY 4.0)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4634905.1/12859_2015_774_MOESM1_ESM.zip",
+        "sha256": "6733ca5650274a6ae987ef92eabc31a43b9ae196420ea73f8a4ff5bd2a6466bc"
+      },
+      {
+        "name": "random_group_cv_data.indication (in the zip)",
+        "url": "inside the zip",
+        "sha256": "a95d1113e7e6c0f426befa4e9b9ad9e8c9b5f69be7907ed47b72b78e36a0d9b8"
+      },
+      {
+        "name": "PMC3392844.1.pdf (--extract)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3392844.1/PMC3392844.1.pdf",
+        "sha256": "7dc617e64af5ee3ae7c1e0c109ce553c5d64c92e0988f3f97200799c81a97cbc"
+      },
+      {
+        "name": "PMC3392844.1.xml (--extract)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3392844.1/PMC3392844.1.xml",
+        "sha256": "7ada8cc2cbed085a46c37761b9ae5a998d667e8eef19dcef3576fcc7e968ad94"
+      }
+    ],
+    "environment": {
+      "python": "3.12.3",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "scikit-learn": "1.6.1",
+      "matplotlib": "3.10.3",
+      "pillow": "11.2.1",
+      "adrfusion": "0.1.0",
+      "platform": "x86_64"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1, the surveillance framework",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "A diagram.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC3392844/figure/amiajnl-2011-000699-f01/"
+        ],
+        "hypotheses": []
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, feature dimensions",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "Substructures",
+            "expected": "881",
+            "observed": 881
+          },
+          {
+            "name": "Targets",
+            "expected": "786",
+            "observed": 786
+          },
+          {
+            "name": "Transporters",
+            "expected": "72",
+            "observed": 72
+          },
+          {
+            "name": "Enzymes",
+            "expected": "111",
+            "observed": 111
+          },
+          {
+            "name": "Pathways",
+            "expected": "173",
+            "observed": 173
+          },
+          {
+            "name": "Treatment indications",
+            "expected": "869",
+            "observed": 869
+          },
+          {
+            "name": "Other side effects",
+            "expected": "1384",
+            "observed": 1384
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "table2.all",
+      "label": "Table 2, SVM by feature set, all ADRs",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem|all|auc",
+            "expected": "0.9054",
+            "observed": 0.9054457564
+          },
+          {
+            "name": "chem|all|acc",
+            "expected": "0.9538",
+            "observed": 0.9538982227
+          },
+          {
+            "name": "chem|all|precision",
+            "expected": "0.4337",
+            "observed": 0.4332170004
+          },
+          {
+            "name": "chem|all|recall",
+            "expected": "0.4925",
+            "observed": 0.4948061819
+          },
+          {
+            "name": "bio|all|auc",
+            "expected": "0.9069",
+            "observed": 0.9067813921
+          },
+          {
+            "name": "bio|all|acc",
+            "expected": "0.9543",
+            "observed": 0.954275722
+          },
+          {
+            "name": "bio|all|precision",
+            "expected": "0.4324",
+            "observed": 0.4343993771
+          },
+          {
+            "name": "bio|all|recall",
+            "expected": "0.5043",
+            "observed": 0.4994510599
+          },
+          {
+            "name": "pheno|all|auc",
+            "expected": "0.9542",
+            "observed": 0.9543810828
+          },
+          {
+            "name": "pheno|all|acc",
+            "expected": "0.9678",
+            "observed": 0.9678170994
+          },
+          {
+            "name": "pheno|all|precision",
+            "expected": "0.6607",
+            "observed": 0.6526381381
+          },
+          {
+            "name": "pheno|all|recall",
+            "expected": "0.6460",
+            "observed": 0.654556203
+          },
+          {
+            "name": "chem+bio|all|auc",
+            "expected": "0.9098",
+            "observed": 0.9099110978
+          },
+          {
+            "name": "chem+bio|all|acc",
+            "expected": "0.9551",
+            "observed": 0.9551982088
+          },
+          {
+            "name": "chem+bio|all|precision",
+            "expected": "0.4623",
+            "observed": 0.4514025079
+          },
+          {
+            "name": "chem+bio|all|recall",
+            "expected": "0.5008",
+            "observed": 0.5131830082
+          },
+          {
+            "name": "chem+pheno|all|auc",
+            "expected": "0.9526",
+            "observed": 0.9526808641
+          },
+          {
+            "name": "chem+pheno|all|acc",
+            "expected": "0.9669",
+            "observed": 0.9669006873
+          },
+          {
+            "name": "chem+pheno|all|precision",
+            "expected": "0.6488",
+            "observed": 0.6531931397
+          },
+          {
+            "name": "chem+pheno|all|recall",
+            "expected": "0.6443",
+            "observed": 0.6400641838
+          },
+          {
+            "name": "chem+bio+pheno|all|auc",
+            "expected": "0.9524",
+            "observed": 0.9524504386
+          },
+          {
+            "name": "chem+bio+pheno|all|acc",
+            "expected": "0.9669",
+            "observed": 0.9668564288
+          },
+          {
+            "name": "chem+bio+pheno|all|precision",
+            "expected": "0.6617",
+            "observed": 0.6531183576
+          },
+          {
+            "name": "chem+bio+pheno|all|recall",
+            "expected": "0.6306",
+            "observed": 0.6383582468
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "5 of 24 fields at printed precision; largest gap chem+bio|all|recall: 0.513183 against 0.5008. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table2.50",
+      "label": "Table 2, SVM by feature set, ADR_50+",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        },
+        {
+          "what": "ADR_50+: more than 50 drugs (Methods).",
+          "source": "paper",
+          "sensitivity": "At least 50 (footnote): chem AUC 0.7661."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem|50+|auc",
+            "expected": "0.7659",
+            "observed": 0.7658118772
+          },
+          {
+            "name": "chem|50+|acc",
+            "expected": "0.8268",
+            "observed": 0.8261475117
+          },
+          {
+            "name": "chem|50+|precision",
+            "expected": "0.4539",
+            "observed": 0.4512865987
+          },
+          {
+            "name": "chem|50+|recall",
+            "expected": "0.5569",
+            "observed": 0.5618547216
+          },
+          {
+            "name": "bio|50+|auc",
+            "expected": "0.7729",
+            "observed": 0.7724360237
+          },
+          {
+            "name": "bio|50+|acc",
+            "expected": "0.8287",
+            "observed": 0.8279585174
+          },
+          {
+            "name": "bio|50+|precision",
+            "expected": "0.4666",
+            "observed": 0.4640787949
+          },
+          {
+            "name": "bio|50+|recall",
+            "expected": "0.5521",
+            "observed": 0.5567844949
+          },
+          {
+            "name": "pheno|50+|auc",
+            "expected": "0.9175",
+            "observed": 0.9175413103
+          },
+          {
+            "name": "pheno|50+|acc",
+            "expected": "0.8891",
+            "observed": 0.8887165411
+          },
+          {
+            "name": "pheno|50+|precision",
+            "expected": "0.6933",
+            "observed": 0.6918238994
+          },
+          {
+            "name": "pheno|50+|recall",
+            "expected": "0.7142",
+            "observed": 0.7173961932
+          },
+          {
+            "name": "chem+bio|50+|auc",
+            "expected": "0.7849",
+            "observed": 0.7847784043
+          },
+          {
+            "name": "chem+bio|50+|acc",
+            "expected": "0.8327",
+            "observed": 0.832067795
+          },
+          {
+            "name": "chem+bio|50+|precision",
+            "expected": "0.4776",
+            "observed": 0.4728448348
+          },
+          {
+            "name": "chem+bio|50+|recall",
+            "expected": "0.5728",
+            "observed": 0.5800911823
+          },
+          {
+            "name": "chem+pheno|50+|auc",
+            "expected": "0.9141",
+            "observed": 0.9140354757
+          },
+          {
+            "name": "chem+pheno|50+|acc",
+            "expected": "0.8857",
+            "observed": 0.88524477
+          },
+          {
+            "name": "chem+pheno|50+|precision",
+            "expected": "0.6757",
+            "observed": 0.6765257677
+          },
+          {
+            "name": "chem+pheno|50+|recall",
+            "expected": "0.7215",
+            "observed": 0.7224868644
+          },
+          {
+            "name": "chem+bio+pheno|50+|auc",
+            "expected": "0.9138",
+            "observed": 0.9137126603
+          },
+          {
+            "name": "chem+bio+pheno|50+|acc",
+            "expected": "0.8856",
+            "observed": 0.8851351351
+          },
+          {
+            "name": "chem+bio+pheno|50+|precision",
+            "expected": "0.6750",
+            "observed": 0.6751327197
+          },
+          {
+            "name": "chem+bio+pheno|50+|recall",
+            "expected": "0.7227",
+            "observed": 0.7227935314
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "1 of 24 fields at printed precision; largest gap chem+bio|50+|recall: 0.580091 against 0.5728. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3.svm",
+      "label": "Table 3, SVM row",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "svm|all|auc",
+            "expected": "0.9524",
+            "observed": 0.9524504386
+          },
+          {
+            "name": "svm|all|acc",
+            "expected": "0.9669",
+            "observed": 0.9668564288
+          },
+          {
+            "name": "svm|all|precision",
+            "expected": "0.6617",
+            "observed": 0.6531183576
+          },
+          {
+            "name": "svm|all|recall",
+            "expected": "0.6306",
+            "observed": 0.6383582468
+          },
+          {
+            "name": "svm|50+|auc",
+            "expected": "0.9141",
+            "observed": 0.9137126603
+          },
+          {
+            "name": "svm|50+|acc",
+            "expected": "0.8857",
+            "observed": 0.8851351351
+          },
+          {
+            "name": "svm|50+|precision",
+            "expected": "0.6750",
+            "observed": 0.6751327197
+          },
+          {
+            "name": "svm|50+|recall",
+            "expected": "0.7227",
+            "observed": 0.7227935314
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "1 of 8 fields at printed precision; largest gap svm|all|precision: 0.653118 against 0.6617. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3.rf",
+      "label": "Table 3, RF row",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "scikit-learn RF, 100 trees, 13 features per split, seed 0.",
+          "source": "our_choice",
+          "sensitivity": "Seed 1: AUC 0.9486."
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "rf|all|auc",
+            "expected": "0.9491",
+            "observed": 0.9488432648
+          },
+          {
+            "name": "rf|all|acc",
+            "expected": "0.9653",
+            "observed": 0.9650800125
+          },
+          {
+            "name": "rf|all|precision",
+            "expected": "0.6310",
+            "observed": 0.6300338599
+          },
+          {
+            "name": "rf|all|recall",
+            "expected": "0.6250",
+            "observed": 0.6191368972
+          },
+          {
+            "name": "rf|50+|auc",
+            "expected": "0.9052",
+            "observed": 0.9040862413
+          },
+          {
+            "name": "rf|50+|acc",
+            "expected": "0.8784",
+            "observed": 0.8768272479
+          },
+          {
+            "name": "rf|50+|precision",
+            "expected": "0.6522",
+            "observed": 0.651290917
+          },
+          {
+            "name": "rf|50+|recall",
+            "expected": "0.7057",
+            "observed": 0.7008770674
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "0 of 8 fields at printed precision; largest gap rf|all|recall: 0.619137 against 0.625. WEKA's random trees cannot be replayed.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "RF's gap to Table 3 is the random forest's own randomness (WEKA's trees cannot be replayed in scikit-learn).",
+            "test": "scikit-learn RandomForestClassifier, 100 trees, 13 features per split, random_state 1 (the pipeline uses 0), full feature set, the paper's folds (work/algos2.py). AUC 0.9486 / 0.9039.",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "WEKA's features per split",
+            "test": "used: log2(4276)+1 = 13",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.knn",
+      "label": "Table 3, KNN row",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "KNN score: share of positives among the 55 nearest, ties included, no prior.",
+          "source": "found_by_search",
+          "sensitivity": "With IBk's prior: AUC 0.9168."
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "knn|all|auc",
+            "expected": "0.9161",
+            "observed": 0.9161027541
+          },
+          {
+            "name": "knn|all|acc",
+            "expected": "0.9595",
+            "observed": 0.9595772008
+          },
+          {
+            "name": "knn|all|precision",
+            "expected": "0.5300",
+            "observed": 0.5300140751
+          },
+          {
+            "name": "knn|all|recall",
+            "expected": "0.5787",
+            "observed": 0.5787855755
+          },
+          {
+            "name": "knn|50+|auc",
+            "expected": "0.8508",
+            "observed": 0.8507271976
+          },
+          {
+            "name": "knn|50+|acc",
+            "expected": "0.8530",
+            "observed": 0.8524436396
+          },
+          {
+            "name": "knn|50+|precision",
+            "expected": "0.5633",
+            "observed": 0.5633114842
+          },
+          {
+            "name": "knn|50+|recall",
+            "expected": "0.6401",
+            "observed": 0.6413019034
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "3 of 8 fields at printed precision; largest gap knn|50+|recall: 0.641302 against 0.6401. WEKA's neighbour search order cannot be replayed exactly.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "WEKA IBk's 1/n prior",
+            "test": "AUC 0.9168 / 0.8507, ACC 0.9596 (paper 0.9161 / 0.8508; ours 0.9161 / 0.8507)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "exactly 55 neighbours",
+            "test": "AUC 0.9157 / 0.8509, ACC 0.9596 (paper 0.9161 / 0.8508; ours 0.9161 / 0.8507)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3.nb",
+      "label": "Table 3, NB row",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Bernoulli naive Bayes, smoothing 1 (CLOP is no longer available).",
+          "source": "our_choice",
+          "sensitivity": "Multinomial: AUC 0.9138."
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "nb|all|auc",
+            "expected": "0.9116",
+            "observed": 0.9358173022
+          },
+          {
+            "name": "nb|all|acc",
+            "expected": "0.9527",
+            "observed": 0.9535944876
+          },
+          {
+            "name": "nb|all|precision",
+            "expected": "0.3537",
+            "observed": 0.4726403203
+          },
+          {
+            "name": "nb|all|recall",
+            "expected": "0.6302",
+            "observed": 0.6460096276
+          },
+          {
+            "name": "nb|50+|auc",
+            "expected": "0.8627",
+            "observed": 0.8618466897
+          },
+          {
+            "name": "nb|50+|acc",
+            "expected": "0.8431",
+            "observed": 0.8420567503
+          },
+          {
+            "name": "nb|50+|precision",
+            "expected": "0.3929",
+            "observed": 0.5299464594
+          },
+          {
+            "name": "nb|50+|recall",
+            "expected": "0.7214",
+            "observed": 0.7163535256
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "0 of 8 fields at printed precision; largest gap nb|50+|precision: 0.529946 against 0.3929. CLOP's naive Bayes settings are not stated.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "multinomial naive Bayes",
+            "test": "AUC 0.9138 / 0.8439, ACC 0.9546 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "smoothing 0.1",
+            "test": "AUC 0.9290 / 0.8545, ACC 0.9486 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "folds without a positive training drug scored 1",
+            "test": "AUC 0.9050 / 0.8618, ACC 0.9486 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "probability column taken by position",
+            "test": "AUC 0.7988 / 0.6268, ACC 0.9486 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.lr",
+      "label": "Table 3, LR row",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "LIBLINEAR L2 LR, C 10, epsilon 1, no bias.",
+          "source": "our_choice",
+          "sensitivity": "With bias: AUC 0.9349."
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "lr|all|auc",
+            "expected": "0.9102",
+            "observed": 0.9337389197
+          },
+          {
+            "name": "lr|all|acc",
+            "expected": "0.9486",
+            "observed": 0.9640160719
+          },
+          {
+            "name": "lr|all|precision",
+            "expected": "0.4152",
+            "observed": 0.5915897223
+          },
+          {
+            "name": "lr|all|recall",
+            "expected": "0.5671",
+            "observed": 0.5778903809
+          },
+          {
+            "name": "lr|50+|auc",
+            "expected": "0.7648",
+            "observed": 0.8787678658
+          },
+          {
+            "name": "lr|50+|acc",
+            "expected": "0.8023",
+            "observed": 0.8727545153
+          },
+          {
+            "name": "lr|50+|precision",
+            "expected": "0.5321",
+            "observed": 0.6340674573
+          },
+          {
+            "name": "lr|50+|recall",
+            "expected": "0.6908",
+            "observed": 0.6733588208
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "0 of 8 fields at printed precision; largest gap lr|all|precision: 0.59159 against 0.4152. No LIBLINEAR setting tried gives the paper's row.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "LIBLINEAR with a bias term",
+            "test": "AUC 0.9349 / 0.8802, ACC 0.9642 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "LIBLINEAR's dual solver",
+            "test": "AUC 0.9272 / 0.8876, ACC 0.9651 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "epsilon 1e-4",
+            "test": "AUC 0.9267 / 0.8869, ACC 0.9651 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "L1 regularization",
+            "test": "AUC 0.9179 / 0.8341, ACC 0.9595 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "folds without a positive training drug scored 1",
+            "test": "AUC 0.8937 / 0.8788, ACC 0.9486 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "probability column taken by position",
+            "test": "AUC 0.9013 / 0.7197, ACC 0.9486 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, ROC curves of six feature sets, all ADRs (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 1.0,
+        "ours_near_published": 1.0,
+        "threshold": 0.95,
+        "controls": [
+          {
+            "name": "each curve drawn from the next series of the legend",
+            "kind": "wrong_input",
+            "score": 0.453671
+          },
+          {
+            "name": "the same models over ADR_50+",
+            "kind": "wrong_input",
+            "score": 0.143271
+          },
+          {
+            "name": "ours with TPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.289098
+          },
+          {
+            "name": "ours with TPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.313156
+          },
+          {
+            "name": "ours with FPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.460863
+          },
+          {
+            "name": "ours with FPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.559578
+          }
+        ],
+        "per_curve": {
+          "chem": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "bio": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "chem+bio": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "chem+pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "chem+bio+pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          }
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig2.values",
+      "label": "Fig. 2, ROC curves of six feature sets, all ADRs, TPR at five FPRs read from the vector curves",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem at FPR 0.01",
+            "expected": "0.2792",
+            "observed": 0.280753,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.05",
+            "expected": "0.5664",
+            "observed": 0.565915,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.1",
+            "expected": "0.7151",
+            "observed": 0.715125,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.2",
+            "expected": "0.8587",
+            "observed": 0.85888,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.5",
+            "expected": "0.9708",
+            "observed": 0.970661,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.01",
+            "expected": "0.2894",
+            "observed": 0.289114,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.05",
+            "expected": "0.5722",
+            "observed": 0.572266,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.1",
+            "expected": "0.7210",
+            "observed": 0.721307,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.2",
+            "expected": "0.8614",
+            "observed": 0.861211,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.5",
+            "expected": "0.9713",
+            "observed": 0.970948,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.01",
+            "expected": "0.5530",
+            "observed": 0.554041,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.05",
+            "expected": "0.8049",
+            "observed": 0.805337,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.1",
+            "expected": "0.8885",
+            "observed": 0.888134,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.2",
+            "expected": "0.9442",
+            "observed": 0.944633,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.5",
+            "expected": "0.9835",
+            "observed": 0.984022,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.01",
+            "expected": "0.3070",
+            "observed": 0.307221,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.05",
+            "expected": "0.5910",
+            "observed": 0.590778,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.1",
+            "expected": "0.7332",
+            "observed": 0.733519,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.2",
+            "expected": "0.8671",
+            "observed": 0.866785,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.5",
+            "expected": "0.9713",
+            "observed": 0.971455,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.01",
+            "expected": "0.5399",
+            "observed": 0.537995,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.05",
+            "expected": "0.7958",
+            "observed": 0.795338,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.1",
+            "expected": "0.8836",
+            "observed": 0.882898,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.2",
+            "expected": "0.9415",
+            "observed": 0.941171,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.5",
+            "expected": "0.9837",
+            "observed": 0.984157,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.01",
+            "expected": "0.5392",
+            "observed": 0.536526,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.05",
+            "expected": "0.7936",
+            "observed": 0.793278,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.1",
+            "expected": "0.8824",
+            "observed": 0.88224,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.2",
+            "expected": "0.9417",
+            "observed": 0.941475,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.5",
+            "expected": "0.9835",
+            "observed": 0.98387,
+            "tolerance": {
+              "abs": 0.005
+            }
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.870378,
+        "ours_near_published": 0.87325,
+        "threshold": 0.95,
+        "controls": [
+          {
+            "name": "each curve drawn from the next series of the legend",
+            "kind": "wrong_input",
+            "score": 0.21643
+          },
+          {
+            "name": "the same models over all ADRs",
+            "kind": "wrong_input",
+            "score": 0.155984
+          },
+          {
+            "name": "ours with TPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.208593
+          },
+          {
+            "name": "ours with TPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.24646
+          },
+          {
+            "name": "ours with FPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.375053
+          },
+          {
+            "name": "ours with FPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.337322
+          }
+        ],
+        "per_curve": {
+          "chem": {
+            "published_near_ours": 0.190047,
+            "ours_near_published": 0.196384
+          },
+          "bio": {
+            "published_near_ours": 0.989839,
+            "ours_near_published": 0.99583
+          },
+          "pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "chem+bio": {
+            "published_near_ours": 0.99868,
+            "ours_near_published": 1.0
+          },
+          "chem+pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "chem+bio+pheno": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          }
+        }
+      },
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "curves within 2 px: chem 19.0%, bio 99.0%, pheno 100.0%, chem+bio 99.9%, chem+pheno 100.0%, chem+bio+pheno 100.0%. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658.",
+        "evidence": [
+          "figure-reproduction/output/published_curves.json"
+        ],
+        "hypotheses": []
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3.values",
+      "label": "Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem at FPR 0.01",
+            "expected": "0.1115",
+            "observed": 0.126531,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.05",
+            "expected": "0.2899",
+            "observed": 0.321346,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.1",
+            "expected": "0.4203",
+            "observed": 0.449226,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.2",
+            "expected": "0.5811",
+            "observed": 0.600413,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem at FPR 0.5",
+            "expected": "0.8250",
+            "observed": 0.829841,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.01",
+            "expected": "0.1286",
+            "observed": 0.127369,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.05",
+            "expected": "0.3324",
+            "observed": 0.330648,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.1",
+            "expected": "0.4621",
+            "observed": 0.461554,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.2",
+            "expected": "0.6084",
+            "observed": 0.606321,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "bio at FPR 0.5",
+            "expected": "0.8381",
+            "observed": 0.83808,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.01",
+            "expected": "0.3850",
+            "observed": 0.383763,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.05",
+            "expected": "0.6362",
+            "observed": 0.637295,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.1",
+            "expected": "0.7588",
+            "observed": 0.759205,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.2",
+            "expected": "0.8729",
+            "observed": 0.873347,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "pheno at FPR 0.5",
+            "expected": "0.9713",
+            "observed": 0.971194,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.01",
+            "expected": "0.1404",
+            "observed": 0.140024,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.05",
+            "expected": "0.3531",
+            "observed": 0.353505,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.1",
+            "expected": "0.4811",
+            "observed": 0.47975,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.2",
+            "expected": "0.6299",
+            "observed": 0.629137,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio at FPR 0.5",
+            "expected": "0.8503",
+            "observed": 0.84914,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.01",
+            "expected": "0.3577",
+            "observed": 0.357942,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.05",
+            "expected": "0.6233",
+            "observed": 0.622166,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.1",
+            "expected": "0.7493",
+            "observed": 0.749065,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.2",
+            "expected": "0.8653",
+            "observed": 0.864739,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+pheno at FPR 0.5",
+            "expected": "0.9702",
+            "observed": 0.970356,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.01",
+            "expected": "0.3547",
+            "observed": 0.355059,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.05",
+            "expected": "0.6227",
+            "observed": 0.62098,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.1",
+            "expected": "0.7490",
+            "observed": 0.749596,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.2",
+            "expected": "0.8639",
+            "observed": 0.864412,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "chem+bio+pheno at FPR 0.5",
+            "expected": "0.9699",
+            "observed": 0.970131,
+            "tolerance": {
+              "abs": 0.005
+            }
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "26 of 30 fields at printed precision; largest gap chem at FPR 0.05: 0.321346 against 0.2899. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658.",
+        "evidence": [
+          "figure-reproduction/output/published_curves.json"
+        ],
+        "hypotheses": []
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4, ROC curves of five algorithms (drawn)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/fig4_ours.png",
+        "figure-reproduction/output/fig4_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 600,
+        "published_near_ours": 0.773581,
+        "ours_near_published": 0.785938,
+        "threshold": 0.95,
+        "controls": [
+          {
+            "name": "each curve drawn from the next series of the legend",
+            "kind": "wrong_input",
+            "score": 0.20956
+          },
+          {
+            "name": "the same models over ADR_50+",
+            "kind": "wrong_input",
+            "score": 0.179602
+          },
+          {
+            "name": "ours with TPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.199046
+          },
+          {
+            "name": "ours with TPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.235504
+          },
+          {
+            "name": "ours with FPR + 0.01",
+            "kind": "near_miss",
+            "score": 0.447093
+          },
+          {
+            "name": "ours with FPR - 0.01",
+            "kind": "near_miss",
+            "score": 0.50816
+          }
+        ],
+        "per_curve": {
+          "svm": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "rf": {
+            "published_near_ours": 0.998753,
+            "ours_near_published": 0.999222
+          },
+          "knn": {
+            "published_near_ours": 1.0,
+            "ours_near_published": 1.0
+          },
+          "nb": {
+            "published_near_ours": 0.464055,
+            "ours_near_published": 0.452998
+          },
+          "lr": {
+            "published_near_ours": 0.47743,
+            "ours_near_published": 0.471713
+          }
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "curves within 2 px: svm 100.0%, rf 99.9%, knn 100.0%, nb 45.3%, lr 47.2%. NB and LR as in Table 3.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "LIBLINEAR with a bias term",
+            "test": "AUC 0.9349 / 0.8802, ACC 0.9642 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "multinomial naive Bayes",
+            "test": "AUC 0.9138 / 0.8439, ACC 0.9546 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig4.values",
+      "label": "Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+          "source": "read_from_figure",
+          "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "svm at FPR 0.01",
+            "expected": "0.5392",
+            "observed": 0.536526,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "svm at FPR 0.05",
+            "expected": "0.7936",
+            "observed": 0.793278,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "svm at FPR 0.1",
+            "expected": "0.8824",
+            "observed": 0.88224,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "svm at FPR 0.2",
+            "expected": "0.9417",
+            "observed": 0.941475,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "svm at FPR 0.5",
+            "expected": "0.9835",
+            "observed": 0.98387,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "rf at FPR 0.01",
+            "expected": "0.5088",
+            "observed": 0.503979,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "rf at FPR 0.05",
+            "expected": "0.7778",
+            "observed": 0.77654,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "rf at FPR 0.1",
+            "expected": "0.8746",
+            "observed": 0.874095,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "rf at FPR 0.2",
+            "expected": "0.9403",
+            "observed": 0.940162,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "rf at FPR 0.5",
+            "expected": "0.9797",
+            "observed": 0.97999,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "knn at FPR 0.01",
+            "expected": "0.3938",
+            "observed": 0.394194,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "knn at FPR 0.05",
+            "expected": "0.6903",
+            "observed": 0.690504,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "knn at FPR 0.1",
+            "expected": "0.8109",
+            "observed": 0.810827,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "knn at FPR 0.2",
+            "expected": "0.8936",
+            "observed": 0.893606,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "knn at FPR 0.5",
+            "expected": "0.9481",
+            "observed": 0.948143,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "nb at FPR 0.01",
+            "expected": "0.2535",
+            "observed": 0.235387,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "nb at FPR 0.05",
+            "expected": "0.6050",
+            "observed": 0.709839,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "nb at FPR 0.1",
+            "expected": "0.6570",
+            "observed": 0.849354,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "nb at FPR 0.2",
+            "expected": "0.8736",
+            "observed": 0.925378,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "nb at FPR 0.5",
+            "expected": "0.9810",
+            "observed": 0.980644,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "lr at FPR 0.01",
+            "expected": "0.0531",
+            "observed": 0.475163,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "lr at FPR 0.05",
+            "expected": "0.5517",
+            "observed": 0.711325,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "lr at FPR 0.1",
+            "expected": "0.7601",
+            "observed": 0.813681,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "lr at FPR 0.2",
+            "expected": "0.8983",
+            "observed": 0.909315,
+            "tolerance": {
+              "abs": 0.005
+            }
+          },
+          {
+            "name": "lr at FPR 0.5",
+            "expected": "0.9763",
+            "observed": 0.976252,
+            "tolerance": {
+              "abs": 0.005
+            }
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "17 of 25 fields at printed precision; largest gap lr at FPR 0.01: 0.475163 against 0.0531. NB and LR as in Table 3.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "LIBLINEAR with a bias term",
+            "test": "AUC 0.9349 / 0.8802, ACC 0.9642 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "multinomial naive Bayes",
+            "test": "AUC 0.9138 / 0.8439, ACC 0.9546 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5, overlap of true positives of chem, bio and pheno",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+          "source": "found_by_search",
+          "sensitivity": "chem: max F1 0.4332/0.4948; Youden 0.1994/0.8429; threshold 0.5 0.6460/0.2246 (paper 0.4337/0.4925)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem",
+            "expected": "928",
+            "observed": 935
+          },
+          {
+            "name": "chem&bio",
+            "expected": "3260",
+            "observed": 3073
+          },
+          {
+            "name": "bio",
+            "expected": "884",
+            "observed": 804
+          },
+          {
+            "name": "chem&bio&pheno",
+            "expected": "23025",
+            "observed": 23171
+          },
+          {
+            "name": "chem&pheno",
+            "expected": "1950",
+            "observed": 2115
+          },
+          {
+            "name": "bio&pheno",
+            "expected": "2688",
+            "observed": 2522
+          },
+          {
+            "name": "pheno",
+            "expected": "10581",
+            "observed": 10944
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "0 of 7 fields at printed precision; largest gap pheno: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "another operating point than Table 2's",
+            "test": "Fig. 5 totals over Table 2 recalls give the file's positives within 0.1%",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, clinical validation calls (cerivastatin, rofecoxib)",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        },
+        {
+          "what": "Call Yes when the SVM probability exceeds 0.5.",
+          "source": "our_choice",
+          "sensitivity": "Decision value > 0: 36 of 39."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "Cerivastatin|Rhabdomyolysis|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Rhabdomyolysis|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Rhabdomyolysis|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myopathy|chem",
+            "expected": "No",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myopathy|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myopathy|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myositis|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Myositis|chem+bio",
+            "expected": "Yes",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Myositis|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myalgia|chem",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myalgia|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Myalgia|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Muscle cramps|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Muscle cramps|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Muscle cramps|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Dermatomyositis|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Dermatomyositis|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Dermatomyositis|chem+bio+pheno",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Myoglobinuria|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Myoglobinuria|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Myoglobinuria|chem+bio+pheno",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Cerivastatin|Group above ADRs|chem",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Group above ADRs|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Cerivastatin|Group above ADRs|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Rofecoxib|Myocardial infarction|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Myocardial infarction|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Myocardial infarction|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Rofecoxib|Chest pain|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Chest pain|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Chest pain|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Rofecoxib|Atrial fibrillation|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Atrial fibrillation|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Atrial fibrillation|chem+bio+pheno",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Congestive heart failure|chem",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Congestive heart failure|chem+bio",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Congestive heart failure|chem+bio+pheno",
+            "expected": "No",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Group above ADRs|chem",
+            "expected": "Yes",
+            "observed": "No"
+          },
+          {
+            "name": "Rofecoxib|Group above ADRs|chem+bio",
+            "expected": "Yes",
+            "observed": "Yes"
+          },
+          {
+            "name": "Rofecoxib|Group above ADRs|chem+bio+pheno",
+            "expected": "Yes",
+            "observed": "Yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "36 of 39 fields at printed precision; not: Cerivastatin|Myopathy|chem, Cerivastatin|Myositis|chem+bio, Rofecoxib|Group above ADRs|chem. Threshold unstated. Not: Cerivastatin, Myopathy, chem; Cerivastatin, Myositis, chem+bio; Rofecoxib, Group above ADRs, chem.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "decision value > 0",
+            "test": "36 of 39 calls",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "tableS1",
+      "label": "Table S1, share of informative features (chi-square p < 0.05)",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "chem",
+            "expected": "5.0",
+            "observed": 10.9362545462
+          },
+          {
+            "name": "target",
+            "expected": "5.7",
+            "observed": 5.7333885053
+          },
+          {
+            "name": "transporter",
+            "expected": "0.5",
+            "observed": 0.7737148914
+          },
+          {
+            "name": "enzyme",
+            "expected": "1.0",
+            "observed": 1.3551988733
+          },
+          {
+            "name": "pathway",
+            "expected": "1.7",
+            "observed": 2.1557738238
+          },
+          {
+            "name": "indication",
+            "expected": "7.7",
+            "observed": 10.1445361558
+          },
+          {
+            "name": "ade",
+            "expected": "78.4",
+            "observed": 68.9011332041
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "1 of 7 fields at printed precision; largest gap ade: 68.9011 against 78.4. Counting rule unstated.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "Yates correction",
+            "test": "chem 10.1%, other ADRs 74.0%",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "per feature, not per pair",
+            "test": "chem 15.7%, other ADRs 34.4%",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.sider",
+      "label": "SIDER: 888 drugs, 1385 side-effect terms, 61 102 associations, 68.8 side effects per drug",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "drugs",
+            "expected": "888",
+            "observed": 888
+          },
+          {
+            "name": "side-effect terms",
+            "expected": "1385",
+            "observed": 1385
+          },
+          {
+            "name": "associations",
+            "expected": "61102",
+            "observed": 61102
+          },
+          {
+            "name": "side effects per drug",
+            "expected": "68.8",
+            "observed": 68.808559,
+            "arithmetic": 68.808559
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.dataset",
+      "label": "832 drugs (56 of SIDER's 888 unmapped) with 1385 ADRs; 4276 = 881 + 1142 + 2253 features",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "drugs",
+            "expected": "832",
+            "observed": 832,
+            "arithmetic": 832
+          },
+          {
+            "name": "ADRs",
+            "expected": "1385",
+            "observed": 1385
+          },
+          {
+            "name": "features",
+            "expected": "4276",
+            "observed": 4276,
+            "arithmetic": 4276
+          },
+          {
+            "name": "biological features",
+            "expected": "1142",
+            "observed": 1142,
+            "arithmetic": 1142
+          },
+          {
+            "name": "phenotypic features",
+            "expected": "2253",
+            "observed": 2253,
+            "arithmetic": 2253
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.headline",
+      "label": "Main claim: adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9524, precision from 43.37% to 66.17% and recall from 49.25% to 63.06%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "auc chem",
+            "expected": "0.9054",
+            "observed": 0.9054457564,
+            "arithmetic": 0.9054
+          },
+          {
+            "name": "auc chem+bio+pheno",
+            "expected": "0.9524",
+            "observed": 0.9524504386,
+            "arithmetic": 0.9524
+          },
+          {
+            "name": "precision chem",
+            "expected": "43.37",
+            "observed": 43.32170004,
+            "arithmetic": 43.37
+          },
+          {
+            "name": "precision chem+bio+pheno",
+            "expected": "66.17",
+            "observed": 65.31183576,
+            "arithmetic": 66.17
+          },
+          {
+            "name": "recall chem",
+            "expected": "49.25",
+            "observed": 49.48061819,
+            "arithmetic": 49.25
+          },
+          {
+            "name": "recall chem+bio+pheno",
+            "expected": "63.06",
+            "observed": 63.83582468,
+            "arithmetic": 63.06
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "1 of 6 fields at printed precision; largest gap precision chem+bio+pheno: 65.3118 against 66.17. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.feature_gains",
+      "label": "Feature assessment: pheno has the highest AUC alone; adding bio raises AUC by 0.004 (0.02 for ADR_50+), precision by ~3% and recall by ~1%; adding pheno raises precision by ~21% and recall by ~15%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "pheno has the highest AUC of the single feature sets",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "AUC gain of bio, all ADRs",
+            "expected": "0.004",
+            "observed": 0.0044653414,
+            "arithmetic": 0.0044
+          },
+          {
+            "name": "AUC gain of bio, ADR_50+",
+            "expected": "0.02",
+            "observed": 0.0189665271,
+            "arithmetic": 0.019
+          },
+          {
+            "name": "precision gain of bio (about, points)",
+            "expected": "3",
+            "tolerance": {
+              "abs": 1.0
+            },
+            "observed": 1.81855075,
+            "arithmetic": 2.86
+          },
+          {
+            "name": "recall gain of bio (about, points)",
+            "expected": "1",
+            "tolerance": {
+              "abs": 1.0
+            },
+            "observed": 1.83768263,
+            "arithmetic": 0.83
+          },
+          {
+            "name": "precision gain of pheno (about, points)",
+            "expected": "21",
+            "tolerance": {
+              "abs": 1.0
+            },
+            "observed": 21.99761393,
+            "arithmetic": 21.51
+          },
+          {
+            "name": "recall gain of pheno (about, points)",
+            "expected": "15",
+            "tolerance": {
+              "abs": 1.0
+            },
+            "observed": 14.52580019,
+            "arithmetic": 15.18
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "6 of 7 fields at printed precision; largest gap precision gain of bio (about, points): 1.81855 against 3. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.ks",
+      "label": "KS tests on per-ADR AUCs (Bonferroni-corrected): chem to chem+bio p = 1.45E-07 and chem to chem+bio+pheno p = 1.10E-15, both significant; the drop from pheno to chem+bio+pheno is not (p = 0.177)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem to chem+bio, log10 p",
+            "expected": "-6.84",
+            "observed": -6.053395
+          },
+          {
+            "name": "chem to chem+bio+pheno, log10 p",
+            "expected": "-14.96",
+            "observed": -188.914654
+          },
+          {
+            "name": "pheno to chem+bio+pheno, log10 p",
+            "expected": "-0.75",
+            "observed": -0.654947
+          },
+          {
+            "name": "chem to chem+bio significant",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "chem to chem+bio+pheno significant",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "pheno to chem+bio+pheno significant",
+            "expected": "no",
+            "observed": "no",
+            "arithmetic": "no"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "3 of 6 fields at printed precision; largest gap chem to chem+bio+pheno, log10 p: -188.915 against -14.96. All three significance calls match; the p-values depend on the per-ADR AUCs and the unstated test variant.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "two-sided KS",
+            "test": "p 1.77e-06 and 0.442",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.combination",
+      "label": "chem+bio+pheno has a lower global AUC than pheno alone, and its ROC curve almost overlaps that of chem+pheno",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem+bio+pheno below pheno",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "chem+bio+pheno within 0.001 AUC of chem+pheno",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.common_adrs",
+      "label": "Over the common ADRs (ADR_50+) AUC and accuracy fall for every feature set, and the curves separate more",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "bio: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "pheno: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "chem+bio: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "chem+pheno: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "chem+bio+pheno: AUC and ACC lower over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "AUC range of the six sets wider over ADR_50+",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.methods",
+      "label": "Method comparison: SVM performs best, followed by RF, KNN, NB and LR; SVM's precision (66.17%) and recall (63.06%) beat RF's (63.10%, 62.50%)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "order by AUC over all ADRs",
+            "expected": "SVM>RF>KNN>NB>LR",
+            "observed": "SVM>RF>NB>LR>KNN",
+            "arithmetic": "SVM>RF>KNN>NB>LR"
+          },
+          {
+            "name": "SVM has the highest AUC",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "SVM precision above RF's",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "SVM recall above RF's",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "3 of 4 fields at printed precision; not: order by AUC over all ADRs. LR and NB rows differ (see Table 3).",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "LIBLINEAR with a bias term",
+            "test": "AUC 0.9349 / 0.8802, ACC 0.9642 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "multinomial naive Bayes",
+            "test": "AUC 0.9138 / 0.8439, ACC 0.9546 (paper 0.9116 / 0.8627; ours 0.9358 / 0.8618)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.indication",
+      "label": "Discussion: indications alone added to chemical structures raise AUC from 0.9054 to 0.9110",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "AUC of chem+indication",
+            "expected": "0.9110",
+            "observed": 0.9110625991
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "0 of 1 fields at printed precision; largest gap AUC of chem+indication: 0.911063 against 0.911. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "evidence": [
+          "figure-reproduction/output/seed_spread.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+            "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "SVM decision values instead of probabilities",
+            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.class_weights",
+      "label": "Discussion: class weights (1 - class share) raise RF's AUC from 0.9491 to 0.9524; SVM does not improve",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "AUC of weighted RF",
+            "expected": "0.9524",
+            "observed": 0.9483338066
+          },
+          {
+            "name": "weights raise RF's AUC",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "weights do not raise SVM's AUC",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "1 of 3 fields at printed precision; largest gap AUC of weighted RF: 0.948334 against 0.9524. Weighted RF AUC 0.9483 against unweighted 0.9488.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "RF's gap to Table 3 is the random forest's own randomness (WEKA's trees cannot be replayed in scikit-learn).",
+            "test": "scikit-learn RandomForestClassifier, 100 trees, 13 features per split, random_state 1 (the pipeline uses 0), full feature set, the paper's folds (work/algos2.py). AUC 0.9486 / 0.9039.",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "weights 1 - class share",
+            "test": "AUC 0.9483",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.data_facts",
+      "label": "Discussion: nausea and headache co-occur in 596 drugs; 49 pairs of ADRs co-occur in more than 400 drugs; 554 ADRs have fewer than five drugs (about 1:166 positives to negatives)",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "drugs with nausea and headache",
+            "expected": "596",
+            "observed": 598
+          },
+          {
+            "name": "ADR pairs in more than 400 drugs",
+            "expected": "49",
+            "observed": 50
+          },
+          {
+            "name": "ADRs with fewer than five drugs",
+            "expected": "554",
+            "observed": 560
+          },
+          {
+            "name": "negatives per positive at five drugs",
+            "expected": "166",
+            "observed": 166.4,
+            "arithmetic": 166.4
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "1 of 4 fields at printed precision; largest gap ADRs with fewer than five drugs: 560 against 554. Counts on the 832-drug file differ slightly.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "at least 400 drugs",
+            "test": "51 pairs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "ADRs with 1 to 4 drugs",
+            "test": "556",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.clinical",
+      "label": "Clinical validation: chem detects 1 of 7 rhabdomyolysis ADRs and 0 of 4 heart-attack ADRs, chem+bio 5 and 0, chem+bio+pheno 5 and 2; every classifier detects both grouped ADRs",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "Cerivastatin detected by chem",
+            "expected": "1",
+            "observed": 2,
+            "arithmetic": 1
+          },
+          {
+            "name": "Rofecoxib detected by chem",
+            "expected": "0",
+            "observed": 0,
+            "arithmetic": 0
+          },
+          {
+            "name": "Cerivastatin detected by chem+bio",
+            "expected": "5",
+            "observed": 4,
+            "arithmetic": 5
+          },
+          {
+            "name": "Rofecoxib detected by chem+bio",
+            "expected": "0",
+            "observed": 0,
+            "arithmetic": 0
+          },
+          {
+            "name": "Cerivastatin detected by chem+bio+pheno",
+            "expected": "5",
+            "observed": 5,
+            "arithmetic": 5
+          },
+          {
+            "name": "Rofecoxib detected by chem+bio+pheno",
+            "expected": "2",
+            "observed": 2,
+            "arithmetic": 2
+          },
+          {
+            "name": "both groups detected by every feature set",
+            "expected": "yes",
+            "observed": "no",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "open",
+        "summary": "4 of 7 fields at printed precision; largest gap Cerivastatin detected by chem: 2 against 1. Threshold unstated. Not: Cerivastatin, Myopathy, chem; Cerivastatin, Myositis, chem+bio; Rofecoxib, Group above ADRs, chem.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "decision value > 0",
+            "test": "36 of 39 calls",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.fig5",
+      "label": "Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+          "source": "found_by_search",
+          "sensitivity": "Decision values give chem AUC 0.7949 (paper 0.9054)."
+        },
+        {
+          "what": "Folds are the authors', from their training file.",
+          "source": "paper",
+          "sensitivity": "none"
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "chem or bio, not pheno",
+            "expected": "5072",
+            "observed": 4812,
+            "arithmetic": 5072
+          },
+          {
+            "name": "pheno only",
+            "expected": "10581",
+            "observed": 10944,
+            "arithmetic": 10581
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "nondeterminism",
+        "status": "open",
+        "summary": "0 of 2 fields at printed precision; largest gap pheno only: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells.",
+        "evidence": [],
+        "hypotheses": [
+          {
+            "hypothesis": "seed of LIBSVM's probability fit",
+            "test": "seeds 0-3: the paper's value lies in our range in 26 of 48 Table 2 cells; AUC moves by up to 0.0003, precision by 0.017, recall by 0.025",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "another operating point than Table 2's",
+            "test": "Fig. 5 totals over Table 2 recalls give the file's positives within 0.1%",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.pauwels",
+      "label": "Chem-only AUC 0.9054 'similar to' Pauwels et al.'s 0.8930",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "0.8930 is Pauwels et al.'s result; our chem AUC is in Table 2.",
+        "evidence": [
+          "https://doi.org/10.1186/1471-2105-12-169"
+        ],
+        "hypotheses": []
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "44 of 44 statements follow from the paper's own tables and figures."
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "data.identity",
+      "label": "The recovered training file is the paper's",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "The recovered file has 59,205 positive (drug, ADR) pairs; Fig. 5's true positives over Table 2's recalls imply chem 59,214, bio 59,205, pheno 59,201, all within 0.1%."
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "port",
+      "label": "The authors' code",
+      "kind": "code_check",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "status": "explained",
+        "summary": "Never released (fossil issue #93 lists the search). Rebuilt from the text as adrfusion and checked against the paper only.",
+        "evidence": [
+          "https://github.com/jeonglab-bcm/fossil/issues/93"
+        ],
+        "hypotheses": []
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package adrfusion and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "adrfusion 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 36,
+    "exact": 3,
+    "agrees": 7,
+    "partly": 17,
+    "inconclusive": 0,
+    "differs": 6,
+    "not_attempted": 3,
+    "open_causes": 21
+  }
+}
