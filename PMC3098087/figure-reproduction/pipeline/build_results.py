@@ -116,6 +116,7 @@ def more_facts(h, c, run_dir="."):
         "pt_er_a": f2(R("pam_er_45_5", "PAM: ours", "PA2")), "pt_er_s": f2(R("pam_er_45_5", "PAM: smallest threshold", "PA2")),
         "pt_er_cv": f2(R("pam_er_45_5", "PAM: 10-fold CV", "PA2")), "pt_er_e": f2(R("pam_er_45_5", "PAM: equal priors", "PA2")),
         **claim_facts(run_dir, h),
+        **{f"pt_af6_{w}": f2(float(v)) for w, v in zip("pa", next((f["expected"], f["observed"]) for f in c["af6"]["fields"] if f["name"] == "PAM none PA, x = 0.2"))},
         "pi_fig6": c["fig6.pi"]["matched"], "pi_fig6_n": c["fig6.pi"]["n_fields"],
         "pi_af12": c["af12"]["matched"], "pi_af12_n": c["af12"]["n_fields"],
         "pi_fig6_norm": c["fig6.pi.normal"]["matched"], "pi_af12_norm": c["af12.normal"]["matched"],

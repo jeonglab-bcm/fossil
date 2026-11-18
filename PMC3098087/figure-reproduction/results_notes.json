@@ -247,7 +247,7 @@
  "causes": {
   "fig12": {
    "category": "undocumented_setting",
-   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. (3) Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. Without variable selection (Additional file 6) the difference runs the other way: the paper's PAM puts nearly every sample in the majority class (k1train 0.2: PA {pt_af6_p}), ours less so ({pt_af6_a}). (3) Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
    "evidence": [
     "figure-reproduction/output/comparison.json",
     "figure-reproduction/output/hypotheses.json",
@@ -578,9 +578,51 @@
    ],
    "status": "explained"
   },
+  "af6": {
+   "category": "undocumented_setting",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. Without variable selection (Additional file 6) the difference runs the other way: the paper's PAM puts nearly every sample in the majority class (k1train 0.2: PA {pt_af6_p}), ours less so ({pt_af6_a}). (3) Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the smallest of the thresholds with the smallest training error",
+     "test": "hypotheses.R, null k1train 0.45 and 0.55, ER 45/5",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the threshold chosen by 10-fold cross-validation",
+     "test": "The same",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "PAM: equal class priors",
+     "test": "The same",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
   "svm_pam": {
    "category": "undocumented_setting",
-   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both.",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. Without variable selection (Additional file 6) the difference runs the other way: the paper's PAM puts nearly every sample in the majority class (k1train 0.2: PA {pt_af6_p}), ours less so ({pt_af6_a}).",
    "evidence": [
     "figure-reproduction/output/hypotheses.json",
     "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
@@ -661,7 +703,7 @@
   },
   "af12": {
    "category": "undocumented_setting",
-   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. (3) Prediction intervals: a few interval ends miss by two steps of 0.05, nearly all lower ends at the smallest training sets ({pi_fig6} of {pi_fig6_n} ends of Fig. 6 and {pi_af12} of {pi_af12_n} of Additional file 12 match). The lower 2.5th percentile of 500 draws rests on its 13 lowest values, which the paper's draws (unknown seeds) and ours place differently. Other interval definitions fit worse: mean -/+ 1.96 SD matches {pi_fig6_norm} and {pi_af12_norm}, 5th and 95th percentiles {pi_fig6_q90} and {pi_af12_q90}.",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. Without variable selection (Additional file 6) the difference runs the other way: the paper's PAM puts nearly every sample in the majority class (k1train 0.2: PA {pt_af6_p}), ours less so ({pt_af6_a}). (3) Prediction intervals: a few interval ends miss by two steps of 0.05, nearly all lower ends at the smallest training sets ({pi_fig6} of {pi_fig6_n} ends of Fig. 6 and {pi_af12} of {pi_af12_n} of Additional file 12 match). The lower 2.5th percentile of 500 draws rests on its 13 lowest values, which the paper's draws (unknown seeds) and ours place differently. Other interval definitions fit worse: mean -/+ 1.96 SD matches {pi_fig6_norm} and {pi_af12_norm}, 5th and 95th percentiles {pi_fig6_q90} and {pi_af12_q90}.",
    "evidence": [
     "figure-reproduction/output/comparison.json (fig6.pi, fig6.pi.normal, fig6.pi.q90, af12, af12.normal, af12.q90)",
     "figure-reproduction/output/hypotheses.json",
@@ -713,7 +755,7 @@
   },
   "af13": {
    "category": "undocumented_setting",
-   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both.",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. Without variable selection (Additional file 6) the difference runs the other way: the paper's PAM puts nearly every sample in the majority class (k1train 0.2: PA {pt_af6_p}), ours less so ({pt_af6_a}).",
    "evidence": [
     "figure-reproduction/output/hypotheses.json",
     "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
@@ -993,7 +1035,7 @@
     "figure-reproduction/output/af6_ours.png",
     "figure-reproduction/output/af6_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "af6"
   },
   {
    "id": "af7",
