@@ -47,6 +47,32 @@ def roc_on_grid(y, s):
     return np.interp(GRID, fpr, tpr)
 
 
+def feature_level_shares(data, alpha=0.05):
+    """Share of each block among the features informative (chi-square p < alpha) for at least one ADR."""
+    from scipy.stats import chi2
+
+    Y = data.Y.astype(np.float64)
+    n, a1 = data.n_drugs, Y.sum(0)
+    blocks = dict(data.blocks)
+    blocks["ade"] = data.Y
+    cnt = {}
+    for k, X in blocks.items():
+        X = X.astype(np.float64)
+        f1 = X.sum(0)
+        a = X.T @ Y
+        b, c = f1[:, None] - a, a1[None, :] - a
+        d = n - f1[:, None] - a1[None, :] + a
+        den = (a + b) * (c + d) * (a + c) * (b + d)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            st = np.where(den > 0, (a * d - b * c) ** 2 * n / den, np.nan)
+        sig = np.nan_to_num(chi2.sf(st, 1), nan=1.0) < alpha
+        if k == "ade":
+            np.fill_diagonal(sig, False)
+        cnt[k] = int(sig.any(1).sum())
+    tot = sum(cnt.values())
+    return {k: v / tot for k, v in cnt.items()}
+
+
 def main():
     data_dir, scores_dir, pubf, out = sys.argv[1:5]
     out = Path(out)
@@ -88,6 +114,12 @@ def main():
                 exp = pub[tab][row][part]
                 fl += fields(exp, metrics[mname][part], prefix=f"{row}|{part}|")
         comp["tables"][tab] = {"fields": fl}
+    # The items results.json reports: Table 2 by ADR set, Table 3 by algorithm.
+    t2 = comp["tables"]["table2"]["fields"]
+    comp["tables"]["table2_all"] = {"fields": [f for f in t2 if "|all|" in f["name"]]}
+    comp["tables"]["table2_50"] = {"fields": [f for f in t2 if "|50+|" in f["name"]]}
+    for a in ALGS:
+        comp["tables"][f"table3_{a}"] = {"fields": [f for f in comp["tables"]["table3"]["fields"] if f["name"].startswith(a + "|")]}
 
     # ---- Table S1: informative features (chi-square p < 0.05), share of all informative (feature, ADR) pairs
     inf = A.informative_features(data)
@@ -140,6 +172,20 @@ def main():
     }
 
     # ---- hypotheses on the metrics
+    # Other operating-point rules for chem (all ADRs): Youden's J and a probability threshold of 0.5.
+    fpr, tpr, th = A.roc(Y, S["svm:chem"])
+    P, N = int(Y.sum()), Y.size - int(Y.sum())
+    tp, fp = tpr * P, fpr * N
+    op = {}
+    for nm, i in (("youden", int(np.argmax(tpr - fpr))), ("threshold_0.5", int(np.searchsorted(-th, -0.5, side="right") - 1))):
+        op[nm] = {"acc": r((tp[i] + N - fp[i]) / Y.size), "precision": r(tp[i] / (tp[i] + fp[i])), "recall": r(tpr[i])}
+    comp["hypotheses"]["operating_points_chem"] = op
+    from scipy.stats import ks_2samp
+    comp["hypotheses"]["ks_two_sided_bonferroni3"] = {
+        k: r(min(1.0, 3 * ks_2samp(*[x[~np.isnan(x)] for x in (per_adr[lo], per_adr[hi])]).pvalue), 12)
+        for k, lo, hi in (("ks_chem_vs_chembio", "svm:chem", "svm:chem+bio"), ("ks_pheno_vs_chembiopheno", "svm:chem+bio+pheno", "svm:pheno"))}
+    # Table S1 counted per feature (informative for at least one ADR) instead of per (feature, ADR) pair.
+    comp["hypotheses"]["tableS1_per_feature"] = {k: r(100 * v, 6) for k, v in feature_level_shares(data).items()}
     comp["hypotheses"]["adr50_at_least"] = {fs: metrics[model_name("svm", fs)]["50+_at_least"]["auc"] for fs in SETS}
 
     (out / "metrics.json").write_text(json.dumps(metrics, indent=1) + "\n")

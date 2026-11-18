@@ -109,6 +109,16 @@ def facts_of(run):
         "ks3raw": f"{C['ks']['ks_pheno_vs_chembiopheno']['raw']:.3f}",
         "adr50_ge_chem": f4(C["hypotheses"]["adr50_at_least"]["chem"]),
         "s1_yates_chem": f"{C['hypotheses']['tableS1_yates']['chem']:.1f}", "s1_yates_ade": f"{C['hypotheses']['tableS1_yates']['ade']:.1f}",
+        "op_youden_prec": f4(C["hypotheses"]["operating_points_chem"]["youden"]["precision"]),
+        "op_youden_rec": f4(C["hypotheses"]["operating_points_chem"]["youden"]["recall"]),
+        "op_half_prec": f4(C["hypotheses"]["operating_points_chem"]["threshold_0.5"]["precision"]),
+        "op_half_rec": f4(C["hypotheses"]["operating_points_chem"]["threshold_0.5"]["recall"]),
+        "chem_prec": f4(M["svm:chem"]["all"]["precision"]), "chem_rec": f4(M["svm:chem"]["all"]["recall"]),
+        "ks2_1": f"{C['hypotheses']['ks_two_sided_bonferroni3']['ks_chem_vs_chembio']:.2e}",
+        "ks2_3": f"{C['hypotheses']['ks_two_sided_bonferroni3']['ks_pheno_vs_chembiopheno']:.3f}",
+        "s1_feat_chem": f"{C['hypotheses']['tableS1_per_feature']['chem']:.1f}", "s1_feat_ade": f"{C['hypotheses']['tableS1_per_feature']['ade']:.1f}",
+        "s1_feat_target": f"{C['hypotheses']['tableS1_per_feature']['target']:.1f}",
+        "t4_cer_chem": sum(1 for f in t4 if f["name"].startswith("Cerivastatin") and f["name"].endswith("|chem") and f["observed"] == "Yes" and "Group" not in f["name"]),
         "single_pairs": H["_counts"]["pairs_in_single_class_folds"], "first_pairs": H["_counts"]["pairs_in_first_label_positive_folds"],
     })
     return fx
@@ -129,6 +139,8 @@ def fill(obj, facts):
 
 
 def arithmetic(claims):
+    """text.arithmetic: each claim's statement recomputed from the paper's own tables (our formula, the
+    paper's numbers). A statement that does not come back would mean our formula is not the paper's."""
     back, missed = [], []
     for cid, c in claims.items():
         if cid.startswith("_"):
@@ -136,5 +148,101 @@ def arithmetic(claims):
         for f in c["fields"]:
             if "arithmetic" not in f:
                 continue
-            g = {"expected": f["expected"], "observed": f["arithmetic"]}
-            if (field_matches(g, f
+            g = {"expected": f["expected"], "observed": f["arithmetic"], "tolerance": f.get("tolerance", {"printed": True})}
+            (back if field_matches(g, None) else missed).append(f"{c['label'][:40]}...: {f['name']} ({f['expected']} against {f['arithmetic']})")
+    detail = f"{len(back)} of {len(back) + len(missed)} statements follow from the paper's own tables and figures"
+    detail += ("; not: " + "; ".join(missed)) if missed else "."
+    return not missed, detail
+
+
+def identity(claims):
+    """The recovered training file against the paper: Fig. 5's true-positive totals divided by Table 2's
+    recalls give the number of positive (drug, ADR) pairs the paper had; the file has its own count."""
+    d = claims["_data_identity"]
+    ok = all(abs(v - d["positives"]) / d["positives"] < 0.001 for v in d["implied_by_fig5_and_table2"].values())
+    imp = ", ".join(f"{k} {v:,.0f}" for k, v in d["implied_by_fig5_and_table2"].items())
+    return ok, (f"The recovered file has {d['positives']:,} positive (drug, ADR) pairs; Fig. 5's true positives over "
+                f"Table 2's recalls imply {imp}, all within 0.1%.")
+
+
+def short(item, run):
+    """True when the item falls short of a full match: a missed field, a score under its pass mark."""
+    if item.get("method") == "none":
+        return True
+    if "values" in item:
+        v = item["values"]
+        return not all(field_matches(f, v.get("tolerance")) for f in v["fields"])
+    if "pixels" in item:
+        p = item["pixels"]
+        return min(p["published_near_ours"], p["ours_near_published"]) < p["threshold"]
+    if "check" in item:
+        return not item["check"]["passed"]
+    return False
+
+
+def main():
+    args = sys.argv[1:]
+    env = None
+    if "--environment" in args:
+        i = args.index("--environment")
+        env = json.load(open(args[i + 1]))
+        del args[i:i + 2]
+    run, out = args
+    notes = json.load(open(NOTES))
+    facts = facts_of(run)
+    notes = {k: (fill(v, facts) if k in ("items", "causes", "assumption_sets") else v) for k, v in notes.items()}
+    claims = json.load(open(Path(run) / "claims.json"))
+    run_block = copy.deepcopy(notes["run"])
+    if env:
+        run_block["environment"] = env
+    res = {"schema": "paper2repro/results/v1", "paper": notes["paper"], "run": run_block,
+           "session": notes["session"], "skill": notes["skill"], "items": []}
+    stale = []
+    for it in notes["items"]:
+        it = copy.deepcopy(it)
+        sets = it.pop("assumptions_from", [])
+        if sets:
+            it["assumptions"] = [a for s_ in sets for a in notes["assumption_sets"][s_]] + it.get("assumptions", [])
+        cause = it.pop("cause_from", None)
+        src = it.pop("fields_from", None)
+        if src:
+            fields = [{k: f[k] for k in f if k in FIELD_KEYS} for f in get(run, src)]
+            it["values"] = {"fields": fields, "tolerance": {"printed": True}}
+        pix = it.pop("pixels_from", None)
+        if pix:
+            d = get(run, pix)
+            tol = json.load(open(Path(run) / pix.split(":")[0]))["tolerance_px"]
+            it["pixels"] = {"tolerance_px": tol, "dpi": 600, "published_near_ours": d["published_near_ours"],
+                            "ours_near_published": d["ours_near_published"], "threshold": it.pop("threshold"),
+                            "controls": d["controls"], "per_curve": d["per_curve"]}
+        chk = it.pop("check_from", None)
+        if chk == "package.json":
+            p = Path(run) / chk
+            d = json.load(open(p)) if p.exists() else {"passed": False, "detail": "package check not run"}
+            it["check"] = {"passed": bool(d["passed"]), "detail": d.get("detail", "")}
+        elif chk == "claims.json":
+            ok, detail = arithmetic(claims)
+            it["check"] = {"passed": ok, "detail": detail}
+        elif chk == "identity":
+            ok, detail = identity(claims)
+            it["check"] = {"passed": ok, "detail": detail}
+        if cause:
+            if short(it, run):
+                it["cause"] = copy.deepcopy(notes["causes"][cause])
+            else:
+                stale.append(f"{it['id']} comes back in full, but the notes give it cause {cause!r}")
+        elif short(it, run) and "cause" not in it:
+            stale.append(f"{it['id']} falls short and the notes give it no cause")
+        res["items"].append(it)
+    if stale:
+        print("results_notes.json no longer matches the run:\n  " + "\n  ".join(stale), file=sys.stderr)
+        sys.exit(1)
+    with open(out, "w") as f:
+        json.dump(res, f, indent=1)
+        f.write("\n")
+    r = subprocess.run([sys.executable, str(HERE / "check_results.py"), out, "--write", "--skip-files"])
+    sys.exit(r.returncode)
+
+
+if __name__ == "__main__":
+    main()
