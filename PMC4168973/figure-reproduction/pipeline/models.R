@@ -65,7 +65,9 @@ ev <- function(pi, cl, cutoff) {
 }
 km_out <- function(e, cl, file) {
   f <- survfit(Surv(cl$time, cl$event) ~ e$group)
-  st <- rep(sub("^[^=]*=", "", names(f$strata)), f$strata)
+  # one group only (a model that keeps no feature gives every patient the same index): no strata
+  st <- if (is.null(f$strata)) rep(as.character(e$group[1]), length(f$time)) else
+    rep(sub("^[^=]*=", "", names(f$strata)), f$strata)
   write.csv(data.frame(group = st, time = f$time, surv = f$surv, n_censor = f$n.censor, n_event = f$n.event),
             file.path(out, "curves", file), row.names = FALSE)
 }
@@ -184,7 +186,11 @@ for (s in names(pis4)) for (m in names(pis4[[s]]))
   loo[[paste("S4", s, m, sep = "_")]] <- loo_evaluate(pis4[[s]][[m]], D[[s]]$clin$time, D[[s]]$clin$event)
 loo_df <- do.call(rbind, lapply(names(loo), function(k) cbind(key = k, loo[[k]])))
 write.csv(loo_df, file.path(out, "curves", "loo.csv"), row.names = FALSE)
-tt <- function(a, b) t.test(a, b)$p.value
+# NA when a model keeps no feature (its index is constant, so no LOO test has a p-value)
+tt <- function(a, b) {
+  a <- a[is.finite(a)]; b <- b[is.finite(b)]
+  if (length(a) < 2 || length(b) < 2 || sd(c(a, b)) == 0) NA_real_ else t.test(a, b)$p.value
+}
 res$loo <- list()
 for (s in sets) {
   A <- loo[[paste("S2", s, "pathway", sep = "_")]]; B <- loo[[paste("S2", s, "gene", sep = "_")]]
