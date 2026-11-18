@@ -7,7 +7,8 @@ a rerun may stray from it. This script reads every value from the run and compar
 Where a value comes from (fields of an entry):
   file                 path under the run's output directory
   path                 for JSON: keys joined by dots; a number picks a list item, and key=value
-                       picks the list item whose key equals value (fig3.panel=a.published_within_2px)
+                       picks the list item whose key equals value (fig3.panel=a.published_within_2px);
+                       a key that itself contains dots is matched whole (text.claim.fields.0.observed)
   column, where, agg   for CSV: the column, the rows whose columns equal the given values, and how
                        to reduce them when more than one row matches (count, sum, mean, min, max, list)
   digest: "sha256"     the file's SHA-256, for files that must come back byte for byte
@@ -47,7 +48,18 @@ class Missing(Exception):
 
 
 def pick(obj, path):
-    for part in path.split(".") if path else []:
+    parts = path.split(".") if path else []
+    i = 0
+    while i < len(parts):
+        part = parts[i]
+        i += 1
+        if isinstance(obj, dict):
+            # A key that itself contains dots (e.g. "text.null_balanced"): take the longest key
+            # that the following parts spell out.
+            for j in range(len(parts), i, -1):
+                if ".".join(parts[i - 1:j]) in obj:
+                    part, i = ".".join(parts[i - 1:j]), j
+                    break
         if isinstance(obj, list):
             if "=" in part:
                 k, v = part.split("=", 1)

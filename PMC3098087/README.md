@@ -20,8 +20,10 @@ down-sizing, MultDS), on simulated data (1,000 replicates per setting) and on th
 cancer data (ER status, 500 random splits per design). It ran in R 2.8.1 and released no code. We
 rebuilt the classifiers, corrections, measures and simulation design from the text as the R package
 [`package/`](package/) (`multds`), reran 462 simulation settings and 60 breast cancer designs, and
-compared every plotted point of Figs 1-6 and of Additional files 4-12, and every printed cell of
-Additional files 1, 3, 13 and 14.
+compared the plotted points of Figs 1-6 and of Additional files 4-12 and every printed cell of
+Additional files 1, 3, 13 and 14. MultDS was not run for RF, SVM and PAM (nor, with centred
+variables, for six classifiers of Additional file 12), to fit the compute budget; those points are
+not compared.
 
 | Folder | Content |
 | --- | --- |
@@ -57,9 +59,9 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3098087/>
 | Additional file 7: Fig. 4 for all nine classifiers | partly | 1894 of 1980 fields as printed |
 | Additional file 8: Fig. 5 for all nine classifiers (MultDS for six) | partly | 1655 of 1881 fields as printed |
 | Additional file 9: over-sampling with centred variables, balanced test set; PA, PA1, PA2 (nine classifiers) | partly | 510 of 684 fields as printed |
-| Additional file 10: 95% prediction intervals of the overall PA, four corrections (3-NN, DLDA, RF, PLR) | exact | 554 of 554 fields as printed |
+| Additional file 10: 95% prediction intervals of the overall PA, four corrections (3-NN, DLDA, RF, PLR; MultDS not run for RF) | exact | 554 of 554 fields as printed |
 | Additional file 11: RF-THR and PLR-THR; PA, PA1, PA2 | exact | 114 of 114 fields as printed |
-| Additional file 12: Fig. 6 for all nine classifiers, 95% prediction intervals | partly | 930 of 976 fields as printed |
+| Additional file 12: Fig. 6 for all nine classifiers, 95% prediction intervals (MultDS with centred variables run for 3-NN, DLDA and PLR only) | partly | 930 of 976 fields as printed |
 | Additional file 13: ER status, no correction; all measures, nine classifiers | partly | 440 of 486 fields as printed |
 | Additional file 14: ER status, MultDS; all measures, nine classifiers | partly | 374 of 378 fields as printed |
 | Text: null case, PA = 0.5 and AUC = 0.5 with balanced test sets | exact | 2 of 2 fields as printed |
@@ -94,13 +96,15 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3098087/>
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
-The paper's conclusions hold in our run: the classifiers are biased towards the majority class,
-variable selection adds to the bias, over-sampling hardly helps, and down-sizing and above all
-multiple down-sizing remove most of it, on the simulations and on the breast cancer data alike. The
-gaps are the SVM (no cost given; no single cost and class weighting fits all its results), PAM near
-balance, the p = 40 panels of Fig. 3 (computed without the stated sample centring), the over-sampling
-details, and a few prediction-interval tails; each has a tested cause in
-[`figure-reproduction/README.md`](figure-reproduction/README.md).
+The main conclusions hold in our run: the classifiers are biased towards the majority class,
+variable selection adds to the bias, over-sampling helps little for most classifiers, and
+down-sizing and above all multiple down-sizing remove most of the bias, on the simulations and the
+breast cancer data. The gaps: the SVM (no cost given; no cost and class weighting we tried fits all
+its results), PAM (near balance, without selection, and after over-sampling, where the paper's PAM
+fits keeping the original class prior), DQDA's AUC (another score), the p = 40 and pDE = p panels of
+Fig. 3 and Additional files 4 and 5 (fitted far better without the stated sample centring), RF-THR in
+the null case (flat in our run), selection at k1train 0.9, and a few prediction-interval tails. Each
+has a cause in [`figure-reproduction/README.md`](figure-reproduction/README.md).
 <!--/CLAIMS-LINE-->
 
 ## Install the package

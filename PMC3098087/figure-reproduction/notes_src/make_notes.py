@@ -56,7 +56,7 @@ A = {
 
 PARTS = {
     "svm": {"category": "undocumented_setting",
-            "summary": "SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them.",
+            "summary": "SVM: the paper gives no cost, and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03; there the weights change nothing at cost 1). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). On the breast cancer data the stated weights go the wrong way (20 ER+ / 5 ER-, PA ER-: {svm_prop_er} at cost 1 against 0.6); weights inverse to the class sizes with cost 0.1 give {svm_inv_er} there but {svm_inv_er45} at 45 ER+ / 5 ER- (paper 0.49). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No cost and weighting of the grid fits all of them.",
             "evidence": ["figure-reproduction/output/hypotheses.json"],
             "hypotheses": [
                 {"hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated", "test": "Our main run; hypotheses.R grid, cost 1", "result": "rejected"},
@@ -64,7 +64,7 @@ PARTS = {
                 {"hypothesis": "SVM: weights inverse to the class proportions", "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-", "result": "inconclusive"}],
             "status": "open"},
     "dqda_auc": {"category": "undocumented_setting",
-                 "summary": "DQDA's AUC: lower than the paper's when the training set is imbalanced (k1train 0.1: {dqda_auc_ours} against 0.91). The paper does not say which score it ranked. Ranking by the ratio of the two discriminants instead of their difference gives the paper's AUC at every k1train ({dqda_ratio}) and leaves DLDA's AUC where the paper has it ({dlda_ratio} at 0.1 against 0.94); the predictions do not change. Found by search over five scores; our run keeps the difference.",
+                 "summary": "DQDA's AUC: lower than the paper's when the training set is imbalanced (k1train 0.1: {dqda_auc_ours} against 0.91). The paper does not say which score it ranked. Ranking by the ratio of the two discriminants instead of their difference gives the paper's AUC at every k1train ({dqda_ratio}) and moves DLDA's AUC only from {dlda_diff} to {dlda_ratio} at 0.1 (paper 0.94); the predictions do not change. Found by search over five scores; our run keeps the difference.",
                  "evidence": ["figure-reproduction/output/hypotheses.json"],
                  "hypotheses": [
                      {"hypothesis": "DQDA's AUC ranks the ratio of the discriminants", "test": "hypotheses.R: DQDA on the same data, AUC by five scores, k1train 0.1-0.5", "result": "supported"},
@@ -126,8 +126,15 @@ PARTS = {
                    {"hypothesis": "RF-THR without the stated class weights", "test": "hypotheses.R: null case, p = 40, k1train 0.1 and 0.9", "result": "rejected"},
                    {"hypothesis": "RF-THR with >= instead of > at the cutoff", "test": "The same", "result": "{rf_thr_ge_result}"}],
                "status": "open"},
+    "pi_multds": {"category": "nondeterminism",
+                  "summary": "MultDS at 45 ER+ / 5 ER-: our lower ER+ interval limits sit at 0.60 for most classifiers, one 0.05 step below the paper's 0.65, so 'above 0.60' fails by one step; the ER- half of the statement is not supported by the paper's own Additional file 12 either. The interval ends move in steps of 0.05 and rest on the lowest 13 of 500 draws (see the intervals of Fig. 6).",
+                  "evidence": ["figure-reproduction/output/claims.json (text.er_multds_pi)", "figure-reproduction/output/comparison.json (af12)"],
+                  "hypotheses": [
+                      {"hypothesis": "The intervals are mean -/+ 1.96 SD", "test": "compare.py: af12.normal", "result": "rejected"},
+                      {"hypothesis": "The intervals are 90% (5th and 95th percentiles)", "test": "compare.py: af12.q90", "result": "rejected"}],
+                  "status": "open"},
     "edge": {"category": "metric_resolution",
-             "summary": "Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
+             "summary": "Values near 0 or 1: a few points where our replicates are all or nearly all 0 or 1, so the Monte Carlo tolerance is close to 0, and the paper's values differ from ours by less than 0.003.",
              "evidence": ["figure-reproduction/output/comparison.json"], "status": "explained"},
 }
 
@@ -154,6 +161,7 @@ CAUSES = {
     "af8": compose("svm", "pam_prior", "over_order", "over_test"),
     "af9": compose("pam_prior", "svm", "over_order"),
     "er_pi": compose("pi"),
+    "pi_multds": compose("pi_multds"),
     "pam_prior": compose("pam_prior"),
     "af6": compose("svm", "pam_thr", "edge"),
     "svm_pam": compose("svm", "pam_thr"),
@@ -222,9 +230,9 @@ items = [
     fig("af7", "Additional file 7: Fig. 4 for all nine classifiers", "af7", SIM + ["mu_grid"], cause_from="svm"),
     fig("af8", "Additional file 8: Fig. 5 for all nine classifiers (MultDS for six)", "af8", SIM + ["corrections"], cause_from="af8"),
     fig("af9", "Additional file 9: over-sampling with centred variables, balanced test set; PA, PA1, PA2 (nine classifiers)", "af9", SIM + ["corrections"], cause_from="af9"),
-    fig("af10", "Additional file 10: 95% prediction intervals of the overall PA, four corrections (3-NN, DLDA, RF, PLR)", "af10", SIM + ["corrections", "pi"], cause_from="af10", cause_always=True),
+    fig("af10", "Additional file 10: 95% prediction intervals of the overall PA, four corrections (3-NN, DLDA, RF, PLR; MultDS not run for RF)", "af10", SIM + ["corrections", "pi"], cause_from="af10", cause_always=True),
     fig("af11", "Additional file 11: RF-THR and PLR-THR; PA, PA1, PA2", "af11", SIM, cause_from="svm"),
-    fig("af12", "Additional file 12: Fig. 6 for all nine classifiers, 95% prediction intervals", "af12", ["er", "corrections", "figure_values", "pi"], cause_from="af12"),
+    fig("af12", "Additional file 12: Fig. 6 for all nine classifiers, 95% prediction intervals (MultDS with centred variables run for 3-NN, DLDA and PLR only)", "af12", ["er", "corrections", "figure_values", "pi"], cause_from="af12"),
     table("af13", "Additional file 13: ER status, no correction; all measures, nine classifiers", "af13", ["er", "figure_values"], cause_from="af13"),
     table("af14", "Additional file 14: ER status, MultDS; all measures, nine classifiers", "af14", ["er", "corrections", "figure_values"], cause_from="svm"),
     claim("text.null_balanced", "Text: null case, PA = 0.5 and AUC = 0.5 with balanced test sets"),
@@ -248,7 +256,7 @@ items = [
     claim("text.er_20_5", "Text: ER, 20 ER+ / 5 ER-: PA ER+ > 0.90, PA ER- 0.2-0.6, PV and AUC ranges", sets=("er", "claims"), cause_from="svm_pam"),
     claim("text.er_downsizing", "Text: ER down-sizing, class-specific PA about 0.75 (5 per class) and 0.85 (10 per class)", sets=("er", "corrections", "claims")),
     claim("text.er_oversampling", "Text: ER over-sampling, gap of 0.22 between class-specific PA (DQDA, 20 ER+ / 10 ER-)", sets=("er", "corrections", "claims")),
-    claim("text.er_multds_pi", "Text: ER, MultDS lower interval limits above 0.60 for most classifiers; down-sized intervals include 0.50", sets=("er", "corrections", "pi", "claims"), cause_from="er_pi"),
+    claim("text.er_multds_pi", "Text: ER, MultDS lower interval limits above 0.60 for most classifiers; down-sized intervals include 0.50", sets=("er", "corrections", "pi", "claims"), cause_from="pi_multds"),
     claim("text.pam_multds", "Text: ER, PAM benefits the most from MultDS", sets=("er", "corrections", "claims")),
     claim("text.er_variable_centering", "Text: ER, centring the variables increases the bias", sets=("er", "claims")),
     none("text.grade", "Text: grade 1-2 against 3: overall PA about 0.60 and 0.70, minority PA 0.10-0.20", "value", "undocumented_setting",
@@ -264,7 +272,7 @@ items = [
 ]
 
 PAGE = {
-    "lede": "Blagus and Lusa ran their simulations and the breast cancer analysis in R and published them in 2010 without the code. In November 2026 we rebuilt both from the paper (an R package, multds, with the nine classifiers, the three corrections and the measures) and reran every setting the figures and tables need. Of {items} results, {exact} are exact, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} were not attempted. Every gap has a tested cause; the ones still open are the SVM's and PAM's unstated settings and the tails of a few prediction intervals.",
+    "lede": "Blagus and Lusa ran their simulations and the breast cancer analysis in R and published them in 2010 without the code. In November 2026 we rebuilt both from the paper (an R package, multds, with the nine classifiers, the three corrections and the measures) and reran the settings the figures and tables need, except MultDS for RF, SVM and PAM (and, with centred variables, for six classifiers), which our compute budget left out. Of {items} results, {exact} are exact, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} were not attempted. Every gap has a cause; {open_causes} stay open, chiefly the SVM's and PAM's unstated settings, the sample centring of the p = 40 panels, RF-THR in the null case and the tails of a few prediction intervals.",
     "label_rows": [["fig-fig1", "Figs 1 and 2", ["fig1", "fig2"]], ["fig-fig3", "Fig. 3", ["fig3"]], ["fig-fig4", "Fig. 4", ["fig4"]],
                    ["fig-fig5", "Fig. 5", ["fig5"]], ["fig-fig6", "Fig. 6", ["fig6", "fig6.pi"]],
                    ["tables", "Additional files 1, 3, 13, 14", ["af1", "af3", "af13", "af14"]],
@@ -272,10 +280,10 @@ PAGE = {
                    ["items", "Claims in the text", ["text.null_balanced", "text.selection_bias", "text.oversampling", "text.downsizing", "text.multds_vs_down", "text.er_20_5"]]],
     "tables_caption": "Every cell of the four tables in the additional files: the simulations of Additional files 1 and 3 and the breast cancer tables 13 and 14.",
     "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
-    "claims_line": "The paper's conclusions hold in our run: the classifiers are biased towards the majority class, variable selection adds to the bias, over-sampling hardly helps, down-sizing and above all multiple down-sizing remove most of it, and the breast cancer data behave the same way. The claims that miss are listed above with the paper's own values next to ours.",
+    "claims_line": "The main conclusions hold in our run: the classifiers are biased towards the majority class, variable selection adds to the bias, over-sampling helps little for most classifiers, and down-sizing and above all multiple down-sizing remove most of the bias, on the simulations and the breast cancer data. The claims that miss come from the SVM, PAM after over-sampling, RF-THR in the null case, selection at k1train 0.9 and a few interval ends.",
     "came_back": [
         ["The null case", "Figs 1 and 2: every classifier except the SVM and, near balance, PAM came back within Monte Carlo error at p = 40, 1000 and 10000 ({fig1_hits} of {fig1_n} and {fig2_hits} of {fig2_n} points)."],
-        ["The corrections", "Down-sizing and MultDS (Fig. 5, Additional files 8 and 10) came back point by point; Additional file 10's intervals match a 20-sample test set ({af10_hits} of {af10_n} ends), not the 500 its caption says."],
+        ["The corrections", "Down-sizing and MultDS (Fig. 5, Additional files 8 and 10) came back point by point for every classifier we ran except the SVM; Additional file 10's intervals match a 20-sample test set ({af10_hits} of {af10_n} ends), not the 500 its caption says."],
         ["The thresholds", "RF-THR and PLR-THR (Additional file 11): {af11_hits} of {af11_n} points."],
         ["The breast cancer data", "The Sotiriou arrays came back from the NCI archive: 99 tumours, 7650 probes, 34 ER- and 65 ER+. Fig. 6 came back {fig6_hits} of {fig6_n} means; Additional file 14 (MultDS) {af14_hits} of {af14_n} cells."],
         ["The code the paper used", "DLDA and DQDA are sma's stat.diag.da; our versions give identical predictions, and our AUC equals Hmisc's."],
@@ -288,12 +296,12 @@ PAGE = {
     ],
     "matched_intro": "What the paper does not say, what it says that its figures contradict, and what we chose. Each was tested against the paper's own values.",
     "matched": [
-        ["Sample centring", "Stated for every setting, but the p = 40 and pDE = p panels of Fig. 3 and Additional files 4 and 5 come back without it (see the cause of Fig. 3)."],
-        ["Over-sampling", "The paper's DLDA and DQDA fit selection on the original training set, and its PAM keeps the original class prior after over-sampling. Our run follows the Methods (selection on the over-sampled set, pamr's default prior); both alternatives are tested in hypotheses.json."],
+        ["Sample centring", "Stated for every setting, but Fig. 3's p = 40 and pDE = p points come back almost all without it (see the cause of Fig. 3); Additional files 4 and 5 fit much better without it too, though not fully."],
+        ["Over-sampling", "The paper's DLDA and DQDA are fitted better by selection on the original training set, and its PAM by keeping the original class prior after over-sampling (tested at one or two k1train values, 200 replicates). Our run follows the Methods (selection on the over-sampled set, pamr's default prior)."],
         ["Fig. 5's test set", "Its over-sampling PA is that of a test set as imbalanced as the training set; Additional file 8, the same panel for all nine classifiers, uses a balanced one."],
         ["DQDA's AUC", "Ranked by the ratio of the two discriminants, not their difference: found by search; the predictions are the same."],
-        ["Additional file 1", "Prints PLR's PA and PV for all nine classifiers; those cells are listed as paper slips and the rest compared."],
-        ["Tolerance", "The printed precision plus a Bonferroni multiple of the combined Monte Carlo standard error, from the paper's replicate count and the paper's SD where printed (ours otherwise)."],
+        ["Additional file 1", "Prints PLR's PA1, PA2 and PV1 for all nine classifiers; those cells are listed as paper slips and the rest compared."],
+        ["Tolerance", "The printed precision plus a Bonferroni multiple of the combined Monte Carlo standard error: our SD over our replicate count, plus the paper's SD (ours where it prints none) over the paper's replicate count."],
     ],
     "closing": "Blagus and Lusa, 2010. The simulations and the breast cancer analysis came back in November 2026, from the paper alone.",
 }

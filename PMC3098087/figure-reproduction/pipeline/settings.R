@@ -14,7 +14,7 @@ all_settings <- function() {
   s <- list()
   # Replicates: 1,000 as in the paper for the settings behind the printed tables and Fig. 1
   # (null, p = 40; alternative, p = 1000, which is also Fig. 5's first column); 500 for every other
-  # setting, to fit the compute budget (200 for the hypothesis tests and for Additional file 6). The comparison's Monte Carlo tolerance uses our SDs and counts.
+  # setting, to fit the compute budget (200 for the hypothesis tests and for Additional file 6). The comparison's Monte Carlo tolerance combines our SD and count with the paper's.
   add <- function(family, x) {
     x$family <- family
     x$reps <- if (family %in% c("hyp", "nosel")) 200L else if (grepl("^(null_p40|alt20_p1000)_", x$name)) 1000L else 500L
