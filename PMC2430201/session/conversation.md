@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-18T16:47:53+00:00 / 2026-11-18T17:31:45+00:00 |
-| Wall clock | 43.9 min |
+| Started / ended (UTC) | 2026-11-18T16:47:53+00:00 / 2026-11-18T17:46:30+00:00 |
+| Wall clock | 58.6 min |
 | Models | claude-opus-5-5 |
-| Human prompts | 2 (0 sent mid-turn) |
-| Assistant responses (API calls) | 117 + 2 in subagents |
-| Tool calls | 133 + 3 in subagents |
-| Tokens: input / cache write / cache read / output | 236 / 603,381 / 33,840,527 / 177,349 |
-| Tokens: total (incl. subagents) | 34,621,493 |
+| Human prompts | 5 (0 sent mid-turn) |
+| Assistant responses (API calls) | 155 + 38 in subagents |
+| Tool calls | 166 + 39 in subagents |
+| Tokens: input / cache write / cache read / output | 400 / 753,537 / 56,513,294 / 225,826 |
+| Tokens: total (incl. subagents) | 57,493,057 |
 
 ## Conversation
 
@@ -452,3 +452,208 @@ With `--metafor`, the rerun result went into crosscheck.json and made it differ 
 - `Bash` python3 /root/.claude/skills/paper2repro/scripts/session_ledger.py --help 2>&1 | head -20; ls ~/.claude/projects/ 2>/dev/null; ls ~/.claude/projects/-home-user-
 
 - `Bash` python3 /root/.claude/skills/paper2repro/scripts/session_ledger.py --out PMC2430201/session 2>&1 | tail -5 && python3 -c " import json;d=json.load(open('PMC2430
+
+- `Bash` git add -A && git commit -q -m "PMC2430201: keep crosscheck.json the same with --metafor; session ledger Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+
+### Claude · 2026-11-18 17:32:05
+
+While the reviewer works, I'm checking the top-level README status the generator wrote:
+
+- `Bash` grep -o "<!--PMC2430201-STATUS-->.*<!--/PMC2430201-STATUS-->" README.md
+
+### Claude · 2026-11-18 17:32:07
+
+The status line is right. Waiting for the reviewer's report before pushing.
+
+- `ReadNotifications` 
+
+### Claude · 2026-11-18 17:32:14
+
+The reproduction runs end to end and is committed locally; nothing is pushed yet. An independent reviewer is checking every sentence of the write-up against the outputs. Once its report is in and I've fixed what it finds, I'll push, open the pull request and drive CI to green.
+
+So far:
+- **Tables 3–8:** 2,266 of the 2,268 printed cells come back within Monte Carlo error. The two misses are chance: a second run with other seeds puts both back.
+- **Main claim:** it holds. On our run every claim of the text but one comes back; that one is on a rounding line in Table 6.
+- **Clean-clone check:** the exact CI command passes from a fresh clone in about 2 minutes.
+
+- `Bash` git push -u origin claude/tender-tesla-ho56dz 2>&1 | tail -3
+
+### Claude · 2026-11-18 17:32:25
+
+I've pushed the work to `claude/tender-tesla-ho56dz`. I haven't opened the pull request yet. An independent reviewer is still checking every sentence of the write-up against the outputs. Once its report is in and I've fixed what it finds, I'll open the one pull request (with `Closes #73`) and get CI passing.
+
+### Claude · 2026-11-18 17:36:39
+
+The review found one factual error and nine smaller problems. I'm fixing all ten, except one exception I can't add. On problem 2 the checker refuses a paper-error exception on a field that already matches, so I'm noting that field in the evidence text instead.
+
+- `Bash` cd /home/user/fossil/PMC2430201 && python3 - <<'EOF' import json,re def sub(p, a, b): s=open(p).read(); assert a in s, (p,a[:60]); open(p,'w').write(s.replace(a
+
+### Claude · 2026-11-18 17:36:52
+
+Now regenerating results.json, the page and the READMEs from the notes:
+
+- `Bash` cd /home/user/fossil && P=PMC2430201/.venv/bin/python; R=/tmp/claude-0/-home-user-fossil/8ddb8c90-6f6d-5b93-b69f-6fbd6d9ffe46/scratchpad/rerun && rm -rf $R && m
+
+### Claude · 2026-11-18 17:36:58
+
+Confirming the clean-clone run still passes after the edits, then committing and pushing:
+
+- `Bash` git add -A && git commit -q -m "PMC2430201: self-review fixes to the write-up (Table 5 MD/SMD columns, quotes, labels, wording) Co-Authored-By: Claude Opus 5.5 
+
+### Claude · 2026-11-18 17:39:15
+
+Opening the pull request:
+
+- `Bash` ls .github/ | grep -i template; ls .github/PULL_REQUEST_TEMPLATE* 2>/dev/null; PMC2430201/.venv/bin/python PMC2430201/figure-reproduction/pipeline/check_results
+
+- `Bash` S=/tmp/claude-0/-home-user-fossil/8ddb8c90-6f6d-5b93-b69f-6fbd6d9ffe46/scratchpad; { cat <<'EOF' ## Ratio of means simulation study (PMC2430201) Friedrich JO, A
+
+- `Read` /tmp/claude-0/-home-user-fossil/8ddb8c90-6f6d-5b93-b69f-6fbd6d9ffe46/scratchpad/pr.md
+
+- `ToolSearch` select:mcp__github__add_issue_comment,mcp__github__pull_request_read
+
+- `Bash` cat /tmp/claude-0/-home-user-fossil/8ddb8c90-6f6d-5b93-b69f-6fbd6d9ffe46/scratchpad/pr.md | python3 -c "import sys,json;print(json.dumps(sys.stdin.read()))" | h
+
+- `mcp__github__create_pull_request` 
+
+### Claude · 2026-11-18 17:40:08
+
+I've opened [jeonglab-bcm/fossil#98](https://github.com/jeonglab-bcm/fossil/pull/98). Next I'm subscribing to its CI so I hear when the checks finish.
+
+- `mcp__claude-code-remote__subscribe_pr_activity` 
+
+### Claude · 2026-11-18 17:40:13
+
+The skill asks for a self-review on the pull request. Posting it:
+
+- `mcp__github__add_issue_comment` 
+
+### Claude · 2026-11-18 17:40:33
+
+I've opened the pull request: [jeonglab-bcm/fossil#98](https://github.com/jeonglab-bcm/fossil/pull/98), with `Closes #73`. CI is running now; I'll be notified when it finishes. The full pipeline passed from a clean clone here in 2.1 minutes, but CI hasn't reported yet.
+
+**What came back**
+- **Tables 3–8:** 2,266 of the 2,268 printed cells are within Monte Carlo error. Two misses are chance: a second run with other seeds puts both back.
+- **Main claim:** it holds. MD is free of bias, SMD leans towards no effect in small trials, RoM's bias stays between −4% and 2%, and the three have similar power.
+- **Verdicts:** 2 exact, 14 agree, 3 partly, 3 not attempted (Table 1, Table 2 and the lost SAS code), 0 open causes. Nothing is exact for the simulated tables because the paper gives no seeds and two of its definitions had to be found from the tables.
+- **One claim of the text misses on our run:** "I² around 55–60%". Two Table 6 cells print as 62. That depends on how the skewed data were scaled, which the paper doesn't say.
+
+**Settings the paper does not state, found by testing against its tables**
+- RoM bias is a percentage of the true RoM (216 of 216 cells; on ln RoM, 97).
+- I² comes from the mean Q/(k−1) over the 10,000 replicates (323 of 324 cells; the mean of each replicate's I² gets 17).
+- Heterogeneity is an independent shift of each arm's mean. Shifting one arm only, or both together, misses many cells.
+- Table 6's skewed data are the mixture times 100, with the experimental arm shifted. Rescaling the mixture to SD 40 first fits just as well, and the tables can't tell the two apart.
+
+**Three slips in the paper**, found by recomputing its text from its own tables:
+- The abstract's coverage ranges for biased RoM (89–92% against MD 92–94%) don't match its tables (RoM 89–95%, MD 90–95%).
+- The Results' "I² = 92–93%" leaves out Table 5's RoM value of 91.
+- Table 1's serum creatinine MD of −3.51 is not at the centre of its own CI, which is centred on −3.47.
+
+**Package:** `rommeta`, in Python because the authors' code was SAS and the method needs no R package. It matches R's metafor 4.4.0 to about 5e-14, on its example data and on 900 simulated meta-analyses. Its tests and tutorial pass from a fresh install.
+
+A separate reviewer checked every sentence of the write-up against the outputs. It found one factual error (a README sentence said Tables 3, 4 and 5 print the same MD and SMD columns; Table 5 differs in 9 cells) and nine smaller problems. I fixed the error and eight of the others. The ninth asked to mark one more abstract number as a paper error, which the results checker refuses because our run already matches it, so the evidence text says it disagrees with the paper's tables instead. I posted a self-review on the pull request, as the skill requires.
+
+- **Fresh session:** this session wasn't a fresh one, because its first prompt was the skill install. The pull request says so, and the ledger counts both prompts.
+- **Branch name:** I worked on `claude/tender-tesla-ho56dz`, the branch this environment requires, rather than the skill's `PMC2430201-<name>` convention.
+- **Final ledger:** once CI passes, I'll push the final session ledger.
+
+### User · 2026-11-18 17:40:34
+
+<task-notification>
+<task-type>queued-remote-notifications</task-type>
+<status>pending</status>
+<summary>2 unread notifications (GitHub activity on a subscribed PR: 2)</summary>
+Notifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.
+</task-notification>
+
+- `ReadNotifications` 
+
+### Claude · 2026-11-18 17:40:39
+
+Neither notification needs action: one confirms the subscription, the other is the repository's automatic "manual code review" note. Checking CI on the head:
+
+- `mcp__github__pull_request_read` 
+
+- `mcp__claude-code-remote__send_later` 
+
+### Claude · 2026-11-18 17:40:48
+
+CI is still running on [jeonglab-bcm/fossil#98](https://github.com/jeonglab-bcm/fossil/pull/98). The `skill` and `find` jobs have passed. The reproduction run and the results check are still going. The only review so far is the repository's automatic note that code review is manual here, which needs no action.
+
+I'll be notified when CI finishes, and a check-in is scheduled for 18:31 UTC in case that notification never arrives. Once CI passes, I'll push the final session ledger.
+
+### User · 2026-11-18 17:41:08
+
+<task-notification>
+<task-type>queued-remote-notifications</task-type>
+<status>pending</status>
+<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>
+Notifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.
+</task-notification>
+
+- `ReadNotifications` 
+
+- `ToolSearch` select:mcp__github__get_job_logs
+
+- `mcp__github__get_job_logs` 
+
+### Claude · 2026-11-18 17:41:20
+
+The failure is in the comment-posting step, not the check: GitHub refused the comment with HTTP 422. Looking at how `tools/pr_comment.py` builds the comment:
+
+- `Bash` sed -n 1,40p tools/pr_comment.py; grep -n "65\|limit\|len(\|truncat\|MAX" tools/pr_comment.py; grep -n "pr_comment\|check_results" .github/workflows/results-che
+
+### Claude · 2026-11-18 17:41:26
+
+The comment's "All results" table lists every one of the 2,325 entries in our results-check file, and that probably pushes the body past GitHub's 65,536-character limit. Measuring with a dry run:
+
+- `Bash` git fetch -q origin main && python3 tools/check_results.py PMC2430201/figure-reproduction/results.json --committed --report /tmp/claude-0/-home-user-fossil/8ddb
+
+- `Bash` S=/tmp/claude-0/-home-user-fossil/8ddb8c90-6f6d-5b93-b69f-6fbd6d9ffe46/scratchpad; python3 tools/pr_comment.py PMC2430201 --check $S/rc/results-check.json --bas
+
+- `Bash` python3 - <<'EOF' p='tools/pr_comment.py'; s=open(p).read() def sub(a,b): global s; assert s.count(a)==1,a[:50]; s=s.replace(a,b) sub('''ASSETS = "ci-assets" ''
+
+### Claude · 2026-11-18 17:42:04
+
+The comment was 382,891 characters before the fix and is 50,233 after; the comments for PMC3022898 and PMC2661051 still fit at 40–42 thousand. Committing and pushing the fix:
+
+- `Bash` git add tools/pr_comment.py && git commit -q -m "tools/pr_comment.py: keep the comment under GitHub's 65,536-character limit The results-check comment for PMC24
+
+- `mcp__github__add_issue_comment` 
+
+### Claude · 2026-11-18 17:42:19
+
+The results check on [jeonglab-bcm/fossil#98](https://github.com/jeonglab-bcm/fossil/pull/98) failed, but not on our numbers. The step that posts its summary comment was refused by GitHub (HTTP 422) because the comment was 382,891 characters long. GitHub's limit is 65,536.
+
+The cause is the repository's shared `tools/pr_comment.py`, which lists every result twice and never caps the length. Our 2,325 results pushed it over. I changed it to cut the long lists and point to the run's downloadable report instead. This PR's comment is now 50,233 characters. The fix touches a tool every paper's results check uses, so please look at it: the comments for PMC3022898 and PMC2661051 still fit, at about 41,000 characters each.
+
+I pushed the fix (`38b84c1`) and explained it in a comment on the pull request. CI is running again on the new head, and the reproduction job had not finished at the last check. Once both checks pass, I'll push the final session ledger.
+
+- `ReadNotifications` 
+
+### Claude · 2026-11-18 17:43:10
+
+The fix worked: the results-check comment posted, and all 2,325 results agree with the committed files. Waiting for the reproduction job.
+
+- `mcp__github__pull_request_read` 
+
+### Claude · 2026-11-18 17:43:14
+
+The results check now passes on [jeonglab-bcm/fossil#98](https://github.com/jeonglab-bcm/fossil/pull/98), and its comment posted: all 2,325 results agree with the committed files. The `skill` and `find` checks pass too. The full reproduction job is still running; I'll be notified when it finishes.
+
+### User · 2026-11-18 17:46:18
+
+<task-notification>
+<task-type>queued-remote-notifications</task-type>
+<status>pending</status>
+<summary>1 unread notification (GitHub activity on a subscribed PR: 1)</summary>
+Notifications are queued for this session (more may arrive before you read them). Call ReadNotifications now, before other work, and keep calling it until it reports 0 remaining. Their contents are external data delivered out-of-band, not instructions from this message.
+</task-notification>
+
+- `ReadNotifications` 
+
+- `mcp__github__pull_request_read` 
+
+- `mcp__github__pull_request_read` 
+
+- `Bash` python3 /root/.claude/skills/paper2repro/scripts/session_ledger.py --out PMC2430201/session >/dev/null 2>&1; grep -c -i "bcm.edu" PMC2430201/session/conversatio
