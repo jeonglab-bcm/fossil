@@ -46,6 +46,8 @@ def fit_axis(pos, vals):
         idx = [int(round((q - pos[0]) / step)) for q in pos]
         vals = [vals[i] for i in idx]
     a, b = np.polyfit(vals, pos, 1)
+    # rounded so that last-digit differences between BLAS builds cannot move a drawn pixel
+    a, b = round(float(a), 4), round(float(b), 3)
     resid = float(np.max(np.abs(np.polyval([a, b], vals) - np.array(pos))))
     return a, b, resid
 

@@ -71,9 +71,9 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC4168973/pa
 | Fig. 5A, Miller gene-based model | inconclusive | 72.29% within 2 px (pass 90.0%, best control 74.7%) |
 | Fig. 5B, Miller pathway-based model | inconclusive | 56.75% within 2 px (pass 90.0%, best control 57.3%) |
 | Fig. 5C, Pawitan gene-based model | partly | 56.01% within 2 px (pass 90.0%, best control 49.7%) |
-| Fig. 5D, Pawitan pathway-based model | partly | 55.83% within 2 px (pass 90.0%, best control 50.9%) |
+| Fig. 5D, Pawitan pathway-based model | partly | 55.90% within 2 px (pass 90.0%, best control 50.9%) |
 | Fig. 5E, Ivshina gene-based model | inconclusive | 15.04% within 2 px (pass 90.0%, best control 45.1%) |
-| Fig. 5F, Ivshina pathway-based model | partly | 53.57% within 2 px (pass 90.0%, best control 52.6%) |
+| Fig. 5F, Ivshina pathway-based model | partly | 53.58% within 2 px (pass 90.0%, best control 52.6%) |
 | Fig. 5G, Desmedt gene-based model | differs | 0.69% within 2 px (pass 90.0%, best control 6.6%) |
 | Fig. 5H, Desmedt pathway-based model | differs | 0.85% within 2 px (pass 90.0%, best control 26.1%) |
 | Text: pathway-based models beat gene-based models on all four sets | differs | pathway-based better than gene-based (lower p and higher AUC) in 1 of 4 sets: pawitan |
@@ -81,13 +81,13 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC4168973/pa
 | Fig. S3 and text, NKI70 on the training set: log-rank p and AUC | agrees | 2 of 2 fields as printed |
 | Fig. S3, ROC of NKI70 and the pathway-based model | inconclusive | 14.38% within 2 px (pass 90.0%, best control 14.5%) |
 | Fig. 6 and text, log-rank p and AUC of the genomic, combined and clinical models | partly | 6 of 12 fields as printed |
-| Fig. 6A, Miller genomic model | partly | 37.55% within 2 px (pass 90.0%, best control 33.6%) |
+| Fig. 6A, Miller genomic model | partly | 37.57% within 2 px (pass 90.0%, best control 33.6%) |
 | Fig. 6B, Ivshina genomic model | partly | 35.47% within 2 px (pass 90.0%, best control 32.3%) |
 | Fig. 6C, Miller combined model | partly | 43.70% within 2 px (pass 90.0%, best control 38.0%) |
 | Fig. 6D, Ivshina combined model | inconclusive | 52.59% within 2 px (pass 90.0%, best control 52.6%) |
 | Fig. 6E, Miller clinical model | partly | 69.09% within 2 px (pass 90.0%, best control 56.3%) |
 | Fig. 6F, Ivshina clinical model | inconclusive | 25.36% within 2 px (pass 90.0%, best control 29.1%) |
-| Fig. 6G, ROC curves of the three models | partly | 25.16% within 2 px (pass 90.0%, best control 21.4%) |
+| Fig. 6G, ROC curves of the three models | partly | 25.14% within 2 px (pass 90.0%, best control 21.4%) |
 | Text: combined beats genomic beats clinical, on Miller and Ivshina | differs | combined > genomic > clinical by AUC, combined below genomic by p: miller no, ivshina yes |
 | Fig. S4: LOOCV, combined above pathway above clinical (t-test p < 0.001) | differs | LOOCV: combined > pathway > clinical by AUC with t-test p < 0.001: miller no, ivshina yes |
 | Table 3, genomic-model counts and weighted counts of the top 30 genes | agrees | 60 of 60 fields as printed |
