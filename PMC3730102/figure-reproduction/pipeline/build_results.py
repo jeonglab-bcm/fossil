@@ -56,7 +56,7 @@ def observed(out: Path, package: dict | None) -> dict[str, dict[str, object]]:
     o["fig2d"] = {k: round(d[k], 3) for k in ("S", "N1", "N2", "L1", "L2", "TR")}
     e = f2["fig2e"]
     kind_mean = {k: d[k] for k in ("S", "N1", "N2", "L1", "L2")}
-    o["fig2e"] = {"N1 sets the most useful kind": yn(max(kind_mean, key=kind_mean.get) == "N1"),
+    o["fig2e"] = {"N1 sets have the highest mean AUC of any kind": yn(max(kind_mean, key=kind_mean.get) == "N1"),
                   "single-protein sets also selected": yn(e["selected_by_kind"]["S"] > 0)}
 
     h = cl["high_confidence"]

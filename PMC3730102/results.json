@@ -319,7 +319,8 @@
         "category": "data_unavailable",
         "summary": "BIND is gone (only its 1,500 links inside Ramani's set survive) and DIP needs a login; the release dates of the other sources are not stated. The rebuilt network is 4% larger in links and 4% smaller in proteins.",
         "evidence": [
-          "figure-reproduction/output/prepare.json"
+          "figure-reproduction/output/prepare.json",
+          "Ramani et al. 2005, Additional data file 4: 1,500 of its 31,609 rows carry BIND as evidence"
         ],
         "status": "explained"
       },
@@ -515,7 +516,7 @@
       ],
       "cause": {
         "category": "data_differs",
-        "summary": "The four configurations come back in the paper's order and with the same gaps between them, but 0.04 to 0.08 lower. The gold standard (4,269 against 4,570 proteins) and the network are rebuilt, and how leave-two-out was run is not stated.",
+        "summary": "The four configurations come back in the paper's order, 0.03 to 0.08 lower; the gaps between them differ (ours 0.02, 0.02 and 0.08 against the paper's 0.04, 0.05 and 0.07). The gold standard (4,269 against 4,570 proteins) and the network are rebuilt, and how leave-two-out was run is not stated.",
         "evidence": [
           "figure-reproduction/output/fig2.json"
         ],
@@ -560,7 +561,7 @@
       },
       "assumptions": [
         {
-          "what": "Correlation of a pair in a condition: Pearson r averaged over its studies, weighted by samples, on genes measured in every study of the condition",
+          "what": "Correlation of a pair in a condition: Pearson r averaged over the condition's studies that measure both genes, weighted by samples, when those studies hold at least 10 samples together",
           "source": "our_choice"
         },
         {
@@ -579,19 +580,19 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "In normal brain the top 1,000 correlated pairs hold 21 times more known links than chance, as in the paper; in low- and high-grade glioma only 2 times. How the paper pooled several studies of different platforms into one ranking is not stated, and our gliomas pool five small studies on five platforms.",
+        "summary": "In normal brain the top 1,000 correlated pairs hold 21 times more known links than chance, as in the paper; in low- and high-grade glioma only 2 times. How the paper pooled several studies of different platforms into one ranking is not stated; our gliomas pool three series on five platforms, two of them small.",
         "evidence": [
           "figure-reproduction/output/fig2.json (fig2c)"
         ],
         "hypotheses": [
           {
             "hypothesis": "Pairs measured only in small studies fill the top of the glioma rankings with chance correlations",
-            "test": "Pairs need studies with at least 10 samples together: glioma enrichment at 1,000 pairs stays at 2 to 3 times chance",
+            "test": "Our main rule (pairs need studies with at least 10 samples together): glioma enrichment at 1,000 pairs is 2.4 (low) and 1.9 (high) times chance (output/fig2.json)",
             "result": "rejected"
           },
           {
             "hypothesis": "Ranking only genes measured in every study of the condition",
-            "test": "An earlier run with this rule: 1,842 high-grade genes; at 1,000 pairs normal 23, low 9 and high 17 times chance; common pairs still fewer than one condition's",
+            "test": "A one-off run, not part of the pipeline, ranking only genes measured in every study of the condition: 1,842 high-grade genes; at 1,000 pairs normal 23, low 9 and high 17 times chance; common pairs still fewer than one condition's",
             "result": "inconclusive"
           }
         ],
@@ -712,7 +713,7 @@
         },
         "fields": [
           {
-            "name": "N1 sets the most useful kind",
+            "name": "N1 sets have the highest mean AUC of any kind",
             "expected": "yes",
             "observed": "yes"
           },
@@ -831,7 +832,7 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "The possibility formula, applied as printed, puts the median possibility at 0.39, so 'possibility 0.40' cannot also mean P < 0.005 as the paper says. Calling locations by P < 0.005 instead gives under half the paper's count. The calibration (Suppl. Fig. S5) is in the unavailable supplement.",
+        "summary": "The possibility formula, applied as printed, puts the median possibility at 0.39, so 'possibility 0.40' cannot also mean P < 0.005 as the paper says. Calling locations by P < 0.005 instead gives under half the paper's locations (13,362 against 29,999) and just over half its proteins (5,091 against 9,543). The calibration (Suppl. Fig. S5) is in the unavailable supplement.",
         "evidence": [
           "figure-reproduction/output/clm.json (literal_040, high_confidence)"
         ],
