@@ -1,0 +1,72 @@
+name: Reproduce PMC4765871
+
+# Reruns the PMC4765871 pipeline (Ocone et al. 2015) on pull requests and pushes to main that touch
+# it, and by hand from the Actions tab. The run recomputes the simulations, diffusion maps,
+# Wanderlust, GENIE3, emulators, figures, scores and results.json, reading the MCMC fits from the
+# committed output/run, and fails if anything differs from the committed outputs or a rule of
+# results.json breaks. The samplers themselves (about 1 hour on 48 cores) run only when started by
+# hand with full = true; their chains depend on the CPU, so that run is checked against the rules
+# of results.json and its differences from the committed fits are reported, not enforced.
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Also rerun the MCMC samplers (long)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC4765871/figure-reproduction/**"
+      - "PMC4765871/results.json"
+      - ".github/workflows/reproduce-pmc4765871.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4765871/figure-reproduction/**"
+      - "PMC4765871/results.json"
+      - ".github/workflows/reproduce-pmc4765871.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 600 || 60 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: pip install -r PMC4765871/figure-reproduction/requirements.txt
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC4765871/figure-reproduction/main.nf --outdir results --cpus 4 -ansi-log false ${{ inputs.full && '--full' || '' }}
+
+      - name: Check the committed results.json and its files
+        run: python3 PMC4765871/figure-reproduction/pipeline/check_results.py PMC4765871/results.json
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4765871-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

@@ -1,0 +1,71 @@
+{
+ "about": "Analysis settings. The paper's: Wanderlust k = 18 (synthetic) or 15 (real), l = k/3, 3 replicates; GENIE3 thresholds; priors U(0,2000), U(0,30), U(0,50). Ours (see results.json assumptions): everything else.",
+ "ffl": {
+  "seed": 23,
+  "wanderlust_l": 18,
+  "num_graphs": 25,
+  "num_landmarks": 20,
+  "genie3_trees": 1000,
+  "time_scale": "t_stop",
+  "dt": 0.25,
+  "n_sample": 20000,
+  "thin": 10,
+  "lambda_prior_sd": 0.025,
+  "ti_models": [
+   "or(gX+,gY-)",
+   "and(gX+,gY-)",
+   "or(gX-,gY+)"
+  ],
+  "ti_temps": 30,
+  "ti_burn": 3000,
+  "ti_sample": 6000,
+  "perturb_runs": 300,
+  "perturb_points": 60,
+  "perturb_noise": 20.0,
+  "genie3_method": "ET"
+ },
+ "haem": {
+  "seed": 2013,
+  "sigmas": {
+   "main": 7.943282347242816,
+   "table10_literal": 100.9,
+   "half": 3.9716,
+   "double": 15.8866
+  },
+  "genie3_trees": 1000,
+  "genie3_threshold": 0.08,
+  "Nn": 15,
+  "branch_k_graph": 10,
+  "wanderlust_l": 15,
+  "num_graphs": 25,
+  "num_landmarks": 20,
+  "time_scale": 120.0,
+  "dt": 0.25,
+  "emulator_window": 9,
+  "n_sample": 20000,
+  "thin": 10,
+  "collapse_range": 0.05,
+  "genie3_method": "ET",
+  "tips": 5,
+  "tips_dense_q": 0.97
+ },
+ "toggle": {
+  "seed": 31,
+  "sigma": 1000.0,
+  "Nn": 15,
+  "branch_k_graph": 10,
+  "early_threshold": 100.0,
+  "wanderlust_l": 18,
+  "num_graphs": 25,
+  "num_landmarks": 20,
+  "genie3_trees": 1000,
+  "genie3_method": "ET",
+  "dt": 0.25,
+  "n_sample": 20000,
+  "thin": 10,
+  "lambda_prior_sd": 0.025,
+  "ti_temps": 30,
+  "ti_burn": 3000,
+  "ti_sample": 6000
+ }
+}

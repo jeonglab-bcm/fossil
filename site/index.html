@@ -56,7 +56,7 @@
         <h1 id="hero-head">Old methods, dug up and running again.</h1>
         <p class="lead">fossil is an archive of methods from published computational papers. An AI agent rebuilds each one from the paper and whatever survived, and every figure is checked against the one in print.</p>
         <div class="actions"><a class="btn btn--primary" href="#papers">See the papers</a><a class="btn" href="#about">Why we do it</a></div>
-        <p class="aside"><span data-count="papers" data-cap>Eleven</span> papers dug up so far, from <span data-count="first-year">2004</span> to <span data-count="last-year">2015</span>.</p>
+        <p class="aside"><span data-count="papers" data-cap>Fifteen</span> papers dug up so far, from <span data-count="first-year">2004</span> to <span data-count="last-year">2015</span>.</p>
       </div>
     </div>
   </section>
@@ -102,8 +102,8 @@
   <section class="index" id="papers" aria-labelledby="index-head">
     <div class="container">
       <div class="index-head">
-        <h2 id="index-head"><span data-count="papers" data-cap>Eleven</span> papers, figure by figure</h2>
-        <p>Newest first. <span data-count="agrees" data-cap>Two</span> agree with their papers, <span data-count="partly">nine</span> partly.</p>
+        <h2 id="index-head"><span data-count="papers" data-cap>Fifteen</span> papers, figure by figure</h2>
+        <p>Newest first. <span data-count="agrees" data-cap>Two</span> agree with their papers, <span data-count="partly">thirteen</span> partly.</p>
       </div>
       <div class="surface">
         <div class="table-wrap">
@@ -152,6 +152,28 @@
                 </ul></td>
                 <td data-label="Verdict"><span class="verdict" data-v="agrees">Agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="verdict-note">The main claim holds; agreed in review</span></td>
                 <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.4.0">v0.4.0</a><span class="ver-note">worked out from the session</span></td>
+              </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2015-06-10">10 Jun 2015</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-06">6 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC4765871</span>
+                  <a class="title" href="PMC4765871/">Reconstructing gene regulatory dynamics from high-dimensional single-cell snapshot data</a>
+                  <span class="journal">Ocone et al., Bioinformatics</span>
+                  <span class="go"><a href="https://doi.org/10.1093/bioinformatics/btv257">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4765871">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The authors’ C++ and Matlab code</li>
+                  <li>The MCMC settings and the informative prior</li>
+                  <li>Which cells make the blood cell pseudo time series</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC4765871/figure-reproduction/pipeline">The whole framework</a> in Python</li>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC4765871/figure-reproduction/pipeline/params/simulation.json">The simulation noise</a>, read from the supplement’s traces</li>
+                  <li><a href="PMC4765871/">Figs 2 to 9</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The logic gates come back; the error figures differ</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.3.0">v0.3.0</a></td>
               </tr>
               <tr>
                 <td class="date" data-label="Published"><time datetime="2014-01-24">24 Jan 2014</time></td>
@@ -425,6 +447,7 @@
       <a href="PMC2349296/">PPI corpora tables</a>
       <a href="PMC4426843/">miRNA enrichment figure</a>
       <a href="PMC2850872/">Diabetes classifier tables</a>
+      <a href="PMC4765871/">Snapshot dynamics figures</a>
       <a href="PMC4015815/">Remote homology figures</a>
       <a href="PMC1847688/">LIMPIC figures</a>
       <a href="PMC2666661/">Random forest LD figures</a>
