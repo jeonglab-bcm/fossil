@@ -90,6 +90,8 @@ def inner_boxes(grey, box, sat, min_len=150):
                 bottom = yb
                 used.add(j)
                 break
+        if ea - sa > 0.9 * (x1 - x0):
+            continue  # a thick axes frame line, not a legend
         out.append((sa + x0 + 5, ea + x0 + 5, ya + y0 + 5, bottom + y0 + 5))
     return out
 

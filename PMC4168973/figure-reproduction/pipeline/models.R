@@ -119,8 +119,6 @@ if (nrow(ours3) >= 2) {
   res$fig3_our_pathways <- list(chisq_pds_groups = chisq.test(table(g3o, cl$event))$p.value,
                                 cor_median_pds = cor(apply(ours3, 2, median), cl$event))
 }
-saveRDS(list(fig1a = list(x = D$miller$expr[pam_in, ], groups = g1), fig3 = list(x = f3, groups = g3),
-             clin = cl), file.path(out, "models", "heatmaps.rds"))
 
 ## Clinical and combined models (Table 2, Fig. 6). Each set is standardized on its own.
 clin_feats <- c("er", "pgr", "p53", "grade", "node", "size_mm", "age")
@@ -243,6 +241,6 @@ if (!is.na(nki_rda) && file.exists(nki_rda)) {
 }
 
 res$pathways_scored <- lapply(P, ncol); res$pathways_common <- length(common)
-write_json(res, file.path(out, "models.json"), auto_unbox = TRUE, pretty = TRUE, digits = NA)
+write_json(res, file.path(out, "models.json"), auto_unbox = TRUE, pretty = TRUE, digits = NA, na = "null")
 write_json(lambda_log, file.path(out, "models", "lambdas.json"), digits = NA)
 write_json(check_log, file.path(out, "lambda_check.json"), auto_unbox = TRUE, pretty = TRUE)

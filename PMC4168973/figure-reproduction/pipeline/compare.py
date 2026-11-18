@@ -21,14 +21,15 @@ out = Path(sys.argv[2])
 clin = json.load(open(out / "clinical.json"))
 mod = json.load(open(out / "models.json"))
 t3 = json.load(open(out / "table3.json"))
-px = json.load(open(out / "fig" / "pixel_scores.json"))
+px = json.load(open(out / "pixel_scores.json"))
 items = {}
 P_TOL = {"abs": 1}
 AUC_TOL = {"abs": 0.03}
 
 
 def mlog(p):
-    return round(-math.log10(float(p)), 4) if p not in (None, 0) else None
+    # None: no p-value (a model that keeps no feature has one risk group, R writes "NA")
+    return round(-math.log10(float(p)), 4) if p not in (None, 0, "NA") else None
 
 
 def sig(v, n=6):
@@ -120,12 +121,14 @@ if "nki70" in mod:
 
 # Claims about orderings and LOOCV t-tests
 f5 = mod["fig5"]
-better = [s for s in f5 if f5[s]["pathway"]["auc"] > f5[s]["gene"]["auc"] and f5[s]["pathway"]["p"] < f5[s]["gene"]["p"]]
+# a model without a p-value (no feature kept) is not better than anything
+lt = lambda a, b: a is not None and b is not None and a < b
+better = [s for s in f5 if f5[s]["pathway"]["auc"] > f5[s]["gene"]["auc"] and lt(f5[s]["pathway"]["p"], f5[s]["gene"]["p"])]
 items["text.fig5_claim"] = {"method": "check", "check": {"passed": len(better) == 4,
     "detail": f"pathway-based better than gene-based (lower p and higher AUC) in {len(better)} of 4 sets: {', '.join(better) or 'none'}"}}
 loo = mod["loo"]
 s2 = [s for s in ("miller", "pawitan", "ivshina", "desmedt")
-      if loo[f"S2_{s}"]["t_p_auc"] < 0.001 and loo[f"S2_{s}"]["t_p_mlog10p"] < 0.001
+      if lt(loo[f"S2_{s}"]["t_p_auc"], 0.001) and lt(loo[f"S2_{s}"]["t_p_mlog10p"], 0.001)
       and loo[f"S2_{s}"]["pathway_median_auc"] > loo[f"S2_{s}"]["gene_median_auc"]]
 items["figS2.claim"] = {"method": "check", "check": {"passed": len(s2) == 4,
     "detail": f"LOOCV: pathway-based above gene-based with t-test p < 0.001 for both p and AUC in {len(s2)} of 4 sets"}}

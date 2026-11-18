@@ -9,16 +9,11 @@ name: Reproduce PMC4168973
 # penalties; Table 1, Fig. 1, Tables 2 and 3, Figs 3 to 6 and S1 to S4 are rebuilt and compared with
 # the paper; check_results.py runs on the fresh results.json; the R package is built and checked
 # and its tutorial rendered; and the fresh run is compared with the committed output/
-# (compare_runs.py). Started by hand with full = true, it scores all 403 pathways in every data set
-# and runs every cross-validation run (about 4 hours on 4 cores) and builds everything from the
-# fresh run.
+# (compare_runs.py). The full run (--full: all 403 pathways of every data set and every
+# cross-validation run) takes about 9 hours on 4 cores, longer than a GitHub-hosted job may run, so
+# it is run locally (figure-reproduction/README.md).
 on:
   workflow_dispatch:
-    inputs:
-      full:
-        description: "Score every pathway and run every cross-validation run (slow)"
-        type: boolean
-        default: false
   pull_request:
     paths:
       - "PMC4168973/figure-reproduction/**"
@@ -39,7 +34,7 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: ${{ inputs.full && 360 || 60 }}
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -65,7 +60,7 @@ jobs:
       - name: Run the Nextflow pipeline
         run: >
           nextflow run PMC4168973/figure-reproduction/main.nf --outdir results -ansi-log false
-          --cpus 4 ${{ inputs.full && '--full' || '' }}
+          --cpus 4
 
       - name: Report
         if: always()

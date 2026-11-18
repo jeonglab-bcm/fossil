@@ -1,0 +1,15 @@
+# Run from PMC4168973/work (after prepare_data.R and pds.R): Rscript ../figure-reproduction/experiments/pds_variants.R
+suppressMessages({library(pdscox); library(survival)})
+d <- readRDS("data/miller.rds"); G <- readRDS("data/genesets.rds")
+pw <- c("BIOCARTA_VIP_PATHWAY","BIOCARTA_AKAP13_PATHWAY","BIOCARTA_PYK2_PATHWAY","BIOCARTA_G1_PATHWAY","BIOCARTA_RNA_PATHWAY")
+paper <- c(4.6676, 2.4547, 3.8894, 5.5751, 4.1152)
+up <- function(S) apply(S, 1, function(v) round(-log10(summary(coxph(Surv(d$clin$time, d$clin$event) ~ v))$waldtest[3]),2))
+run <- function(lbl, expr, ...) { S <- pathway_scores(expr, G[pw], cores = 4, ...); cat(sprintf("%-28s", lbl), up(S)[pw], "\n") }
+cat(sprintf("%-28s", "paper -log10 p"), paper, "\n")
+run("default seed 1", d$expr)
+run("seed 2", d$expr, seed = 2)
+run("seed 3", d$expr, seed = 3)
+run("no normalization", d$expr, normalize = "none")
+run("no stability maximization", d$expr, maximize_stability = FALSE)
+run("min_std 0 min_exp 0", d$expr, min_exp = 0, min_std = 0)
+run("linear scale (2^x)", 2^d$expr, min_exp = 16, min_std = 0)

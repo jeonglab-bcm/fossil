@@ -33,7 +33,8 @@ def b64(path):
     if im.width > WIDTH:
         im = im.resize((WIDTH, round(im.height * WIDTH / im.width)), Image.LANCZOS)
     buf = io.BytesIO()
-    im.save(buf, "PNG", optimize=True)
+    # line plots: a 64-colour palette keeps the curves and makes the page a third the size
+    im.quantize(colors=64, method=Image.MEDIANCUT).save(buf, "PNG", optimize=True)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
 
@@ -51,9 +52,11 @@ def worst(vs):
 
 def measure(it):
     if it["method"] == "values":
-        f = it["values"]["fields"]
+        ex = {e["field"] for e in it["values"].get("exceptions", [])}
+        f = [x for x in it["values"]["fields"] if x["name"] not in ex]
         hits = sum(field_matches(x, it["values"].get("tolerance")) for x in f)
-        return f"{hits} of {len(f)} values"
+        slips = f"; {len(ex)} slips in the paper left out" if ex else ""
+        return f"{hits} of {len(f)} values{slips}"
     if it["method"] == "check":
         return it["check"].get("detail", "")
     if it["method"] == "pixels":
@@ -71,10 +74,12 @@ def fmt(v):
 def values_table(it):
     rows = []
     tol = it["values"].get("tolerance")
+    ex = {e["field"] for e in it["values"].get("exceptions", [])}
     for f in it["values"]["fields"]:
         ok = field_matches(f, tol)
+        word = "yes" if ok else ("paper slip" if f["name"] in ex else "no")
         rows.append(f'<tr><td>{esc(f["name"])}</td><td class="num">{esc(fmt(f["expected"]))}</td>'
-                    f'<td class="num">{esc(fmt(f["observed"]))}</td><td>{"yes" if ok else "no"}</td></tr>')
+                    f'<td class="num">{esc(fmt(f["observed"]))}</td><td>{word}</td></tr>')
     return ('<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Value</th>'
             '<th class="num" scope="col">Paper</th><th class="num" scope="col">Ours</th><th scope="col">Match</th></tr></thead>'
             f'<tbody>{"".join(rows)}</tbody></table></div>')

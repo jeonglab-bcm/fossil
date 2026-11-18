@@ -14,7 +14,8 @@
   .label-row { display: flex; justify-content: space-between; gap: var(--space-sm); padding-block: var(--space-2xs); }
   .jt table { max-width: none; width: auto; }
   .jt th, .jt td { white-space: nowrap; }
-  .stack { display: grid; gap: var(--space-xl); }
+  /* value tables side by side where they fit (Table 1 has four of 30 to 45 rows) */
+  .stack { display: grid; gap: var(--space-xl); grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
 </style>
 </head>
 <body>
