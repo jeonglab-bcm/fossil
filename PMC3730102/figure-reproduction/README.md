@@ -128,4 +128,5 @@ About 15 minutes on 4 cores. `--sources DIR` reuses local copies of the inputs. 
   not given; each is an assumption in `../results.json`.
 - How leave-two-out was run, the possibility calibration, the test for mislocations and the permutation scheme
   are in the supplement we could not fetch. Our choices are listed above and in `pipeline/settings.py`.
+- The committed renders (`output/fig*.png`) and the results page come from the CI runner (`ubuntu-24.04`, x86_64). In the cloud container that built this reproduction, every number came out the same but matplotlib placed text glyphs a fraction of a pixel differently, so its PNGs differ from the runner's at glyph edges only.
 - The wet-lab panels (Figs 3B to 3D, 3F to 3H, 4B to 4D, 5D to 5I, 6D to 6G and 7) cannot be regenerated.
