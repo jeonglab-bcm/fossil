@@ -293,7 +293,7 @@
     {
      "field": "Scenarios with RoM bias towards no effect over 1.5% (Tables 3-8): highest RoM coverage (%) [Abstract: 89-92%]",
      "category": "paper_error",
-     "evidence": "The paper's own tables give 95: Table 5, SMD 0.5, 10/10, k 10, tau 0 prints RoM bias -2 and RoM coverage 95 (MD 95). The paper's tables select {biased_n_paper} scenarios with RoM bias of -2 or less; their RoM coverage runs from 89 to 95 and their MD coverage from 90 to 95 (claims.json, text_biased_rom_coverage)."
+     "evidence": "The paper's own tables give 95: Table 5, SMD 0.5, 10/10, k 10, tau 0 prints RoM bias -2 and RoM coverage 95 (MD 95). The paper's tables select {biased_n_paper} scenarios with RoM bias of -2 or less; their RoM coverage runs from 89 to 95 and their MD coverage from 90 to 95 (claims.json, text_biased_rom_coverage). The text's lowest MD coverage, 92, also disagrees with those tables (90, at Table 5, SMD 0.8, 10/10, k 5, tau 0.5); it is not listed as a paper error because our run, whose bias selection leaves that scenario out, gives 91.83, within tolerance of 92."
     }
    ],
    "expect_misses": []
@@ -353,7 +353,7 @@
    "cause": {
     "category": "undocumented_setting",
     "status": "explained",
-    "summary": "Two Table 6 cells cross the 61% line: our MD I2 at 10/10, k 30 is {t6_md_i2_k30} (effects 0.2, 0.5, 0.8), against 61 printed; each is within its cell's tolerance. The second run gives {t6_md_i2_k30_second}. With the mixture rescaled to SD 40 exactly (an unstated setting of the skewed data) they are {t6_md_i2_k30_std}, and the statement holds. Every other MD I2 at 10 patients per arm is within 54 to 61%.",
+    "summary": "Two Table 6 cells cross the 61% line: our MD I2 at 10/10, k 30 is {t6_md_i2_k30} for effects 0.2, 0.5 and 0.8, against 61 printed; the first two round to 62, and each is within its cell's tolerance. The second run gives {t6_md_i2_k30_second}. With the mixture rescaled to SD 40 exactly (an unstated setting of the skewed data) they are {t6_md_i2_k30_std}, and the statement holds. Every other MD I2 at 10 patients per arm is within 54 to 61%.",
     "evidence": [
      "figure-reproduction/output/simulation.json",
      "figure-reproduction/output/claims.json"
@@ -493,7 +493,7 @@
    ],
    [
     "items",
-    "Table 1",
+    "Table 1, internal consistency",
     [
      "table1.consistency"
     ]
@@ -524,7 +524,7 @@
    ],
    [
     "Bias",
-    "MD has none. SMD leans towards no effect with 10 patients per arm. RoM leans towards unity when the SD is 70% of the mean, and away from it with heterogeneity in large trials. Cell for cell as printed."
+    "MD has none. SMD leans towards no effect with 10 patients per arm. RoM leans towards unity when the SD is 70% of the mean, and away from it with heterogeneity in large trials. Every cell within Monte Carlo error."
    ],
    [
     "Coverage, power and I2",
@@ -543,7 +543,7 @@
    "The SAS programs. The paper names SAS 8.2 and released nothing; no copy was found.",
    "The seeds. Every cell carries Monte Carlo error. Two cells miss by chance, and our second run puts both back.",
    "Table 1's trial data. They belong to the authors' 2005 dopamine review, which is not open access. Its printed numbers were checked against each other.",
-   "Three slips in the text. The abstract's coverage range for biased RoM and one I2 range of the Results do not match the paper's own tables, and Table 1's serum creatinine MD of -3.51 sits off the centre of its own CI."
+   "Three slips in the paper. The abstract's coverage range for biased RoM and one I2 range of the Results do not match the paper's own tables, and Table 1's serum creatinine MD of -3.51 sits off the centre of its own CI."
   ],
   "matched_intro": "What the paper does not say, and what we chose. Each choice was tested against the paper's tables.",
   "matched": [

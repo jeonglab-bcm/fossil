@@ -76,9 +76,9 @@ of the skewed mixture) follow from their formulas.
 - % bias of RoM is taken on the ratio scale, (mean pooled RoM - true RoM)/true RoM. On ln RoM, or as a share of
   RoM - 1, many RoM bias cells miss.
 - I2 is 100 x (1 - 1/m), m the mean of Q/(k - 1) over the 10,000 replicates, as the tables' legends hint ("the
-  ratio of Q/(k-1)"). The mean or the median of each replicate's I2 is far lower at small k.
-- Heterogeneity: independent normal shifts of each arm's mean, SD 0.5/√2 SD. A shift of one arm only, or one shift
-  shared by both, misses.
+  ratio of Q/(k-1)"). The mean or the median of each replicate's I2 is lower, the mean far lower at small k.
+- Heterogeneity: the paper gives the per-arm SD, 0.5/√2 SD; independence and normality of the shifts are ours. A
+  shift of one arm only, or one shift shared by both, misses.
 - Skewed data (Table 6): the mixture times 100, the experimental arm shifted by the effect. Scaling the experimental
   arm instead misses; rescaling the mixture to SD 40 exactly before the shift fits as well, and the tables cannot
   tell the two apart.
@@ -86,8 +86,8 @@ of the skewed mixture) follow from their formulas.
 **Slips in the paper**, found by recomputing its text from its own tables (`text.arithmetic`) and Table 1 from itself:
 
 - Abstract: where RoM bias towards no effect exceeds 1.5%, "RoM ... 89-92% vs. [MD] 92-94%" coverage. The paper's
-  tables give RoM 89-95% and MD 90-95% for those scenarios (Table 5, SMD 0.5, 10/10, k 10 prints RoM bias -2 and
-  coverage 95 for both).
+  tables give RoM 89-95% and MD 90-95% for those scenarios (Table 5, SMD 0.5, 10/10, k 10, tau 0 prints RoM bias -2
+  and coverage 95 for both RoM and MD).
 - Results: the lowest coverage occurs with "I2 = 92-93%"; Table 5 prints a RoM I2 of 91 there.
 - Table 1: the serum creatinine MD, -3.51, is not the centre of its own CI (-6.71 to -0.23, centred on -3.47).
 

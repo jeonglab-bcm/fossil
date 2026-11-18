@@ -52,7 +52,7 @@ put(paper / "package" / "README.md", "CHECKS",
     f"data, and {F['x_fits']} simulated meta-analyses to a relative {F['x_diff']}).", inline=True)
 status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {sm['differs']} differ, {sm['not_attempted']} not attempted "
           f"(`results.json`): the SAS simulation rebuilt as `rommeta` and rerun; {F['within']} of {F['cells']} printed cells of Tables 3-8 "
-          f"within Monte Carlo error; RoM bias as a share of RoM and I2 from the mean Q/(k-1) found from the tables; main claim {mv}")
+          f"within Monte Carlo error; RoM bias as a share of the true RoM and I2 from the mean Q/(k-1) found from the tables; main claim {mv}")
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 
 # The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.
