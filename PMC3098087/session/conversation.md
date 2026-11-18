@@ -1781,7 +1781,7 @@ The script takes one transcript, so I'll merge the two files and their subagent 
 
 Next, the privacy check on the ledger: I'll search it for the user's email, local paths and credential-like strings.
 
-- `Bash` cd /home/user/fossil/PMC3098087/session; grep -n -i "bcm.edu\|salazar\|sofia\|@" conversation.md | grep -v "noreply@anthropic\|@parent\|@name\|@v4\|@v5\|@types\
+- `Bash` cd /home/user/fossil/PMC3098087/session; grep -n -i "[personal terms]\|@" conversation.md | grep -v "noreply@anthropic\|@parent\|@name\|@v4\|@v5\|@types\
 
 - `Bash` cd /home/user/fossil; git add PMC3098087/session && git commit -qm "PMC3098087: session ledger Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com> Claude-Se
 
