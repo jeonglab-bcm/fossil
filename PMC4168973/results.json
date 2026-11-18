@@ -410,7 +410,7 @@
           {
             "field": "size 10-20, %",
             "category": "paper_error",
-            "evidence": "No denominator gives the four printed size percentages: 92 at 40% needs 227 to 232 tumours, 123 at 52% needs 235 to 238."
+            "evidence": "No denominator gives the four printed size percentages: 92 at 40% needs 228 to 232 tumours, 123 at 52% needs 235 to 238."
           },
           {
             "field": "mean RFS",
@@ -1169,7 +1169,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "Two PAM50 clusters of the Miller tumours are not associated with relapse under any clustering we tried (best p 0.011 against the printed 7.46e-5); the paper does not say how it clustered or which PAM50 genes it used (41 of 50 are on our gene list).",
+        "summary": "No clustering of the Miller tumours on the PAM50 genes we tried reaches the printed p (best 0.011 against 7.46e-5); the paper does not say how it clustered or which PAM50 genes it used (41 of 50 are on our gene list).",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/models.json",
@@ -1883,12 +1883,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -1898,12 +1898,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           },
           {
@@ -1913,7 +1913,7 @@
           },
           {
             "hypothesis": "The orientation of the scores changes the selection",
-            "test": "a LASSO is unchanged by flipping a feature's sign; 153 of 403 pathways are flipped and the same 5 are selected",
+            "test": "a LASSO is unchanged by flipping a feature's sign; 153 of 403 Miller pathways are flipped (column flipped of output/pds/miller.csv)",
             "result": "rejected"
           }
         ]
@@ -2097,12 +2097,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2112,12 +2112,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2215,7 +2215,7 @@
         "hypotheses": [
           {
             "hypothesis": "Fold randomness moves the penalty enough",
-            "test": "a 50-run test gave node 0.428, size 0.272, grade 0.122 and p53 0.057 against 0.424, 0.271, 0.120 and 0.054 with 250 runs: the coefficients move by about as much as they differ from the paper's",
+            "test": "the 250 optimal penalties range from 5.1 to 10.9 (median 7.32; the first 50 alone give 7.01), and the coefficients shrink with the penalty, so another set of folds gives other coefficients (models/lambdas.json)",
             "result": "supported"
           }
         ]
@@ -2346,12 +2346,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2361,12 +2361,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2499,7 +2499,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "The models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate): our genomic model keeps 5 pathways, not 15. It reaches Miller p 1.1e-7 and AUC 0.73 (printed 6.25e-12, 0.80), Pawitan 5.4e-4 (3.91e-5), Ivshina 1.9e-6 (1.52e-4) and Desmedt 0.69 (3.73e-4); Ivshina's AUC is the paper's. Ivshina is not an independent test set: 232 of its 249 arrays are Miller's (GSE4922 re-deposits GSE3494's arrays), which is why it scores best.",
+        "summary": "The models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate): our genomic model keeps 5 pathways, not 15. It reaches Miller p 1.1e-7 and AUC 0.73 (printed 6.25e-12, 0.80), Pawitan 5.4e-4 (3.91e-5), Ivshina 1.9e-6 (1.52e-4) and Desmedt 0.69 (3.73e-4); Ivshina's AUC is the paper's. Ivshina is not an independent test set: 232 of its 249 arrays are Miller's (GSE4922 re-deposits GSE3494's arrays), which may be why it is the only test set where we do better than printed.",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/models.json",
@@ -2510,12 +2510,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2525,12 +2525,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2601,12 +2601,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2616,12 +2616,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2696,12 +2696,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2711,12 +2711,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2791,12 +2791,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2806,12 +2806,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2886,12 +2886,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2901,12 +2901,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -2976,12 +2976,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -2991,12 +2991,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3031,7 +3031,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "With 1/2 to 1/16 of the pathways the median AUC stays at 0.71 to 0.72 (1/2 against 1/4: t-test p 0.22) instead of falling. Our full model already keeps only 5 pathways, so a random half rarely loses much; we ran 25 cross-validations per model, not 250.",
+        "summary": "With 1/2 to 1/16 of the pathways the median AUC stays at 0.71 to 0.72 (0.715, 0.722, 0.712, 0.707; 1/2 against 1/4: t-test p 0.22) instead of falling clearly. Our full model already keeps only 5 pathways, so a random half rarely loses much; we ran 25 cross-validations per model, not 250.",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/curves/figS1.csv"
@@ -3039,12 +3039,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3054,12 +3054,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           },
           {
@@ -3251,7 +3251,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "The models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate). Desmedt has almost no relapse signal in our hands: no pathway has univariate p below 0.008 and no gene below 3.4e-5 (of 7,455 expressed), so cross-validation picks a penalty (pathways 4.7 to 6.2, genes 47 to 79) that keeps nothing and both Desmedt models are empty. The paper's Desmedt pathway result (p 5.12e-36, AUC 0.92 on 198 patients) is what a penalty near 1 gives in-sample: 77 pathways, p 2.8e-37, AUC 0.94.",
+        "summary": "The pathway models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate); the gene models on our gene-level expression, whose mapping and normalization may differ from the paper's (biomaRt through RefSeq, CONOR), so Pawitan's and Ivshina's gene models differ too. Desmedt has almost no relapse signal in our hands: no pathway has univariate p below 0.008 and no gene below 3.4e-5 (of 7,455 expressed), so cross-validation picks a penalty (pathways 4.7 to 6.2, genes 47 to 79) that keeps nothing and both Desmedt models are empty. The paper's Desmedt pathway result (p 5.12e-36, AUC 0.92 on 198 patients) is close to what a penalty near 1 gives in-sample: 77 pathways, p 2.8e-37, AUC 0.94.",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/models.json",
@@ -3263,12 +3263,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3278,12 +3278,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           },
           {
@@ -3369,12 +3369,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3384,12 +3384,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3469,12 +3469,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3484,12 +3484,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3569,12 +3569,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3584,12 +3584,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3669,12 +3669,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3684,12 +3684,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3769,12 +3769,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3784,12 +3784,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3869,12 +3869,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3884,12 +3884,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -3969,12 +3969,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -3984,12 +3984,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4069,12 +4069,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4084,12 +4084,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4134,12 +4134,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4149,12 +4149,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4195,12 +4195,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4210,12 +4210,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4329,12 +4329,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4344,12 +4344,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4503,7 +4503,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "The models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate). The clinical model is the paper's (Miller p 4e-11 against 2.2e-10, AUC 0.75 against 0.74); the genomic and combined models are weaker on Miller and stronger on Ivshina, whose arrays are mostly Miller's.",
+        "summary": "The genomic and combined models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate). The clinical model matches on Miller (p 3.9e-11 against 2.2e-10, AUC 0.75 against 0.74) and its AUC on Ivshina (0.65), but its Ivshina p is 1.7e-5 against 2.7e-3. On Ivshina, whose arrays are mostly Miller's, the genomic and combined models have smaller p-values than printed and slightly lower AUCs (0.67 against 0.68, 0.69 against 0.71); on Miller both are weaker.",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/models.json",
@@ -4513,12 +4513,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4528,12 +4528,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4604,12 +4604,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4619,12 +4619,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4699,12 +4699,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4714,12 +4714,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4794,12 +4794,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4809,12 +4809,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4889,12 +4889,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4904,12 +4904,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -4984,12 +4984,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -4999,12 +4999,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -5079,12 +5079,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -5094,12 +5094,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -5169,12 +5169,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -5184,12 +5184,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -5224,7 +5224,7 @@
       ],
       "cause": {
         "category": "unknown",
-        "summary": "Combined beats genomic beats clinical on Ivshina; on Miller our genomic model (AUC 0.73) is below the clinical model (0.75), because it keeps 5 pathways, not 15. See fig6.values.",
+        "summary": "Combined beats genomic beats clinical on Ivshina; on Miller our genomic model (AUC 0.73) is below the clinical model (0.75), with 5 pathways instead of the paper's 15. See fig6.values.",
         "status": "open",
         "evidence": [
           "PMC4168973/figure-reproduction/output/models.json",
@@ -5234,12 +5234,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -5249,12 +5249,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -5295,12 +5295,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -5310,12 +5310,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
@@ -5779,22 +5779,10 @@
       ],
       "cause": {
         "category": "undocumented_setting",
-        "summary": "5,555 genes are in the 403 sets (paper: over 4,500) and all 403 are scored. The paper's 'over 3,200 expressed' and 'over 14,000 genes, over 10,000 expressed' on U133A depend on its mapping and expression cutoff, which are not given: we have 12,502 genes (13,909 with probes of several genes), 1,502 genes in the sets and 3,936 of all genes with mean log2 above 7.",
+        "summary": "5,555 genes are in the 403 sets (paper: over 4,500) and all 403 are scored. The paper's 'over 3,200 expressed' and 'over 14,000 genes, over 10,000 expressed' on U133A depend on its mapping and expression cutoff, which are not given: we have 12,502 genes, and 1,502 genes in the sets and 3,936 of all genes have mean log2 above 7.",
         "status": "explained",
         "evidence": [
           "PMC4168973/figure-reproduction/output/table3.json"
-        ],
-        "hypotheses": [
-          {
-            "hypothesis": "Count probes, not genes",
-            "test": "probes with mean log2 above 7: 7,472",
-            "result": "rejected"
-          },
-          {
-            "hypothesis": "Keep probes mapped to several genes",
-            "test": "13,909 genes",
-            "result": "rejected"
-          }
         ]
       },
       "verdict": "differs"
@@ -5876,12 +5864,12 @@
         "hypotheses": [
           {
             "hypothesis": "pathifier's random subsamplings make the scores differ",
-            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.13, 0.14, 0.52, 1.81, 2.28; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+            "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper did not quantile-normalize each data set",
-            "test": "same five pathways without normalization: -log10 p 0.83, 0.38, 0.07, 2.86, 0.28",
+            "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
             "result": "rejected"
           },
           {
@@ -5891,12 +5879,12 @@
           },
           {
             "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
-            "test": "min_exp 0, min_std 0: -log10 p 0.03, 0.22, 0.27, 2.64, 0.27",
+            "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
             "result": "rejected"
           },
           {
             "hypothesis": "The paper gave pathifier linear rather than log2 expression",
-            "test": "2^x with min_exp 16: -log10 p 1.31, 0.12, 0.04, 1.88, 0.13",
+            "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
             "result": "rejected"
           }
         ]
