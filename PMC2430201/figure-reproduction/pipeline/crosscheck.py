@@ -6,7 +6,8 @@ Simulates 100 meta-analyses in each of three scenarios (Table 5, SD 70, SMD 0.8,
 14/6, k 5, tau 0.5; Table 6, skewed, 100/100, k 10, tau 0) with rommeta.draw_trials, pools each with
 rommeta.pool, and compares the pooled estimate, SE, tau2, Q and I2 with metafor's (rma, method = "DL").
 metafor's values are committed (output/metafor_replicates.csv), so CI needs no R. --metafor reruns
-metafor_replicates.R and checks that it gives the committed file.
+metafor_replicates.R and checks that it gives the committed file; a difference fails the step (exit 1).
+OUT_JSON is the same with or without --metafor, so the run can be compared with the committed outputs.
 """
 import csv
 import json
@@ -87,7 +88,9 @@ def main():
         old = read(committed)
         same = fresh.keys() == old.keys() and all(
             fresh[k]["k"] == old[k]["k"] and all(np.isclose(fresh[k][x], old[k][x], rtol=1e-9, atol=1e-12) for x in KEYS) for k in old)
-        report["metafor_rerun"] = {"passed": bool(same), "detail": "a fresh metafor run gives the committed file" if same else "metafor rerun DIFFERS from the committed file"}
+        print("metafor rerun: " + ("gives the committed file" if same else "DIFFERS from the committed file"), file=sys.stderr)
+        if not same:
+            sys.exit(1)
     ref, mine = read(committed), ours()
     worst, kdiff = 0.0, 0
     for key, e in ref.items():
