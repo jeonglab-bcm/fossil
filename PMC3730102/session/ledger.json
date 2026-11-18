@@ -1,0 +1,93 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "dbb97de6-ab4d-5f4f-943f-ea70e78f22bf",
+  "transcript": "session.jsonl",
+  "generated_at": "2026-11-18T21:28:03+00:00",
+  "started_at": "2026-11-18T16:14:21+00:00",
+  "ended_at": "2026-11-18T21:28:02+00:00",
+  "wall_clock_minutes": 313.7,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 3,
+  "mid_turn_prompts": 1,
+  "assistant_responses": 184,
+  "tool_calls": 205,
+  "tool_calls_by_name": {
+    "Bash": 158,
+    "Write": 16,
+    "Read": 14,
+    "TaskUpdate": 5,
+    "TaskCreate": 4,
+    "Edit": 3,
+    "ToolSearch": 2,
+    "Skill": 1,
+    "mcp__claude-code-remote__add_repo": 1,
+    "mcp__claude-code-remote__register_repo_root": 1
+  },
+  "tokens": {
+    "input": 366,
+    "cache_creation": 1316273,
+    "cache_read": 55508894,
+    "output": 183999,
+    "thinking": 52256,
+    "total": 57009532
+  },
+  "subagents": {
+    "transcripts": 0,
+    "assistant_responses": 0,
+    "tool_calls": 0,
+    "tokens": {
+      "input": 0,
+      "cache_creation": 0,
+      "cache_read": 0,
+      "output": 0,
+      "thinking": 0,
+      "total": 0
+    }
+  },
+  "tokens_all": {
+    "input": 366,
+    "cache_creation": 1316273,
+    "cache_read": 55508894,
+    "output": 183999,
+    "thinking": 52256,
+    "total": 57009532
+  },
+  "prompts": [
+    {
+      "at": "2026-11-18T16:14:21.998Z",
+      "text": "Read https://github.com/jeonglab-bcm/Paper2Repro and install the all the skills from skills/paper2agent for Claude Code.",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-18T16:15:37.743Z",
+      "text": "Reproduce PMC3730102 (https://doi.org/10.1101/gr.155499.113) with the /paper2repro skill. Follow its definition of done. Work on a branch and open one pull request at the end to address issue #92 of https://github.com/jeonglab-bcm/fossil",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-18T21:11:52.136Z",
+      "text": "Try again",
+      "mid_turn": true
+    }
+  ],
+  "cost_state": {
+    "totalCostUSD": 15.632149199999997,
+    "totalDuration": 4847987,
+    "totalAPIDuration": 1771755,
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 822,
+        "outputTokens": 170405,
+        "thinkingTokens": 50464,
+        "cacheReadInputTokens": 44147086,
+        "cacheCreationInputTokens": 423918,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 423918,
+        "webSearchRequests": 0,
+        "costUSD": 15.632149199999997
+      }
+    },
+    "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+  }
+}
