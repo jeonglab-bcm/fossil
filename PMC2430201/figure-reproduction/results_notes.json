@@ -1,0 +1,574 @@
+{
+ "paper": {
+  "id": "PMC2430201",
+  "title": "The ratio of means method as an alternative to mean differences for analyzing continuous outcome variables in meta-analysis: a simulation study",
+  "citation": "Friedrich JO, Adhikari NKJ, Beyene J. The ratio of means method as an alternative to mean differences for analyzing continuous outcome variables in meta-analysis: a simulation study. BMC Medical Research Methodology 8:32 (2008)",
+  "doi": "10.1186/1471-2288-8-32",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-18",
+  "pipeline": "PMC2430201/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2430201/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC2430201.1.xml (article, Tables 1-8; used with --extract)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2430201.1/PMC2430201.1.xml",
+    "sha256": "f92a433a350173d068807976b93d6ce8fa1cda0fce5fd0898a2b666352dd2fc0"
+   }
+  ]
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "assumption_sets": {
+  "simulation": [
+   {
+    "what": "Heterogeneity: each trial's experimental and control means are shifted independently, each by SD 0.5/sqrt(2) SD units, so that their difference has SD 0.5 (Methods)",
+    "source": "paper",
+    "sensitivity": "The paper gives the SD per arm and the square-root sum that holds for independent shifts. One shift of SD 0.5 on the experimental mean only leaves {het_experimental_only_within} of {het_experimental_only_cells} tau = 0.5 cells of Tables 3, 4, 5, 7 and 8 within tolerance; one shared shift on both means (no heterogeneity left in the difference), {het_shared_within}; independent shifts, {het_independent_within}."
+   },
+   {
+    "what": "The study-specific shifts are normal; the paper does not name their distribution",
+    "source": "our_choice",
+    "sensitivity": "Not varied. Every tau = 0.5 cell comes back with normal shifts ({het_independent_within} of {het_shared_cells})."
+   },
+   {
+    "what": "% bias of RoM is 100 x (mean of the 10,000 back-transformed pooled RoMs - true RoM) / true RoM, the same definition as for MD and SMD. The paper says only 'a percentage of the true parameter value'",
+    "source": "found_by_search",
+    "sensitivity": "On this scale {rom_bias_ratio_within} of {rom_bias_ratio_cells} printed RoM bias cells of Tables 3-8 are within tolerance; on the ln RoM scale {rom_bias_ln_within}, and as a share of RoM - 1 {rom_bias_rm1_within}."
+   },
+   {
+    "what": "I2 (%) is 100 x (1 - 1/m), with m the mean of Q/(k - 1) over the 10,000 replicates (the Table legends speak of 'the ratio of Q/(k-1)'). The paper does not say how I2 was summarized over replicates",
+    "source": "found_by_search",
+    "sensitivity": "{i2_from_mean_q_within} of {i2_from_mean_q_cells} printed I2 cells within tolerance; the mean of each replicate's I2 gives {i2_mean_of_replicates_within}, the median {i2_median_of_replicates_within}."
+   },
+   {
+    "what": "Each arm's mean and SD are drawn from their sampling distributions (mean ~ N(mu, SD^2/n), (n - 1) s^2/SD^2 ~ chi-squared with n - 1 df), which for normal data is the same in distribution as computing them from n values",
+    "source": "our_choice",
+    "sensitivity": "Drawing every patient instead (Table 3, all 36 settings) leaves {draw_values_within} of 378 cells within tolerance (RMS z {draw_values_rms} against {t3_rms})."
+   },
+   {
+    "what": "A RoM study whose simulated mean is not positive (ln RoM undefined) is left out of its meta-analysis; the paper does not say",
+    "source": "our_choice",
+    "sensitivity": "Only Table 5 (SD 70) has any: {t5_left_out} of its {t5_studies} simulated studies. Leaving the whole replicate out instead leaves {negative_drop_replicate_within} of 378 cells of Table 5 within tolerance."
+   },
+   {
+    "what": "SMD: the standard pooled SD sqrt(((n_e - 1) sd_e^2 + (n_c - 1) sd_c^2)/(N - 2)); the Appendix prints a stray '- 1' under the root. The small-sample factor 1 - 3/(4N - 9) and the variance N/(n_e n_c) + SMD^2/(2(N - 3.94)) as printed",
+    "source": "our_choice",
+    "sensitivity": "The pooled SD as printed, with '- 1', leaves {sd_pool_literal_within} of 378 cells of Table 4 (SD 10, where it matters most) within tolerance. Without the small-sample factor, {no_hedges_within} of 378 cells of Table 3."
+   },
+   {
+    "what": "Inverse-variance random effects with the DerSimonian-Laird tau2 and 95% CIs of the estimate +/- 1.96 SE (on ln RoM for RoM), as in the Methods and Appendix",
+    "source": "paper",
+    "sensitivity": "rommeta.pool equals R's metafor rma(method = 'DL') on {x_fits} simulated meta-analyses to a relative {x_diff}."
+   },
+   {
+    "what": "Seeds: one NumPy 2.2.6 (PCG64) stream per scenario from [20080521, table, row, tau]; the paper's SAS 8.2 seeds are not given",
+    "source": "our_choice",
+    "sensitivity": "A second run with base seed 20080522 leaves {second_within} of {cells} cells within tolerance; our two runs agree with each other within tolerance in {own_within} of {own_cells} cells."
+   },
+   {
+    "what": "Comparison tolerance, fixed before the comparison: half a printed unit plus 3 x sqrt(2) Monte Carlo standard errors of one 10,000-replicate estimate (bias: sd of the pooled estimates / 100; coverage and power: binomial; I2: delta method)",
+    "source": "our_choice",
+    "sensitivity": "Our run of a wrong design (another SD, the arms swapped, normal for skewed) leaves {ctrl_rom_min} to {ctrl_rom_max} of the 126 RoM cells of a table within tolerance (RMS z {ctrl_rms_min} or more); the right design leaves {right_rom_min} or more. MD and SMD do not depend on the SD, so their columns cannot tell Tables 3, 4 and 5 apart: wrong designs reach {ctrl_all_min} to {ctrl_all_max} of all 378 cells."
+   }
+  ],
+  "skewed": [
+   {
+    "what": "Skewed arms (Table 6): each value is the three-normal mixture (Methods) times 100; experimental values are then shifted by effect x 40. The paper does not say how the unit-scale mixture was scaled or the experimental arm moved",
+    "source": "found_by_search",
+    "sensitivity": "This reading leaves {t6_within} of 378 cells within tolerance (RMS z {t6_rms}). The mixture rescaled to mean 100 and SD 40 exactly before the shift: {skew_standardized_within} of 378 (RMS z {skew_standardized_rms}); the tables cannot tell the two apart. The experimental arm as the control mixture times the true RoM: {skew_multiplicative_within} of 378 (RMS z {skew_multiplicative_rms})."
+   }
+  ]
+ },
+ "causes": {},
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, low-dose dopamine meta-analysis: pooled MD, SMD and RoM with CIs, p and I2",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "Table 1 reprints pooled results of the authors' 2005 dopamine meta-analysis (Ann Intern Med 142:510). This paper does not print the trials' means, SDs and sizes, and the 2005 paper and its appendix are not open access. Its printed numbers are checked against each other (table1.consistency).",
+    "evidence": [
+     "https://doi.org/10.7326/0003-4819-142-7-200504050-00010",
+     "https://github.com/jeonglab-bcm/fossil/issues/73"
+    ]
+   }
+  },
+  {
+   "id": "table1.consistency",
+   "label": "Table 1: each estimate at the midpoint of its CI, and each p-value from its CI",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:table1_consistency",
+   "exceptions": [
+    {
+     "field": "Serum Creatinine, MD: estimate at the midpoint of its CI",
+     "category": "paper_error",
+     "evidence": "The printed CI, -6.71 to -0.23, is centred on -3.47, not on the printed estimate -3.51; a normal CI is symmetric about its estimate, and every other row of Table 1 is centred to its printed digits. Its p, 0.04, does follow from the CI (0.036). One of the three numbers is misprinted."
+    }
+   ]
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, the parameter values of the simulated data sets",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "status": "explained",
+    "summary": "The design of the simulation (SD, number of trials, patients per arm, effect size, heterogeneity); used as input, nothing to compare.",
+    "evidence": [
+     "figure-reproduction/pipeline/simulate.py"
+    ]
+   }
+  },
+  {
+   "id": "table3",
+   "label": "Table 3, normal data, SD 40% of the control mean, equal arms (18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/3",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": [
+    "SMD 0.2, 100/100, k 5: % power, tau 0.5, RoM"
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "explained",
+    "summary": "One cell of 378 is outside the tolerance: {t3_miss_name}, {t3_miss_paper} in the paper against {t3_miss_ours} (tolerance {t3_miss_tol}). It is Monte Carlo error. Our second run, with other seeds, gives {t3_miss_second}, within tolerance, and MD and SMD of the same row sit as far from the paper's 21 as RoM does: one draw of 10,000 meta-analyses moves all three. The table's RMS z is {t3_rms}.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The cell is a chance miss of our run",
+      "test": "The same design with another seed (second_run in comparison.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "A systematic difference in the power or the CI",
+      "test": "Every other power and coverage cell of Tables 3-8 is within tolerance, and the table's RMS z is near 1",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, normal data, SD 10% of the control mean, equal arms (18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/4",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "table5",
+   "label": "Table 5, normal data, SD 70% of the control mean, equal arms (18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/5",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "table6",
+   "label": "Table 6, skewed data, SD 40% of the control mean, equal arms (18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/6",
+   "assumptions_from": [
+    "simulation",
+    "skewed"
+   ],
+   "expect_misses": [
+    "SMD 0.8, 100/100, k 30: I2 (%), tau 0.5, SMD"
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "explained",
+    "summary": "One cell of 378 is outside the tolerance: {t6_miss_name}, {t6_miss_paper} in the paper against {t6_miss_ours} (tolerance {t6_miss_tol}, a Monte Carlo SE of only 0.02). The paper prints 92 for the same column at k 5 and 10, where ours is also 91.6: the cell sits on the rounding boundary. Our second run gives {t6_miss_second}, within tolerance; so does the mixture rescaled to SD 40 exactly.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The cell is a chance miss on a rounding boundary",
+      "test": "The same design with another seed (second_run in comparison.json)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The experimental arm of the skewed data was scaled, not shifted",
+      "test": "Variant skew_multiplicative: the experimental values as the control mixture times the true RoM",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table7",
+   "label": "Table 7, normal data, SD 40%, 2:1 experimental to control (14/6 and 134/66; 18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/7",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "table8",
+   "label": "Table 8, normal data, SD 40%, 1:2 experimental to control (6/14 and 66/134; 18 rows x 21 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/8",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.smd_bias",
+   "label": "SMD bias towards no effect: about 5% with 10 patients per arm (Abstract), -4 to -6% in Table 3, smaller with 100 (Results)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_smd_bias",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.rom_bias",
+   "label": "RoM bias -4% to 2% with SD 70% and effects 0.5-0.8 (Abstract); up to 2-3% towards unity at n 10 and 1-2% away from it with heterogeneity at n 100; its sign with unequal arms (Results)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_rom_bias",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.biased_rom_coverage",
+   "label": "Where RoM bias towards no effect exceeds 1.5%, RoM covers 89-92% and MD 92-94% (Abstract)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_biased_rom_coverage",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "exceptions": [
+    {
+     "field": "Scenarios with RoM bias towards no effect over 1.5% (Tables 3-8): highest RoM coverage (%) [Abstract: 89-92%]",
+     "category": "paper_error",
+     "evidence": "The paper's own tables give 95: Table 5, SMD 0.5, 10/10, k 10, tau 0 prints RoM bias -2 and RoM coverage 95 (MD 95). The paper's tables select {biased_n_paper} scenarios with RoM bias of -2 or less; their RoM coverage runs from 89 to 95 and their MD coverage from 90 to 95 (claims.json, text_biased_rom_coverage)."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.coverage",
+   "label": "Lowest coverage 87-88%, for all three methods, with 5 trials of 100 patients per arm and heterogeneity (I2 92-93%) (Results)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_coverage",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "exceptions": [
+    {
+     "field": "k 5, 100/100, tau 0.5 (Tables 3-6): lowest I2 (%) [Results: I2 = 92-93%]",
+     "category": "paper_error",
+     "evidence": "The paper's own Table 5 prints a RoM I2 of 91 in these settings (SMD 0.2, 0.5 and 0.8, 100/100, k 5, tau 0.5); the text's 92-93% holds for MD and SMD."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.n1000",
+   "label": "1,000 patients per arm: coverage still 87-88% and I2 99% (Results, 'results not shown')",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_n1000",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "assumptions": [
+    {
+     "what": "The unshown scenarios are SD 40, k 5, tau 0.5, effects 0.2, 0.5 and 0.8 with 1,000 patients per arm (the sentence follows the k 5, n 100, tau 0.5 scenarios)",
+     "source": "our_choice",
+     "sensitivity": "Not varied."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.heterogeneity",
+   "label": "I2 around 55-60% with 10 patients per arm and above 90% with 100; lower for SMD and RoM where they are biased (Results)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_heterogeneity",
+   "assumptions_from": [
+    "simulation",
+    "skewed"
+   ],
+   "expect_misses": [
+    "MD I2 with 10 patients per arm (or 14/6, 6/14), Tables 3-8: every value 'around' 55-60%, within 1 point [Results]"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "Two Table 6 cells cross the 61% line: our MD I2 at 10/10, k 30 is {t6_md_i2_k30} (effects 0.2, 0.5, 0.8), against 61 printed; each is within its cell's tolerance. The second run gives {t6_md_i2_k30_second}. With the mixture rescaled to SD 40 exactly (an unstated setting of the skewed data) they are {t6_md_i2_k30_std}, and the statement holds. Every other MD I2 at 10 patients per arm is within 54 to 61%.",
+    "evidence": [
+     "figure-reproduction/output/simulation.json",
+     "figure-reproduction/output/claims.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The scaling of the skewed data moves Table 6's MD I2 by about 0.3 points",
+      "test": "Variant skew_standardized, on the same seeds",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "A chance miss of our run",
+      "test": "Second run: the same cells are again above 61.4",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.power",
+   "label": "Power within 5 percentage points across the methods in almost all scenarios; lower with unequal arms (Results)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_power",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "assumptions": [
+    {
+     "what": "'Within 5 percentage points' compares SMD and RoM with MD, as the sentences before do; 'almost all' is at least 90% of the 216 scenarios",
+     "source": "our_choice",
+     "sensitivity": "The paper's tables give {power_close_paper}% and our run {power_close_ours}%. With the spread of all three powers (largest minus smallest) instead, the paper's tables give 89.4%, short of 90%."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.methods",
+   "label": "Methods: expected I2 56% (n 10) and 93% (n 100); second-order delta terms below 2.5%; the skewed mixture's mean, SD and skewness 0.88",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text_methods",
+   "expect_misses": []
+  },
+  {
+   "id": "text.main_claim",
+   "label": "Main claim: MD bias-free, SMD biased towards no effect in small trials, RoM bias within -4 to 2%, similar power (Abstract and Conclusion)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_main_claim",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "claims.json"
+  },
+  {
+   "id": "crosscheck.metafor",
+   "label": "rommeta's effect sizes and pooling against R's metafor (an independent implementation)",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "crosscheck.json"
+  },
+  {
+   "id": "port",
+   "label": "The authors' SAS 8.2 programs",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "explained",
+    "summary": "The simulations were programmed in SAS 8.2 and no code was released or found (issue #73 lists the search). The method was rebuilt from the text as rommeta and checked against the paper's tables, and its pooling against R's metafor.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/73"
+    ]
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package rommeta and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "Friedrich, Adhikari and Beyene ran their simulation in SAS and published it in 2008 without the code. In November 2026 we rebuilt it from the paper and reran all 216 scenarios, 10,000 meta-analyses each. {within} of the {cells} printed cells of Tables 3 to 8 came back within Monte Carlo error. Of {items} results, {agree_total} agree, {partly} partly agree and {not_attempted} were not attempted. Every gap has a tested cause.",
+  "label_rows": [
+   [
+    "table-3",
+    "Tables 3 to 8",
+    [
+     "table3",
+     "table4",
+     "table5",
+     "table6",
+     "table7",
+     "table8"
+    ]
+   ],
+   [
+    "items",
+    "Claims of the text",
+    [
+     "text.smd_bias",
+     "text.rom_bias",
+     "text.biased_rom_coverage",
+     "text.coverage",
+     "text.n1000",
+     "text.heterogeneity",
+     "text.power",
+     "text.methods"
+    ]
+   ],
+   [
+    "items",
+    "Main claim",
+    [
+     "text.main_claim"
+    ]
+   ],
+   [
+    "items",
+    "Table 1",
+    [
+     "table1.consistency"
+    ]
+   ],
+   [
+    "items",
+    "Pooling against metafor",
+    [
+     "crosscheck.metafor"
+    ]
+   ]
+  ],
+  "captions": {
+   "3": "Normal data, SD 40% of the control mean, equal arms. Each row is one setting; the cells are % bias, % coverage and % power of MD, SMD and RoM without heterogeneity (tau 0) and with it (tau 0.5 SD), and I2 with it. Paper above, ours below; shaded where ours is outside the tolerance.",
+   "4": "The same as Table 3 with SD 10% of the control mean.",
+   "5": "The same as Table 3 with SD 70% of the control mean.",
+   "6": "The same as Table 3 with data from the paper's skewed mixture of three normals.",
+   "7": "The same as Table 3 with twice as many experimental as control patients (14/6 and 134/66).",
+   "8": "The same as Table 3 with twice as many control as experimental patients (6/14 and 66/134)."
+  },
+  "no_miss_note": "Every cell is within Monte Carlo error of the paper's.",
+  "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
+  "claims_line": "The main claim {main_verdict}: MD stays free of bias, SMD leans towards no effect in small trials, RoM's bias stays within -4% and 2%, and the three have similar power. The one claim that misses on our run sits on a rounding line in Table 6; three statements of the text do not match the paper's own tables.",
+  "came_back": [
+   [
+    "The simulation study",
+    "{within} of {cells} printed cells of Tables 3 to 8 came back within Monte Carlo error, from one run of all 216 scenarios. A second run with other seeds gets {second_within}."
+   ],
+   [
+    "Bias",
+    "MD has none. SMD leans towards no effect with 10 patients per arm. RoM leans towards unity when the SD is 70% of the mean, and away from it with heterogeneity in large trials. Cell for cell as printed."
+   ],
+   [
+    "Coverage, power and I2",
+    "They came back too, once I2 is read the way the tables' legends hint: from the average Q/(k-1) over the replicates."
+   ],
+   [
+    "The text",
+    "The claims of the text came back on our run, but for one line at 61% I2 in Table 6, and so did the case of 1,000 patients per arm that the paper did not show."
+   ],
+   [
+    "The method",
+    "rommeta, a Python package with the three measures, the pooling and the simulation, with a tutorial. Its pooling gives the same numbers as R's metafor on {x_fits} simulated meta-analyses."
+   ]
+  ],
+  "buried": [
+   "The SAS programs. The paper names SAS 8.2 and released nothing; no copy was found.",
+   "The seeds. Every cell carries Monte Carlo error. Two cells miss by chance, and our second run puts both back.",
+   "Table 1's trial data. They belong to the authors' 2005 dopamine review, which is not open access. Its printed numbers were checked against each other.",
+   "Three slips in the text. The abstract's coverage range for biased RoM and one I2 range of the Results do not match the paper's own tables, and Table 1's serum creatinine MD of -3.51 sits off the centre of its own CI."
+  ],
+  "matched_intro": "What the paper does not say, and what we chose. Each choice was tested against the paper's tables.",
+  "matched": [
+   [
+    "RoM bias",
+    "A percentage of the true RoM, like MD and SMD: {rom_bias_ratio_within} of {rom_bias_ratio_cells} RoM bias cells within. On ln RoM, {rom_bias_ln_within}; as a share of RoM minus 1, {rom_bias_rm1_within}."
+   ],
+   [
+    "I2",
+    "From the mean of Q/(k-1) over the 10,000 replicates: {i2_from_mean_q_within} of {i2_from_mean_q_cells} cells within. The mean of each replicate's I2 gets {i2_mean_of_replicates_within}; the median, {i2_median_of_replicates_within}."
+   ],
+   [
+    "Heterogeneity",
+    "Independent normal shifts of each arm's mean, as the Methods describe. A shift of the experimental arm alone gets {het_experimental_only_within} of {het_experimental_only_cells} cells; one shift shared by both arms, {het_shared_within}."
+   ],
+   [
+    "Skewed data",
+    "The mixture times 100, the experimental arm shifted by the effect: {t6_within} of 378 cells. Scaling the arm instead gets {skew_multiplicative_within}; rescaling the mixture to SD 40 first gets {skew_standardized_within}, as good."
+   ],
+   [
+    "Tolerance",
+    "Half a printed unit plus three combined Monte Carlo standard errors, fixed before the comparison. A wrong design gets {ctrl_rom_min} to {ctrl_rom_max} of a table's 126 RoM cells."
+   ]
+  ],
+  "matched_note": "",
+  "closing": "Friedrich, Adhikari and Beyene, 2008. The simulation came back in November 2026, from the paper alone."
+ }
+}
