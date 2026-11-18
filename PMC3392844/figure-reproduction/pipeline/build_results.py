@@ -83,9 +83,9 @@ def facts_of(run):
     miss4 = [f["name"].replace("|", ", ") for f in t4 if f["expected"] != f["observed"]]
     fig5 = {f["name"]: f for f in C["tables"]["fig5"]["fields"]}
     fx.update({
-        "t2_all_hits": hits(t2a), "t2_50_hits": hits(t25), "t2_auc_maxdiff": f4(auc_diff), "t2_pr_maxdiff": f"{pr_diff:.3f}",
+        "t2_all_hits": hits(t2a), "t2_50_hits": hits(t25), "t2_auc_maxdiff": f4(auc_diff), "t2_pr_maxdiff": f"{pr_diff:.4f}",
         "seed_n": S["summary"]["seeds"], "seed_inside": S["summary"]["paper_inside"], "seed_cells": S["summary"]["cells"],
-        "seed_auc_range": f4(S["summary"]["max_range"]["auc"]), "seed_pr_range": f"{max(S['summary']['max_range']['precision'], S['summary']['max_range']['recall']):.3f}",
+        "seed_auc_range": f4(S["summary"]["max_range"]["auc"]), "seed_pr_range": f"{max(S['summary']['max_range']['precision'], S['summary']['max_range']['recall']):.4f}",
         "seed_auc_inside": sum(c["paper_inside"] for c in auc_cells), "seed_auc_cells": len(auc_cells),
         "seed_chem_all_auc_min": f4(sc["chem|all|auc"]["min"]), "seed_chem_all_auc_max": f4(sc["chem|all|auc"]["max"]),
         "svm_decision_auc": f4(H["svm_decision"]["all"]["auc"]),

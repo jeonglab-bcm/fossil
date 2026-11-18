@@ -275,7 +275,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "5 of 24 fields at printed precision; largest gap chem+bio|all|recall: 0.513183 against 0.5008. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "summary": "5 of 24 fields at printed precision; largest gap chem+bio|all|recall: 0.513183 against 0.5008. Every AUC within 0.0005 and every precision and recall within 0.0124 of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to 0.0003 and precision and recall by up to 0.0249; the paper's value lies inside our seed range in 26 of 48 Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
         "evidence": [
           "figure-reproduction/output/seed_spread.json"
         ],
@@ -457,7 +457,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "1 of 24 fields at printed precision; largest gap chem+bio|50+|recall: 0.580091 against 0.5728. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "summary": "1 of 24 fields at printed precision; largest gap chem+bio|50+|recall: 0.580091 against 0.5728. Every AUC within 0.0005 and every precision and recall within 0.0124 of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to 0.0003 and precision and recall by up to 0.0249; the paper's value lies inside our seed range in 26 of 48 Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
         "evidence": [
           "figure-reproduction/output/seed_spread.json"
         ],
@@ -554,7 +554,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "1 of 8 fields at printed precision; largest gap svm|all|precision: 0.653118 against 0.6617. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "summary": "1 of 8 fields at printed precision; largest gap svm|all|precision: 0.653118 against 0.6617. Every AUC within 0.0005 and every precision and recall within 0.0124 of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to 0.0003 and precision and recall by up to 0.0249; the paper's value lies inside our seed range in 26 of 48 Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
         "evidence": [
           "figure-reproduction/output/seed_spread.json"
         ],
@@ -646,7 +646,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "0 of 8 fields at printed precision; largest gap rf|all|recall: 0.619137 against 0.625. WEKA's random trees cannot be replayed.",
+        "summary": "0 of 8 fields at printed precision; largest gap rf|all|recall: 0.619137 against 0.625. Not explained: two scikit-learn seeds differ by 0.0002 in AUC and both fall below the paper; WEKA itself was not rerun.",
         "evidence": [],
         "hypotheses": [
           {
@@ -2369,7 +2369,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "36 of 39 fields at printed precision; not: Cerivastatin|Myopathy|chem, Cerivastatin|Myositis|chem+bio, Rofecoxib|Group above ADRs|chem. Threshold unstated. Not: Cerivastatin, Myopathy, chem; Cerivastatin, Myositis, chem+bio; Rofecoxib, Group above ADRs, chem.",
+        "summary": "36 of 39 fields at printed precision; not: Cerivastatin|Myopathy|chem, Cerivastatin|Myositis|chem+bio, Rofecoxib|Group above ADRs|chem. The paper does not state the decision threshold.",
         "evidence": [],
         "hypotheses": [
           {
@@ -2598,7 +2598,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "1 of 6 fields at printed precision; largest gap precision chem+bio+pheno: 65.3118 against 66.17. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "summary": "1 of 6 fields at printed precision; largest gap precision chem+bio+pheno: 65.3118 against 66.17. Every AUC within 0.0005 and every precision and recall within 0.0124 of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to 0.0003 and precision and recall by up to 0.0249; the paper's value lies inside our seed range in 26 of 48 Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
         "evidence": [
           "figure-reproduction/output/seed_spread.json"
         ],
@@ -2704,7 +2704,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "6 of 7 fields at printed precision; largest gap precision gain of bio (about, points): 1.81855 against 3. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+        "summary": "6 of 7 fields at printed precision; largest gap precision gain of bio (about, points): 1.81855 against 3. Every AUC within 0.0005 and every precision and recall within 0.0124 of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to 0.0003 and precision and recall by up to 0.0249; the paper's value lies inside our seed range in 26 of 48 Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
         "evidence": [
           "figure-reproduction/output/seed_spread.json"
         ],
@@ -3016,10 +3016,8 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "0 of 1 fields at printed precision; largest gap AUC of chem+indication: 0.911063 against 0.911. Every AUC of Table 2 within 0.0005, every precision and recall within 0.012. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
-        "evidence": [
-          "figure-reproduction/output/seed_spread.json"
-        ],
+        "summary": "0 of 1 fields at printed precision; largest gap AUC of chem+indication: 0.911063 against 0.911. AUC 0.9111 against 0.9110, a gap smaller than the seed range of our AUCs (0.0003).",
+        "evidence": [],
         "hypotheses": [
           {
             "hypothesis": "seed of LIBSVM's probability fit",
@@ -3029,11 +3027,6 @@
           {
             "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
             "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set. AUC 0.9053 / 0.7658.",
-            "result": "rejected"
-          },
-          {
-            "hypothesis": "SVM decision values instead of probabilities",
-            "test": "AUC 0.7949 / 0.7344, ACC 0.9540 (paper 0.9054 / 0.7659; ours 0.9054 / 0.7658)",
             "result": "rejected"
           }
         ]
@@ -3224,7 +3217,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "4 of 7 fields at printed precision; largest gap Cerivastatin detected by chem: 2 against 1. Threshold unstated. Not: Cerivastatin, Myopathy, chem; Cerivastatin, Myositis, chem+bio; Rofecoxib, Group above ADRs, chem.",
+        "summary": "4 of 7 fields at printed precision; largest gap Cerivastatin detected by chem: 2 against 1. The paper does not state the decision threshold.",
         "evidence": [],
         "hypotheses": [
           {

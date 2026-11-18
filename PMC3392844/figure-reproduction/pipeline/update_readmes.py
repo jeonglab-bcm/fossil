@@ -47,7 +47,7 @@ status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {s
 sys.path.insert(0, str(here))
 from build_page import main_claim_line  # noqa: E402
 
-line = main_claim_line(M)
+line = main_claim_line(M, R)
 put(paper / "README.md", "CLAIMS-LINE", line, inline=True)
 put(paper / "figure-reproduction" / "README.md", "CLAIMS-LINE", line, inline=True)
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)

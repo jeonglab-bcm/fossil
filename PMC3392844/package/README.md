@@ -43,9 +43,9 @@ Tutorial: [`tutorial/TUTORIAL.md`](tutorial/TUTORIAL.md).
 | --- | --- | --- |
 | Features | 881 PubChem substructures; 786 targets, 72 transporters, 111 enzymes, 173 KEGG pathways; 869 indications and the 1,384 other ADRs | any 0/1 blocks; `bio` and `pheno` name the paper's groups; the other ADRs of ADR j are the label columns except j |
 | Classifier | LIBSVM, RBF kernel, g = 0.008, C = 2 | scikit-learn's libsvm on a precomputed RBF kernel built from per-block Hamming distances (the same kernel) |
-| Scores | not stated | Platt probabilities (LIBSVM `-b 1`), the scores that give the paper's AUCs; decision values on request |
+| Scores | not stated | Platt probabilities (LIBSVM `-b 1`), which give AUCs within 0.0005 of the paper's (decision values, on request, give 0.79 for chem against 0.9054) |
 | Other algorithms | LIBLINEAR LR (C = 10, epsilon = 1), CLOP naive Bayes, WEKA KNN (k = 55) and random forest (100 trees) | `lr` (LIBLINEAR through scikit-learn), `nb` (Bernoulli; CLOP is lost), `knn` (share of positive neighbours, ties included), `rf` (scikit-learn, log2(M) + 1 features per split) |
-| Evaluation | 5-fold CV per ADR; micro-averaged AUC; ACC, precision, recall at the "best cut-off points" | the folds you give; ACC at the maximum-accuracy point, precision and recall at the maximum-F1 point (the two rules that give the paper's Table 2) |
+| Evaluation | 5-fold CV per ADR; micro-averaged AUC; ACC, precision, recall at the "best cut-off points" | the folds you give; ACC at the maximum-accuracy point, precision and recall at the maximum-F1 point (of the rules tried, the closest to the paper's Table 2) |
 | Clinical validation | train on the other drugs, predict the left-out drug | `predict_held_out` (call Yes when the probability is above 0.5, LIBSVM's label with `-b 1`) |
 
 ## Language

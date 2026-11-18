@@ -115,15 +115,35 @@ def table_station(sid, title, its, table_html, caption):
             f'<div class="station-foot"><p class="note">{esc(notes)}</p></div></section>')
 
 
-def main_claim_line(M):
-    """The verdict on the main claim and the causes of the claims that do not match, from our metrics."""
+CAUSE_WORDS = {
+    "text.headline": "the seed of the SVM's probability fit and the unstated cut-off rule",
+    "text.feature_gains": "the seed of the SVM's probability fit and the unstated cut-off rule",
+    "text.indication": "the seed of the SVM's probability fit and the unstated cut-off rule",
+    "text.ks": "the unstated variant of the KS test",
+    "text.methods": "the LR and NB settings",
+    "text.class_weights": "the class weighting of RF (our AUC falls)",
+    "text.data_facts": "small differences in three counts of the recovered file",
+    "text.clinical": "the unstated threshold of Table 4",
+    "text.fig5": "the precision and recall points behind Fig. 5",
+}
+
+
+def main_claim_line(M, R):
+    """The verdict on the main claim and the causes of the claims that do not match, from our metrics and
+    the verdicts of results.json."""
     a, b = M["svm:chem"]["all"], M["svm:chem+bio+pheno"]["all"]
-    holds = b["auc"] > a["auc"] and b["precision"] > a["precision"] and b["recall"] > a["recall"]
-    return (f"The main claim {'holds' if holds else 'does not hold'} in our run: adding biological and phenotypic features to chemical "
-            f"structures raises AUC from {a['auc']:.4f} to {b['auc']:.4f}, precision from {100 * a['precision']:.2f}% to "
-            f"{100 * b['precision']:.2f}% and recall from {100 * a['recall']:.2f}% to {100 * b['recall']:.2f}% (paper 0.9054 to 0.9524, "
-            f"43.37% to 66.17%, 49.25% to 63.06%). The claims that do not match come from the LR and NB settings, the unstated "
-            f"cut-off and threshold rules and the seed of the SVM's probability fit.")
+    up = b["auc"] > a["auc"] and b["precision"] > a["precision"] and b["recall"] > a["recall"]
+    head = next(i for i in R["items"] if i["id"] == "text.headline")
+    exact = head["verdict"] in ("exact", "agrees")
+    miss = [i["id"] for i in R["items"] if i["id"].startswith("text.") and i["verdict"] in ("partly", "differs", "inconclusive")]
+    causes = list(dict.fromkeys(CAUSE_WORDS[i] for i in miss if i in CAUSE_WORDS))
+    verdict = ("holds" if exact else "holds in direction, not in the printed digits") if up else "does not hold"
+    line = (f"The main claim {verdict}: in our run adding biological and phenotypic features to chemical structures raises AUC "
+            f"from {a['auc']:.4f} to {b['auc']:.4f}, precision from {100 * a['precision']:.2f}% to {100 * b['precision']:.2f}% and recall "
+            f"from {100 * a['recall']:.2f}% to {100 * b['recall']:.2f}% (paper 0.9054 to 0.9524, 43.37% to 66.17%, 49.25% to 63.06%).")
+    if causes:
+        line += " The claims that do not match come from " + (", ".join(causes[:-1]) + " and " + causes[-1] if len(causes) > 1 else causes[0]) + "."
+    return line
 
 
 def main(results, run, pub, out):
@@ -206,7 +226,7 @@ def main(results, run, pub, out):
         trs.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td>"
                    f"<td>{esc((i.get('cause') or {}).get('summary', ''))}</td></tr>")
 
-    claims_line = main_claim_line(M)
+    claims_line = main_claim_line(M, R)
     extra = (tables + f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">Each figure, table and claim of the paper, '
              f'with the verdict results.json computes from the numbers.</p></header>'

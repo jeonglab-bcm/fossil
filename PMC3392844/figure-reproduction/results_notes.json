@@ -140,7 +140,7 @@
   },
   "svm": {
    "category": "nondeterminism",
-   "reason": "Every AUC of Table 2 within {t2_auc_maxdiff}, every precision and recall within {t2_pr_maxdiff}. Platt-fit seed and library build move the fourth decimal; precision and recall also depend on the unstated cut-off rule.",
+   "reason": "Every AUC within {t2_auc_maxdiff} and every precision and recall within {t2_pr_maxdiff} of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to {seed_auc_range} and precision and recall by up to {seed_pr_range}; the paper's value lies inside our seed range in {seed_inside} of {seed_cells} Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
    "tests": [
     "seed",
     "offline:official_libsvm_srand1_chem",
@@ -152,7 +152,7 @@
   },
   "rf": {
    "category": "nondeterminism",
-   "reason": "WEKA's random trees cannot be replayed.",
+   "reason": "Not explained: two scikit-learn seeds differ by 0.0002 in AUC and both fall below the paper; WEKA itself was not rerun.",
    "tests": [
     "offline:rf_seed_1"
    ],
@@ -234,7 +234,7 @@
   },
   "table4": {
    "category": "undocumented_setting",
-   "reason": "Threshold unstated. Not: {t4_misses}.",
+   "reason": "The paper does not state the decision threshold.",
    "tests": [
     "seed"
    ],
@@ -304,6 +304,14 @@
      "test": "{adrs_1to4}",
      "result": "rejected"
     }
+   ]
+  },
+  "indication": {
+   "category": "nondeterminism",
+   "reason": "AUC {chem_ind_auc} against 0.9110, a gap smaller than the seed range of our AUCs ({seed_auc_range}).",
+   "tests": [
+    "seed",
+    "offline:official_libsvm_srand1_chem"
    ]
   }
  },
@@ -643,7 +651,7 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "claims.json:text_indication/fields",
-   "cause_from": "svm",
+   "cause_from": "indication",
    "assumptions_from": [
     "svm"
    ],
