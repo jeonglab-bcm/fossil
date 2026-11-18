@@ -14,10 +14,10 @@ all_settings <- function() {
   s <- list()
   # Replicates: 1,000 as in the paper for the settings behind the printed tables and Fig. 1
   # (null, p = 40; alternative, p = 1000, which is also Fig. 5's first column); 500 for every other
-  # setting, to fit the compute budget. The comparison's Monte Carlo tolerance uses our SDs and counts.
+  # setting, to fit the compute budget (200 for the hypothesis tests and for Additional file 6). The comparison's Monte Carlo tolerance uses our SDs and counts.
   add <- function(family, x) {
     x$family <- family
-    x$reps <- if (family == "hyp") 200L else if (grepl("^(null_p40|alt20_p1000)_", x$name)) 1000L else 500L
+    x$reps <- if (family %in% c("hyp", "nosel")) 200L else if (grepl("^(null_p40|alt20_p1000)_", x$name)) 1000L else 500L
     s[[x$name]] <<- x
   }
   for (k in K19) {
@@ -39,6 +39,10 @@ all_settings <- function() {
     add("multds", simulation_settings(sprintf("multds_p1000_k%.2f", k), p = 1000, p_de = 20, mu2 = 1,
         k1train = k, G = 40, tests = list(bal(20), bal(500)), correction = "multds", methods = CHEAP))
   }
+  # No variable selection, G = p = 1000 (Additional file 6; Fig. 5 first column otherwise), 200 replicates.
+  for (k in K19)
+    add("nosel", simulation_settings(sprintf("nosel_p1000_k%.2f", k), p = 1000, p_de = 20, mu2 = 1,
+        k1train = k, G = 1000, tests = list(bal(20)), methods = NINE))
   # Over-sampling, then centred variables (Additional file 9), test balanced or as imbalanced as training.
   for (k in K19)
     add("af9", simulation_settings(sprintf("af9_p1000_k%.2f", k), p = 1000, p_de = 20, mu2 = 1, k1train = k, G = 40,

@@ -27,7 +27,7 @@ SOURCES = {
     "fig4": ("PMC3098087.1.pdf", 7), "fig5": ("PMC3098087.1.pdf", 8), "fig6": ("PMC3098087.1.pdf", 9),
     "af4": ("1471-2105-11-523-S4.PDF", 0), "af5": ("1471-2105-11-523-S5.PDF", 0),
     "af7": ("1471-2105-11-523-S7.PDF", 0), "af9": ("1471-2105-11-523-S9.PDF", 1), "af8": ("1471-2105-11-523-S8.PDF", 0), "af10": ("1471-2105-11-523-S10.PDF", 0),
-    "af11": ("1471-2105-11-523-S11.PDF", 0), "af12": ("1471-2105-11-523-S12.PDF", 0),
+    "af6": ("1471-2105-11-523-S6.PDF", 0), "af11": ("1471-2105-11-523-S11.PDF", 0), "af12": ("1471-2105-11-523-S12.PDF", 0),
 }
 SERIES_COLOUR = {"PA": (255, 0, 0), "PA1": (208, 32, 144), "PA2": (0, 0, 255),
                  40: (255, 0, 0), 1000: (0, 0, 255), 10000: (255, 0, 255),
@@ -81,7 +81,7 @@ def draw_points(fig, recs, summary, clip, ours_img, over_img):
     do, dv = ImageDraw.Draw(ours_img), ImageDraw.Draw(over_img)
     for rec in recs:
         col = SERIES_COLOUR.get(series_of(rec), (0, 0, 0))
-        filled = series_of(rec) not in ("PA1", "PA2") or fig in ("af8", "af9", "af11")
+        filled = series_of(rec) not in ("PA1", "PA2") or fig in ("af6", "af8", "af9", "af11")
         prev = None
         for x, _y in rec["points"]:
             o = cmp.ours(summary, cmp.sim_key(rec, x), strict=False)

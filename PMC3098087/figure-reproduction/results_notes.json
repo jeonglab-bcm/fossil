@@ -149,7 +149,7 @@
     "source": "our_choice"
    },
    {
-    "what": "Replicates: 1,000 per setting as in the paper, except 500 for the settings of Fig. 4 and Additional file 7, of Fig. 3's right panels, of p = 10,000 and of MultDS (compute budget); the tolerance uses our replicate count.",
+    "what": "Replicates: 1,000 per setting, as in the paper, for the null case at p = 40 and the alternative case at p = 1000 (Figs 1 and 5's first column, Additional files 1, 3 and 11); 500 for every other setting and 200 for Additional file 6 and the hypothesis tests (compute budget). The tolerance uses our replicate count and the paper's.",
     "source": "our_choice"
    },
    {
@@ -177,7 +177,7 @@
     "source": "our_choice"
    },
    {
-    "what": "Means over replicates keep NA when a replicate has none (PV1 when PA1 = 0 and PA2 = 1), as the paper's tables show NA; figures use the mean over the replicates where the value exists.",
+    "what": "A predictive value has no value in a replicate whose denominator is 0 (PV1 when PA1 = 0 and PA2 = 1). Means are over the replicates where the value exists; a cell the paper prints as NA or NaN counts as equal when some of our replicates have no value.",
     "source": "our_choice"
    }
   ],
@@ -245,50 +245,403 @@
   ]
  },
  "causes": {
-  "svm": {
+  "fig12": {
    "category": "undocumented_setting",
-   "summary": "The SVM differs (other classifiers agree): the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). No single cost and weighting fits both.",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. (3) Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the smallest of the thresholds with the smallest training error",
+     "test": "hypotheses.R, null k1train 0.45 and 0.55, ER 45/5",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the threshold chosen by 10-fold cross-validation",
+     "test": "The same",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "PAM: equal class priors",
+     "test": "The same",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "nocenter": {
+   "category": "undocumented_setting",
+   "summary": "p = 40 and pDE = p: the paper says the samples were centred, and with centring our minority-class PA is far below the paper's where every or half of the variables differ (Fig. 3: {nc_fig3_c} of {nc_fig3_cn} such points match). Rerunning these settings without centring the samples (200 replicates) matches {nc_fig3} of {nc_fig3_n} points of Fig. 3, {nc_af4} of {nc_af4_n} of Additional file 4 and {nc_af5} of {nc_af5_n} of Additional file 5: centring 40 variables of which 20 or all differ removes most of the signal, which the paper's curves keep. These panels were evidently computed without centring.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (fig3.hyp_nocenter, af4.hyp_nocenter, af5.hyp_nocenter)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The p = 40 and pDE = p panels were computed without centring the samples",
+     "test": "compare.py: the same points against our nocenter_* settings",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "The samples were centred, as stated",
+     "test": "Our main run",
+     "result": "rejected"
+    }
+   ],
+   "status": "explained"
+  },
+  "fig5": {
+   "category": "paper_error",
+   "summary": "(1) Over-sampling, overall PA: Fig. 5's over-sampling PA is the PA of a test set as imbalanced as the training set (k1 PA1 + (1 - k1) PA2 from our class-specific means: {ot_fig5_i} of {ot_fig5_n} points match, against {ot_fig5_b} for the balanced test set the caption implies), while Additional file 8, which repeats the panel for all classifiers, uses the balanced test set ({ot_af8_b} of {ot_af8_n} against {ot_af8_i}). The two figures disagree; we compare with the balanced test set. (2) Over-sampling, order of selection: with variables selected on the original training set and the classifier fitted on the over-sampled one, DLDA's and DQDA's PA at k1train 0.2 is {ord_dlda_b} and {ord_dqda_b} (paper: {ord_dlda_p}, {ord_dqda_p}); selecting on the over-sampled set, which the Methods describe and our run does, gives {ord_dlda_a} and {ord_dqda_a}. The k-NN classifiers move little either way (3-NN {ord_3nn_a} / {ord_3nn_b}). (3) Values at 0 or 1: a few points where our replicates are all 0 or all 1 (SD 0, so no Monte Carlo tolerance) and the paper's differ by less than 0.003.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/comparison.json (fig5.hyp_over_test, af8.hyp_over_test)",
+    "figure-reproduction/output/hypotheses.json (over_k0.20)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Fig. 5's over-sampling PA uses a test set as imbalanced as the training set",
+     "test": "compare.py: PA from our class-specific means with k1test = k1train",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected before over-sampling",
+     "test": "hypotheses.R: the same data, selection on the original training set, k1train 0.2",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected on the over-sampled set, as the Methods describe",
+     "test": "Our main run",
+     "result": "rejected"
+    }
+   ],
+   "status": "explained"
+  },
+  "af3": {
+   "category": "undocumented_setting",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) DQDA's AUC: lower than the paper's when the training set is imbalanced (k1train 0.1: {dqda_auc_ours} against 0.91). The paper does not say which score it ranked. Ranking by the ratio of the two discriminants instead of their difference gives the paper's AUC at every k1train ({dqda_ratio}) and leaves DLDA's AUC where the paper has it ({dlda_ratio} at 0.1 against 0.94); the predictions do not change. Found by search over five scores; our run keeps the difference.",
    "evidence": [
     "figure-reproduction/output/hypotheses.json"
    ],
    "hypotheses": [
     {
-     "hypothesis": "Default cost (1) with weights equal to the class proportions, as stated",
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
      "test": "Our main run; hypotheses.R grid, cost 1",
      "result": "rejected"
     },
     {
-     "hypothesis": "A smaller cost with the stated weights",
+     "hypothesis": "SVM: a smaller cost with the stated weights",
      "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
      "result": "inconclusive"
     },
     {
-     "hypothesis": "Weights inverse to the class proportions (the weight vector applied to the other class)",
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "DQDA's AUC ranks the ratio of the discriminants",
+     "test": "hypotheses.R: DQDA on the same data, AUC by five scores, k1train 0.1-0.5",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "DQDA's AUC ranks the predicted class",
+     "test": "The same: 0/1 scores give 0.56 at k1train 0.1",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "af45": {
+   "category": "undocumented_setting",
+   "summary": "(1) p = 40 and pDE = p: the paper says the samples were centred, and with centring our minority-class PA is far below the paper's where every or half of the variables differ (Fig. 3: {nc_fig3_c} of {nc_fig3_cn} such points match). Rerunning these settings without centring the samples (200 replicates) matches {nc_fig3} of {nc_fig3_n} points of Fig. 3, {nc_af4} of {nc_af4_n} of Additional file 4 and {nc_af5} of {nc_af5_n} of Additional file 5: centring 40 variables of which 20 or all differ removes most of the signal, which the paper's curves keep. These panels were evidently computed without centring. (2) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (fig3.hyp_nocenter, af4.hyp_nocenter, af5.hyp_nocenter)",
+    "figure-reproduction/output/hypotheses.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The p = 40 and pDE = p panels were computed without centring the samples",
+     "test": "compare.py: the same points against our nocenter_* settings",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "The samples were centred, as stated",
+     "test": "Our main run",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
      "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
      "result": "inconclusive"
     }
    ],
    "status": "open"
   },
-  "dqda_auc": {
+  "svm": {
    "category": "undocumented_setting",
-   "summary": "DQDA's AUC is lower than the paper's when the training set is imbalanced (Additional file 3, k1train 0.1: {dqda_auc_ours} against 0.91). The paper does not say which score it ranked. Ranking by the ratio of the two discriminants instead of their difference gives the paper's AUC at every k1train ({dqda_ratio}) and leaves DLDA's AUC where the paper has it ({dlda_ratio} at 0.1 against 0.94); the predictions do not change. Found by search over five scores; our run keeps the difference.",
+   "summary": "SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them.",
    "evidence": [
     "figure-reproduction/output/hypotheses.json"
    ],
    "hypotheses": [
     {
-     "hypothesis": "The AUC ranks the ratio of the DQDA discriminants",
-     "test": "hypotheses.R: DQDA on the same data, AUC by five scores, k1train 0.1-0.5",
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "af8": {
+   "category": "undocumented_setting",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM with over-sampling: the paper's PAM stays fully biased after over-sampling (Additional file 8, k1train 0.1: PA {pp_af8_p}; Additional file 9, k1train 0.05: PA1 {pp_af9_p}), ours does not ({pp_af8_a}, {pp_af9_a}): pamr's class prior defaults to the class shares of the set it is trained on, which over-sampling makes equal. Keeping the prior of the original training set gives {pp_af8_b} and {pp_af9_b}. (3) Over-sampling, order of selection: with variables selected on the original training set and the classifier fitted on the over-sampled one, DLDA's and DQDA's PA at k1train 0.2 is {ord_dlda_b} and {ord_dqda_b} (paper: {ord_dlda_p}, {ord_dqda_p}); selecting on the over-sampled set, which the Methods describe and our run does, gives {ord_dlda_a} and {ord_dqda_a}. The k-NN classifiers move little either way (3-NN {ord_3nn_a} / {ord_3nn_b}). (4) Over-sampling, overall PA: Fig. 5's over-sampling PA is the PA of a test set as imbalanced as the training set (k1 PA1 + (1 - k1) PA2 from our class-specific means: {ot_fig5_i} of {ot_fig5_n} points match, against {ot_fig5_b} for the balanced test set the caption implies), while Additional file 8, which repeats the panel for all classifiers, uses the balanced test set ({ot_af8_b} of {ot_af8_n} against {ot_af8_i}). The two figures disagree; we compare with the balanced test set.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (fig5.hyp_over_test, af8.hyp_over_test)",
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (over_k0.10, af9_k0.05)",
+    "figure-reproduction/output/hypotheses.json (over_k0.20)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM kept the class prior of the original training set after over-sampling",
+     "test": "hypotheses.R: PAM refitted on the same over-sampled sets with prior = original class shares",
      "result": "supported"
     },
     {
-     "hypothesis": "The AUC ranks the predicted class",
-     "test": "The same: 0/1 scores give 0.56 at k1train 0.1",
+     "hypothesis": "PAM's threshold chosen by 10-fold CV or as the smallest with minimal training error",
+     "test": "hypotheses.R: the same sets",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected before over-sampling",
+     "test": "hypotheses.R: the same data, selection on the original training set, k1train 0.2",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected on the over-sampled set, as the Methods describe",
+     "test": "Our main run",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Fig. 5's over-sampling PA uses a test set as imbalanced as the training set",
+     "test": "compare.py: PA from our class-specific means with k1test = k1train",
+     "result": "supported"
+    }
+   ],
+   "status": "open"
+  },
+  "af9": {
+   "category": "undocumented_setting",
+   "summary": "(1) PAM with over-sampling: the paper's PAM stays fully biased after over-sampling (Additional file 8, k1train 0.1: PA {pp_af8_p}; Additional file 9, k1train 0.05: PA1 {pp_af9_p}), ours does not ({pp_af8_a}, {pp_af9_a}): pamr's class prior defaults to the class shares of the set it is trained on, which over-sampling makes equal. Keeping the prior of the original training set gives {pp_af8_b} and {pp_af9_b}. (2) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (3) Over-sampling, order of selection: with variables selected on the original training set and the classifier fitted on the over-sampled one, DLDA's and DQDA's PA at k1train 0.2 is {ord_dlda_b} and {ord_dqda_b} (paper: {ord_dlda_p}, {ord_dqda_p}); selecting on the over-sampled set, which the Methods describe and our run does, gives {ord_dlda_a} and {ord_dqda_a}. The k-NN classifiers move little either way (3-NN {ord_3nn_a} / {ord_3nn_b}).",
+   "evidence": [
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (over_k0.10, af9_k0.05)",
+    "figure-reproduction/output/hypotheses.json (over_k0.20)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "PAM kept the class prior of the original training set after over-sampling",
+     "test": "hypotheses.R: PAM refitted on the same over-sampled sets with prior = original class shares",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "PAM's threshold chosen by 10-fold CV or as the smallest with minimal training error",
+     "test": "hypotheses.R: the same sets",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected before over-sampling",
+     "test": "hypotheses.R: the same data, selection on the original training set, k1train 0.2",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Over-sampling: variables were selected on the over-sampled set, as the Methods describe",
+     "test": "Our main run",
      "result": "rejected"
     }
    ],
-   "status": "explained"
+   "status": "open"
+  },
+  "er_pi": {
+   "category": "nondeterminism",
+   "summary": "Prediction intervals: a few interval ends miss by two steps of 0.05, nearly all lower ends at the smallest training sets ({pi_fig6} of {pi_fig6_n} ends of Fig. 6 and {pi_af12} of {pi_af12_n} of Additional file 12 match). The lower 2.5th percentile of 500 draws rests on its 13 lowest values, which the paper's draws (unknown seeds) and ours place differently. Other interval definitions fit worse: mean -/+ 1.96 SD matches {pi_fig6_norm} and {pi_af12_norm}, 5th and 95th percentiles {pi_fig6_q90} and {pi_af12_q90}.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (fig6.pi, fig6.pi.normal, fig6.pi.q90, af12, af12.normal, af12.q90)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The intervals are mean -/+ 1.96 SD",
+     "test": "compare.py: fig6.pi.normal, af12.normal",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The intervals are 90% (5th and 95th percentiles)",
+     "test": "compare.py: fig6.pi.q90, af12.q90",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "af12": {
+   "category": "undocumented_setting",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both. (3) Prediction intervals: a few interval ends miss by two steps of 0.05, nearly all lower ends at the smallest training sets ({pi_fig6} of {pi_fig6_n} ends of Fig. 6 and {pi_af12} of {pi_af12_n} of Additional file 12 match). The lower 2.5th percentile of 500 draws rests on its 13 lowest values, which the paper's draws (unknown seeds) and ours place differently. Other interval definitions fit worse: mean -/+ 1.96 SD matches {pi_fig6_norm} and {pi_af12_norm}, 5th and 95th percentiles {pi_fig6_q90} and {pi_af12_q90}.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (fig6.pi, fig6.pi.normal, fig6.pi.q90, af12, af12.normal, af12.q90)",
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the smallest of the thresholds with the smallest training error",
+     "test": "hypotheses.R, null k1train 0.45 and 0.55, ER 45/5",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the threshold chosen by 10-fold cross-validation",
+     "test": "The same",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "PAM: equal class priors",
+     "test": "The same",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The intervals are mean -/+ 1.96 SD",
+     "test": "compare.py: fig6.pi.normal, af12.normal",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The intervals are 90% (5th and 95th percentiles)",
+     "test": "compare.py: fig6.pi.q90, af12.q90",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "af13": {
+   "category": "undocumented_setting",
+   "summary": "(1) SVM: the paper gives no cost and its class weights ('the proportion of samples from each class') leave the direction open. With the default cost 1 the training sets are separable and the weights do nothing, so our SVM is less biased than the paper's in the simulations (Additional file 3, k1train 0.1: PA1 {svm_af3_ours} against 0.03). A smaller cost with the stated weights brings Additional file 3 back (cost 0.1: {svm_c01_af3}; 0.03: {svm_c003_af3}) but sends the null case of Fig. 2 to 0 (cost 0.1: {svm_c01_null} against 0.038). The breast cancer tables need the opposite, weights inverse to the class sizes (20 ER+ / 5 ER-, PA ER-: {svm_inv_er} against 0.6; stated weights {svm_prop_er}). Weights taken from the original rather than the over-sampled training set change nothing ({svm_over_w}). No single cost and weighting fits all of them. (2) PAM without correction: our PAM is slightly more biased than the paper's near balance in the null case (Fig. 1, k1train 0.45: PA1 {pt_null_a} against 0.27) and at 45 ER+ / 5 ER- (PA ER- {pt_er_a} against 0.53). The paper says the threshold was the one with the smallest training error, not which one of the ties. The smallest tied threshold gives {pt_null_s} and {pt_er_s}; 10-fold CV {pt_null_cv} and {pt_er_cv}; equal class priors {pt_null_e} and {pt_er_e}. None fits both.",
+   "evidence": [
+    "figure-reproduction/output/hypotheses.json",
+    "figure-reproduction/output/hypotheses.json (pam_null_k0.45, pam_er_45_5)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SVM: default cost (1) with weights equal to the class proportions, as stated",
+     "test": "Our main run; hypotheses.R grid, cost 1",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "SVM: a smaller cost with the stated weights",
+     "test": "hypotheses.R: costs 0.001-1 on Additional file 3 (k1train 0.1, 0.2) and the null case of Fig. 2 (k1train 0.2)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "SVM: weights inverse to the class proportions",
+     "test": "hypotheses.R: the same grid on the simulations and on 20 ER+ / 5 ER- and 45 ER+ / 5 ER-",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the smallest of the thresholds with the smallest training error",
+     "test": "hypotheses.R, null k1train 0.45 and 0.55, ER 45/5",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "PAM: the threshold chosen by 10-fold cross-validation",
+     "test": "The same",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "PAM: equal class priors",
+     "test": "The same",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
   },
   "af1": {
    "category": "paper_error",
@@ -331,7 +684,7 @@
     "figure-reproduction/output/fig1_ours.png",
     "figure-reproduction/output/fig1_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "fig12"
   },
   {
    "id": "fig2",
@@ -348,7 +701,7 @@
     "figure-reproduction/output/fig2_ours.png",
     "figure-reproduction/output/fig2_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "fig12"
   },
   {
    "id": "fig3",
@@ -365,7 +718,7 @@
     "figure-reproduction/output/fig3_ours.png",
     "figure-reproduction/output/fig3_overlay.png"
    ],
-   "cause_from": "mc"
+   "cause_from": "nocenter"
   },
   {
    "id": "fig4",
@@ -401,7 +754,7 @@
     "figure-reproduction/output/fig5_ours.png",
     "figure-reproduction/output/fig5_overlay.png"
    ],
-   "cause_from": "mc"
+   "cause_from": "fig5"
   },
   {
    "id": "fig6",
@@ -419,7 +772,7 @@
     "figure-reproduction/output/fig6_ours.png",
     "figure-reproduction/output/fig6_overlay.png"
    ],
-   "cause_from": "er"
+   "cause_from": "er_pi"
   },
   {
    "id": "fig6.pi",
@@ -480,7 +833,7 @@
     "simulation",
     "figure_values"
    ],
-   "cause_from": "svm"
+   "cause_from": "af3"
   },
   {
    "id": "af4",
@@ -497,7 +850,7 @@
     "figure-reproduction/output/af4_ours.png",
     "figure-reproduction/output/af4_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "af45"
   },
   {
    "id": "af5",
@@ -514,20 +867,24 @@
     "figure-reproduction/output/af5_ours.png",
     "figure-reproduction/output/af5_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "af45"
   },
   {
    "id": "af6",
-   "label": "Additional file 6: alternative case without variable selection (G = p = 1000), nine classifiers",
+   "label": "Additional file 6: no variable selection (G = p = 1000), Fig. 5 first column; PA, PA1, PA2 (nine classifiers)",
    "kind": "figure",
-   "source": "none",
-   "method": "none",
-   "cause": {
-    "category": "undocumented_setting",
-    "summary": "Placeholder",
-    "evidence": [],
-    "status": "explained"
-   }
+   "source": "reconstructed",
+   "method": "values",
+   "from": "comparison:af6",
+   "assumptions_from": [
+    "simulation",
+    "figure_values"
+   ],
+   "outputs": [
+    "figure-reproduction/output/af6_ours.png",
+    "figure-reproduction/output/af6_overlay.png"
+   ],
+   "cause_from": "svm"
   },
   {
    "id": "af7",
@@ -563,20 +920,25 @@
     "figure-reproduction/output/af8_ours.png",
     "figure-reproduction/output/af8_overlay.png"
    ],
-   "cause_from": "svm"
+   "cause_from": "af8"
   },
   {
    "id": "af9",
-   "label": "Additional file 9: over-sampling with centred variables",
+   "label": "Additional file 9: over-sampling with centred variables, balanced test set; PA, PA1, PA2 (nine classifiers)",
    "kind": "figure",
-   "source": "none",
-   "method": "none",
-   "cause": {
-    "category": "undocumented_setting",
-    "summary": "Placeholder",
-    "evidence": [],
-    "status": "explained"
-   }
+   "source": "reconstructed",
+   "method": "values",
+   "from": "comparison:af9",
+   "assumptions_from": [
+    "simulation",
+    "figure_values",
+    "corrections"
+   ],
+   "outputs": [
+    "figure-reproduction/output/af9_ours.png",
+    "figure-reproduction/output/af9_overlay.png"
+   ],
+   "cause_from": "af9"
   },
   {
    "id": "af10",
@@ -613,7 +975,7 @@
     "figure-reproduction/output/af11_ours.png",
     "figure-reproduction/output/af11_overlay.png"
    ],
-   "cause_from": "mc"
+   "cause_from": "svm"
   },
   {
    "id": "af12",
@@ -632,7 +994,7 @@
     "figure-reproduction/output/af12_ours.png",
     "figure-reproduction/output/af12_overlay.png"
    ],
-   "cause_from": "er_pi"
+   "cause_from": "af12"
   },
   {
    "id": "af13",
@@ -645,7 +1007,7 @@
     "er",
     "figure_values"
    ],
-   "cause_from": "er"
+   "cause_from": "af13"
   },
   {
    "id": "af14",
@@ -659,7 +1021,7 @@
     "corrections",
     "figure_values"
    ],
-   "cause_from": "er"
+   "cause_from": "svm"
   },
   {
    "id": "text.null_balanced",
@@ -1045,5 +1407,142 @@
    ]
   }
  ],
- "page": {}
+ "page": {
+  "lede": "Blagus and Lusa ran their simulations and the breast cancer analysis in R and published them in 2010 without the code. In November 2026 we rebuilt both from the paper (an R package, multds, with the nine classifiers, the three corrections and the measures) and reran every setting the figures and tables need. Of {items} results, {exact} are exact, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} were not attempted. Every gap has a tested cause; the ones still open are the SVM's and PAM's unstated settings and the tails of a few prediction intervals.",
+  "label_rows": [
+   [
+    "fig-fig1",
+    "Figs 1 and 2",
+    [
+     "fig1",
+     "fig2"
+    ]
+   ],
+   [
+    "fig-fig3",
+    "Fig. 3",
+    [
+     "fig3"
+    ]
+   ],
+   [
+    "fig-fig4",
+    "Fig. 4",
+    [
+     "fig4"
+    ]
+   ],
+   [
+    "fig-fig5",
+    "Fig. 5",
+    [
+     "fig5"
+    ]
+   ],
+   [
+    "fig-fig6",
+    "Fig. 6",
+    [
+     "fig6",
+     "fig6.pi"
+    ]
+   ],
+   [
+    "tables",
+    "Additional files 1, 3, 13, 14",
+    [
+     "af1",
+     "af3",
+     "af13",
+     "af14"
+    ]
+   ],
+   [
+    "fig-af4",
+    "Additional files 4 to 12",
+    [
+     "af4",
+     "af5",
+     "af6",
+     "af7",
+     "af8",
+     "af9",
+     "af10",
+     "af11",
+     "af12"
+    ]
+   ],
+   [
+    "items",
+    "Claims in the text",
+    [
+     "text.null_balanced",
+     "text.selection_bias",
+     "text.oversampling",
+     "text.downsizing",
+     "text.multds_vs_down",
+     "text.er_20_5"
+    ]
+   ]
+  ],
+  "tables_caption": "Every cell of the four tables in the additional files: the simulations of Additional files 1 and 3 and the breast cancer tables 13 and 14.",
+  "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
+  "claims_line": "The paper's conclusions hold in our run: the classifiers are biased towards the majority class, variable selection adds to the bias, over-sampling hardly helps, down-sizing and above all multiple down-sizing remove most of it, and the breast cancer data behave the same way. The claims that miss are listed above with the paper's own values next to ours.",
+  "came_back": [
+   [
+    "The null case",
+    "Figs 1 and 2: every classifier except the SVM and, near balance, PAM came back within Monte Carlo error at p = 40, 1000 and 10000 ({fig1_hits} of {fig1_n} and {fig2_hits} of {fig2_n} points)."
+   ],
+   [
+    "The corrections",
+    "Down-sizing and MultDS (Fig. 5, Additional files 8 and 10) came back point by point; Additional file 10's intervals match a 20-sample test set ({af10_hits} of {af10_n} ends), not the 500 its caption says."
+   ],
+   [
+    "The thresholds",
+    "RF-THR and PLR-THR (Additional file 11): {af11_hits} of {af11_n} points."
+   ],
+   [
+    "The breast cancer data",
+    "The Sotiriou arrays came back from the NCI archive: 99 tumours, 7650 probes, 34 ER- and 65 ER+. Fig. 6 came back {fig6_hits} of {fig6_n} means; Additional file 14 (MultDS) {af14_hits} of {af14_n} cells."
+   ],
+   [
+    "The code the paper used",
+    "DLDA and DQDA are sma's stat.diag.da; our versions give identical predictions, and our AUC equals Hmisc's."
+   ]
+  ],
+  "buried": [
+   "The R scripts. The paper names the packages and released no code; no copy was found.",
+   "The SVM's cost and the direction of its class weights. No single setting fits the simulations and the breast cancer tables at once.",
+   "PAM's tie rule for the threshold. Our PAM is a little more biased near balance and at 45 ER+ / 5 ER-; neither the smallest tied threshold, cross-validation nor equal priors fits both.",
+   "The seeds. A few prediction-interval ends, set by the 13 lowest of 500 draws, land two steps of 0.05 from the paper's."
+  ],
+  "matched_intro": "What the paper does not say, what it says that its figures contradict, and what we chose. Each was tested against the paper's own values.",
+  "matched": [
+   [
+    "Sample centring",
+    "Stated for every setting, but the p = 40 and pDE = p panels of Fig. 3 and Additional files 4 and 5 come back only without it ({fig3_hyp_nocenter_hits} of {fig3_hyp_nocenter_n} points of Fig. 3)."
+   ],
+   [
+    "Over-sampling",
+    "The paper's DLDA and DQDA fit selection on the original training set, and its PAM keeps the original class prior after over-sampling. Our run follows the Methods (selection on the over-sampled set, pamr's default prior); both alternatives are tested in hypotheses.json."
+   ],
+   [
+    "Fig. 5's test set",
+    "Its over-sampling PA is that of a test set as imbalanced as the training set ({fig5_hyp_over_test_hits} of {fig5_hyp_over_test_n} points); Additional file 8, the same panel for all nine classifiers, uses a balanced one."
+   ],
+   [
+    "DQDA's AUC",
+    "Ranked by the ratio of the two discriminants, not their difference: found by search; the predictions are the same."
+   ],
+   [
+    "Additional file 1",
+    "Prints PLR's PA and PV for all nine classifiers; those cells are listed as paper slips and the rest compared."
+   ],
+   [
+    "Tolerance",
+    "The printed precision plus a Bonferroni multiple of the combined Monte Carlo standard error, from the paper's replicate count and the paper's SD where printed (ours otherwise)."
+   ]
+  ],
+  "closing": "Blagus and Lusa, 2010. The simulations and the breast cancer analysis came back in November 2026, from the paper alone."
+ }
 }

@@ -102,7 +102,8 @@ run_setting <- function(s, reps, cores = 1) {
 #' Mean, SD and 95\% prediction interval over replicates
 #'
 #' Means keep NA when any replicate is NA (as the paper's tables show NA for PV1), and
-#' `mean_avail` averages the replicates where the value exists.
+#' `mean_avail` averages the replicates where the value exists. `q025` and `q975` bound the 95\%
+#' prediction interval; `q05` and `q95` (a 90\% interval) are kept to test the paper's definition.
 #' @param runs output of [run_setting()].
 #' @export
 summarize_runs <- function(runs) {
@@ -119,7 +120,9 @@ summarize_runs <- function(runs) {
         n = length(v), n_na = sum(is.na(v)), mean = mean(v), mean_avail = mean(v, na.rm = TRUE),
         sd = sd(v, na.rm = TRUE),
         q025 = unname(quantile(v, 0.025, na.rm = TRUE, type = 7)),
-        q975 = unname(quantile(v, 0.975, na.rm = TRUE, type = 7)))
+        q975 = unname(quantile(v, 0.975, na.rm = TRUE, type = 7)),
+        q05 = unname(quantile(v, 0.05, na.rm = TRUE, type = 7)),
+        q95 = unname(quantile(v, 0.95, na.rm = TRUE, type = 7)))
     }
   }
   do.call(rbind, out)

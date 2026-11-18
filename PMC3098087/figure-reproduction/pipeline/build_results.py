@@ -64,7 +64,46 @@ def facts_of(run):
         "dqda_ratio": ", ".join(f"{v['by_score']['ratio of the discriminants']:.2f}" for v in dq.values()),
         "dlda_ratio": f"{dq['k1train 0.1']['by_score']['DLDA: ratio']:.2f}",
         "af10_hits": c["af10"]["matched"], "af10_n": c["af10"]["n_fields"],
+        **more_facts(h, c),
         "af10_500_hits": c["af10.ntest500"]["matched"], "af10_500_n": c["af10.ntest500"]["n_fields"],
+    }
+
+
+def more_facts(h, c):
+    """Facts of the PAM, SVM, over-sampling, centring and interval hypotheses."""
+    R = lambda case, key, m: h[case]["res"][key][m]  # noqa: E731
+    paper = {f["name"]: f["expected"] for f in c["af8"]["fields"]}
+    nc = {k: c[f"{k}.hyp_nocenter"] for k in ("fig3", "af4", "af5")}
+    ot = {k: c[f"{k}.hyp_over_test"] for k in ("fig5", "af8")}
+    f2 = lambda v: f"{v:.2f}"  # noqa: E731
+    return {
+        "svm_over_w": f"Additional file 8, k1train 0.1: PA1 {f2(R('over_k0.10', 'SVM weights from the over-sampled set', 'PA1'))} and "
+                      f"{f2(R('over_k0.10', 'SVM weights from the original set', 'PA1'))}",
+        "nc_fig3_c": nc["fig3"]["centred"]["matched"], "nc_fig3_cn": nc["fig3"]["centred"]["n"],
+        "nc_fig3": nc["fig3"]["not centred"]["matched"], "nc_fig3_n": nc["fig3"]["not centred"]["n"],
+        "nc_af4": nc["af4"]["not centred"]["matched"], "nc_af4_n": nc["af4"]["not centred"]["n"],
+        "nc_af5": nc["af5"]["not centred"]["matched"], "nc_af5_n": nc["af5"]["not centred"]["n"],
+        "ot_fig5_i": ot["fig5"]["as_imbalanced_as_training"]["matched"], "ot_fig5_b": ot["fig5"]["balanced"]["matched"], "ot_fig5_n": ot["fig5"]["balanced"]["n"],
+        "ot_af8_i": ot["af8"]["as_imbalanced_as_training"]["matched"], "ot_af8_b": ot["af8"]["balanced"]["matched"], "ot_af8_n": ot["af8"]["balanced"]["n"],
+        "ord_dlda_a": f2(R("over_k0.20", "DLDA selection after over-sampling (ours)", "PA")),
+        "ord_dlda_b": f2(R("over_k0.20", "DLDA selection before over-sampling", "PA")),
+        "ord_dqda_a": f2(R("over_k0.20", "DQDA selection after over-sampling (ours)", "PA")),
+        "ord_dqda_b": f2(R("over_k0.20", "DQDA selection before over-sampling", "PA")),
+        "ord_3nn_a": f2(R("over_k0.20", "3-NN selection after over-sampling (ours)", "PA")),
+        "ord_3nn_b": f2(R("over_k0.20", "3-NN selection before over-sampling", "PA")),
+        "ord_dlda_p": f2(float(paper["DLDA over PA, x = 0.2"])), "ord_dqda_p": f2(float(paper["DQDA over PA, x = 0.2"])),
+        "pp_af8_p": f2(h["over_k0.10"]["paper_af8"]["PAM_PA"]), "pp_af8_a": f2(R("over_k0.10", "PAM: ours", "PA")),
+        "pp_af8_b": f2(R("over_k0.10", "PAM: original prior", "PA")),
+        "pp_af9_p": f2(h["af9_k0.05"]["paper_af9"]["PAM_PA1"]), "pp_af9_a": f2(R("af9_k0.05", "PAM: ours", "PA1")),
+        "pp_af9_b": f2(R("af9_k0.05", "PAM: original prior", "PA1")),
+        "pt_null_a": f2(R("pam_null_k0.45", "PAM: ours", "PA1")), "pt_null_s": f2(R("pam_null_k0.45", "PAM: smallest threshold", "PA1")),
+        "pt_null_cv": f2(R("pam_null_k0.45", "PAM: 10-fold CV", "PA1")), "pt_null_e": f2(R("pam_null_k0.45", "PAM: equal priors", "PA1")),
+        "pt_er_a": f2(R("pam_er_45_5", "PAM: ours", "PA2")), "pt_er_s": f2(R("pam_er_45_5", "PAM: smallest threshold", "PA2")),
+        "pt_er_cv": f2(R("pam_er_45_5", "PAM: 10-fold CV", "PA2")), "pt_er_e": f2(R("pam_er_45_5", "PAM: equal priors", "PA2")),
+        "pi_fig6": c["fig6.pi"]["matched"], "pi_fig6_n": c["fig6.pi"]["n_fields"],
+        "pi_af12": c["af12"]["matched"], "pi_af12_n": c["af12"]["n_fields"],
+        "pi_fig6_norm": c["fig6.pi.normal"]["matched"], "pi_af12_norm": c["af12.normal"]["matched"],
+        "pi_fig6_q90": c["fig6.pi.q90"]["matched"], "pi_af12_q90": c["af12.q90"]["matched"],
     }
 
 

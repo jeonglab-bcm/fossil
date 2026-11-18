@@ -90,7 +90,7 @@ process HYPOTHESES {
     path 'hypotheses.json'
     script:
     """
-    Rscript ${params.pipe}/hypotheses.R ${rds} hypotheses.json --reps 200
+    Rscript ${params.pipe}/hypotheses.R ${rds} hypotheses.json --reps 200 --cores ${params.cores}
     """
 }
 

@@ -18,6 +18,30 @@ files, Additional files 1-14, the Sotiriou et al. (2003) data and sma 0.5.15, an
 ## What the code does against the paper
 
 <!--DETAILS-->
+- **Simulation.** Training sets of 80 with round(80 k1train) Class 1 samples, test sets drawn
+  separately (20 balanced, 500 balanced, or 20 as imbalanced as training), p = 40, 1000 or 10000
+  standard normal variables, the first pDE shifted by mu2 in Class 2. Samples centred unless stated;
+  the t test with equal variances keeps the G = 40 largest |t| (all variables for Fig. 1 and
+  Additional file 6). One seed per setting and replicate, from the setting's name.
+- **Classifiers.** k-NN (`class::knn`), DLDA and DQDA (the rules of `sma::stat.diag.da`, the package
+  the paper used; identical predictions in the port check), RF (`randomForest`, classwt = class
+  proportions; RF-THR by cutoff at k1train), linear SVM (`e1071`, scale = FALSE, class.weights = class
+  proportions, cost 1), PAM (`pamr`, largest threshold with the smallest training error), PLR
+  (`stepPlr`, lambda = 1; PLR-THR at k1train).
+- **Corrections.** Over-sampling and down-sizing to balance; MultDS with 101 down-sized sets, selection
+  inside each, majority vote. Centred variables are centred within each corrected set.
+- **Measures.** PA, PA1, PA2; PV1 and PV2 by Eq. 6 with the original k1train; AUC from each
+  classifier's score (`Hmisc` equivalence checked). Means over replicates where a PV exists.
+- **Breast cancer.** The BRB-ArrayTools project of Sotiriou et al. (2003): 99 arrays, 7650 probes,
+  missing values set to 0; 500 random draws per design of the training samples and 20 + 20 test
+  samples.
+- **Comparison.** Every point read from the vector PDFs (markers, polylines, glyphs, interval bars,
+  through each panel's ticks) and every printed cell; a value matches within the printed precision plus
+  a Bonferroni multiple of the combined Monte Carlo standard error; interval ends within one 0.05 step.
+- **Hypotheses.** Run on the same data as our runs: SVM cost and weights, DQDA's AUC score, PAM's prior
+  and threshold rule, the order of over-sampling and selection (`hypotheses.R`); no sample centring at
+  p = 40 and pDE = p (settings `nocenter_*`); the test set behind Fig. 5's over-sampling PA and the
+  interval definition (`compare.py`).
 <!--/DETAILS-->
 
 ## Layout
@@ -33,7 +57,7 @@ files, Additional files 1-14, the Sotiriou et al. (2003) data and sma 0.5.15, an
 | `pipeline/settings.R`, `simulate.R`, `summarize.R` | The simulation settings (one seed per setting and replicate), the run, and the summary over replicates. |
 | `pipeline/read_sotiriou.R`, `er.R` | The BRB-ArrayTools project read into a matrix; the ER designs. |
 | `pipeline/port_check.R` | DLDA and DQDA against `sma::stat.diag.da`, the AUC against `Hmisc::somers2`. |
-| `pipeline/hypotheses.R` | Hypothesis tests: the SVM cost and class-weight grid, and the scores behind DQDA's AUC. |
+| `pipeline/hypotheses.R` | Hypothesis tests on the same data as our runs: the SVM cost and class-weight grid, the scores behind DQDA's AUC, PAM's prior and threshold rule, and the order of over-sampling and selection. |
 | `pipeline/compare.py`, `claims.py` | Every published value against ours; the claims of the text, recomputed from the paper's values first. |
 | `pipeline/figures.py` | Our values drawn on the published frames, and overlays. |
 | `pipeline/check_package.sh` | R CMD build, R CMD check and the tutorial render of `../package`. |
@@ -65,7 +89,7 @@ and pushes that touch this paper (about 15 minutes), and the full rerun when sta
 2. `EXTRACT`: the published values from the PDFs.
 3. `READ_DATA`, `PORT_CHECK`: the breast cancer data; DLDA and DQDA against sma.
 4. `SIMULATE`: rerun the first replicates of every setting and design (all with `--full`) and summarize.
-5. `HYPOTHESES`: the SVM grid and the DQDA AUC scores.
+5. `HYPOTHESES`: the SVM grid, the DQDA AUC scores, PAM's prior and threshold, the over-sampling order.
 6. `COMPARE`, `FIGURES`, `CLAIMS`: every published value against ours; renders and overlays; the claims.
 7. `PACKAGE`: the R package check.
 8. `RESULTS`, `CHECK`: `results.json`, the page, and the check that the run equals the committed outputs.
@@ -73,4 +97,12 @@ and pushes that touch this paper (about 15 minutes), and the full rerun when sta
 ## Limits
 
 <!--LIMITS-->
+- The SVM's cost and class-weight direction are not given and no single choice fits all its results;
+  its points are listed as differences with the grid in `output/hypotheses.json`.
+- PAM's threshold tie rule is not given; our PAM is slightly more biased near balance.
+- Replicates: 1,000 for the settings behind Figs 1 and 5's first column and Additional files 1, 3 and
+  11, 500 elsewhere, 200 for Additional file 6 and the hypothesis tests. The tolerance uses our count.
+- Additional file 2 (eight other selection methods, settings not given) and the grade analysis ("data
+  not shown") are not attempted.
+- Values read from the figures carry the reading error of the vector paths (below 0.0005 in y).
 <!--/LIMITS-->

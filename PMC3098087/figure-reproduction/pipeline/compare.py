@@ -73,6 +73,8 @@ def sim_key(rec, x):
         return f"af9_p1000_k{kfmt(x)}", rec["test"], cl, rec["metric"]
     if f == "af11":
         return f"alt20_p1000_k{kfmt(x)}", "bal20", cl, rec["metric"]
+    if f == "af6":
+        return f"nosel_p1000_k{kfmt(x)}", "bal20", cl, rec["metric"]
     raise KeyError(f)
 
 
@@ -102,7 +104,7 @@ def ours(summary, key, strict=True):
         return None
     return {"mean": num(r["mean"] if strict else r["mean_avail"]), "mean_avail": num(r["mean_avail"]),
             "sd": num(r["sd"]), "n": int(r["n"]), "n_na": int(r["n_na"]),
-            "q025": num(r["q025"]), "q975": num(r["q975"])}
+            "q025": num(r["q025"]), "q975": num(r["q975"]), "q05": num(r.get("q05")), "q95": num(r.get("q95"))}
 
 
 def figure_item(recs, summary, n_paper=1000, control=None):
@@ -159,15 +161,22 @@ def table_item(cells, summary, keyf, n_paper):
     return {"fields": fields, "matched": hits, "n_fields": len(fields), "missing_settings": missing, "z": round(z, 3)}
 
 
-def pi_item(recs, summary, keyf, step):
-    """Prediction intervals: our 2.5th and 97.5th percentiles against the plotted bar ends."""
+def pi_item(recs, summary, keyf, step, how="percentiles"):
+    """Prediction intervals: our 2.5th and 97.5th percentiles against the plotted bar ends. Hypothesis
+    tests: how="normal" (mean -/+ 1.96 SD) or how="90%" (5th and 95th percentiles)."""
     fields = []
     for rec in recs:
         for key, lo, hi, name in keyf(rec):
             o = ours(summary, key)
             if o is None:
                 continue
-            for end, val, q in (("lower", lo, o["q025"]), ("upper", hi, o["q975"])):
+            if how == "normal":
+                ql, qh = (None, None) if o["sd"] is None else (o["mean_avail"] - 1.96 * o["sd"], o["mean_avail"] + 1.96 * o["sd"])
+            elif how == "90%":
+                ql, qh = o["q05"], o["q95"]
+            else:
+                ql, qh = o["q025"], o["q975"]
+            for end, val, q in (("lower", lo, ql), ("upper", hi, qh)):
                 if val is None or q is None:
                     continue
                 fields.append({"name": f"{name}, {end}", "expected": f"{val:.3f}", "observed": round(q, 4),
@@ -195,7 +204,7 @@ def main():
                               control=lambda r, x, k: (k[0].replace(f"mu_{r['center']}", "mu_" + ("variables" if r["center"] == "samples" else "samples")), k[1], k[2], k[3]))
     out["fig5"] = figure_item(by("fig5"), summary,
                               control=lambda r, x, k: (k[0].replace("multds", "down").replace("over", "alt20") if r["correction"] in ("multds", "over") else k[0].replace("down", "alt20").replace("alt20_p1000", "down_p1000") if r["correction"] == "none" else k[0].replace("down", "alt20"), k[1], k[2], k[3]))
-    for af in ("af4", "af5", "af7", "af8", "af9", "af11"):
+    for af in ("af4", "af5", "af6", "af7", "af8", "af9", "af11"):
         out[af] = figure_item(by(af), summary)
     # Hypothesis tests, not our results.
     # (1) The alternative case without centring the samples (settings nocenter_*, 200 replicates):
@@ -264,9 +273,14 @@ def main():
     out["fig6"] = {"fields": fields, "matched": hits, "n_fields": len(fields), "z": round(z, 3)}
     out["fig6.pi"] = pi_item(f6, summary, lambda r: [(r["key"], r["lo"], r["hi"], r["label"])], 0.05)
     # Additional file 12: the prediction intervals of Fig. 6 for all nine classifiers.
-    out["af12"] = pi_item(by("af12"), summary, lambda r: [((f"er_{r['center']}_{r['correction']}_neg{r['n_neg']}_pos{r['n_pos']}", "bal40",
-                                                             r["classifier"], MAP_ER[r["metric"]]), r["lo"] / 100, r["hi"] / 100,
-                                                            f"{r['classifier']} {r['center']} {r['correction']} {r['n_pos']} ER+/{r['n_neg']} ER- {r['metric']}")], 0.05)
+    af12_keys = lambda r: [((f"er_{r['center']}_{r['correction']}_neg{r['n_neg']}_pos{r['n_pos']}", "bal40",  # noqa: E731
+                             r["classifier"], MAP_ER[r["metric"]]), r["lo"] / 100, r["hi"] / 100,
+                            f"{r['classifier']} {r['center']} {r['correction']} {r['n_pos']} ER+/{r['n_neg']} ER- {r['metric']}")]
+    out["af12"] = pi_item(by("af12"), summary, af12_keys, 0.05)
+    # Hypothesis tests on the interval definition, not our results.
+    for how, tag in (("normal", "normal"), ("90%", "q90")):
+        out[f"fig6.pi.{tag}"] = pi_item(f6, summary, lambda r: [(r["key"], r["lo"], r["hi"], r["label"])], 0.05, how)
+        out[f"af12.{tag}"] = pi_item(by("af12"), summary, af12_keys, 0.05, how)
     # Additional file 10: PIs of the overall PA. The caption says 500 test samples; the bars sit on a
     # 0.05 grid, which a 20-sample test set gives. Both are compared.
     def af10_keys(test):

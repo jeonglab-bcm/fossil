@@ -11,5 +11,6 @@ summarize_runs(runs)
 }
 \description{
 Means keep NA when any replicate is NA (as the paper's tables show NA for PV1), and
-`mean_avail` averages the replicates where the value exists.
+`mean_avail` averages the replicates where the value exists. `q025` and `q975` bound the 95\%
+prediction interval; `q05` and `q95` (a 90\% interval) are kept to test the paper's definition.
 }

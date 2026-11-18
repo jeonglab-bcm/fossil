@@ -332,8 +332,9 @@ def supplements(supp):
             recs.append({"figure": "af9", "classifier": name, "test": test, "metric": c,
                          "points": sorted([x, y] for x, y in pts.items()), "x_residual": rx, "y_residual": ry,
                          "box": [round(v, 3) for v in box], "map": [round(v, 8) for v in (ax, bx, ay, by)], "page": 1})
-    # Additional file 8 (Fig. 5, all nine) and 10 (ntest = 500, DLDA, RF, PLR) and 11 (RF/PLR-THR).
-    for af in (8, 10, 11):
+    # Additional file 6 (no variable selection, Fig. 5 first column, all nine), 8 (Fig. 5, all nine),
+    # 10 (ntest = 500, DLDA, RF, PLR) and 11 (RF/PLR-THR).
+    for af in (6, 8, 10, 11):
         page = pymupdf.open(supp / f"1471-2105-11-523-S{af}.PDF")[0]
         lines, words = vp._black_lines(page), page.get_text("words")
         boxes = vp.panels(page)

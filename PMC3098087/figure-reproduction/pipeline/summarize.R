@@ -29,7 +29,7 @@ for (f in sort(files)) {
   ck[[f]] <- r[r$rep <= nck, c("setting", "test", "method", "rep", metrics)]
 }
 sm <- do.call(rbind, sm)
-num <- c("mean", "mean_avail", "sd", "q025", "q975", "nsel_all")
+num <- c("mean", "mean_avail", "sd", "q025", "q975", "q05", "q95", "nsel_all")
 sm[num] <- lapply(sm[num], function(v) signif(v, 8))
 write.csv(sm, out, row.names = FALSE, na = "NA")
 ck <- do.call(rbind, ck)

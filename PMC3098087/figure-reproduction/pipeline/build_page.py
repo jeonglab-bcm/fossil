@@ -34,6 +34,7 @@ STATIONS = [
     ("fig6", ["fig6", "fig6.pi"], "Fig. 6. ER status on the Sotiriou data: class-specific PA (%) and 95% prediction intervals; black no correction, red MultDS."),
     ("af4", ["af4"], "Additional file 4. Fig. 3 left for all nine classifiers."),
     ("af5", ["af5"], "Additional file 5. Fig. 3 right for all nine classifiers."),
+    ("af6", ["af6"], "Additional file 6. No variable selection (all 1000 variables), Fig. 5 first column, all nine classifiers."),
     ("af7", ["af7"], "Additional file 7. Fig. 4 for all nine classifiers."),
     ("af8", ["af8"], "Additional file 8. Fig. 5 for all nine classifiers (MultDS run for six)."),
     ("af9", ["af9"], "Additional file 9. Over-sampling, then centred variables; balanced test set (odd columns) or as imbalanced as training."),

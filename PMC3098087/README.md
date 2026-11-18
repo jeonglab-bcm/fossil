@@ -19,8 +19,8 @@ selection of 40 variables, and three corrections (over-sampling, down-sizing and
 down-sizing, MultDS), on simulated data (1,000 replicates per setting) and on the Sotiriou breast
 cancer data (ER status, 500 random splits per design). It ran in R 2.8.1 and released no code. We
 rebuilt the classifiers, corrections, measures and simulation design from the text as the R package
-[`package/`](package/) (`multds`), reran 462 simulation settings and 50 breast cancer designs, and
-compared every plotted point of Figs 1-6 and of Additional files 4, 5, 7-12, and every printed cell of
+[`package/`](package/) (`multds`), reran 462 simulation settings and 60 breast cancer designs, and
+compared every plotted point of Figs 1-6 and of Additional files 4-12, and every printed cell of
 Additional files 1, 3, 13 and 14.
 
 | Folder | Content |
@@ -40,6 +40,13 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3098087/>
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
+The paper's conclusions hold in our run: the classifiers are biased towards the majority class,
+variable selection adds to the bias, over-sampling hardly helps, and down-sizing and above all
+multiple down-sizing remove most of it, on the simulations and on the breast cancer data alike. The
+gaps are the SVM (no cost given; no single cost and class weighting fits all its results), PAM near
+balance, the p = 40 panels of Fig. 3 (computed without the stated sample centring), the over-sampling
+details, and a few prediction-interval tails; each has a tested cause in
+[`figure-reproduction/README.md`](figure-reproduction/README.md).
 <!--/CLAIMS-LINE-->
 
 ## Install the package
