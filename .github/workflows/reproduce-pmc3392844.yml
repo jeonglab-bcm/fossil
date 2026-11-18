@@ -1,0 +1,76 @@
+name: Reproduce PMC3392844
+
+# Reruns the PMC3392844 pipeline (Liu et al. 2012, adverse drug reaction prediction from chemical,
+# biological and phenotypic properties) and checks it: Zhang et al. 2015's supplement is downloaded and its
+# SHA-256 checked; every model of Tables 2 and 3 runs again on every ADR and fold of the authors' training
+# file (SVM on seven feature sets, class-weighted SVM and RF, KNN, LR, NB, RF); the tables, figures, Table 4
+# and the claims are compared; the package adrfusion is built and tested in a fresh environment and its
+# tutorial rerun; and the fresh run is compared with the committed outputs, results.json and the page.
+# The SVM seeds 1-3 and the hypothesis variants (about 25 minutes more) run only when started by hand with
+# full = true; otherwise their committed outputs are used.
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Also rerun SVM seeds 1-3 and the hypothesis variants"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC3392844/figure-reproduction/**"
+      - "PMC3392844/package/**"
+      - "PMC3392844/results.json"
+      - "site/PMC3392844/**"
+      - ".github/workflows/reproduce-pmc3392844.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3392844/figure-reproduction/**"
+      - "PMC3392844/package/**"
+      - "PMC3392844/results.json"
+      - "site/PMC3392844/**"
+      - ".github/workflows/reproduce-pmc3392844.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package adrfusion
+        run: pip install -r PMC3392844/figure-reproduction/requirements.txt ./PMC3392844/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3392844/figure-reproduction/main.nf --outdir results -ansi-log false ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3392844-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

@@ -275,7 +275,8 @@ def _model(algorithm: str, seed: int, class_weight=None):
         from sklearn.linear_model import LogisticRegression
 
         # LIBLINEAR -s 0 (L2-regularized logistic regression), -c 10 -e 1, no bias term (LIBLINEAR's default).
-        return LogisticRegression(solver="liblinear", C=LR_C, tol=LR_EPSILON, fit_intercept=False, class_weight=class_weight)
+        return LogisticRegression(solver="liblinear", C=LR_C, tol=LR_EPSILON, fit_intercept=False, class_weight=class_weight,
+                                  random_state=seed)
     if algorithm == "nb":
         from sklearn.naive_bayes import BernoulliNB
 

@@ -159,8 +159,9 @@ def main():
         at = {}
         for k in pub:
             at[k] = {f"{x}": {"published": round(float(np.interp(x, *pub[k])), 6), "ours": round(float(np.interp(x, *ours[k])), 6)} for x in FPR_POINTS}
-        tpr_fields = [{"name": f"{k} at FPR {x}", "expected": f"{at[k][f'{x}']['published']:.2f}", "observed": at[k][f"{x}"]["ours"]}
-                      for k in pub for x in FPR_POINTS]
+        # Compared at +-0.005 TPR: half the smallest near-miss control (a 0.01 shift), fixed by the controls.
+        tpr_fields = [{"name": f"{k} at FPR {x}", "expected": f"{at[k][f'{x}']['published']:.4f}", "observed": at[k][f"{x}"]["ours"],
+                       "tolerance": {"abs": 0.005}} for k in pub for x in FPR_POINTS]
         res["figures"][fig] = {"tpr_fields": tpr_fields, "published_near_ours": pn, "ours_near_published": op, "per_curve": per,
                                "controls": controls, "tpr_at_fpr": at,
                                "curve_auc_published": {k: round(float(np.trapezoid(v[1], v[0])), 6) for k, v in pub.items()}}

@@ -165,6 +165,100 @@ def identity(claims):
                 f"Table 2's recalls imply {imp}, all within 0.1%.")
 
 
+# ------------------------------------------------------------------------- causes, composed from tests
+# Each test names a rerun the pipeline recorded and how to read it. Its result is computed: "supported"
+# when the variant matches the paper at printed precision, "inconclusive" when it moves at least halfway
+# from our value toward the paper's, "rejected" otherwise.
+
+VARIANTS = {
+    "lr_bias": "LIBLINEAR with a bias term", "lr_dual": "LIBLINEAR's dual solver", "lr_tight": "epsilon 1e-4",
+    "lr_l1": "L1 regularization", "lr_single_one": "folds without a positive training drug scored 1",
+    "lr_first_label": "probability column taken by position", "nb_multinomial": "multinomial naive Bayes",
+    "nb_alpha_0.1": "smoothing 0.1", "nb_single_one": "folds without a positive training drug scored 1",
+    "nb_first_label": "probability column taken by position", "knn_weka_prior": "WEKA IBk's 1/n prior",
+    "knn_exact_k": "exactly 55 neighbours", "svm_decision": "SVM decision values instead of probabilities",
+}
+
+
+def judge(ours, variant, paper, printed):
+    tol = 0.5 * 10 ** -len(printed.split(".")[1])
+    if abs(variant - paper) <= tol:
+        return "supported"
+    return "inconclusive" if abs(variant - paper) <= 0.5 * abs(ours - paper) else "rejected"
+
+
+def variant_test(run, key, row):
+    """A recorded variant against the paper's AUCs of a Table 3 row (or Table 2's chem for svm_decision)."""
+    H = json.load(open(Path(run) / "hypotheses.json"))
+    M = json.load(open(Path(run) / "metrics.json"))
+    P = json.load(open(Path(run) / "published_values.json"))
+    tab, prow, model = ("table2", "chem", "svm:chem") if row == "svm" else ("table3", row, f"{row}:chem+bio+pheno")
+    pa, p5 = P[tab][prow]["all"]["auc"], P[tab][prow]["50+"]["auc"]
+    v, o = H[key], M[model]
+    res = [judge(o["all"]["auc"], v["all"]["auc"], float(pa), pa), judge(o["50+"]["auc"], v["50+"]["auc"], float(p5), p5)]
+    result = "supported" if res == ["supported"] * 2 else ("rejected" if "inconclusive" not in res and "supported" not in res else "inconclusive")
+    return {"hypothesis": VARIANTS[key],
+            "test": f"AUC {v['all']['auc']:.4f} / {v['50+']['auc']:.4f}, ACC {v['all']['acc']:.4f} (paper {pa} / {p5}; ours {o['all']['auc']:.4f} / {o['50+']['auc']:.4f})",
+            "result": result}
+
+
+def seed_test(run):
+    S = json.load(open(Path(run) / "seed_spread.json"))["summary"]
+    return {"hypothesis": "seed of LIBSVM's probability fit",
+            "test": f"seeds 0-{S['seeds'] - 1}: the paper's value lies in our range in {S['paper_inside']} of {S['cells']} Table 2 cells; "
+                    f"AUC moves by up to {S['max_range']['auc']:.4f}, precision by {S['max_range']['precision']:.3f}, recall by {S['max_range']['recall']:.3f}",
+            "result": "inconclusive"}
+
+
+def offline_test(run, key):
+    d = json.load(open(Path(run) / "offline_checks.json"))[key]
+    return {"hypothesis": d["hypothesis"], "test": d["test"] + f" AUC {d['all']['auc']} / {d['50+']['auc']}.",
+            "result": d["result"].split(":")[0]}
+
+
+def tests_for(run, names):
+    out = []
+    for n in names:
+        if n == "seed":
+            out.append(seed_test(run))
+        elif n.startswith("offline:"):
+            out.append(offline_test(run, n.split(":", 1)[1]))
+        else:
+            key, row = n.split("@")
+            out.append(variant_test(run, key, row))
+    return out
+
+
+def measure_line(item):
+    v = item.get("values")
+    if v:
+        nums = [(f["name"], float(f["expected"]), float(f["observed"])) for f in v["fields"]
+                if isinstance(f["observed"], (int, float)) and str(f["expected"]).replace(".", "").replace("-", "").isdigit()]
+        miss = [f["name"] for f in v["fields"] if not field_matches(f, v.get("tolerance"))]
+        line = f"{len(v['fields']) - len(miss)} of {len(v['fields'])} fields at printed precision"
+        if nums:
+            n, e, o = max(nums, key=lambda t: abs(t[1] - t[2]))
+            line += f"; largest gap {n}: {o:g} against {e:g}"
+        elif miss:
+            line += "; not: " + ", ".join(miss[:6])
+        return line
+    p = item.get("pixels")
+    if p:
+        per = ", ".join(f"{k} {100 * min(x.values()):.1f}%" for k, x in p["per_curve"].items())
+        return f"curves within 2 px: {per}"
+    return ""
+
+
+def compose(run, item, spec):
+    """The cause of an item that falls short: its category, a measured line, the notes' one-line reason
+    (with facts filled in) and the computed tests."""
+    hyps = tests_for(run, spec.get("tests", [])) + spec.get("extra_tests", [])
+    status = "explained" if any(h["result"] == "supported" for h in hyps) or spec.get("evidence_explains") else "open"
+    return {"category": spec["category"], "status": status,
+            "summary": ". ".join(x for x in (measure_line(item), spec["reason"]) if x),
+            "evidence": spec.get("evidence", []), "hypotheses": hyps}
+
+
 def short(item, run):
     """True when the item falls short of a full match: a missed field, a score under its pass mark."""
     if item.get("method") == "none":
@@ -203,6 +297,9 @@ def main():
         sets = it.pop("assumptions_from", [])
         if sets:
             it["assumptions"] = [a for s_ in sets for a in notes["assumption_sets"][s_]] + it.get("assumptions", [])
+        lab = it.pop("label_from", None)
+        if lab:
+            it["label"] = get(run, lab)
         cause = it.pop("cause_from", None)
         src = it.pop("fields_from", None)
         if src:
@@ -228,7 +325,7 @@ def main():
             it["check"] = {"passed": ok, "detail": detail}
         if cause:
             if short(it, run):
-                it["cause"] = copy.deepcopy(notes["causes"][cause])
+                it["cause"] = compose(run, it, notes["causes"][cause])
             else:
                 stale.append(f"{it['id']} comes back in full, but the notes give it cause {cause!r}")
         elif short(it, run) and "cause" not in it:
