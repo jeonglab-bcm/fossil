@@ -1,0 +1,114 @@
+{
+ "schema": "paper2repro/session-ledger/v1",
+ "session_id": "18e3d718-4594-568e-aaa2-1e371e3b683e",
+ "transcript": "18e3d718-4594-568e-aaa2-1e371e3b683e.jsonl",
+ "generated_at": "2026-11-18T22:21:54+00:00",
+ "started_at": "2026-11-18T16:11:25+00:00",
+ "ended_at": "2026-11-18T22:21:48+00:00",
+ "wall_clock_minutes": 370.4,
+ "models": [
+  "(not recorded: model identifiers are kept out of the repository)"
+ ],
+ "human_prompts": 5,
+ "mid_turn_prompts": 1,
+ "assistant_responses": 227,
+ "tool_calls": 235,
+ "tool_calls_by_name": {
+  "Bash": 205,
+  "Write": 9,
+  "Read": 6,
+  "TaskUpdate": 6,
+  "TaskCreate": 4,
+  "Skill": 1,
+  "mcp__claude-code-remote__add_repo": 1,
+  "mcp__claude-code-remote__register_repo_root": 1,
+  "ToolSearch": 1,
+  "Agent": 1
+ },
+ "tokens": {
+  "input": 457,
+  "cache_creation": 871257,
+  "cache_read": 76742483,
+  "output": 247040,
+  "thinking": 79078,
+  "total": 77861237
+ },
+ "subagents": {
+  "transcripts": 1,
+  "assistant_responses": 10,
+  "tool_calls": 12,
+  "tokens": {
+   "input": 20,
+   "cache_creation": 103767,
+   "cache_read": 630159,
+   "output": 10120,
+   "thinking": 6233,
+   "total": 744066
+  }
+ },
+ "tokens_all": {
+  "input": 477,
+  "cache_creation": 975024,
+  "cache_read": 77372642,
+  "output": 257160,
+  "thinking": 85311,
+  "total": 78605303
+ },
+ "prompts": [
+  {
+   "at": "2026-11-18T16:11:25.084Z",
+   "text": "Read https://github.com/jeonglab-bcm/Paper2Repro and install the all the skills from skills/paper2agent for Claude Code.",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T16:12:18.496Z",
+   "text": "Reproduce PMC3392844 (https://doi.org/10.1136/amiajnl-2011-000699) with the /paper2repro skill. Follow its definition of done. Work on a branch and open one pull request at the end to address issue #93 of https://github.com/jeonglab-bcm/fossil",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T19:53:21.557Z",
+   "text": "<command-name>/model</command-name>\n            <command-message>model</command-message>\n            <command-args>(model)</command-args>",
+   "mid_turn": false
+  },
+  {
+   "at": "2026-11-18T21:11:40.616Z",
+   "text": "I hit my usage limit while you were working, but it has reset now. Please continue from where you left off.",
+   "mid_turn": true
+  },
+  {
+   "at": "2026-11-18T21:24:07.855Z",
+   "text": "finish the reproduction and open the pr once everything is done",
+   "mid_turn": false
+  }
+ ],
+ "cost_state": {
+  "totalCostUSD": 14.106173899999998,
+  "totalDuration": 5028086,
+  "totalAPIDuration": 1780315,
+  "modelUsage": {
+   "(model)": {
+    "inputTokens": 785,
+    "outputTokens": 149986,
+    "thinkingTokens": 50872,
+    "cacheReadInputTokens": 34994122,
+    "cacheCreationInputTokens": 351880,
+    "cacheCreationEphemeral5mInputTokens": 0,
+    "cacheCreationEphemeral1hInputTokens": 351880,
+    "webSearchRequests": 0,
+    "costUSD": 12.816724399999998
+   },
+   "(model)": {
+    "inputTokens": 10,
+    "outputTokens": 12051,
+    "thinkingTokens": 10046,
+    "cacheReadInputTokens": 1774349,
+    "cacheCreationInputTokens": 10095,
+    "cacheCreationEphemeral5mInputTokens": 0,
+    "cacheCreationEphemeral1hInputTokens": 10095,
+    "webSearchRequests": 0,
+    "costUSD": 1.2894495
+   }
+  },
+  "note": "Claude Code's own total at the end of the last finished turn. It also counts side requests that are not conversation responses, so it can exceed tokens."
+ }
+}
