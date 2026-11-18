@@ -73,7 +73,9 @@ def more_facts(h, c):
     """Facts of the PAM, SVM, over-sampling, centring and interval hypotheses."""
     R = lambda case, key, m: h[case]["res"][key][m]  # noqa: E731
     paper = {f["name"]: f["expected"] for f in c["af8"]["fields"]}
-    nc = {k: c[f"{k}.hyp_nocenter"] for k in ("fig3", "af4", "af5")}
+    z = {"matched": 0, "n": 0}
+    nc = {k: {"centred": c[f"{k}.hyp_nocenter"].get("centred", z), "not centred": c[f"{k}.hyp_nocenter"].get("not centred", z)}
+          for k in ("fig3", "af4", "af5")}
     ot = {k: c[f"{k}.hyp_over_test"] for k in ("fig5", "af8")}
     f2 = lambda v: f"{v:.2f}"  # noqa: E731
     return {
