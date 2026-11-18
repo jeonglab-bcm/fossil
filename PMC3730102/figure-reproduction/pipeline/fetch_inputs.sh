@@ -6,8 +6,8 @@
 # --sources DIR copies the files from a local folder laid out like OUTDIR (PMC3730102/sources) instead.
 #
 # OUTDIR/geo       GEO series matrices (GSE5281, GSE5390, GSE3185, GSE4271), the GSE9885 family file
-#                  (two-colour channel values) and the platform annotations (NCBI GEO; retried, GEO
-#                  answers 403 to bursts of requests)
+#                  (two-colour channel values) and the platform annotations (NCBI GEO; paced and retried,
+#                  GEO answers 403 to bursts of requests)
 # OUTDIR/go        GO annotations of human proteins and the ontology, release 2007-01-01
 #                  (GO archive on S3; fallback release.geneontology.org)
 # OUTDIR/ppi       HPRD, Reactome and BioGRID from the Pathway Commons 2011 archive (download.baderlab.org);
@@ -37,10 +37,14 @@ fetch() {  # dest sha256 url [fallback-url]
     if [ -n "$src" ] && [ -f "$src/$dest" ]; then
         cp "$src/$dest" "$out/$dest"
     else
-        for i in 1 2 3 4 5; do
+        # GEO answers 403 to bursts of requests: pause before each GEO file and back off for up to
+        # about 14 minutes (30 s, 60 s, ... 180 s) before giving up.
+        case "$url" in *ncbi.nlm.nih.gov*) sleep "${GEO_PAUSE:-5}" ;; esac
+        for i in 1 2 3 4 5 6 7; do
             if curl -sSfL --retry 3 --retry-delay 5 -o "$out/$dest" "$url"; then break; fi
             if [ -n "$alt" ] && curl -sSfL --retry 3 -o "$out/$dest" "$alt"; then break; fi
-            sleep $((i * 10))
+            rm -f "$out/$dest"
+            [ "$i" -lt 7 ] && sleep $((i * 30))
         done
     fi
     [ -s "$out/$dest" ] || { echo "download failed: $dest" >&2; exit 1; }
