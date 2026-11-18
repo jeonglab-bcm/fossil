@@ -54,7 +54,7 @@ class Items:
         it = {"id": iid, "label": n.get("label", iid), "kind": kind, "source": n.get("source", source),
               "method": method}
         it.update(kw)
-        for k in ("assumptions", "cause"):
+        for k in ("assumptions", "cause", "review"):
             if k in n:
                 it[k] = n[k]
         if "exceptions" in n and "values" in it:

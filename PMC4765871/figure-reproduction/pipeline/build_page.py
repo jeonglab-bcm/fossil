@@ -53,6 +53,14 @@ def worst(vs):
 
 
 def measure(it):
+    m = _measure(it)
+    r = it.get("review")
+    if r and r.get("verdict") == it.get("verdict"):
+        m += f"; computed {r['computed'].replace('_', ' ')}, set to {r['verdict']} by the reviewer"
+    return m
+
+
+def _measure(it):
     if it["method"] == "values":
         f = it["values"]["fields"]
         from check_results import field_matches
