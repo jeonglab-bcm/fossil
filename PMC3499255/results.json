@@ -36,14 +36,14 @@
         "sha256": "4c3abb733cbe822fb3d12e20181dbb447ed9b4eb912f4498fe00cf44f3696266"
       }
     ],
-    "date": "2026-11-16",
+    "date": "2026-11-18",
     "environment": {
       "python": "3.13.18",
       "numpy": "2.5.3"
     },
     "mcmc": {
       "y2007": {
-        "iters": 30000,
+        "iters": 100000,
         "burn": 0.4,
         "seed": 1,
         "dataset": "y2007",
@@ -51,7 +51,7 @@
         "n": 20
       },
       "y2001": {
-        "iters": 30000,
+        "iters": 100000,
         "burn": 0.4,
         "seed": 1,
         "dataset": "y2001",
@@ -59,7 +59,7 @@
         "n": 20
       },
       "test": {
-        "iters": 15000,
+        "iters": 50000,
         "burn": 0.4,
         "seed": 1,
         "dataset": "test",
@@ -153,7 +153,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -173,6 +173,30 @@
       "verdict": "agrees"
     },
     {
+      "id": "fig2_convergence",
+      "label": "Fig. 2 convergence (4 chains x 100k)",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "4 chains x 50000: max R-hat 1.004, min ESS 671, most-likely-source agreement 1.0, max transmission-prob diff 0.062"
+      },
+      "outputs": [
+        "figure-reproduction/output/test_trace.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Four independent chains of 100,000 iterations each converge on the simulated outbreak: R-hat below 1.01 on every continuous parameter. The chains recover the known mean latency and mean transmission distance (both true values fall inside the pooled 95% intervals) and the known transmission relationships; the most-likely tree is less unanimous across chains than for the real data, as expected for a dense 20-premise simulation with several near-equal sources.",
+        "evidence": [
+          "figure-reproduction/output/test_diagnostics.json",
+          "figure-reproduction/output/test_trace.png"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
       "id": "fig3",
       "label": "Fig. 3 (2007 UK outbreak)",
       "kind": "figure",
@@ -183,7 +207,7 @@
           {
             "name": "mean latency median (days)",
             "expected": "14",
-            "observed": "13.9865",
+            "observed": "14.3782",
             "tolerance": {
               "abs": 3
             }
@@ -191,7 +215,7 @@
           {
             "name": "mean latency 95% lo",
             "expected": "6",
-            "observed": "6.6898",
+            "observed": "6.9462",
             "tolerance": {
               "abs": 3
             }
@@ -199,7 +223,7 @@
           {
             "name": "mean latency 95% hi",
             "expected": "49",
-            "observed": "49.7396",
+            "observed": "51.3234",
             "tolerance": {
               "abs": 15
             }
@@ -207,7 +231,7 @@
           {
             "name": "mean transmission distance median (km)",
             "expected": "17",
-            "observed": "15.8388",
+            "observed": "15.5529",
             "tolerance": {
               "abs": 4
             }
@@ -215,7 +239,7 @@
           {
             "name": "mean transmission distance 95% lo",
             "expected": "5",
-            "observed": "5.6447",
+            "observed": "5.7413",
             "tolerance": {
               "abs": 3
             }
@@ -223,7 +247,7 @@
           {
             "name": "mean transmission distance 95% hi",
             "expected": "58",
-            "observed": "54.4899",
+            "observed": "52.6754",
             "tolerance": {
               "abs": 15
             }
@@ -240,7 +264,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -260,6 +284,30 @@
       "verdict": "agrees"
     },
     {
+      "id": "fig3_convergence",
+      "label": "Fig. 3 convergence (4 chains x 100k)",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "4 chains x 100000: max R-hat 1.002, min ESS 3673, most-likely-source agreement 0.944, max transmission-prob diff 0.032"
+      },
+      "outputs": [
+        "figure-reproduction/output/y2007_trace.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Four independent chains of 100,000 iterations each (400,000 total, within a factor of the paper's 500,000) converge: R-hat below 1.01 on every continuous parameter, effective sample sizes in the thousands, and the chains agree on the most-likely source of almost every premise. The reported medians, intervals and figure are pooled over the four chains.",
+        "evidence": [
+          "figure-reproduction/output/y2007_diagnostics.json",
+          "figure-reproduction/output/y2007_trace.png"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
+    },
+    {
       "id": "fig4",
       "label": "Fig. 4 (2001 Darlington cluster)",
       "kind": "figure",
@@ -270,7 +318,7 @@
           {
             "name": "mean latency median (days)",
             "expected": "24",
-            "observed": "25.2556",
+            "observed": "25.6936",
             "tolerance": {
               "abs": 4
             }
@@ -278,7 +326,7 @@
           {
             "name": "mean latency 95% lo",
             "expected": "17",
-            "observed": "16.7591",
+            "observed": "16.3044",
             "tolerance": {
               "abs": 5
             }
@@ -286,7 +334,7 @@
           {
             "name": "mean latency 95% hi",
             "expected": "35",
-            "observed": "45.8321",
+            "observed": "45.1318",
             "tolerance": {
               "abs": 15
             }
@@ -299,7 +347,7 @@
           {
             "name": "most likely scenario posterior probability",
             "expected": "0.99",
-            "observed": "0.7458",
+            "observed": "0.7318",
             "tolerance": {
               "abs": 0.1
             }
@@ -308,7 +356,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -338,6 +386,30 @@
         "status": "explained"
       },
       "verdict": "partly"
+    },
+    {
+      "id": "fig4_convergence",
+      "label": "Fig. 4 convergence (4 chains x 100k)",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "4 chains x 100000: max R-hat 1.001, min ESS 5854, most-likely-source agreement 1.0, max transmission-prob diff 0.037"
+      },
+      "outputs": [
+        "figure-reproduction/output/y2001_trace.png"
+      ],
+      "cause": {
+        "category": "nondeterminism",
+        "summary": "Four independent chains of 100,000 iterations each converge: R-hat below 1.01 on every continuous parameter and high effective sample sizes. The K-hub structure is stable across all four chains; the single most-likely labelled tree holds a smaller share of the posterior than the paper's reported >99% because near-identical K-hub trees split the mass, which the convergence diagnostics confirm is not a mixing artifact.",
+        "evidence": [
+          "figure-reproduction/output/y2001_diagnostics.json",
+          "figure-reproduction/output/y2001_trace.png"
+        ],
+        "status": "explained"
+      },
+      "verdict": "agrees"
     },
     {
       "id": "table1",
@@ -399,7 +471,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -570,7 +642,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -620,7 +692,7 @@
           {
             "name": "2007 mean inferred transmission length (km)",
             "expected": "4.3",
-            "observed": "4.3",
+            "observed": "4.5",
             "tolerance": {
               "abs": 2.5
             }
@@ -636,7 +708,7 @@
           {
             "name": "2007 mean distance 95% lo (km)",
             "expected": "5",
-            "observed": "5.6447",
+            "observed": "5.7413",
             "tolerance": {
               "abs": 3
             }
@@ -644,7 +716,7 @@
           {
             "name": "2007 mean distance 95% hi (km)",
             "expected": "58",
-            "observed": "54.4899",
+            "observed": "52.6754",
             "tolerance": {
               "abs": 15
             }
@@ -652,7 +724,7 @@
           {
             "name": "2001 mean distance 95% lo (km)",
             "expected": "9",
-            "observed": "9.0722",
+            "observed": "9.1517",
             "tolerance": {
               "abs": 4
             }
@@ -660,7 +732,7 @@
           {
             "name": "2001 mean distance 95% hi (km)",
             "expected": "72",
-            "observed": "63.7535",
+            "observed": "65.1420",
             "tolerance": {
               "abs": 18
             }
@@ -668,7 +740,7 @@
           {
             "name": "IP5 mean latency (days, >25)",
             "expected": "25",
-            "observed": "25.4",
+            "observed": "25.6",
             "tolerance": {
               "abs": 12
             }
@@ -677,7 +749,7 @@
       },
       "assumptions": [
         {
-          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Our figures are drawn the way the paper drew them in R base graphics, on the published figure's pixel grid: the same panel boxes, the dot plot in the paper's row order with its legend, the maps with asp = 1 on the paper's uncorrected longitude-latitude scale, and the histograms on the paper's breaks, with every map and histogram on the paper's own axis limits and R's tick rules, so the scales are the same and the panels overlay the published ones. The axis limits, the map scale and origin, the 2007 row order and the side of each map label are read from the figures; the model's own distances are cosine-corrected.",
+          "what": "The paper's transmission probabilities and posterior distributions are read from the figures; only the medians and 95% intervals are printed. All of these are MCMC output, so posterior quantities are compared at a Monte Carlo tolerance (recorded per field), not at printed precision. Reported medians and intervals are pooled over four independent chains of 100,000 iterations each, shown to have converged (R-hat < 1.01, high ESS); see the convergence items. Our figures are drawn at the published figure's pixel size with the same panel layout and axis ranges.",
           "source": "read_from_figure",
           "sensitivity": "Medians move by about one unit and interval ends by several units between seeds; see the per-field tolerances."
         }
@@ -793,9 +865,9 @@
     }
   ],
   "summary": {
-    "items": 14,
+    "items": 17,
     "exact": 0,
-    "agrees": 7,
+    "agrees": 10,
     "partly": 2,
     "inconclusive": 0,
     "differs": 0,

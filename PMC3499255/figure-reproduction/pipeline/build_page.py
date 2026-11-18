@@ -91,6 +91,12 @@ def main():
                     f"<figure class='plate'><figcaption>Published</figcaption>{img_tag(pub_p, 'published figure')}</figure>"
                     f"<figure class='plate'><figcaption>Reproduced</figcaption>{img_tag(ours_p, 'reproduced figure')}</figure>"
                     "</div>")
+        elif iid.endswith("_convergence"):
+            for outp in item.get("outputs", []):
+                tp = os.path.join(args.rundir, os.path.basename(outp))
+                if os.path.exists(tp):
+                    figs = (f"<figure class='plate'><figcaption>MCMC traces and running medians</figcaption>"
+                            f"{img_tag(tp, 'trace plot')}</figure>")
         vt = value_table(item)
         chk = ""
         if item.get("method") == "check":

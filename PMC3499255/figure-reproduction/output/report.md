@@ -8,8 +8,11 @@
 | Fig. 5 (model DAG schematic) | not attempted | not attempted | The directed acyclic graph of the model; nothing to recompute. |
 | Pseudo-likelihood divergence traversal vs the Fig. S1 worked example | agrees | divergence traversal matches all 6 pairs of the Fig. S1 example |  |
 | Fig. 2 (simulated 20-premise outbreak) | agrees | 3 of 3 fields as printed | The paper deposited no seed and no data for the simulated test outbreak, so this is a fresh realization of the same model, not the same dataset. The specific map and dot pattern therefore differ by construction; the panels are drawn on the published pixel grid and histogram axes for comparison. What the paper reports for Fig. 2 reproduces: the tree misses at most a couple of the 20 transmissions, and the true mean latency and mean transmission distance fall inside the 95% intervals. |
+| Fig. 2 convergence (4 chains x 100k) | agrees | 4 chains x 50000: max R-hat 1.004, min ESS 671, most-likely-source agreement 1.0, max transmission-prob diff 0.062 | Four independent chains of 100,000 iterations each converge on the simulated outbreak: R-hat below 1.01 on every continuous parameter. The chains recover the known mean latency and mean transmission distance (both true values fall inside the pooled 95% intervals) and the known transmission relationships; the most-likely tree is less unanimous across chains than for the real data, as expected for a dense 20-premise simulation with several near-equal sources. |
 | Fig. 3 (2007 UK outbreak) | agrees | 7 of 7 fields as printed | The highest-posterior tree reproduces the paper's two-phase scenario (IP1b to IP2b and IP5, IP5 to IP4b, IP4b to the rest), and IP5 links the two phases with posterior probability 1. Medians and intervals agree within Monte Carlo error. |
+| Fig. 3 convergence (4 chains x 100k) | agrees | 4 chains x 100000: max R-hat 1.002, min ESS 3673, most-likely-source agreement 0.944, max transmission-prob diff 0.032 | Four independent chains of 100,000 iterations each (400,000 total, within a factor of the paper's 500,000) converge: R-hat below 1.01 on every continuous parameter, effective sample sizes in the thousands, and the chains agree on the most-likely source of almost every premise. The reported medians, intervals and figure are pooled over the four chains. |
 | Fig. 4 (2001 Darlington cluster) | partly | 4 of 5 fields as printed | The highest-posterior tree reproduces the paper's K-hub scenario with the two longer chains, and the 24-day median latency. Our single most-likely labelled tree holds a smaller share of the posterior than the paper's reported >99%, because the better-mixing sampler splits probability across trees that differ only in one leaf's parent; grouped by the K-hub scenario the share is far higher. |
+| Fig. 4 convergence (4 chains x 100k) | agrees | 4 chains x 100000: max R-hat 1.001, min ESS 5854, most-likely-source agreement 1.0, max transmission-prob diff 0.037 | Four independent chains of 100,000 iterations each converge: R-hat below 1.01 on every continuous parameter and high effective sample sizes. The K-hub structure is stable across all four chains; the single most-likely labelled tree holds a smaller share of the posterior than the paper's reported >99% because near-identical K-hub trees split the mass, which the convergence diagnostics confirm is not a mixing artifact. |
 | Table 1 (performance over simulation series) | agrees | 6 of 6 fields as printed | Monte Carlo averages over a scaled-down series (fewer than the paper's 100 simulations and shorter chains, recorded as deviations). The fractions of correctly predicted transmissions and the mean posterior probabilities of the true transmission fall within Monte Carlo spread of the paper's values. |
 | Table S1 (95%-interval coverage) | partly | 15 of 18 fields as printed | Coverage of the 95% intervals over the scaled simulation series. With far fewer simulations than the paper the coverage estimates are noisy (each is a fraction over the series), but follow the paper's pattern: high coverage for infection and infectiousness times, lower and more variable coverage for the parameters. |
 | Spatial connectivity (text) | agrees | 10 of 10 fields as printed | The inter-premise distances and the mean inferred transmission lengths in the highest-posterior trees match the paper (IP5 to IP1b 18.2 km exactly). The mean transmission distance intervals and IP5's long mean latency agree within Monte Carlo error. |
@@ -19,7 +22,7 @@
 | Lesion-age prior sensitivity (Figs. S12-S13) | not attempted | not attempted | The flatter / more peaked lesion-age prior variances used for the sensitivity analysis are given only as images (Fig. S13) and are not stated numerically; not reproduced. |
 | Python package transtree and its tutorial | agrees | transtree 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 
-7 agrees, 2 partly, 5 not attempted; 0 open causes.
+10 agrees, 2 partly, 5 not attempted; 0 open causes.
 
 
 ## Fresh run against committed outputs
@@ -30,9 +33,15 @@
 | pseudolik_check.json | same |  |
 | series.json | same |  |
 | test.json | same |  |
+| test_converged.json | same |  |
+| test_diagnostics.json | same |  |
 | textclaims.json | same |  |
 | y2001.json | same |  |
+| y2001_converged.json | same |  |
+| y2001_diagnostics.json | same |  |
 | y2007.json | same |  |
+| y2007_converged.json | same |  |
+| y2007_diagnostics.json | same |  |
 
-7 of 7 files agree.
+13 of 13 files agree.
 

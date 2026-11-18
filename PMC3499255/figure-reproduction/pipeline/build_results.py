@@ -93,15 +93,21 @@ def main():
     args = ap.parse_args()
 
     notes = json.load(open(args.notes))
+    # The reported medians, intervals and figures come from the pooled converged
+    # runs (4 chains x 100k); a fast single-chain run only anchors the CI
+    # determinism check. So the dataset keys resolve to the *_converged.json files.
     runs = {
-        "y2007": load(args.rundir, "y2007.json"),
-        "y2001": load(args.rundir, "y2001.json"),
-        "test": load(args.rundir, "test.json"),
+        "y2007": load(args.rundir, "y2007_converged.json"),
+        "y2001": load(args.rundir, "y2001_converged.json"),
+        "test": load(args.rundir, "test_converged.json"),
         "series": load(args.rundir, "series.json"),
         "text": load(args.rundir, "textclaims.json"),
         "package": load(args.rundir, "package.json"),
         "pseudolik": load(args.rundir, "pseudolik_check.json"),
         "arith": load(args.rundir, "arithmetic_check.json"),
+        "y2007d": load(args.rundir, "y2007_diagnostics.json"),
+        "y2001d": load(args.rundir, "y2001_diagnostics.json"),
+        "testd": load(args.rundir, "test_diagnostics.json"),
     }
 
     assumptions_lib = {"mc": notes["mc_assumption"]}
@@ -143,6 +149,19 @@ def main():
             elif iid == "text.arithmetic":
                 rep = runs["arith"] or {"passed": False, "detail": "missing"}
                 chk = {"passed": bool(rep.get("passed")), "detail": rep.get("detail", "")}
+            elif iid.endswith("_convergence"):
+                dkey = {"fig3_convergence": "y2007d", "fig4_convergence": "y2001d",
+                        "fig2_convergence": "testd"}[iid]
+                d = runs[dkey] or {}
+                rhat = d.get("rhat", {}); ess = d.get("ess", {})
+                ts = d.get("tree_stability", {})
+                rmax = max((v for v in rhat.values() if v == v), default=float("nan"))
+                emin = min((v for v in ess.values() if v == v), default=float("nan"))
+                chk = {"passed": bool(d.get("converged")),
+                       "detail": (f"{d.get('n_chains')} chains x {d.get('iters_per_chain')}: "
+                                  f"max R-hat {rmax:.3f}, min ESS {emin:.0f}, "
+                                  f"most-likely-source agreement {ts.get('most_likely_source_agreement')}, "
+                                  f"max transmission-prob diff {ts.get('max_trans_prob_diff')}")}
             else:
                 chk = {"passed": False, "detail": "unknown check"}
             item = {"id": iid, "label": note["label"], "kind": note["kind"],

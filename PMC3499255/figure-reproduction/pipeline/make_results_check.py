@@ -41,20 +41,26 @@ def main():
                         "expected": round(float(jpath(obj, path)), 6),
                         "tolerance": {"abs": tol}})
 
-    # Real-data posteriors are deterministic (fixed seed): tight tolerance.
+    # The CI determinism anchor: the fast single-chain runs that PR CI reruns and
+    # must reproduce exactly (fixed seed).
     for tag, obj, fname in [("2007", y07, "y2007.json"), ("2001", y01, "y2001.json")]:
-        add(f"{tag}_latency_median", f"{tag} mean latency median", fname, "mean_latency.median", obj, 1e-6)
-        add(f"{tag}_latency_lo", f"{tag} mean latency 95% lo", fname, "mean_latency.lo", obj, 1e-6)
-        add(f"{tag}_latency_hi", f"{tag} mean latency 95% hi", fname, "mean_latency.hi", obj, 1e-6)
-        add(f"{tag}_distance_median", f"{tag} mean distance median", fname, "mean_distance.median", obj, 1e-6)
-        add(f"{tag}_distance_lo", f"{tag} mean distance 95% lo", fname, "mean_distance.lo", obj, 1e-6)
-        add(f"{tag}_distance_hi", f"{tag} mean distance 95% hi", fname, "mean_distance.hi", obj, 1e-6)
-        add(f"{tag}_best_tree_prob", f"{tag} most-likely tree probability", fname, "best_tree_prob", obj, 1e-6)
+        add(f"{tag}_ci_latency_median", f"{tag} (CI single chain) mean latency median", fname, "mean_latency.median", obj, 1e-6)
+        add(f"{tag}_ci_distance_median", f"{tag} (CI single chain) mean distance median", fname, "mean_distance.median", obj, 1e-6)
 
-    # Fig. 2 (simulated) and the series are only rerun with --full; when present in a
-    # run they must match the committed values exactly (deterministic seeds).
-    add("test_latency_median", "Fig. 2 mean latency median", "test.json", "mean_latency.median", tst, 1e-6)
-    add("test_distance_median", "Fig. 2 mean distance median", "test.json", "mean_distance.median", tst, 1e-6)
+    # The reported science: the pooled converged runs (4 chains x 100k), committed
+    # and regenerated only under --converge.
+    y07c = load("y2007_converged.json"); y01c = load("y2001_converged.json")
+    tstc = load("test_converged.json")
+    for tag, obj, fname in [("2007", y07c, "y2007_converged.json"), ("2001", y01c, "y2001_converged.json")]:
+        add(f"{tag}_latency_median", f"{tag} mean latency median (converged)", fname, "mean_latency.median", obj, 1e-6)
+        add(f"{tag}_latency_lo", f"{tag} mean latency 95% lo (converged)", fname, "mean_latency.lo", obj, 1e-6)
+        add(f"{tag}_latency_hi", f"{tag} mean latency 95% hi (converged)", fname, "mean_latency.hi", obj, 1e-6)
+        add(f"{tag}_distance_median", f"{tag} mean distance median (converged)", fname, "mean_distance.median", obj, 1e-6)
+        add(f"{tag}_distance_lo", f"{tag} mean distance 95% lo (converged)", fname, "mean_distance.lo", obj, 1e-6)
+        add(f"{tag}_distance_hi", f"{tag} mean distance 95% hi (converged)", fname, "mean_distance.hi", obj, 1e-6)
+
+    add("test_latency_median", "Fig. 2 mean latency median (converged)", "test_converged.json", "mean_latency.median", tstc, 1e-6)
+    add("test_distance_median", "Fig. 2 mean distance median (converged)", "test_converged.json", "mean_distance.median", tstc, 1e-6)
     for s in ("test", "y2007", "y2001"):
         add(f"series_{s}_frac", f"Table 1 fraction correct, {s}", "series.json",
             f"{s}.frac_correct_mean", ser, 1e-6)

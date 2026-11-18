@@ -20,6 +20,8 @@ params.outdir = 'results'
 params.python = 'python3'
 params.sources = null
 params.full = false
+params.converge = false
+params.conv_iters = 100000
 
 params.pipe = "${projectDir}/pipeline"
 params.committed = "${projectDir}/output"
@@ -84,14 +86,39 @@ process SERIES {
         """
 }
 
+// Pooled multi-chain convergence study (R-hat, ESS, trace, tree stability).
+// Default: read the committed converged outputs. --converge reruns the four
+// chains per figure at 100k iterations each (slow; a manual/scheduled job).
+process CONVERGE {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path downloads
+    output:
+    path 'conv'
+    script:
+    if (params.converge)
+        """
+        mkdir conv
+        ${params.py} ${params.pipe}/converge.py y2007 --sources ${downloads} --iters ${params.conv_iters} --n-chains 4 --out-dir conv
+        ${params.py} ${params.pipe}/converge.py y2001 --sources ${downloads} --iters ${params.conv_iters} --n-chains 4 --out-dir conv
+        ${params.py} ${params.pipe}/converge.py test --iters ${params.conv_iters} --n-chains 4 --sim-seed 0 --n 20 --out-dir conv
+        """
+    else
+        """
+        mkdir conv
+        cp ${params.committed}/y2007_converged.json ${params.committed}/y2001_converged.json ${params.committed}/test_converged.json conv/
+        cp ${params.committed}/y2007_diagnostics.json ${params.committed}/y2001_diagnostics.json ${params.committed}/test_diagnostics.json conv/
+        cp ${params.committed}/y2007_trace.png ${params.committed}/y2001_trace.png ${params.committed}/test_trace.png conv/
+        """
+}
+
 process TEXTCLAIMS {
     input:
-    path a07
-    path a01
+    path conv
     output:
     path 'textclaims.json'
     script:
-    "${params.py} ${params.pipe}/textclaims.py ${a07} ${a01} --out textclaims.json"
+    "${params.py} ${params.pipe}/textclaims.py ${conv}/y2007_converged.json ${conv}/y2001_converged.json --out textclaims.json"
 }
 
 process CHECKS {
@@ -117,17 +144,15 @@ process PACKAGE {
 process RENDER {
     publishDir "${params.outdir}", mode: 'copy'
     input:
-    path a07
-    path a01
-    path tst
+    path conv
     output:
     path 'fig*_ours.png'
     path 'fig*_overlay.png'
     script:
     """
-    ${params.py} ${params.pipe}/render.py ${a07} --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
-    ${params.py} ${params.pipe}/render.py ${a01} --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
-    ${params.py} ${params.pipe}/render.py ${tst} --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
+    ${params.py} ${params.pipe}/render.py ${conv}/y2007_converged.json --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
+    ${params.py} ${params.pipe}/render.py ${conv}/y2001_converged.json --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
+    ${params.py} ${params.pipe}/render.py ${conv}/test_converged.json --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
     """
 }
 
@@ -136,6 +161,7 @@ process RESULTS {
     input:
     path jsons        // all *.json outputs
     path figs         // all fig png outputs
+    path conv         // converged pooled posteriors, diagnostics and trace plots
     output:
     path 'run', emit: run
     path 'results.json', emit: results
@@ -145,6 +171,7 @@ process RESULTS {
     mkdir run
     cp ${jsons} run/ 2>/dev/null || true
     cp ${figs} run/ 2>/dev/null || true
+    cp ${conv}/* run/ 2>/dev/null || true
     ${params.py} ${params.pipe}/build_results.py run ${projectDir}/results_notes.json results.json \
         --check-results ${params.pipe}/check_results.py --root run
     cp results.json run/results.json
@@ -171,12 +198,13 @@ workflow {
     a01 = reals.filter { it[0] == 'y2001' }.map { it[1] }
     tst = ANALYZE_TEST()
     ser = SERIES(dl)
-    txt = TEXTCLAIMS(a07, a01)
+    conv = CONVERGE(dl)
+    txt = TEXTCLAIMS(conv)
     (pseudo, arith) = CHECKS(dl)
     pkg = PACKAGE()
-    (ours, overlays) = RENDER(a07, a01, tst)
+    (ours, overlays) = RENDER(conv)
     jsons = a07.mix(a01, tst, ser, txt, pseudo, arith, pkg).collect()
     figs = ours.mix(overlays).collect()
-    r = RESULTS(jsons, figs)
+    r = RESULTS(jsons, figs, conv)
     BUILD_PAGE(r.run)
 }

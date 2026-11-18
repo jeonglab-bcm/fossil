@@ -16,6 +16,10 @@ on:
         description: "Also rerun Fig. 2 and the simulation series"
         type: boolean
         default: false
+      converge:
+        description: "Rerun the 4-chain x 100k convergence study (slow)"
+        type: boolean
+        default: false
   pull_request:
     paths:
       - "PMC3499255/figure-reproduction/**"
@@ -59,7 +63,7 @@ jobs:
       - name: Run the Nextflow pipeline
         run: >
           nextflow run PMC3499255/figure-reproduction/main.nf --outdir results -ansi-log false
-          ${{ inputs.full && '--full' || '' }}
+          ${{ inputs.full && '--full' || '' }} ${{ inputs.converge && '--converge' || '' }}
 
       - name: Report
         if: always()
