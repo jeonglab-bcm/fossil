@@ -73,7 +73,10 @@ def diff_block(lines):
     return "```diff\n" + "\n".join(lines) + "\n```"
 
 
-def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
+LIMIT = 60000  # GitHub refuses a comment body over 65,536 characters
+
+
+def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url, compact=False):
     fmt = check_results.fmt
     rows = check["results"]
     n_ok = sum(r["status"] == "pass" for r in rows)
@@ -99,7 +102,11 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
     for i, e in old.items():
         if i not in new:
             lines.append(f"- {i:<{width}}  {fmt(e['expected'])}   (removed)")
-    out.append(diff_block(lines) if lines else "No expected value changes.")
+    if compact and len(lines) > 40:
+        out.append(f"{sum(1 for x in lines if x.startswith('+'))} added or changed and "
+                   f"{sum(1 for x in lines if x.startswith('-'))} removed or replaced expected values; too many to list here.")
+    else:
+        out.append(diff_block(lines) if lines else "No expected value changes.")
     out.append("")
 
     bad = [r for r in rows if r["status"] != "pass"]
@@ -113,15 +120,19 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
         out.append(diff_block(lines))
         out.append("")
 
-    out.append(f"<details><summary>All {len(rows)} results</summary>\n")
-    out.append("| Result | Expected | Committed | Gap | Allowed | |\n| --- | --- | --- | --- | --- | --- |")
-    for r in rows:
+    if compact:
+        out.append(f"The table of all {len(rows)} results is too long for a comment; it is in the run's artifact.\n")
+    else:
+        out.append(f"<details><summary>All {len(rows)} results</summary>\n")
+        out.append("| Result | Expected | Committed | Gap | Allowed | |\n| --- | --- | --- | --- | --- | --- |")
+    for r in ([] if compact else rows):
         gap = f"{r['gap']:+.3g}" if isinstance(r["gap"], (int, float)) else ""
         mark = {"pass": "agrees", "fail": "**differs**", "missing": "**missing**"}[r["status"]]
         cells = [r["label"], fmt(r["expected"]), fmt(r["observed"]) if r["status"] != "missing" else "", gap,
                  check_results.fmt_tol(r.get("tolerance")), mark]
         out.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
-    out.append("\n</details>\n")
+    if not compact:
+        out.append("\n</details>\n")
 
     out.append("#### The paper's figures against the renders in this PR")
     if not figures:
@@ -206,6 +217,8 @@ def main():
         image_url = lambda name: f"https://raw.githubusercontent.com/{args.repo}/{ASSETS}/{dest}/{name}"
 
     body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url)
+    if len(body) > LIMIT:
+        body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, compact=True)
     if args.dry_run:
         print(body)
         return
