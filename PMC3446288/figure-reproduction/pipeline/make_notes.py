@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Write results_notes.json: the hand-written part of results.json (labels, sources, assumptions,
+causes, page prose). Kept as a script so the long notes stay readable; run it after editing:
+
+  python3 make_notes.py ../results_notes.json
+
+The skill block is not written here: skill_version.py stamps it into the notes file (phase 1), and
+this script keeps whatever block the file already has.
+"""
+import json
+import sys
+from pathlib import Path
+
+out = Path(sys.argv[1])
+old = json.loads(out.read_text()) if out.exists() else {}
+
+ANNOT = {"what": "Exon models from the UCSC mm9 dumps available today: refGene regenerated 2020-08-22, knownGene 2011-05-30, "
+                 "ensGene 2011-11-14 (Ensembl 67), GENSCAN and Exoniphy 2007; TROMER (no mouse data online) left out",
+         "source": "our_choice",
+         "sensitivity": "The paper's annotation dates are not given and its 2011 RefSeq is gone. The rebuilt database has 5,093,205 "
+                        "junctions against 5,574,728 (-8.6%), so every count downstream of the database moves by several per cent."}
+BOWTIE = {"what": "Bowtie 1.0.0 (the oldest on Bioconda) in place of 0.11.3, with the paper's settings (-n 2 -l 68 --best -k 1); "
+                  "genome and junction database searched separately, the hit with fewer mismatches kept, the genome on a tie",
+          "source": "our_choice",
+          "sensitivity": "The paper mapped to one combined index; separate searches with the tie rule give the same best stratum "
+                         "except where Bowtie would pick a random tie between genome and junction (we pick the genome)."}
+TOPHAT = {"what": "TopHat junctions taken from the authors' own TopHat 1.0.14 alignments in GEO GSE26561 (not rerun)",
+          "source": "paper",
+          "sensitivity": "Per sample our TopHat junction count is within 6 of Table S1's (BMM WT 101,174 against 14,749 + 86,427 = 101,176)."}
+EVID = {"what": "Junction evidence: at least 3 reads in WT or KO (Fig. 2a caption; Additional file 1 says 'more than 2')",
+        "source": "paper", "sensitivity": "The two statements are the same rule."}
+FC = {"what": "Junction fold change = (KO reads / TMM-scaled KO library) / (WT reads / TMM-scaled WT library), divided by the "
+              "gene's KO/WT RPKM ratio (upper-quartile RPKM of reads in the longest RefSeq model); >= 2 up, <= 1/2 down; "
+              "no reads in WT and some in KO counts as up",
+      "source": "paper",
+      "sensitivity": "Without the gene normalisation the counts of up-regulated junctions change (fig2a_all_raw_fc in analysis.json)."}
+PSI = {"what": "PSI as a proportion: SES inclusion = mean reads of the two inclusion junctions, PSI = inclusion / (inclusion + "
+               "skipping); MES uses the mean over the skipped junctions; two alternative junctions: r1 / (r1 + r2)",
+       "source": "our_choice",
+       "sensitivity": "Additional file 1's formulas are equation objects that do not survive conversion (they read as ratios that "
+                      "are not proportions); this reading gives the PSI values printed in Additional files 8 and 9 for the events whose read counts we share."}
+CLASS = {"what": "Class rules of Additional file 1 written as code: SES = exactly one inclusion path through one annotated exon; "
+                 "A5SS/A3SS = two junctions sharing one edge whose exons share the other edge; AFE/ALE = alternative annotated "
+                 "first/last exons with no junction into their outer edge; MXE = two exons between shared edges with no "
+                 "junction joining them and no exon between them; named by transcript strand; events need dPSI > 0.2",
+         "source": "our_choice",
+         "sensitivity": "The paper's iteration order and tie rules are not given; an event can belong to more than one class here."}
+SEED = {"what": "Seed 20120524 for the downsampling of Fig. 3b and the 4,000 random exons of Fig. 7a",
+        "source": "our_choice", "sensitivity": "The paper gives no seeds; other seeds move the slopes by about 0.005 and the random-exon means by about 0.01."}
+RPKM6 = {"what": "Junction RPKM of Fig. 6 = reads / 0.142 kb / mapped reads (millions) / TMM factor (142 nt = two 71-nt flanks)",
+         "source": "our_choice",
+         "sensitivity": "The paper does not give the junction length or the library size behind its RPKM; a different length scales the x axis."}
+
+NA = lambda cat, summary, evidence=None: {"category": cat, "summary": summary, "evidence": evidence or ["the paper"], "status": "explained"}
+
+items = [
+    dict(id="text.junction_db", label="Text (Additional file 1): 5,574,728 junctions in the combinatorial database", kind="value",
+         source="reconstructed", assumptions=[ANNOT]),
+    dict(id="fig1a", label="Fig. 1a, reads by category and mapping frequency", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT], outputs=["figure-reproduction/output/figs/fig1a_ours.png", "figure-reproduction/output/figs/fig1a_overlay.png"]),
+    dict(id="fig1b", label="Fig. 1b, Upf2 locus in the UCSC browser", kind="figure", source="none", method="none",
+         cause=NA("not_a_result", "A genome-browser screenshot; there is nothing to recompute.")),
+    dict(id="text.mapping", label="Text: 84% mapped, 28% on junctions, 323,474 and about 150,000 junctions, 4 to 7% by truncation, 11 to 16% by TopHat",
+         kind="value", source="reconstructed", assumptions=[ANNOT, BOWTIE, TOPHAT, EVID]),
+    dict(id="text.truncation", label="Text (Additional file 1): reads recovered by truncation", kind="value", source="reconstructed",
+         assumptions=[BOWTIE, {"what": "Unmapped reads trimmed from the 3' end and, separately, from the 5' end to 65, 55, 45 and 35 nt; "
+                                       "a read counts once when either version maps", "source": "our_choice",
+                               "sensitivity": "The paper does not say whether both ends were trimmed at each step."}]),
+    dict(id="text.tmm", label="Text (Additional file 1): TMM normalisation factors", kind="value", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT]),
+    dict(id="tableS1", label="Table S1, junctions from the combinatorial database, TopHat or both", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT]),
+    dict(id="tableS2", label="Table S2, TopHat contribution to all and PTC+ junctions", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, EVID]),
+    dict(id="text.ptc_filters", label="Text (Additional file 1): junctions and genes removed by the PTC filters", kind="value",
+         source="reconstructed", assumptions=[ANNOT, {"what": "False-positive PTC genes: genes whose selected coding model is itself called PTC+ "
+                                                              "(an early normal stop); all their PTC calls are removed",
+                                                      "source": "our_choice", "sensitivity": "The paper gives no threshold for 'overrepresentation'."}]),
+    dict(id="fig2a", label="Fig. 2a, regulated junctions and genes, all and PTC+", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, FC], outputs=["figure-reproduction/output/figs/fig2a_ours.png", "figure-reproduction/output/figs/fig2a_overlay.png"]),
+    dict(id="text.fig2", label="Text: junction counts, junctions per gene, PTC+ share up-regulated, genes affected, chi-square", kind="value",
+         source="reconstructed", assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, FC]),
+    dict(id="text.core_targets", label="Text: 516 up-regulated PTC+ junctions shared by both tissues, in 448 genes", kind="value",
+         source="reconstructed", assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, FC]),
+    dict(id="text.go_core", label="Text and Table S3: GO top cluster of the core targets, mRNA processing, P 9.0e-18", kind="value", source="none", method="none",
+         cause=NA("data_unavailable", "DAVID's 2012 knowledgebase is not available, and the paper does not give the DAVID version, background or settings.",
+                  ["Additional file 4"])),
+    dict(id="fig2b", label="Fig. 2b and Table S4, GO terms of tissue-unique PTC+ genes", kind="figure", source="none", method="none",
+         cause=NA("data_unavailable", "As for the core targets: DAVID's 2012 knowledgebase and settings are not available.", ["Additional file 5"])),
+    dict(id="fig3a", label="Fig. 3a, regulation of canonical and AS junctions and their PTC+ share", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, FC], outputs=["figure-reproduction/output/figs/fig3a_ours.png", "figure-reproduction/output/figs/fig3a_overlay.png"]),
+    dict(id="text.fig3", label="Text: about 10,000 and 35,000 AS junctions; NMD degrades 16% and 18% of AS", kind="value", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, FC]),
+    dict(id="fig3b", label="Fig. 3b, AS junctions per sample, per million junction reads, and slopes", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, SEED, {"what": "Slope = least-squares line through the origin of AS (or PTC+) junctions on junctions per gene",
+                                                    "source": "our_choice", "sensitivity": "The paper says 'linear interpolation'."}],
+         outputs=["figure-reproduction/output/figs/fig3b_ours.png", "figure-reproduction/output/figs/fig3b_overlay.png"]),
+    dict(id="table1", label="Table 1, splice events and PTC+ classification", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, EVID, PSI, CLASS]),
+    dict(id="text.examples", label="Text: dPSI of Mgea5, Tmem183a, Rps12, Smg5 and Srsf9; Soat2 fold change", kind="value", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, PSI, CLASS]),
+    dict(id="fig4a", label="Fig. 4a and 4d, schematics of the classes and of Pkm2", kind="figure", source="none", method="none",
+         cause=NA("not_a_result", "Diagrams; there is nothing to recompute.")),
+    dict(id="fig4b", label="Fig. 4b, 4c and Fig. S3: RT-PCR (49 of 50 events), western blots, qPCR (R = 0.975), Srsf9 cloning", kind="figure",
+         source="none", method="none", cause=NA("not_a_result", "Wet-lab experiments on tissue that is not available; nothing computational to rerun.")),
+    dict(id="tableS5", label="Table S5, gene and canonical fold changes of 25 splice factors", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, PSI, CLASS, {"what": "Gene fold change from upper-quartile RPKM of read counts in the longest RefSeq model, in place of Cufflinks",
+                                                  "source": "our_choice", "sensitivity": "The Cufflinks version and options are not given ('standard parameters')."},
+                                                 {"what": "Srsf16 is called Clasrp in today's RefSeq", "source": "our_choice", "sensitivity": "None; same gene."}]),
+    dict(id="text.tableS5", label="Text: of 19 liver factors with AS-NMD, 10 deregulated more than 1.5-fold (5 up, 5 down)", kind="value",
+         source="reconstructed", assumptions=[ANNOT, BOWTIE, PSI, CLASS]),
+    dict(id="tableS7", label="Table S7, PTC-upon-inclusion SES events up in both tissues", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, PSI, CLASS]),
+    dict(id="tableS8", label="Table S8, PTC-upon-exclusion SES events up in both tissues", kind="table", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, PSI, CLASS]),
+    dict(id="fig5.a", label="Fig. 5a, conservation around exclusion events, liver", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, PSI, CLASS, {"what": "Cubic smoothing spline per 100-nt piece with about 3 nt per degree of freedom (Fig. S4 caption)",
+                                          "source": "paper", "sensitivity": "Fig. 5's caption gives no df."},
+                      {"what": "RefSeq exons drawn 25 nt into the introns", "source": "read_from_figure",
+                       "sensitivity": "Fig. 5's caption says 75 nt, Fig. S4's 25 nt; the published yellow lines stop about 25 nt into the introns. Drawing 75 nt adds 100 nt of yellow line the paper does not show."}],
+         outputs=["figure-reproduction/output/figs/fig5a_ours.png", "figure-reproduction/output/figs/fig5a_overlay.png"]),
+    dict(id="fig5.b", label="Fig. 5b, conservation around inclusion events, liver", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, PSI, CLASS], outputs=["figure-reproduction/output/figs/fig5b_ours.png", "figure-reproduction/output/figs/fig5b_overlay.png"]),
+    dict(id="fig5.counts", label="Fig. 5 caption: events per group, liver, and mm9 RefSeq exons", kind="value", source="reconstructed",
+         assumptions=[ANNOT, PSI, CLASS]),
+    dict(id="figS4", label="Fig. S4, conservation around SES events, BMM (event counts)", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, PSI, CLASS], outputs=["figure-reproduction/output/figs/figS4_ours.png", "figure-reproduction/output/figs/figS4_overlay.png"]),
+    dict(id="text.conservation", label="Text: conservation of regulated SES exons and introns (Kolmogorov-Smirnov)", kind="value",
+         source="reconstructed", assumptions=[ANNOT, PSI, CLASS]),
+    dict(id="fig6", label="Fig. 6, PTC+/PTC- ratio by junction RPKM", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, RPKM6], outputs=["figure-reproduction/output/figs/fig6_ours.png", "figure-reproduction/output/figs/fig6_overlay.png"]),
+    dict(id="text.fig6", label="Text: PTC+ fraction higher in liver and at low expression", kind="value", source="reconstructed",
+         assumptions=[ANNOT, BOWTIE, TOPHAT, RPKM6]),
+    dict(id="fig7a", label="Fig. 7a, conservation at PTCs and normal stops minus random exons", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, FC, SEED], outputs=["figure-reproduction/output/figs/fig7a_ours.png", "figure-reproduction/output/figs/fig7a_overlay.png"]),
+    dict(id="figS5", label="Figs 7a and S5 captions: PTC+ and RefSeq stop positions", kind="value", source="reconstructed",
+         assumptions=[ANNOT, FC]),
+    dict(id="fig7b", label="Fig. 7b, stop codon identity", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, FC, {"what": "Published bar heights read at each bar's centre", "source": "read_from_figure",
+                                  "sensitivity": "The gridline fit is within 1 px (0.001); a bar's edge is sharp, so the reading error is under 0.005."}],
+         outputs=["figure-reproduction/output/figs/fig7b_ours.png", "figure-reproduction/output/figs/fig7b_overlay.png"]),
+    dict(id="figS2.a", label="Fig. S2a, stop to 3' end, stops in the last exon (50-nt bins)", kind="figure", source="reconstructed",
+         assumptions=[ANNOT, {"what": "Published bar heights read off the EPS rendered at 300 dpi", "source": "read_from_figure",
+                              "sensitivity": "Tick fit within 1 px, 2.3 genes per px; the tolerance (5 genes or 10%) is wider than the reading error."}],
+         outputs=["figure-reproduction/output/figs/figS2_ours.png", "figure-reproduction/output/figs/figS2_overlay.png"]),
+    dict(id="figS2.b", label="Fig. S2b, stop to the next junction, stops in the second-to-last exon (2-nt bins)", kind="figure",
+         source="reconstructed", assumptions=[ANNOT, {"what": "Published bar heights read off the EPS rendered at 300 dpi", "source": "read_from_figure",
+                                                      "sensitivity": "Tick fit within 1 px, 0.21 genes per px."}],
+         outputs=["figure-reproduction/output/figs/figS2_ours.png", "figure-reproduction/output/figs/figS2_overlay.png"]),
+    dict(id="text.simulation", label="Text (Additional file 1): mapping simulation, 830,000 reads, R2 0.93, 93.73% mapped, 89.12% correct",
+         kind="value", source="none", method="none",
+         cause=NA("undocumented_setting", "The simulated reads are not published and the simulation is described in one sentence (no error model, read placement or seed).",
+                  ["Additional file 1, Mapping of RNA-seq reads"])),
+    dict(id="tableS6", label="Table S6, manual check of the class calls in 62 genes", kind="table", source="none", method="none",
+         cause=NA("not_a_result", "A manual inspection; there is nothing to recompute.", ["Additional file 6"])),
+    dict(id="text.microarray", label="Text (Additional file 1): RNA-seq against microarray, correlation about 0.63", kind="value",
+         source="none", method="none",
+         cause=NA("data_unavailable", "The array data come from ref. 11 with no accession or probe mapping given.", ["Additional file 1"])),
+    dict(id="figS1", label="Fig. S1 (Pion browser view, pipeline diagram) and Table S9 (primers)", kind="figure", source="none", method="none",
+         cause=NA("not_a_result", "A screenshot, a diagram and a primer list.")),
+    dict(id="port.ptc_distance", label="PTC detection against the paper's PTC distances (Additional files 8 and 9)", kind="code_check",
+         source="reconstructed", assumptions=[ANNOT]),
+    dict(id="port.tmm_edger", label="TMM in nmdsplice against edgeR on our junction counts", kind="code_check", source="reconstructed"),
+    dict(id="text.arithmetic", label="The paper's claims recomputed from its own tables", kind="code_check", source="papers_data"),
+    dict(id="package", label="Python package nmdsplice and its tutorial", kind="code_check", source="reconstructed",
+         outputs=["package/tutorial/TUTORIAL.md"]),
+]
+
+notes = {
+    "paper": {"id": "PMC3446288", "title": "Mammalian tissues defective in nonsense-mediated mRNA decay display highly aberrant splicing patterns",
+              "citation": "Weischenfeldt J, Waage J, Tian G, Zhao J, Damgaard I, Jakobsen JS, Kristiansen K, Krogh A, Wang J, Porse BT. "
+                          "Mammalian tissues defective in nonsense-mediated mRNA decay display highly aberrant splicing patterns. "
+                          "Genome Biology 13(5):R35 (2012)",
+              "doi": "10.1186/gb-2012-13-5-r35", "license": "CC BY 2.0"},
+    "run": {"pipeline": "PMC3446288/figure-reproduction/main.nf",
+            "command": "nextflow run PMC3446288/figure-reproduction/main.nf --outdir results"},
+    "session": {"ledger": "session/ledger.json"},
+    "skill": old.get("skill"),
+    "items": items,
+}
+for k in ("page", "status_note", "site_note"):
+    if k in old:
+        notes[k] = old[k]
+out.write_text(json.dumps(notes, indent=1, ensure_ascii=False) + "\n")
+print(len(items), "items")

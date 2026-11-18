@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nmdsplice"
+version = "0.1.0"
+description = "RAINMAN rebuilt: combinatorial junction database, PTC detection and splice-class inference for NMD studies (Weischenfeldt et al. 2012)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors" }]
+dependencies = ["numpy>=1.26,<3"]
+
+[project.scripts]
+nmdsplice = "nmdsplice.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC3446288"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC3446288/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nmdsplice"]

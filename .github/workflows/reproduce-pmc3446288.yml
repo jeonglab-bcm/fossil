@@ -1,0 +1,50 @@
+name: Reproduce PMC3446288
+# Weischenfeldt et al. 2012 (NMD-dependent splicing, RAINMAN rebuilt as nmdsplice).
+# Pull requests and pushes: everything downstream of the read mapping (PTC calls, splice classes,
+# every table, figure and claim, the package check), from the committed junction and gene counts,
+# in about 15 minutes. Started by hand with full = true: also map the four SRA runs and rebuild the
+# phastCons profiles (about 9 GB of downloads and 6 hours on 4 cores).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Also map the reads and rebuild the conservation profiles (about 6 hours)"
+        type: boolean
+        default: false
+  pull_request:
+    paths: ["PMC3446288/figure-reproduction/**", "PMC3446288/package/**", ".github/workflows/reproduce-pmc3446288.yml"]
+  push:
+    branches: [main]
+    paths: ["PMC3446288/figure-reproduction/**", "PMC3446288/package/**", ".github/workflows/reproduce-pmc3446288.yml"]
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ inputs.full && 600 || 45 }}
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: PMC3446288/figure-reproduction/environment.yml
+          cache-environment: true
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: "21"}
+      - uses: nf-core/setup-nextflow@v2
+        with: {version: "26.04.3"}
+      - run: nextflow run PMC3446288/figure-reproduction/main.nf --outdir results -ansi-log false ${{ inputs.full && '--full' || '' }}
+      - if: always()
+        run: |
+          cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+          python3 -c "import json; r = json.load(open('results/check.json')); print('\n'.join(f'- {k}: {\"ok\" if v[\"passed\"] else \"FAIL\"}' for k, v in r.items() if isinstance(v, dict)))" >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3446288-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
