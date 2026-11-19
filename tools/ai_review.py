@@ -22,8 +22,10 @@ Usage:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
+import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "paper2repro"))
@@ -38,6 +40,9 @@ MATCHED = {"exact", "agrees"}
 MAX_FIELDS, SHOW_OUTSIDE, SHOW_INSIDE = 40, 25, 10
 # The reviewer whose past review blocks teach the "likely reviewer verdict" (--reviewer to change).
 REVIEWER = "hyunhwan-bcm"
+# The Paper2Repro review page: ?r=owner/repo/pull/N shows a PR's figures, tables and numbers with
+# decision buttons; #i-<item id> scrolls to one item.
+REVIEW_PAGE = "https://jeonglab-bcm.github.io/Paper2Repro/"
 SUGGEST_FOR = {"partly", "inconclusive"}  # the computed verdicts this reviewer has changed before
 MARK_OK, MARK_FLAG = "✅", "⚠️ worth a look"
 
@@ -294,11 +299,25 @@ def style_notes(answer):
     return notes
 
 
+def review_link(repo, pr, item_id=None):
+    """The review page for a pull request, at one item when item_id is given; "" without repo and pr."""
+    if not (repo and pr):
+        return ""
+    url = f"{REVIEW_PAGE}?r={repo}/pull/{pr}"
+    return url + (f"#i-{urllib.parse.quote(str(item_id), safe='.-_')}" if item_id else "")
+
+
+def precedent_review_link(p, key):
+    """The review page at the precedent's item, from the pull request its review url names."""
+    m = re.match(r"https://github\.com/([^/]+/[^/]+)/pull/(\d+)", p.get("url") or "")
+    return review_link(m.group(1), m.group(2), key.split("/", 1)[1]) if m else ""
+
+
 def cell(s):
     return str(s).replace("|", "\\|").replace("\n", " ")
 
 
-def render(paper, head, pairs, removed, answer, new_paper, precedents=None):
+def render(paper, head, pairs, removed, answer, new_paper, precedents=None, repo="", pr=""):
     precedents = precedents or {}
     entries = validate(answer, pairs)
     items = {i["id"]: i for i, _ in pairs}
@@ -316,13 +335,20 @@ def render(paper, head, pairs, removed, answer, new_paper, precedents=None):
             out += ["", answer["overview"]]
     else:
         out.append(f"#### 🤖 AI review of the {len(pairs)} item{'s' if len(pairs) != 1 else ''} this PR changes")
+    page = review_link(repo, pr)
+    if page:
+        out += ["", f"To look closer, open this PR in the [review page]({page}). It shows each figure and table with its "
+                "numbers, and lets you record a decision. Each item name below links to that item there."]
     out += ["", "| Item | Verdict | In one line | |", "| --- | --- | --- | --- |"]
     for e in entries:
         it = items[e["id"]]
         mark = MARK_FLAG if e["flag"] else MARK_OK
         if e["likely_verdict"]:
             mark += f"<br><sub>{REVIEWER} would likely say {e['likely_verdict']}</sub>"
-        out.append(f"| {cell(it.get('label', e['id']))} | {verdict_cell(it)} | {cell(e['one_line'])} | {mark} |")
+        name = cell(it.get("label", e["id"]))
+        if page:
+            name = f"[{name}]({review_link(repo, pr, e['id'])})"
+        out.append(f"| {name} | {verdict_cell(it)} | {cell(e['one_line'])} | {mark} |")
     if removed:
         out += ["", "Removed in this PR: " + ", ".join(f"`{r}`" for r in removed) + "."]
     out.append("")
@@ -341,6 +367,11 @@ def render(paper, head, pairs, removed, answer, new_paper, precedents=None):
             ref = f"[{e['precedent']}]({p['url']})" if p.get("url") else e["precedent"]
             body += (f"\n\n**Likely reviewer verdict: {e['likely_verdict']}.** {e['likely_reason']} "
                      f"{REVIEWER} set {p['reviewer_set']} on {ref}, where the numbers gave {p['numbers_gave']}.")
+            then = precedent_review_link(p, e["precedent"])
+            if then and page:
+                body += f" Compare the two in the review page: [this item]({review_link(repo, pr, e['id'])}), [the past one]({then})."
+        if page:
+            body += f"\n\n[See this item in the review page]({review_link(repo, pr, e['id'])})"
         if it.get("review", {}).get("url"):
             body += f"\n\n[Review by {it['review'].get('by', 'the reviewer')}]({it['review']['url']})"
         out += [f"<details><summary>{head_}</summary>", "", body, "</details>", ""]
@@ -366,6 +397,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="print the prompt; call nothing")
     ap.add_argument("--response", help="render this saved answer (JSON) instead of calling the API")
     ap.add_argument("--reviewer", default=REVIEWER, help="GitHub login whose past review blocks guide the likely verdict")
+    ap.add_argument("--repo", default="", help="owner/repo, for links to the review page")
+    ap.add_argument("--pr", default="", help="the PR number, for links to the review page")
     args = ap.parse_args()
     globals()["REVIEWER"] = args.reviewer
 
@@ -404,7 +437,7 @@ def main():
                 answer = json.load(f)
         else:
             answer = call_claude(prompt)
-        body = render(args.paper, head, pairs, removed, answer, new_paper, precedents)
+        body = render(args.paper, head, pairs, removed, answer, new_paper, precedents, args.repo, args.pr)
         notes = style_notes(answer)
         with open(json_path, "w") as f:
             json.dump({"paper": args.paper, "model": MODEL, "answer": answer, "style_notes": notes}, f, indent=1, ensure_ascii=False)
