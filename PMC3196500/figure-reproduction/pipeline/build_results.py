@@ -147,6 +147,8 @@ def panel_items(run, notes):
                                 f"{pct(ceiling)} against each other. " + notes["panel_cause_note"]),
                     "evidence": ["figure-reproduction/output/figures.json", f"figure-reproduction/output/{fig}_overlay.png"],
                     "hypotheses": hyps, "status": "explained" if chance else "open"}
+            if pid in notes.get("panel_reviews", {}):
+                it["review"] = copy.deepcopy(notes["panel_reviews"][pid])
             items.append(it)
     return items
 

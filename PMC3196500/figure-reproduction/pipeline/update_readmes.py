@@ -44,7 +44,7 @@ sm = R["summary"]
 pix = [i for i in R["items"] if i["method"] == "pixels"]
 pv = {v: sum(i["verdict"] == v for i in pix) for v in ("agrees", "partly", "inconclusive", "differs")}
 status = (f"{sm['agrees']} agree, {sm['partly']} partly, {sm['inconclusive']} inconclusive, {sm['differs']} differ, "
-          f"{sm['not_attempted']} not attempted (`results.json`): the lost simulation rebuilt as `oisim` and all 36 scenarios rerun; "
+          f"{sm['not_attempted']} not attempted" + (f"; {sm['reviewed']} verdicts set in review" if sm.get('reviewed') else "") + " (`results.json`): the lost simulation rebuilt as `oisim` and all 36 scenarios rerun; "
           f"Tables 1, S3 and S4 {F['table1_exact']}, {F['tableS3_exact']} and {F['tableS4_exact']} of 144 cells as printed "
           f"({F['table1_within_one_bin']}, {F['tableS3_within_one_bin']}, {F['tableS4_within_one_bin']} within one bin); "
           f"Table 2's OIS formula within one rounding step of {F['table2_within_one_step']} of 144 cells; "

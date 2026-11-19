@@ -37,13 +37,13 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3196500/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-13 agrees, 18 partly, 40 inconclusive, 16 differs, 4 not attempted; 55 open causes.
+13 agrees, 20 partly, 38 inconclusive, 16 differs, 4 not attempted; 55 open causes; 2 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Fig. 1 (flowchart of the 36 scenarios) | not attempted | not attempted |
-| Fig. 2, upper panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 55.37% within 2 px (pass 73.6%, best control 72.5%) |
-| Fig. 2, lower panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 36.99% within 2 px (pass 78.6%, best control 50.9%) |
+| Fig. 2, upper panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | partly | 55.37% within 2 px (pass 73.6%, best control 72.5%); computed inconclusive, reviewer partly |
+| Fig. 2, lower panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | partly | 36.99% within 2 px (pass 78.6%, best control 50.9%); computed inconclusive, reviewer partly |
 | Fig. S1, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 42.19% within 2 px (pass 84.4%, best control 76.9%) |
 | Fig. S1, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 65.15% within 2 px (pass 85.6%, best control 80.1%) |
 | Fig. S1, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative patients) | partly | 64.21% within 2 px (pass 88.0%, best control 54.9%) |
@@ -149,7 +149,7 @@ the paper's own tables, including the main claim: in most scenarios the share of
   misses, it is higher more often than lower (51 against 12 in Table 1; 34 against 5 for patients alone).
 - *The curves differ by a few per cent.* On the published pixel grids, outside Figs S5-S7, our two runs are
   73% to 100% alike (most above 85%); ours and the paper's 36% to 99%, most between 41% and 86%. A near miss (ours ×1.05 or ×0.95, or shifted one point) often scores
-  as well as ours, so 40 panels are inconclusive. In the panels, ours ×0.95 often scores better on the event axis and ours ×1.05 on the patient axis.
+  as well as ours, so 40 panels compute as inconclusive; a reviewer set the two panels of Fig. 2 to partly, leaving 38. In the panels, ours ×0.95 often scores better on the event axis and ours ×1.05 on the patient axis.
 - *How the curves were binned is not stated.* The tables fit best when every pooled estimate counts in the
   interval its cumulative count falls in (253 of 432 cells; counting at the nearest point 225; once per
   meta-analysis at an edge 150). The figures fit best with the nearest point for patients and the interval
