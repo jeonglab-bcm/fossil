@@ -47,11 +47,16 @@ def b64(path):
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
 
-def stamp(v):
+def stamp(v, small=""):
     if v == "not_attempted":
         return '<span class="stamp" data-v="running">Not attempted</span>'
     cls, word = STAMP[v]
-    return f'<span class="stamp" data-v="{cls}">{esc(word)}</span>'
+    return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
+
+
+def reviewed(its):
+    """'on review' when a reviewer set the verdict of any of these items (their review block), as in PMC522806."""
+    return "on review" if any((i.get("review") or {}).get("verdict") == i.get("verdict") for i in its) else ""
 
 
 def worst(vs):
@@ -152,7 +157,7 @@ def main(results, figs, pub, out):
                      f"{100 * hyp:.1f}% of bar tops within {its[0]['pixels']['tolerance_px']} px</dd></div>") if hyp is not None else ""
         stations.append(
             f'<section class="station surface" id="fig-{n}" aria-labelledby="fig-{n}-head">'
-            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v)}</header>'
+            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v, reviewed(its))}</header>'
             f'<div class="stage"><div class="pair">'
             f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Figure {n} as published" width="{w}" height="{h}"></figure>'
             f'<figure class="plate"><figcaption>Our run</figcaption><img src="{osrc}" alt="Figure {n} drawn from our run" width="{w}" height="{h}"></figure>'
@@ -168,7 +173,7 @@ def main(results, figs, pub, out):
         h, n_, _ = hits(it)
         grids.append(f'<section class="station surface" id="{tid}" aria-labelledby="{tid}-head"><header class="station-head">'
                      f'<h2 id="{tid}-head">{esc(it["label"])}</h2><p class="caption">Paper above, ours below; shaded where ours is outside the tolerance. '
-                     f'{h} of {n_} cells within.</p>{stamp(it["verdict"])}</header>{cell_grid(it)}'
+                     f'{h} of {n_} cells within.</p>{stamp(it["verdict"], reviewed([it]))}</header>{cell_grid(it)}'
                      f'<div class="station-foot"><p class="note">{esc((it.get("cause") or {}).get("summary", ""))}</p></div></section>')
     tables = (f'<section class="container after-bench" aria-labelledby="tables-head" id="tables"><h2 id="tables-head">The tables</h2>'
               f'<p class="caption">{esc(N["tables_caption"])}</p><div class="cellgrid">{"".join(grids)}</div></section>')
@@ -181,7 +186,7 @@ def main(results, figs, pub, out):
                 f"<li>{esc(f['name'])}: paper {esc(fmt(f['expected']))}, ours <strong>{esc(fmt(f['observed'], f['expected']))}</strong></li>"
                 for f in i["values"]["fields"]) + "</ul>"
         cause = (i.get("cause") or {}).get("summary", "")
-        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'], reviewed([i]))}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
     extra = (tables + f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
              f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'
