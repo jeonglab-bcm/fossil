@@ -1,0 +1,108 @@
+---
+title: "multds tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{multds tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## What it does
+
+Classifiers trained on class-imbalanced, high-dimensional data put most new samples in the
+majority class, and selecting variables on the training set makes it worse. multds rebuilds the
+classifiers, the corrections (over-sampling, down-sizing and multiple down-sizing, MultDS) and the
+measures of Blagus and Lusa (2010) so you can check a classifier on your own data.
+
+Blagus R, Lusa L. Class prediction for high-dimensional class-imbalanced data.
+*BMC Bioinformatics* 11:523 (2010). doi:10.1186/1471-2105-11-523
+
+## Install
+
+```{r install, eval = FALSE}
+remotes::install_github("jeonglab-bcm/fossil/PMC3098087/package")
+```
+
+```{r load}
+library(multds)
+packageVersion("multds")
+```
+
+## Example input
+
+A synthetic training set with 8 samples in Class 1 and 32 in Class 2, and a balanced test set;
+300 variables, the first 20 shifted by 0.8 in Class 2.
+
+```{r input}
+train <- read.csv(example_path("train.csv"))
+test <- read.csv(example_path("test.csv"))
+dim(train)
+table(train$class)
+table(test$class)
+train[1:3, 1:6]
+```
+
+## Run the method
+
+Centre each sample, select the 40 variables with the largest |t| on the training set, and train
+DLDA and DQDA. Then the same with MultDS: 101 balanced training sets (all 8 Class 1 samples and 8
+random Class 2 samples each), variables selected in each, a majority vote.
+
+```{r run}
+x <- center_data(as.matrix(train[, -1]), "samples")
+xt <- center_data(as.matrix(test[, -1]), "samples")
+sel <- select_variables(x, train$class, G = 40)
+plain <- fit_predict(c("DLDA", "DQDA"), x[, sel], train$class, xt[, sel])
+set.seed(1)
+bagged <- multds_predict(c("DLDA", "DQDA"), x, train$class, xt, G = 40, B = 101)
+k1 <- mean(train$class == 1)
+round(rbind(
+  "DLDA" = evaluate(test$class, plain$DLDA$pred, plain$DLDA$score, k1),
+  "DQDA" = evaluate(test$class, plain$DQDA$pred, plain$DQDA$score, k1),
+  "DLDA, MultDS" = evaluate(test$class, bagged$DLDA$pred, bagged$DLDA$score, k1),
+  "DQDA, MultDS" = evaluate(test$class, bagged$DQDA$pred, bagged$DQDA$score, k1)), 2)
+```
+
+PA1 and PA2 are the predictive accuracies in Class 1 (the minority of the training set) and
+Class 2; PV1 and PV2 the predictive values (Eq. 6, with the training proportion of Class 1 as the
+population's); AUC from the scores. Compare PA1 without and with MultDS.
+
+## Compare with the expected output
+
+The expected selection comes from `stats::t.test`, and the expected classes from
+`sma::stat.diag.da`, the function the paper used (see `inst/extdata/README.md`).
+
+```{r compare}
+expected_sel <- read.csv(example_path("expected_selected.csv"))
+expected <- read.csv(example_path("expected_predictions.csv"))
+same_sel <- setequal(colnames(x)[sel], expected_sel$variable)
+n_dlda <- sum(plain$DLDA$pred == expected$DLDA)
+n_dqda <- sum(plain$DQDA$pred == expected$DQDA)
+cat(sprintf("Selected variables match: %s\nDLDA: %d of %d test samples match\nDQDA: %d of %d test samples match\n",
+            same_sel, n_dlda, nrow(expected), n_dqda, nrow(expected)))
+stopifnot(same_sel, n_dlda == nrow(expected), n_dqda == nrow(expected))
+```
+
+## Your own data
+
+- Input: a numeric matrix with samples in rows and variables in columns, and labels 1 and 2.
+- `center_data(x, "samples")` centres each sample (the paper's default); centre the training and
+  test sets separately. `"variables"` centres each variable and, in the paper, made imbalance worse.
+- `select_variables(x, y, G)` keeps the G variables with the largest |t|; use it on the training set
+  only.
+- `fit_predict(methods, xtr, ytr, xte)` trains any of `classifier_names(thr = TRUE)` and returns,
+  for each, `pred` (1 or 2) and `score` (larger means Class 1).
+- `multds_predict()` runs MultDS with selection inside each balanced set; `downsize()` and
+  `oversample()` return the rows of a single balanced training set.
+- `evaluate(truth, pred, score, kappa1)` gives PA, PA1, PA2, PV1, PV2 and AUC.
+- `run_replicate()` and `run_setting()` run the paper's simulation for any setting.
+
+## The reproduction
+
+The paper's simulations and the breast cancer application are rerun with this package in
+[PMC3098087/figure-reproduction](https://github.com/jeonglab-bcm/fossil/tree/main/PMC3098087/figure-reproduction),
+with the results page at <https://jeonglab-bcm.github.io/fossil/PMC3098087/>.
