@@ -5,6 +5,10 @@ name: Results check
 # the diffs and an overlay of each published figure with the committed render.
 # A separate job checks that every paper the PR adds, or whose results.json it changes, names the
 # Paper2Repro release it was made with (tools/check_skill.py).
+# The comment ends with a plain-language AI review (tools/ai_review.py) of the items the PR changes in
+# <paper>/results.json: why each matched the paper or not, and a flag where the evidence seems to
+# contradict the verdict. It needs the ANTHROPIC_API_KEY secret; without it (e.g. a PR from a fork) the
+# step fails. A normal approval of the PR is the final conclusion.
 on:
   pull_request:
     paths:
@@ -53,8 +57,9 @@ jobs:
         env:
           BASE: ${{ github.base_ref }}
         run: |
-          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' \
-            | cut -d/ -f1 | sort -u | jq -R . | jq -cs .)
+          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' 'PMC*/results.json' \
+            | cut -d/ -f1 | sort -u | while read -r p; do if [ -f "$p/figure-reproduction/results.json" ]; then echo "$p"; fi; done \
+            | jq -R . | jq -cs .)
           echo "papers=$papers" >> "$GITHUB_OUTPUT"
           echo "results.json created or changed in: $papers"
 
@@ -76,7 +81,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install Python packages
-        run: pip install numpy scipy pillow
+        run: pip install numpy scipy pillow anthropic
 
       - name: Check results.json against the committed outputs
         env:
@@ -85,7 +90,17 @@ jobs:
           set -o pipefail
           python3 tools/check_results.py "$PAPER/figure-reproduction/results.json" --committed --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
 
-      - name: Comment on the PR with the diffs and the figure overlays
+      - name: AI review of the items this PR changes
+        if: ${{ !cancelled() }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAPER: ${{ matrix.paper }}
+          BASE: ${{ github.base_ref }}
+        run: |
+          set -o pipefail
+          python3 tools/ai_review.py "$PAPER" --base "$BASE" --out results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR with the diffs, the figure overlays and the AI review
         if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository && hashFiles('results-check/results-check.json') != '' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -97,6 +112,7 @@ jobs:
         run: >
           python3 tools/pr_comment.py "$PAPER" --check results-check/results-check.json --base "$BASE"
           --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL"
+          --ai-review results-check/ai-review.md
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

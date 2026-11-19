@@ -1,6 +1,6 @@
 """Post (or update) one PR comment per reproduction: what the PR changes in results.json, whether
 results.json agrees with the committed outputs, and an overlay of each published figure with the
-render committed in the PR.
+render committed in the PR, and (with --ai-review) the plain-language AI review from tools/ai_review.py.
 
 The overlays go to the ci-assets branch (pr-<number>/<paper>/<commit>/fig<N>.png) so the comment can
 show them. Only figures whose render the PR changes are shown, or every figure when the PR adds
@@ -77,7 +77,7 @@ def diff_block(lines):
     return "```diff\n" + "\n".join(lines) + "\n```"
 
 
-def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
+def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url, ai_review=None):
     fmt = check_results.fmt
     rows = check["results"]
     n_ok = sum(r["status"] == "pass" for r in rows)
@@ -148,6 +148,8 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
         rows_html = ["<tr>" + "".join(cells[i:i + 2]) + "</tr>" for i in range(0, len(cells), 2)]
         out.append("<table>" + "".join(rows_html) + "</table>")
     out.append("")
+    if ai_review:
+        out += [ai_review.strip(), ""]
     foot = f"For {sha[:7]}." if sha else ""
     if run_url:
         foot += f" [This run]({run_url}); its full report is the `{paper}-results-check` artifact."
@@ -192,6 +194,7 @@ def main():
     ap.add_argument("--repo")
     ap.add_argument("--sha", default="")
     ap.add_argument("--run-url", default="")
+    ap.add_argument("--ai-review", help="ai-review.md from tools/ai_review.py, added as the last section")
     ap.add_argument("--dry-run", action="store_true", help="print the comment; push and post nothing")
     args = ap.parse_args()
 
@@ -218,7 +221,17 @@ def main():
             publish(tmp, [f["file"] for f in figures], dest, f"Overlays for {args.paper}, PR #{args.pr} at {args.sha[:7]}")
         image_url = lambda name: f"https://raw.githubusercontent.com/{args.repo}/{ASSETS}/{dest}/{name}"
 
-    body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url)
+    ai_review = None
+    if args.ai_review and os.path.exists(args.ai_review):
+        with open(args.ai_review) as f:
+            ai_review = f.read()
+    body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, ai_review)
+    if ai_review and len(body) > 64_000:
+        # Too long for GitHub: keep the AI review's summary table and conclusion, drop its explanations.
+        short = ai_review.split("<details>", 1)[0].rstrip()
+        concl = ai_review[ai_review.find("**Final conclusion:**"):] if "**Final conclusion:**" in ai_review else ""
+        short += "\n\nThe explanations do not fit in this comment. They are in ai-review.md in the run's results-check artifact.\n\n" + concl
+        body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, short)
     if args.dry_run:
         print(body)
         return
