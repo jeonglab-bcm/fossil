@@ -89,7 +89,7 @@ hits_size = sum(abs(t2["size"]["sd"][k] - float(row["sd"])) <= 0.00005 for k, ro
 hits_size2 = sum(abs(t2["size2"]["sd"][k] - float(row["sd"])) <= 0.00005 for k, row in enumerate(pv["table2"]))
 items["text.set_variance_formula"] = {"method": "check", "check": {
     "passed": hits_size == len(pv["table2"]),
-    "detail": f"the printed formula (divide by |S|) gives {hits_size} of 6 Table 2 values; dividing by |S|^2 gives {hits_size2} of 6"}}
+    "detail": f"the printed formula (divided by the set size) gives {hits_size} of 6 Table 2 values; divided by its square, {hits_size2} of 6"}}
 
 tab2 = [float(x) for x in t2["size2"]["sd"]]
 items["text.table2_claims"] = {"method": "check", "check": {
@@ -201,8 +201,8 @@ V3 = {k: float(v) for k, v in pv["table3"]["varsigma"].items()}
 b_actb, b_tbp = pub3["ACTB.POOL"]["bias2"] ** 0.5, -pub3["TBP.POOL"]["bias2"] ** 0.5
 var_pair = V3["POOL"] ** 2 * (S3["ACTB"] ** 2 + S3["TBP"] ** 2) / 4
 arith = [
-    ("Table 2's best pair from Table 1 with |S|^2", abs((T1["MRPL19"] ** 2 + T1["PUM1"] ** 2) ** 0.5 / 2 - T2[1]) < 0.0005,
-     f"{(T1['MRPL19'] ** 2 + T1['PUM1'] ** 2) ** 0.5 / 2:.4f} against 0.1718 (|S| gives {((T1['MRPL19'] ** 2 + T1['PUM1'] ** 2) / 2) ** 0.5:.4f})"),
+    ("Table 2's best pair from Table 1, divided by the squared set size", abs((T1["MRPL19"] ** 2 + T1["PUM1"] ** 2) ** 0.5 / 2 - T2[1]) < 0.0005,
+     f"{(T1['MRPL19'] ** 2 + T1['PUM1'] ** 2) ** 0.5 / 2:.4f} against 0.1718 (the set size gives {((T1['MRPL19'] ** 2 + T1['PUM1'] ** 2) / 2) ** 0.5:.4f})"),
     ("the four-gene set lowest in Table 2", min(range(6), key=lambda i: T2[i]) == 3, f"{T2[3]:.4f}"),
     ("three genes barely worse than four, two far worse", T2[2] - T2[3] < 0.001 < 0.02 < T2[1] - T2[2],
      f"{T2[2] - T2[3]:.4f} and {T2[1] - T2[2]:.4f}"),

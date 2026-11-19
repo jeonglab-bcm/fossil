@@ -218,7 +218,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         }
       ],
       "verdict": "exact"
@@ -300,12 +300,12 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
           "what": "Wald intervals on the log SDs from the numerical Hessian (Richardson extrapolation) of the REML likelihood",
           "source": "our_choice",
-          "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.013 (PSMC4's lower bound) and reach every printed bound."
+          "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.005 (PSMC4's upper bound) and reach every printed bound."
         }
       ],
       "cause": {
@@ -345,7 +345,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         }
       ],
       "verdict": "agrees"
@@ -461,10 +461,10 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
-          "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by |S|^2",
+          "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by the squared set size",
           "source": "found_by_search",
           "sensitivity": "The paper prints the divisor |S|, which gives none of rows 2 to 6 (row 2: 0.2430 against 0.1718); |S|^2, the variance of a mean, gives rows 1 to 5 as printed and row 6 one unit off. See text.set_variance_formula."
         }
@@ -498,25 +498,25 @@
     },
     {
       "id": "text.set_variance_formula",
-      "label": "Methods: the printed variance of a set's log geometric mean (divide by |S|)",
+      "label": "Methods: the printed variance of a set's log geometric mean (divided by the set size)",
       "kind": "code_check",
       "source": "papers_data",
       "method": "check",
       "check": {
         "passed": false,
-        "detail": "the printed formula (divide by |S|) gives 1 of 6 Table 2 values; dividing by |S|^2 gives 5 of 6"
+        "detail": "the printed formula (divided by the set size) gives 1 of 6 Table 2 values; divided by its square, 5 of 6"
       },
       "cause": {
         "category": "paper_error",
         "status": "explained",
-        "summary": "The formula prints |S| where Table 2 uses |S|^2: on the paper's own Table 1 the best pair gives 0.1716 with |S|^2 (printed 0.1718) and 0.2426 with |S|.",
+        "summary": "The formula divides by the set size where Table 2 divides by its square: on the paper's own Table 1 the best pair gives 0.1716 with the square (printed 0.1718) and 0.2426 with the size.",
         "evidence": [
           "figure-reproduction/output/comparison.json"
         ],
         "hypotheses": [
           {
-            "hypothesis": "The divisor is |S|^2",
-            "test": "Table 2 from our SDs with |S|^2 and with |S|",
+            "hypothesis": "The divisor is the squared set size",
+            "test": "Table 2 from our SDs with the squared set size and with the set size",
             "result": "supported"
           }
         ]
@@ -781,7 +781,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
           "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
@@ -824,7 +824,7 @@
             "result": "rejected"
           },
           {
-            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine and breast where the file has liver and mammary gland)",
+            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine where the file has liver)",
             "test": "Not testable without their copy; leaving out the liver sample alone does not close the gap",
             "result": "inconclusive"
           }
@@ -869,7 +869,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
           "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
@@ -911,7 +911,7 @@
             "result": "rejected"
           },
           {
-            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine and breast where the file has liver and mammary gland)",
+            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine where the file has liver)",
             "test": "Not testable without their copy; leaving out the liver sample alone does not close the gap",
             "result": "inconclusive"
           }
@@ -978,7 +978,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
           "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
@@ -1002,7 +1002,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         }
       ],
       "verdict": "agrees"
@@ -1167,7 +1167,7 @@
         {
           "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
           "source": "our_choice",
-          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
         },
         {
           "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
@@ -1175,7 +1175,7 @@
           "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
         },
         {
-          "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 / |S|^2; MSE their sum, maximised over tissue types",
+          "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 over the squared set size; MSE their sum, maximised over tissue types",
           "source": "found_by_search",
           "sensitivity": "The paper describes the set MSE in words only. The mean of the biases (the bias of a log-average) gives 2 of the 10 printed sets; the sum gives all 10, and also gives the paper's ACTB plus TBP example on its own numbers (0.349; the mean gives 0.335)."
         },
@@ -1534,7 +1534,7 @@
         {
           "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels (11.1175 pt per unit)",
           "source": "read_from_figure",
-          "sensitivity": "Calibrating on the 0 and 2 labels instead (11.115 pt per unit) raises every height by 2.2e-4 of itself and puts 7 of 50 outside the drawing's resolution."
+          "sensitivity": "The scale comes from two labels 88.9 pt apart, each placed at 0.01 pt: a relative uncertainty of 1.1e-4, which the tolerance includes."
         }
       ],
       "verdict": "agrees"
@@ -1880,7 +1880,7 @@
       "cause": {
         "category": "unknown",
         "status": "open",
-        "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs, about 5% low in pooled tissues (table3.sigma, open). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
+        "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs (table3.sigma, open), and ours is 0.320 against 0.331 from Table 3's printed SDs, 3.3% low (ACTB's 5% low, TBP's on the mark). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
         "evidence": [
           "figure-reproduction/output/comparison.json"
         ],
@@ -1944,7 +1944,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "8 of 8 claims hold on the paper's own numbers: Table 2's best pair from Table 1 with |S|^2 (holds, 0.1716 against 0.1718 (|S| gives 0.2426)); the four-gene set lowest in Table 2 (holds, 0.1490); three genes barely worse than four, two far worse (holds, 0.0004 and 0.0224); GAPD lowest in Table 3, then UBC, HPRT1, YWHAZ (holds); ACTB plus TBP in pooled tissues 0.35 (bias of the set summed) (holds, 0.349 (the mean of the biases gives 0.335)); ACTB and TBP individual MSEs in pooled tissues above 6 (holds, 6.45 and 6.70); Table 4's ten-gene MSE from Table 3 (no bias) (holds, 0.0490); Table 4's single gene RPL13A from Table 3 and Fig. 3, within Table 3's rounding (holds, 0.5435 against 0.544)"
+        "detail": "8 of 8 claims hold on the paper's own numbers: Table 2's best pair from Table 1, divided by the squared set size (holds, 0.1716 against 0.1718 (the set size gives 0.2426)); the four-gene set lowest in Table 2 (holds, 0.1490); three genes barely worse than four, two far worse (holds, 0.0004 and 0.0224); GAPD lowest in Table 3, then UBC, HPRT1, YWHAZ (holds); ACTB plus TBP in pooled tissues 0.35 (bias of the set summed) (holds, 0.349 (the mean of the biases gives 0.335)); ACTB and TBP individual MSEs in pooled tissues above 6 (holds, 6.45 and 6.70); Table 4's ten-gene MSE from Table 3 (no bias) (holds, 0.0490); Table 4's single gene RPL13A from Table 3 and Fig. 3, within Table 3's rounding (holds, 0.5435 against 0.544)"
       },
       "verdict": "agrees"
     },

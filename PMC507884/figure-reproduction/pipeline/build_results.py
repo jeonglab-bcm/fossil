@@ -44,8 +44,8 @@ def table3_hypotheses():
                 "test": f"Model 2 refitted without each of the {hyp['drop_one']['runs']} samples: the closest, without {best['sample']}, "
                         f"is still {best['distance']:.3f} from Table 3",
                 "result": "rejected"})
-    out.append({"hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine and breast where "
-                              "the file has liver and mammary gland)",
+    out.append({"hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine where "
+                              "the file has liver)",
                 "test": "Not testable without their copy; leaving out the liver sample alone does not close the gap",
                 "result": "inconclusive"})
     return out

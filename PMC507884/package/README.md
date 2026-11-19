@@ -61,8 +61,9 @@ have to reimplement them, and its users would lose the comparison with the paper
 - **Confidence intervals.** The paper does not say how it computed Table 1's intervals.
   `gene_sd_ci()` gives Wald intervals on the log scale from an accurate Hessian of the REML
   likelihood. They come within 0.002 of the printed bounds. nlme's own `intervals()` uses a
-  coarser numerical Hessian; its bounds move in the third decimal with the order of the rows, and
-  across those orders they cover every printed bound.
+  coarser numerical Hessian; its bounds move in the third decimal with the parameterization (the
+  reference gene, the contrasts, the order of the rows), and across 24 such parameterizations they
+  cover every printed bound.
 - **The test behind p = 0.0014.** Not named in the paper. `variance_group_test()` (Model 1a against
   one variance for the four microarray-selected genes and one for GAPD and ACTB, a likelihood ratio
   test on 4 degrees of freedom) gives p = 0.00139.
@@ -74,7 +75,7 @@ checked against the paper. On the paper's breast cancer data it gives all six st
 Table 1 and every gene set of Table 2 as printed, and five of the six Table 2 values (the sixth
 0.1514 against 0.1513). On Vandesompele et al.'s data (downloaded by the reproduction, not bundled)
 it gives every gene set of Table 4 and the biases of Figure 3, while its Model 2 standard
-deviations (Table 3) come out about 2.5% lower than printed. The full comparison is in the
+deviations (Table 3) come out 2 to 5% lower than printed. The full comparison is in the
 reproduction: `PMC507884/README.md` and the results page,
 <https://jeonglab-bcm.github.io/fossil/PMC507884/>.
 

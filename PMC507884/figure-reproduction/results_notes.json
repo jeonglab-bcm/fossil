@@ -24,7 +24,7 @@
   "reml": {
    "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
    "source": "our_choice",
-   "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+   "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
   },
   "vandesompele": {
    "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
@@ -83,7 +83,7 @@
     {
      "what": "Wald intervals on the log SDs from the numerical Hessian (Richardson extrapolation) of the REML likelihood",
      "source": "our_choice",
-     "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.013 (PSMC4's lower bound) and reach every printed bound."
+     "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.005 (PSMC4's upper bound) and reach every printed bound."
     }
    ],
    "cause": {
@@ -140,7 +140,7 @@
    ],
    "assumptions": [
     {
-     "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by |S|^2",
+     "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by the squared set size",
      "source": "found_by_search",
      "sensitivity": "The paper prints the divisor |S|, which gives none of rows 2 to 6 (row 2: 0.2430 against 0.1718); |S|^2, the variance of a mean, gives rows 1 to 5 as printed and row 6 one unit off. See text.set_variance_formula."
     }
@@ -180,20 +180,20 @@
   },
   {
    "id": "text.set_variance_formula",
-   "label": "Methods: the printed variance of a set's log geometric mean (divide by |S|)",
+   "label": "Methods: the printed variance of a set's log geometric mean (divided by the set size)",
    "kind": "code_check",
    "source": "papers_data",
    "cause": {
     "category": "paper_error",
     "status": "explained",
-    "summary": "The formula prints |S| where Table 2 uses |S|^2: on the paper's own Table 1 the best pair gives 0.1716 with |S|^2 (printed 0.1718) and 0.2426 with |S|.",
+    "summary": "The formula divides by the set size where Table 2 divides by its square: on the paper's own Table 1 the best pair gives 0.1716 with the square (printed 0.1718) and 0.2426 with the size.",
     "evidence": [
      "figure-reproduction/output/comparison.json"
     ],
     "hypotheses": [
      {
-      "hypothesis": "The divisor is |S|^2",
-      "test": "Table 2 from our SDs with |S|^2 and with |S|",
+      "hypothesis": "The divisor is the squared set size",
+      "test": "Table 2 from our SDs with the squared set size and with the set size",
       "result": "supported"
      }
     ]
@@ -365,7 +365,7 @@
    ],
    "assumptions": [
     {
-     "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 / |S|^2; MSE their sum, maximised over tissue types",
+     "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 over the squared set size; MSE their sum, maximised over tissue types",
      "source": "found_by_search",
      "sensitivity": "The paper describes the set MSE in words only. The mean of the biases (the bias of a log-average) gives 2 of the 10 printed sets; the sum gives all 10, and also gives the paper's ACTB plus TBP example on its own numbers (0.349; the mean gives 0.335)."
     },
@@ -427,7 +427,7 @@
     {
      "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels (11.1175 pt per unit)",
      "source": "read_from_figure",
-     "sensitivity": "Calibrating on the 0 and 2 labels instead (11.115 pt per unit) raises every height by 2.2e-4 of itself and puts 7 of 50 outside the drawing's resolution."
+     "sensitivity": "The scale comes from two labels 88.9 pt apart, each placed at 0.01 pt: a relative uncertainty of 1.1e-4, which the tolerance includes."
     }
    ]
   },
@@ -484,7 +484,7 @@
    "cause": {
     "category": "unknown",
     "status": "open",
-    "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs, about 5% low in pooled tissues (table3.sigma, open). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
+    "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs (table3.sigma, open), and ours is 0.320 against 0.331 from Table 3's printed SDs, 3.3% low (ACTB's 5% low, TBP's on the mark). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
     "evidence": [
      "figure-reproduction/output/comparison.json"
     ],
@@ -544,7 +544,7 @@
    ]
   }
  ],
- "status_note": "the models rebuilt as the R package `hkselect`; Table 1, every gene set of Tables 2 and 4 and all 50 squared biases of Fig. 3 as printed; Figs 1-3 agree; Model 2's SDs (Table 3) 2 to 5% below the paper's for a reason not found",
+ "status_note": "the models rebuilt as the R package `hkselect`; Table 1's SDs, every gene set of Tables 2 and 4 and all 50 squared biases of Fig. 3 as printed; Figs 1-3 agree; Model 2's SDs (Table 3) 2 to 5% below the paper's for a reason not found",
  "site_note": "Table 1 and every gene set come back",
  "page": {
   "lede": "The authors fitted their models in R but never released the code. We rebuilt Models 1 and 2 from the paper's text as the R package hkselect and reran them on the paper's breast cancer data and on Vandesompele et al.'s data. Of {attempted} results we tried, {exact} came back exact, {agrees} agree, {partly} partly and {differs} differ.",
@@ -603,7 +603,7 @@
   ],
   "tables_caption": "Each table as printed and from our run. A value of ours matches when it rounds to the printed one.",
   "items_caption": "Every figure, table and claim of the paper, with its verdict from results.json.",
-  "claims_line": "The main claims hold: MRPL19 is the best single gene and MRPL19, PUM1 and PSMC4 the chosen three-gene normaliser in breast cancer, and HPRT1, RPL13A and UBC the best small universal set. Of the claims that do not match, two are slips in printed formulas, one is Table 2's last digit, and the rest follow from Model 2's SDs, which stay 2 to 5% below Table 3's for a reason we did not find.",
+  "claims_line": "The main claims hold: MRPL19 is the best single gene and MRPL19, PUM1 and PSMC4 the chosen three-gene normaliser in breast cancer, and HPRT1, RPL13A and UBC the best small universal set. Of the results that do not match, Table 1's intervals differ in the third decimal as nlme's own do, two are slips in printed formulas, one is Table 2's last digit, and the rest follow from Model 2's SDs, which stay 2 to 5% below Table 3's for a reason we did not find.",
   "came_back": [
    [
     "Model 1a",
@@ -619,7 +619,7 @@
    ],
    [
     "Fig. 3",
-    "All 50 squared biases within the resolution of the publisher's R graphics file, and every sign."
+    "All 50 squared biases within the resolution of the publisher's R graphics file."
    ],
    [
     "Table 4",

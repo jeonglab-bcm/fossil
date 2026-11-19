@@ -24,7 +24,7 @@ on 80 breast tumours. Across tissue types it adds a tissue-specific gene bias an
 gene factor times a tissue factor (Model 2, Table 3), and picks universal gene sets by their largest
 mean squared error over tissue types (Table 4, Fig. 3), on Vandesompele et al.'s data. The models were
 fitted with R's nlme; no code was released. We rebuilt both models from the paper's text as the R
-package [`package/`](package/) (`hkselect`) and reran every table, figure and claim.
+package [`package/`](package/) (`hkselect`) and reran every computed table and figure and every claim.
 
 | Folder | Content |
 | --- | --- |
@@ -55,7 +55,7 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC507884/pac
 | Text: Model 1a has the best BIC of Models 1a, 1b and 1c | agrees | BIC (REML) Model 1a 988.3, 1b 1012.4, 1c 990.6 (rho 0.31); Model 1a lowest |
 | Text: microarray-selected genes against GAPD and ACTB, p = 0.0014 | agrees | 1 of 1 fields as printed |
 | Table 2, best gene set of each size and the SD of its log geometric mean | partly | 10 of 11 fields as printed, 1 paper errors |
-| Methods: the printed variance of a set's log geometric mean (divide by | S | ) |
+| Methods: the printed variance of a set's log geometric mean (divided by the set size) | differs | the printed formula (divided by the set size) gives 1 of 6 Table 2 values; divided by its square, 5 of 6 |
 | Text: the four-gene set is lowest, three genes barely worse, two far worse | agrees | the four-gene set is lowest (0.1490); three genes 0.1494, 0.0004 more; two genes 0.1718, 0.0224 more than three |
 | Text: the SDs of Table 2 are about the coefficients of variation on the original scale | agrees | the coefficient of variation sqrt(exp(SD^2) - 1) of each Table 2 normaliser is within 1.2% of its SD |
 | Text: geNorm M-values give the same ranking except PUM1 and PSMC4, with MRPL19 and PSMC4 an unordered best pair | exact | 5 of 5 fields as printed |
@@ -73,7 +73,7 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC507884/pac
 | Fig. 3, variances (bar heights in the publisher's R graphics file) | partly | 10 of 50 fields as printed |
 | Text: ACTB plus TBP in pooled tissues, MSE 0.35 against individual MSEs above 6 | partly | 3 of 4 fields as printed |
 | Text: 80 tumours and 6 genes; 10 genes in 5 tissue types | exact | 4 of 4 fields as printed |
-| The claims recomputed from the paper's own tables and Fig. 3 | agrees | 8 of 8 claims hold on the paper's own numbers: Table 2's best pair from Table 1 with |
+| The claims recomputed from the paper's own tables and Fig. 3 | agrees | 8 of 8 claims hold on the paper's own numbers: Table 2's best pair from Table 1, divided by the squared set size (holds, 0.1716 against 0.1718 (the set size gives 0.2426)); the four-gene set lowest in Table 2 (holds, 0.1490); three genes barely worse than four, two far worse (holds, 0.0004 and 0.0224); GAPD lowest in Table 3, then UBC, HPRT1, YWHAZ (holds); ACTB plus TBP in pooled tissues 0.35 (bias of the set summed) (holds, 0.349 (the mean of the biases gives 0.335)); ACTB and TBP individual MSEs in pooled tissues above 6 (holds, 6.45 and 6.70); Table 4's ten-gene MSE from Table 3 (no bias) (holds, 0.0490); Table 4's single gene RPL13A from Table 3 and Fig. 3, within Table 3's rounding (holds, 0.5435 against 0.544) |
 | Table 5, primers | not attempted | not attempted |
 | R package hkselect and its tutorial | agrees | R package hkselect: R CMD check OK; tests 23 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md (figures by name) |
 <!--/RESULTS-SUMMARY-->
@@ -96,5 +96,5 @@ Install the package: `remotes::install_github("jeonglab-bcm/fossil/PMC507884/pac
   be the sum of its genes' biases, not their mean.
 
 The main claims hold: the best single genes and gene sets come back in both settings; the claims that
-do not match are two formula slips, Table 2's last digit, and Model 2's SDs (Table 3, open), from
+do not match are Table 1's intervals (in the third decimal, as nlme's own move), two formula slips, Table 2's last digit, and Model 2's SDs (Table 3, open), from
 which the Table 4 and ACTB plus TBP differences follow.
