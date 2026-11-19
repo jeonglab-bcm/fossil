@@ -1,0 +1,157 @@
+---
+title: "pdscox tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pdscox tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 4, dpi = 96)
+```
+
+## What the method does
+
+Huang et al. turn a gene expression profile into one pathway deregulation score (PDS) per
+pathway with pathifier, fit a Cox model with an L1 (LASSO) penalty to the scores to select a few
+prognostic pathways, and split tumours into higher and lower risk of relapse by the model's
+prognostic index. The same steps work on clinical features, or on both together.
+
+Huang S, Yee C, Ching T, Yu H, Garmire LX. A novel model to combine clinical and pathway-based
+transcriptomic information for the prognosis prediction of breast cancer. *PLoS Comput Biol*
+10(9):e1003851 (2014). doi:10.1371/journal.pcbi.1003851.
+
+## Install
+
+```{r install, eval = FALSE}
+remotes::install_github("jeonglab-bcm/fossil/PMC4168973/package")
+```
+
+```{r load}
+library(pdscox)
+packageVersion("pdscox")
+```
+
+## Example input
+
+Two examples ship with the package. The first is the paper's training set: the clinical table of
+the 236 Uppsala tumours with a relapse status. The paper counts the two patients without a
+relapse time as time 0 and the tumours without p53 status as wild type; so do we.
+
+```{r clinical}
+clin <- read.csv(example_path("miller_clinical.csv"))
+dim(clin)
+head(clin)
+clin$time[is.na(clin$time)] <- 0
+clin$p53[is.na(clin$p53)] <- 0
+```
+
+The second is synthetic: 150 tumours, three gene sets of 12 genes and 40 background genes. Sets
+A and B carry relapse risk (true log hazard ratios 1.0 and 0.7); set C does not.
+
+```{r synthetic}
+expr <- as.matrix(read.csv(example_path("synthetic_expression.csv"), row.names = 1, check.names = FALSE))
+surv <- read.csv(example_path("synthetic_survival.csv"))
+sets <- read_gmt(example_path("synthetic_sets.gmt"))
+dim(expr)
+lengths(sets)
+table(relapse = surv$event)
+```
+
+## Run the method
+
+Pathway deregulation scores, then the Cox-LASSO model. The paper ran 250 cross-validation runs to
+choose the penalty; 20 are enough here.
+
+```{r pds, results = "hide"}
+pds <- pathway_scores(expr, sets, attempts = 20)
+```
+
+```{r model}
+model <- cox_lasso(t(pds), surv$time, surv$event, runs = 20)
+round(model$coefficients, 3)
+pi <- prognostic_index(model$coefficients, t(pds))
+res <- evaluate_model(pi, surv$time, surv$event, share_cutoff(pi, 0.25))
+c(log_rank_p = signif(res$p, 3), auc = round(res$auc, 3))
+```
+
+```{r km}
+fit <- survival::survfit(survival::Surv(surv$time, surv$event) ~ res$group)
+plot(fit, col = c("#5fbf3f", "#3a54a5"), lwd = 2, mark.time = TRUE,
+     xlab = "Time to relapse (years)", ylab = "Probability")
+legend("bottomleft", c("Lower risk", "Higher risk"), col = c("#5fbf3f", "#3a54a5"), lwd = 2)
+```
+
+The clinical model of the paper on its training set:
+
+```{r clinical_model}
+x <- clinical_matrix(clin, c("er", "pgr", "p53", "grade", "node", "size_mm", "age"))
+cm <- cox_lasso(x, clin$time, clin$event, runs = 20)
+round(cm$coefficients, 3)
+```
+
+## Compare with the expected output
+
+The paper's printed p-values for the training set, against ours:
+
+```{r compare_paper}
+paper <- read.csv(example_path("paper_values.csv"), colClasses = "character")
+ours <- c(
+  logrank_p(clin$time, clin$event, clin$node), logrank_p(clin$time, clin$event, clin$grade),
+  logrank_p(clin$time, clin$event, clin$p53), logrank_p(clin$time, clin$event, clin$er),
+  logrank_p(clin$time, clin$event, clin$pgr),
+  univariate_cox(cbind(LN = clin$node, size = clin$size_mm, grade = clin$grade, p53 = clin$p53),
+                 clin$time, clin$event)$p)
+printed_digits <- function(s) {
+  s <- tolower(s)
+  if (grepl("e", s)) { p <- strsplit(s, "e")[[1]]; nchar(sub("^[^.]*\\.?", "", p[1])) - as.integer(p[2]) }
+  else nchar(sub("^[^.]*\\.?", "", s))
+}
+paper$ours <- signif(ours, 4)
+paper$match <- abs(ours - as.numeric(paper$value)) <= 0.5 * 10^(-sapply(paper$value, printed_digits)) + 1e-15
+paper
+cat(sum(paper$match), "of", nrow(paper), "p-values match the paper as printed\n")
+stopifnot(all(paper$match))
+```
+
+For the synthetic data the expected output is the formula the data were drawn from: each score
+should follow its set's activity, and the model should rank the sets as their true effects do.
+
+```{r compare_truth}
+truth <- read.csv(example_path("synthetic_truth.csv"))
+effects <- read.csv(example_path("synthetic_effects.csv"))
+r <- sapply(names(sets), function(k) cor(pds[k, ], truth[[k]]))
+round(r, 3)
+b <- model$coefficients[effects$set]; b[is.na(b)] <- 0
+data.frame(set = effects$set, true_log_hr = effects$log_hazard_ratio, fitted = round(unname(b), 3))
+cat(sum(r >= 0.9), "of 3 scores follow their activity; ranking matches:",
+    identical(order(-b), order(-effects$log_hazard_ratio)), "\n")
+stopifnot(all(r >= 0.9), identical(order(-b), order(-effects$log_hazard_ratio)))
+```
+
+## Your own data
+
+- **Expression**: a genes by samples matrix of log2 values, gene symbols as row names (one row per
+  gene; `probes_to_genes()` collapses Affymetrix probes with a GEO annotation file).
+- **Gene sets**: a named list of symbol vectors (`read_gmt()` reads MSigDB files; the paper used the
+  403 KEGG and BioCarta sets of MSigDB's C2 collection).
+- **Survival**: time and event (1 = relapse) per sample, in the column order of the matrix.
+- **Options that matter**: `pathway_scores(attempts =)` (pathifier's subsamplings; 100 by default),
+  `cox_lasso(runs =, fold =)` (cross-validation runs and folds; the median of the runs' optimal
+  penalties is used), and `share_cutoff(pi, share)` (the share of tumours called higher risk:
+  0.25 in the paper, or a data set's relapse share).
+- **Outputs**: `model$coefficients` are the selected features and their log hazard ratios;
+  `evaluate_model()` returns the log-rank p-value, the AUC of the index against relapse, the risk
+  groups and the ROC curve.
+
+To score a new data set with a trained model, compute its scores with `pathway_scores()` and
+apply `prognostic_index()` with the trained coefficients. Without normal samples, pathifier's
+scores are computed within each data set, so a cutoff carried from one data set to another
+assumes they are on the same scale.
+
+## The full reproduction
+
+The paper's four data sets, every table and figure and the comparison with the published values:
+<https://jeonglab-bcm.github.io/fossil/PMC4168973/> and the pipeline in
+<https://github.com/jeonglab-bcm/fossil/tree/main/PMC4168973/figure-reproduction>.

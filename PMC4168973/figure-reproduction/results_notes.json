@@ -1,0 +1,2363 @@
+{
+ "paper": {
+  "id": "PMC4168973",
+  "title": "A novel model to combine clinical and pathway-based transcriptomic information for the prognosis prediction of breast cancer",
+  "citation": "Huang S, Yee C, Ching T, Yu H, Garmire LX. A novel model to combine clinical and pathway-based transcriptomic information for the prognosis prediction of breast cancer. PLoS Comput Biol 10(9):e1003851 (2014)",
+  "doi": "10.1371/journal.pcbi.1003851",
+  "license": "CC BY 4.0"
+ },
+ "run": {
+  "pipeline": "PMC4168973/figure-reproduction/main.nf",
+  "command": "nextflow run PMC4168973/figure-reproduction/main.nf --outdir results"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": "2aa66c4e44dd4ec5f9f1f83bcaa92a13a7c337d1",
+  "modified": false
+ },
+ "shared_assumptions": {
+  "missing_time": {
+   "what": "Two Miller patients have a relapse status (one relapse, one censored) but no relapse time in breastCancerUPP; their time is 0",
+   "source": "found_by_search",
+   "sensitivity": "With time 0 the five Fig. 1 log-rank p-values for p53, grade, LN, ER and PG, all four univariate Cox p-values of Table 2 and Table 1's mean RFS (8.168, printed 8.167) come back; dropping the two patients gives none of them (LN 1.10e-7 against 4.93e-8, grade 0.00156 against 0.00181, mean RFS 8.237)."
+  },
+  "p53_missing": {
+   "what": "Four Miller tumours without p53 sequencing status count as wild type",
+   "source": "paper",
+   "sensitivity": "Table 1 prints 55 mutated, 181 wild type and 0 unknown for Miller, and GSE4922 has 55 mutated, 177 wild type and 4 unknown for these tumours. Dropping them gives the Fig. 1A chi-square p 0.0696 instead of 0.088."
+  },
+  "miller_clinical": {
+   "what": "Miller's relapse-free survival, ER, PgR, size, grade, node and age from Bioconductor breastCancerUPP 1.40.0; p53 status from the GSE4922 clinical file (same Uppsala tumours)",
+   "source": "found_by_search",
+   "sensitivity": "GEO GSE3494 has no clinical data. The 236 tumours with a relapse status in breastCancerUPP give Table 1's counts (55 relapses, ER 201/31/4, grade 62/121/51/2, LN 78/149/9, mean age 62.51); GSE4922's disease-free survival for the same tumours gives other log-rank p-values (LN 2.5e-4 against 4.93e-8)."
+  },
+  "pawitan_time": {
+   "what": "Pawitan's relapse-free time is the earlier of SURV_RELAPSE and SURV_DEATH (GSE1456); the event is RELAPSE",
+   "source": "found_by_search",
+   "sensitivity": "Its mean, 5.959 years, is Table 1's; SURV_RELAPSE alone gives 6.196."
+  },
+  "gene_sets": {
+   "what": "The 403 gene sets are MSigDB v6.0 c2.cp.biocarta (217) and c2.cp.kegg (186), as gene symbols",
+   "source": "our_choice",
+   "sensitivity": "The release the paper used (2013 or 2014, MSigDB 3.x or 4.0) is not on the public download server. v6.0 has the 403 sets and all 15 of Table 2, and gives Table 3's genomic counts and weights exactly; v6.2 is identical."
+  },
+  "probes": {
+   "what": "Probes are mapped to gene symbols with GEO's current GPL96 annotation; probes for several genes are left out; a gene's value is the geometric mean of its probes' log2 values",
+   "source": "our_choice",
+   "sensitivity": "The paper mapped through RefSeq with biomaRt (release not given). 12,502 genes; the paper's 'over 14,000' is not reached by any count we tried (13,909 with multi-gene probes)."
+  },
+  "normalization": {
+   "what": "Each data set is quantile normalized on its own (limma normalizeBetweenArrays); no CONOR batch correction",
+   "source": "our_choice",
+   "sensitivity": "The paper does not name the limma method. pathifier standardizes every gene within each data set before scoring, which removes any per-gene location and scale shift such as CONOR's empirical Bayes (ComBat) correction; it is left out for that reason."
+  },
+  "pathifier": {
+   "what": "pathifier 1.40.0 with its defaults (attempts 100, min_exp 4, min_std 0.4, maximize_stability), no normal samples (none of the data sets has any), one set of subsamplings (seed 1) per data set, each data set scored on its own; each score is turned, if needed, so that it rises with the mean standardized expression of its pathway's genes",
+   "source": "our_choice",
+   "sensitivity": "Without normal samples pathifier's curve starts from the first principal component and which end scores 0 is arbitrary; the paper does not say how it handled this. The orientation rule decides the sign of every coefficient and whether a training-set model carries to a test set."
+  },
+  "lasso": {
+   "what": "Penalty: the median of the optimal lambda1 of 250 runs of penalized::optL1 with 10 random folds each (seed 1); PDS not standardized for the genomic model; clinical and combined inputs standardized to mean 0 and SD 1 within each data set; missing clinical values filled with the median",
+   "source": "our_choice",
+   "sensitivity": "The paper gives no folds, grid, seed or rule for turning 250 runs into one lambda. On the clinical model the 250 runs' optimal lambda ranges over a factor of about 2, which moves the coefficients but not the selected features."
+  },
+  "cutoff": {
+   "what": "Higher risk: prognostic index above the training set's 3rd quartile (Figs 4 and 6); above the quantile at the set's relapse share for Fig. 5 and the leave-one-out runs",
+   "source": "paper",
+   "sensitivity": "Stated in the paper."
+  },
+  "logrank": {
+   "what": "The 'Wilcoxon log-rank test' is survival::survdiff with rho = 0 (the log-rank test)",
+   "source": "found_by_search",
+   "sensitivity": "rho = 0 gives the five Fig. 1 p-values as printed; rho = 1 (Peto-Wilcoxon) gives none (LN 1.56e-8 against 4.93e-8)."
+  },
+  "p_scale": {
+   "what": "Model-dependent p-values are compared as -log10(p) within 1 (the same order of magnitude) and AUCs within 0.03",
+   "source": "our_choice",
+   "sensitivity": "The models depend on random cross-validation folds and unstated settings, so no run can be expected to print the paper's digits; values that depend only on the data are compared at printed precision."
+  }
+ },
+ "items": [
+  {
+   "id": "table1.miller",
+   "label": "Table 1, training set (Miller)",
+   "kind": "table",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ],
+   "exceptions": [
+    {
+     "field": "PG positive, count",
+     "category": "paper_error",
+     "evidence": "PG positive and negative are swapped: GSE4922 and breastCancerUPP both have 179 PgR-positive and 57 PgR-negative of these 236 tumours; with the labels swapped every other Miller count of Table 1 is ours."
+    },
+    {
+     "field": "PG positive, %",
+     "category": "paper_error",
+     "evidence": "PG positive and negative are swapped: GSE4922 and breastCancerUPP both have 179 PgR-positive and 57 PgR-negative of these 236 tumours; with the labels swapped every other Miller count of Table 1 is ours."
+    },
+    {
+     "field": "PG negative, count",
+     "category": "paper_error",
+     "evidence": "PG positive and negative are swapped: GSE4922 and breastCancerUPP both have 179 PgR-positive and 57 PgR-negative of these 236 tumours; with the labels swapped every other Miller count of Table 1 is ours."
+    },
+    {
+     "field": "PG negative, %",
+     "category": "paper_error",
+     "evidence": "PG positive and negative are swapped: GSE4922 and breastCancerUPP both have 179 PgR-positive and 57 PgR-negative of these 236 tumours; with the labels swapped every other Miller count of Table 1 is ours."
+    },
+    {
+     "field": "size 10-20, %",
+     "category": "paper_error",
+     "evidence": "No denominator gives the four printed size percentages: 92 at 40% needs 228 to 232 tumours, 123 at 52% needs 235 to 238."
+    },
+    {
+     "field": "mean RFS",
+     "category": "paper_error",
+     "evidence": "The mean is 8.16754 years; the paper truncates it to 8.167 (the two patients without a time count as 0)."
+    }
+   ]
+  },
+  {
+   "id": "table1.pawitan",
+   "label": "Table 1, test set 1 (Pawitan)",
+   "kind": "table",
+   "source": "public_data",
+   "assumptions_ref": [
+    "pawitan_time"
+   ]
+  },
+  {
+   "id": "table1.ivshina",
+   "label": "Table 1, test set 2 (Ivshina)",
+   "kind": "table",
+   "source": "public_data",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The size classes' boundaries are not given. Counting 50 mm tumours as over 50 gives the paper's 10 (strictly over 50: 6); under 10 mm gives 15 against the printed 14 with any boundary we tried.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/clinical.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Over 50 includes 50 mm",
+      "test": "count size >= 50 in GSE4922",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Under 10 includes 10 mm",
+      "test": "count size <= 10: 22",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table1.desmedt",
+   "label": "Table 1, test set 3 (Desmedt)",
+   "kind": "table",
+   "source": "public_data",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The largest Desmedt tumour is 50 mm; the paper's one tumour over 50 mm is it, counted as over 50 (as for Ivshina; Miller's three 50 mm tumours are in no class).",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/clinical.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Over 50 includes 50 mm",
+      "test": "count size >= 50 in GSE7390: 1",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.A.heatmap",
+   "label": "Fig. 1A, PAM50 heatmap",
+   "kind": "figure",
+   "source": "public_data",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The heatmap's gene scaling, palette and ordering are not given; its one testable number, the chi-square p of its two patient clusters against relapse, is item fig1.A.pam50_groups.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/pipeline/models.R"
+    ]
+   }
+  },
+  {
+   "id": "fig1.A.chisq",
+   "label": "Fig. 1A, chi-square p of ER, PG, p53, grade and LN against relapse (Miller)",
+   "kind": "value",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig1.A.pam50_groups",
+   "label": "Fig. 1A and text, chi-square p of the two PAM50 clusters against relapse",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "miller_clinical",
+    "probes",
+    "normalization",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "No clustering of the Miller tumours on the PAM50 genes we tried reaches the printed p (best 0.011 against 7.46e-5); the paper does not say how it clustered or which PAM50 genes it used (41 of 50 are on our gene list).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/experiments/pam50_clusters.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Complete linkage, Euclidean distance on the log2 values (R's heatmap default)",
+      "test": "cut the tree in two: 218 and 18 tumours, p 1",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Genes standardized first",
+      "test": "same with z-scored genes: 99 and 137, p 0.040",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Correlation distance or Ward linkage",
+      "test": "1 - Pearson (complete, average) and Ward.D2: p 0.011 to 0.375",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.logrank",
+   "label": "Fig. 1B to E and text, log-rank p of LN, grade, p53, size, ER and PG (Miller)",
+   "kind": "value",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing",
+    "logrank"
+   ]
+  },
+  {
+   "id": "fig1.B",
+   "label": "Fig. 1B, Kaplan-Meier by lymph node status",
+   "kind": "figure",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig1.C",
+   "label": "Fig. 1C, Kaplan-Meier by grade",
+   "kind": "figure",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig1.D",
+   "label": "Fig. 1D, Kaplan-Meier by p53 status",
+   "kind": "figure",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig1.E",
+   "label": "Fig. 1E, Kaplan-Meier by tumour size",
+   "kind": "figure",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, workflow of the model",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the four steps of the method; it is the structure of the package pdscox.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/package/R/model.R"
+    ]
+   }
+  },
+  {
+   "id": "fig3.heatmap",
+   "label": "Fig. 3, heatmap of the 15 selected pathways",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The heatmap's scaling, palette and ordering are not given; its testable numbers are in item fig3.values.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/pipeline/models.R"
+    ]
+   }
+  },
+  {
+   "id": "fig3.chisq",
+   "label": "Fig. 3, chi-square p of ER, PG, p53, grade and LN against relapse (more digits)",
+   "kind": "value",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "fig3.values",
+   "label": "Fig. 3 and text, PDS clusters against relapse and median-PDS correlation",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "gene_sets",
+    "probes",
+    "normalization",
+    "pathifier",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "On our scores of the paper's 15 pathways the two clusters are not associated with relapse (p 0.23, printed 1.99e-6) and the median score hardly correlates with it (0.047, printed 0.17); on the pathways our own model selects, the same clustering gives p 2.8e-5 and correlation 0.11. Our scores of the paper's pathways are not the paper's (see table2.genomic_univariate).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt",
+     "PMC4168973/figure-reproduction/experiments/fig3_clusters.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Complete linkage, Euclidean distance on the log2 values (R's heatmap default)",
+      "test": "cut the tree in two: 210 and 26 tumours, p 0.23",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Genes standardized first",
+      "test": "same with z-scored genes: 224 and 12, p 0.23",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Correlation distance or Ward linkage",
+      "test": "1 - Pearson (complete, average) and Ward.D2: p 7.4e-4 to 0.019",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The clustering works on prognostic pathways",
+      "test": "the same clustering of the pathways our model selects: p 2.8e-5",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.genomic",
+   "label": "Table 2, pathway-based genomic model: pathways and coefficients",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "gene_sets",
+    "probes",
+    "normalization",
+    "pathifier",
+    "lasso",
+    "missing_time"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Our LASSO keeps 5 pathways, 3 of them the paper's (SRCRPTP, RARRXR, IL5); the paper keeps 15. The selection follows from the scores, and our scores of the paper's pathways are not the paper's (table2.genomic_univariate). The paper's coefficients applied to our scores give Miller p 2.3e-4 and AUC 0.66 (printed 6.25e-12 and 0.80).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper's model applied to our scores reproduces Fig. 4",
+      "test": "Table 2 coefficients on our PDS: Miller p 2.3e-4, AUC 0.66; Pawitan 4.4e-3; Ivshina 0.021; Desmedt 0.76",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The orientation of the scores changes the selection",
+      "test": "a LASSO is unchanged by flipping a feature's sign; 153 of 403 Miller pathways are flipped (column flipped of output/pds/miller.csv)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.genomic_univariate",
+   "label": "Table 2, univariate Cox p of the 15 pathways on our scores",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "gene_sets",
+    "probes",
+    "normalization",
+    "pathifier",
+    "missing_time",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Our pathway scores are not the paper's: of the 15 pathways of Table 2, 4 have a univariate Cox p within one order of magnitude of the printed one on our scores, and VIP, LYSOSOME, AKAP13 and LINOLEIC ACID, printed p 2e-6 to 4e-3, have p 0.5 to 0.8. pathifier is deterministic here (seeds 1 to 3 give the same scores), and no preprocessing variant we tried brings these pathways back. The paper's pathifier run, gene mapping and MSigDB release are not available.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.clinical",
+   "label": "Table 2, clinical model: features and coefficients",
+   "kind": "table",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing",
+    "lasso"
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "summary": "The same four features are selected; the coefficients differ by 0.0003 to 0.049. The penalty is the median of 250 random cross-validations (ours 7.32); its exact value depends on the folds, which the paper does not give.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/models/lambdas.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Fold randomness moves the penalty enough",
+      "test": "the 250 optimal penalties range from 5.1 to 10.9 (median 7.32; the first 50 alone give 7.01), and the coefficients shrink with the penalty, so another set of folds gives other coefficients (models/lambdas.json)",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.clinical_univariate",
+   "label": "Table 2, univariate Cox p of LN, size, grade and p53",
+   "kind": "table",
+   "source": "public_data",
+   "assumptions_ref": [
+    "miller_clinical",
+    "missing_time",
+    "p53_missing"
+   ]
+  },
+  {
+   "id": "table2.combined",
+   "label": "Table 2 and text, combined model: pathways kept and clinical features",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "gene_sets",
+    "pathifier",
+    "lasso",
+    "missing_time"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Lymph node and size are kept and grade and p53 are not, as in the paper; 4 of our 5 genomic pathways are kept (paper: 10 of 15). The pathway count follows from our genomic model (table2.genomic).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.values",
+   "label": "Fig. 4 and text, log-rank p and AUC of the genomic model on the four sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "gene_sets",
+    "probes",
+    "normalization",
+    "pathifier",
+    "lasso",
+    "cutoff",
+    "missing_time",
+    "pawitan_time",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate): our genomic model keeps 5 pathways, not 15. It reaches Miller p 1.1e-7 and AUC 0.73 (printed 6.25e-12, 0.80), Pawitan 5.4e-4 (3.91e-5), Ivshina 1.9e-6 (1.52e-4) and Desmedt 0.69 (3.73e-4); Ivshina's AUC is the paper's. Ivshina is not an independent test set: 232 of its 249 arrays are Miller's (GSE4922 re-deposits GSE3494's arrays), which may be why it is the only test set where we do better than printed.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt",
+     "PMC4168973/figure-reproduction/output/datasets.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.A",
+   "label": "Fig. 4A, training set (Miller)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.B",
+   "label": "Fig. 4B, test set 1 (Pawitan)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.C",
+   "label": "Fig. 4C, test set 2 (Ivshina)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.D",
+   "label": "Fig. 4D, test set 3 (Desmedt)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig4.E",
+   "label": "Fig. 4E, ROC curves of the genomic model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS1.claim",
+   "label": "Fig. S1 and text, AUC falls as fewer pathways are kept",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "With 1/2 to 1/16 of the pathways the median AUC stays at 0.71 to 0.72 (0.715, 0.722, 0.712, 0.707; 1/2 against 1/4: t-test p 0.22) instead of falling clearly. Our full model already keeps only 5 pathways, so a random half rarely loses much; we ran 25 cross-validations per model, not 250.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/curves/figS1.csv"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Fewer cross-validation runs flatten the curve",
+      "test": "25 runs per model against the paper's 250; for the full model the median penalty of the first 25 runs is 3.43, of all 250 3.36 (2%)",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.values",
+   "label": "Fig. 5 and text, log-rank p and AUC of the gene- and pathway-based models",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "probes",
+    "normalization",
+    "pathifier",
+    "lasso",
+    "cutoff",
+    "pawitan_time",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The pathway models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate); the gene models on our gene-level expression, whose mapping and normalization may differ from the paper's (biomaRt through RefSeq, CONOR), so Pawitan's and Ivshina's gene models differ too. Desmedt has almost no relapse signal in our hands: no pathway has univariate p below 0.008 and no gene below 3.4e-5 (of 7,455 expressed), so cross-validation picks a penalty (pathways 4.7 to 6.2, genes 47 to 79) that keeps nothing and both Desmedt models are empty. The paper's Desmedt pathway result (p 5.12e-36, AUC 0.92 on 198 patients) is close to what a penalty near 1 gives in-sample: 77 pathways, p 2.8e-37, AUC 0.94.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt",
+     "PMC4168973/figure-reproduction/output/models/lambdas.json",
+     "PMC4168973/figure-reproduction/experiments/desmedt_penalty.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Desmedt's expression and clinical columns are misaligned",
+      "test": "ESR1 against ER status: r 0.54 for the gene, 0.72 for its probe 205225_at (experiments/desmedt_penalty.txt)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper used a much smaller penalty than cross-validation gives on Desmedt",
+      "test": "penalty 1 on our Desmedt scores: 77 pathways, p 2.8e-37, AUC 0.944; penalty 2: 30 pathways, 3.9e-21, 0.856",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.A",
+   "label": "Fig. 5A, Miller gene-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.B",
+   "label": "Fig. 5B, Miller pathway-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.C",
+   "label": "Fig. 5C, Pawitan gene-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.D",
+   "label": "Fig. 5D, Pawitan pathway-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.E",
+   "label": "Fig. 5E, Ivshina gene-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.F",
+   "label": "Fig. 5F, Ivshina pathway-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.G",
+   "label": "Fig. 5G, Desmedt gene-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig5.H",
+   "label": "Fig. 5H, Desmedt pathway-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fig5_claim",
+   "label": "Text: pathway-based models beat gene-based models on all four sets",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "On our scores the pathway model beats the gene model on Pawitan only; on Miller it has the higher AUC but the higher p, on Ivshina the gene model wins, and on Desmedt neither model keeps a feature. See fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS2.claim",
+   "label": "Fig. S2: LOOCV, pathway-based above gene-based on all four sets (t-test p < 0.001)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Leave-one-out without refitting puts the pathway model's AUC above the gene model's on Miller and Pawitan (t-test p < 1e-100; on Miller its p-values are the weaker) and below it on Ivshina; Desmedt has no model. See fig5.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS3.nki70",
+   "label": "Fig. S3 and text, NKI70 on the training set: log-rank p and AUC",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "probes",
+    "missing_time",
+    "p_scale"
+   ]
+  },
+  {
+   "id": "figS3",
+   "label": "Fig. S3, ROC of NKI70 and the pathway-based model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "probes",
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The NKI70 curve is ours and agrees in number (figS3.nki70); the pathway-model curve follows our model, not the paper's; see fig4.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.values",
+   "label": "Fig. 6 and text, log-rank p and AUC of the genomic, combined and clinical models",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff",
+    "missing_time",
+    "p53_missing",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The genomic and combined models are fitted on our pathway scores, which are not the paper's (table2.genomic_univariate). The clinical model matches on Miller (p 3.9e-11 against 2.2e-10, AUC 0.75 against 0.74) and its AUC on Ivshina (0.65), but its Ivshina p is 1.7e-5 against 2.7e-3. On Ivshina, whose arrays are mostly Miller's, the genomic and combined models have smaller p-values than printed and slightly lower AUCs (0.67 against 0.68, 0.69 against 0.71); on Miller both are weaker.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.A",
+   "label": "Fig. 6A, Miller genomic model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.B",
+   "label": "Fig. 6B, Ivshina genomic model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.C",
+   "label": "Fig. 6C, Miller combined model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.D",
+   "label": "Fig. 6D, Ivshina combined model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.E",
+   "label": "Fig. 6E, Miller clinical model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.F",
+   "label": "Fig. 6F, Ivshina clinical model",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig6.G",
+   "label": "Fig. 6G, ROC curves of the three models",
+   "kind": "figure",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "The curves follow our model, not the paper's; see fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fig6_claim",
+   "label": "Text: combined beats genomic beats clinical, on Miller and Ivshina",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Combined beats genomic beats clinical on Ivshina; on Miller our genomic model (AUC 0.73) is below the clinical model (0.75), with 5 pathways instead of the paper's 15. See fig6.values.",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "figS4.claim",
+   "label": "Fig. S4: LOOCV, combined above pathway above clinical (t-test p < 0.001)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "As text.fig6_claim: the order holds on Ivshina; on Miller the pathway model's leave-one-out AUC (0.73) is below the clinical model's (0.75).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.genomic",
+   "label": "Table 3, genomic-model counts and weighted counts of the top 30 genes",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "gene_sets"
+   ],
+   "assumptions": [
+    {
+     "what": "A gene's weighted count is the sum of exp(coefficient) of the Table 2 pathways that contain it, compared within 1e-5",
+     "source": "found_by_search",
+     "sensitivity": "Summing Table 2's printed hazard ratios gives 7.10946 for PRKACB against the printed 7.109452; exp of the printed 6-decimal coefficients gives 7.109450, within the 4.4e-6 that the coefficients' rounding allows (3 pathways x 2.93 x 5e-7)."
+    }
+   ]
+  },
+  {
+   "id": "table3.combined",
+   "label": "Table 3, combined-model counts and weighted counts, and the 265 shared genes",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The combined model's hazard ratios are not printed, and its gene counts are higher than its 10 starred pathways can give, so the columns cannot be rebuilt; our combined model differs as well (table2.combined).",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/table3.json"
+    ]
+   }
+  },
+  {
+   "id": "text.coverage",
+   "label": "Discussion: genes covered by the 403 pathways and expressed",
+   "kind": "value",
+   "source": "public_data",
+   "assumptions_ref": [
+    "gene_sets",
+    "probes"
+   ],
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "5,555 genes are in the 403 sets (paper: over 4,500) and all 403 are scored. The paper's 'over 3,200 expressed' and 'over 14,000 genes, over 10,000 expressed' on U133A depend on its mapping and expression cutoff, which are not given: we have 12,502 genes, and 1,502 genes in the sets and 3,936 of all genes have mean log2 above 7.",
+    "status": "explained",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/table3.json"
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own tables and figure titles",
+   "kind": "code_check",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.main_claims",
+   "label": "Text: the main claims on our run (test p < 0.0005, average test AUC 0.68, combined 3 orders better)",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "pathifier",
+    "lasso",
+    "cutoff",
+    "p_scale"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "Follows from fig4.values and fig6.values: Desmedt's p is 0.69, the average test AUC is 0.63, and on Ivshina the combined model's p (2.0e-9) is 2.98 orders below the genomic model's (1.9e-6), just short of 3 (on Miller it is more than 6 orders below both).",
+    "status": "open",
+    "evidence": [
+     "PMC4168973/figure-reproduction/output/models.json",
+     "PMC4168973/figure-reproduction/output/pds/miller.csv",
+     "PMC4168973/figure-reproduction/experiments/pds_variants.txt"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "pathifier's random subsamplings make the scores differ",
+      "test": "VIP, AKAP13, PYK2, G1 and RNA scored with seeds 1, 2 and 3 (experiments/pds_variants.txt): identical univariate p-values (-log10 0.11, 0.16, 0.44, 1.91, 2.56; paper 4.67, 2.45, 3.89, 5.58, 4.12)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper did not quantile-normalize each data set",
+      "test": "same five pathways without normalization: -log10 p 0.85, 0.41, 0.14, 2.93, 0.41",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without maximize_stability",
+      "test": "same five pathways: unchanged",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper ran pathifier without its gene filters (min_exp 4, min_std 0.4)",
+      "test": "min_exp 0, min_std 0: -log10 p 0.04, 0.27, 0.19, 2.96, 0.31",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The paper gave pathifier linear rather than log2 expression",
+      "test": "2^x with min_exp 16: -log10 p 1.32, 0.19, 0, 2.03, 0.12",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "package",
+   "label": "R package pdscox and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "We rebuilt the lost pipeline from the paper and reran it on the four public data sets. Of {items} results, {attempted} were attempted: {exact} came back exact, {agrees} agree, {partly} partly, {inconclusive} inconclusive and {differs} differ.",
+  "label_rows": [
+   [
+    "table1",
+    "Table 1, patients",
+    [
+     "table1.miller",
+     "table1.pawitan",
+     "table1.ivshina",
+     "table1.desmedt"
+    ]
+   ],
+   [
+    "fig-1",
+    "Fig. 1, clinical factors",
+    [
+     "fig1.A.chisq",
+     "fig1.logrank",
+     "fig1.B",
+     "fig1.C",
+     "fig1.D",
+     "fig1.E"
+    ]
+   ],
+   [
+    "table2",
+    "Table 2, the models",
+    [
+     "table2.genomic",
+     "table2.clinical",
+     "table2.clinical_univariate",
+     "table2.combined"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4, genomic model",
+    [
+     "fig4.values",
+     "fig4.A",
+     "fig4.B",
+     "fig4.C",
+     "fig4.D",
+     "fig4.E"
+    ]
+   ],
+   [
+    "fig-5",
+    "Fig. 5, gene against pathway",
+    [
+     "fig5.values",
+     "text.fig5_claim"
+    ]
+   ],
+   [
+    "fig-6",
+    "Fig. 6, combined model",
+    [
+     "fig6.values",
+     "text.fig6_claim"
+    ]
+   ],
+   [
+    "table3",
+    "Table 3, genes",
+    [
+     "table3.genomic"
+    ]
+   ]
+  ],
+  "stations": [
+   {
+    "id": "table1",
+    "title": "Table 1",
+    "caption": "Patients and tumours of the four data sets. Counts compared as printed, percentages within one point.",
+    "items": [
+     "table1.miller",
+     "table1.pawitan",
+     "table1.ivshina",
+     "table1.desmedt"
+    ]
+   },
+   {
+    "id": "fig-1",
+    "figure": "1",
+    "title": "Fig. 1",
+    "caption": "The training set (Miller): PAM50 heatmap and Kaplan-Meier curves by lymph node status, grade, p53 status and tumour size.",
+    "items": [
+     "fig1.A.chisq",
+     "fig1.A.pam50_groups",
+     "fig1.logrank",
+     "fig1.B",
+     "fig1.C",
+     "fig1.D",
+     "fig1.E"
+    ]
+   },
+   {
+    "id": "table2",
+    "title": "Table 2",
+    "caption": "Features of the genomic and clinical models, and the univariate Cox p-values.",
+    "items": [
+     "table2.genomic",
+     "table2.genomic_univariate",
+     "table2.clinical",
+     "table2.clinical_univariate",
+     "table2.combined"
+    ]
+   },
+   {
+    "id": "fig-4",
+    "figure": "4",
+    "title": "Fig. 4",
+    "caption": "The pathway-based genomic model, trained on Miller and cut at its 3rd quartile, on the four data sets; ROC curves.",
+    "items": [
+     "fig4.values",
+     "fig4.A",
+     "fig4.B",
+     "fig4.C",
+     "fig4.D",
+     "fig4.E"
+    ]
+   },
+   {
+    "id": "fig-5",
+    "figure": "5",
+    "title": "Fig. 5",
+    "caption": "Gene-based against pathway-based models, each trained on its own data set.",
+    "items": [
+     "fig5.values",
+     "fig5.A",
+     "fig5.B",
+     "fig5.C",
+     "fig5.D",
+     "fig5.E",
+     "fig5.F",
+     "fig5.G",
+     "fig5.H",
+     "text.fig5_claim"
+    ]
+   },
+   {
+    "id": "fig-6",
+    "figure": "6",
+    "title": "Fig. 6",
+    "caption": "Genomic, combined and clinical models on Miller and Ivshina.",
+    "items": [
+     "fig6.values",
+     "fig6.A",
+     "fig6.B",
+     "fig6.C",
+     "fig6.D",
+     "fig6.E",
+     "fig6.F",
+     "fig6.G",
+     "text.fig6_claim"
+    ]
+   },
+   {
+    "id": "fig-S3",
+    "figure": "S3",
+    "title": "Fig. S3",
+    "caption": "NKI70 against the pathway-based model on Miller.",
+    "items": [
+     "figS3.nki70",
+     "figS3"
+    ]
+   },
+   {
+    "id": "table3",
+    "title": "Table 3",
+    "caption": "The 30 genes most often found in the genomic model's pathways, counted and weighted by hazard ratio.",
+    "items": [
+     "table3.genomic"
+    ]
+   }
+  ],
+  "items_caption": "Every figure panel, table and number of the paper, with our value and the verdict computed from results.json.",
+  "claims_line": "The paper's main claim does not hold on our run: the pathway model is weaker than printed and does not carry to Desmedt. Adding clinical features does help it on both sets (AUC 0.81 against 0.73 on Miller, 0.69 against 0.67 on Ivshina). Ivshina is not an independent test set: 232 of its 249 arrays are Miller's.",
+  "came_back": [
+   [
+    "The pipeline",
+    "pathifier scores, the penalized Cox model with 250 cross-validations, the prognostic index and its cutoffs, the clinical, combined, gene-based and NKI70 models, as the R package pdscox."
+   ],
+   [
+    "The patients",
+    "Table 1's counts for all four data sets, once Miller's clinical data were found in breastCancerUPP (GEO has none); left over are a swapped PgR row and rounding in the paper, the size-class boundaries, and one Ivshina tumour under 10 mm (15 against 14)."
+   ],
+   [
+    "Fig. 1",
+    "11 of its 12 printed p-values (the chi-square and log-rank tests of the clinical factors; not the PAM50 clusters), and the four Kaplan-Meier panels within 2 px (96 to 98% of the published curve pixels)."
+   ],
+   [
+    "The clinical model",
+    "The same four features (lymph node, size, grade, p53) with coefficients within 0.05 of Table 2, and the four univariate p-values as printed."
+   ],
+   [
+    "Table 3",
+    "The genomic model's top 30 genes with their counts and weights, 60 of 60 fields, from the paper's own pathways and hazard ratios."
+   ],
+   [
+    "NKI70",
+    "Its log-rank p and AUC on the training set, as printed in Fig. S3."
+   ]
+  ],
+  "buried": [
+   "The paper's pathway scores: on ours, 11 of its 15 selected pathways have univariate p-values more than ten times larger (VIP, LYSOSOME, AKAP13 and LINOLEIC ACID at p 0.5 to 0.8 instead of 2e-6 to 4e-3). On five of them, other seeds, no normalization, no gene filters, no stability option or linear input did not bring them back.",
+   "So our genomic model keeps 5 pathways (3 of the paper's) instead of 15, and the test sets come out weaker than printed: Desmedt p 0.69 against 3.73e-4.",
+   "Desmedt's own models: cross-validation keeps no gene and no pathway; the paper's p 5.12e-36 and AUC 0.92 need a penalty far below the cross-validated one.",
+   "The PAM50 clusters of Fig. 1A and the pathway clusters of Fig. 3: no clustering we tried reaches the printed p-values (best 0.011 against 7.46e-5, and 7.4e-4 against 1.99e-6).",
+   "Fig. S1: with fewer pathways the AUC hardly falls (median 0.715 to 0.707)."
+  ],
+  "matched_intro": "What we compared, and how.",
+  "matched": [
+   [
+    "Tables and numbers",
+    "Typed from the paper; counts as printed, percentages within one point, model p-values within one order of magnitude, AUCs within 0.03."
+   ],
+   [
+    "Kaplan-Meier and ROC panels",
+    "Our curves drawn on each published panel's pixel grid, placed through its tick marks and scored within 2 px against controls (shifted and swapped curves)."
+   ],
+   [
+    "Claims",
+    "Each written as a comparison; the 9 that rest on the paper's own numbers hold there."
+   ]
+  ],
+  "closing": "We dug up Huang et al. 2014 on 18 Nov 2026."
+ },
+ "status_note": "the pathway Cox-LASSO pipeline rebuilt as the R package `pdscox`; Table 1, Fig. 1's 11 p-values and Kaplan-Meier curves, the clinical model, Table 3's genomic genes and NKI70 come back; our pathway scores of the paper's 15 pathways are weaker, so the genomic model keeps 5, Desmedt is not predicted (p 0.69 against 3.73e-4) and the pathway-over-gene claims do not hold; Ivshina shares 232 of 249 arrays with the training set",
+ "site_note": "Clinical results come back; the pathway model does not"
+}

@@ -1,0 +1,22 @@
+Package: pdscox
+Type: Package
+Title: Pathway Deregulation Scores with Cox-LASSO for Relapse Prognosis
+Version: 0.1.0
+Authors@R: person("fossil", "contributors", role = c("aut", "cre"), email = "noreply@github.com")
+Description: Rebuilds the prognosis model of Huang, Yee, Ching, Yu and Garmire (2014,
+    PLoS Comput Biol 10:e1003851, doi:10.1371/journal.pcbi.1003851): gene expression is turned
+    into pathway deregulation scores with 'pathifier', a Cox model with an L1 (LASSO) penalty is
+    fitted with 'penalized', the penalty is chosen by repeated likelihood cross-validation, and
+    samples are split into higher and lower risk groups by the prognostic index. Also the
+    gene-based, clinical and combined models, the log-rank test and the ROC AUC used to compare
+    them. The authors' code is lost; the method is rebuilt from the paper's text.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports: pathifier (>= 1.40.0), penalized (>= 0.9-53), survival (>= 3.5-8), limma (>= 3.58.1),
+    parallel, stats, utils
+Suggests: testthat (>= 3.0.0), knitr (>= 1.45), rmarkdown (>= 2.25), jsonlite (>= 1.8.8), Biobase
+biocViews: Software, Survival, Pathways, GeneExpression
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1
