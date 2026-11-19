@@ -127,21 +127,26 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.find.outputs.ref }}
 
-      # A manual run on a PR with conflicts checks out the PR's head, which may predate the current tools:
-      # take the tools of the branch the workflow runs from, but keep the tool files the PR changes itself.
-      # pr_comment.py and ai_review.py always come from that branch, since the AI review needs them.
+      # A manual run uses the AI review's own files (ai_review.py, tools/ste80/, pr_comment.py) from the
+      # commit the workflow runs from, so they match this workflow: GitHub's test merge of a PR can predate
+      # the latest base. On a PR with conflicts (its head is checked out) the rest of tools/ comes from that
+      # commit too, except the tool files the PR changes itself.
       - name: Use the current tools
-        if: endsWith(needs.find.outputs.ref, '/head')
+        if: github.event_name == 'workflow_dispatch'
         env:
           TOOLS_REF: ${{ github.sha }}
           BASE: ${{ needs.find.outputs.base }}
+          REF: ${{ needs.find.outputs.ref }}
         run: |
-          own=$(git diff --name-only "origin/$BASE...HEAD" -- tools)
-          git checkout "$TOOLS_REF" -- tools
-          for f in $own; do
-            case "$f" in tools/pr_comment.py|tools/ai_review.py|tools/ste80/*) ;; *) git checkout HEAD -- "$f" 2>/dev/null || true ;; esac
-          done
-          echo "kept the PR's own: $own"
+          if [ "${REF##*/}" = head ]; then
+            own=$(git diff --name-only "origin/$BASE...HEAD" -- tools)
+            git checkout "$TOOLS_REF" -- tools
+            for f in $own; do
+              case "$f" in tools/pr_comment.py|tools/ai_review.py|tools/ste80/*) ;; *) git checkout HEAD -- "$f" 2>/dev/null || true ;; esac
+            done
+            echo "kept the PR's own: $own"
+          fi
+          git checkout "$TOOLS_REF" -- tools/ai_review.py tools/ste80 tools/pr_comment.py
 
       - uses: actions/setup-python@v5
         with:
