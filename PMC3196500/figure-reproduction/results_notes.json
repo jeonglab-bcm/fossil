@@ -33,7 +33,7 @@
   "commit": null,
   "modified": null
  },
- "panel_cause_note": "Settings tested on all panels: the zero-cell rule (0.5 added to every trial with a zero cell, double-zero trials kept: Table 1 {h_correct_all_table1_exact} of 144 cells against our {table1_exact}) and events drawn as Binomial(n, P) on the whole trial (Table 1 {h_binomial_total_table1_exact} of 144) do not close the gap; neither does leaving out one-trial meta-analyses or shifting the bins (scratch tests, see the README). The PC 1-5% patient curves of the paper sit about 0.015 above ours below 2,000 patients, and the event curves about 5% below ours.",
+ "panel_cause_note": "Settings tested on Table 1 (the Cochrane scenarios, not per panel): keeping double-zero trials with the 0.5 correction (Table 1 {h_correct_all_table1_exact} of 144 cells against our {table1_exact}, no closer) and events drawn as Binomial(n, P) on the whole trial (Table 1 {h_binomial_total_table1_exact} of 144) do not close the gap. The near-miss controls of this panel show whether an amplitude or x offset would.",
  "assumption_sets": {
   "simulation": [
    {
@@ -78,7 +78,7 @@
    {
     "what": "Pixel map fitted to the tick marks and the printed tick labels (log x axis, 1-2-5 ticks; y ticks every 0.05)",
     "source": "paper",
-    "sensitivity": "Fit residuals in figures.json (at most 1.4 px in Fig. 2, 0.5 px in the supplement)"
+    "sensitivity": "Fit residuals in figures.json (at most 1.4 px in Fig. 2, 0.6 px in the supplement)"
    }
   ]
  },
@@ -123,8 +123,8 @@
       "result": "inconclusive"
      },
      {
-      "hypothesis": "Double-zero trials kept with the 0.5 correction",
-      "test": "Table 1 from the correct_all run: {h_correct_all_table1_exact} of 144",
+      "hypothesis": "Double-zero trials kept with the 0.5 correction close the gap",
+      "test": "Table 1 from the correct_all run: {h_correct_all_table1_exact} of 144 against our {table1_exact}, about as well and no closer",
       "result": "rejected"
      },
      {
@@ -226,7 +226,7 @@
    ],
    "cause": {
     "category": "paper_error",
-    "summary": "The formula is right: the unrounded OIS is within one rounding step of {table2_within_one_step} of the 144 printed cells. The rounding is not the one the footnote states ({table2_footnote_rule_exact} of 144 cells) nor any single rule; the best rule we found gives {table2_exact} of 144 ({table2_patients_exact} patients, {table2_events_exact} events). PC 10% with I2 25% and 50% is printed to the nearest 500, the rest of PC 10% to the nearest 100.",
+    "summary": "The formula is right: the unrounded OIS is within one rounding step of {table2_within_one_step} of the 144 printed cells. The rounding is not the one the footnote states ({table2_footnote_rule_exact} of 144 cells) nor any single rule; the best rule we found gives {table2_exact} of 144 ({table2_patients_exact} patients, {table2_events_exact} events). Of the PC 10% patient cells, those for RRR 30% with I2 0% are printed to the nearest 100 and the rest to the nearest 500.",
     "evidence": [
      "figure-reproduction/output/tables.json"
     ],
@@ -545,7 +545,7 @@
   },
   "tables_caption": "Tables 1, S3 and S4 are read off our curves: the first point at which the share of overestimates drops below 10%, 5% or 1%. Table 2 is the OIS formula. Each cell shows the paper's value above ours.",
   "items_caption": "Every figure panel, table and claim of the paper, with the verdict check_results.py computes from the numbers in results.json.",
-  "claims_line": "The main finding of the paper holds: on our run, surpassing the optimal information size protects against overestimation in most scenarios, as it does on the paper's own tables. The read-off tables come back within one bin for most cells; the remaining differences, and the curves' 5% offsets, are open.",
+  "claims_line": "The main finding of the paper holds: on our run, surpassing the optimal information size protects against overestimation in most scenarios, as it does on the paper's own tables. The read-off tables agree within one bin for most cells; the remaining differences, and the offsets between our curves and the published ones, are open.",
   "came_back": [
    [
     "The method",
@@ -553,7 +553,7 @@
    ],
    [
     "Table 2",
-    "The OIS formula. {table2_within_one_step} of 144 printed cells are within one rounding step of it; {table2_exact} match with the rounding the printed cells follow."
+    "The OIS formula. {table2_within_one_step} of 144 printed cells are within one rounding step of it; {table2_exact} match the best rounding rule we found."
    ],
    [
     "Tables 1, S3, S4",
@@ -561,7 +561,7 @@
    ],
    [
     "The claims",
-    "All five statements about the tables hold on our run and on the paper's own numbers."
+    "All four statements about the tables hold on our run and on the paper's own tables; the fifth, read from the figures, holds on our run."
    ]
   ],
   "buried": [
@@ -584,6 +584,6 @@
     "Agree with each other on {table1_runs_agree}, {tableS3_runs_agree} and {tableS4_runs_agree} of 144 cells of Tables 1, S3 and S4."
    ]
   ],
-  "closing": "The simulation came back in November 2026. The tables are close and the claims hold; the exact curves are not."
+  "closing": "The simulation was rebuilt in November 2026. The tables agree within one bin for most cells and the claims hold; the curves do not match exactly."
  }
 }

@@ -134,7 +134,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3196500/>
 | Python package oisim and its tutorial | agrees | oisim 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |
 <!--/RESULTS-SUMMARY-->
 
-**What came back.** The method: Appendix S2's trial generator and Appendix S1's DerSimonian-Laird pooling,
+**What agrees.** The method: Appendix S2's trial generator and Appendix S1's DerSimonian-Laird pooling,
 as `oisim`. Table 2's OIS formula: the unrounded values are within one rounding step of 140 of the 144
 printed cells (two-sided z for α = 5%). Tables 1, S3 and S4, the numbers of patients and events needed for the
 share of overestimates to drop below 10%, 5% and 1%: 81, 71 and 101 of 144 cells as printed, and 135, 123
@@ -146,23 +146,22 @@ the paper's own tables, including the main claim: in most scenarios the share of
 
 - *Chance does not explain everything.* Our two runs with different seeds agree with each other on 87, 86
   and 124 of the 144 cells of Tables 1, S3 and S4; the paper agrees with ours on 81, 71 and 101. Where ours
-  misses, it needs more patients more often than fewer (51 against 12 in Table 1).
-- *The curves differ by a few per cent.* On the published pixel grids our two runs are 73% to 100% alike
-  (most above 85%); ours and the paper's 36% to 99%, most between 41% and 86%. A near miss (ours ×1.05 or ×0.95, or shifted one point) often scores
-  as well as ours, so 40 panels are inconclusive. The paper's patient curves for control risk 1% to 5% sit
-  about 0.015 above ours below 2,000 patients; its event curves about 5% below ours.
+  misses, it is higher more often than lower (51 against 12 in Table 1; 34 against 5 for patients alone).
+- *The curves differ by a few per cent.* On the published pixel grids, outside Figs S5-S7, our two runs are
+  73% to 100% alike (most above 85%); ours and the paper's 36% to 99%, most between 42% and 86%. A near miss (ours ×1.05 or ×0.95, or shifted one point) often scores
+  as well as ours, so 40 panels are inconclusive. In the panels, ours ×0.95 often scores better on the event axis and ours ×1.05 on the patient axis.
 - *How the curves were binned is not stated.* The tables fit best when every pooled estimate counts in the
   interval its cumulative count falls in (253 of 432 cells; counting at the nearest point 225; once per
   meta-analysis at an edge 150). The figures fit best with the nearest point for patients and the interval
   for events. Both are searched settings, recorded as such.
-- *Tested and ruled out:* keeping double-zero trials with the 0.5 correction (Table 1: 82 of 144 against
-  81), events drawn as Binomial(n, P) on the whole trial as Appendix S2 writes it (10 of 144), leaving out
-  one-trial meta-analyses, other correction sizes and offset bins (scratch tests on two scenarios; the curves
-  move by at most 0.006 and do not close the gap).
+- *Tested, and none closes the gap:* keeping double-zero trials with the 0.5 correction (Table 1: 82 of 144
+  against 81, about as well), events drawn as Binomial(n, P) on the whole trial as Appendix S2 writes it (10
+  of 144); and, in scratch tests outside the pipeline on the Cochrane scenarios with tau² 0.05, leaving out
+  one-trial meta-analyses, other correction sizes and offset bins.
 - *Tables 3 and 4 group the scenarios 'post hoc'.* No rule we tried rebuilds their simulation columns from
   the paper's own Tables 1, S3 and S4 (54 range rules: at most 8 of 72 cells; the Methods' own definitions of
-  good, very good and excellent: at most 8). Their OIS columns come back: 46 of 72 ranges as printed, the rest
-  within one rounding step.
+  good, very good and excellent: at most 8). Their OIS columns agree: 46 of 72 ranges as printed, the rest
+  within one rounding step of 1,000 patients or 50 events.
 
 **Slips in the paper:**
 
