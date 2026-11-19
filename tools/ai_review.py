@@ -32,6 +32,9 @@ import ste_check  # noqa: E402
 
 MODEL = "claude-opus-5-5"
 MATCHED = {"exact", "agrees"}
+# Items can hold thousands of compared values. Above MAX_FIELDS the prompt carries a sample: up to
+# SHOW_OUTSIDE values outside their band and SHOW_INSIDE inside it. The counts in "facts" stay exact.
+MAX_FIELDS, SHOW_OUTSIDE, SHOW_INSIDE = 40, 25, 10
 MARK_OK, MARK_FLAG = "✅", "⚠️ worth a look"
 
 SYSTEM = """You review a scientific paper reproduction for the people approving a pull request. \
@@ -50,9 +53,10 @@ A "review" block means a named person overruled the computed verdict ("computed"
 numbers gave); the item's verdict is then the reviewer's.
 
 Rules:
-- Use only the evidence in the item: values, tolerances, the precomputed measure, assumptions, \
+- Use only the evidence in the item: values, tolerances, the precomputed facts, assumptions, \
 cause, hypotheses and their results, reviewer note, and the previous version when given. Never \
-add a reason, fact or number that is not there. When the evidence does not say why, say so.
+add a reason, fact or number that is not there. When the evidence does not say why, say so. \
+When the values are a sample (values.note says so), take counts from facts, not from the sample.
 - Quote one or two concrete numbers (ours against the paper's, and the allowed band) when there \
 are values. Say whether a cause is explained or still open.
 - When the item changed, say in a short clause what changed (e.g. "verdict was partly").
@@ -127,18 +131,39 @@ def facts(item):
     v = item.get("values") or {}
     fields = v.get("fields") or []
     if fields:
-        out["fields_within_band"] = sum(p2r.field_matches(f, v.get("tolerance")) for f in fields)
-        out["fields_outside_band"] = [f.get("name") for f in fields if not p2r.field_matches(f, v.get("tolerance"))]
+        outside = [f.get("name") for f in fields if not p2r.field_matches(f, v.get("tolerance"))]
+        out["fields_total"] = len(fields)
+        out["fields_within_band"] = len(fields) - len(outside)
+        out["fields_outside_band"] = outside[:50] + ([f"... and {len(outside) - 50} more"] if len(outside) > 50 else [])
     return out
+
+
+def sampled(item):
+    """The item with its values cut to a sample when it holds more than MAX_FIELDS of them."""
+    v = item.get("values") or {}
+    fields = v.get("fields") or []
+    if len(fields) <= MAX_FIELDS:
+        return item
+    tol = v.get("tolerance")
+    outside = [f for f in fields if not p2r.field_matches(f, tol)][:SHOW_OUTSIDE]
+    inside = [f for f in fields if p2r.field_matches(f, tol)][:SHOW_INSIDE]
+    keep = {id(f) for f in outside + inside}
+    item = dict(item)
+    item["values"] = dict(v, fields=[f for f in fields if id(f) in keep],
+                          note=f"a sample of {len(keep)} of the {len(fields)} values; the counts in facts cover all of them")
+    return item
 
 
 def build_prompt(paper, head, pairs, new_paper):
     title = head.get("paper", {}).get("citation") or head.get("paper", {}).get("title", "")
     blocks = []
     for item, before in pairs:
-        entry = {"item": item, "facts": facts(item)}
+        entry = {"item": sampled(item), "facts": facts(item)}
         if before is not None:  # only the keys this PR changes
-            entry["previous_version"] = {k: before.get(k) for k in sorted(set(before) | set(item)) if before.get(k) != item.get(k)}
+            prev = {k: before.get(k) for k in sorted(set(before) | set(item)) if before.get(k) != item.get(k)}
+            if "values" in prev and len((before.get("values") or {}).get("fields") or []) > MAX_FIELDS:
+                prev["values"] = {"note": "changed; too many values to list", "facts_before": facts(before)}
+            entry["previous_version"] = prev
         blocks.append(f'<item id="{item["id"]}">\n{json.dumps(entry, indent=1, ensure_ascii=False)}\n</item>')
     ask = ("This pull request adds the reproduction, so every item is new. Also write the overview."
            if new_paper else
