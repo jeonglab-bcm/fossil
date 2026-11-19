@@ -114,6 +114,25 @@
             </thead>
             <tbody>
               <tr>
+                <td class="date" data-label="Published"><time datetime="2011-10-18">18 Oct 2011</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-19">19 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC3196500</span>
+                  <a class="title" href="PMC3196500/">The number of patients and events required to limit the risk of overestimation of intervention effects in meta-analysis: a simulation study</a>
+                  <span class="journal">Thorlund et al., PLoS ONE</span>
+                  <span class="go"><a href="https://doi.org/10.1371/journal.pone.0025491">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC3196500">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The simulation code, never released</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC3196500/package">The simulation and the information size as a Python package</a>, rebuilt from the paper (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC3196500/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC3196500/">Tables 1, 2, S3, S4, the information sizes of Tables 3 and 4, Fig. 2 and Figs S1 to S12</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; the tables agree within one bin for most cells</span></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
+              <tr>
                 <td class="date" data-label="Published"><time datetime="2010-10-20">20 Oct 2010</time></td>
                 <td class="date" data-label="Analyzed"><time datetime="2026-11-18">18 Nov 2026</time></td>
                 <td data-label="Paper">
@@ -426,6 +445,25 @@
                 <td data-label="Verdict"><!--PMC2661051-VERDICT--><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claims hold; Tables 4 and 5 come back</span><!--/PMC2661051-VERDICT--></td>
                 <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
               </tr>
+              <tr>
+                <td class="date" data-label="Published"><time datetime="2008-05-21">21 May 2008</time></td>
+                <td class="date" data-label="Analyzed"><time datetime="2026-11-18">18 Nov 2026</time></td>
+                <td data-label="Paper">
+                  <span class="pmc">PMC2430201</span>
+                  <a class="title" href="PMC2430201/">The ratio of means method as an alternative to mean differences for analyzing continuous outcome variables in meta-analysis: a simulation study</a>
+                  <span class="journal">Friedrich et al., BMC Medical Research Methodology</span>
+                  <span class="go"><a href="https://doi.org/10.1186/1471-2288-8-32">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2430201">GitHub</a></span>
+                </td>
+                <td data-label="What we lost"><ul>
+                  <li>The SAS simulation of all 216 scenarios</li>
+                </ul></td>
+                <td data-label="What we recovered"><ul>
+                  <li><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2430201/package">The ratio of means, MD and SMD with random-effects pooling as a Python package</a>, rebuilt from the paper (<a href="https://github.com/jeonglab-bcm/fossil/blob/main/PMC2430201/package/tutorial/TUTORIAL.md">tutorial</a>)</li>
+                  <li><a href="PMC2430201/">Tables 3 to 8</a> against the paper</li>
+                </ul></td>
+                <td data-label="Verdict"><!--PMC2430201-VERDICT--><span class="verdict" data-v="partly">Partly agrees<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg></span><span class="verdict-note">The main claim holds; 2,266 of 2,268 table cells came back</span><!--/PMC2430201-VERDICT--></td>
+                <td data-label="Paper2Repro"><a class="ver" href="https://github.com/jeonglab-bcm/Paper2Repro/releases/tag/paper2repro-v0.5.0">v0.5.0</a></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -450,9 +488,11 @@
       <a href="PMC407845/">MA-Networker figures</a>
       <a href="PMC2853684/">Disease gene network figures</a>
       <a href="PMC3022898/">Exposure-specific risk tables</a>
+      <a href="PMC3098087/">Class imbalance figures</a>
       <a href="PMC2648748/">epiForest figures</a>
       <a href="PMC2661051/">Gene set module tables</a>
-      <a href="PMC3098087/">Class imbalance figures</a>
+      <a href="PMC2430201/">Ratio of means tables</a>
+      <a href="PMC3196500/">Overestimation tables and curves</a>
     </nav>
   </div>
 </footer>

@@ -1,0 +1,605 @@
+{
+ "paper": {
+  "id": "PMC3196500",
+  "title": "The number of patients and events required to limit the risk of overestimation of intervention effects in meta-analysis—a simulation study",
+  "citation": "Thorlund K, Imberger G, Walsh M, Chu R, Gluud C, Wetterslev J, Guyatt G, Devereaux PJ, Thabane L. The number of patients and events required to limit the risk of overestimation of intervention effects in meta-analysis—a simulation study. PLoS ONE 6(10):e25491 (2011).",
+  "doi": "10.1371/journal.pone.0025491",
+  "license": "CC BY"
+ },
+ "run": {
+  "date": "2026-11-19",
+  "pipeline": "PMC3196500/figure-reproduction/main.nf",
+  "command": "nextflow run PMC3196500/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC3196500 supplementary files (Europe PMC zip): Fig. 2 (pone.0025491.g002.jpg), Figs S1-S12 (pone.0025491.s001-s012.tif), Tables S3-S4 (s016.doc, s017.doc)",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3196500/supplementaryFiles",
+    "sha256": "per file in pipeline/fetch_inputs.sh"
+   },
+   {
+    "name": "Article XML (Tables 1-4)",
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3196500/fullTextXML",
+    "sha256": "per file in pipeline/fetch_inputs.sh"
+   }
+  ]
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "panel_cause_note": "Settings tested on Table 1 (the Cochrane scenarios, not per panel): keeping double-zero trials with the 0.5 correction (Table 1 {h_correct_all_table1_exact} of 144 cells against our {table1_exact}, no closer) and events drawn as Binomial(n, P) on the whole trial (Table 1 {h_binomial_total_table1_exact} of 144) do not close the gap. The near-miss controls of this panel show whether an amplitude or x offset would.",
+ "assumption_sets": {
+  "simulation": [
+   {
+    "what": "Zero cells: 0.5 added to every cell of a trial with a zero cell (or an arm with every patient an event); trials with no events in either arm (or only events) left out",
+    "source": "our_choice",
+    "sensitivity": "Keeping double-zero trials with the correction: Table 1 {h_correct_all_table1_exact} of 144 cells as printed against {table1_exact}"
+   },
+   {
+    "what": "Events drawn as Binomial(arm size, P) with arm size n/2 rounded up (Appendix S2 writes bin(n_i, P))",
+    "source": "our_choice",
+    "sensitivity": "Binomial(n, P) on the whole trial: Table 1 {h_binomial_total_table1_exact} of 144 cells as printed, {h_binomial_total_table1_within_one_bin} within one bin"
+   },
+   {
+    "what": "Trial sizes drawn as integers, uniform on each size interval (Table S2; 'common': 20-200 and 201-500); PE = PC x RR capped at 1; trials in draw order",
+    "source": "our_choice",
+    "sensitivity": "Not varied"
+   },
+   {
+    "what": "Seeds: numpy SeedSequence(3196500) per scenario; the paper gives none",
+    "source": "our_choice",
+    "sensitivity": "A second run with other seeds is compared cell by cell and panel by panel"
+   }
+  ],
+  "tables": [
+   {
+    "what": "Binning rule '{chosen_bin_rule}' (each pooled estimate counts at the end of the interval its cumulative count falls in) and read-off rule '{chosen_read_rule}' (the first point below the level); spacing 500 patients and 50 events, {s3_patient_width} patients in Table S3",
+    "source": "found_by_search",
+    "sensitivity": "Cells as printed over Tables 1, S3 and S4 (432): interval/first {search_interval_first}, interval/stays {search_interval_stays}, nearest/first {search_nearest_first}, edge (last trial at or below)/first {search_edge_last_first}, edge (first trial at or above)/first {search_edge_first_first}"
+   }
+  ],
+  "figures": [
+   {
+    "what": "Binning of the curves: '{fig_rule_patients}' for patients (each estimate counts at the point its cumulative count rounds to), '{fig_rule_events}' for events",
+    "source": "found_by_search",
+    "sensitivity": "Mean panel score, patients: nearest {fig_pat_nearest}, interval {fig_pat_interval}; events: nearest {fig_ev_nearest}, interval {fig_ev_interval}"
+   },
+   {
+    "what": "Point spacing: 500 patients (200 for PC 15-40% and 40-80%, where the published curves start at 200), 50 events",
+    "source": "read_from_figure",
+    "sensitivity": "The 'one point right' near-miss control in each panel"
+   },
+   {
+    "what": "Pixel map fitted to the tick marks and the printed tick labels (log x axis, 1-2-5 ticks; y ticks every 0.05)",
+    "source": "paper",
+    "sensitivity": "Fit residuals in figures.json (at most 1.4 px in Fig. 2, 0.6 px in the supplement)"
+   }
+  ]
+ },
+ "items": [
+  {
+   "id": "fig1",
+   "label": "Fig. 1 (flowchart of the 36 scenarios)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A flowchart of the simulation design. Its settings (36 scenarios, 20,000 meta-analyses of 100 trials each) are the ones our simulation runs.",
+    "evidence": [
+     "figure-reproduction/pipeline/simulate.py"
+    ],
+    "hypotheses": [],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table1",
+   "label": "Table 1 (Cochrane trial sizes, PC 1-5% and 5-15%: patients and events required)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table1",
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "{table1_exact} of 144 cells as printed, {table1_within_one_bin} within one bin (500 patients or 50 events), {table1_within_two_bins} within two. Our two runs with different seeds agree with each other on {table1_runs_agree} of 144 cells, so most of the misses are the size of chance; where ours misses, it is higher {table1_ours_higher} times and lower {table1_ours_lower} times, which chance alone would not give.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Chance (the paper gives no seeds)",
+      "test": "our second run against the paper: {table1_second_run_exact} of 144; our two runs against each other: {table1_runs_agree} of 144",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Double-zero trials kept with the 0.5 correction close the gap",
+      "test": "Table 1 from the correct_all run: {h_correct_all_table1_exact} of 144 against our {table1_exact}, about as well and no closer",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Events drawn as Binomial(n, P) on the whole trial (Appendix S2's notation)",
+      "test": "Table 1 from the binomial_total run: {h_binomial_total_table1_exact} of 144",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Another binning or read-off rule",
+      "test": "every rule and spacing scored against Tables 1, S3 and S4 (tables.json search)",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "tableS3",
+   "label": "Table S3 ('common' trial sizes, PC 15-40% and 40-80%)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "tableS3",
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "{tableS3_exact} of 144 cells as printed, {tableS3_within_one_bin} within one bin (100 patients or 50 events). Our two runs agree with each other on {tableS3_runs_agree} of 144. Ours is higher {tableS3_ours_higher} times and lower {tableS3_ours_lower} times; with true RRR 10% and PC 15-40% the paper needs more patients than we do.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Chance (the paper gives no seeds)",
+      "test": "our second run against the paper: {tableS3_second_run_exact} of 144; our two runs against each other: {tableS3_runs_agree} of 144",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Another binning or read-off rule, or a spacing of 200 patients (the paper says 500 or 200)",
+      "test": "every rule and spacing scored against the table (tables.json search)",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "tableS4",
+   "label": "Table S4 ('common' trial sizes, PC 1-5% and 5-15%)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "tableS4",
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ],
+   "cause": {
+    "category": "unknown",
+    "summary": "{tableS4_exact} of 144 cells as printed, {tableS4_within_one_bin} within one bin (500 patients or 50 events). Our two runs agree with each other on {tableS4_runs_agree} of 144. Ours is higher {tableS4_ours_higher} times and lower {tableS4_ours_lower} times, mostly in the patients of PC 1-5%.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Chance (the paper gives no seeds)",
+      "test": "our second run against the paper: {tableS4_second_run_exact} of 144; our two runs against each other: {tableS4_runs_agree} of 144",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Another binning or read-off rule",
+      "test": "every rule and spacing scored against the table (tables.json search)",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "table2",
+   "label": "Table 2 (72 optimal information sizes, patients and events)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table2",
+   "assumptions": [
+    {
+     "what": "z for alpha = 5% is two-sided (1.96)",
+     "source": "our_choice",
+     "sensitivity": "One-sided 1.645 gives values about 20% lower; no printed cell matches it"
+    },
+    {
+     "what": "Rounding: patients to the nearest 500 above 10,000 and to the nearest 100 below; events up to a multiple of 50 for PC 27.5% and 60%, to the nearest 50 otherwise",
+     "source": "found_by_search",
+     "sensitivity": "The footnote's rule (patients up to 1000 or 100, events up to 50): {table2_footnote_rule_exact} of 144 cells"
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "The formula is right: the unrounded OIS is within one rounding step of {table2_within_one_step} of the 144 printed cells. The rounding is not the one the footnote states ({table2_footnote_rule_exact} of 144 cells) nor any single rule; the best rule we found gives {table2_exact} of 144 ({table2_patients_exact} patients, {table2_events_exact} events). Of the PC 10% patient cells, those for RRR 30% with I2 0% are printed to the nearest 100 and the rest to the nearest 500.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The rounding the footnote states",
+      "test": "apply it to the unrounded formula",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The formula with z_{1-alpha/2}, P = (PC + PE)/2, delta = PC - PE, times 1/(1 - I2)",
+      "test": "unrounded values within one rounding step of the printed cells: {table2_within_one_step} of 144",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table3.ois",
+   "label": "Table 3, OIS columns (ranges over I2 from Table 2)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table3_ois",
+   "assumptions": [
+    {
+     "what": "Each OIS range is the minimum to the maximum over I2 = 0%, 25%, 50% of Table 2's rounded values",
+     "source": "our_choice",
+     "sensitivity": "None tested"
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "{table3_ois_exact} of 24 ranges as printed; every other range has both ends within one rounding step (1,000 patients, 50 events) of ours ({table3_ois_misses_within_one_rounding_step} of {table3_ois_misses_within_one_rounding_step}): the paper re-rounds Table 2's ends (9,600-19,500 is printed 10000-20000). Table 3 also prints PC '3%' for the 5-15% row, whose values are the 10% OIS.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The table re-rounds Table 2's range ends",
+      "test": "compare each missed range with ours, one rounding step allowed",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table3.simulation",
+   "label": "Table 3, simulation columns (acceptability ranges, Cochrane trial sizes)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "The paper does not say how the ranges were formed ('post hoc'), and no rule we tried rebuilds them from the paper's own Tables 1, S3 and S4: of {t34_rules} range rules (threshold, true effect, levels; minimum to maximum over tau2) the best gives {t34_best} of the {t34_cells} cells of Tables 3 and 4, and the Methods' own definitions of good, very good and excellent give at most {t34_def_max}. Without a rule that works on the paper's numbers, ours cannot be compared.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Ranges over tau2 of one or two levels of one threshold and true effect",
+      "test": "{t34_rules} rules on the paper's own tables: best {t34_best} of {t34_cells} cells, any rule {t34_any}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The Methods' definitions (good: P(>20%) < 10% and P(>30%) < 5%; very good: < 5% and < 1%; excellent: P(>20%) < 1%), the larger read-off, over tau2",
+      "test": "on the paper's own tables: at most {t34_def_max} of {t34_cells} cells",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "table4.ois",
+   "label": "Table 4, OIS columns",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table4_ois",
+   "assumptions": [
+    {
+     "what": "Each OIS range is the minimum to the maximum over I2 = 0%, 25%, 50% of Table 2's rounded values",
+     "source": "our_choice",
+     "sensitivity": "None tested"
+    }
+   ],
+   "cause": {
+    "category": "paper_error",
+    "summary": "{table4_ois_exact} of 48 ranges as printed; every other range has both ends within one rounding step of ours ({table4_ois_misses_within_one_rounding_step} of {table4_ois_misses_within_one_rounding_step}). Table 4 prints the PC 3% patient ranges as '10–20000' (10,000 to 20,000), and its caption repeats Table 3's ('Cochrane Heart Group') although its rows are the 'common' sizes of Tables S3 and S4.",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The table re-rounds Table 2's range ends",
+      "test": "compare each missed range with ours, one rounding step allowed",
+      "result": "supported"
+     }
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "table4.simulation",
+   "label": "Table 4, simulation columns (acceptability ranges, 'common' trial sizes)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "summary": "As for Table 3: no range rule we tried rebuilds these columns from the paper's own Tables S3 and S4 (best {t34_best} of {t34_cells} cells over Tables 3 and 4; the Methods' definitions at most {t34_def_max}).",
+    "evidence": [
+     "figure-reproduction/output/tables.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Ranges over tau2 of one or two levels of one threshold and true effect",
+      "test": "{t34_rules} rules on the paper's own tables",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The Methods' definitions of the acceptability levels",
+      "test": "on the paper's own tables",
+      "result": "rejected"
+     }
+    ],
+    "status": "open"
+   }
+  },
+  {
+   "id": "tableS1",
+   "label": "Table S1, Table S2 and Fig. S13 (survey of Cochrane Heart Group meta-analyses)",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "A survey of the 2009 Cochrane Heart Group mortality meta-analyses that set the simulation's inputs. The reviews are not listed (Table S1 numbers 20 of the '23' the text names), so the survey cannot be redone. Table S2's 'proportions used for simulations' are an input of our simulation, not a result.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC3196500/"
+    ],
+    "hypotheses": [],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.larger_overestimation",
+   "label": "Text: the larger the overestimation, the fewer patients and events required",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": true,
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ]
+  },
+  {
+   "id": "text.control_risk",
+   "label": "Text: low control risk needs more patients but fewer events",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": true,
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ]
+  },
+  {
+   "id": "text.heterogeneity",
+   "label": "Text: tau2 0.05 needs fewer than 0.25, reversed for 'common' sizes with PC 1-5%",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": true,
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ]
+  },
+  {
+   "id": "text.ois_protects",
+   "label": "Text (main claim): surpassing the OIS generally protects against overestimation",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": true,
+   "assumptions_from": [
+    "simulation",
+    "tables"
+   ],
+   "assumptions": [
+    {
+     "what": "Protection read as P(RRR > T) below 5% at or before the OIS for RRR = T at 90% power, with the OIS control risk the range's midpoint and I2 0%, 25%, 50% matched to tau2 0.05, 0.15, 0.25 (the paper's one example pairs 0.15 with 25%)",
+     "source": "our_choice",
+     "sensitivity": "Same reading on the paper's own tables (text.arithmetic)"
+    }
+   ]
+  },
+  {
+   "id": "text.early_above_25",
+   "label": "Text: the probability of overestimation was above 25% when patients were few, in most scenarios",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claims_from": true,
+   "assumptions_from": [
+    "simulation",
+    "figures"
+   ]
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Text claims recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "claims.json"
+  },
+  {
+   "id": "package",
+   "label": "Python package oisim and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "The authors' simulation code was never released. We rebuilt it from the paper and its appendices as the Python package oisim and reran all 36 scenarios, 20,000 meta-analyses of 100 trials each. Of {items} results, {exact} are exact, {agrees} agree, {partly} partly agree, {inconclusive} are inconclusive, {differs} differ and {not_attempted} were not attempted. The main claim holds on our run.",
+  "label_rows": [
+   [
+    "fig-fig2",
+    "Fig. 2",
+    [
+     "fig2.patients",
+     "fig2.events"
+    ]
+   ],
+   [
+    "table1",
+    "Table 1",
+    [
+     "table1"
+    ]
+   ],
+   [
+    "table2",
+    "Table 2",
+    [
+     "table2"
+    ]
+   ],
+   [
+    "table3-ois",
+    "Tables 3 and 4, OIS",
+    [
+     "table3.ois",
+     "table4.ois"
+    ]
+   ],
+   [
+    "tableS4",
+    "Tables S3 and S4",
+    [
+     "tableS3",
+     "tableS4"
+    ]
+   ],
+   [
+    "items",
+    "Claims in the text",
+    [
+     "text.larger_overestimation",
+     "text.control_risk",
+     "text.heterogeneity",
+     "text.ois_protects",
+     "text.early_above_25"
+    ]
+   ],
+   [
+    "items",
+    "Package oisim",
+    [
+     "package"
+    ]
+   ]
+  ],
+  "captions": {
+   "fig2": "Fig. 2. Cochrane trial sizes, control risk 5% to 15%, tau2 0.15, no true effect: the share of pooled RRR above 30% (dash-dot) and 20% (dotted) against cumulative patients (upper) and events (lower).",
+   "figS1": "Fig. S1. Cochrane trial sizes, no true effect, against cumulative patients; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS2": "Fig. S2. Cochrane trial sizes, no true effect, against cumulative events; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS3": "Fig. S3. Cochrane trial sizes, true RRR 10%, against cumulative patients; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS4": "Fig. S4. Cochrane trial sizes, true RRR 10%, against cumulative events; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS5": "Fig. S5. 'common' trial sizes, no true effect, against cumulative patients; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS6": "Fig. S6. 'common' trial sizes, no true effect, against cumulative events; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS7": "Fig. S7. 'common' trial sizes, true RRR 10%, against cumulative patients; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS8": "Fig. S8. 'common' trial sizes, true RRR 10%, against cumulative events; control risk 1% to 5% (top) and 5% to 15% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS9": "Fig. S9. 'common' trial sizes, no true effect, against cumulative patients; control risk 15% to 40% (top) and 40% to 80% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS10": "Fig. S10. 'common' trial sizes, no true effect, against cumulative events; control risk 15% to 40% (top) and 40% to 80% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS11": "Fig. S11. 'common' trial sizes, true RRR 10%, against cumulative patients; control risk 15% to 40% (top) and 40% to 80% (bottom); tau2 0.05, 0.15, 0.25 from left to right.",
+   "figS12": "Fig. S12. 'common' trial sizes, true RRR 10%, against cumulative events; control risk 15% to 40% (top) and 40% to 80% (bottom); tau2 0.05, 0.15, 0.25 from left to right."
+  },
+  "figure_note": "Our curves are drawn on the published pixel grid from the tick marks. A panel agrees when it beats every control and comes within 90% of how close our two runs with other seeds are to each other.",
+  "figure_notes": {
+   "figS5": "The paper's Fig. S5 file is a byte copy of Fig. S1: it shows the Cochrane-size scenario, not the 'common' one its caption names. Our 'common' curves are drawn here.",
+   "figS6": "The paper's Fig. S6 file is a byte copy of Fig. S2: it shows the Cochrane-size scenario, not the 'common' one its caption names. Our 'common' curves are drawn here.",
+   "figS7": "The paper's Fig. S7 file is a byte copy of Fig. S3: it shows the Cochrane-size scenario, not the 'common' one its caption names. Our 'common' curves are drawn here."
+  },
+  "tables_caption": "Tables 1, S3 and S4 are read off our curves: the first point at which the share of overestimates drops below 10%, 5% or 1%. Table 2 is the OIS formula. Each cell shows the paper's value above ours.",
+  "items_caption": "Every figure panel, table and claim of the paper, with the verdict check_results.py computes from the numbers in results.json.",
+  "claims_line": "The main finding of the paper holds: on our run, surpassing the optimal information size protects against overestimation in most scenarios, as it does on the paper's own tables. The read-off tables agree within one bin for most cells; the remaining differences, and the offsets between our curves and the published ones, are open.",
+  "came_back": [
+   [
+    "The method",
+    "DerSimonian-Laird cumulative meta-analysis and the trial generator of Appendices S1 and S2, as the package oisim."
+   ],
+   [
+    "Table 2",
+    "The OIS formula. {table2_within_one_step} of 144 printed cells are within one rounding step of it; {table2_exact} match the best rounding rule we found."
+   ],
+   [
+    "Tables 1, S3, S4",
+    "{table1_exact}, {tableS3_exact} and {tableS4_exact} of 144 cells as printed; {table1_within_one_bin}, {tableS3_within_one_bin} and {tableS4_within_one_bin} within one bin."
+   ],
+   [
+    "The claims",
+    "All four statements about the tables hold on our run and on the paper's own tables; the fifth, read from the figures, holds on our run."
+   ]
+  ],
+  "buried": [
+   "How the paper binned the curves and read the tables off them. We searched; the tables fit one rule and the figures another.",
+   "How Tables 3 and 4 group the scenarios into ranges. No rule we tried rebuilds them from the paper's own tables.",
+   "The survey of Cochrane Heart Group reviews behind Tables S1 and S2. The reviews are not listed."
+  ],
+  "matched_intro": "Each figure panel is scored both ways on the published pixel grid, against wrong inputs, near misses and our own second run. Each table cell is compared as printed.",
+  "matched": [
+   [
+    "Figure panels",
+    "{panels} panels: {panels_agrees} agree, {panels_partly} partly, {panels_inconclusive} inconclusive, {panels_differs} differ."
+   ],
+   [
+    "Table cells",
+    "{table1_fields} + {tableS3_fields} + {tableS4_fields} read-off cells, 144 OIS cells, 72 OIS ranges."
+   ],
+   [
+    "Our two runs",
+    "Agree with each other on {table1_runs_agree}, {tableS3_runs_agree} and {tableS4_runs_agree} of 144 cells of Tables 1, S3 and S4."
+   ]
+  ],
+  "closing": "The simulation was rebuilt in November 2026. The tables agree within one bin for most cells and the claims hold; the curves do not match exactly."
+ },
+ "panel_reviews": {
+  "fig2.patients": {
+   "verdict": "partly",
+   "computed": "inconclusive",
+   "by": "SophSM",
+   "url": "https://github.com/jeonglab-bcm/fossil/pull/101#pullrequestreview-5977603871",
+   "note": "Review of PMC3196500 at 92da6e3: Fig. 2 Inconclusive to Partly."
+  },
+  "fig2.events": {
+   "verdict": "partly",
+   "computed": "inconclusive",
+   "by": "SophSM",
+   "url": "https://github.com/jeonglab-bcm/fossil/pull/101#pullrequestreview-5977603871",
+   "note": "Review of PMC3196500 at 92da6e3: Fig. 2 Inconclusive to Partly."
+  }
+ }
+}
