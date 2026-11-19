@@ -46,7 +46,7 @@ status = (", ".join(parts) + " (`results.json`): the RCT Tagger rebuilt as `rctc
           f"({F['dataset']} citations, {F['dataset_rct']} tagged RCT against the paper's 277,789); 2011 AUC "
           f"{F['m_auc11']} with MeSH and {F['c_auc11']} without (paper 0.973 and 0.966); "
           f"Tables 1-3 {F['table1_within'] + F['table2_within'] + F['table3_within']} of "
-          f"{F['table1_fields'] + F['table2_fields'] + F['table3_fields'] - 8} values within 0.01, "
-          f"{F['table1_printed'] + F['table2_printed'] + F['table3_printed']} at printed precision; Fig. 1 needs manual labels never released")
+          f"{F['table1_fields'] + F['table2_fields'] + F['table3_fields'] - 8} measures within 0.01 (feature counts aside), "
+          f"{F['table1_printed'] + F['table2_printed'] + F['table3_printed']} of {F['table1_fields'] + F['table2_fields'] + F['table3_fields']} at printed precision; Fig. 1 needs manual labels never released")
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 print("READMEs updated:", summary)
