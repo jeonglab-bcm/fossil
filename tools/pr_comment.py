@@ -226,6 +226,12 @@ def main():
         with open(args.ai_review) as f:
             ai_review = f.read()
     body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, ai_review)
+    if ai_review and len(body) > 64_000:
+        # Too long for GitHub: keep the AI review's summary table and conclusion, drop its explanations.
+        short = ai_review.split("<details>", 1)[0].rstrip()
+        concl = ai_review[ai_review.find("**Final conclusion:**"):] if "**Final conclusion:**" in ai_review else ""
+        short += "\n\nThe explanations do not fit in this comment. They are in ai-review.md in the run's results-check artifact.\n\n" + concl
+        body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, short)
     if args.dry_run:
         print(body)
         return
