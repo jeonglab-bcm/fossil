@@ -157,6 +157,22 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url, 
     return "\n".join(out)
 
 
+def build_ai_only(paper, ai_review, sha, run_url):
+    """The comment for a paper with no figure-reproduction/results.json: the AI review alone."""
+    if len(ai_review) > 64_000:
+        short = ai_review.split("<details>", 1)[0].rstrip()
+        concl = ai_review[ai_review.find("**Final conclusion:**"):] if "**Final conclusion:**" in ai_review else ""
+        ai_review = short + "\n\nThe explanations do not fit in this comment. They are in ai-review.md in the run's results-check artifact.\n\n" + concl
+    out = [f"<!-- fossil-results-check: {paper} -->", f"### {paper}: AI review of results.json", "",
+           f"{paper} has no figure-reproduction/results.json, so this comment has no figure checks.", "",
+           ai_review.strip(), ""]
+    foot = f"For {sha[:7]}." if sha else ""
+    if run_url:
+        foot += f" [This run]({run_url}); its full report is the `{paper}-results-check` artifact."
+    out.append(f"<sub>{foot.strip()}</sub>")
+    return "\n".join(out)
+
+
 def upsert(repo, pr, body, marker):
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if not token:
@@ -188,7 +204,8 @@ def upsert(repo, pr, body, marker):
 def main():
     ap = argparse.ArgumentParser(description="Post the results check and figure overlays as a PR comment.")
     ap.add_argument("paper")
-    ap.add_argument("--check", required=True, help="results-check.json from check_results.py --report")
+    ap.add_argument("--check", help="results-check.json from check_results.py --report; without it (a paper with no "
+                    "figure-reproduction/results.json) the comment holds the AI review only")
     ap.add_argument("--base", required=True, help="the PR's base branch")
     ap.add_argument("--pr")
     ap.add_argument("--repo")
@@ -198,7 +215,21 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="print the comment; push and post nothing")
     args = ap.parse_args()
 
+    ai_review = None
+    if args.ai_review and os.path.exists(args.ai_review):
+        with open(args.ai_review) as f:
+            ai_review = f.read()
+
     folder = os.path.join(args.paper, "figure-reproduction")
+    if not (args.check and os.path.exists(args.check)):
+        if not ai_review:
+            raise SystemExit("nothing to post: no --check report and no --ai-review")
+        body = build_ai_only(args.paper, ai_review, args.sha, args.run_url)
+        if args.dry_run:
+            print(body)
+            return
+        upsert(args.repo, args.pr, body, body.split("\n", 1)[0])
+        return
     with open(args.check) as f:
         check = json.load(f)
     with open(os.path.join(folder, "results.json")) as f:
@@ -221,10 +252,6 @@ def main():
             publish(tmp, [f["file"] for f in figures], dest, f"Overlays for {args.paper}, PR #{args.pr} at {args.sha[:7]}")
         image_url = lambda name: f"https://raw.githubusercontent.com/{args.repo}/{ASSETS}/{dest}/{name}"
 
-    ai_review = None
-    if args.ai_review and os.path.exists(args.ai_review):
-        with open(args.ai_review) as f:
-            ai_review = f.read()
     body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, ai_review)
     if ai_review and len(body) > 64_000:
         # Too long for GitHub: keep the AI review's summary table and conclusion, drop its explanations.
