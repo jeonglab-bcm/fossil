@@ -6,6 +6,9 @@ repository says: the paper's value and ours, the tolerance, the verdict, the cau
 hypotheses, the assumptions and any reviewer note. It flags a verdict the evidence seems to
 contradict. It changes no file; a normal approval of the PR is the final conclusion.
 
+The prompt asks for plain text in the style of the STE80 Humanizer skill (80% of ASD-STE100), and
+tools/ste80/ste_check.py checks the answer; its notes go to the log and ai-review.json only.
+
 Writes <out>/ai-review.md (the section tools/pr_comment.py adds to the PR comment) and
 <out>/ai-review.json. Exits 1 when the review could not be made (no API key, API error, an answer
 that does not cover every changed item), after writing a section that says why.
@@ -23,7 +26,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "paper2repro"))
+sys.path.insert(0, os.path.join(HERE, "ste80"))
 import check_results as p2r  # noqa: E402
+import ste_check  # noqa: E402
 
 MODEL = "claude-opus-5-5"
 MATCHED = {"exact", "agrees"}
@@ -57,6 +62,17 @@ on a setting the item says was tuned to the paper, a reviewer verdict whose note
 numbers, or a cause marked explained whose hypotheses were all rejected. Give the reason in \
 flag_reason. Otherwise flag is false and flag_reason is "".
 - one_line: at most 20 words. explanation: at most 90 words, no headings, no bullet lists.
+
+How to write (adapted from the STE80 Humanizer skill, MIT, github.com/Dodaios/ste80-humanizer: 80% of the way to ASD-STE100, Simplified Technical English):
+- Start with the answer. No run-up ("Here's the thing"), no closing line that repeats the point.
+- One idea per sentence. Two linked facts may share a sentence with "and" or "because". Keep sentences under about 25 words, and vary their length a little.
+- Active voice. Name who acts: "our run gives", "the reviewer set", "the paper prints".
+- Simple tenses. Put the action in the verb ("we chose", not "a choice was made").
+- Plain words: use, show, help, check. Not utilize, leverage, robust, crucial, ensure, highlight, underscore, additionally.
+- One term per thing. Say "allowed band" every time; do not swap in synonyms for variety.
+- No "not X but Y" framing, no lists of three for rhythm, no dashes, no semicolons, no bold, no trailing "-ing" phrase such as ", highlighting the gap".
+- Keep certainty as the item gives it: "likely" stays "likely", "open" stays open.
+- Keep numbers, names and identifiers exactly as written.
 - overview (only when asked for it): two or three sentences on which main claims hold and what \
 mostly does not match; otherwise "".
 - Return exactly one entry per item id given, in the same order."""
@@ -175,7 +191,21 @@ def validate(answer, pairs):
 def verdict_cell(item):
     v = item.get("verdict", "?").replace("_", " ")
     r = item.get("review")
-    return f"**{v}** (reviewer; computed {r['computed'].replace('_', ' ')})" if r else f"**{v}**"
+    if not r:
+        return f"**{v}**"
+    return f"**{v}**<br><sub>set by {r.get('by', 'a reviewer')}; the numbers alone say {r['computed'].replace('_', ' ')}</sub>"
+
+
+def style_notes(answer):
+    """STE80 checker notes on each text the model wrote (a heuristic, for the log only)."""
+    notes = []
+    texts = [("overview", answer.get("overview", ""))]
+    for e in answer.get("items", []):
+        texts += [(f"{e['id']}.{k}", e.get(k, "")) for k in ("one_line", "explanation", "flag_reason")]
+    for where, text in texts:
+        for f in ste_check.check(text, strict=False) if text else []:
+            notes.append({"where": where, "rule": f.rule, "message": f.message, "excerpt": f.excerpt})
+    return notes
 
 
 def cell(s):
@@ -207,24 +237,24 @@ def render(paper, head, pairs, removed, answer, new_paper):
         matched = it.get("verdict") in MATCHED
         if new_paper and matched and not e["flag"]:
             continue  # a new paper's matched items are table rows only
-        why = "why it matched" if matched else ("why it wasn't scored" if it.get("verdict") == "not_attempted" else "why it did not fully match")
+        why = "why it matched" if matched else ("why we did not score it" if it.get("verdict") == "not_attempted" else "why it did not fully match")
         head_ = f"{'⚠️ ' if e['flag'] else ''}<b>{cell(it.get('label', e['id']))}: {it.get('verdict', '?').replace('_', ' ')}</b>, {why}"
         body = e["explanation"]
         if e["flag"]:
             body += f"\n\n**Worth a look:** {e['flag_reason']}"
         if it.get("review", {}).get("url"):
-            body += f"\n\nReview by {it['review'].get('by', '?')}: {it['review']['url']}"
+            body += f"\n\n[Review by {it['review'].get('by', 'the reviewer')}]({it['review']['url']})"
         out += [f"<details><summary>{head_}</summary>", "", body, "</details>", ""]
-    out.append("**Final conclusion:** approve this PR if you accept the verdicts above"
-               + (f". Before approving, check the {n_flag} ⚠️ item{'s' if n_flag != 1 else ''}." if n_flag else "; nothing was flagged."))
+    out.append("**Final conclusion:** approve this PR if you accept the verdicts above."
+               + (f" First check the {n_flag} item{'s' if n_flag != 1 else ''} marked ⚠️." if n_flag else " The AI flagged nothing."))
     out.append("")
-    out.append(f"<sub>Written by {MODEL} from this PR's results.json only; it changes no file. Check the numbers before relying on it.</sub>")
+    out.append(f"<sub>{MODEL} wrote this from the PR's results.json only. It changes no file. Check the numbers before you rely on it.</sub>")
     return "\n".join(out)
 
 
 def failure(reason):
     return "\n".join(["#### 🤖 AI review: ❌ not run", "", reason, "",
-                      "The **AI review** step of this check failed. Re-run the job once the cause is fixed."])
+                      "The AI review step failed, so this check failed. Fix the cause, then run the job again."])
 
 
 def main():
@@ -270,8 +300,12 @@ def main():
         else:
             answer = call_claude(prompt)
         body = render(args.paper, head, pairs, removed, answer, new_paper)
+        notes = style_notes(answer)
         with open(json_path, "w") as f:
-            json.dump({"paper": args.paper, "model": MODEL, "answer": answer}, f, indent=1, ensure_ascii=False)
+            json.dump({"paper": args.paper, "model": MODEL, "answer": answer, "style_notes": notes}, f, indent=1, ensure_ascii=False)
+        print(f"STE80 style check: {len(notes)} note(s) (a heuristic; not shown on the PR)", file=sys.stderr)
+        for n in notes:
+            print(f"  {n['where']}: {n['rule']}: {n['message']}", file=sys.stderr)
         status = 0
     except (ReviewError, json.JSONDecodeError) as e:
         body, status = failure(f"Reason: {e}"), 1
