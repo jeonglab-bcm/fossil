@@ -1117,4 +1117,4 @@ Now the page prose and the two READMEs:
 
 The pipeline passes every check, and no text anywhere still claims "about a third" or states the TROMER cause as fact. Refreshing the ledger, committing, and updating the PR description to match:
 
-- `Bash` python3 /root/.claude/skills/paper2agent/paper2repro/scripts/session_ledger.py --out PMC3446288/session > /dev/null 2>&1; grep -c "bcm.edu\|sofia\|Salazar" PMC3
+- `Bash` python3 /root/.claude/skills/paper2agent/paper2repro/scripts/session_ledger.py --out PMC3446288/session > /dev/null 2>&1; grep -c "<private-details pattern>" PMC3
