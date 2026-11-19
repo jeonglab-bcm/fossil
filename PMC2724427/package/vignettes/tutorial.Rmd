@@ -1,0 +1,129 @@
+---
+title: "logitbias tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{logitbias tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 3.6, dpi = 96)
+```
+
+Logistic regression overestimates odds ratios in small samples: the maximum likelihood
+coefficient is biased away from zero by about `b1 / n`. `logitbias` estimates `b1` the way
+Nemes et al. did: draw many samples of each size from a population, fit a logistic regression to
+each, and fit the mean coefficient against `1/n` by ordinary least squares. The intercept of that
+fit is the large-sample value and the slope is `b1`. It also gives the analytic first-order bias
+of the estimator for a population, and the bias-corrected estimate.
+
+Nemes S, Jonasson JM, Genell A, Steineck G. Bias in odds ratios by logistic regression modelling
+and sample size. *BMC Medical Research Methodology* 9:56 (2009).
+[doi:10.1186/1471-2288-9-56](https://doi.org/10.1186/1471-2288-9-56)
+
+## Install
+
+```{r install, eval = FALSE}
+remotes::install_github("jeonglab-bcm/fossil/PMC2724427/package")
+```
+
+```{r load}
+library(logitbias)
+packageVersion("logitbias")
+```
+
+## Example input
+
+The bundled example holds a mean coefficient for each sample size from 100 to 1500 in steps of
+5, for a continuous exposure `x` and a discrete exposure `z`, the shape of the paper's Fig. 1.
+The means are synthetic: drawn around the curves of the paper's Table 1 (see
+`example_path("README.md")`).
+
+```{r input}
+m <- read.csv(example_path("means_example.csv"))
+dim(m)
+head(m)
+```
+
+## Fit the bias curve
+
+```{r fit}
+fit <- fit_bias_curve(m)
+fit[, c("term", "param", "estimate", "se", "t", "r2")]
+```
+
+```{r plot, fig.alt = "Mean coefficient against sample size, with the fitted curve beta + b1/n"}
+op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+for (tm in c("x", "z")) {
+  d <- m[m$term == tm, ]
+  b <- fit$estimate[fit$term == tm]
+  plot(d$n, d$mean, cex = 0.6, xlab = "Sample size", ylab = "Mean coefficient",
+       main = if (tm == "x") "Continuous exposure" else "Discrete exposure")
+  lines(d$n, b[1] + b[2] / d$n, lwd = 2)
+}
+par(op)
+```
+
+## Compare with the expected output
+
+The expected output is the pair of values each curve was drawn from, with a tolerance of four
+standard errors.
+
+```{r compare}
+e <- read.csv(example_path("means_example_expected.csv"))
+cmp <- merge(fit[, c("term", "param", "estimate")], e, by = c("term", "param"))
+cmp$within <- abs(cmp$estimate - cmp$value) <= cmp$tolerance
+cmp
+cat(sum(cmp$within), "of", nrow(cmp), "parameters match the expected output\n")
+stopifnot(all(cmp$within))
+```
+
+## Run a small simulation
+
+`simulate_population()` draws the paper's population of 100,000 (Additional file 1);
+`bias_simulation()` draws samples of each size and fits each one. Samples in which a fitted
+probability reaches 0 or 1 (separation, no finite estimate) are left out and counted. Here five
+sizes and 200 samples per size keep it quick; the paper used 281 sizes and 1,000 samples.
+
+```{r simulate}
+pop <- simulate_population(100000, seed = 1)
+sim <- bias_simulation(pop, sizes = c(100, 200, 400, 800, 1500), reps = 200, seed = 1)
+sim$summary[, c("n", "term", "mean", "sd", "used", "dropped")]
+fit_bias_curve(sim$summary)[, c("term", "param", "estimate", "se")]
+```
+
+The analytic first-order bias of the same population gives `b1` without any sampling:
+
+```{r analytic}
+round(analytic_bias(pop), 2)
+```
+
+A coefficient of 2.3 estimated from 150 people, with `b1 = 24`, corrects to:
+
+```{r correct}
+bias_correct(2.3, b1 = 24, n = 150)
+```
+
+## Your own data
+
+- `fit_bias_curve(summary)` takes a data frame with columns `n` (sample size), `term`
+  (coefficient name) and `mean` (mean estimate at that size). With `data = "all"` it also needs
+  `used` (number of estimates) and `var` (their variance), and fits every estimate instead of the
+  means.
+- `bias_simulation(population, sizes, reps, seed)` takes a data frame with a 0/1 column `y` and
+  numeric covariates. `drop` chooses which fits to leave out: `"boundary"` (any fitted
+  probability within `1e-8` of 0 or 1), `"warning"` (only fits R warns about) or `"none"`.
+  `cores` runs sizes in parallel; the result does not depend on it.
+- Output columns of `fit_bias_curve()`: `estimate` is the large-sample coefficient
+  (`intercept`) or `b1` (`inv_n`), with its standard error, t, p, the R squared of the fit and its
+  degrees of freedom.
+- `analytic_bias(population)` returns `b1` for each coefficient from the population's design;
+  `bias_correct(estimate, b1, n)` subtracts `b1 / n`.
+
+## The paper's full study
+
+The reproduction runs the paper's whole design (281 sizes, 1,000 samples each, 20 populations)
+and compares it with Table 1 and Figs 1 to 3: results page
+<https://jeonglab-bcm.github.io/fossil/PMC2724427/>, pipeline
+<https://github.com/jeonglab-bcm/fossil/tree/main/PMC2724427/figure-reproduction>.

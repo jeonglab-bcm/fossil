@@ -1,0 +1,1339 @@
+{
+ "items": {
+  "table1.continuous": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Intercept estimate",
+      "expected": "2.011",
+      "observed": "1.966"
+     },
+     {
+      "name": "Intercept SE",
+      "expected": "0.00072",
+      "observed": "0.00114"
+     },
+     {
+      "name": "Intercept t-value",
+      "expected": "2785.9",
+      "observed": "1718.6"
+     },
+     {
+      "name": "Intercept Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     },
+     {
+      "name": "n⁻¹ estimate",
+      "expected": "23.9",
+      "observed": "29.0"
+     },
+     {
+      "name": "n⁻¹ SE",
+      "expected": "0.276",
+      "observed": "0.438"
+     },
+     {
+      "name": "n⁻¹ t-value",
+      "expected": "86.48",
+      "observed": "66.16"
+     },
+     {
+      "name": "n⁻¹ Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  "table1.discrete": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Intercept estimate",
+      "expected": "-0.898",
+      "observed": "-0.855"
+     },
+     {
+      "name": "Intercept SE",
+      "expected": "0.00065",
+      "observed": "0.00157"
+     },
+     {
+      "name": "Intercept t-value",
+      "expected": "-1369.34",
+      "observed": "-544.93"
+     },
+     {
+      "name": "Intercept Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     },
+     {
+      "name": "n⁻¹ estimate",
+      "expected": "-9.524",
+      "observed": "-1.894"
+     },
+     {
+      "name": "n⁻¹ SE",
+      "expected": "0.251",
+      "observed": "0.601"
+     },
+     {
+      "name": "n⁻¹ t-value",
+      "expected": "-37.92",
+      "observed": "-3.15"
+     },
+     {
+      "name": "n⁻¹ Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "0.0018"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  "text.r2": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "R², continuous",
+      "expected": "0.963",
+      "observed": "0.940"
+     },
+     {
+      "name": "R², discrete",
+      "expected": "0.836",
+      "observed": "0.034"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  "text.arithmetic": {
+   "method": "check",
+   "check": {
+    "passed": false,
+    "detail": "4 of 5 come back from the paper's own numbers; not back: Table 1, discrete Intercept: SE = estimate / t (paper 0.00065, recomputed 0.00066)"
+   },
+   "arithmetic": [
+    {
+     "claim": "Table 1, continuous Intercept: SE = estimate / t",
+     "paper": "0.00072",
+     "recomputed": "0.00072",
+     "holds": true
+    },
+    {
+     "claim": "Table 1, continuous n⁻¹: SE = estimate / t",
+     "paper": "0.276",
+     "recomputed": "0.276",
+     "holds": true
+    },
+    {
+     "claim": "Table 1, discrete Intercept: SE = estimate / t",
+     "paper": "0.00065",
+     "recomputed": "0.00066",
+     "holds": false
+    },
+    {
+     "claim": "Table 1, discrete n⁻¹: SE = estimate / t",
+     "paper": "0.251",
+     "recomputed": "0.251",
+     "holds": true
+    },
+    {
+     "claim": "Additional file 1: P(x>2.5) for x ~ N(2, 0.7)",
+     "paper": "0.2375",
+     "recomputed": "0.2375",
+     "holds": true
+    }
+   ]
+  },
+  "text.figures_vs_table1": {
+   "method": "check",
+   "check": {
+    "passed": false,
+    "detail": "1 of 6 Fig. 2 headings lie within 0.02 of Table 1's curve 2.011 + 23.9/n; n=100 2.262 against 2.250, n=150 2.129 against 2.170, n=300 2.051 against 2.091, n=500 2.019 against 2.059, n=750 2.011 against 2.043, n=1000 2.003 against 2.035"
+   },
+   "cross": [
+    {
+     "n": 100,
+     "heading": "2.262",
+     "table1_curve": 2.25,
+     "gap": 0.012,
+     "holds": true
+    },
+    {
+     "n": 150,
+     "heading": "2.129",
+     "table1_curve": 2.17,
+     "gap": -0.041,
+     "holds": false
+    },
+    {
+     "n": 300,
+     "heading": "2.051",
+     "table1_curve": 2.091,
+     "gap": -0.04,
+     "holds": false
+    },
+    {
+     "n": 500,
+     "heading": "2.019",
+     "table1_curve": 2.059,
+     "gap": -0.04,
+     "holds": false
+    },
+    {
+     "n": 750,
+     "heading": "2.011",
+     "table1_curve": 2.043,
+     "gap": -0.032,
+     "holds": false
+    },
+    {
+     "n": 1000,
+     "heading": "2.003",
+     "table1_curve": 2.035,
+     "gap": -0.032,
+     "holds": false
+    }
+   ]
+  },
+  "text.supp_px": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "P(x>2.5), from x ~ N(2, 0.7)",
+      "expected": "0.2375",
+      "observed": "0.2375"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "population_share": 0.23565
+  },
+  "text.away_from_null": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Continuous: mean estimate farther from zero than our population's coefficient at every size",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete: mean estimate farther from zero than our population's coefficient at every size",
+      "expected": "yes",
+      "observed": "no"
+     },
+     {
+      "name": "Continuous coefficient: b1 > 0 (bias away from zero)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete coefficient: b1 < 0 (bias away from zero)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Odds ratio of the continuous exposure at n = 100 above the large-sample value",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "away_from_population_value": {
+    "x": {
+     "away": 281,
+     "of": 281,
+     "closer_at": []
+    },
+    "z": {
+     "away": 257,
+     "of": 281,
+     "closer_at": [
+      100,
+      105,
+      110,
+      115,
+      120,
+      170,
+      535,
+      585,
+      665,
+      855,
+      935,
+      955,
+      960,
+      1055,
+      1070,
+      1140,
+      1145,
+      1160,
+      1175,
+      1275,
+      1300,
+      1335,
+      1390,
+      1500
+     ]
+    }
+   }
+  },
+  "text.fit_better_continuous": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "R² higher for the continuous than for the discrete coefficient",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  "text.skewness": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Skewness of the continuous coefficient falls from n = 100 to n = 1000",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Skewness falls at each step of the six sizes of Fig. 2",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "skewness": {
+    "100": 0.801729580505622,
+    "150": 0.762004800221722,
+    "300": 0.4346540382703011,
+    "500": 0.4332485963804277,
+    "750": 0.332390639417451,
+    "1000": 0.22645307276908264
+   }
+  },
+  "text.extremes": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Share of extreme estimates (beyond the box-plot whiskers) smaller at n = 1000 than at n = 100",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Largest estimate smaller at n = 1000 than at n = 100",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outlier_share": {
+    "100": 0.030193236714975844,
+    "150": 0.02821316614420063,
+    "300": 0.019,
+    "500": 0.02,
+    "750": 0.016,
+    "1000": 0.013
+   },
+   "largest": {
+    "100": 6.33540457256353,
+    "150": 5.76578878448426,
+    "300": 3.89996424339774,
+    "500": 3.46473152615711,
+    "750": 3.08344173105377,
+    "1000": 2.85130103874978
+   }
+  },
+  "text.kernel": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Continuous: kernel derivative has the sign of -b1/n² at every n from 150 to 1400",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Continuous: kernel derivative falls as n⁻² (log-log slope within 2 ± 0.5)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete: kernel derivative has the sign of -b1/n² at every n from 150 to 1400",
+      "expected": "yes",
+      "observed": "no"
+     },
+     {
+      "name": "Discrete: kernel derivative falls as n⁻² (log-log slope within 2 ± 0.5)",
+      "expected": "yes",
+      "observed": "no"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "loglog_slope": {
+    "x": -2.06611,
+    "z": -1.278484
+   }
+  },
+  "port": {
+   "method": "check",
+   "check": {
+    "passed": true,
+    "detail": "simulate_population(seed = 2724427) is identical to the R lines of Additional file 1 run on the same seed (100,000 rows: x, z and y all equal)"
+   }
+  },
+  "fig2.headings": {
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "n=100",
+      "expected": "2.262",
+      "observed": "2.253"
+     },
+     {
+      "name": "n=150",
+      "expected": "2.129",
+      "observed": "2.159"
+     },
+     {
+      "name": "n=300",
+      "expected": "2.051",
+      "observed": "2.046"
+     },
+     {
+      "name": "n=500",
+      "expected": "2.019",
+      "observed": "2.012"
+     },
+     {
+      "name": "n=750",
+      "expected": "2.011",
+      "observed": "1.999"
+     },
+     {
+      "name": "n=1000",
+      "expected": "2.003",
+      "observed": "1.991"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  "fig1.continuous": {
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.1177,
+    "ours_near_published": 0.2777,
+    "threshold": 0.1677,
+    "controls": [
+     {
+      "name": "per-size means with the fitted bias b1/n taken out",
+      "kind": "wrong_input",
+      "score": 0.0
+     },
+     {
+      "name": "every fit kept, separated samples included",
+      "kind": "wrong_input",
+      "score": 0.0761
+     },
+     {
+      "name": "only the fits R warns about left out",
+      "kind": "near_miss",
+      "score": 0.1332
+     },
+     {
+      "name": "bias b1/n ×1.1",
+      "kind": "near_miss",
+      "score": 0.1627
+     },
+     {
+      "name": "bias b1/n ×0.9",
+      "kind": "near_miss",
+      "score": 0.0446
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.141
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.1032
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig1_ours.png",
+    "figure-reproduction/output/cmp/fig1_overlay.png"
+   ],
+   "outside_axes": {
+    "points": 162,
+    "of": 281,
+    "axis": [
+     2.0088,
+     2.307
+    ]
+   }
+  },
+  "fig1.discrete": {
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.0038,
+    "ours_near_published": 0.1227,
+    "threshold": 0.0348,
+    "controls": [
+     {
+      "name": "per-size means with the fitted bias b1/n taken out",
+      "kind": "wrong_input",
+      "score": 0.0008
+     },
+     {
+      "name": "every fit kept, separated samples included",
+      "kind": "wrong_input",
+      "score": 0.0272
+     },
+     {
+      "name": "only the fits R warns about left out",
+      "kind": "near_miss",
+      "score": 0.0298
+     },
+     {
+      "name": "bias b1/n ×1.1",
+      "kind": "near_miss",
+      "score": 0.0017
+     },
+     {
+      "name": "bias b1/n ×0.9",
+      "kind": "near_miss",
+      "score": 0.005
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.0041
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.0009
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig1_ours.png",
+    "figure-reproduction/output/cmp/fig1_overlay.png"
+   ],
+   "outside_axes": {
+    "points": 267,
+    "of": 281,
+    "axis": [
+     -1.0331,
+     -0.8913
+    ]
+   }
+  },
+  "fig2": {
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.1311,
+    "ours_near_published": 0.1737,
+    "threshold": 0.1768,
+    "controls": [
+     {
+      "name": "estimates of the neighbouring sample size in each panel",
+      "kind": "wrong_input",
+      "score": 0.1718
+     },
+     {
+      "name": "kernel bandwidth ×1.25",
+      "kind": "near_miss",
+      "score": 0.1229
+     },
+     {
+      "name": "kernel bandwidth ×0.8",
+      "kind": "near_miss",
+      "score": 0.1419
+     },
+     {
+      "name": "shifted right by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.138
+     },
+     {
+      "name": "shifted left by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.1365
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig2_ours.png",
+    "figure-reproduction/output/cmp/fig2_overlay.png"
+   ]
+  },
+  "fig3": {
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.425,
+    "ours_near_published": 0.4187,
+    "threshold": 0.5004,
+    "controls": [
+     {
+      "name": "estimates of the neighbouring sample size in each box",
+      "kind": "wrong_input",
+      "score": 0.4435
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.4954
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.4387
+     },
+     {
+      "name": "spread around the median ×0.9",
+      "kind": "near_miss",
+      "score": 0.4319
+     },
+     {
+      "name": "spread around the median ×1.1",
+      "kind": "near_miss",
+      "score": 0.3758
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig3_ours.png",
+    "figure-reproduction/output/cmp/fig3_overlay.png"
+   ]
+  }
+ },
+ "item_list": [
+  {
+   "key": "table1_continuous",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Intercept estimate",
+      "expected": "2.011",
+      "observed": "1.966"
+     },
+     {
+      "name": "Intercept SE",
+      "expected": "0.00072",
+      "observed": "0.00114"
+     },
+     {
+      "name": "Intercept t-value",
+      "expected": "2785.9",
+      "observed": "1718.6"
+     },
+     {
+      "name": "Intercept Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     },
+     {
+      "name": "n⁻¹ estimate",
+      "expected": "23.9",
+      "observed": "29.0"
+     },
+     {
+      "name": "n⁻¹ SE",
+      "expected": "0.276",
+      "observed": "0.438"
+     },
+     {
+      "name": "n⁻¹ t-value",
+      "expected": "86.48",
+      "observed": "66.16"
+     },
+     {
+      "name": "n⁻¹ Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "key": "table1_discrete",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Intercept estimate",
+      "expected": "-0.898",
+      "observed": "-0.855"
+     },
+     {
+      "name": "Intercept SE",
+      "expected": "0.00065",
+      "observed": "0.00157"
+     },
+     {
+      "name": "Intercept t-value",
+      "expected": "-1369.34",
+      "observed": "-544.93"
+     },
+     {
+      "name": "Intercept Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "<0.0001"
+     },
+     {
+      "name": "n⁻¹ estimate",
+      "expected": "-9.524",
+      "observed": "-1.894"
+     },
+     {
+      "name": "n⁻¹ SE",
+      "expected": "0.251",
+      "observed": "0.601"
+     },
+     {
+      "name": "n⁻¹ t-value",
+      "expected": "-37.92",
+      "observed": "-3.15"
+     },
+     {
+      "name": "n⁻¹ Pr(>|t|)",
+      "expected": "<0.0001",
+      "observed": "0.0018"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "key": "text_r2",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "R², continuous",
+      "expected": "0.963",
+      "observed": "0.940"
+     },
+     {
+      "name": "R², discrete",
+      "expected": "0.836",
+      "observed": "0.034"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "key": "text_arithmetic",
+   "method": "check",
+   "check": {
+    "passed": false,
+    "detail": "4 of 5 come back from the paper's own numbers; not back: Table 1, discrete Intercept: SE = estimate / t (paper 0.00065, recomputed 0.00066)"
+   },
+   "arithmetic": [
+    {
+     "claim": "Table 1, continuous Intercept: SE = estimate / t",
+     "paper": "0.00072",
+     "recomputed": "0.00072",
+     "holds": true
+    },
+    {
+     "claim": "Table 1, continuous n⁻¹: SE = estimate / t",
+     "paper": "0.276",
+     "recomputed": "0.276",
+     "holds": true
+    },
+    {
+     "claim": "Table 1, discrete Intercept: SE = estimate / t",
+     "paper": "0.00065",
+     "recomputed": "0.00066",
+     "holds": false
+    },
+    {
+     "claim": "Table 1, discrete n⁻¹: SE = estimate / t",
+     "paper": "0.251",
+     "recomputed": "0.251",
+     "holds": true
+    },
+    {
+     "claim": "Additional file 1: P(x>2.5) for x ~ N(2, 0.7)",
+     "paper": "0.2375",
+     "recomputed": "0.2375",
+     "holds": true
+    }
+   ]
+  },
+  {
+   "key": "text_figures_vs_table1",
+   "method": "check",
+   "check": {
+    "passed": false,
+    "detail": "1 of 6 Fig. 2 headings lie within 0.02 of Table 1's curve 2.011 + 23.9/n; n=100 2.262 against 2.250, n=150 2.129 against 2.170, n=300 2.051 against 2.091, n=500 2.019 against 2.059, n=750 2.011 against 2.043, n=1000 2.003 against 2.035"
+   },
+   "cross": [
+    {
+     "n": 100,
+     "heading": "2.262",
+     "table1_curve": 2.25,
+     "gap": 0.012,
+     "holds": true
+    },
+    {
+     "n": 150,
+     "heading": "2.129",
+     "table1_curve": 2.17,
+     "gap": -0.041,
+     "holds": false
+    },
+    {
+     "n": 300,
+     "heading": "2.051",
+     "table1_curve": 2.091,
+     "gap": -0.04,
+     "holds": false
+    },
+    {
+     "n": 500,
+     "heading": "2.019",
+     "table1_curve": 2.059,
+     "gap": -0.04,
+     "holds": false
+    },
+    {
+     "n": 750,
+     "heading": "2.011",
+     "table1_curve": 2.043,
+     "gap": -0.032,
+     "holds": false
+    },
+    {
+     "n": 1000,
+     "heading": "2.003",
+     "table1_curve": 2.035,
+     "gap": -0.032,
+     "holds": false
+    }
+   ]
+  },
+  {
+   "key": "text_supp_px",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "P(x>2.5), from x ~ N(2, 0.7)",
+      "expected": "0.2375",
+      "observed": "0.2375"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "population_share": 0.23565
+  },
+  {
+   "key": "text_away_from_null",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Continuous: mean estimate farther from zero than our population's coefficient at every size",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete: mean estimate farther from zero than our population's coefficient at every size",
+      "expected": "yes",
+      "observed": "no"
+     },
+     {
+      "name": "Continuous coefficient: b1 > 0 (bias away from zero)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete coefficient: b1 < 0 (bias away from zero)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Odds ratio of the continuous exposure at n = 100 above the large-sample value",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "away_from_population_value": {
+    "x": {
+     "away": 281,
+     "of": 281,
+     "closer_at": []
+    },
+    "z": {
+     "away": 257,
+     "of": 281,
+     "closer_at": [
+      100,
+      105,
+      110,
+      115,
+      120,
+      170,
+      535,
+      585,
+      665,
+      855,
+      935,
+      955,
+      960,
+      1055,
+      1070,
+      1140,
+      1145,
+      1160,
+      1175,
+      1275,
+      1300,
+      1335,
+      1390,
+      1500
+     ]
+    }
+   }
+  },
+  {
+   "key": "text_fit_better_continuous",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "R² higher for the continuous than for the discrete coefficient",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "key": "text_skewness",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Skewness of the continuous coefficient falls from n = 100 to n = 1000",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Skewness falls at each step of the six sizes of Fig. 2",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "skewness": {
+    "100": 0.801729580505622,
+    "150": 0.762004800221722,
+    "300": 0.4346540382703011,
+    "500": 0.4332485963804277,
+    "750": 0.332390639417451,
+    "1000": 0.22645307276908264
+   }
+  },
+  {
+   "key": "text_extremes",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Share of extreme estimates (beyond the box-plot whiskers) smaller at n = 1000 than at n = 100",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Largest estimate smaller at n = 1000 than at n = 100",
+      "expected": "yes",
+      "observed": "yes"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "outlier_share": {
+    "100": 0.030193236714975844,
+    "150": 0.02821316614420063,
+    "300": 0.019,
+    "500": 0.02,
+    "750": 0.016,
+    "1000": 0.013
+   },
+   "largest": {
+    "100": 6.33540457256353,
+    "150": 5.76578878448426,
+    "300": 3.89996424339774,
+    "500": 3.46473152615711,
+    "750": 3.08344173105377,
+    "1000": 2.85130103874978
+   }
+  },
+  {
+   "key": "text_kernel",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "Continuous: kernel derivative has the sign of -b1/n² at every n from 150 to 1400",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Continuous: kernel derivative falls as n⁻² (log-log slope within 2 ± 0.5)",
+      "expected": "yes",
+      "observed": "yes"
+     },
+     {
+      "name": "Discrete: kernel derivative has the sign of -b1/n² at every n from 150 to 1400",
+      "expected": "yes",
+      "observed": "no"
+     },
+     {
+      "name": "Discrete: kernel derivative falls as n⁻² (log-log slope within 2 ± 0.5)",
+      "expected": "yes",
+      "observed": "no"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   },
+   "loglog_slope": {
+    "x": -2.06611,
+    "z": -1.278484
+   }
+  },
+  {
+   "key": "port",
+   "method": "check",
+   "check": {
+    "passed": true,
+    "detail": "simulate_population(seed = 2724427) is identical to the R lines of Additional file 1 run on the same seed (100,000 rows: x, z and y all equal)"
+   }
+  },
+  {
+   "key": "fig2_headings",
+   "method": "values",
+   "values": {
+    "fields": [
+     {
+      "name": "n=100",
+      "expected": "2.262",
+      "observed": "2.253"
+     },
+     {
+      "name": "n=150",
+      "expected": "2.129",
+      "observed": "2.159"
+     },
+     {
+      "name": "n=300",
+      "expected": "2.051",
+      "observed": "2.046"
+     },
+     {
+      "name": "n=500",
+      "expected": "2.019",
+      "observed": "2.012"
+     },
+     {
+      "name": "n=750",
+      "expected": "2.011",
+      "observed": "1.999"
+     },
+     {
+      "name": "n=1000",
+      "expected": "2.003",
+      "observed": "1.991"
+     }
+    ],
+    "tolerance": {
+     "printed": true
+    }
+   }
+  },
+  {
+   "key": "fig1_continuous",
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.1177,
+    "ours_near_published": 0.2777,
+    "threshold": 0.1677,
+    "controls": [
+     {
+      "name": "per-size means with the fitted bias b1/n taken out",
+      "kind": "wrong_input",
+      "score": 0.0
+     },
+     {
+      "name": "every fit kept, separated samples included",
+      "kind": "wrong_input",
+      "score": 0.0761
+     },
+     {
+      "name": "only the fits R warns about left out",
+      "kind": "near_miss",
+      "score": 0.1332
+     },
+     {
+      "name": "bias b1/n ×1.1",
+      "kind": "near_miss",
+      "score": 0.1627
+     },
+     {
+      "name": "bias b1/n ×0.9",
+      "kind": "near_miss",
+      "score": 0.0446
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.141
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.1032
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig1_ours.png",
+    "figure-reproduction/output/cmp/fig1_overlay.png"
+   ],
+   "outside_axes": {
+    "points": 162,
+    "of": 281,
+    "axis": [
+     2.0088,
+     2.307
+    ]
+   }
+  },
+  {
+   "key": "fig1_discrete",
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.0038,
+    "ours_near_published": 0.1227,
+    "threshold": 0.0348,
+    "controls": [
+     {
+      "name": "per-size means with the fitted bias b1/n taken out",
+      "kind": "wrong_input",
+      "score": 0.0008
+     },
+     {
+      "name": "every fit kept, separated samples included",
+      "kind": "wrong_input",
+      "score": 0.0272
+     },
+     {
+      "name": "only the fits R warns about left out",
+      "kind": "near_miss",
+      "score": 0.0298
+     },
+     {
+      "name": "bias b1/n ×1.1",
+      "kind": "near_miss",
+      "score": 0.0017
+     },
+     {
+      "name": "bias b1/n ×0.9",
+      "kind": "near_miss",
+      "score": 0.005
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.0041
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.0009
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig1_ours.png",
+    "figure-reproduction/output/cmp/fig1_overlay.png"
+   ],
+   "outside_axes": {
+    "points": 267,
+    "of": 281,
+    "axis": [
+     -1.0331,
+     -0.8913
+    ]
+   }
+  },
+  {
+   "key": "fig2",
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.1311,
+    "ours_near_published": 0.1737,
+    "threshold": 0.1768,
+    "controls": [
+     {
+      "name": "estimates of the neighbouring sample size in each panel",
+      "kind": "wrong_input",
+      "score": 0.1718
+     },
+     {
+      "name": "kernel bandwidth ×1.25",
+      "kind": "near_miss",
+      "score": 0.1229
+     },
+     {
+      "name": "kernel bandwidth ×0.8",
+      "kind": "near_miss",
+      "score": 0.1419
+     },
+     {
+      "name": "shifted right by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.138
+     },
+     {
+      "name": "shifted left by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.1365
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig2_ours.png",
+    "figure-reproduction/output/cmp/fig2_overlay.png"
+   ]
+  },
+  {
+   "key": "fig3",
+   "method": "pixels",
+   "pixels": {
+    "tolerance_px": 2,
+    "dpi": null,
+    "published_near_ours": 0.425,
+    "ours_near_published": 0.4187,
+    "threshold": 0.5004,
+    "controls": [
+     {
+      "name": "estimates of the neighbouring sample size in each box",
+      "kind": "wrong_input",
+      "score": 0.4435
+     },
+     {
+      "name": "shifted up by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.4954
+     },
+     {
+      "name": "shifted down by 1% of the axis range",
+      "kind": "near_miss",
+      "score": 0.4387
+     },
+     {
+      "name": "spread around the median ×0.9",
+      "kind": "near_miss",
+      "score": 0.4319
+     },
+     {
+      "name": "spread around the median ×1.1",
+      "kind": "near_miss",
+      "score": 0.3758
+     }
+    ]
+   },
+   "outputs": [
+    "figure-reproduction/output/figs/fig3_ours.png",
+    "figure-reproduction/output/cmp/fig3_overlay.png"
+   ]
+  }
+ ]
+}

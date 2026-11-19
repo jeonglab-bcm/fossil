@@ -1,0 +1,19 @@
+Package: logitbias
+Title: Small-Sample Bias of Logistic Regression Coefficients by Simulation
+Version: 0.1.0
+Authors@R: person("fossil", "contributors", email = "fossil@users.noreply.github.com",
+    role = c("aut", "cre"))
+Description: Rebuilds the simulation study of Nemes, Jonasson, Genell and Steineck (2009)
+    <doi:10.1186/1471-2288-9-56>: draw repeated samples of increasing size from a finite
+    population, fit a logistic regression to each, and estimate the first-order small-sample
+    bias b1 of each coefficient by an ordinary least squares fit of the mean estimate on 1/n.
+    Also gives the analytic first-order bias of the maximum likelihood estimator (Cordeiro and
+    McCullagh 1991; Firth 1993) for a population, and the bias-corrected estimate.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: stats, parallel
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1
