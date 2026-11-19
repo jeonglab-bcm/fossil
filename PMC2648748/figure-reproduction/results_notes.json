@@ -1,0 +1,881 @@
+{
+ "paper": {
+  "id": "PMC2648748",
+  "title": "A random forest approach to the detection of epistatic interactions in case-control studies",
+  "citation": "Jiang R, Tang W, Wu X, Fu W. A random forest approach to the detection of epistatic interactions in case-control studies. BMC Bioinformatics 10(Suppl 1):S65 (2009)",
+  "doi": "10.1186/1471-2105-10-S1-S65",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-13",
+  "pipeline": "PMC2648748/figure-reproduction/main.nf",
+  "command": "nextflow run PMC2648748/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC2648748.1.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2648748.1/PMC2648748.1.pdf",
+    "sha256": "f797d12c1962658158ec0225f0def0d5f5a096bfa118a90f7ccb62f5d9bc4e4f",
+    "note": "the paper; Figs 2 and 3 are extracted from it (pdfimages, pages 5 and 6) and kept in published/ for the comparison"
+   },
+   {
+    "name": "pgen.1000464.s001.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2669883.1/pgen.1000464.s001.pdf",
+    "sha256": "48e2524108309ab943b9814430596b3fbd67b0e3478c20116717f2a2931f93a7",
+    "note": "Text S1 of epiMODE (Tang, Wu, Jiang and Li 2009, PLoS Genet 5:e1000464, the same group): how the disease models and the LD between a locus and its marker were simulated. Read, not used by the pipeline."
+   }
+  ],
+  "environment": {}
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "items": [
+  {
+   "id": "fig1",
+   "label": "Fig. 1, the two stages of epiForest",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "summary": "A diagram of the method; it holds no data. The method it shows is the package epiforest.",
+    "status": "explained",
+    "evidence": [
+     "package/R/epiforest.R"
+    ]
+   }
+  },
+  {
+   "id": "fig2.epiforest",
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 2\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 2, power of epiForest (24 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig2.values.epiforest",
+   "assumptions": "@sim_assumptions+ef_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
+  },
+  {
+   "id": "fig2.beam",
+   "label": "Fig. 2, power of BEAM (24 bars)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "proprietary_software",
+    "summary": "BEAM 1.0 (Zhang and Liu 2007) was distributed only as a binary from the authors' Harvard page, which now answers 403; the Pasteur mirror keeps only its README, and the Wayback Machine could not be reached from this session. BEAM3 and StrBEAM are other methods. Rebuilding BEAM's MCMC was out of scope.",
+    "status": "explained",
+    "evidence": [
+     "https://gensoft.pasteur.fr/docs/BEAM/NA/BEAM_README.txt",
+     "http://www.fas.harvard.edu/~junliu/BEAM/"
+    ]
+   }
+  },
+  {
+   "id": "fig2.lr",
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 2\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 2, power of stepwise logistic regression (24 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig2.values.lr",
+   "assumptions": "@sim_assumptions+lr_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
+  },
+  {
+   "id": "fig2.chisq",
+   "review": {
+    "verdict": "differs",
+    "computed": "partly",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 2\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 2, power of the chi-squared test (24 bars)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig2.values.chisq",
+   "assumptions": "@sim_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
+  },
+  {
+   "id": "fig2",
+   "review": {
+    "verdict": "differs",
+    "computed": "inconclusive",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 2\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 2, the figure (pixels, BEAM bars masked)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "comparison.json:fig2.pixels",
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ],
+   "assumptions": "@render_assumptions"
+  },
+  {
+   "id": "fig3.medians",
+   "review": {
+    "verdict": "differs",
+    "computed": "differs",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 3\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 3, median number of SNPs SWSFS selects (24 boxes)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:fig3.medians",
+   "assumptions": "@sim_assumptions+ef_assumptions",
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ]
+  },
+  {
+   "id": "fig3",
+   "review": {
+    "verdict": "differs",
+    "computed": "inconclusive",
+    "by": "SophSM",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/78#pullrequestreview-5945340665",
+    "note": "Review card \"Fig. 3\": Differs, without comment. The cause below stays as written: the reviewer judges the gap it describes too large for the figure to count as reproduced."
+   },
+   "label": "Fig. 3, the figure (pixels)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "comparison.json:fig3.pixels",
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "assumptions": "@render_assumptions"
+  },
+  {
+   "id": "text.model1_similar",
+   "label": "Text: all methods perform alike in model 1",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim_fields": [
+    [
+     "Every pair of epiForest, logistic regression and chi-squared within Monte Carlo error in all 8 model-1 settings",
+     "model1_similar"
+    ]
+   ]
+  },
+  {
+   "id": "text.small_maf",
+   "label": "Text: in models 2 and 3 epiForest beats logistic regression and chi-squared at small MAF, where chi-squared does poorly",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim_fields": [
+    [
+     "Model 2, r2 = 1, MAF 0.05 and 0.10: epiForest above both",
+     "model2_epiforest_above_small_maf"
+    ],
+    [
+     "Model 2, r2 = 1, MAF 0.05 and 0.10: chi-squared lowest",
+     "model2_chisq_lowest_small_maf"
+    ],
+    [
+     "Model 3, r2 = 1, MAF 0.05 and 0.10: epiForest above both",
+     "model3_epiforest_above_small_maf"
+    ],
+    [
+     "Model 3, r2 = 1, MAF 0.05 and 0.10: chi-squared lowest",
+     "model3_chisq_lowest_small_maf"
+    ]
+   ]
+  },
+  {
+   "id": "text.main_claim",
+   "label": "Main claim: epiForest's power is comparable to, sometimes higher than, the other methods'",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim_fields": [
+    [
+     "epiForest never below logistic regression beyond Monte Carlo error",
+     "epiforest_comparable_to_lr"
+    ],
+    [
+     "epiForest above logistic regression beyond Monte Carlo error in some setting",
+     "epiforest_sometimes_higher_than_lr"
+    ],
+    [
+     "epiForest never below chi-squared beyond Monte Carlo error",
+     "epiforest_not_below_chisq"
+    ],
+    [
+     "epiForest above chi-squared beyond Monte Carlo error in some setting",
+     "epiforest_sometimes_higher_than_chisq"
+    ]
+   ],
+   "assumptions": [
+    {
+     "what": "The comparison with BEAM, part of the claim, is left out: BEAM was not run (fig2.beam)",
+     "source": "our_choice"
+    }
+   ]
+  },
+  {
+   "id": "text.fig3_median",
+   "label": "Text: SWSFS selects about 45 SNPs in every setting, generally fewer than 80",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim_fields": [
+    [
+     "Median of the 24 box medians (about 45)",
+     "fig3_median_of_medians",
+     "45"
+    ],
+    [
+     "Settings whose largest selection is below 80 (generally)",
+     "fig3_max_below_80_settings",
+     "24"
+    ]
+   ]
+  },
+  {
+   "id": "text.swsfs_below_eps",
+   "label": "Text: SWSFS keeps fewer candidates than the 100 (10%) of stepwise logistic regression",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "claim_fields": [
+    [
+     "Median number selected below 100",
+     "selected_median_below_100"
+    ]
+   ]
+  },
+  {
+   "id": "text.beam_claims",
+   "label": "Text: BEAM beats logistic regression and chi-squared; epiForest and BEAM alike",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "proprietary_software",
+    "summary": "Needs BEAM's power, which we could not compute (fig2.beam). On the paper's own figure the claim holds (text.arithmetic).",
+    "status": "explained",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims about Figs 2 and 3 against the paper's own figure values",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "comparison.json:claims.paper",
+   "assumptions": [
+    {
+     "what": "Published bar heights and box medians read off the figures (read_published.py)",
+     "source": "read_from_figure",
+     "sensitivity": "Every bar reads within 0.2 power points of an integer count (tick fit residual 0.22 px, 3.82 px per point); medians within 0.1 SNP of a half-integer. Reading errors of this size do not change any claim."
+    }
+   ]
+  },
+  {
+   "id": "text.amd_filter",
+   "label": "Text: AMD data, 116,204 SNPs, 96 cases, 50 controls; 95,986 SNPs after filtering",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, gini importance of the AMD SNPs",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "text.amd_gini",
+   "label": "Text: largest gini importance rs380390 (2.73) and rs1329428 (2.44)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "text.amd_chisq",
+   "label": "Text: Bonferroni-corrected chi-squared p 0.0043 (rs380390) and 0.14 (rs1329428)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "fig5",
+   "label": "Fig. 5, gini importance against the B-statistic p-value (AMD)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "text.amd_pcc",
+   "label": "Text: Pearson correlation of gini importance and p-value -0.59, p < 2.2e-16",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "fig6",
+   "label": "Fig. 6, out-of-bag error against the number of top SNPs (AMD)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "text.amd_swsfs",
+   "label": "Text: minimum OOB error 8.5% at the top 84 SNPs; SWSFS builds 104 forests",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "table1",
+   "label": "Table 1, top five two-way and three-way interactions in AMD",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "text.amd_interactions",
+   "label": "Text: no interaction significant after Bonferroni; 9 and 14 SNPs more significant than rs6104678 and rs7863587",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": "@amd_cause"
+  },
+  {
+   "id": "check.bstat_null",
+   "label": "Check: the B statistic's null distribution (our shift of the chi-squared)",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "checks/bstat_null.json"
+  },
+  {
+   "id": "package",
+   "label": "R package epiforest and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "templates": {
+  "sim_assumptions": [
+   {
+    "what": "Published bars and box medians read off Figs 2 and 3 (the 2400 x 1200 images in the paper's PDF) through each panel's tick marks",
+    "source": "read_from_figure",
+    "sensitivity": "Tick fits within 0.22 px; one power point is 3.82 px and every bar reads within 0.2 points of an integer count; Fig. 3 medians within 0.1 of a half-integer. The reading error is far below the Monte Carlo tolerance."
+   },
+   {
+    "what": "Disease models: Marchini et al.'s tables of odds for models 1 and 3; for model 2 the table of epiMODE (Tang et al. 2009, the same group), (1+t)^2, (1+t)^3, (1+t)^4 for two, three and four disease alleles, where Marchini has 1+t, (1+t)^2, (1+t)^4",
+    "source": "found_by_search",
+    "sensitivity": "Chosen among six documented readings by the exact chi-squared power, which involves no random forest (output/checks/model_variants.json): epiMODE's table puts 21 of the 24 chi-squared bars within Monte Carlo error (8 of 8 in model 2); Marchini's table 17 (4 of 8); either table read as relative risks 18, and Marchini's model 2 at MAF 0.05 to 0.2 cannot reach lambda = 0.5 as relative risks."
+   },
+   {
+    "what": "The marginal effect lambda is the odds ratio of the marginal penetrances of the heterozygote and the wild-type homozygote, minus 1 (Zhang and Liu 2007; epiMODE Text S1); prevalence 0.1 for every model (the paper)",
+    "source": "our_choice",
+    "sensitivity": "Prevalence 0.01 for model 2 (epiMODE's setting) puts 15 or 18 of the 24 chi-squared bars within Monte Carlo error instead of 21 (model_variants.json)."
+   },
+   {
+    "what": "LD between a disease locus and its marker: the marker has the locus's minor allele frequency and each marker allele follows the locus allele on its haplotype with correlation r = sqrt(r2) (epiMODE Text S1); null markers have MAF from U(0, 0.5) (the paper); the two disease markers sit at random columns",
+    "source": "our_choice",
+    "sensitivity": "Using 0.7 as r instead of r2 lowers model 3 at MAF 0.5 to 9% chi-squared power against the published 38% (model_variants.json, epimode_odds_r2_as_r: 19 of 24 bars within Monte Carlo error)."
+   },
+   {
+    "what": "A disease marker counts as identified when it is in any reported test; power is the share of 100 data sets where both are",
+    "source": "our_choice",
+    "sensitivity": "summary.json gives epiForest's power when both markers must be in one reported test (epiforest_joint) or reported singly (epiforest_one_way)."
+   }
+  ],
+  "ef_assumptions": [
+   {
+    "what": "ntree = 500 (randomForest's default) for the first forest and every SWSFS forest; the paper gives ntree only for the AMD forests (10^6)",
+    "source": "our_choice",
+    "sensitivity": "With 2000 trees SWSFS keeps still fewer SNPs on the data sets we tried (output/checks/swsfs_variants.json)."
+   },
+   {
+    "what": "mtry = floor(sqrt(number of SNPs in the forest)), randomForest's default (the paper prints the default garbled)",
+    "source": "paper",
+    "sensitivity": "With mtry fixed at 31 for every SWSFS forest: output/checks/swsfs_variants.json."
+   },
+   {
+    "what": "B statistic with pseudo-counts 0.5 and P0 in the denominator (the paper prints P1/P1); 2B minus a shift from Stirling's expansion is chi-squared with 3^k - 1 degrees of freedom (3^k - 3^t conditional); the conditional B tests the other markers with the reported ones keeping their association",
+    "source": "our_choice",
+    "sensitivity": "On null data the shifted statistic has the right mean and tail for one- and two-way tests and is conservative for three-way tests (check.bstat_null)."
+   },
+   {
+    "what": "Bonferroni over all L = 1000 markers (L, L(L-1)/2, L(L-1)(L-2)/6), as the paper says",
+    "source": "paper",
+    "sensitivity": "summary.json, epiforest_bonf_candidates: Bonferroni over the candidates instead."
+   }
+  ],
+  "lr_assumptions": [
+   {
+    "what": "Stepwise logistic regression: 100 SNPs (10%) kept by their single-locus likelihood-ratio test (2 df, adjusted by L); stage 2 tests every pair and triple of kept SNPs for interaction, the logistic model with one parameter per observed genotype combination against the model with main effects only (4 df for a pair, 20 for a triple), adjusted by L(L-1)/2 and L(L-1)(L-2)/6 as the paper adjusts epiForest's tests; a disease marker is found in any significant test. The paper names the method (Marchini et al. 2005, extended to three-way) but not which models stage 2 compares or how it is adjusted",
+    "source": "found_by_search",
+    "sensitivity": "Chosen among five readings by the number of published bars within Monte Carlo error (comparison.json, sensitivity.fig2): this one 17 of 24; interaction terms adjusted by the number of stage-2 tests 14; the full model against the null model (Marchini's two-stage strategy) 4 adjusted by the stage-2 tests and 8 by all tests; single-locus tests alone 19. The full-model readings find a disease marker through its main effect in stage 2, which the single-locus test missed, and run 20 to 70 points above the paper."
+   }
+  ],
+  "render_assumptions": [
+   {
+    "what": "Drawn with base R at 12 x 6 in, 200 px per inch (the published 2400 x 1200 px), margins from the published frames; font Liberation Sans (Helvetica metrics); text sizes and offsets matched to the published glyphs. Only ink inside the frames is scored, so the text settings do not change the score",
+    "source": "our_choice"
+   }
+  ],
+  "amd_cause": {
+   "category": "data_unavailable",
+   "summary": "The AMD genotypes (Klein et al. 2005, Affymetrix 100K, 96 cases and 50 controls) came from J. Hoh and were never deposited; the AREDS scan in dbGaP (phs000001) has controlled access, and whether it holds the same 146 people is unverified.",
+   "status": "explained",
+   "evidence": [
+    "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000001",
+    "https://github.com/jeonglab-bcm/fossil/issues/60"
+   ]
+  }
+ },
+ "page": {
+  "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differ, {not_attempted} not attempted; {reviewed} verdicts set by a reviewer. epiForest was lost; it was rebuilt from the paper as an R package, and the paper's simulation study of 2,400 data sets was run again.",
+  "label_rows": [
+   [
+    "fig-2",
+    "Fig. 2",
+    [
+     "fig2.epiforest",
+     "fig2.lr",
+     "fig2.chisq"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3",
+    [
+     "fig3.medians"
+    ]
+   ],
+   [
+    "items",
+    "Main claim",
+    [
+     "text.main_claim"
+    ]
+   ],
+   [
+    "items",
+    "AMD study",
+    [
+     "fig4",
+     "fig5",
+     "fig6",
+     "table1"
+    ]
+   ],
+   [
+    "items",
+    "Package",
+    [
+     "package"
+    ]
+   ]
+  ],
+  "items_caption": "Every figure, table and claim of the paper. A power or a median agrees when it is within the Monte Carlo error of two independent sets of 100 data sets (1.96 standard errors of the difference).",
+  "claims_line": "The main claim holds in part: epiForest is never below chi-squared and beats it where interactions matter, but in our run it falls below logistic regression in 4 of 24 settings at small MAF, where the paper has it level or ahead. The causes, in how the paper ran its forests, simulated model 3 and set up logistic regression, are open with the tested candidates recorded; the AMD study needs genotypes that were never released.",
+  "came_back": [
+   [
+    "epiForest",
+    "The gini ranking, SWSFS and the hierarchical B-statistic tests, as the R package epiforest, with tests and a tutorial."
+   ],
+   [
+    "Chi-squared",
+    "20 of 24 bars of Fig. 2 within Monte Carlo error; the four misses are model 3 at small MAF."
+   ],
+   [
+    "epiForest's power",
+    "15 of 24 bars of Fig. 2."
+   ],
+   [
+    "Logistic regression",
+    "17 of 24 bars, with the stage-2 test chosen by its match to these bars (4 of 24 with Marchini et al.'s strategy as published)."
+   ],
+   [
+    "The B statistic",
+    "Its shift, which the paper does not write out, derived and checked on null data."
+   ]
+  ],
+  "buried": [
+   "The AMD study (Figs 4 to 6, Table 1): the genotypes were never deposited.",
+   "BEAM, the fourth method of Fig. 2: its program is gone.",
+   "Fig. 3: SWSFS keeps about 32 SNPs where the paper's figure shows 45 to 48 (median 46) in every setting; five readings of the stopping rule and the forests were tested.",
+   "How the paper set up its forests, its model 3 and its stage-2 logistic regression: not stated, and no tested reading closes every gap."
+  ],
+  "matched_intro": "How each part of the paper's method was rebuilt.",
+  "matched": [
+   [
+    "Forest",
+    "R randomForest 4.7-1.1, SNPs as three-level factors, 500 trees, mtry the square root of the number of SNPs; gini importance."
+   ],
+   [
+    "SWSFS",
+    "The paper's pseudocode, window 20, the out-of-bag error of each forest."
+   ],
+   [
+    "B tests",
+    "One-, two- and three-way, conditional on SNPs already reported; Bonferroni over all tests of each order."
+   ],
+   [
+    "Data",
+    "Marchini et al.'s three disease models (model 2 as in epiMODE), 1000 markers, 1000 cases and 1000 controls, 100 data sets per setting."
+   ],
+   [
+    "Comparators",
+    "The single-locus chi-squared test and stepwise logistic regression with three-way interactions."
+   ]
+  ],
+  "closing": "epiForest came back from the paper's text, and its simulation study was run again in full."
+ },
+ "causes": {
+  "fig2.chisq": {
+   "category": "undocumented_setting",
+   "summary": "20 of 24 bars within Monte Carlo error; all four misses are model 3 at small MAF, where our chi-squared power is higher than the paper's (r2 = 0.7: 26, 72, 99 against 0, 11, 79 at MAF 0.05, 0.1, 0.2; r2 = 1: 64 against 48 at MAF 0.05). The exact power of our model (no simulation) gives the same values, so the gap is in how the paper simulated model 3 or the LD, which it does not state; the documented table, scale and prevalence readings leave model 3's marginal power unchanged, and reading 0.7 as r overshoots in the other direction.",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/checks/model_variants.json",
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Marchini et al.'s tables (model 2 included) as odds, prevalence 0.1",
+     "test": "exact chi-squared power, model_variants.R (marchini_odds): model 3's powers unchanged (its tables and lambda fix the marginal effect, so none of the table, scale or prevalence readings can move them)",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The tables read as relative risks (epiMODE Text S1), prevalence 0.1 or 0.01",
+     "test": "model_variants.R (epimode_risk, epimode_risk_K01): model 3's powers unchanged, as above",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "0.7 used as r rather than r2 (r2 = 0.49)",
+     "test": "model_variants.R (epimode_odds_r2_as_r): model 3 at r2 = 0.7 drops to 6, 36, 64 and 9, so MAF 0.2 and 0.5 now miss in the other direction (published 79 and 38); 19 of 24 instead of 21",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Our simulation code differs from our exact power calculation",
+     "test": "simulated chi-squared power (summary.json) against model_variants.R's exact power (epimode_odds): 22 of 24 settings within a 95% binomial interval; the other two at the extremes (2 against 0.6, 99 against 94.4), and model 3 at r2 = 0.7, MAF 0.05 and 0.1 agree (26 against 22.5, 72 against 75.1)",
+     "result": "rejected"
+    }
+   ]
+  },
+  "fig3.medians": {
+   "category": "undocumented_setting",
+   "summary": "None of the 24 medians within error: ours run from 4 to 37 (median 32) and fall where the signal is strong, the paper's are flat at 45 to 48 in every setting. Returning the top i instead of the top i - w (i = k + 20, the number of forests built, which is how the AMD text's 84 SNPs and 104 forests relate) brings 16 of 24 within error but not the strong-signal settings (25.5 and 24 against 45 and 46). Which count the paper plotted, and with what forests, is not stated.",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/checks/swsfs_variants.json",
+    "figure-reproduction/output/checks/error_variants.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "More trees per forest (2000 instead of 500)",
+     "test": "swsfs_variants.R on 6 data sets: medians 57 and 4 against 52 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "mtry fixed at 31 for every SWSFS forest",
+     "test": "swsfs_variants.R: medians 21 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Ties resolved to the last minimum in the window",
+     "test": "swsfs_variants.R (last_min): the same k on every data set",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
+     "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+     "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+     "result": "rejected"
+    }
+   ]
+  },
+  "fig3": {
+   "category": "undocumented_setting",
+   "summary": "The pixel score (16.4%) is no better than our boxes shifted by 2 SNPs (17.8%); the boxes sit about 14 SNPs below the paper's and are not flat across settings (fig3.medians).",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "More trees per forest (2000 instead of 500)",
+     "test": "swsfs_variants.R on 6 data sets: medians 57 and 4 against 52 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "mtry fixed at 31 for every SWSFS forest",
+     "test": "swsfs_variants.R: medians 21 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Ties resolved to the last minimum in the window",
+     "test": "swsfs_variants.R (last_min): the same k on every data set",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
+     "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+     "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+     "result": "rejected"
+    }
+   ]
+  },
+  "text.fig3_median": {
+   "category": "undocumented_setting",
+   "summary": "Our SWSFS selects a median of about 32 SNPs, not 45 (fig3.medians), and 17 of 24 settings have every selection below 80, not all 24. The claim that SWSFS keeps far fewer SNPs than the 100 of stepwise logistic regression holds (text.swsfs_below_eps).",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "More trees per forest (2000 instead of 500)",
+     "test": "swsfs_variants.R on 6 data sets: medians 57 and 4 against 52 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "mtry fixed at 31 for every SWSFS forest",
+     "test": "swsfs_variants.R: medians 21 and 4",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Ties resolved to the last minimum in the window",
+     "test": "swsfs_variants.R (last_min): the same k on every data set",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The global minimum of the out-of-bag error over all 1000 forests",
+     "test": "swsfs_variants.R (global_min): medians 74 to 88 on model 1, 47 to 74 on model 3; not flat either",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The figure shows the top i (forests built) rather than the top i - w",
+     "test": "compare.py sensitivity.fig3.return_i: 16 of 24 medians within error (0 of 24 for i - w), medians 24 to 57",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another definition of Error(i) in SWSFS: the out-of-bag error averaged over the forest's growth, bagging (mtry = i), or the balanced class error",
+     "test": "error_variants.R on model 3, r2 = 1, MAF 0.2 (8 data sets, the study's SNP order), where the paper's median is 45 and the study's 5.5: the study's definition reproduces the study's k on all 8; the medians are 5 (the study's definition), 4, 4 and 13",
+     "result": "rejected"
+    }
+   ]
+  },
+  "fig2.epiforest": {
+   "category": "undocumented_setting",
+   "summary": "15 of 24 bars within Monte Carlo error. Where the signal is weak (r2 = 0.7, models 2 and 3, MAF 0.05 to 0.2) ours is higher, as our chi-squared is in model 3; where the paper's epiForest is far ahead of chi-squared (models 2 and 3, r2 = 1, MAF 0.05 and 0.1) ours is lower: 2 against 16, 38 against 57, 87 against 97, 72 against 89. There our first forest ranks a disease marker low (model 2, MAF 0.05: the lower one at rank 800 in median), so neither SWSFS nor the B tests see it. The paper's forest settings are not given; mtry = 100 ranks the markers higher at MAF 0.1 but not at MAF 0.05.",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/summary.json",
+    "figure-reproduction/output/checks/rank_variants.json",
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SWSFS keeps fewer SNPs than the paper's (fig3.medians), so disease markers fall outside the candidates",
+     "test": "summary.json, upper bounds on power if both markers within the top i = k + w or the top 46: model 2, r2 = 1, MAF 0.05 to 0.2: 2, 41, 93 and 1, 38, 92 against 16, 57, 97; model 3, r2 = 1, MAF 0.05: 77 against 89",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Another setting of the first forest ranks the disease markers higher: genotypes as numbers 0/1/2, 2000 trees, or mtry = 100",
+     "test": "rank_variants.R, 12 data sets per setting (the study's setting reproduces the study's ranks in 48 of 48): both markers in the top 46 in 0 of 12 for every setting at model 2, r2 = 1, MAF 0.05; at MAF 0.1 in 8 of 12 with mtry = 100 against 1 to 3 of 12 otherwise",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another rule for a disease marker being identified",
+     "test": "summary.json variants: both in one reported test 8 of 24 bars within error, both reported singly 17, Bonferroni over the candidates only 7",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Model 3 at small MAF simulated stronger than in the paper (the open cause of fig2.chisq): our chi-squared power is above the paper's in the same settings",
+     "test": "compare.py: chi-squared 26, 72, 99 against 0, 11, 79 (model 3, r2 = 0.7, MAF 0.05 to 0.2) and 64 against 48 (r2 = 1, MAF 0.05)",
+     "result": "supported"
+    }
+   ]
+  },
+  "fig2.lr": {
+   "category": "undocumented_setting",
+   "summary": "With the reading that fits best (interaction terms in stage 2, adjusted by all tests; found by search) 17 of 24 bars within Monte Carlo error. Four misses are model 3 at small MAF, where our chi-squared is above the paper's as well; the other three are model 2 (22 against 10 at r2 = 0.7, MAF 0.2; 26 against 8 and 56 against 32 at r2 = 1, MAF 0.05 and 0.1). The paper does not say which models stage 2 compares or how it is adjusted.",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/summary.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Marchini et al.'s two-stage strategy as published: the full model in stage 2, adjusted by the number of stage-2 tests",
+     "test": "compare.py sensitivity.fig2.lr_full_tested: 4 of 24 bars within error",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The full model in stage 2, adjusted by all L(L-1)/2 and L(L-1)(L-2)/6 tests",
+     "test": "sensitivity.fig2.lr_full_bonf_all: 8 of 24",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Interaction terms in stage 2, adjusted by the number of stage-2 tests",
+     "test": "sensitivity.fig2.lr_int_tested: 14 of 24",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Single-locus tests only (stage 2 never reported)",
+     "test": "sensitivity.fig2.lr_single_only: 19 of 24, but model 2 at r2 = 1, MAF 0.1 is 10 against 32, so stage 2 does find loci in the paper",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Model 3 at small MAF simulated stronger than in the paper (the open cause of fig2.chisq): our chi-squared power is above the paper's in the same settings",
+     "test": "compare.py: chi-squared 26, 72, 99 against 0, 11, 79 (model 3, r2 = 0.7, MAF 0.05 to 0.2) and 64 against 48 (r2 = 1, MAF 0.05)",
+     "result": "supported"
+    }
+   ]
+  },
+  "fig2": {
+   "category": "metric_resolution",
+   "summary": "The pixel score (68.6% of our ink near the paper's) is no better than our own bars shifted by 5 power points (71.5%), a shift within Monte Carlo error, so the drawing cannot settle the comparison; the bar values do (fig2.epiforest, fig2.lr, fig2.chisq). Both wrong-input controls score lower (22.6%, 49.1%).",
+   "status": "explained",
+   "evidence": [
+    "figure-reproduction/output/fig2_overlay.png",
+    "figure-reproduction/output/comparison.json"
+   ]
+  },
+  "text.small_maf": {
+   "category": "undocumented_setting",
+   "summary": "Chi-squared is the lowest of the three at small MAF, as in the paper; epiForest is not above logistic regression there (model 2, r2 = 1: 2 and 38 against 26 and 56; model 3: 72 and 99 against 100 and 100), because our epiForest is below the paper's in these settings (fig2.epiforest).",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SWSFS keeps fewer SNPs than the paper's (fig3.medians), so disease markers fall outside the candidates",
+     "test": "summary.json, upper bounds on power if both markers within the top i = k + w or the top 46: model 2, r2 = 1, MAF 0.05 to 0.2: 2, 41, 93 and 1, 38, 92 against 16, 57, 97; model 3, r2 = 1, MAF 0.05: 77 against 89",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Another setting of the first forest ranks the disease markers higher: genotypes as numbers 0/1/2, 2000 trees, or mtry = 100",
+     "test": "rank_variants.R, 12 data sets per setting (the study's setting reproduces the study's ranks in 48 of 48): both markers in the top 46 in 0 of 12 for every setting at model 2, r2 = 1, MAF 0.05; at MAF 0.1 in 8 of 12 with mtry = 100 against 1 to 3 of 12 otherwise",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another rule for a disease marker being identified",
+     "test": "summary.json variants: both in one reported test 8 of 24 bars within error, both reported singly 17, Bonferroni over the candidates only 7",
+     "result": "rejected"
+    }
+   ]
+  },
+  "text.main_claim": {
+   "category": "undocumented_setting",
+   "summary": "epiForest is never below chi-squared and is above it beyond Monte Carlo error in 5 settings, as the paper says, and above logistic regression in 2 (model 2, MAF 0.2: 44 against 22 at r2 = 0.7, 87 against 62 at r2 = 1). It is below logistic regression beyond Monte Carlo error in 4 of 24 settings (models 2 and 3 at MAF 0.05 or 0.1), where the paper has it level or above: in each of them our epiForest is below the paper's or our logistic regression above it (fig2.epiforest, fig2.lr).",
+   "status": "open",
+   "evidence": [
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "SWSFS keeps fewer SNPs than the paper's (fig3.medians), so disease markers fall outside the candidates",
+     "test": "summary.json, upper bounds on power if both markers within the top i = k + w or the top 46: model 2, r2 = 1, MAF 0.05 to 0.2: 2, 41, 93 and 1, 38, 92 against 16, 57, 97; model 3, r2 = 1, MAF 0.05: 77 against 89",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Another setting of the first forest ranks the disease markers higher: genotypes as numbers 0/1/2, 2000 trees, or mtry = 100",
+     "test": "rank_variants.R, 12 data sets per setting (the study's setting reproduces the study's ranks in 48 of 48): both markers in the top 46 in 0 of 12 for every setting at model 2, r2 = 1, MAF 0.05; at MAF 0.1 in 8 of 12 with mtry = 100 against 1 to 3 of 12 otherwise",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Another rule for a disease marker being identified",
+     "test": "summary.json variants: both in one reported test 8 of 24 bars within error, both reported singly 17, Bonferroni over the candidates only 7",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Model 3 at small MAF simulated stronger than in the paper (the open cause of fig2.chisq): our chi-squared power is above the paper's in the same settings",
+     "test": "compare.py: chi-squared 26, 72, 99 against 0, 11, 79 (model 3, r2 = 0.7, MAF 0.05 to 0.2) and 64 against 48 (r2 = 1, MAF 0.05)",
+     "result": "supported"
+    }
+   ]
+  }
+ }
+}

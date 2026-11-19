@@ -3,8 +3,11 @@
 Usage:
   python empirical.py --sites SITES.tsv --go GO.tsv --lists LISTS.tsv --species Human \
       --size M --iterations 999999 --seed S --out OUT_PREFIX [--hist GO:0006811] [--threads N]
+      [--multi-sites SITES.tsv]
 
 SITES.tsv: mirna, gene, sites (gene-level counts of miRanda sites passing the thresholds).
+--multi-sites: a second site table for the multi-hit score only (default: SITES.tsv); the basic
+algorithm's targets still come from SITES.tsv.
 GO.tsv: build_go.py output; genes are identified by gene name, as in the paper's universe.
 LISTS.tsv: study, species, mirna (Supplementary Table S3).
 
@@ -38,9 +41,11 @@ def load(args):
     go_rows = list(csv.DictReader(open(args.go), delimiter="\t"))
     univ = sorted({r["gene_name"] for r in go_rows})
     site_rows = list(csv.DictReader(open(args.sites), delimiter="\t"))
+    multi_rows = (list(csv.DictReader(open(args.multi_sites), delimiter="\t"))
+                  if args.multi_sites else site_rows)
     # Genes without a biological-process term come after the universe: they count in the
     # all-genes denominator and in no term.
-    genes = univ + sorted({r["gene"] for r in site_rows} - set(univ))
+    genes = univ + sorted({r["gene"] for r in site_rows + multi_rows} - set(univ))
     gi = {g: i for i, g in enumerate(genes)}
     terms = sorted({r["go_id"] for r in go_rows})
     ti = {t: i for i, t in enumerate(terms)}
@@ -48,15 +53,20 @@ def load(args):
     r_, c_ = zip(*pairs)
     go = sp.csr_matrix((np.ones(len(pairs), np.float32), (c_, r_)), shape=(len(terms), len(genes)))
 
-    sites = defaultdict(dict)
-    for r in site_rows:
-        sites[r["mirna"]][gi[r["gene"]]] = int(r["sites"])
-    pool = sorted(args.pool_names) if args.pool_names else sorted(sites)
-    S = np.zeros((len(pool), len(genes)), np.float32)
-    for i, m in enumerate(pool):
-        for g, n in sites.get(m, {}).items():
-            S[i, g] = n
-    return genes, len(univ), terms, go, pool, S
+    def matrix(rows, pool):
+        sites = defaultdict(dict)
+        for r in rows:
+            sites[r["mirna"]][gi[r["gene"]]] = int(r["sites"])
+        pool = pool or sorted(sites)
+        S = np.zeros((len(pool), len(genes)), np.float32)
+        for i, m in enumerate(pool):
+            for g, n in sites.get(m, {}).items():
+                S[i, g] = n
+        return pool, S
+
+    pool, S = matrix(site_rows, sorted(args.pool_names) if args.pool_names else None)
+    SM = matrix(multi_rows, pool)[1] if args.multi_sites else S
+    return genes, len(univ), terms, go, pool, S, SM
 
 
 def main():
@@ -74,15 +84,16 @@ def main():
     ap.add_argument("--denominator", choices=["all", "universe"], default="all",
                     help="overlap = term genes / all target genes (default; Supplementary Table S5) "
                          "or / target genes with a biological-process term")
+    ap.add_argument("--multi-sites", help="site table for the multi-hit score (default: --sites)")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
     args.pool_names = [l.strip() for l in open(args.pool) if l.strip()] if args.pool else None
 
-    genes, G_univ, terms, go, pool, S = load(args)
+    genes, G_univ, terms, go, pool, S, SM = load(args)
     D = len(genes) if args.denominator == "all" else G_univ
     go = go.astype(np.float32)
-    ST = np.ascontiguousarray(S.T)                      # genes x miRNAs, site counts
-    AT = (ST > 0).astype(np.float32)                    # genes x miRNAs, targeted
+    AT = np.ascontiguousarray((S.T > 0).astype(np.float32))   # genes x miRNAs, targeted
+    ST = np.ascontiguousarray(SM.T)                     # genes x miRNAs, site counts (multi-hit)
     pi = {m: i for i, m in enumerate(pool)}
     studies = defaultdict(list)
     for r in csv.DictReader(open(args.lists), delimiter="\t"):
