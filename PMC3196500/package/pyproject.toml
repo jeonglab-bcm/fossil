@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "oisim"
+version = "0.1.0"
+description = "Risk of overestimated pooled effects in cumulative random-effects meta-analysis, and the optimal information size (Thorlund et al. 2011)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.scripts]
+oisim = "oisim.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC3196500"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC3196500/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oisim"]

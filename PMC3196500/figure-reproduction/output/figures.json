@@ -1,0 +1,5707 @@
+{
+ "tolerance_px": 2,
+ "rules": {
+  "patients": "nearest",
+  "events": "interval"
+ },
+ "rule_search": {
+  "patients": {
+   "mean_score": {
+    "nearest": 0.6505,
+    "interval": 0.5361
+   },
+   "panels": 25
+  },
+  "events": {
+   "mean_score": {
+    "nearest": 0.5878,
+    "interval": 0.6721
+   },
+   "panels": 31
+  }
+ },
+ "widths": {
+  "patients_low_pc": 500,
+  "patients_high_pc": 200,
+  "events": 50
+ },
+ "figures": {
+  "fig2": {
+   "file": "fig2.png",
+   "sha256": "9a2feffb46db5191337422be640de41ab9083b9016e1656db4c017dc690d0e6f",
+   "size": [
+    996,
+    1009
+   ],
+   "panels": [
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       164,
+       8,
+       971,
+       291
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -747.5000000000001,
+       281.125
+      ],
+      "x_fit": [
+       464.7177516508048,
+       -1058.4287974444826
+      ],
+      "y_residual_px": 1.38,
+      "x_residual_px": 0.72
+     },
+     "width": 500,
+     "published_near_ours": 0.5537,
+     "ours_near_published": 0.6892,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0817
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1304
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7255
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3931
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3014
+      }
+     ],
+     "chance_ceiling": 0.778,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7215,
+       "ours_near_published": 0.917
+      },
+      "rule_interval": {
+       "published_near_ours": 0.4381,
+       "ours_near_published": 0.5508
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       162,
+       554,
+       969,
+       838
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -745.8333333333339,
+       825.9583333333335
+      ],
+      "x_fit": [
+       372.4191368176042,
+       -439.4077526275848
+      ],
+      "y_residual_px": 1.38,
+      "x_residual_px": 1.15
+     },
+     "width": 50,
+     "published_near_ours": 0.3699,
+     "ours_near_published": 0.6122,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1689
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2104
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2878
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5088
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2191
+      }
+     ],
+     "chance_ceiling": 0.8735,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.326,
+       "ours_near_published": 0.5491
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.4041,
+       "ours_near_published": 0.6431
+      }
+     }
+    }
+   ]
+  },
+  "figS1": {
+   "file": "figS1.png",
+   "sha256": "ecdea733e3e64caed284c8b8a3cce2329e22a79271ac569cacb441a3f5154e67",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "cochrane_pc1-5_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 500,
+     "published_near_ours": 0.439,
+     "ours_near_published": 0.4219,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3079
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2608
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7694
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3852
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.561
+      }
+     ],
+     "chance_ceiling": 0.9372,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5122,
+       "ours_near_published": 0.4856
+      },
+      "rule_interval": {
+       "published_near_ours": 0.7073,
+       "ours_near_published": 0.6315
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 500,
+     "published_near_ours": 0.6881,
+     "ours_near_published": 0.6515,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2263
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1823
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.8007
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.427
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3884
+      }
+     ],
+     "chance_ceiling": 0.9511,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7095,
+       "ours_near_published": 0.6449
+      },
+      "rule_interval": {
+       "published_near_ours": 0.5994,
+       "ours_near_published": 0.5437
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 500,
+     "published_near_ours": 0.69,
+     "ours_near_published": 0.6421,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1185
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2086
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5489
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2097
+      }
+     ],
+     "chance_ceiling": 0.9782,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7416,
+       "ours_near_published": 0.6927
+      },
+      "rule_interval": {
+       "published_near_ours": 0.31,
+       "ours_near_published": 0.2496
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 500,
+     "published_near_ours": 0.7152,
+     "ours_near_published": 0.7022,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2007
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1805
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6461
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6854
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.404
+      }
+     ],
+     "chance_ceiling": 0.9962,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7351,
+       "ours_near_published": 0.7353
+      },
+      "rule_interval": {
+       "published_near_ours": 0.4768,
+       "ours_near_published": 0.4207
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 500,
+     "published_near_ours": 0.7252,
+     "ours_near_published": 0.6967,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0962
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.23
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.8805
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5441
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.5016
+      }
+     ],
+     "chance_ceiling": 0.9449,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.9521,
+       "ours_near_published": 0.8934
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6422,
+       "ours_near_published": 0.564
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 500,
+     "published_near_ours": 0.9277,
+     "ours_near_published": 0.8579,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0558
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2201
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5986
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6241
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4088
+      }
+     ],
+     "chance_ceiling": 0.9214,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8774,
+       "ours_near_published": 0.8208
+      },
+      "rule_interval": {
+       "published_near_ours": 0.4748,
+       "ours_near_published": 0.4193
+      }
+     }
+    }
+   ]
+  },
+  "figS2": {
+   "file": "figS2.png",
+   "sha256": "5c50fdd94c958fe108ff39f349c5e427a9e41e0b0a9876d3d01e2f1ec210d05a",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "cochrane_pc1-5_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.8762,
+     "ours_near_published": 0.7768,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2231
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2696
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7368
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7271
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4034
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8669,
+       "ours_near_published": 0.7985
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5325,
+       "ours_near_published": 0.5214
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.8681,
+     "ours_near_published": 0.8007,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2242
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4588
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6063
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8321
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3657
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8528,
+       "ours_near_published": 0.7681
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5613,
+       "ours_near_published": 0.5593
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 0.6826,
+     "ours_near_published": 0.5385,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2905
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.448
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3958
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8324
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3327
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8024,
+       "ours_near_published": 0.6578
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6407,
+       "ours_near_published": 0.6502
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.6353,
+     "ours_near_published": 0.5224,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3729
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3374
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4409
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7655
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4203
+      }
+     ],
+     "chance_ceiling": 0.9776,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6559,
+       "ours_near_published": 0.5513
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7412,
+       "ours_near_published": 0.7518
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.6899,
+     "ours_near_published": 0.5988,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3304
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3563
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4901
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8063
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3938
+      }
+     ],
+     "chance_ceiling": 0.9953,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6435,
+       "ours_near_published": 0.55
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6812,
+       "ours_near_published": 0.6764
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 0.5915,
+     "ours_near_published": 0.5314,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3296
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2564
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4177
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7698
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.361
+      }
+     ],
+     "chance_ceiling": 0.9029,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6423,
+       "ours_near_published": 0.5827
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.769,
+       "ours_near_published": 0.7669
+      }
+     }
+    }
+   ]
+  },
+  "figS3": {
+   "file": "figS3.png",
+   "sha256": "274e4ed738dafeb9e7acca0ff25c9aaf97f0b3d491d6a51e6ae195381cf2eb6a",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "cochrane_pc1-5_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.4960679812733,
+       -405.767030989332
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.686,
+     "ours_near_published": 0.6454,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1208
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4082
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7036
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.4584
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.558
+      }
+     ],
+     "chance_ceiling": 0.9348,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7778,
+       "ours_near_published": 0.7551
+      },
+      "rule_interval": {
+       "published_near_ours": 0.744,
+       "ours_near_published": 0.7266
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.50054160975344,
+       49.787973632936286
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 500,
+     "published_near_ours": 0.9031,
+     "ours_near_published": 0.8584,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1064
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5059
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4322
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5871
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4066
+      }
+     ],
+     "chance_ceiling": 0.7283,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.773,
+       "ours_near_published": 0.7368
+      },
+      "rule_interval": {
+       "published_near_ours": 0.5106,
+       "ours_near_published": 0.4867
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.49606798127328,
+       505.2329690106679
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.9332,
+     "ours_near_published": 0.8884,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1561
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1929
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5087
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.4716
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3946
+      }
+     ],
+     "chance_ceiling": 0.9641,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8616,
+       "ours_near_published": 0.7901
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6659,
+       "ours_near_published": 0.6274
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.4960679812733,
+       -405.767030989332
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.7826,
+     "ours_near_published": 0.756,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.108
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1165
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6211
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6032
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.5048
+      }
+     ],
+     "chance_ceiling": 0.8519,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8986,
+       "ours_near_published": 0.8746
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6159,
+       "ours_near_published": 0.5712
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.50054160975344,
+       49.787973632936286
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 500,
+     "published_near_ours": 0.8558,
+     "ours_near_published": 0.8192,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0893
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1995
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6624
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5354
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.476
+      }
+     ],
+     "chance_ceiling": 0.9439,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8918,
+       "ours_near_published": 0.8696
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6106,
+       "ours_near_published": 0.5769
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.49606798127328,
+       505.2329690106679
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.9481,
+     "ours_near_published": 0.9126,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0865
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1604
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5233
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5498
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4505
+      }
+     ],
+     "chance_ceiling": 0.9209,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8821,
+       "ours_near_published": 0.8243
+      },
+      "rule_interval": {
+       "published_near_ours": 0.5755,
+       "ours_near_published": 0.5401
+      }
+     }
+    }
+   ]
+  },
+  "figS4": {
+   "file": "figS4.png",
+   "sha256": "ed39d55bc01d9e531f4ecd653d288a26602322c081ed9b97bed74fea7cf3eb75",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "cochrane_pc1-5_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.8783,
+     "ours_near_published": 0.8567,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1526
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.512
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.622
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6907
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3511
+      }
+     ],
+     "chance_ceiling": 0.9983,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8724,
+       "ours_near_published": 0.8429
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5045,
+       "ours_near_published": 0.491
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.8139,
+     "ours_near_published": 0.741,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1039
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.7079
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5329
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8764
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4472
+      }
+     ],
+     "chance_ceiling": 0.9168,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7944,
+       "ours_near_published": 0.7467
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6111,
+       "ours_near_published": 0.5911
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc1-5_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.8743,
+     "ours_near_published": 0.7821,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1184
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5077
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4455
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7856
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.326
+      }
+     ],
+     "chance_ceiling": 0.9776,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8918,
+       "ours_near_published": 0.8344
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6287,
+       "ours_near_published": 0.5698
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.7252,
+     "ours_near_published": 0.6568,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.229
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1306
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4717
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8294
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4051
+      }
+     ],
+     "chance_ceiling": 0.9435,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7074,
+       "ours_near_published": 0.6454
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6972,
+       "ours_near_published": 0.6602
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.6077,
+     "ours_near_published": 0.5549,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1538
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2456
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4381
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7426
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4346
+      }
+     ],
+     "chance_ceiling": 0.9688,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5718,
+       "ours_near_published": 0.5243
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7949,
+       "ours_near_published": 0.734
+      }
+     }
+    },
+    {
+     "scenario": "cochrane_pc5-15_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.6496,
+     "ours_near_published": 0.6003,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1228
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1816
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3985
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7723
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3943
+      }
+     ],
+     "chance_ceiling": 0.8574,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6292,
+       "ours_near_published": 0.5827
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7749,
+       "ours_near_published": 0.7183
+      }
+     }
+    }
+   ]
+  },
+  "figS5": {
+   "file": "figS5.png",
+   "sha256": "ecdea733e3e64caed284c8b8a3cce2329e22a79271ac569cacb441a3f5154e67",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc1-5_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 500,
+     "published_near_ours": 0.1128,
+     "ours_near_published": 0.149,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1189
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2378
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1128
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1128
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.1829
+      }
+     ],
+     "chance_ceiling": 0.9943,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.122,
+       "ours_near_published": 0.1705
+      },
+      "rule_interval": {
+       "published_near_ours": 0.2073,
+       "ours_near_published": 0.2211
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.439,
+       "ours_near_published": 0.4219
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 500,
+     "published_near_ours": 0.1835,
+     "ours_near_published": 0.1832,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0887
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2263
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1468
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1804
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2752
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1804,
+       "ours_near_published": 0.1996
+      },
+      "rule_interval": {
+       "published_near_ours": 0.2263,
+       "ours_near_published": 0.2011
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.6881,
+       "ours_near_published": 0.6515
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 500,
+     "published_near_ours": 0.1368,
+     "ours_near_published": 0.1233,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0669
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1976
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1265
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.168
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2006
+      }
+     ],
+     "chance_ceiling": 0.9506,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1277,
+       "ours_near_published": 0.1186
+      },
+      "rule_interval": {
+       "published_near_ours": 0.2006,
+       "ours_near_published": 0.1758
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.69,
+       "ours_near_published": 0.6421
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 500,
+     "published_near_ours": 0.2815,
+     "ours_near_published": 0.3155,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3135
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3411
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2815
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.2815
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3808
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2781,
+       "ours_near_published": 0.3291
+      },
+      "rule_interval": {
+       "published_near_ours": 0.3444,
+       "ours_near_published": 0.344
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.7152,
+       "ours_near_published": 0.7022
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 500,
+     "published_near_ours": 0.2939,
+     "ours_near_published": 0.2764,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3387
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2753
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2729
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3191
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3099
+      }
+     ],
+     "chance_ceiling": 0.9979,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2875,
+       "ours_near_published": 0.2636
+      },
+      "rule_interval": {
+       "published_near_ours": 0.3067,
+       "ours_near_published": 0.2658
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.7252,
+       "ours_near_published": 0.6967
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 500,
+     "published_near_ours": 0.1792,
+     "ours_near_published": 0.1792,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3145
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1677
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1701
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1887
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.217
+      }
+     ],
+     "chance_ceiling": 0.9898,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2138,
+       "ours_near_published": 0.2065
+      },
+      "rule_interval": {
+       "published_near_ours": 0.2421,
+       "ours_near_published": 0.2117
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.9277,
+       "ours_near_published": 0.8579
+      }
+     }
+    }
+   ]
+  },
+  "figS6": {
+   "file": "figS6.png",
+   "sha256": "5c50fdd94c958fe108ff39f349c5e427a9e41e0b0a9876d3d01e2f1ec210d05a",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc1-5_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.1672,
+     "ours_near_published": 0.2262,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5078
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.257
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2446
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1362
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2508
+      }
+     ],
+     "chance_ceiling": 0.9929,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1486,
+       "ours_near_published": 0.2158
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.1765,
+       "ours_near_published": 0.3353
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.8762,
+       "ours_near_published": 0.7768
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.2147,
+     "ours_near_published": 0.2714,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3993
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1871
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2301
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.2178
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.1963
+      }
+     ],
+     "chance_ceiling": 0.9976,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2331,
+       "ours_near_published": 0.2854
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.135,
+       "ours_near_published": 0.2178
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.8681,
+       "ours_near_published": 0.8007
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 0.1737,
+     "ours_near_published": 0.2119,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3947
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2096
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1766
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1766
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2335
+      }
+     ],
+     "chance_ceiling": 0.9953,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1737,
+       "ours_near_published": 0.2066
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.1078,
+       "ours_near_published": 0.1728
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.6826,
+       "ours_near_published": 0.5385
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.3382,
+     "ours_near_published": 0.3662,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1941
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4266
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3265
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3412
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3471
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.3265,
+       "ours_near_published": 0.3729
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.2735,
+       "ours_near_published": 0.3474
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.6353,
+       "ours_near_published": 0.5224
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.3507,
+     "ours_near_published": 0.3255,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0348
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.221
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3228
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3173
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3333
+      }
+     ],
+     "chance_ceiling": 0.9982,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.3565,
+       "ours_near_published": 0.3345
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.2812,
+       "ours_near_published": 0.2909
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.6899,
+       "ours_near_published": 0.5988
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 0.2563,
+     "ours_near_published": 0.2222,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.031
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1829
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.2317
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1933
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.229
+      }
+     ],
+     "chance_ceiling": 0.9932,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2507,
+       "ours_near_published": 0.2239
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.2732,
+       "ours_near_published": 0.2703
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.5915,
+       "ours_near_published": 0.5314
+      }
+     }
+    }
+   ]
+  },
+  "figS7": {
+   "file": "figS7.png",
+   "sha256": "274e4ed738dafeb9e7acca0ff25c9aaf97f0b3d491d6a51e6ae195381cf2eb6a",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc1-5_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.4960679812733,
+       -405.767030989332
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.0242,
+     "ours_near_published": 0.0323,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1715
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1787
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.0483
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.0242
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.0821
+      }
+     ],
+     "chance_ceiling": 0.7158,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.0338,
+       "ours_near_published": 0.0507
+      },
+      "rule_interval": {
+       "published_near_ours": 0.0773,
+       "ours_near_published": 0.0896
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.686,
+       "ours_near_published": 0.6454
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.50054160975344,
+       49.787973632936286
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 500,
+     "published_near_ours": 0.1678,
+     "ours_near_published": 0.1729,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0662
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0125
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1442
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1773
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.1773
+      }
+     ],
+     "chance_ceiling": 0.9412,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1537,
+       "ours_near_published": 0.1607
+      },
+      "rule_interval": {
+       "published_near_ours": 0.1608,
+       "ours_near_published": 0.1661
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.9031,
+       "ours_near_published": 0.8584
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.49606798127328,
+       505.2329690106679
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.0597,
+     "ours_near_published": 0.0572,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0644
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0269
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.0523
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.0556
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.0907
+      }
+     ],
+     "chance_ceiling": 0.9875,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.0549,
+       "ours_near_published": 0.0503
+      },
+      "rule_interval": {
+       "published_near_ours": 0.0955,
+       "ours_near_published": 0.0895
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.9332,
+       "ours_near_published": 0.8884
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.4960679812733,
+       -405.767030989332
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.1039,
+     "ours_near_published": 0.1693,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.314
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1135
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1063
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1039
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.157
+      }
+     ],
+     "chance_ceiling": 0.9735,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1039,
+       "ours_near_published": 0.1544
+      },
+      "rule_interval": {
+       "published_near_ours": 0.1546,
+       "ours_near_published": 0.2147
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.7826,
+       "ours_near_published": 0.756
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.50054160975344,
+       49.787973632936286
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 500,
+     "published_near_ours": 0.1899,
+     "ours_near_published": 0.2594,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2067
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1683
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1827
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1947
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2019
+      }
+     ],
+     "chance_ceiling": 0.9713,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1971,
+       "ours_near_published": 0.2527
+      },
+      "rule_interval": {
+       "published_near_ours": 0.2212,
+       "ours_near_published": 0.2741
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.8558,
+       "ours_near_published": 0.8192
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000,
+       50000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.49606798127328,
+       505.2329690106679
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 500,
+     "published_near_ours": 0.1014,
+     "ours_near_published": 0.1385,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1675
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1132
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.0943
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.1156
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.1321
+      }
+     ],
+     "chance_ceiling": 0.9946,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.1085,
+       "ours_near_published": 0.1457
+      },
+      "rule_interval": {
+       "published_near_ours": 0.1274,
+       "ours_near_published": 0.1599
+      },
+      "cochrane_sizes": {
+       "published_near_ours": 0.9481,
+       "ours_near_published": 0.9126
+      }
+     }
+    }
+   ]
+  },
+  "figS8": {
+   "file": "figS8.png",
+   "sha256": "43e0418f2fac351202f3fa62e5cb05802fd6366999cc21bfdf6115fc07567878",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc1-5_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.8381,
+     "ours_near_published": 0.7982,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0804
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.323
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5432
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8933
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.226
+      }
+     ],
+     "chance_ceiling": 0.9666,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.9514,
+       "ours_near_published": 0.8976
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.2955,
+       "ours_near_published": 0.3027
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.9683,
+     "ours_near_published": 0.9397,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0744
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2404
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7233
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6904
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3118
+      }
+     ],
+     "chance_ceiling": 0.9848,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8968,
+       "ours_near_published": 0.8482
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.2778,
+       "ours_near_published": 0.2793
+      }
+     }
+    },
+    {
+     "scenario": "common_pc1-5_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.8405,
+     "ours_near_published": 0.78,
+     "controls": [
+      {
+       "name": "PC 5-15% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2414
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1913
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5519
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.9844
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2936
+      }
+     ],
+     "chance_ceiling": 0.9934,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.93,
+       "ours_near_published": 0.8681
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.358,
+       "ours_near_published": 0.3589
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.8497,
+     "ours_near_published": 0.7951,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.138
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4932
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5436
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7947
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4011
+      }
+     ],
+     "chance_ceiling": 0.9965,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8681,
+       "ours_near_published": 0.8174
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5613,
+       "ours_near_published": 0.5432
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.8758,
+     "ours_near_published": 0.8442,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0901
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5954
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6252
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8316
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3853
+      }
+     ],
+     "chance_ceiling": 0.9983,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8261,
+       "ours_near_published": 0.7539
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.4907,
+       "ours_near_published": 0.4898
+      }
+     }
+    },
+    {
+     "scenario": "common_pc5-15_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.8693,
+     "ours_near_published": 0.8156,
+     "controls": [
+      {
+       "name": "PC 1-5% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1307
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.6579
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7008
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.678
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4039
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8389,
+       "ours_near_published": 0.7973
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.459,
+       "ours_near_published": 0.4519
+      }
+     }
+    }
+   ]
+  },
+  "figS9": {
+   "file": "figS9.png",
+   "sha256": "c5b15111f66b27f8e99c0358f5a776661c543129532997c313c34bfb65f6da85",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc15-40_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.50054160975347,
+       -336.29176490121085
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 200,
+     "published_near_ours": 0.7754,
+     "ours_near_published": 0.6338,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3996
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2655
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.8415
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.4912
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.5277
+      }
+     ],
+     "chance_ceiling": 0.9772,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7385,
+       "ours_near_published": 0.6151
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6708,
+       "ours_near_published": 0.5649
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.49606798127317,
+       119.29455512041908
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 200,
+     "published_near_ours": 0.7907,
+     "ours_near_published": 0.6578,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.318
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2935
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7295
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5626
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4466
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7384,
+       "ours_near_published": 0.6107
+      },
+      "rule_interval": {
+       "published_near_ours": 0.657,
+       "ours_near_published": 0.5641
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       174.4871207243129,
+       574.467195163678
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.55
+     },
+     "width": 200,
+     "published_near_ours": 0.8905,
+     "ours_near_published": 0.7577,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5529
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4991
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.748
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5837
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4193
+      }
+     ],
+     "chance_ceiling": 0.9967,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7954,
+       "ours_near_published": 0.665
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6311,
+       "ours_near_published": 0.5145
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.05_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.50054160975347,
+       -336.29176490121085
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.32
+     },
+     "width": 200,
+     "published_near_ours": 0.8279,
+     "ours_near_published": 0.7119,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3605
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2508
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.7323
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7063
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.5714
+      }
+     ],
+     "chance_ceiling": 0.9982,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7857,
+       "ours_near_published": 0.671
+      },
+      "rule_interval": {
+       "published_near_ours": 0.724,
+       "ours_near_published": 0.6283
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.15_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.49606798127317,
+       119.29455512041908
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.31
+     },
+     "width": 200,
+     "published_near_ours": 0.8135,
+     "ours_near_published": 0.7138,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3517
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5195
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6562
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7191
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4495
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8318,
+       "ours_near_published": 0.7388
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6024,
+       "ours_near_published": 0.5231
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.25_rrr0",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       174.4871207243129,
+       574.467195163678
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.55
+     },
+     "width": 200,
+     "published_near_ours": 0.8265,
+     "ours_near_published": 0.748,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.5833
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2857
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6661
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6416
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3912
+      }
+     ],
+     "chance_ceiling": 0.9984,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8324,
+       "ours_near_published": 0.7453
+      },
+      "rule_interval": {
+       "published_near_ours": 0.55,
+       "ours_near_published": 0.4524
+      }
+     }
+    }
+   ]
+  },
+  "figS10": {
+   "file": "figS10.png",
+   "sha256": "a08e1b0ba3d91efe1a146f3fce194bfc8c62d86b4e04eeb0aa8c3ac7bd5be3ad",
+   "size": [
+    1366,
+    651
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc15-40_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       428,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.686,
+     "ours_near_published": 0.576,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3889
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4138
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5243
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8154
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4537
+      }
+     ],
+     "chance_ceiling": 0.9913,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6982,
+       "ours_near_published": 0.5816
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6921,
+       "ours_near_published": 0.603
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       51,
+       884,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.7924,
+     "ours_near_published": 0.6683,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1797
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3004
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4944
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8303
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.379
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8421,
+       "ours_near_published": 0.7047
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.614,
+       "ours_near_published": 0.5461
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       51,
+       1339,
+       260
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -553.5714285714284,
+       252.74999999999997
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.7867,
+     "ours_near_published": 0.6844,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1988
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3852
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4236
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8371
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.355
+      }
+     ],
+     "chance_ceiling": 0.992,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8864,
+       "ours_near_published": 0.7974
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6399,
+       "ours_near_published": 0.6043
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.05_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       377,
+       428,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.00165452518075,
+       -200.0085655195008
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.03
+     },
+     "width": 50,
+     "published_near_ours": 0.6264,
+     "ours_near_published": 0.5851,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.547
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1976
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.513
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6882
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4828
+      }
+     ],
+     "chance_ceiling": 0.9757,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5977,
+       "ours_near_published": 0.5645
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.9511,
+       "ours_near_published": 0.9227
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.15_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       507,
+       377,
+       884,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.33374072711672,
+       254.2471959192342
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.49
+     },
+     "width": 50,
+     "published_near_ours": 0.531,
+     "ours_near_published": 0.4725,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3449
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3154
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3891
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6431
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.348
+      }
+     ],
+     "chance_ceiling": 0.9969,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.558,
+       "ours_near_published": 0.4926
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7925,
+       "ours_near_published": 0.7179
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.25_rrr0",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       962,
+       377,
+       1339,
+       586
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -552.8571428571436,
+       578.2500000000001
+      ],
+      "x_fit": [
+       166.65240604361233,
+       708.8245226057237
+      ],
+      "y_residual_px": 0.39,
+      "x_residual_px": 0.39
+     },
+     "width": 50,
+     "published_near_ours": 0.5508,
+     "ours_near_published": 0.5106,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2781
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2496
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.3449
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6692
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3248
+      }
+     ],
+     "chance_ceiling": 0.9486,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5802,
+       "ours_near_published": 0.533
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7193,
+       "ours_near_published": 0.6597
+      }
+     }
+    }
+   ]
+  },
+  "figS11": {
+   "file": "figS11.png",
+   "sha256": "66a1b8456f2be236723fe11a670304052cb74a40b6012e53950a24940fcac8c7",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc15-40_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 200,
+     "published_near_ours": 0.5377,
+     "ours_near_published": 0.3888,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2977
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1896
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4504
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3688
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.7452
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6062,
+       "ours_near_published": 0.4359
+      },
+      "rule_interval": {
+       "published_near_ours": 0.7534,
+       "ours_near_published": 0.548
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 200,
+     "published_near_ours": 0.4787,
+     "ours_near_published": 0.3566,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2839
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2356
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4266
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3448
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.7181
+      }
+     ],
+     "chance_ceiling": 0.9984,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5246,
+       "ours_near_published": 0.372
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6459,
+       "ours_near_published": 0.4738
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 200,
+     "published_near_ours": 0.4873,
+     "ours_near_published": 0.3815,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3368
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2083
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4621
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.3463
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.6537
+      }
+     ],
+     "chance_ceiling": 0.9925,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.449,
+       "ours_near_published": 0.3487
+      },
+      "rule_interval": {
+       "published_near_ours": 0.6401,
+       "ours_near_published": 0.4977
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.05_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.48218292400142,
+       -307.52874115392206
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 200,
+     "published_near_ours": 0.6254,
+     "ours_near_published": 0.4683,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3121
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1901
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4771
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.4514
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.782
+      }
+     ],
+     "chance_ceiling": 0.9503,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6219,
+       "ours_near_published": 0.4705
+      },
+      "rule_interval": {
+       "published_near_ours": 0.7986,
+       "ours_near_published": 0.5805
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.15_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       161.05729583534068,
+       120.4570169600285
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.37
+     },
+     "width": 200,
+     "published_near_ours": 0.5842,
+     "ours_near_published": 0.4582,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.7363
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2823
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5392
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.423
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.755
+      }
+     ],
+     "chance_ceiling": 0.9282,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.6117,
+       "ours_near_published": 0.4885
+      },
+      "rule_interval": {
+       "published_near_ours": 0.7732,
+       "ours_near_published": 0.5892
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.25_rrr10",
+     "axis": "patients",
+     "rule": "nearest",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       200,
+       500,
+       1000,
+       2000,
+       5000,
+       10000,
+       20000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       160.94660043469534,
+       547.5397765101459
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.38
+     },
+     "width": 200,
+     "published_near_ours": 0.7344,
+     "ours_near_published": 0.5797,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4072
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.4185
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.6185
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.442
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.5954
+      }
+     ],
+     "chance_ceiling": 0.8461,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.8066,
+       "ours_near_published": 0.577
+      },
+      "rule_interval": {
+       "published_near_ours": 0.8361,
+       "ours_near_published": 0.6697
+      }
+     }
+    }
+   ]
+  },
+  "figS12": {
+   "file": "figS12.png",
+   "sha256": "5497218676e1d6980a60a04d3c2046584d06c87117b1879615d75301452e8a5d",
+   "size": [
+    1280,
+    695
+   ],
+   "panels": [
+    {
+     "scenario": "common_pc15-40_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       51,
+       400,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.721,
+     "ours_near_published": 0.6327,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2452
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.19
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4608
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.8532
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3677
+      }
+     ],
+     "chance_ceiling": 1.0,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7431,
+       "ours_near_published": 0.6694
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.6188,
+       "ours_near_published": 0.5932
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       51,
+       826,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.8575,
+     "ours_near_published": 0.7944,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.118
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2132
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.5532
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.6972
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4483
+      }
+     ],
+     "chance_ceiling": 0.9813,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7473,
+       "ours_near_published": 0.6851
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5699,
+       "ours_near_published": 0.5105
+      }
+     }
+    },
+    {
+     "scenario": "common_pc15-40_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       51,
+       1253,
+       282
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -610.4761904761907,
+       273.8333333333334
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 1.0,
+     "ours_near_published": 0.9922,
+     "controls": [
+      {
+       "name": "PC 40-80% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.0821
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.2036
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.663
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.5432
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.4029
+      }
+     ],
+     "chance_ceiling": 0.9969,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.9555,
+       "ours_near_published": 0.9128
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5445,
+       "ours_near_published": 0.5237
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.05_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       51,
+       399,
+       400,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64299461482057,
+       -181.70939252555584
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.47
+     },
+     "width": 50,
+     "published_near_ours": 0.6092,
+     "ours_near_published": 0.5744,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.3864
+      },
+      {
+       "name": "tau2 0.25 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1783
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.412
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.729
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3825
+      }
+     ],
+     "chance_ceiling": 0.9092,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.7278,
+       "ours_near_published": 0.7077
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.7763,
+       "ours_near_published": 0.7608
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.15_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       478,
+       399,
+       826,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.64746824330078,
+       244.85008572519226
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.46
+     },
+     "width": 50,
+     "published_near_ours": 0.7287,
+     "ours_near_published": 0.6703,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1809
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1463
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.4169
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7375
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.3798
+      }
+     ],
+     "chance_ceiling": 0.8647,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.5239,
+       "ours_near_published": 0.4776
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.8218,
+       "ours_near_published": 0.7766
+      }
+     }
+    },
+    {
+     "scenario": "common_pc40-80_tau0.25_rrr10",
+     "axis": "events",
+     "rule": "interval",
+     "calibration": {
+      "box": [
+       905,
+       399,
+       1253,
+       630
+      ],
+      "y_ticks": 8,
+      "x_ticks": [
+       50,
+       100,
+       200,
+       500,
+       1000,
+       2000,
+       5000
+      ],
+      "y_fit": [
+       -609.5238095238102,
+       621.1666666666667
+      ],
+      "x_fit": [
+       153.6385209863405,
+       671.7311292236956
+      ],
+      "y_residual_px": 0.31,
+      "x_residual_px": 0.4
+     },
+     "width": 50,
+     "published_near_ours": 0.4263,
+     "ours_near_published": 0.3706,
+     "controls": [
+      {
+       "name": "PC 15-40% (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1233
+      },
+      {
+       "name": "tau2 0.05 (wrong input)",
+       "kind": "wrong_input",
+       "score": 0.1153
+      },
+      {
+       "name": "ours x1.05",
+       "kind": "near_miss",
+       "score": 0.1804
+      },
+      {
+       "name": "ours x0.95",
+       "kind": "near_miss",
+       "score": 0.7214
+      },
+      {
+       "name": "ours one point right",
+       "kind": "near_miss",
+       "score": 0.2175
+      }
+     ],
+     "chance_ceiling": 0.9505,
+     "hypotheses": {
+      "second_run": {
+       "published_near_ours": 0.2735,
+       "ours_near_published": 0.2431
+      },
+      "rule_nearest": {
+       "published_near_ours": 0.5764,
+       "ours_near_published": 0.5124
+      }
+     }
+    }
+   ]
+  }
+ }
+}
