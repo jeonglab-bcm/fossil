@@ -4,7 +4,8 @@ For each item of <paper>/results.json (schema paper2repro/results/v1) that the P
 Claude explains in simple words why the item matched the paper or not, using only what the
 repository says: the paper's value and ours, the tolerance, the verdict, the cause and its tested
 hypotheses, the assumptions and any reviewer note. It flags a verdict the evidence seems to
-contradict. It changes no file; a normal approval of the PR is the final conclusion.
+contradict. For a partly or inconclusive item it may suggest the verdict a named reviewer (default
+hyunhwan-bcm) would likely give, citing one of that reviewer's past review blocks on the base branch. It changes no file; a normal approval of the PR is the final conclusion.
 
 The prompt asks for plain text in the style of the STE80 Humanizer skill (80% of ASD-STE100), and
 tools/ste80/ste_check.py checks the answer; its notes go to the log and ai-review.json only.
@@ -21,8 +22,10 @@ Usage:
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
+import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "paper2repro"))
@@ -35,6 +38,12 @@ MATCHED = {"exact", "agrees"}
 # Items can hold thousands of compared values. Above MAX_FIELDS the prompt carries a sample: up to
 # SHOW_OUTSIDE values outside their band and SHOW_INSIDE inside it. The counts in "facts" stay exact.
 MAX_FIELDS, SHOW_OUTSIDE, SHOW_INSIDE = 40, 25, 10
+# The reviewer whose past review blocks teach the "likely reviewer verdict" (--reviewer to change).
+REVIEWER = "hyunhwan-bcm"
+# The Paper2Repro review page: ?r=owner/repo/pull/N shows a PR's figures, tables and numbers with
+# decision buttons; #i-<item id> scrolls to one item.
+REVIEW_PAGE = "https://jeonglab-bcm.github.io/Paper2Repro/"
+SUGGEST_FOR = {"partly", "inconclusive"}  # the computed verdicts this reviewer has changed before
 MARK_OK, MARK_FLAG = "✅", "⚠️ worth a look"
 
 SYSTEM = """You review a scientific paper reproduction for the people approving a pull request. \
@@ -79,7 +88,20 @@ How to write (adapted from the STE80 Humanizer skill, MIT, github.com/Dodaios/st
 - Keep numbers, names and identifiers exactly as written.
 - overview (only when asked for it): two or three sentences on which main claims hold and what \
 mostly does not match; otherwise "".
-- Return exactly one entry per item id given, in the same order."""
+- Return exactly one entry per item id given, in the same order.
+
+Likely reviewer verdict:
+- You get the past decisions of one reviewer as <precedent> entries: the item, what the numbers \
+gave, what the reviewer set, the cause and the reviewer's note.
+- For an item whose verdict is partly or inconclusive and that has no review block, compare it \
+with the precedents. When one precedent has the same kind of gap (for example Monte Carlo noise, \
+a gap of a few samples with no seeds given, figure resolution, or a setting the paper does not \
+give), set likely_verdict to what that reviewer set, precedent to that precedent's key exactly, \
+and likely_reason to one plain sentence that names the shared kind of gap.
+- Be strict about "same kind of gap". A larger gap, a different cause, or a gap the precedent's \
+note does not cover is not a match. When nothing matches, leave all three fields "".
+- For every other item, leave all three fields "".
+- The suggestion is advice for the reviewer. It never changes the verdict you explain."""
 
 SCHEMA = {
     "type": "object",
@@ -95,8 +117,12 @@ SCHEMA = {
                     "explanation": {"type": "string"},
                     "flag": {"type": "boolean"},
                     "flag_reason": {"type": "string"},
+                    "likely_verdict": {"type": "string", "enum": ["", "agrees", "partly", "differs"]},
+                    "precedent": {"type": "string"},
+                    "likely_reason": {"type": "string"},
                 },
-                "required": ["id", "one_line", "explanation", "flag", "flag_reason"],
+                "required": ["id", "one_line", "explanation", "flag", "flag_reason",
+                             "likely_verdict", "precedent", "likely_reason"],
                 "additionalProperties": False,
             },
         },
@@ -113,6 +139,25 @@ class ReviewError(Exception):
 def load_base(paper, base):
     r = subprocess.run(["git", "show", f"origin/{base}:{paper}/results.json"], capture_output=True, text=True)
     return json.loads(r.stdout) if r.returncode == 0 else None
+
+
+def load_precedents(base, reviewer):
+    """The reviewer's past review blocks in every <paper>/results.json on the base branch."""
+    r = subprocess.run(["git", "ls-tree", "-d", "--name-only", f"origin/{base}"], capture_output=True, text=True)
+    out = {}
+    for paper in sorted(d for d in r.stdout.split() if d.startswith("PMC")):
+        spec = load_base(paper, base)
+        for it in (spec or {}).get("items", []):
+            rv = it.get("review") or {}
+            if rv.get("by") != reviewer:
+                continue
+            cause = it.get("cause") or {}
+            out[f"{paper}/{it['id']}"] = {
+                "label": it.get("label", ""), "numbers_gave": rv.get("computed"), "reviewer_set": rv.get("verdict"),
+                "measure": facts(it).get("measure", ""), "cause": f"{cause.get('category')} ({cause.get('status')}): "
+                + str(cause.get("summary", ""))[:400], "note": str(rv.get("note", ""))[:400], "url": rv.get("url", ""),
+            }
+    return out
 
 
 def changed_items(head, base):
@@ -154,7 +199,7 @@ def sampled(item):
     return item
 
 
-def build_prompt(paper, head, pairs, new_paper):
+def build_prompt(paper, head, pairs, new_paper, precedents=None):
     title = head.get("paper", {}).get("citation") or head.get("paper", {}).get("title", "")
     blocks = []
     for item, before in pairs:
@@ -168,7 +213,12 @@ def build_prompt(paper, head, pairs, new_paper):
     ask = ("This pull request adds the reproduction, so every item is new. Also write the overview."
            if new_paper else
            f"This pull request changes these {len(pairs)} items. Leave overview empty.")
-    return f"Paper {paper}: {title}\n\n{ask}\n\n" + "\n\n".join(blocks)
+    prec = ""
+    if precedents:
+        prec = (f"Past decisions of reviewer {REVIEWER} ({len(precedents)}):\n\n" + "\n".join(
+            f'<precedent key="{k}">{json.dumps({x: y for x, y in v.items() if x != "url"}, ensure_ascii=False)}</precedent>'
+            for k, v in precedents.items()) + "\n\n")
+    return f"{prec}Paper {paper}: {title}\n\n{ask}\n\n" + "\n\n".join(blocks)
 
 
 def call_claude(prompt):
@@ -213,6 +263,22 @@ def validate(answer, pairs):
     return [by_id[i] for i in want]
 
 
+def check_suggestions(entries, items, precedents):
+    """Keep a likely verdict only for an unreviewed partly/inconclusive item that cites a real precedent."""
+    dropped = []
+    for e in entries:
+        if not e.get("likely_verdict"):
+            e["likely_verdict"] = e["precedent"] = e["likely_reason"] = ""
+            continue
+        it = items[e["id"]]
+        ok = (it.get("verdict") in SUGGEST_FOR and not it.get("review") and e.get("precedent") in precedents
+              and e["likely_verdict"] != it.get("verdict"))
+        if not ok:
+            dropped.append(f"{e['id']} ({e.get('likely_verdict')}, cites {e.get('precedent')!r})")
+            e["likely_verdict"] = e["precedent"] = e["likely_reason"] = ""
+    return dropped
+
+
 def verdict_cell(item):
     v = item.get("verdict", "?").replace("_", " ")
     r = item.get("review")
@@ -226,21 +292,40 @@ def style_notes(answer):
     notes = []
     texts = [("overview", answer.get("overview", ""))]
     for e in answer.get("items", []):
-        texts += [(f"{e['id']}.{k}", e.get(k, "")) for k in ("one_line", "explanation", "flag_reason")]
+        texts += [(f"{e['id']}.{k}", e.get(k, "")) for k in ("one_line", "explanation", "flag_reason", "likely_reason")]
     for where, text in texts:
         for f in ste_check.check(text, strict=False) if text else []:
             notes.append({"where": where, "rule": f.rule, "message": f.message, "excerpt": f.excerpt})
     return notes
 
 
+def review_link(repo, pr, item_id=None):
+    """The review page for a pull request, at one item when item_id is given; "" without repo and pr."""
+    if not (repo and pr):
+        return ""
+    url = f"{REVIEW_PAGE}?r={repo}/pull/{pr}"
+    return url + (f"#i-{urllib.parse.quote(str(item_id), safe='.-_')}" if item_id else "")
+
+
+def precedent_review_link(p, key):
+    """The review page at the precedent's item, from the pull request its review url names."""
+    m = re.match(r"https://github\.com/([^/]+/[^/]+)/pull/(\d+)", p.get("url") or "")
+    return review_link(m.group(1), m.group(2), key.split("/", 1)[1]) if m else ""
+
+
 def cell(s):
     return str(s).replace("|", "\\|").replace("\n", " ")
 
 
-def render(paper, head, pairs, removed, answer, new_paper):
+def render(paper, head, pairs, removed, answer, new_paper, precedents=None, repo="", pr=""):
+    precedents = precedents or {}
     entries = validate(answer, pairs)
     items = {i["id"]: i for i, _ in pairs}
+    dropped = check_suggestions(entries, items, precedents)
+    if dropped:
+        print("dropped likely verdicts that cite no real precedent: " + "; ".join(dropped), file=sys.stderr)
     n_flag = sum(e["flag"] for e in entries)
+    n_likely = sum(bool(e["likely_verdict"]) for e in entries)
     out = []
     if new_paper:
         s = head.get("summary", {})
@@ -250,28 +335,50 @@ def render(paper, head, pairs, removed, answer, new_paper):
             out += ["", answer["overview"]]
     else:
         out.append(f"#### 🤖 AI review of the {len(pairs)} item{'s' if len(pairs) != 1 else ''} this PR changes")
+    page = review_link(repo, pr)
+    if page:
+        out += ["", f"To look closer, open this PR in the [review page]({page}). It shows each figure and table with its "
+                "numbers, and lets you record a decision. Each item name below links to that item there."]
     out += ["", "| Item | Verdict | In one line | |", "| --- | --- | --- | --- |"]
     for e in entries:
         it = items[e["id"]]
-        out.append(f"| {cell(it.get('label', e['id']))} | {verdict_cell(it)} | {cell(e['one_line'])} | {MARK_FLAG if e['flag'] else MARK_OK} |")
+        mark = MARK_FLAG if e["flag"] else MARK_OK
+        if e["likely_verdict"]:
+            mark += f"<br><sub>{REVIEWER} would likely say {e['likely_verdict']}</sub>"
+        name = cell(it.get("label", e["id"]))
+        if page:
+            name = f"[{name}]({review_link(repo, pr, e['id'])})"
+        out.append(f"| {name} | {verdict_cell(it)} | {cell(e['one_line'])} | {mark} |")
     if removed:
         out += ["", "Removed in this PR: " + ", ".join(f"`{r}`" for r in removed) + "."]
     out.append("")
     for e in entries:
         it = items[e["id"]]
         matched = it.get("verdict") in MATCHED
-        if new_paper and matched and not e["flag"]:
+        if new_paper and matched and not e["flag"] and not e["likely_verdict"]:
             continue  # a new paper's matched items are table rows only
         why = "why it matched" if matched else ("why we did not score it" if it.get("verdict") == "not_attempted" else "why it did not fully match")
         head_ = f"{'⚠️ ' if e['flag'] else ''}<b>{cell(it.get('label', e['id']))}: {it.get('verdict', '?').replace('_', ' ')}</b>, {why}"
         body = e["explanation"]
         if e["flag"]:
             body += f"\n\n**Worth a look:** {e['flag_reason']}"
+        if e["likely_verdict"]:
+            p = precedents[e["precedent"]]
+            ref = f"[{e['precedent']}]({p['url']})" if p.get("url") else e["precedent"]
+            body += (f"\n\n**Likely reviewer verdict: {e['likely_verdict']}.** {e['likely_reason']} "
+                     f"{REVIEWER} set {p['reviewer_set']} on {ref}, where the numbers gave {p['numbers_gave']}.")
+            then = precedent_review_link(p, e["precedent"])
+            if then and page:
+                body += f" Compare the two in the review page: [this item]({review_link(repo, pr, e['id'])}), [the past one]({then})."
+        if page:
+            body += f"\n\n[See this item in the review page]({review_link(repo, pr, e['id'])})"
         if it.get("review", {}).get("url"):
             body += f"\n\n[Review by {it['review'].get('by', 'the reviewer')}]({it['review']['url']})"
         out += [f"<details><summary>{head_}</summary>", "", body, "</details>", ""]
     out.append("**Final conclusion:** approve this PR if you accept the verdicts above."
-               + (f" First check the {n_flag} item{'s' if n_flag != 1 else ''} marked ⚠️." if n_flag else " The AI flagged nothing."))
+               + (f" First check the {n_flag} item{'s' if n_flag != 1 else ''} marked ⚠️." if n_flag else " The AI flagged nothing.")
+               + (f" {n_likely} item{'s look like gaps' if n_likely != 1 else ' looks like a gap'} {REVIEWER} accepted before."
+                  " To change a verdict, add a review block." if n_likely else ""))
     out.append("")
     out.append(f"<sub>{MODEL} wrote this from the PR's results.json only. It changes no file. Check the numbers before you rely on it.</sub>")
     return "\n".join(out)
@@ -289,7 +396,11 @@ def main():
     ap.add_argument("--out", default="results-check", help="folder for ai-review.md and ai-review.json")
     ap.add_argument("--dry-run", action="store_true", help="print the prompt; call nothing")
     ap.add_argument("--response", help="render this saved answer (JSON) instead of calling the API")
+    ap.add_argument("--reviewer", default=REVIEWER, help="GitHub login whose past review blocks guide the likely verdict")
+    ap.add_argument("--repo", default="", help="owner/repo, for links to the review page")
+    ap.add_argument("--pr", default="", help="the PR number, for links to the review page")
     args = ap.parse_args()
+    globals()["REVIEWER"] = args.reviewer
 
     os.makedirs(args.out, exist_ok=True)
     md_path, json_path = os.path.join(args.out, "ai-review.md"), os.path.join(args.out, "ai-review.json")
@@ -314,7 +425,9 @@ def main():
         print(body)
         return 0
 
-    prompt = build_prompt(args.paper, head, pairs, new_paper)
+    precedents = load_precedents(args.base, args.reviewer)
+    print(f"{len(precedents)} past decisions by {args.reviewer} loaded", file=sys.stderr)
+    prompt = build_prompt(args.paper, head, pairs, new_paper, precedents)
     if args.dry_run:
         print(SYSTEM, "\n\n---\n", prompt)
         return 0
@@ -324,7 +437,7 @@ def main():
                 answer = json.load(f)
         else:
             answer = call_claude(prompt)
-        body = render(args.paper, head, pairs, removed, answer, new_paper)
+        body = render(args.paper, head, pairs, removed, answer, new_paper, precedents, args.repo, args.pr)
         notes = style_notes(answer)
         with open(json_path, "w") as f:
             json.dump({"paper": args.paper, "model": MODEL, "answer": answer, "style_notes": notes}, f, indent=1, ensure_ascii=False)

@@ -164,9 +164,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PAPER: ${{ matrix.paper }}
           BASE: ${{ needs.find.outputs.base }}
+          PR: ${{ needs.find.outputs.number }}
         run: |
           set -o pipefail
-          python3 tools/ai_review.py "$PAPER" --base "$BASE" --out results-check | tee -a "$GITHUB_STEP_SUMMARY"
+          python3 tools/ai_review.py "$PAPER" --base "$BASE" --out results-check --repo "$GITHUB_REPOSITORY" --pr "$PR" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Comment on the PR with the diffs, the figure overlays and the AI review
         if: ${{ !cancelled() && needs.find.outputs.same_repo == 'true' && (hashFiles('results-check/results-check.json') != '' || hashFiles('results-check/ai-review.md') != '') }}
