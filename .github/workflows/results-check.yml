@@ -1,10 +1,18 @@
 name: Results check
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('Results check for PR #{0}', inputs.pr) || '' }}"
 
 # A pull request that creates or changes a reproduction's results.json: compare it with the outputs
 # committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
 # the diffs and an overlay of each published figure with the committed render.
 # A separate job checks that every paper the PR adds, or whose results.json it changes, names the
 # Paper2Repro release it was made with (tools/check_skill.py).
+# The comment ends with a plain-language AI review (tools/ai_review.py) of the items the PR changes in
+# <paper>/results.json: why each matched the paper or not, and a flag where the evidence seems to
+# contradict the verdict. It needs the ANTHROPIC_API_KEY secret; without it (e.g. a PR from a fork) the
+# step fails. A normal approval of the PR is the final conclusion. A paper with only a paper-level
+# results.json gets a comment with the AI review alone.
+# Run workflow (workflow_dispatch) runs the same check on an open PR by number, with this branch's tools,
+# without pushing to the PR's branch.
 on:
   pull_request:
     paths:
@@ -13,6 +21,12 @@ on:
       - "tools/site_versions.py"
       - "site/index.html"
       - ".github/workflows/results-check.yml"
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request number"
+        required: true
+        type: number
 
 permissions:
   contents: write        # the figure overlays go to the ci-assets branch
@@ -20,6 +34,7 @@ permissions:
 
 jobs:
   skill:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -44,17 +59,46 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       papers: ${{ steps.find.outputs.papers }}
+      base: ${{ steps.pr.outputs.base }}
+      sha: ${{ steps.pr.outputs.sha }}
+      number: ${{ steps.pr.outputs.number }}
+      same_repo: ${{ steps.pr.outputs.same_repo }}
     steps:
+      - id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          INPUT_PR: ${{ inputs.pr }}
+          PR_BASE: ${{ github.base_ref }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$INPUT_PR")
+            [ "$(jq -r .state <<<"$pr")" = open ] || { echo "PR #$INPUT_PR is not open"; exit 1; }
+            {
+              echo "base=$(jq -r .base.ref <<<"$pr")"
+              echo "sha=$(jq -r .head.sha <<<"$pr")"
+              echo "number=$INPUT_PR"
+              echo "same_repo=$(jq -r --arg r "$GITHUB_REPOSITORY" '.head.repo.full_name == $r' <<<"$pr")"
+            } >> "$GITHUB_OUTPUT"
+          else
+            { echo "base=$PR_BASE"; echo "sha=$PR_SHA"; echo "number=$PR_NUMBER"; echo "same_repo=$PR_SAME_REPO"; } >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/pull/{0}/head', inputs.pr) || '' }}
 
       - id: find
         env:
-          BASE: ${{ github.base_ref }}
+          BASE: ${{ steps.pr.outputs.base }}
         run: |
-          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' \
-            | cut -d/ -f1 | sort -u | jq -R . | jq -cs .)
+          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' 'PMC*/results.json' \
+            | cut -d/ -f1 | sort -u | while read -r p; do if [ -f "$p/results.json" ] || [ -f "$p/figure-reproduction/results.json" ]; then echo "$p"; fi; done \
+            | jq -R . | jq -cs .)
           echo "papers=$papers" >> "$GITHUB_OUTPUT"
           echo "results.json created or changed in: $papers"
 
@@ -70,33 +114,56 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/pull/{0}/head', inputs.pr) || '' }}
+
+      # On a manual run the PR's own branch may predate the current tools: use the tools of the branch
+      # the workflow runs from.
+      - name: Use the current tools
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          TOOLS_REF: ${{ github.sha }}
+        run: git checkout "$TOOLS_REF" -- tools
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install Python packages
-        run: pip install numpy scipy pillow
+        run: pip install numpy scipy pillow anthropic
 
       - name: Check results.json against the committed outputs
+        if: hashFiles(format('{0}/figure-reproduction/results.json', matrix.paper)) != ''
         env:
           PAPER: ${{ matrix.paper }}
         run: |
           set -o pipefail
           python3 tools/check_results.py "$PAPER/figure-reproduction/results.json" --committed --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
 
-      - name: Comment on the PR with the diffs and the figure overlays
-        if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository && hashFiles('results-check/results-check.json') != '' }}
+      - name: AI review of the items this PR changes
+        if: ${{ !cancelled() }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAPER: ${{ matrix.paper }}
+          BASE: ${{ needs.find.outputs.base }}
+        run: |
+          set -o pipefail
+          python3 tools/ai_review.py "$PAPER" --base "$BASE" --out results-check | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR with the diffs, the figure overlays and the AI review
+        if: ${{ !cancelled() && needs.find.outputs.same_repo == 'true' && (hashFiles('results-check/results-check.json') != '' || hashFiles('results-check/ai-review.md') != '') }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           PAPER: ${{ matrix.paper }}
-          BASE: ${{ github.base_ref }}
-          PR: ${{ github.event.pull_request.number }}
-          SHA: ${{ github.event.pull_request.head.sha }}
+          BASE: ${{ needs.find.outputs.base }}
+          PR: ${{ needs.find.outputs.number }}
+          SHA: ${{ needs.find.outputs.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: >
-          python3 tools/pr_comment.py "$PAPER" --check results-check/results-check.json --base "$BASE"
-          --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL"
+        run: |
+          check=()
+          if [ -f results-check/results-check.json ]; then check=(--check results-check/results-check.json); fi
+          python3 tools/pr_comment.py "$PAPER" "${check[@]}" --base "$BASE" \
+            --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL" \
+            --ai-review results-check/ai-review.md
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
