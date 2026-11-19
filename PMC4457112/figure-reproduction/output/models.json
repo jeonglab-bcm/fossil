@@ -1,0 +1,443 @@
+{
+ "training_sample": 398268,
+ "training_sample_rct": 17919,
+ "alpha": 0.05,
+ "candidate_features": {
+  "title_unigrams": 103251,
+  "title_bigrams": 1507176,
+  "title_trigrams": 2316707,
+  "abstract_unigrams": 318740,
+  "abstract_bigrams": 13701313,
+  "abstract_trigrams": 35067093,
+  "journal": 6670,
+  "authors": 785120,
+  "author_count": 9,
+  "keywords": 4319,
+  "mesh_terms": 24197,
+  "mesh_major": 21099,
+  "mesh_qualified": 166581,
+  "chemicals": 34568,
+  "pubtypes": 57
+ },
+ "models": {
+  "citation_only": {
+   "forward_selection": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "abstract_trigrams",
+     "title_unigrams",
+     "author_count",
+     "journal",
+     "title_bigrams",
+     "authors",
+     "title_trigrams",
+     "keywords"
+    ],
+    "n_features": 53810398,
+    "nonzero_weights": 10413730,
+    "sigmoid": [
+     -4.514396438694902,
+     -0.28297397829152193
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9681014698256449,
+     "auc_ci_low": 0.9663298420545327,
+     "auc_ci_high": 0.9698730975967572,
+     "average_precision": 0.8577441477521931,
+     "f1": 0.8069667041220652,
+     "accuracy": 0.9841572240194734,
+     "precision": 0.8994133544262078,
+     "recall": 0.7317530970129243,
+     "mse": 0.013263999417268788,
+     "mse_sigmoid": 0.05458996493542138
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9657977728108404,
+     "auc_ci_low": 0.9640422308331901,
+     "auc_ci_high": 0.9675533147884908,
+     "average_precision": 0.8498264969642314,
+     "f1": 0.8031942438200104,
+     "accuracy": 0.98365845931022,
+     "precision": 0.8986399951210587,
+     "recall": 0.7260766729082487,
+     "mse": 0.013778972750496454,
+     "mse_sigmoid": 0.054605555161407526
+    },
+    "cv": {
+     "auc": 0.971342301381835,
+     "average_precision": 0.8593036414291045,
+     "f1": 0.7995947236780057,
+     "accuracy": 0.9838581055972361,
+     "mse_sigmoid": 0.05899529797762935,
+     "folds": 10
+    }
+   },
+   "posthoc": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "abstract_trigrams",
+     "title_unigrams",
+     "author_count",
+     "journal",
+     "title_bigrams",
+     "authors",
+     "title_trigrams",
+     "keywords"
+    ],
+    "n_features": 2628721,
+    "nonzero_weights": 2628475,
+    "sigmoid": [
+     -4.156950074298721,
+     -0.38013943089356494
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9666360387586209,
+     "auc_ci_low": 0.9648261204071047,
+     "auc_ci_high": 0.9684459571101371,
+     "average_precision": 0.8566613550518226,
+     "f1": 0.8066988194218422,
+     "accuracy": 0.9841450895403216,
+     "precision": 0.8998019801980198,
+     "recall": 0.7310559339303909,
+     "mse": 0.013326454632427537,
+     "mse_sigmoid": 0.04514938930948533
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9640723801283786,
+     "auc_ci_low": 0.9622753838222076,
+     "auc_ci_high": 0.9658693764345496,
+     "average_precision": 0.8485802506851312,
+     "f1": 0.8029447852760737,
+     "accuracy": 0.9836448809631574,
+     "precision": 0.8988462242842318,
+     "recall": 0.7255346407805263,
+     "mse": 0.01383266283241041,
+     "mse_sigmoid": 0.04517444201582595
+    }
+   },
+   "chisq": {
+    "sets": [
+     "title_unigrams",
+     "title_bigrams",
+     "title_trigrams",
+     "abstract_unigrams",
+     "abstract_bigrams",
+     "abstract_trigrams",
+     "journal",
+     "authors",
+     "author_count",
+     "keywords"
+    ],
+    "n_features": 2628721,
+    "nonzero_weights": 2075617,
+    "sigmoid": [
+     -4.75625299988846,
+     -1.6975106807171536
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9566288505451288,
+     "auc_ci_low": 0.9545804863082717,
+     "auc_ci_high": 0.9586772147819859,
+     "average_precision": 0.8389820431266551,
+     "f1": 0.7342007434944239,
+     "accuracy": 0.980565418190555,
+     "precision": 0.9633307203205296,
+     "recall": 0.5931248994476324,
+     "mse": 0.013996931548324302,
+     "mse_sigmoid": 0.041836372277164725
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9536406803591967,
+     "auc_ci_low": 0.9516151330453766,
+     "auc_ci_high": 0.9556662276730168,
+     "average_precision": 0.8297011699853505,
+     "f1": 0.7274174293672901,
+     "accuracy": 0.9798474699013306,
+     "precision": 0.9601616161616162,
+     "recall": 0.5854932492362275,
+     "mse": 0.01462763114451959,
+     "mse_sigmoid": 0.04194341107581715
+    }
+   },
+   "plus_pubtypes": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "abstract_trigrams",
+     "title_unigrams",
+     "author_count",
+     "journal",
+     "title_bigrams",
+     "authors",
+     "title_trigrams",
+     "keywords",
+     "pubtypes"
+    ],
+    "n_features": 53810455,
+    "nonzero_weights": 7440571,
+    "sigmoid": [
+     -4.745010735437312,
+     -0.34919031773131454
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9690035846168046,
+     "auc_ci_low": 0.9672560335073521,
+     "auc_ci_high": 0.970751135726257,
+     "average_precision": 0.8394334407548782,
+     "f1": 0.7736243747157799,
+     "accuracy": 0.9818783688347745,
+     "precision": 0.8898730645836239,
+     "recall": 0.684238751541803,
+     "mse": 0.014894329181037171,
+     "mse_sigmoid": 0.04878184564460083
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9650860371262232,
+     "auc_ci_low": 0.9633132506302966,
+     "auc_ci_high": 0.9668588236221498,
+     "average_precision": 0.8334342296921795,
+     "f1": 0.7745004757373929,
+     "accuracy": 0.9817642798949942,
+     "precision": 0.8962435233160622,
+     "recall": 0.6818764166748793,
+     "mse": 0.01513967893309131,
+     "mse_sigmoid": 0.04894490388773563
+    }
+   }
+  },
+  "citation_plus_mesh": {
+   "forward_selection": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "mesh_terms",
+     "abstract_trigrams",
+     "title_unigrams",
+     "journal",
+     "author_count",
+     "authors",
+     "mesh_qualified",
+     "title_trigrams",
+     "title_bigrams",
+     "chemicals",
+     "keywords"
+    ],
+    "n_features": 54035744,
+    "nonzero_weights": 9676773,
+    "sigmoid": [
+     -4.637692064444744,
+     -0.34983633851644613
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9737672539852859,
+     "auc_ci_low": 0.9721539884424749,
+     "auc_ci_high": 0.9753805195280968,
+     "average_precision": 0.8773212362674975,
+     "f1": 0.8244632553235113,
+     "accuracy": 0.9854556132887108,
+     "precision": 0.9083516199819285,
+     "recall": 0.7547594787365259,
+     "mse": 0.012064071406241888,
+     "mse_sigmoid": 0.0521636015231158
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9715034581870093,
+     "auc_ci_low": 0.9698943199234868,
+     "auc_ci_high": 0.9731125964505318,
+     "average_precision": 0.8713075286934333,
+     "f1": 0.8221339601740023,
+     "accuracy": 0.9851022902145379,
+     "precision": 0.9100915235987318,
+     "recall": 0.749679708288164,
+     "mse": 0.01255765003163459,
+     "mse_sigmoid": 0.05223790904641405
+    },
+    "cv": {
+     "auc": 0.9761872640852806,
+     "average_precision": 0.8791497080848899,
+     "f1": 0.8169511362280015,
+     "accuracy": 0.9851451786234394,
+     "mse_sigmoid": 0.05706727179917076,
+     "folds": 10
+    }
+   },
+   "posthoc": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "mesh_terms",
+     "abstract_trigrams",
+     "title_unigrams",
+     "journal",
+     "author_count",
+     "authors",
+     "mesh_qualified",
+     "title_trigrams",
+     "title_bigrams",
+     "chemicals",
+     "keywords"
+    ],
+    "n_features": 2651049,
+    "nonzero_weights": 2650954,
+    "sigmoid": [
+     -4.314408914408268,
+     -0.44901710433008885
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.972695370990741,
+     "auc_ci_low": 0.9710507598510688,
+     "auc_ci_high": 0.9743399821304132,
+     "average_precision": 0.8767917827947235,
+     "f1": 0.8251391737474362,
+     "accuracy": 0.9855162856844696,
+     "precision": 0.9094490731770328,
+     "recall": 0.7551348742425055,
+     "mse": 0.01210939412328149,
+     "mse_sigmoid": 0.04352236222551979
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9701809466929414,
+     "auc_ci_low": 0.9685364797459186,
+     "auc_ci_high": 0.9718254136399642,
+     "average_precision": 0.8705059349581423,
+     "f1": 0.8223580975055462,
+     "accuracy": 0.9851407621978818,
+     "precision": 0.9118070554355652,
+     "recall": 0.7488912979205676,
+     "mse": 0.012584231015591073,
+     "mse_sigmoid": 0.0435921797379321
+    }
+   },
+   "chisq": {
+    "sets": [
+     "title_unigrams",
+     "title_bigrams",
+     "title_trigrams",
+     "abstract_unigrams",
+     "abstract_bigrams",
+     "abstract_trigrams",
+     "journal",
+     "authors",
+     "author_count",
+     "keywords",
+     "mesh_terms",
+     "mesh_major",
+     "mesh_qualified",
+     "chemicals"
+    ],
+    "n_features": 2651049,
+    "nonzero_weights": 1914457,
+    "sigmoid": [
+     -4.763248468031058,
+     -1.5930137142391658
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9651051886299159,
+     "auc_ci_low": 0.9632562954610642,
+     "auc_ci_high": 0.9669540817987676,
+     "average_precision": 0.8645571807569834,
+     "f1": 0.770916591465773,
+     "accuracy": 0.9827496244378703,
+     "precision": 0.9659962846296745,
+     "recall": 0.6413900359307128,
+     "mse": 0.012513011887569234,
+     "mse_sigmoid": 0.0391885164695312
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9623952118607435,
+     "auc_ci_low": 0.9605590217368869,
+     "auc_ci_high": 0.9642314019846001,
+     "average_precision": 0.8575610239350868,
+     "f1": 0.7684641395266061,
+     "accuracy": 0.9823345704716212,
+     "precision": 0.9652757078986587,
+     "recall": 0.6383167438651818,
+     "mse": 0.01307512919702461,
+     "mse_sigmoid": 0.03931129366759813
+    }
+   },
+   "plus_pubtypes": {
+    "sets": [
+     "abstract_bigrams",
+     "abstract_unigrams",
+     "mesh_terms",
+     "abstract_trigrams",
+     "title_unigrams",
+     "journal",
+     "author_count",
+     "authors",
+     "mesh_qualified",
+     "title_trigrams",
+     "title_bigrams",
+     "chemicals",
+     "keywords",
+     "pubtypes"
+    ],
+    "n_features": 54035801,
+    "nonzero_weights": 7159666,
+    "sigmoid": [
+     -4.84655337387232,
+     -0.39070822842491576
+    ],
+    "2011": {
+     "n": 412049,
+     "n_pos": 18647,
+     "auc": 0.9737916927382755,
+     "auc_ci_low": 0.9721791501715433,
+     "auc_ci_high": 0.9754042353050076,
+     "average_precision": 0.8581836361913865,
+     "f1": 0.7932375822860563,
+     "accuracy": 0.9832301498122796,
+     "precision": 0.8972449739389426,
+     "recall": 0.7108382045369228,
+     "mse": 0.013723613469914821,
+     "mse_sigmoid": 0.048074258632957126
+    },
+    "2012": {
+     "n": 441880,
+     "n_pos": 20294,
+     "auc": 0.9697821572957461,
+     "auc_ci_low": 0.9681272127622325,
+     "auc_ci_high": 0.9714371018292598,
+     "average_precision": 0.8533695620030876,
+     "f1": 0.7946902654867257,
+     "accuracy": 0.983199058567937,
+     "precision": 0.905584268246565,
+     "recall": 0.7079925101015079,
+     "mse": 0.014025222036231348,
+     "mse_sigmoid": 0.04826231471086748
+    }
+   }
+  }
+ }
+}

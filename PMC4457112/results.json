@@ -1,0 +1,2438 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC4457112",
+    "title": "Automated confidence ranked classification of randomized controlled trial articles: an aid to evidence-based medicine",
+    "citation": "Cohen AM, Smalheiser NR, McDonagh MS, Yu C, Adams CE, Davis JM, Yu PS. Automated confidence ranked classification of randomized controlled trial articles: an aid to evidence-based medicine. J Am Med Inform Assoc 22(3):707-717 (2015)",
+    "doi": "10.1093/jamia/ocu025",
+    "license": "CC BY-NC 4.0"
+  },
+  "run": {
+    "date": "2026-11-19",
+    "pipeline": "PMC4457112/figure-reproduction/main.nf",
+    "command": "nextflow run PMC4457112/figure-reproduction/main.nf --outdir results",
+    "full_command": "nextflow run PMC4457112/figure-reproduction/main.nf --outdir results --full",
+    "inputs": [
+      {
+        "name": "PubMed 2026 baseline, pubmed26n0001-1334.xml.gz (SHA-256 of each file in output/baseline_manifest.json)",
+        "url": "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/",
+        "sha256": "see output/baseline_manifest.json"
+      },
+      {
+        "name": "PMC4457112 article XML (Tables 1-3, read by --extract)",
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=4457112&rettype=xml",
+        "sha256": "ed103628d4ede4e698777a463caff130f9251d592d89d52dbeeb351b84809a95"
+      },
+      {
+        "name": "bow-20020213.tar.gz (McCallum's Bag-Of-Words library; its stopwords.c is the package's stop-word list)",
+        "url": "https://www.cs.cmu.edu/~mccallum/bow/src/bow-20020213.tar.gz",
+        "sha256": "5788792231eb5d674ec041b8a177b9d40a72fba9dbcdc9c5da1440100038ef0e"
+      },
+      {
+        "name": "Acute cholecystitis topic search, PubMed E-utilities, 2026-11-19 (output/cholecystitis_pmids.txt)",
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+        "sha256": "see the committed PMID list"
+      }
+    ],
+    "environment": {
+      "python": "3.12.3",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "liblinear-official": "2.47.0",
+      "rctconf": "0.1.0",
+      "platform": "x86_64"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "table1",
+      "label": "Table 1, CITATION_PLUS_MESH: 5x2 CV on 1987-2010, held-out 2011 and 2012",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "1987-2010 cross-validation, auc",
+            "expected": "0.976",
+            "observed": 0.9761872640852806,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc",
+            "expected": "0.973",
+            "observed": 0.9737672539852859,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc ci low",
+            "expected": "0.9714",
+            "observed": 0.9721539884424749,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc ci high",
+            "expected": "0.9746",
+            "observed": 0.9753805195280968,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc",
+            "expected": "0.972",
+            "observed": 0.9715034581870093,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc ci low",
+            "expected": "0.9704",
+            "observed": 0.9698943199234868,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc ci high",
+            "expected": "0.9736",
+            "observed": 0.9731125964505318,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, average precision",
+            "expected": "0.877",
+            "observed": 0.8791497080848899,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, average precision",
+            "expected": "0.873",
+            "observed": 0.8773212362674975,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, average precision",
+            "expected": "0.870",
+            "observed": 0.8713075286934333,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, f1",
+            "expected": "0.820",
+            "observed": 0.8169511362280015,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, f1",
+            "expected": "0.822",
+            "observed": 0.8244632553235113,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, f1",
+            "expected": "0.824",
+            "observed": 0.8221339601740023,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, accuracy",
+            "expected": "0.985",
+            "observed": 0.9851451786234394,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, accuracy",
+            "expected": "0.985",
+            "observed": 0.9854556132887108,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, accuracy",
+            "expected": "0.985",
+            "observed": 0.9851022902145379,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, mse sigmoid",
+            "expected": "0.048",
+            "observed": 0.05706727179917076,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, mse",
+            "expected": "0.013",
+            "observed": 0.012064071406241888,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, mse sigmoid",
+            "expected": "0.045",
+            "observed": 0.0521636015231158,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, mse",
+            "expected": "0.013",
+            "observed": 0.01255765003163459,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, mse sigmoid",
+            "expected": "0.044",
+            "observed": 0.05223790904641405,
+            "within_0.01": true
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Rebuilt from the paper's text on the 2026 MEDLINE baseline: the feature-set list, the LIBLINEAR settings, the selection rule, the confidence method and the PubMed query are in the lost supplement, and NLM has corrected records since 2012-2014. Every AUC, average precision, F1 and accuracy is within 0.008 of the printed value (the largest gap: CITATION_ONLY F1 on 2012, 0.803 against 0.811), and our calibrated MSE within 0.001. The zero-centred sigmoid MSE is 0.007 to 0.009 higher than printed: it depends on the scale of the SVM margin, which the unstated C and feature scaling set.",
+        "evidence": [
+          "figure-reproduction/output/models.json",
+          "figure-reproduction/output/variants.json",
+          "figure-reproduction/output/dataset.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The MEDLINE snapshot differs: records and RCT publication types corrected since the paper's download",
+            "test": "Count RCT_PT citations in our dataset against the paper's 277,789 (dataset.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
+            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets",
+            "test": "Rerun forward selection with AUC compared at three decimals (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, CITATION_ONLY: 5x2 CV on 1987-2010, held-out 2011 and 2012",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "1987-2010 cross-validation, auc",
+            "expected": "0.969",
+            "observed": 0.971342301381835,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc",
+            "expected": "0.966",
+            "observed": 0.9681014698256449,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc ci low",
+            "expected": "0.9642",
+            "observed": 0.9663298420545327,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, auc ci high",
+            "expected": "0.9678",
+            "observed": 0.9698730975967572,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc",
+            "expected": "0.965",
+            "observed": 0.9657977728108404,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc ci low",
+            "expected": "0.9632",
+            "observed": 0.9640422308331901,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, auc ci high",
+            "expected": "0.9668",
+            "observed": 0.9675533147884908,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, average precision",
+            "expected": "0.855",
+            "observed": 0.8593036414291045,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, average precision",
+            "expected": "0.854",
+            "observed": 0.8577441477521931,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, average precision",
+            "expected": "0.852",
+            "observed": 0.8498264969642314,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, f1",
+            "expected": "0.800",
+            "observed": 0.7995947236780057,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, f1",
+            "expected": "0.807",
+            "observed": 0.8069667041220652,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, f1",
+            "expected": "0.811",
+            "observed": 0.8031942438200104,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, accuracy",
+            "expected": "0.984",
+            "observed": 0.9838581055972361,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, accuracy",
+            "expected": "0.984",
+            "observed": 0.9841572240194734,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, accuracy",
+            "expected": "0.984",
+            "observed": 0.98365845931022,
+            "within_0.01": true
+          },
+          {
+            "name": "1987-2010 cross-validation, mse sigmoid",
+            "expected": "0.052",
+            "observed": 0.05899529797762935,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, mse",
+            "expected": "0.014",
+            "observed": 0.013263999417268788,
+            "within_0.01": true
+          },
+          {
+            "name": "2011, mse sigmoid",
+            "expected": "0.048",
+            "observed": 0.05458996493542138,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, mse",
+            "expected": "0.014",
+            "observed": 0.013778972750496454,
+            "within_0.01": true
+          },
+          {
+            "name": "2012, mse sigmoid",
+            "expected": "0.048",
+            "observed": 0.054605555161407526,
+            "within_0.01": true
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Rebuilt from the paper's text on the 2026 MEDLINE baseline: the feature-set list, the LIBLINEAR settings, the selection rule, the confidence method and the PubMed query are in the lost supplement, and NLM has corrected records since 2012-2014. Every AUC, average precision, F1 and accuracy is within 0.008 of the printed value (the largest gap: CITATION_ONLY F1 on 2012, 0.803 against 0.811), and our calibrated MSE within 0.001. The zero-centred sigmoid MSE is 0.007 to 0.009 higher than printed: it depends on the scale of the SVM margin, which the unstated C and feature scaling set.",
+        "evidence": [
+          "figure-reproduction/output/models.json",
+          "figure-reproduction/output/variants.json",
+          "figure-reproduction/output/dataset.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The MEDLINE snapshot differs: records and RCT publication types corrected since the paper's download",
+            "test": "Count RCT_PT citations in our dataset against the paper's 277,789 (dataset.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
+            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets",
+            "test": "Rerun forward selection with AUC compared at three decimals (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, four modelling approaches on 2011, both models",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        },
+        {
+          "what": "CHISQ filtering: Pearson's chi-squared test with Yates' correction, p < 0.05, over every feature of every candidate set; the paper gives no test details or threshold",
+          "source": "our_choice",
+          "sensitivity": "The threshold sets the feature count of the CHISQ and POSTHOC columns (2,628,721 and 2,651,049 against 102,023 and 113,177)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "citation only, forward selection, auc",
+            "expected": "0.966",
+            "observed": 0.9681014698256449,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, chisq, auc",
+            "expected": "0.948",
+            "observed": 0.9566288505451288,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, posthoc, auc",
+            "expected": "0.967",
+            "observed": 0.9666360387586209,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, plus pubtypes, auc",
+            "expected": "0.969",
+            "observed": 0.9690035846168046,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, forward selection, auc",
+            "expected": "0.973",
+            "observed": 0.9737672539852859,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, chisq, auc",
+            "expected": "0.959",
+            "observed": 0.9651051886299159,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, posthoc, auc",
+            "expected": "0.973",
+            "observed": 0.972695370990741,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, plus pubtypes, auc",
+            "expected": "0.974",
+            "observed": 0.9737916927382755,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, forward selection, average precision",
+            "expected": "0.854",
+            "observed": 0.8577441477521931,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, chisq, average precision",
+            "expected": "0.781",
+            "observed": 0.8389820431266551,
+            "within_0.01": false
+          },
+          {
+            "name": "citation only, posthoc, average precision",
+            "expected": "0.853",
+            "observed": 0.8566613550518226,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, plus pubtypes, average precision",
+            "expected": "0.840",
+            "observed": 0.8394334407548782,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, forward selection, average precision",
+            "expected": "0.873",
+            "observed": 0.8773212362674975,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, chisq, average precision",
+            "expected": "0.826",
+            "observed": 0.8645571807569834,
+            "within_0.01": false
+          },
+          {
+            "name": "citation plus mesh, posthoc, average precision",
+            "expected": "0.873",
+            "observed": 0.8767917827947235,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, plus pubtypes, average precision",
+            "expected": "0.856",
+            "observed": 0.8581836361913865,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, forward selection, f1",
+            "expected": "0.807",
+            "observed": 0.8069667041220652,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, chisq, f1",
+            "expected": "0.727",
+            "observed": 0.7342007434944239,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, posthoc, f1",
+            "expected": "0.808",
+            "observed": 0.8066988194218422,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, plus pubtypes, f1",
+            "expected": "0.778",
+            "observed": 0.7736243747157799,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, forward selection, f1",
+            "expected": "0.822",
+            "observed": 0.8244632553235113,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, chisq, f1",
+            "expected": "0.771",
+            "observed": 0.770916591465773,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, posthoc, f1",
+            "expected": "0.823",
+            "observed": 0.8251391737474362,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, plus pubtypes, f1",
+            "expected": "0.794",
+            "observed": 0.7932375822860563,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, forward selection, mse",
+            "expected": "0.014",
+            "observed": 0.013263999417268788,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, chisq, mse",
+            "expected": "0.020",
+            "observed": 0.013996931548324302,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, posthoc, mse",
+            "expected": "0.014",
+            "observed": 0.013326454632427537,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, plus pubtypes, mse",
+            "expected": "0.015",
+            "observed": 0.014894329181037171,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, forward selection, mse",
+            "expected": "0.013",
+            "observed": 0.012064071406241888,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, chisq, mse",
+            "expected": "0.016",
+            "observed": 0.012513011887569234,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, posthoc, mse",
+            "expected": "0.013",
+            "observed": 0.01210939412328149,
+            "within_0.01": true
+          },
+          {
+            "name": "citation plus mesh, plus pubtypes, mse",
+            "expected": "0.014",
+            "observed": 0.013723613469914821,
+            "within_0.01": true
+          },
+          {
+            "name": "citation only, forward selection, n features",
+            "expected": "44114421",
+            "observed": 53810398,
+            "within_0.01": null
+          },
+          {
+            "name": "citation only, chisq, n features",
+            "expected": "102023",
+            "observed": 2628721,
+            "within_0.01": null
+          },
+          {
+            "name": "citation only, posthoc, n features",
+            "expected": "102262",
+            "observed": 2628721,
+            "within_0.01": null
+          },
+          {
+            "name": "citation only, plus pubtypes, n features",
+            "expected": "44114572",
+            "observed": 53810455,
+            "within_0.01": null
+          },
+          {
+            "name": "citation plus mesh, forward selection, n features",
+            "expected": "34636788",
+            "observed": 54035744,
+            "within_0.01": null
+          },
+          {
+            "name": "citation plus mesh, chisq, n features",
+            "expected": "113177",
+            "observed": 2651049,
+            "within_0.01": null
+          },
+          {
+            "name": "citation plus mesh, posthoc, n features",
+            "expected": "110982",
+            "observed": 2651049,
+            "within_0.01": null
+          },
+          {
+            "name": "citation plus mesh, plus pubtypes, n features",
+            "expected": "34636939",
+            "observed": 54035801,
+            "within_0.01": null
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score higher than the paper's, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+        "evidence": [
+          "figure-reproduction/output/models.json",
+          "figure-reproduction/output/variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
+            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's counts and scores lie between our p < 0.05 and Bonferroni models, so its threshold lay between them; no threshold was fitted to the paper",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "An unstated LIBLINEAR setting moves the measures onto the paper's",
+            "test": "As for Tables 1 and 2 (variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets, hence fewer features",
+            "test": "Forward selection with AUC at three decimals (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.test_floor",
+      "label": "Results: for both years AUC >= 0.965, accuracy >= 0.984, F1 >= 0.807",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "every test AUC at least 0.965 (at the printed 3 decimals)",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "every test accuracy at least 0.984 (at the printed 3 decimals)",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "every test F1 at least 0.807 (at the printed 3 decimals)",
+            "expected": "yes",
+            "observed": "no",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Rebuilt from the paper's text on the 2026 MEDLINE baseline: the feature-set list, the LIBLINEAR settings, the selection rule, the confidence method and the PubMed query are in the lost supplement, and NLM has corrected records since 2012-2014. Every AUC, average precision, F1 and accuracy is within 0.008 of the printed value (the largest gap: CITATION_ONLY F1 on 2012, 0.803 against 0.811), and our calibrated MSE within 0.001. The zero-centred sigmoid MSE is 0.007 to 0.009 higher than printed: it depends on the scale of the SVM margin, which the unstated C and feature scaling set.",
+        "evidence": [
+          "figure-reproduction/output/models.json",
+          "figure-reproduction/output/variants.json",
+          "figure-reproduction/output/dataset.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The MEDLINE snapshot differs: records and RCT publication types corrected since the paper's download",
+            "test": "Count RCT_PT citations in our dataset against the paper's 277,789 (dataset.json)",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
+            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets",
+            "test": "Rerun forward selection with AUC compared at three decimals (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.cv_predicts_test",
+      "label": "Results: test performance very nearly the same as cross-validation",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "test within 0.02 of cross-validation, CITATION_PLUS_MESH",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "test within 0.02 of cross-validation, CITATION_ONLY",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.mesh_better",
+      "label": "CITATION_PLUS_MESH slightly better than CITATION_ONLY across all measures",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "CITATION_PLUS_MESH better on every measure, 2011 and 2012",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.ci_no_overlap",
+      "label": "The two models' AUC 95% intervals do not overlap (2011, 2012)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "AUC intervals of the two models do not overlap, 2011",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "AUC intervals of the two models do not overlap, 2012",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.mse_below",
+      "label": "Squared error of the confidence below 0.015 for both models",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "largest test MSE of the confidence, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.calibration_3x",
+      "label": "The enhanced Ruping method more than 3 times as accurate as the zero-centred sigmoid",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "sigmoid MSE more than 3 times the calibrated MSE, every model and year",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.forward_beats_chisq",
+      "label": "Forward selection outperforms CHISQ filtering on every metric",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        },
+        {
+          "what": "CHISQ filtering: Pearson's chi-squared test with Yates' correction, p < 0.05, over every feature of every candidate set; the paper gives no test details or threshold",
+          "source": "our_choice",
+          "sensitivity": "The threshold sets the feature count of the CHISQ and POSTHOC columns (2,628,721 and 2,651,049 against 102,023 and 113,177)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "forward selection better than CHISQ on AUC, AP, F1 and MSE, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.posthoc",
+      "label": "POSTHOC DROP LOW WEIGHTS almost identical to forward selection with 300-400 times fewer features",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        },
+        {
+          "what": "CHISQ filtering: Pearson's chi-squared test with Yates' correction, p < 0.05, over every feature of every candidate set; the paper gives no test details or threshold",
+          "source": "our_choice",
+          "sensitivity": "The threshold sets the feature count of the CHISQ and POSTHOC columns (2,628,721 and 2,651,049 against 102,023 and 113,177)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "POSTHOC within 0.002 of forward selection on AUC, AP, F1 and MSE, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "forward selection features over POSTHOC features, CITATION_ONLY, between 300 and 400",
+            "expected": "yes",
+            "observed": "no",
+            "arithmetic": "no"
+          },
+          {
+            "name": "forward selection features over POSTHOC features, CITATION_PLUS_MESH, between 300 and 400",
+            "expected": "yes",
+            "observed": "no",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "forward selection features over POSTHOC features, CITATION_ONLY, between 300 and 400",
+            "category": "paper_error",
+            "evidence": "Table 3 gives 44,114,421 / 102,262 = 431, outside the '300-400x' of the text (comparison.json, arithmetic)"
+          }
+        ]
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score higher than the paper's, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+        "evidence": [
+          "figure-reproduction/output/models.json",
+          "figure-reproduction/output/variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
+            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's counts and scores lie between our p < 0.05 and Bonferroni models, so its threshold lay between them; no threshold was fitted to the paper",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "An unstated LIBLINEAR setting moves the measures onto the paper's",
+            "test": "As for Tables 1 and 2 (variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets, hence fewer features",
+            "test": "Forward selection with AUC at three decimals (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.pubtypes",
+      "label": "Adding publication types: AUC up a little, average precision down more, F1 and MSE worse",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "adding publication types raises AUC, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "adding publication types lowers average precision by more than it raises AUC, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "adding publication types lowers F1, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "adding publication types raises MSE, both models",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.selected_sets",
+      "label": "Forward selection chose 7 feature sets for CITATION_ONLY and 10 for CITATION_PLUS_MESH",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "feature sets chosen, CITATION_ONLY",
+            "expected": "7",
+            "observed": 10
+          },
+          {
+            "name": "feature sets chosen, CITATION_PLUS_MESH",
+            "expected": "10",
+            "observed": 13
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+        "evidence": [
+          "figure-reproduction/output/selection.json",
+          "figure-reproduction/output/variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Improvement judged at three decimals of AUC, not four",
+            "test": "Rerun forward selection with auc_decimals = 3 (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count). It gives the paper's 7 sets for CITATION_ONLY but 7, not 10, for CITATION_PLUS_MESH",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
+            "test": "Read where these sets enter: keywords and substances come last, adding no AUC at four decimals (selection.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.feature_count",
+      "label": "Approximately 45 million unique features",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "unique features of every candidate set, millions (approximately 45)",
+            "expected": "45",
+            "observed": 54.0569
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+        "evidence": [
+          "figure-reproduction/output/selection.json",
+          "figure-reproduction/output/variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Improvement judged at three decimals of AUC, not four",
+            "test": "Rerun forward selection with auc_decimals = 3 (variants.json): CITATION_ONLY 7 sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, journal, author_count, authors); CITATION_PLUS_MESH 7 sets (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count). It gives the paper's 7 sets for CITATION_ONLY but 7, not 10, for CITATION_PLUS_MESH",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
+            "test": "Read where these sets enter: keywords and substances come last, adding no AUC at four decimals (selection.json)",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.training_size",
+      "label": "The 1987-2010 training set holds over 5 million articles",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "training years 1987-2010 over 5 million citations",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.randomized",
+      "label": "Best single feature: the term \"randomized\", F1 about 0.72",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "F1 of \"randomized\" in the title or abstract (about 0.72)",
+            "expected": "0.72",
+            "observed": 0.5841791423496574
+          },
+          {
+            "name": "\"randomized\" is the best single feature",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "\"randomized\" is our best single feature too, but its F1 is 0.58 against the paper's 'about 0.72'; the preliminary study is described only in the supplement.",
+        "evidence": [
+          "figure-reproduction/output/single_feature.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The paper counted British spelling too",
+            "test": "F1 of 'randomized' or 'randomised' in the title or abstract: 0.63",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's feature was a stem (randomiz*, randomis*) or any word starting with random",
+            "test": "F1 of randomi[sz]*: 0.63; of random*: 0.62",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.training_fraction",
+      "label": "Performance basically flat between 5% and 10% of the training data (figure in the supplement)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "AUC at 10% within 0.002 of AUC at 5% (flat between 5% and 10%)",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "From 5% to 10% of the training years our cross-validated AUC rises by 0.0026 and F1 by 0.012, more than the 0.002 we set in advance for 'basically flat'. The paper's curve is in the lost supplement, so how flat it was cannot be checked.",
+        "evidence": [
+          "figure-reproduction/output/fraction.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Flatness was judged at the printed precision of AUC",
+            "test": "AUC at 5% and 10% at three decimals: 0.969 and 0.972 (fraction.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Flatness was judged on F1",
+            "test": "F1 at 5% and 10%: 0.790 and 0.802 (fraction.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.disagreements",
+      "label": "Disagreements with RCT_PT over 1987-2012: 1811 at >= 0.95, 19 838 at >= 0.50, 277 789 tagged, 20 523 at <= 0.05",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "articles with confidence >= 0.95 without the RCT publication type",
+            "expected": "1811",
+            "observed": 4064
+          },
+          {
+            "name": "articles with confidence >= 0.50 without the RCT publication type",
+            "expected": "19838",
+            "observed": 23344
+          },
+          {
+            "name": "articles with the RCT publication type, 1987-2012",
+            "expected": "277789",
+            "observed": 278869
+          },
+          {
+            "name": "articles with confidence <= 0.05 with the RCT publication type",
+            "expected": "20523",
+            "observed": 27979
+          },
+          {
+            "name": "the ten lowest of these below 0.0005",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The extreme counts are set by the confidence method, the paper's extension of Ruping's method, which is described only in the supplement. With our fitted sigmoid: 4,064 citations at >= 0.95 without RCT_PT, 23,344 at >= 0.50, 27,979 at <= 0.05 with it. With the paper's zero-centred sigmoid: 2, 19,384 and 0. The RCT_PT total, which needs no model, is 278,869 against 277,789.",
+        "evidence": [
+          "figure-reproduction/output/disagreements.json",
+          "figure-reproduction/output/disagreements_pmids.tsv"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The confidence method sets the counts",
+            "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the counts by orders of magnitude, but neither version gives the paper's",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The labels drifted: RCT_PT added or removed since 2012-2014",
+            "test": "RCT_PT total of our dataset against the paper's",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.estimates",
+      "label": "Estimates from the disagreements and Fig. 1's rates: 1268, 7935 (3%), 19 497 (7%), 12 900 (5%), 20 000",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "These estimates apply Fig. 1's manual-review rates (70%, 40%, 95%) to the disagreement counts. The rates come from 200 manually labelled articles that were never released, so they cannot be recomputed; putting the paper's rates into our counts would be a sensitivity variant, not a result. Their arithmetic is checked in text.arithmetic.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.cholecystitis",
+      "label": "Discussion: the acute cholecystitis search, 3883 articles, 795 tagged, 2751 of 3088 at <= 0.10",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+          "source": "found_by_search",
+          "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds 6,164,168 citations, 278,869 with RCT_PT, and 5,310,239 in 1987-2010 (the paper: 'over 5 million')."
+        },
+        {
+          "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+          "source": "our_choice",
+          "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within 278,869 of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+        },
+        {
+          "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+          "source": "our_choice",
+          "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+        },
+        {
+          "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+          "source": "our_choice",
+          "sensitivity": "398,268 citations, 17,919 with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+        },
+        {
+          "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+          "source": "our_choice",
+          "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+        },
+        {
+          "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+          "source": "found_by_search",
+          "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+        },
+        {
+          "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+          "source": "our_choice",
+          "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+        },
+        {
+          "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+          "source": "our_choice",
+          "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+        },
+        {
+          "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+          "source": "our_choice",
+          "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+        },
+        {
+          "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+          "source": "our_choice",
+          "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+        },
+        {
+          "what": "The acute cholecystitis search: (cholecystitis[mh] OR cholecystitis[tiab]) AND acute[tiab], with the Robinson and Dickersin (2002) highly sensitive filter, 1987-2012, run on 2026-11-19. The paper's query (Table S2) is lost",
+          "source": "our_choice",
+          "sensitivity": "The topic terms are ours; the paper used the Cochrane review CD005440's terms. The search gives 1,409 PMIDs."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "articles of the topic search in the dataset",
+            "expected": "3883",
+            "observed": 941
+          },
+          {
+            "name": "with the RCT publication type",
+            "expected": "795",
+            "observed": 89
+          },
+          {
+            "name": "share with the RCT publication type, % (about 20%)",
+            "expected": "20",
+            "observed": 9.458023379383635,
+            "arithmetic": 20.473860417203195
+          },
+          {
+            "name": "without the RCT publication type",
+            "expected": "3088",
+            "observed": 852,
+            "arithmetic": 3088
+          },
+          {
+            "name": "of these, confidence <= 0.10",
+            "expected": "2751",
+            "observed": 839
+          },
+          {
+            "name": "share of the unannotated articles skipped, %",
+            "expected": "85",
+            "observed": 98.47417840375587,
+            "arithmetic": 89.08678756476684
+          },
+          {
+            "name": "of these, confidence > 0.10",
+            "expected": "337",
+            "observed": 13,
+            "arithmetic": 337
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "share of the unannotated articles skipped, %",
+            "category": "paper_error",
+            "evidence": "2751 of 3088 is 89.1%, not the 85% the Discussion prints (comparison.json, arithmetic)"
+          }
+        ]
+      },
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The paper's search (Table S2) is lost; our rebuilt search finds 941 articles in our dataset against 3,883, with 89 tagged RCT. Of the 852 untagged, 839 score <= 0.10, so skipping them would avoid more of the untagged articles than the paper's 85%.",
+        "evidence": [
+          "figure-reproduction/output/topic.json",
+          "figure-reproduction/output/cholecystitis_pmids.txt"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our topic search is narrower than the Cochrane review's",
+            "test": "Count: 1,409 PMIDs from PubMed, 941 in our dataset, against 3,883 in the paper's",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The confidence method moves the 0.10 cut",
+            "test": "Not separable from the search; the same method question as the disagreement counts",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Every claim recomputed from the paper's own numbers",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "25 of 29 statements follow from the paper's own numbers. Not: text.posthoc: forward selection features over POSTHOC features, CITATION_ONLY, between 300 and 400 (yes against no); text.estimates: possible RCT_PT errors, thousands (approximately 12 900, 5% of the tagged articles) (12.9 against 13.89); text.estimates: additional RCTs and possible errors combined, thousands (about 20 000) (20 against 20.8); text.cholecystitis: share of the unannotated articles skipped, % (85 against 89.09). The four Hanley-McNeil intervals are centred on their AUC in 4 of 4 cases."
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1, manual-review RCT prevalence by confidence bin, four Cochrane topics (STRICT 0.962, LOOSE 0.986)",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The 200 manually reviewed articles, their sampled PMIDs and the reviewer's labels were never released, and the four topic searches are in the lost Table S2. A new manual review would be a new sample, not this figure.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.manual_2014",
+      "label": "The 50 RCT_PT articles of 2014: 14 disagreements; 11 below 0.50, 5 below 0.25, 3 below 0.01",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The 50 articles and the reviewer's labels were not released.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.kappa",
+      "label": "Cohen's kappa 0.72 between the manual review and RCT_PT",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "Needs the manual review's labels, which were not released.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "supplement",
+      "label": "Supplementary material: feature-set lists, top-weighted features, confidence distributions of 2011, the training-fraction figure, Table S2",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The JAMIA supplement is not in PMC or Europe PMC, the publisher answered 403 to every request, and no archived copy was found (issue #94).",
+        "evidence": [
+          "https://github.com/jeonglab-bcm/fossil/issues/94"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package rctconf and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "rctconf 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 26,
+    "exact": 0,
+    "agrees": 10,
+    "partly": 7,
+    "inconclusive": 0,
+    "differs": 4,
+    "not_attempted": 5,
+    "open_causes": 10
+  }
+}
