@@ -1,0 +1,244 @@
+<title>Fossil AI Review Mockup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Layout: a reading column of seven cases; each case shows the PR-comment section as it would render. */
+:root {
+  --bg: #f5f6f4; --surface: #ffffff; --fg: #1d2420; --muted: #5d6a63; --line: #d9dfdb;
+  --accent: #2f6f5e; --accent-soft: #e3efe9;
+  --ok: #2c7a4b; --warn: #9a6200; --warn-soft: #fbf1dc; --bad: #b3261e; --bad-soft: #fbe5e3;
+  --code-bg: #eef1ef;
+  --f-display: "IBM Plex Serif", Georgia, serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121614; --surface: #1a201d; --fg: #e3e8e5; --muted: #9aa8a0; --line: #2d3531;
+  --accent: #7cc4ab; --accent-soft: #1f3029;
+  --ok: #6fcf97; --warn: #e5b357; --warn-soft: #33290f; --bad: #f08a80; --bad-soft: #3a1c19;
+  --code-bg: #232a26; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121614; --surface: #1a201d; --fg: #e3e8e5; --muted: #9aa8a0; --line: #2d3531;
+  --accent: #7cc4ab; --accent-soft: #1f3029;
+  --ok: #6fcf97; --warn: #e5b357; --warn-soft: #33290f; --bad: #f08a80; --bad-soft: #3a1c19;
+  --code-bg: #232a26; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; }
+.wrap { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+h1, h2 { font-family: var(--f-display); font-weight: 600; text-wrap: balance; margin: 0; }
+h1 { font-size: 2rem; line-height: 1.2; }
+h2 { font-size: 1.35rem; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+header { display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font-family: var(--f-mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.lede { color: var(--muted); font-size: 1.02rem; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 6px; }
+.rule { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 10px 12px; font-size: .88rem; color: var(--muted); }
+.rule b { display: block; color: var(--fg); font-weight: 600; margin-bottom: 2px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { text-decoration: none; font-size: .85rem; border: 1px solid var(--line); background: var(--surface); color: var(--fg); padding: 5px 11px; border-radius: 999px; }
+nav a:hover { border-color: var(--accent); color: var(--accent); }
+
+section.case { display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
+.case-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.case-no { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); }
+.when { color: var(--muted); font-size: .92rem; }
+
+/* The rendered PR comment */
+.comment { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
+.comment-bar { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 8px 14px; border-bottom: 1px solid var(--line); background: var(--code-bg); font-size: .8rem; color: var(--muted); font-family: var(--f-mono); }
+.comment-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.elided { font-size: .82rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+.comment h4 { margin: 0; font-size: 1.05rem; font-weight: 600; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; min-width: 560px; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; background: var(--code-bg); }
+tr:last-child td { border-bottom: 0; }
+td.mark { white-space: nowrap; }
+.sub { color: var(--muted); font-size: .82em; }
+.pill { display: inline-block; font-size: .78rem; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--accent-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill.bad { color: var(--bad); background: var(--bad-soft); }
+details { border: 1px solid var(--line); border-radius: 6px; }
+details.flag { border-color: var(--warn); }
+summary { cursor: pointer; padding: 8px 12px; font-size: .92rem; }
+details[open] summary { border-bottom: 1px solid var(--line); }
+details > div { padding: 10px 14px 12px; display: flex; flex-direction: column; gap: 8px; font-size: .92rem; }
+.worth { background: var(--warn-soft); border-radius: 6px; padding: 8px 10px; }
+.conclusion { border-top: 1px solid var(--line); padding-top: 12px; font-size: .95rem; }
+.foot { font-size: .78rem; color: var(--muted); }
+.note { font-size: .85rem; color: var(--muted); font-style: italic; }
+.failbox { border-left: 3px solid var(--bad); background: var(--bad-soft); padding: 10px 12px; border-radius: 0 6px 6px 0; display: flex; flex-direction: column; gap: 6px; }
+.check { display: flex; align-items: center; gap: 8px; font-size: .88rem; font-family: var(--f-mono); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--bad); flex: none; }
+@media (max-width: 480px) { h1 { font-size: 1.6rem; } .comment-body { padding: 14px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Results check · mockup for discussion · plain-language edition</span>
+  <h1>AI review section in the PR comment</h1>
+  <p class="lede">CI adds this section to the end of each paper's results comment. The cases below use real items from PMC2661051 (Ackermann &amp; Strimmer 2009), as PR #89 changed them. We made up case 4 to show a flag.</p>
+  <div class="rules">
+    <div class="rule"><b>Only changed items</b>Items the PR adds or changes in <code>results.json</code>.</div>
+    <div class="rule"><b>Evidence from the repo only</b>Values, band, verdict, cause, hypotheses, reviewer note.</div>
+    <div class="rule"><b>Flags, never edits</b>It marks ⚠️ when an item's own evidence argues against its verdict.</div>
+    <div class="rule"><b>You decide</b>A normal PR approval is the final conclusion.</div>
+  </div>
+  <nav aria-label="Cases">
+    <a href="#case-1">1 · Several changes</a><a href="#case-2">2 · All match</a><a href="#case-3">3 · Not attempted</a>
+    <a href="#case-4">4 · Too generous</a><a href="#case-5">5 · New paper</a><a href="#case-6">6 · No change</a><a href="#case-7">7 · Can't run</a>
+  </nav>
+  <p class="when">The text follows the rules of <a href="https://github.com/Dodaios/ste80-humanizer">STE80 Humanizer</a> (MIT): one idea per sentence, active voice, plain words, no semicolons or dashes. A checker from the same project reads each answer and writes its notes to the CI log.</p>
+</header>
+
+<!-- Case 1 -->
+<section class="case" id="case-1">
+  <div class="case-head"><span class="case-no">Case 1</span><h2>A PR that changes several items</h2></div>
+  <p class="when">This is the usual case. The PR applies a reviewer's verdicts and updates one cause.</p>
+  <div class="comment">
+    <div class="comment-bar"><span>github-actions · PMC2661051: results.json against the committed outputs</span><span>edited</span></div>
+    <div class="comment-body">
+      <div class="elided">… diffs and figure overlays, unchanged …</div>
+      <h4>🤖 AI review of the 5 items this PR changes</h4>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Table 2, statistic × transformation</td><td><b>partly</b><br><span class="sub">set by SophSM. The numbers alone say agrees.</span></td><td>The numbers match. We picked one setting after we saw the paper's rates.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+          <tr><td>Table 5, globaltest</td><td><b>agrees</b><br><span class="sub">set by SophSM. The numbers alone say partly.</span></td><td>35 of 36 rates match. Chance explains the one that does not.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+          <tr><td>Fig. 2 right, p53 sets with p ≤ 0.01</td><td><b>partly</b></td><td>9 of 16 bars match. Our cond. FDR finds far fewer sets, and the cause is still open.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+          <tr><td>Fig. 4 right, Hedenfalk sets with p ≤ 0.01</td><td><b>differs</b><br><span class="sub">set by SophSM. The numbers alone say partly.</span></td><td>1 of 16 bars matches. Our gene mapping differs from the paper's.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+          <tr><td>Text: globaltest is very close to the mean</td><td><b>differs</b></td><td>The gap is 0.06 and our limit was 0.05. Chance can explain a gap that size.</td><td class="mark"><span class="pill warn">⚠️ worth a look</span></td></tr>
+        </tbody>
+      </table></div>
+
+      <details><summary><b>Table 2: partly</b> (the reviewer changed it from <i>agrees</i>), why it did not fully match</summary><div>
+        <p>All 135 rates fall inside the allowed band, so the numbers alone say agrees. The paper does not give the cutoff for the binary transformation. We first tried the likely rule, local fdr ≤ 0.2, and it gave far lower rates (0.13 against 0.61). Then we chose p ≤ 0.05. A match that depends on a setting we chose to fit is weaker. For that reason the reviewer set it to partly.</p>
+        <p class="sub">Review by SophSM: <a href="https://github.com/jeonglab-bcm/fossil/pull/89#pullrequestreview-5945209320">PR #89 review</a></p>
+      </div></details>
+      <details><summary><b>Table 5: agrees</b> (the reviewer changed it from <i>partly</i>), why it matched</summary><div>
+        <p>35 of 36 rates match. For set 3 (parametric) our run gives 0.13 and the paper prints 0.02. On 400 more data sets the rate is 0.050. So the 0.13 came from chance in our first 100 data sets.</p>
+      </div></details>
+      <details><summary><b>Fig. 2 right: partly</b>, why it did not fully match</summary><div>
+        <p>Hotelling, globaltest, ES and maxmean come within one set of the paper. Our cond. FDR finds 10 and 7 sets, and the paper prints 38 and 35. On the p53 data, fdrtool gives every gene a local fdr of 1. That likely takes most of the power from our cond. FDR. Wilcoxon, median and the mean by permutation miss by 3 to 5 sets. The cause is still open.</p>
+      </div></details>
+      <details><summary><b>Fig. 4 right: differs</b>, why it did not fully match</summary><div>
+        <p>Only 1 of 16 bars comes within one set of the paper. The item's cause says our mapping of the Hedenfalk genes differs from the paper's (2,200 genes, 89 sets). The reviewer set the verdict to differs.</p>
+      </div></details>
+      <details class="flag" open><summary>⚠️ <b>Text: globaltest is close to the mean: differs</b>, worth a look</summary><div>
+        <p>The largest gap is 0.06 (set 9: 0.86 against 0.92). We counted a gap as close when it was 0.05 or less.</p>
+        <p class="worth"><b>Worth a look:</b> the item's own cause says chance explains this gap. The 99% band for two shares of 100 is ±0.12. The paper's own tables differ by up to 0.04. We chose the 0.05 limit, and the paper does not give one. So the verdict may be too harsh. A reviewer can change it with a <code>review</code> block.</p>
+      </div></details>
+
+      <p class="conclusion"><b>Final conclusion:</b> approve this PR if you accept the verdicts above. First check the 1 item marked ⚠️.</p>
+      <p class="foot">claude-opus-5-5 wrote this from the PR's results.json only. It changes no file. Check the numbers before you rely on it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Case 2 -->
+<section class="case" id="case-2">
+  <div class="case-head"><span class="case-no">Case 2</span><h2>Only matches, nothing flagged</h2></div>
+  <div class="comment"><div class="comment-body">
+    <h4>🤖 AI review of the 2 items this PR changes</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Table 4, significance assessment</td><td><b>exact</b></td><td>All 36 rates are within the allowed band.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+        <tr><td>Text: Hotelling hardly detects the correlated sets</td><td><b>exact</b></td><td>Our numbers show the same thing.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+      </tbody>
+    </table></div>
+    <details><summary><b>Table 4: exact</b>, why it matched</summary><div>
+      <p>All 36 rates fall inside the allowed band. For set 1 (parametric) our run gives 0.75, and the paper prints 0.82, with ±0.15 allowed. We did not guess any setting.</p>
+    </div></details>
+    <p class="conclusion"><b>Final conclusion:</b> approve this PR if you accept the verdicts above. The AI flagged nothing.</p>
+  </div></div>
+</section>
+
+<!-- Case 3 -->
+<section class="case" id="case-3">
+  <div class="case-head"><span class="case-no">Case 3</span><h2>An item that was not attempted</h2></div>
+  <div class="comment"><div class="comment-body">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+      <tbody><tr><td>Fig. 2 left, significant p53 sets against the cutoff</td><td><b>not attempted</b></td><td>We drew it but did not score it. Nobody can read the curves in the paper's figure.</td><td class="mark"><span class="pill ok">✅</span></td></tr></tbody>
+    </table></div>
+    <details open><summary><b>Fig. 2 left: not attempted</b>, why we did not score it</summary><div>
+      <p>We drew our figure and laid it over the paper's, but we compared no numbers. In the paper, sixteen curves with letter markers sit on top of each other. We tried to read them by colour and marker, and it failed. Two other items still test these results. Fig. 2 right tests the 0.01 cutoff, and the text claims test the ranking.</p>
+    </div></details>
+  </div></div>
+</section>
+
+<!-- Case 4 -->
+<section class="case" id="case-4">
+  <div class="case-head"><span class="case-no">Case 4</span><h2>A verdict that looks too generous</h2></div>
+  <p class="when">We made up this example. In the repository, Table 3 is partly.</p>
+  <div class="comment"><div class="comment-body">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+      <tbody><tr><td>Table 3, gene set statistics</td><td><b>agrees</b></td><td>All rates fall inside the band. The item says we tuned one setting to the paper.</td><td class="mark"><span class="pill warn">⚠️ worth a look</span></td></tr></tbody>
+    </table></div>
+    <details class="flag" open><summary>⚠️ <b>Table 3: agrees</b>, worth a look</summary><div>
+      <p>The numbers match.</p>
+      <p class="worth"><b>Worth a look:</b> the item lists a setting with source <code>our_choice</code>. Its note says we tuned that setting after we saw the paper. For Table 2 the reviewer chose <b>partly</b> in the same situation. You may want the same verdict here.</p>
+    </div></details>
+  </div></div>
+</section>
+
+<!-- Case 5 -->
+<section class="case" id="case-5">
+  <div class="case-head"><span class="case-no">Case 5</span><h2>A new paper</h2></div>
+  <p class="when">The PR adds results.json, so all 46 items are new. Matched items get a table row only, which keeps the comment short. The 20 items that do not match each get an explanation.</p>
+  <div class="comment"><div class="comment-body">
+    <h4>🤖 AI review of PMC2661051 (new: 46 items)</h4>
+    <p><b>19 exact, 7 agrees, 8 partly, 8 differs, 4 not attempted.</b></p>
+    <p>The main claims hold. The mean of squared moderated t beats GSEA's ES and Hotelling. Our cond. FDR differs from the paper's, and it causes 4 misses. The Hedenfalk gene mapping causes 3 more, and chance causes one.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Table 1, methods in the literature</td><td><b>not attempted</b></td><td>The table lists methods. There is nothing to compute.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+        <tr><td>Text: 3 × 5 × 6 × 3 − 9 = 261 variants</td><td><b>exact</b></td><td>The count comes out the same.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+        <tr><td>Table 2, statistic × transformation</td><td><b>partly</b><br><span class="sub">set by SophSM. The numbers alone say agrees.</span></td><td>The numbers match. We chose one setting to fit.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+        <tr><td colspan="4" class="sub">… 42 more rows …</td></tr>
+        <tr><td>R package gseamod and its tutorial</td><td><b>agrees</b></td><td>The package builds and installs, and its tutorial runs.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">20 collapsed explanations follow, one for each partly, differs or not-attempted item.</p>
+    <p class="conclusion"><b>Final conclusion:</b> approve this PR if you accept the verdicts above. First check the 1 item marked ⚠️.</p>
+  </div></div>
+</section>
+
+<!-- Case 6 -->
+<section class="case" id="case-6">
+  <div class="case-head"><span class="case-no">Case 6</span><h2>The PR changes no verdicts</h2></div>
+  <p class="when">An example is a PR that changes only pipeline code or a README. CI does not call the API.</p>
+  <div class="comment"><div class="comment-body">
+    <h4>🤖 AI review</h4>
+    <p>No item's verdict, values, cause or review changes in this PR. There is nothing to review.</p>
+  </div></div>
+</section>
+
+<!-- Case 7 -->
+<section class="case" id="case-7">
+  <div class="case-head"><span class="case-no">Case 7</span><h2>The AI step could not run</h2></div>
+  <p class="when">Three things stop the review: no API key (every PR from a fork), an API error, or an answer that skips a changed item. Then the check fails.</p>
+  <div class="comment"><div class="comment-body">
+    <h4>🤖 AI review: <span class="pill bad">❌ not run</span></h4>
+    <div class="failbox">
+      <p><b>Reason:</b> <code>ANTHROPIC_API_KEY</code> is not available to this run (a pull request from a fork gets no repository secrets).</p>
+      <p>The AI review step failed, so this check failed. Fix the cause, then run the job again.</p>
+    </div>
+  </div></div>
+  <div class="check"><span class="dot" aria-hidden="true"></span>Results check / check (PMC2661051): failed at "AI review of the items this PR changes"</div>
+</section>
+</div>
