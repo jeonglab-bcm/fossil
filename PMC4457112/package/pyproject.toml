@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rctconf"
+version = "0.1.0"
+description = "Confidence that a MEDLINE citation reports a randomized controlled trial: feature-set forward selection, a LIBLINEAR SVM and a calibrated margin (Cohen et al. 2015, rebuilt)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3", "scipy>=1.13,<2", "liblinear-official>=2.47,<3"]
+
+[project.scripts]
+rctconf = "rctconf.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC4457112"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC4457112/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rctconf"]

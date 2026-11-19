@@ -1,0 +1,122 @@
+{
+ "citation_plus_mesh": {
+  "default (-s 1 -c 1, binary)": {
+   "auc": 0.9737672539852859,
+   "average_precision": 0.8773212362674975,
+   "f1": 0.8244632553235113,
+   "accuracy": 0.9854556132887108,
+   "mse_sigmoid": 0.0521636015231158
+  },
+  "C = 0.1": {
+   "auc": 0.9738417375386754,
+   "average_precision": 0.8774959078319469,
+   "f1": 0.8245567765567766,
+   "accuracy": 0.9854701746636929,
+   "mse_sigmoid": 0.05239922270554223
+  },
+  "rows scaled to unit length": {
+   "auc": 0.9774758638213658,
+   "average_precision": 0.8775037346869989,
+   "f1": 0.8269507955797983,
+   "accuracy": 0.9851401168307653,
+   "mse_sigmoid": 0.052571832868701804
+  }
+ },
+ "citation_only": {
+  "default (-s 1 -c 1, binary)": {
+   "auc": 0.9681014698256449,
+   "average_precision": 0.8577441477521931,
+   "f1": 0.8069667041220652,
+   "accuracy": 0.9841572240194734,
+   "mse_sigmoid": 0.05458996493542138
+  },
+  "C = 0.1": {
+   "auc": 0.968170656182504,
+   "average_precision": 0.8579255775060374,
+   "f1": 0.8069210292812778,
+   "accuracy": 0.9841572240194734,
+   "mse_sigmoid": 0.05481828947334065
+  },
+  "rows scaled to unit length": {
+   "auc": 0.9725754382027004,
+   "average_precision": 0.8570812040750173,
+   "f1": 0.8078699168789005,
+   "accuracy": 0.9833393601246454,
+   "mse_sigmoid": 0.05729431907498261
+  }
+ },
+ "chisq": {
+  "citation_only": {
+   "candidate_features": 53810398,
+   "kept": {
+    "0.05": 2628721,
+    "0.001": 191826,
+    "1e-6": 71853,
+    "Bonferroni": 46126
+   },
+   "bonferroni_chisq_2011": {
+    "auc": 0.9264915106913562,
+    "average_precision": 0.7445881790371075,
+    "f1": 0.7130581199558731,
+    "accuracy": 0.9760125616128179
+   },
+   "bonferroni_posthoc_2011": {
+    "auc": 0.9509199694610697,
+    "average_precision": 0.8136229993816213,
+    "f1": 0.775268756043456,
+    "accuracy": 0.9808226691485722
+   }
+  },
+  "citation_plus_mesh": {
+   "candidate_features": 54056843,
+   "kept": {
+    "0.05": 2651049,
+    "0.001": 203591,
+    "1e-6": 79034,
+    "Bonferroni": 51194
+   },
+   "bonferroni_chisq_2011": {
+    "auc": 0.9410481902630591,
+    "average_precision": 0.7801380679677987,
+    "f1": 0.7418032786885247,
+    "accuracy": 0.9779832010270623
+   },
+   "bonferroni_posthoc_2011": {
+    "auc": 0.9608217661060874,
+    "average_precision": 0.8441813281140934,
+    "f1": 0.7993192454970927,
+    "accuracy": 0.9828297120002718
+   }
+  }
+ },
+ "selection_3_decimals": {
+  "citation_only": {
+   "chosen": [
+    "abstract_bigrams",
+    "abstract_unigrams",
+    "abstract_trigrams",
+    "title_unigrams",
+    "journal",
+    "author_count",
+    "authors"
+   ],
+   "n_sets": 7,
+   "auc": 0.9711236298300261,
+   "f1": 0.8007544442501604
+  },
+  "citation_plus_mesh": {
+   "chosen": [
+    "abstract_bigrams",
+    "abstract_unigrams",
+    "mesh_terms",
+    "abstract_trigrams",
+    "title_unigrams",
+    "journal",
+    "author_count"
+   ],
+   "n_sets": 7,
+   "auc": 0.9759400350427851,
+   "f1": 0.818056989705469
+  }
+ }
+}

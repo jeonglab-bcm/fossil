@@ -1,0 +1,794 @@
+{
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "paper": {
+  "id": "PMC4457112",
+  "title": "Automated confidence ranked classification of randomized controlled trial articles: an aid to evidence-based medicine",
+  "citation": "Cohen AM, Smalheiser NR, McDonagh MS, Yu C, Adams CE, Davis JM, Yu PS. Automated confidence ranked classification of randomized controlled trial articles: an aid to evidence-based medicine. J Am Med Inform Assoc 22(3):707-717 (2015)",
+  "doi": "10.1093/jamia/ocu025",
+  "license": "CC BY-NC 4.0"
+ },
+ "run": {
+  "date": "2026-11-19",
+  "pipeline": "PMC4457112/figure-reproduction/main.nf",
+  "command": "nextflow run PMC4457112/figure-reproduction/main.nf --outdir results",
+  "full_command": "nextflow run PMC4457112/figure-reproduction/main.nf --outdir results --full",
+  "inputs": [
+   {
+    "name": "PubMed 2026 baseline, pubmed26n0001-1334.xml.gz (SHA-256 of each file in output/baseline_manifest.json)",
+    "url": "https://ftp.ncbi.nlm.nih.gov/pubmed/baseline/",
+    "sha256": "see output/baseline_manifest.json"
+   },
+   {
+    "name": "PMC4457112 article XML (Tables 1-3, read by --extract)",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=4457112&rettype=xml",
+    "sha256": "ed103628d4ede4e698777a463caff130f9251d592d89d52dbeeb351b84809a95"
+   },
+   {
+    "name": "bow-20020213.tar.gz (McCallum's Bag-Of-Words library; its stopwords.c is the package's stop-word list)",
+    "url": "https://www.cs.cmu.edu/~mccallum/bow/src/bow-20020213.tar.gz",
+    "sha256": "5788792231eb5d674ec041b8a177b9d40a72fba9dbcdc9c5da1440100038ef0e"
+   },
+   {
+    "name": "Acute cholecystitis topic search, PubMed E-utilities, 2026-11-19 (output/cholecystitis_pmids.txt)",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+    "sha256": "see the committed PMID list"
+   }
+  ]
+ },
+ "assumption_sets": {
+  "dataset": [
+   {
+    "what": "The paper's 'human-related' PubMed query is in its lost supplement. We use humans[mh] AND hasabstract AND english[la], 1987-2012, from the PubMed 2026 baseline",
+    "source": "found_by_search",
+    "sensitivity": "Chosen by RCT_PT count among four candidate queries (E-utilities, 2026-11-19): humans[mh] alone gives 312,580 RCT_PT citations, with hasabstract 301,496, with hasabstract and english[la] 284,086, against the paper's 277,789. Our dataset holds {dataset} citations, {dataset_rct} with RCT_PT, and {train_years} in 1987-2010 (the paper: 'over 5 million')."
+   },
+   {
+    "what": "MEDLINE records as of the 2026 baseline, not the 2012-2014 download; old baselines are not distributed",
+    "source": "our_choice",
+    "sensitivity": "NLM corrects publication types and MeSH over time. The RCT_PT count of our dataset is within {dataset_rct} of 277,789 (0.4%), so the drift in the label is small in total; which citations changed cannot be known."
+   },
+   {
+    "what": "Publication year: the PubDate year, or the first year of MedlineDate",
+    "source": "our_choice",
+    "sensitivity": "PubMed's [dp] also matches electronic dates; the year split moves a few citations between training and test years."
+   },
+   {
+    "what": "The 7.5% training sample is drawn with NumPy seed 0; the paper gives no seed",
+    "source": "our_choice",
+    "sensitivity": "{train_sample} citations, {train_sample_rct} with RCT_PT. A different sample moves the test measures by about the cross-validation spread (see the variants)."
+   }
+  ],
+  "features": [
+   {
+    "what": "Feature sets: title and abstract uni-, bi- and trigrams, journal, author names, author count, author keywords (citation); MeSH descriptors, major descriptors, descriptor/qualifier pairs and substances (MeSH). The paper's list is in the supplement",
+    "source": "our_choice",
+    "sensitivity": "The paper names the kinds (title n-grams 1-3, bibliographic fields, MeSH) but not the list. Our candidates hold 54 million features in the training sample against the paper's 'approximately 45 million'."
+   },
+   {
+    "what": "Tokens split on whitespace and punctuation, lower case, the SMART stop words of McCallum's Bag-Of-Words library, no stemming",
+    "source": "found_by_search",
+    "sensitivity": "From the same group's description of the same pipeline in 2018 (Cohen et al., PMC6146117), not from this paper."
+   },
+   {
+    "what": "Structured-abstract labels (BACKGROUND:, METHODS:) kept in the abstract text",
+    "source": "our_choice",
+    "sensitivity": "Not tested; labels are a handful of tokens per abstract."
+   }
+  ],
+  "model": [
+   {
+    "what": "LIBLINEAR -s 1 (L2-regularized L2-loss SVM, dual), C = 1, with a bias term (-B 1), binary features without row scaling",
+    "source": "our_choice",
+    "sensitivity": "LIBLINEAR's defaults; the paper states none of them. variants.json: C = 0.1, unit-length rows and logistic regression each move the 2011 measures; see the cause."
+   },
+   {
+    "what": "Forward selection with one 2-fold split per candidate instead of 5x2 CV; a set is added when it raises AUC at four decimals, F1 breaking ties",
+    "source": "our_choice",
+    "sensitivity": "5x2 CV at every step would take about 6 hours here; the final models are cross-validated 5x2 as in the paper. The paper does not say how AUC and F1 are combined; the rule follows the group's 2018 paper."
+   },
+   {
+    "what": "Confidence: Platt's sigmoid fitted to 2-fold out-of-fold margins of the training sample, in place of the paper's 'extension to the method of Ruping', which is described only in the supplement",
+    "source": "our_choice",
+    "sensitivity": "Changes only the MSE rows. The zero-centred sigmoid baseline is the paper's own definition."
+   }
+  ],
+  "chisq": [
+   {
+    "what": "CHISQ filtering: Pearson's chi-squared test with Yates' correction, p < 0.05, over every feature of every candidate set; the paper gives no test details or threshold",
+    "source": "our_choice",
+    "sensitivity": "The threshold sets the feature count of the CHISQ and POSTHOC columns ({n_chisq_c} and {n_chisq_m} against 102,023 and 113,177)."
+   }
+  ],
+  "topic": [
+   {
+    "what": "The acute cholecystitis search: (cholecystitis[mh] OR cholecystitis[tiab]) AND acute[tiab], with the Robinson and Dickersin (2002) highly sensitive filter, 1987-2012, run on 2026-11-19. The paper's query (Table S2) is lost",
+    "source": "our_choice",
+    "sensitivity": "The topic terms are ours; the paper used the Cochrane review CD005440's terms. The search gives 1,409 PMIDs."
+   }
+  ]
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, CITATION_PLUS_MESH: 5x2 CV on 1987-2010, held-out 2011 and 2012",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "tables/table1",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, CITATION_ONLY: 5x2 CV on 1987-2010, held-out 2011 and 2012",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "tables/table2",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "table3",
+   "label": "Table 3, four modelling approaches on 2011, both models",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "tables/table3",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model",
+    "chisq"
+   ],
+   "cause_from": "table3"
+  },
+  {
+   "id": "text.test_floor",
+   "label": "Results: for both years AUC >= 0.965, accuracy >= 0.984, F1 >= 0.807",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_test_floor",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "text.cv_predicts_test",
+   "label": "Results: test performance very nearly the same as cross-validation",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_cv_predicts_test",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "text.mesh_better",
+   "label": "CITATION_PLUS_MESH slightly better than CITATION_ONLY across all measures",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_mesh_better",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "text.ci_no_overlap",
+   "label": "The two models' AUC 95% intervals do not overlap (2011, 2012)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_ci_no_overlap",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "text.mse_below",
+   "label": "Squared error of the confidence below 0.015 for both models",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_mse_below",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "calibration"
+  },
+  {
+   "id": "text.calibration_3x",
+   "label": "The enhanced Ruping method more than 3 times as accurate as the zero-centred sigmoid",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_calibration_3x",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "calibration"
+  },
+  {
+   "id": "text.forward_beats_chisq",
+   "label": "Forward selection outperforms CHISQ filtering on every metric",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_forward_beats_chisq",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model",
+    "chisq"
+   ],
+   "cause_from": "table3"
+  },
+  {
+   "id": "text.posthoc",
+   "label": "POSTHOC DROP LOW WEIGHTS almost identical to forward selection with 300-400 times fewer features",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_posthoc",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model",
+    "chisq"
+   ],
+   "cause_from": "table3",
+   "exceptions": [
+    {
+     "field": "forward selection features over POSTHOC features, CITATION_ONLY, between 300 and 400",
+     "category": "paper_error",
+     "evidence": "Table 3 gives 44,114,421 / 102,262 = 431, outside the '300-400x' of the text (comparison.json, arithmetic)"
+    }
+   ]
+  },
+  {
+   "id": "text.pubtypes",
+   "label": "Adding publication types: AUC up a little, average precision down more, F1 and MSE worse",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_pubtypes",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "table3"
+  },
+  {
+   "id": "text.selected_sets",
+   "label": "Forward selection chose 7 feature sets for CITATION_ONLY and 10 for CITATION_PLUS_MESH",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_selected_sets",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "sets"
+  },
+  {
+   "id": "text.feature_count",
+   "label": "Approximately 45 million unique features",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_feature_count",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "sets"
+  },
+  {
+   "id": "text.training_size",
+   "label": "The 1987-2010 training set holds over 5 million articles",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_training_size",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "tables"
+  },
+  {
+   "id": "text.randomized",
+   "label": "Best single feature: the term \"randomized\", F1 about 0.72",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_randomized",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "randomized"
+  },
+  {
+   "id": "text.training_fraction",
+   "label": "Performance basically flat between 5% and 10% of the training data (figure in the supplement)",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_training_fraction",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "fraction"
+  },
+  {
+   "id": "text.disagreements",
+   "label": "Disagreements with RCT_PT over 1987-2012: 1811 at >= 0.95, 19 838 at >= 0.50, 277 789 tagged, 20 523 at <= 0.05",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_disagreements",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model"
+   ],
+   "cause_from": "disagreements"
+  },
+  {
+   "id": "text.estimates",
+   "label": "Estimates from the disagreements and Fig. 1's rates: 1268, 7935 (3%), 19 497 (7%), 12 900 (5%), 20 000",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "exceptions": [
+    {
+     "field": "possible RCT_PT errors, thousands (approximately 12 900, 5% of the tagged articles)",
+     "category": "paper_error",
+     "evidence": "5% of the paper's 277,789 RCT_PT articles is 13,889, not 12,900; the same paragraph gives 19,497 ('about 7%') for the same quantity"
+    },
+    {
+     "field": "additional RCTs and possible errors combined, thousands (about 20 000)",
+     "category": "paper_error",
+     "evidence": "The paper's own 7,900 + 12,900 is 20,800, about 21,000 rather than 20,000; with 7,935 + 19,497 it would be 27,432"
+    }
+   ],
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "These estimates apply Fig. 1's manual-review rates (70%, 40%, 95%) to the disagreement counts. The rates come from 200 manually labelled articles that were never released, so they cannot be recomputed; putting the paper's rates into our counts would be a sensitivity variant, not a result. Their arithmetic is checked in text.arithmetic.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.cholecystitis",
+   "label": "Discussion: the acute cholecystitis search, 3883 articles, 795 tagged, 2751 of 3088 at <= 0.10",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims/text_cholecystitis",
+   "assumptions_from": [
+    "dataset",
+    "features",
+    "model",
+    "topic"
+   ],
+   "cause_from": "topic",
+   "exceptions": [
+    {
+     "field": "share of the unannotated articles skipped, %",
+     "category": "paper_error",
+     "evidence": "2751 of 3088 is 89.1%, not the 85% the Discussion prints (comparison.json, arithmetic)"
+    }
+   ]
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Every claim recomputed from the paper's own numbers",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "arithmetic"
+  },
+  {
+   "id": "fig1",
+   "label": "Fig. 1, manual-review RCT prevalence by confidence bin, four Cochrane topics (STRICT 0.962, LOOSE 0.986)",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The 200 manually reviewed articles, their sampled PMIDs and the reviewer's labels were never released, and the four topic searches are in the lost Table S2. A new manual review would be a new sample, not this figure.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.manual_2014",
+   "label": "The 50 RCT_PT articles of 2014: 14 disagreements; 11 below 0.50, 5 below 0.25, 3 below 0.01",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The 50 articles and the reviewer's labels were not released.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "text.kappa",
+   "label": "Cohen's kappa 0.72 between the manual review and RCT_PT",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "Needs the manual review's labels, which were not released.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC4457112/"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "supplement",
+   "label": "Supplementary material: feature-set lists, top-weighted features, confidence distributions of 2011, the training-fraction figure, Table S2",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "summary": "The JAMIA supplement is not in PMC or Europe PMC, the publisher answered 403 to every request, and no archived copy was found (issue #94).",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/94"
+    ],
+    "status": "explained"
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package rctconf and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "causes": {
+  "tables": {
+   "category": "undocumented_setting",
+   "summary": "Rebuilt from the paper's text on the 2026 MEDLINE baseline: the feature-set list, the LIBLINEAR settings, the selection rule, the confidence method and the PubMed query are in the lost supplement, and NLM has corrected records since 2012-2014. Every AUC, average precision, F1 and accuracy is within 0.008 of the printed value (the largest gap: CITATION_ONLY F1 on 2012, 0.803 against 0.811), and our calibrated MSE within 0.001. The zero-centred sigmoid MSE is 0.007 to 0.009 higher than printed: it depends on the scale of the SVM margin, which the unstated C and feature scaling set.",
+   "evidence": [
+    "figure-reproduction/output/models.json",
+    "figure-reproduction/output/variants.json",
+    "figure-reproduction/output/dataset.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The MEDLINE snapshot differs: records and RCT publication types corrected since the paper's download",
+     "test": "Count RCT_PT citations in our dataset against the paper's 277,789 (dataset.json)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
+     "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets",
+     "test": "Rerun forward selection with AUC compared at three decimals (variants.json): CITATION_ONLY {sel3_c}; CITATION_PLUS_MESH {sel3_m}",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "table3": {
+   "category": "undocumented_setting",
+   "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps {n_chisq_c} and {n_chisq_m} features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score as high as the paper's or higher, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep {n_feat_c} and {n_feat_m} features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+   "evidence": [
+    "figure-reproduction/output/models.json",
+    "figure-reproduction/output/variants.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
+     "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: {chisq_c_kept}; refitted CHISQ {chisq_c_bonf_chisq}, POSTHOC {chisq_c_bonf_posthoc}. CITATION_PLUS_MESH kept: {chisq_m_kept}; CHISQ {chisq_m_bonf_chisq}, POSTHOC {chisq_m_bonf_posthoc}. The paper's CHISQ feature counts and CHISQ scores lie between our p < 0.05 and Bonferroni models (MeSH CHISQ F1 equals our p < 0.05 model's at printed precision), so its threshold lay between them; the POSTHOC scores do not bracket; no threshold was fitted to the paper",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "An unstated LIBLINEAR setting moves the measures onto the paper's",
+     "test": "As for Tables 1 and 2 (variants.json)",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets, hence fewer features",
+     "test": "Forward selection with AUC at three decimals (variants.json): CITATION_ONLY {sel3_c}; CITATION_PLUS_MESH {sel3_m}",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "calibration": {
+   "category": "undocumented_setting",
+   "summary": "Rebuilt from the paper's text on the 2026 MEDLINE baseline: the feature-set list, the LIBLINEAR settings, the selection rule, the confidence method and the PubMed query are in the lost supplement, and NLM has corrected records since 2012-2014. Every AUC, average precision, F1 and accuracy is within 0.008 of the printed value (the largest gap: CITATION_ONLY F1 on 2012, 0.803 against 0.811), and our calibrated MSE within 0.001. The zero-centred sigmoid MSE is 0.007 to 0.009 higher than printed: it depends on the scale of the SVM margin, which the unstated C and feature scaling set.",
+   "evidence": [
+    "figure-reproduction/output/models.json",
+    "figure-reproduction/output/variants.json",
+    "figure-reproduction/output/dataset.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The MEDLINE snapshot differs: records and RCT publication types corrected since the paper's download",
+     "test": "Count RCT_PT citations in our dataset against the paper's 277,789 (dataset.json)",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
+     "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The paper's selection judged improvement more coarsely and kept fewer sets",
+     "test": "Rerun forward selection with AUC compared at three decimals (variants.json): CITATION_ONLY {sel3_c}; CITATION_PLUS_MESH {sel3_m}",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "sets": {
+   "category": "undocumented_setting",
+   "summary": "Our forward selection kept {n_sets_c} citation sets ({sets_c}) and {n_sets_m} sets with MeSH ({sets_m}) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add under 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+   "evidence": [
+    "figure-reproduction/output/selection.json",
+    "figure-reproduction/output/variants.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Improvement judged at three decimals of AUC, not four",
+     "test": "Rerun forward selection with auc_decimals = 3 (variants.json): CITATION_ONLY {sel3_c}; CITATION_PLUS_MESH {sel3_m}. It gives the paper's 7 sets for CITATION_ONLY but 7, not 10, for CITATION_PLUS_MESH",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
+     "test": "Read where these sets enter (selection.json): keywords and substances come last, adding 0.00001 to 0.00004 AUC unrounded",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "randomized": {
+   "category": "undocumented_setting",
+   "summary": "\"randomized\" is our best single feature too, but its F1 is {rand_f1} against the paper's 'about 0.72'; the preliminary study is described only in the supplement.",
+   "evidence": [
+    "figure-reproduction/output/single_feature.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The paper counted British spelling too",
+     "test": "F1 of 'randomized' or 'randomised' in the title or abstract: {rand_randomized_or_randomised}",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "The paper's feature was a stem (randomiz*, randomis*) or any word starting with random",
+     "test": "F1 of randomi[sz]*: {rand_randomi_stem}; of random*: {rand_random_prefix}",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "fraction": {
+   "category": "undocumented_setting",
+   "summary": "From 5% to 10% of the training years our cross-validated AUC rises by 0.0026 and F1 by 0.012, more than the 0.002 we set in advance for 'basically flat'. The paper's curve is in the lost supplement, so how flat it was cannot be checked.",
+   "evidence": [
+    "figure-reproduction/output/fraction.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Flatness was judged at the printed precision of AUC",
+     "test": "AUC at 5% and 10% at three decimals: 0.969 and 0.972 (fraction.json)",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "Flatness was judged on F1",
+     "test": "F1 at 5% and 10%: 0.790 and 0.802 (fraction.json)",
+     "result": "rejected"
+    }
+   ],
+   "status": "open"
+  },
+  "disagreements": {
+   "category": "undocumented_setting",
+   "summary": "The extreme counts are set by the confidence method, the paper's extension of Ruping's method, which is described only in the supplement. With our fitted sigmoid: {dis_conf_ge_095_without_rct_pt} citations at >= 0.95 without RCT_PT, {dis_conf_ge_050_without_rct_pt} at >= 0.50, {dis_conf_le_005_with_rct_pt} at <= 0.05 with it. With the paper's zero-centred sigmoid: {dis_sig_conf_ge_095_without_rct_pt}, {dis_sig_conf_ge_050_without_rct_pt} and {dis_sig_conf_le_005_with_rct_pt}. The RCT_PT total, which needs no model, is {rct_pt} against 277,789.",
+   "evidence": [
+    "figure-reproduction/output/disagreements.json",
+    "figure-reproduction/output/disagreements_pmids.tsv"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "The confidence method sets the counts",
+     "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the 0.95 and 0.05 counts by orders of magnitude (4,064 to 2, 27,979 to 0) and the 0.50 count from 23,344 to 19,384, but neither version gives the paper's",
+     "result": "inconclusive"
+    },
+    {
+     "hypothesis": "The labels drifted: RCT_PT added or removed since 2012-2014",
+     "test": "RCT_PT total of our dataset against the paper's",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "open"
+  },
+  "topic": {
+   "category": "data_unavailable",
+   "summary": "The paper's search (Table S2) is lost; our rebuilt search finds {topic_in_dataset} articles in our dataset against 3,883, with {topic_with_rct_pt} tagged RCT. Of the {topic_without_rct_pt} untagged, {topic_without_rct_pt_le_010} score <= 0.10, so skipping them would avoid more of the untagged articles than the paper's 85%.",
+   "evidence": [
+    "figure-reproduction/output/topic.json",
+    "figure-reproduction/output/cholecystitis_pmids.txt"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Our topic search is narrower than the Cochrane review's",
+     "test": "Count: {topic_query_pmids} PMIDs from PubMed, {topic_in_dataset} in our dataset, against 3,883 in the paper's",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "The confidence method moves the 0.10 cut",
+     "test": "Not separable from the search; the same method question as the disagreement counts",
+     "result": "inconclusive"
+    }
+   ],
+   "status": "explained"
+  }
+ },
+ "page": {
+  "lede": "Cohen and colleagues released their RCT classifier only as a web service, which is gone. In November 2026 we rebuilt it from the paper and retrained both models on {dataset} MEDLINE citations of 1987 to 2012. Of {items} results, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} could not be attempted. Every gap has a stated cause.",
+  "label_rows": [
+   [
+    "table1",
+    "Table 1, with MeSH",
+    [
+     "table1"
+    ]
+   ],
+   [
+    "table2",
+    "Table 2, citation only",
+    [
+     "table2"
+    ]
+   ],
+   [
+    "tables",
+    "Table 3, other approaches",
+    [
+     "table3"
+    ]
+   ],
+   [
+    "items",
+    "The claims",
+    [
+     "text.test_floor",
+     "text.cv_predicts_test",
+     "text.mesh_better",
+     "text.ci_no_overlap",
+     "text.mse_below",
+     "text.calibration_3x",
+     "text.forward_beats_chisq",
+     "text.posthoc",
+     "text.pubtypes"
+    ]
+   ],
+   [
+    "items",
+    "Disagreements with MEDLINE",
+    [
+     "text.disagreements"
+    ]
+   ]
+  ],
+  "came_back": [
+   [
+    "The two classifiers",
+    "Retrained on the 2026 PubMed baseline, the MeSH model scores AUC {m_auc11} on 2011 (paper 0.973) and the citation-only model {c_auc11} (paper 0.966). Every AUC, average precision, F1 and accuracy of Tables 1 and 2 is within 0.01 of the paper's."
+   ],
+   [
+    "The dataset",
+    "The human-related citations of 1987 to 2012 with an abstract in English: {dataset} citations, {dataset_rct} tagged as RCTs against the paper's 277,789."
+   ],
+   [
+    "The comparisons",
+    "Forward selection beats chi-squared filtering, dropping low weights costs almost nothing, and adding publication types raises AUC a little while average precision, F1 and MSE get worse, as in Table 3."
+   ],
+   [
+    "The method",
+    "rctconf, a Python package with the feature sets, forward selection, the LIBLINEAR model and the confidence, with a tutorial."
+   ]
+  ],
+  "buried": [
+   "The supplement. Its feature lists, PubMed query, confidence method and Table S2 are not in PMC, and the publisher refused every request.",
+   "The manual review behind Fig. 1, the 2014 sample and the kappa. The 250 reviewed articles and their labels were never released.",
+   "The confidence method. Our fitted sigmoid comes within 0.001 of the paper's MSE, but the counts at 0.95, 0.50 and 0.05 depend on the lost method and do not come back."
+  ],
+  "matched_intro": "What the paper does not say, and what we chose.",
+  "matched": [
+   [
+    "Dataset query",
+    "humans[mh] AND hasabstract AND english[la]: today it gives 284,086 tagged RCTs, nearest to the paper's 277,789 of four queries tried."
+   ],
+   [
+    "Feature sets",
+    "Title and abstract n-grams, journal, authors, author count, keywords; MeSH, major MeSH, MeSH with qualifiers, substances. Tokens as the same group described them in 2018."
+   ],
+   [
+    "Classifier",
+    "LIBLINEAR with its default solver and C = 1. C = 0.1 gives nearly the same numbers (within 0.001); unit-length rows raise AUC further."
+   ],
+   [
+    "Selection",
+    "One 2-fold split per candidate, AUC at four decimals. It keeps {n_sets_c} and {n_sets_m} sets where the paper kept 7 and 10."
+   ],
+   [
+    "Confidence",
+    "A sigmoid fitted to out-of-fold margins, in place of the paper's extension of Ruping's method."
+   ]
+  ],
+  "tables_caption": "Each cell gives the paper's value over ours, from the committed full run. Shaded cells differ from the paper at its printed precision. CI rows are the Hanley and McNeil 95% intervals.",
+  "items_caption": "Every table, figure and claim of the paper, with our numbers and the verdict check_results.py computes from them.",
+  "claims_line": "The main claim holds: both rebuilt models rank RCTs with AUC near 0.97, the MeSH model ahead, as in the paper. The claims that do not match come from the lost supplement (feature sets, CHISQ test, confidence method) and from manual labels that were never released.",
+  "closing": "The RCT Tagger came back from the paper's text and today's MEDLINE."
+ }
+}
