@@ -1,0 +1,655 @@
+{
+ "paper": {
+  "id": "PMC507884",
+  "title": "Statistical modeling for selecting housekeeper genes",
+  "citation": "Szabo A, Perou CM, Karaca M, Perreard L, Palais R, Quackenbush JF, Bernard PS. Statistical modeling for selecting housekeeper genes. Genome Biology 5:R59 (2004); correction (author list) Genome Biology 9:405 (2008)",
+  "doi": "10.1186/gb-2004-5-8-r59",
+  "license": "BioMed Central open access (2004): verbatim copying and redistribution permitted in all media for any purpose, with the notice and the article's original URL"
+ },
+ "run": {
+  "pipeline": "PMC507884/figure-reproduction/main.nf",
+  "command": "nextflow run PMC507884/figure-reproduction/main.nf --outdir results"
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "shared_assumptions": {
+  "reml": {
+   "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+   "source": "our_choice",
+   "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+  },
+  "vandesompele": {
+   "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+   "source": "paper",
+   "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+  },
+  "fig_grid": {
+   "what": "Our figures are drawn on the published pixel grid: y from the tick marks and their printed values, one sample per grid line (Figs 1 and 2) or one bar per tissue tick (Fig. 3), markers cut from the published legend",
+   "source": "our_choice",
+   "sensitivity": "Every calibration fits its ticks with a residual of 0 px. Nothing inside a panel is fitted; the residual misses are marker anchors (the down triangles sit about 2 px off) and the order in which overlapping markers are drawn."
+  }
+ },
+ "items": [
+  {
+   "id": "fig1.a",
+   "label": "Fig. 1a, raw expression of six genes in 80 breast tumours",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "fig_grid"
+   ],
+   "assumptions": [
+    {
+     "what": "Samples ordered by the mean of their six log values (the caption's rule), ties kept in file order",
+     "source": "paper"
+    }
+   ]
+  },
+  {
+   "id": "fig1.b",
+   "label": "Fig. 1b, the same on a log scale",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "fig_grid"
+   ]
+  },
+  {
+   "id": "table1",
+   "label": "Table 1, Model 1a standard deviations",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml"
+   ]
+  },
+  {
+   "id": "table1.ci",
+   "label": "Table 1, 95% confidence intervals",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml"
+   ],
+   "assumptions": [
+    {
+     "what": "Wald intervals on the log SDs from the numerical Hessian (Richardson extrapolation) of the REML likelihood",
+     "source": "our_choice",
+     "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.013 (PSMC4's lower bound) and reach every printed bound."
+    }
+   ],
+   "cause": {
+    "category": "environment",
+    "status": "explained",
+    "summary": "The printed bounds are nlme's approximate intervals, whose numerical Hessian moves them in the third decimal with the order of the rows and the contrasts; across 24 such parameterizations nlme 3.1-164 reaches all 12 printed bounds. Ours, from an accurate Hessian, are within 0.002 of every printed bound.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The intervals are nlme's intervals(), which depend on the parameterization",
+      "test": "intervals() for each gene as the varIdent reference, under treatment and sum contrasts and two row orders (24 fits)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The intervals come from maximum likelihood",
+      "test": "Model 1a by ML",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.model1_bic",
+   "label": "Text: Model 1a has the best BIC of Models 1a, 1b and 1c",
+   "kind": "code_check",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml"
+   ]
+  },
+  {
+   "id": "text.p_value",
+   "label": "Text: microarray-selected genes against GAPD and ACTB, p = 0.0014",
+   "kind": "value",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "The test: a likelihood ratio test of Model 1a against the model in which the four microarray-selected genes share one variance and GAPD and ACTB another (REML, 4 degrees of freedom)",
+     "source": "found_by_search",
+     "sensitivity": "The paper does not name its test. This is the only one of four readings tried that gives 0.0014 (0.00139). The others: one variance for each group against one for all, p = 1.8e-9; a t test of the six SDs, p = 0.032; a t test of their logs, p = 0.049."
+    }
+   ]
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, best gene set of each size and the SD of its log geometric mean",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml"
+   ],
+   "assumptions": [
+    {
+     "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by |S|^2",
+     "source": "found_by_search",
+     "sensitivity": "The paper prints the divisor |S|, which gives none of rows 2 to 6 (row 2: 0.2430 against 0.1718); |S|^2, the variance of a mean, gives rows 1 to 5 as printed and row 6 one unit off. See text.set_variance_formula."
+    }
+   ],
+   "exceptions": [
+    {
+     "field": "size 4 set",
+     "category": "paper_error",
+     "evidence": "The row prints SP3A1, a gene not in the study; the set is otherwise SF3A1's row (our set: MRPL19, PSMC4, PUM1, SF3A1)."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "Every set and five of the six SDs come back as printed; the six-gene SD is 0.151354, printed 0.1513, 0.000004 above the rounding boundary. Optimizer settings, the rounded SDs of Table 1 and truncation do not explain it.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "An optimizer setting of the 2004 fit",
+      "test": "36 fits: each gene as the varIdent reference, two contrast codings, convergence tolerances 1e-6, 1e-4 and 1e-3",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Computed from the rounded SDs of Table 1",
+      "test": "The six printed SDs give 0.1514",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Truncated instead of rounded",
+      "test": "Truncation gives row 6 0.1513 but rows 1, 3 and 4 as 0.2181, 0.1493 and 0.1489 against the printed 0.2182, 0.1494 and 0.1490",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.set_variance_formula",
+   "label": "Methods: the printed variance of a set's log geometric mean (divide by |S|)",
+   "kind": "code_check",
+   "source": "papers_data",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "The formula prints |S| where Table 2 uses |S|^2: on the paper's own Table 1 the best pair gives 0.1716 with |S|^2 (printed 0.1718) and 0.2426 with |S|.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The divisor is |S|^2",
+      "test": "Table 2 from our SDs with |S|^2 and with |S|",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.table2_claims",
+   "label": "Text: the four-gene set is lowest, three genes barely worse, two far worse",
+   "kind": "code_check",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.sd_cv",
+   "label": "Text: the SDs of Table 2 are about the coefficients of variation on the original scale",
+   "kind": "code_check",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "About equal means within 5%",
+     "source": "our_choice",
+     "sensitivity": "The largest difference is 1.2%."
+    }
+   ]
+  },
+  {
+   "id": "text.mvalue_breast",
+   "label": "Text: geNorm M-values give the same ranking except PUM1 and PSMC4, with MRPL19 and PSMC4 an unordered best pair",
+   "kind": "value",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "geNorm's stepwise elimination (Vandesompele et al. 2002) on natural logs",
+     "source": "paper",
+     "sensitivity": "The log base scales every M by the same factor and does not change the ranking."
+    }
+   ]
+  },
+  {
+   "id": "text.mvalue_bounds",
+   "label": "Methods: the printed bounds on the M-value under Model 1",
+   "kind": "code_check",
+   "source": "papers_data",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "The bounds print sigma_j^2 where sigma_j belongs (M is a mean of SDs): with sigma_j they hold for Model 1a's SDs, with sigma_j^2 they fail.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "sigma_j^2 is a slip for sigma_j",
+      "test": "Both forms against the M-values implied by Model 1a's SDs",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "preselection",
+   "label": "Methods: the four candidate genes chosen from microarrays",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "explained",
+    "summary": "A SAS selection of genes with 'a small range of expression' and 'the least variance' on 62 arrays (Perou et al. 2000 and cell lines), with no thresholds; it cannot be rerun as described, and its result (the four genes) is the paper's input, not one of its results.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC507884/"
+    ]
+   }
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, Vandesompele et al.'s data by tissue type",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "fig_grid",
+    "vandesompele"
+   ],
+   "assumptions": [
+    {
+     "what": "Samples ordered within each tissue type by the mean of their ten log values; the wide FIB and NB panels have one and two empty grid lines at each edge",
+     "source": "our_choice",
+     "sensitivity": "The caption gives no order. Ordering by the mean of the raw values scores 58% (a near-miss control)."
+    }
+   ]
+  },
+  {
+   "id": "table3.sigma",
+   "label": "Table 3, Model 2 gene SDs",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml",
+    "vandesompele"
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "TABLE3_SUMMARY",
+    "evidence": [
+     "figure-reproduction/output/hypotheses.json",
+     "figure-reproduction/output/analysis.json"
+    ],
+    "hypotheses": "TABLE3_HYPOTHESES"
+   }
+  },
+  {
+   "id": "table3.varsigma",
+   "label": "Table 3, Model 2 tissue multipliers",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml",
+    "vandesompele"
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "The same gap as the gene SDs (table3.sigma): our multipliers are 2.7 to 3.2% higher, so outside bone marrow the SDs varsigma_k sigma_j come within 2.7% of the printed products (bone marrow, where the multiplier is 1, carries the gene SDs' 2.1 to 5.2%).",
+    "evidence": [
+     "figure-reproduction/output/hypotheses.json"
+    ],
+    "hypotheses": "TABLE3_HYPOTHESES"
+   }
+  },
+  {
+   "id": "table3.order",
+   "label": "Table 3, the order of the genes (GAPD lowest, then UBC, HPRT1, YWHAZ)",
+   "kind": "table",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml",
+    "vandesompele"
+   ]
+  },
+  {
+   "id": "text.model2_bic",
+   "label": "Methods: Model 2 has the best BIC of six variance structures",
+   "kind": "code_check",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "reml"
+   ]
+  },
+  {
+   "id": "text.model2_mvalue",
+   "label": "Text: the top five genes by mean geNorm rank over tissue types are Table 3's top five, in order",
+   "kind": "value",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "geNorm ranks within each tissue type, the best pair both 1.5, averaged over the five tissue types",
+     "source": "paper"
+    }
+   ]
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, minimax-MSE gene sets",
+   "kind": "table",
+   "source": "reconstructed",
+   "assumptions_ref": [
+    "reml",
+    "vandesompele"
+   ],
+   "assumptions": [
+    {
+     "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 / |S|^2; MSE their sum, maximised over tissue types",
+     "source": "found_by_search",
+     "sensitivity": "The paper describes the set MSE in words only. The mean of the biases (the bias of a log-average) gives 2 of the 10 printed sets; the sum gives all 10, and also gives the paper's ACTB plus TBP example on its own numbers (0.349; the mean gives 0.335)."
+    },
+    {
+     "what": "Row k is the best set with at most k genes",
+     "source": "paper",
+     "sensitivity": "The table's heading, 'Maximum number of members'; rows 3 to 5 and 7 to 9 repeat a set. Exactly k genes gives other sets at sizes 4, 5, 8 and 9."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "Every set comes back; 5 of 10 MSEs are 0.001 off. They follow from Model 2's SDs (table3.sigma, open): with Table 3's printed SDs in place of ours, a sensitivity variant, 9 of 10 MSEs are as printed and the tenth (0.543 against 0.544) within Table 3's rounding.",
+    "evidence": [
+     "figure-reproduction/output/analysis.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The bias of a set is the mean of its genes' biases",
+      "test": "Minimax search with the mean",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The MSE differences come from Model 2's SDs",
+      "test": "The same search with Table 3's printed SDs (sensitivity variant, not counted as agreement)",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Model 2's SDs differ for a known reason",
+      "test": "See table3.sigma: estimation method, model terms, log base and every single sample",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, signed MSE of each gene by tissue type",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions_ref": [
+    "fig_grid"
+   ],
+   "assumptions": [
+    {
+     "what": "Bar width two thirds of the tick spacing and a 3 px outline",
+     "source": "our_choice",
+     "sensitivity": "lattice's default box.ratio (2); the R file of the figure (MOESM5) draws 9.99 pt bars every 14.985 pt."
+    }
+   ]
+  },
+  {
+   "id": "fig3.bias2",
+   "label": "Fig. 3, squared biases (bar heights in the publisher's R graphics file)",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels (11.1175 pt per unit)",
+     "source": "read_from_figure",
+     "sensitivity": "Calibrating on the 0 and 2 labels instead (11.115 pt per unit) raises every height by 2.2e-4 of itself and puts 7 of 50 outside the drawing's resolution."
+    }
+   ]
+  },
+  {
+   "id": "fig3.sigma2",
+   "label": "Fig. 3, variances (bar heights in the publisher's R graphics file)",
+   "kind": "figure",
+   "source": "papers_data",
+   "assumptions": [
+    {
+     "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels",
+     "source": "read_from_figure",
+     "sensitivity": "The published variances equal Table 3's printed (varsigma_k sigma_j)^2 within its rounding (ACTB in bone marrow 0.2114 against 0.460^2 = 0.2116)."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "The variances are (varsigma_k sigma_j)^2 of Table 3, whose gap is open (table3.sigma): ours are 3 to 10% lower in bone marrow and within 5.2% elsewhere.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The figure draws Table 3's variances",
+      "test": "Published heights against Table 3's printed products",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The figure's variances are maximum likelihood estimates",
+      "test": "Model 2 by ML: its SDs are 6 to 16% below ours, further from the figure's",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Model 2's SDs differ for a known reason",
+      "test": "See table3.sigma",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.actb_tbp",
+   "label": "Text: ACTB plus TBP in pooled tissues, MSE 0.35 against individual MSEs above 6",
+   "kind": "value",
+   "source": "reconstructed",
+   "assumptions": [
+    {
+     "what": "The set MSE of table4 (the biases of the set summed)",
+     "source": "found_by_search",
+     "sensitivity": "On the paper's own numbers the sum gives 0.349 and the mean 0.335 (text.arithmetic); on ours 0.337 and 0.324."
+    }
+   ],
+   "cause": {
+    "category": "unknown",
+    "status": "open",
+    "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs, about 5% low in pooled tissues (table3.sigma, open). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The bias of the pair is the mean of the two biases",
+      "test": "0.324 on ours, 0.335 on the paper's numbers",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The difference is Model 2's variance",
+      "test": "The paper's Table 3 SDs with the published biases give 0.349",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "Model 2's SDs differ for a known reason",
+      "test": "See table3.sigma",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.data",
+   "label": "Text: 80 tumours and 6 genes; 10 genes in 5 tissue types",
+   "kind": "value",
+   "source": "papers_data"
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "The claims recomputed from the paper's own tables and Fig. 3",
+   "kind": "code_check",
+   "source": "papers_data"
+  },
+  {
+   "id": "table5",
+   "label": "Table 5, primers",
+   "kind": "table",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "status": "explained",
+    "summary": "Primer sequences, lengths, GC content and melting temperatures: laboratory reagents, nothing computed.",
+    "evidence": [
+     "https://pmc.ncbi.nlm.nih.gov/articles/PMC507884/"
+    ]
+   }
+  },
+  {
+   "id": "package",
+   "label": "R package hkselect and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "status_note": "the models rebuilt as the R package `hkselect`; Table 1, every gene set of Tables 2 and 4 and all 50 squared biases of Fig. 3 as printed; Figs 1-3 agree; Model 2's SDs (Table 3) 2 to 5% below the paper's for a reason not found",
+ "site_note": "Table 1 and every gene set come back",
+ "page": {
+  "lede": "The authors fitted their models in R but never released the code. We rebuilt Models 1 and 2 from the paper's text as the R package hkselect and reran them on the paper's breast cancer data and on Vandesompele et al.'s data. Of {attempted} results we tried, {exact} came back exact, {agrees} agree, {partly} partly and {differs} differ.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1, breast tumours",
+    [
+     "fig1.a",
+     "fig1.b"
+    ]
+   ],
+   [
+    "tables",
+    "Tables 1 to 4",
+    [
+     "table1",
+     "table1.ci",
+     "table2",
+     "table3.sigma",
+     "table3.varsigma",
+     "table4"
+    ]
+   ],
+   [
+    "fig-2",
+    "Fig. 2, ten genes",
+    [
+     "fig2"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3, signed MSE",
+    [
+     "fig3",
+     "fig3.bias2",
+     "fig3.sigma2"
+    ]
+   ],
+   [
+    "items",
+    "Claims in the text",
+    [
+     "text.model1_bic",
+     "text.p_value",
+     "text.table2_claims",
+     "text.sd_cv",
+     "text.mvalue_breast",
+     "text.model2_bic",
+     "text.model2_mvalue",
+     "text.actb_tbp",
+     "text.data"
+    ]
+   ]
+  ],
+  "tables_caption": "Each table as printed and from our run. A value of ours matches when it rounds to the printed one.",
+  "items_caption": "Every figure, table and claim of the paper, with its verdict from results.json.",
+  "claims_line": "The main claims hold: MRPL19 is the best single gene and MRPL19, PUM1 and PSMC4 the chosen three-gene normaliser in breast cancer, and HPRT1, RPL13A and UBC the best small universal set. Of the claims that do not match, two are slips in printed formulas, one is Table 2's last digit, and the rest follow from Model 2's SDs, which stay 2 to 5% below Table 3's for a reason we did not find.",
+  "came_back": [
+   [
+    "Model 1a",
+    "All six standard deviations of Table 1 as printed, from the paper's own data and the nlme model it names."
+   ],
+   [
+    "Table 2",
+    "Every best gene set, and five of the six standard deviations as printed."
+   ],
+   [
+    "The p value",
+    "p = 0.0014, from a likelihood ratio test the paper does not name."
+   ],
+   [
+    "Fig. 3",
+    "All 50 squared biases within the resolution of the publisher's R graphics file, and every sign."
+   ],
+   [
+    "Table 4",
+    "Every minimax gene set, once the bias of a set is the sum of its genes' biases, as the paper's own ACTB and TBP example also needs."
+   ]
+  ],
+  "buried": [
+   "Model 2's standard deviations: ours stay 2 to 5% below Table 3, and no variant fit we tried reaches it.",
+   "Table 2's six-gene value, 0.000004 on the other side of a rounding boundary.",
+   "How the paper computed its confidence intervals; nlme's own spread covers every printed bound."
+  ],
+  "matched_intro": "What we matched, and how.",
+  "matched": [
+   [
+    "Tables",
+    "Each value against the printed one at its printed precision; gene sets as sets."
+   ],
+   [
+    "Figs 1 and 2",
+    "Our points drawn on the published pixel grid with the published markers, scored both ways within 2 px, against wrong inputs and near misses."
+   ],
+   [
+    "Fig. 3",
+    "The bars scored the same way, and every bar height read from the publisher's R graphics file."
+   ],
+   [
+    "Text",
+    "Each claim checked first on the paper's own tables (8 of 8 hold there), then on our run."
+   ]
+  ],
+  "closing": "Szabo's housekeeper models came back as an R package."
+ }
+}

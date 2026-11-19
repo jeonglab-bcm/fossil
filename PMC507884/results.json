@@ -1,0 +1,1993 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC507884",
+    "title": "Statistical modeling for selecting housekeeper genes",
+    "citation": "Szabo A, Perou CM, Karaca M, Perreard L, Palais R, Quackenbush JF, Bernard PS. Statistical modeling for selecting housekeeper genes. Genome Biology 5:R59 (2004); correction (author list) Genome Biology 9:405 (2008)",
+    "doi": "10.1186/gb-2004-5-8-r59",
+    "license": "BioMed Central open access (2004): verbatim copying and redistribution permitted in all media for any purpose, with the notice and the article's original URL"
+  },
+  "run": {
+    "pipeline": "PMC507884/figure-reproduction/main.nf",
+    "command": "nextflow run PMC507884/figure-reproduction/main.nf --outdir results",
+    "date": "2026-11-19",
+    "inputs": [
+      {
+        "name": "gb-2004-5-8-r59-s1.xls",
+        "url": "https://static-content.springer.com/esm/art%3A10.1186%2Fgb-2004-5-8-r59/MediaObjects/13059_2004_863_MOESM1_ESM.xls",
+        "sha256": "6f4a8913754eaccb83962d4823f0e73f5c75535066799d847e73ec3ff3804407"
+      },
+      {
+        "name": "gb-2002-3-7-research0034-s1.TXT",
+        "url": "https://static-content.springer.com/esm/art%3A10.1186%2Fgb-2002-3-7-research0034/MediaObjects/13059_2001_453_MOESM1_ESM.txt",
+        "sha256": "4c5daecd5889b9eb8dcb995a4fa0b396d51922873f6bb4f3a6aadfc1bec871f7"
+      },
+      {
+        "name": "MOESM5.eps",
+        "url": "https://static-content.springer.com/esm/art%3A10.1186%2Fgb-2004-5-8-r59/MediaObjects/13059_2004_863_MOESM5_ESM.eps",
+        "sha256": "28518a70ab010d446215009263a7b7da82f65697c9db5ef676b1bf422fcaee02"
+      }
+    ],
+    "environment": {
+      "R": "4.3.3",
+      "hkselect": "0.1.0",
+      "nlme": "3.1.164",
+      "numDeriv": "2016.8.1.1",
+      "readxl": "1.4.3",
+      "jsonlite": "1.8.8",
+      "python": "3.13.18",
+      "pillow": "12.3.0",
+      "numpy": "2.5.3"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1.a",
+      "label": "Fig. 1a, raw expression of six genes in 80 breast tumours",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 300,
+        "published_near_ours": 0.979756,
+        "ours_near_published": 0.973639,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "samples in a random order (seed 1)",
+            "kind": "wrong_input",
+            "score": 0.442522
+          },
+          {
+            "name": "genes swapped in pairs (ACTB-GAPD, MRPL19-PSMC4, PUM1-SF3A1)",
+            "kind": "wrong_input",
+            "score": 0.401966
+          },
+          {
+            "name": "samples ordered by the mean of the raw values",
+            "kind": "near_miss",
+            "score": 0.591716
+          },
+          {
+            "name": "every sample one column to the right",
+            "kind": "near_miss",
+            "score": 0.575017
+          },
+          {
+            "name": "values x 1.05",
+            "kind": "near_miss",
+            "score": 0.79716
+          },
+          {
+            "name": "values x 0.95",
+            "kind": "near_miss",
+            "score": 0.788174
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Our figures are drawn on the published pixel grid: y from the tick marks and their printed values, one sample per grid line (Figs 1 and 2) or one bar per tissue tick (Fig. 3), markers cut from the published legend",
+          "source": "our_choice",
+          "sensitivity": "Every calibration fits its ticks with a residual of 0 px. Nothing inside a panel is fitted; the residual misses are marker anchors (the down triangles sit about 2 px off) and the order in which overlapping markers are drawn."
+        },
+        {
+          "what": "Samples ordered by the mean of their six log values (the caption's rule), ties kept in file order",
+          "source": "paper"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1.b",
+      "label": "Fig. 1b, the same on a log scale",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 300,
+        "published_near_ours": 0.981573,
+        "ours_near_published": 0.95867,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "samples in a random order (seed 1)",
+            "kind": "wrong_input",
+            "score": 0.112498
+          },
+          {
+            "name": "genes swapped in pairs (ACTB-GAPD, MRPL19-PSMC4, PUM1-SF3A1)",
+            "kind": "wrong_input",
+            "score": 0.062733
+          },
+          {
+            "name": "samples ordered by the mean of the raw values",
+            "kind": "near_miss",
+            "score": 0.228215
+          },
+          {
+            "name": "every sample one column to the right",
+            "kind": "near_miss",
+            "score": 0.178988
+          },
+          {
+            "name": "values x 1.05",
+            "kind": "near_miss",
+            "score": 0.696573
+          },
+          {
+            "name": "values x 0.95",
+            "kind": "near_miss",
+            "score": 0.714776
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Our figures are drawn on the published pixel grid: y from the tick marks and their printed values, one sample per grid line (Figs 1 and 2) or one bar per tissue tick (Fig. 3), markers cut from the published legend",
+          "source": "our_choice",
+          "sensitivity": "Every calibration fits its ticks with a residual of 0 px. Nothing inside a panel is fitted; the residual misses are marker anchors (the down triangles sit about 2 px off) and the order in which overlapping markers are drawn."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig1_ours.png",
+        "figure-reproduction/output/fig1_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, Model 1a standard deviations",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "MRPL19 SD",
+            "expected": "0.218",
+            "observed": 0.218166
+          },
+          {
+            "name": "PUM1 SD",
+            "expected": "0.265",
+            "observed": 0.265491
+          },
+          {
+            "name": "PSMC4 SD",
+            "expected": "0.288",
+            "observed": 0.287701
+          },
+          {
+            "name": "SF3A1 SD",
+            "expected": "0.393",
+            "observed": 0.392586
+          },
+          {
+            "name": "ACTB SD",
+            "expected": "0.448",
+            "observed": 0.447691
+          },
+          {
+            "name": "GAPD SD",
+            "expected": "0.519",
+            "observed": 0.518932
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "table1.ci",
+      "label": "Table 1, 95% confidence intervals",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "MRPL19 lower",
+            "expected": "0.168",
+            "observed": 0.16866
+          },
+          {
+            "name": "MRPL19 upper",
+            "expected": "0.284",
+            "observed": 0.282204
+          },
+          {
+            "name": "PUM1 lower",
+            "expected": "0.215",
+            "observed": 0.213813
+          },
+          {
+            "name": "PUM1 upper",
+            "expected": "0.328",
+            "observed": 0.329659
+          },
+          {
+            "name": "PSMC4 lower",
+            "expected": "0.235",
+            "observed": 0.234658
+          },
+          {
+            "name": "PSMC4 upper",
+            "expected": "0.352",
+            "observed": 0.352734
+          },
+          {
+            "name": "SF3A1 lower",
+            "expected": "0.327",
+            "observed": 0.326941
+          },
+          {
+            "name": "SF3A1 upper",
+            "expected": "0.472",
+            "observed": 0.471412
+          },
+          {
+            "name": "ACTB lower",
+            "expected": "0.376",
+            "observed": 0.376238
+          },
+          {
+            "name": "ACTB upper",
+            "expected": "0.533",
+            "observed": 0.532714
+          },
+          {
+            "name": "GAPD lower",
+            "expected": "0.439",
+            "observed": 0.439252
+          },
+          {
+            "name": "GAPD upper",
+            "expected": "0.613",
+            "observed": 0.613065
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Wald intervals on the log SDs from the numerical Hessian (Richardson extrapolation) of the REML likelihood",
+          "source": "our_choice",
+          "sensitivity": "The paper does not say how it computed the intervals. nlme's intervals() gives the same kind of interval from a coarser Hessian: across 24 equivalent parameterizations its bounds move by up to 0.013 (PSMC4's lower bound) and reach every printed bound."
+        }
+      ],
+      "cause": {
+        "category": "environment",
+        "status": "explained",
+        "summary": "The printed bounds are nlme's approximate intervals, whose numerical Hessian moves them in the third decimal with the order of the rows and the contrasts; across 24 such parameterizations nlme 3.1-164 reaches all 12 printed bounds. Ours, from an accurate Hessian, are within 0.002 of every printed bound.",
+        "evidence": [
+          "figure-reproduction/output/analysis.json",
+          "figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The intervals are nlme's intervals(), which depend on the parameterization",
+            "test": "intervals() for each gene as the varIdent reference, under treatment and sum contrasts and two row orders (24 fits)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The intervals come from maximum likelihood",
+            "test": "Model 1a by ML",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.model1_bic",
+      "label": "Text: Model 1a has the best BIC of Models 1a, 1b and 1c",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "BIC (REML) Model 1a 988.3, 1b 1012.4, 1c 990.6 (rho 0.31); Model 1a lowest"
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.p_value",
+      "label": "Text: microarray-selected genes against GAPD and ACTB, p = 0.0014",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "p, microarray-selected genes against GAPD and ACTB",
+            "expected": "0.0014",
+            "observed": 0.00138607
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "The test: a likelihood ratio test of Model 1a against the model in which the four microarray-selected genes share one variance and GAPD and ACTB another (REML, 4 degrees of freedom)",
+          "source": "found_by_search",
+          "sensitivity": "The paper does not name its test. This is the only one of four readings tried that gives 0.0014 (0.00139). The others: one variance for each group against one for all, p = 1.8e-9; a t test of the six SDs, p = 0.032; a t test of their logs, p = 0.049."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, best gene set of each size and the SD of its log geometric mean",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "size 1 set",
+            "expected": "MRPL19",
+            "observed": "MRPL19"
+          },
+          {
+            "name": "size 1 SD",
+            "expected": "0.2182",
+            "observed": 0.218166
+          },
+          {
+            "name": "size 2 set",
+            "expected": "MRPL19,PUM1",
+            "observed": "MRPL19,PUM1"
+          },
+          {
+            "name": "size 2 SD",
+            "expected": "0.1718",
+            "observed": 0.171815
+          },
+          {
+            "name": "size 3 set",
+            "expected": "MRPL19,PSMC4,PUM1",
+            "observed": "MRPL19,PSMC4,PUM1"
+          },
+          {
+            "name": "size 3 SD",
+            "expected": "0.1494",
+            "observed": 0.149389
+          },
+          {
+            "name": "size 4 set",
+            "expected": "MRPL19,PSMC4,PUM1,SP3A1",
+            "observed": "MRPL19,PSMC4,PUM1,SF3A1"
+          },
+          {
+            "name": "size 4 SD",
+            "expected": "0.1490",
+            "observed": 0.14895
+          },
+          {
+            "name": "size 5 set",
+            "expected": "ACTB,MRPL19,PSMC4,PUM1,SF3A1",
+            "observed": "ACTB,MRPL19,PSMC4,PUM1,SF3A1"
+          },
+          {
+            "name": "size 5 SD",
+            "expected": "0.1491",
+            "observed": 0.149051
+          },
+          {
+            "name": "size 6 set",
+            "expected": "ACTB,GAPD,MRPL19,PSMC4,PUM1,SF3A1",
+            "observed": "ACTB,GAPD,MRPL19,PSMC4,PUM1,SF3A1"
+          },
+          {
+            "name": "size 6 SD",
+            "expected": "0.1513",
+            "observed": 0.151355
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "size 4 set",
+            "category": "paper_error",
+            "evidence": "The row prints SP3A1, a gene not in the study; the set is otherwise SF3A1's row (our set: MRPL19, PSMC4, PUM1, SF3A1)."
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Variance of the log geometric mean of a set: sum of sigma_j^2 over the set divided by |S|^2",
+          "source": "found_by_search",
+          "sensitivity": "The paper prints the divisor |S|, which gives none of rows 2 to 6 (row 2: 0.2430 against 0.1718); |S|^2, the variance of a mean, gives rows 1 to 5 as printed and row 6 one unit off. See text.set_variance_formula."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Every set and five of the six SDs come back as printed; the six-gene SD is 0.151354, printed 0.1513, 0.000004 above the rounding boundary. Optimizer settings, the rounded SDs of Table 1 and truncation do not explain it.",
+        "evidence": [
+          "figure-reproduction/output/analysis.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "An optimizer setting of the 2004 fit",
+            "test": "36 fits: each gene as the varIdent reference, two contrast codings, convergence tolerances 1e-6, 1e-4 and 1e-3",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Computed from the rounded SDs of Table 1",
+            "test": "The six printed SDs give 0.1514",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Truncated instead of rounded",
+            "test": "Truncation gives row 6 0.1513 but rows 1, 3 and 4 as 0.2181, 0.1493 and 0.1489 against the printed 0.2182, 0.1494 and 0.1490",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.set_variance_formula",
+      "label": "Methods: the printed variance of a set's log geometric mean (divide by |S|)",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": false,
+        "detail": "the printed formula (divide by |S|) gives 1 of 6 Table 2 values; dividing by |S|^2 gives 5 of 6"
+      },
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "The formula prints |S| where Table 2 uses |S|^2: on the paper's own Table 1 the best pair gives 0.1716 with |S|^2 (printed 0.1718) and 0.2426 with |S|.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The divisor is |S|^2",
+            "test": "Table 2 from our SDs with |S|^2 and with |S|",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.table2_claims",
+      "label": "Text: the four-gene set is lowest, three genes barely worse, two far worse",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "the four-gene set is lowest (0.1490); three genes 0.1494, 0.0004 more; two genes 0.1718, 0.0224 more than three"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.sd_cv",
+      "label": "Text: the SDs of Table 2 are about the coefficients of variation on the original scale",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "the coefficient of variation sqrt(exp(SD^2) - 1) of each Table 2 normaliser is within 1.2% of its SD"
+      },
+      "assumptions": [
+        {
+          "what": "About equal means within 5%",
+          "source": "our_choice",
+          "sensitivity": "The largest difference is 1.2%."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.mvalue_breast",
+      "label": "Text: geNorm M-values give the same ranking except PUM1 and PSMC4, with MRPL19 and PSMC4 an unordered best pair",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "unordered best pair",
+            "expected": "MRPL19,PSMC4",
+            "observed": "MRPL19,PSMC4"
+          },
+          {
+            "name": "rank 3",
+            "expected": "PUM1",
+            "observed": "PUM1"
+          },
+          {
+            "name": "rank 4",
+            "expected": "SF3A1",
+            "observed": "SF3A1"
+          },
+          {
+            "name": "rank 5",
+            "expected": "ACTB",
+            "observed": "ACTB"
+          },
+          {
+            "name": "rank 6",
+            "expected": "GAPD",
+            "observed": "GAPD"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "geNorm's stepwise elimination (Vandesompele et al. 2002) on natural logs",
+          "source": "paper",
+          "sensitivity": "The log base scales every M by the same factor and does not change the ranking."
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "text.mvalue_bounds",
+      "label": "Methods: the printed bounds on the M-value under Model 1",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": false,
+        "detail": "under Model 1a's SDs (R = 2.38) the printed bounds sigma_j^2 sqrt(1 + 1/R^2) <= M_j <= sigma_j^2 sqrt(1 + R^2) fail; with sigma_j in place of sigma_j^2 they hold"
+      },
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "The bounds print sigma_j^2 where sigma_j belongs (M is a mean of SDs): with sigma_j they hold for Model 1a's SDs, with sigma_j^2 they fail.",
+        "evidence": [
+          "figure-reproduction/output/analysis.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "sigma_j^2 is a slip for sigma_j",
+            "test": "Both forms against the M-values implied by Model 1a's SDs",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "preselection",
+      "label": "Methods: the four candidate genes chosen from microarrays",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "A SAS selection of genes with 'a small range of expression' and 'the least variance' on 62 arrays (Perou et al. 2000 and cell lines), with no thresholds; it cannot be rerun as described, and its result (the four genes) is the paper's input, not one of its results.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC507884/"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, Vandesompele et al.'s data by tissue type",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 300,
+        "published_near_ours": 0.933677,
+        "ours_near_published": 0.944682,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "each tissue type drawn with samples of the next one",
+            "kind": "wrong_input",
+            "score": 0.046494
+          },
+          {
+            "name": "samples in a random order within each tissue type (seed 1)",
+            "kind": "wrong_input",
+            "score": 0.168952
+          },
+          {
+            "name": "genes swapped in pairs along the legend",
+            "kind": "wrong_input",
+            "score": 0.144566
+          },
+          {
+            "name": "samples ordered by the mean of the raw values",
+            "kind": "near_miss",
+            "score": 0.583944
+          },
+          {
+            "name": "every sample one column to the right",
+            "kind": "near_miss",
+            "score": 0.242384
+          },
+          {
+            "name": "values x 1.05",
+            "kind": "near_miss",
+            "score": 0.804029
+          },
+          {
+            "name": "values x 0.95",
+            "kind": "near_miss",
+            "score": 0.856771
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Our figures are drawn on the published pixel grid: y from the tick marks and their printed values, one sample per grid line (Figs 1 and 2) or one bar per tissue tick (Fig. 3), markers cut from the published legend",
+          "source": "our_choice",
+          "sensitivity": "Every calibration fits its ticks with a residual of 0 px. Nothing inside a panel is fitted; the residual misses are marker anchors (the down triangles sit about 2 px off) and the order in which overlapping markers are drawn."
+        },
+        {
+          "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+          "source": "paper",
+          "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+        },
+        {
+          "what": "Samples ordered within each tissue type by the mean of their ten log values; the wide FIB and NB panels have one and two empty grid lines at each edge",
+          "source": "our_choice",
+          "sensitivity": "The caption gives no order. Ordering by the mean of the raw values scores 58% (a near-miss control)."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2_ours.png",
+        "figure-reproduction/output/fig2_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "table3.sigma",
+      "label": "Table 3, Model 2 gene SDs",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "GAPD",
+            "expected": "0.211",
+            "observed": 0.206485
+          },
+          {
+            "name": "UBC",
+            "expected": "0.226",
+            "observed": 0.220758
+          },
+          {
+            "name": "HPRT1",
+            "expected": "0.227",
+            "observed": 0.220848
+          },
+          {
+            "name": "YWHAZ",
+            "expected": "0.232",
+            "observed": 0.225498
+          },
+          {
+            "name": "SDHA",
+            "expected": "0.255",
+            "observed": 0.249182
+          },
+          {
+            "name": "RPL13A",
+            "expected": "0.339",
+            "observed": 0.330767
+          },
+          {
+            "name": "TBP",
+            "expected": "0.339",
+            "observed": 0.330164
+          },
+          {
+            "name": "HMBS",
+            "expected": "0.431",
+            "observed": 0.420763
+          },
+          {
+            "name": "ACTB",
+            "expected": "0.460",
+            "observed": 0.435995
+          },
+          {
+            "name": "B2M",
+            "expected": "0.562",
+            "observed": 0.548206
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+          "source": "paper",
+          "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Every gene SD comes out below the printed one, by 2.1 to 5.2% (ACTB the most), in the same order. Table 3's figures are not a rounding of ours, and none of the variant fits below reaches them; Fig. 3 draws the printed values, so the authors' fit, or their copy of the data, differed from ours.",
+        "evidence": [
+          "figure-reproduction/output/hypotheses.json",
+          "figure-reproduction/output/analysis.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Maximum likelihood instead of reml",
+            "test": "Model 2 refitted that way: distance from Table 3 1.554, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Random sample effects (lme)",
+            "test": "Model 2 refitted that way: distance from Table 3 0.403, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "No tissue-by-gene effect",
+            "test": "Model 2 refitted that way: distance from Table 3 3.990, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Log10 instead of natural logarithms",
+            "test": "Model 2 refitted that way: distance from Table 3 8.729, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "One sample missing from, or different in, the authors' copy of the data",
+            "test": "Model 2 refitted without each of the 85 samples: the closest, without BM4, is still 0.103 from Table 3",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine and breast where the file has liver and mammary gland)",
+            "test": "Not testable without their copy; leaving out the liver sample alone does not close the gap",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.varsigma",
+      "label": "Table 3, Model 2 tissue multipliers",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "FIB",
+            "expected": "1.204",
+            "observed": 1.236567
+          },
+          {
+            "name": "NB",
+            "expected": "1.582",
+            "observed": 1.625137
+          },
+          {
+            "name": "LEU",
+            "expected": "1.879",
+            "observed": 1.939134
+          },
+          {
+            "name": "POOL",
+            "expected": "2.014",
+            "observed": 2.067805
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+          "source": "paper",
+          "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "The same gap as the gene SDs (table3.sigma): our multipliers are 2.7 to 3.2% higher, so outside bone marrow the SDs varsigma_k sigma_j come within 2.7% of the printed products (bone marrow, where the multiplier is 1, carries the gene SDs' 2.1 to 5.2%).",
+        "evidence": [
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Maximum likelihood instead of reml",
+            "test": "Model 2 refitted that way: distance from Table 3 1.554, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Random sample effects (lme)",
+            "test": "Model 2 refitted that way: distance from Table 3 0.403, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "No tissue-by-gene effect",
+            "test": "Model 2 refitted that way: distance from Table 3 3.990, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Log10 instead of natural logarithms",
+            "test": "Model 2 refitted that way: distance from Table 3 8.729, against 0.389 for our fit",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "One sample missing from, or different in, the authors' copy of the data",
+            "test": "Model 2 refitted without each of the 85 samples: the closest, without BM4, is still 0.103 from Table 3",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The authors' copy of the pooled tissues differed (their caption lists small intestine and breast where the file has liver and mammary gland)",
+            "test": "Not testable without their copy; leaving out the liver sample alone does not close the gap",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table3.order",
+      "label": "Table 3, the order of the genes (GAPD lowest, then UBC, HPRT1, YWHAZ)",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "rank 1",
+            "expected": "GAPD",
+            "observed": "GAPD"
+          },
+          {
+            "name": "rank 2",
+            "expected": "UBC",
+            "observed": "UBC"
+          },
+          {
+            "name": "rank 3",
+            "expected": "HPRT1",
+            "observed": "HPRT1"
+          },
+          {
+            "name": "rank 4",
+            "expected": "YWHAZ",
+            "observed": "YWHAZ"
+          },
+          {
+            "name": "rank 5",
+            "expected": "SDHA",
+            "observed": "SDHA"
+          },
+          {
+            "name": "rank 8",
+            "expected": "HMBS",
+            "observed": "HMBS"
+          },
+          {
+            "name": "rank 9",
+            "expected": "ACTB",
+            "observed": "ACTB"
+          },
+          {
+            "name": "rank 10",
+            "expected": "B2M",
+            "observed": "B2M"
+          },
+          {
+            "name": "ranks 6-7 (printed as a tie, 0.339)",
+            "expected": "RPL13A,TBP",
+            "observed": "RPL13A,TBP"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+          "source": "paper",
+          "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "text.model2_bic",
+      "label": "Methods: Model 2 has the best BIC of six variance structures",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "BIC (REML) Model 2 2241.0; common 2367.4, gene 2276.2, tissue 2334.6, unstructured 2370.8, exchangeable 2245.4"
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.model2_mvalue",
+      "label": "Text: the top five genes by mean geNorm rank over tissue types are Table 3's top five, in order",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "rank 1 by mean geNorm rank over tissue types",
+            "expected": "GAPD",
+            "observed": "GAPD"
+          },
+          {
+            "name": "rank 2 by mean geNorm rank over tissue types",
+            "expected": "UBC",
+            "observed": "UBC"
+          },
+          {
+            "name": "rank 3 by mean geNorm rank over tissue types",
+            "expected": "HPRT1",
+            "observed": "HPRT1"
+          },
+          {
+            "name": "rank 4 by mean geNorm rank over tissue types",
+            "expected": "YWHAZ",
+            "observed": "YWHAZ"
+          },
+          {
+            "name": "rank 5 by mean geNorm rank over tissue types",
+            "expected": "SDHA",
+            "observed": "SDHA"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "geNorm ranks within each tissue type, the best pair both 1.5, averaged over the five tissue types",
+          "source": "paper"
+        }
+      ],
+      "verdict": "exact"
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, minimax-MSE gene sets",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "at most 1: set",
+            "expected": "RPL13A",
+            "observed": "RPL13A"
+          },
+          {
+            "name": "at most 1: max MSE",
+            "expected": "0.544",
+            "observed": 0.544755
+          },
+          {
+            "name": "at most 2: set",
+            "expected": "HPRT1,UBC",
+            "observed": "HPRT1,UBC"
+          },
+          {
+            "name": "at most 2: max MSE",
+            "expected": "0.328",
+            "observed": 0.3281
+          },
+          {
+            "name": "at most 3: set",
+            "expected": "HPRT1,RPL13A,UBC",
+            "observed": "HPRT1,RPL13A,UBC"
+          },
+          {
+            "name": "at most 3: max MSE",
+            "expected": "0.136",
+            "observed": 0.13662
+          },
+          {
+            "name": "at most 4: set",
+            "expected": "HPRT1,RPL13A,UBC",
+            "observed": "HPRT1,RPL13A,UBC"
+          },
+          {
+            "name": "at most 4: max MSE",
+            "expected": "0.136",
+            "observed": 0.13662
+          },
+          {
+            "name": "at most 5: set",
+            "expected": "HPRT1,RPL13A,UBC",
+            "observed": "HPRT1,RPL13A,UBC"
+          },
+          {
+            "name": "at most 5: max MSE",
+            "expected": "0.136",
+            "observed": 0.13662
+          },
+          {
+            "name": "at most 6: set",
+            "expected": "ACTB,HPRT1,SDHA,TBP,UBC,YWHAZ",
+            "observed": "ACTB,HPRT1,SDHA,TBP,UBC,YWHAZ"
+          },
+          {
+            "name": "at most 6: max MSE",
+            "expected": "0.131",
+            "observed": 0.130225
+          },
+          {
+            "name": "at most 7: set",
+            "expected": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ",
+            "observed": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ"
+          },
+          {
+            "name": "at most 7: max MSE",
+            "expected": "0.064",
+            "observed": 0.063959
+          },
+          {
+            "name": "at most 8: set",
+            "expected": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ",
+            "observed": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ"
+          },
+          {
+            "name": "at most 8: max MSE",
+            "expected": "0.064",
+            "observed": 0.063959
+          },
+          {
+            "name": "at most 9: set",
+            "expected": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ",
+            "observed": "ACTB,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ"
+          },
+          {
+            "name": "at most 9: max MSE",
+            "expected": "0.064",
+            "observed": 0.063959
+          },
+          {
+            "name": "at most 10: set",
+            "expected": "ACTB,B2M,GAPD,HMBS,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ",
+            "observed": "ACTB,B2M,GAPD,HMBS,HPRT1,RPL13A,SDHA,TBP,UBC,YWHAZ"
+          },
+          {
+            "name": "at most 10: max MSE",
+            "expected": "0.049",
+            "observed": 0.048709
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Models fitted by REML (nlme's default for gls); natural logarithms throughout",
+          "source": "our_choice",
+          "sensitivity": "The paper names gls but not the criterion. Maximum likelihood does not converge for Model 1a on the breast data (nlme: false convergence; MRPL19's variance collapses towards 0), and for Model 2 it lowers the gene SDs by 6 to 16% (hypotheses.json)."
+        },
+        {
+          "what": "Model 2's data are Vandesompele et al.'s Additional data file 1 as published (85 samples, 10 genes), tissue type from the sample name, values not rescaled",
+          "source": "paper",
+          "sensitivity": "The paper cites the data but not the file. Rescaling the values within a panel changes only sample and tissue-by-gene effects, so Table 3 does not depend on it; the biases of Fig. 3 do, and come back as published from the values as they are."
+        },
+        {
+          "what": "The bias of a gene set is the sum of its genes' tissue-specific biases (CG)_kj; its variance that of the log-average, varsigma_k^2 sum sigma_j^2 / |S|^2; MSE their sum, maximised over tissue types",
+          "source": "found_by_search",
+          "sensitivity": "The paper describes the set MSE in words only. The mean of the biases (the bias of a log-average) gives 2 of the 10 printed sets; the sum gives all 10, and also gives the paper's ACTB plus TBP example on its own numbers (0.349; the mean gives 0.335)."
+        },
+        {
+          "what": "Row k is the best set with at most k genes",
+          "source": "paper",
+          "sensitivity": "The table's heading, 'Maximum number of members'; rows 3 to 5 and 7 to 9 repeat a set. Exactly k genes gives other sets at sizes 4, 5, 8 and 9."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Every set comes back; 5 of 10 MSEs are 0.001 off. They follow from Model 2's SDs (table3.sigma, open): with Table 3's printed SDs in place of ours, a sensitivity variant, 9 of 10 MSEs are as printed and the tenth (0.543 against 0.544) within Table 3's rounding.",
+        "evidence": [
+          "figure-reproduction/output/analysis.json",
+          "figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The bias of a set is the mean of its genes' biases",
+            "test": "Minimax search with the mean",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The MSE differences come from Model 2's SDs",
+            "test": "The same search with Table 3's printed SDs (sensitivity variant, not counted as agreement)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Model 2's SDs differ for a known reason",
+            "test": "See table3.sigma: estimation method, model terms, log base and every single sample",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, signed MSE of each gene by tissue type",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "pixels",
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 300,
+        "published_near_ours": 0.996617,
+        "ours_near_published": 0.997581,
+        "threshold": 0.98,
+        "controls": [
+          {
+            "name": "each panel drawn with the next gene's bars",
+            "kind": "wrong_input",
+            "score": 0.16718
+          },
+          {
+            "name": "every bar's sign flipped",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "bars x 1.05",
+            "kind": "near_miss",
+            "score": 0.958831
+          },
+          {
+            "name": "bars x 0.95",
+            "kind": "near_miss",
+            "score": 0.950344
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Our figures are drawn on the published pixel grid: y from the tick marks and their printed values, one sample per grid line (Figs 1 and 2) or one bar per tissue tick (Fig. 3), markers cut from the published legend",
+          "source": "our_choice",
+          "sensitivity": "Every calibration fits its ticks with a residual of 0 px. Nothing inside a panel is fitted; the residual misses are marker anchors (the down triangles sit about 2 px off) and the order in which overlapping markers are drawn."
+        },
+        {
+          "what": "Bar width two thirds of the tick spacing and a 3 px outline",
+          "source": "our_choice",
+          "sensitivity": "lattice's default box.ratio (2); the R file of the figure (MOESM5) draws 9.99 pt bars every 14.985 pt."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3_ours.png",
+        "figure-reproduction/output/fig3_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3.bias2",
+      "label": "Fig. 3, squared biases (bar heights in the publisher's R graphics file)",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "ACTB.BM",
+            "expected": "0.2716",
+            "observed": 0.271868
+          },
+          {
+            "name": "ACTB.FIB",
+            "expected": "0.0486",
+            "observed": 0.048323
+          },
+          {
+            "name": "ACTB.LEU",
+            "expected": "2.7371",
+            "observed": 2.737571
+          },
+          {
+            "name": "ACTB.NB",
+            "expected": "0.0009",
+            "observed": 0.000931
+          },
+          {
+            "name": "ACTB.POOL",
+            "expected": "5.5948",
+            "observed": 5.594561
+          },
+          {
+            "name": "B2M.BM",
+            "expected": "0.9283",
+            "observed": 0.928314
+          },
+          {
+            "name": "B2M.FIB",
+            "expected": "0.0828",
+            "observed": 0.082458
+          },
+          {
+            "name": "B2M.LEU",
+            "expected": "2.0940",
+            "observed": 2.093684
+          },
+          {
+            "name": "B2M.NB",
+            "expected": "1.2962",
+            "observed": 1.296285
+          },
+          {
+            "name": "B2M.POOL",
+            "expected": "0.8878",
+            "observed": 0.887806
+          },
+          {
+            "name": "GAPD.BM",
+            "expected": "0.0036",
+            "observed": 0.003819
+          },
+          {
+            "name": "GAPD.FIB",
+            "expected": "0.0369",
+            "observed": 0.036713
+          },
+          {
+            "name": "GAPD.LEU",
+            "expected": "2.1372",
+            "observed": 2.137586
+          },
+          {
+            "name": "GAPD.NB",
+            "expected": "0.0054",
+            "observed": 0.005358
+          },
+          {
+            "name": "GAPD.POOL",
+            "expected": "3.1995",
+            "observed": 3.199264
+          },
+          {
+            "name": "HMBS.BM",
+            "expected": "1.0551",
+            "observed": 1.054751
+          },
+          {
+            "name": "HMBS.FIB",
+            "expected": "0.4039",
+            "observed": 0.404196
+          },
+          {
+            "name": "HMBS.LEU",
+            "expected": "0.0036",
+            "observed": 0.003801
+          },
+          {
+            "name": "HMBS.NB",
+            "expected": "1.0749",
+            "observed": 1.074998
+          },
+          {
+            "name": "HMBS.POOL",
+            "expected": "7.6249",
+            "observed": 7.624508
+          },
+          {
+            "name": "HPRT1.BM",
+            "expected": "0.3922",
+            "observed": 0.39191
+          },
+          {
+            "name": "HPRT1.FIB",
+            "expected": "0.2384",
+            "observed": 0.2382
+          },
+          {
+            "name": "HPRT1.LEU",
+            "expected": "0.0162",
+            "observed": 0.015976
+          },
+          {
+            "name": "HPRT1.NB",
+            "expected": "0.3697",
+            "observed": 0.369646
+          },
+          {
+            "name": "HPRT1.POOL",
+            "expected": "3.4171",
+            "observed": 3.416826
+          },
+          {
+            "name": "RPL13A.BM",
+            "expected": "0.1151",
+            "observed": 0.11495
+          },
+          {
+            "name": "RPL13A.FIB",
+            "expected": "0.0018",
+            "observed": 0.001617
+          },
+          {
+            "name": "RPL13A.LEU",
+            "expected": "0.0225",
+            "observed": 0.022862
+          },
+          {
+            "name": "RPL13A.NB",
+            "expected": "0.0171",
+            "observed": 0.016843
+          },
+          {
+            "name": "RPL13A.POOL",
+            "expected": "0.0774",
+            "observed": 0.076952
+          },
+          {
+            "name": "SDHA.BM",
+            "expected": "0.0567",
+            "observed": 0.056527
+          },
+          {
+            "name": "SDHA.FIB",
+            "expected": "0.0081",
+            "observed": 0.00827
+          },
+          {
+            "name": "SDHA.LEU",
+            "expected": "0.4318",
+            "observed": 0.431593
+          },
+          {
+            "name": "SDHA.NB",
+            "expected": "0.0980",
+            "observed": 0.098455
+          },
+          {
+            "name": "SDHA.POOL",
+            "expected": "0.2402",
+            "observed": 0.240095
+          },
+          {
+            "name": "TBP.BM",
+            "expected": "0.8653",
+            "observed": 0.865399
+          },
+          {
+            "name": "TBP.FIB",
+            "expected": "0.0495",
+            "observed": 0.049716
+          },
+          {
+            "name": "TBP.LEU",
+            "expected": "0.6152",
+            "observed": 0.615042
+          },
+          {
+            "name": "TBP.NB",
+            "expected": "0.3130",
+            "observed": 0.313466
+          },
+          {
+            "name": "TBP.POOL",
+            "expected": "6.2370",
+            "observed": 6.236835
+          },
+          {
+            "name": "UBC.BM",
+            "expected": "0.3022",
+            "observed": 0.302578
+          },
+          {
+            "name": "UBC.FIB",
+            "expected": "0.1133",
+            "observed": 0.113501
+          },
+          {
+            "name": "UBC.LEU",
+            "expected": "0.0432",
+            "observed": 0.043121
+          },
+          {
+            "name": "UBC.NB",
+            "expected": "0.0792",
+            "observed": 0.078788
+          },
+          {
+            "name": "UBC.POOL",
+            "expected": "1.8916",
+            "observed": 1.8915
+          },
+          {
+            "name": "YWHAZ.BM",
+            "expected": "0.1484",
+            "observed": 0.148419
+          },
+          {
+            "name": "YWHAZ.FIB",
+            "expected": "0.0675",
+            "observed": 0.067904
+          },
+          {
+            "name": "YWHAZ.LEU",
+            "expected": "0.0090",
+            "observed": 0.00938
+          },
+          {
+            "name": "YWHAZ.NB",
+            "expected": "0.0899",
+            "observed": 0.089526
+          },
+          {
+            "name": "YWHAZ.POOL",
+            "expected": "0.7196",
+            "observed": 0.71943
+          }
+        ],
+        "tolerance": {
+          "abs": 0.0005,
+          "rel": 0.00012
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels (11.1175 pt per unit)",
+          "source": "read_from_figure",
+          "sensitivity": "Calibrating on the 0 and 2 labels instead (11.115 pt per unit) raises every height by 2.2e-4 of itself and puts 7 of 50 outside the drawing's resolution."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3.sigma2",
+      "label": "Fig. 3, variances (bar heights in the publisher's R graphics file)",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "ACTB.BM",
+            "expected": "0.2114",
+            "observed": 0.190091
+          },
+          {
+            "name": "ACTB.FIB",
+            "expected": "0.3067",
+            "observed": 0.290668
+          },
+          {
+            "name": "ACTB.LEU",
+            "expected": "0.7457",
+            "observed": 0.714789
+          },
+          {
+            "name": "ACTB.NB",
+            "expected": "0.5289",
+            "observed": 0.502044
+          },
+          {
+            "name": "ACTB.POOL",
+            "expected": "0.8572",
+            "observed": 0.812795
+          },
+          {
+            "name": "B2M.BM",
+            "expected": "0.3166",
+            "observed": 0.30053
+          },
+          {
+            "name": "B2M.FIB",
+            "expected": "0.4587",
+            "observed": 0.45954
+          },
+          {
+            "name": "B2M.LEU",
+            "expected": "1.1163",
+            "observed": 1.130066
+          },
+          {
+            "name": "B2M.NB",
+            "expected": "0.7915",
+            "observed": 0.793721
+          },
+          {
+            "name": "B2M.POOL",
+            "expected": "1.2827",
+            "observed": 1.285012
+          },
+          {
+            "name": "GAPD.BM",
+            "expected": "0.0441",
+            "observed": 0.042636
+          },
+          {
+            "name": "GAPD.FIB",
+            "expected": "0.0648",
+            "observed": 0.065194
+          },
+          {
+            "name": "GAPD.LEU",
+            "expected": "0.1565",
+            "observed": 0.160321
+          },
+          {
+            "name": "GAPD.NB",
+            "expected": "0.1115",
+            "observed": 0.112604
+          },
+          {
+            "name": "GAPD.POOL",
+            "expected": "0.1799",
+            "observed": 0.182303
+          },
+          {
+            "name": "HMBS.BM",
+            "expected": "0.1862",
+            "observed": 0.177041
+          },
+          {
+            "name": "HMBS.FIB",
+            "expected": "0.2698",
+            "observed": 0.270713
+          },
+          {
+            "name": "HMBS.LEU",
+            "expected": "0.6566",
+            "observed": 0.665717
+          },
+          {
+            "name": "HMBS.NB",
+            "expected": "0.4650",
+            "observed": 0.467578
+          },
+          {
+            "name": "HMBS.POOL",
+            "expected": "0.7547",
+            "observed": 0.756995
+          },
+          {
+            "name": "HPRT1.BM",
+            "expected": "0.0513",
+            "observed": 0.048774
+          },
+          {
+            "name": "HPRT1.FIB",
+            "expected": "0.0747",
+            "observed": 0.07458
+          },
+          {
+            "name": "HPRT1.LEU",
+            "expected": "0.1817",
+            "observed": 0.183402
+          },
+          {
+            "name": "HPRT1.NB",
+            "expected": "0.1286",
+            "observed": 0.128815
+          },
+          {
+            "name": "HPRT1.POOL",
+            "expected": "0.2087",
+            "observed": 0.208548
+          },
+          {
+            "name": "RPL13A.BM",
+            "expected": "0.1151",
+            "observed": 0.109407
+          },
+          {
+            "name": "RPL13A.FIB",
+            "expected": "0.1673",
+            "observed": 0.167294
+          },
+          {
+            "name": "RPL13A.LEU",
+            "expected": "0.4066",
+            "observed": 0.411396
+          },
+          {
+            "name": "RPL13A.NB",
+            "expected": "0.2878",
+            "observed": 0.288951
+          },
+          {
+            "name": "RPL13A.POOL",
+            "expected": "0.4668",
+            "observed": 0.467803
+          },
+          {
+            "name": "SDHA.BM",
+            "expected": "0.0648",
+            "observed": 0.062092
+          },
+          {
+            "name": "SDHA.FIB",
+            "expected": "0.0944",
+            "observed": 0.094944
+          },
+          {
+            "name": "SDHA.LEU",
+            "expected": "0.2285",
+            "observed": 0.233479
+          },
+          {
+            "name": "SDHA.NB",
+            "expected": "0.1619",
+            "observed": 0.163988
+          },
+          {
+            "name": "SDHA.POOL",
+            "expected": "0.2626",
+            "observed": 0.265492
+          },
+          {
+            "name": "TBP.BM",
+            "expected": "0.1142",
+            "observed": 0.109009
+          },
+          {
+            "name": "TBP.FIB",
+            "expected": "0.1664",
+            "observed": 0.166685
+          },
+          {
+            "name": "TBP.LEU",
+            "expected": "0.4048",
+            "observed": 0.409898
+          },
+          {
+            "name": "TBP.NB",
+            "expected": "0.2869",
+            "observed": 0.287899
+          },
+          {
+            "name": "TBP.POOL",
+            "expected": "0.4650",
+            "observed": 0.4661
+          },
+          {
+            "name": "UBC.BM",
+            "expected": "0.0513",
+            "observed": 0.048734
+          },
+          {
+            "name": "UBC.FIB",
+            "expected": "0.0747",
+            "observed": 0.074519
+          },
+          {
+            "name": "UBC.LEU",
+            "expected": "0.1808",
+            "observed": 0.183252
+          },
+          {
+            "name": "UBC.NB",
+            "expected": "0.1286",
+            "observed": 0.12871
+          },
+          {
+            "name": "UBC.POOL",
+            "expected": "0.2078",
+            "observed": 0.208378
+          },
+          {
+            "name": "YWHAZ.BM",
+            "expected": "0.0540",
+            "observed": 0.05085
+          },
+          {
+            "name": "YWHAZ.FIB",
+            "expected": "0.0783",
+            "observed": 0.077754
+          },
+          {
+            "name": "YWHAZ.LEU",
+            "expected": "0.1898",
+            "observed": 0.191207
+          },
+          {
+            "name": "YWHAZ.NB",
+            "expected": "0.1340",
+            "observed": 0.134297
+          },
+          {
+            "name": "YWHAZ.POOL",
+            "expected": "0.2177",
+            "observed": 0.217423
+          }
+        ],
+        "tolerance": {
+          "abs": 0.0005,
+          "rel": 0.00012
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Published heights read from the R PostScript of Fig. 3 (MOESM5.eps) at 0.01 pt, with the scale of the 0 and 8 tick labels",
+          "source": "read_from_figure",
+          "sensitivity": "The published variances equal Table 3's printed (varsigma_k sigma_j)^2 within its rounding (ACTB in bone marrow 0.2114 against 0.460^2 = 0.2116)."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "The variances are (varsigma_k sigma_j)^2 of Table 3, whose gap is open (table3.sigma): ours are 3 to 10% lower in bone marrow and within 5.2% elsewhere.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The figure draws Table 3's variances",
+            "test": "Published heights against Table 3's printed products",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The figure's variances are maximum likelihood estimates",
+            "test": "Model 2 by ML: its SDs are 6 to 16% below ours, further from the figure's",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Model 2's SDs differ for a known reason",
+            "test": "See table3.sigma",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.actb_tbp",
+      "label": "Text: ACTB plus TBP in pooled tissues, MSE 0.35 against individual MSEs above 6",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "MSE of the log-average of ACTB and TBP, pooled tissues",
+            "expected": "0.35",
+            "observed": 0.33717
+          },
+          {
+            "name": "ACTB individual MSE above 6",
+            "expected": "true",
+            "observed": "true"
+          },
+          {
+            "name": "TBP individual MSE above 6",
+            "expected": "true",
+            "observed": "true"
+          },
+          {
+            "name": "ACTB and TBP biases in opposite directions",
+            "expected": "true",
+            "observed": "true"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "The set MSE of table4 (the biases of the set summed)",
+          "source": "found_by_search",
+          "sensitivity": "On the paper's own numbers the sum gives 0.349 and the mean 0.335 (text.arithmetic); on ours 0.337 and 0.324."
+        }
+      ],
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Ours is 0.337, printed 0.35: the variance of the pair comes from Model 2's SDs, about 5% low in pooled tissues (table3.sigma, open). The paper's own Table 3 and Fig. 3 give 0.349. The individual MSEs (6.41 and 6.70) and the opposite signs come back.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The bias of the pair is the mean of the two biases",
+            "test": "0.324 on ours, 0.335 on the paper's numbers",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The difference is Model 2's variance",
+            "test": "The paper's Table 3 SDs with the published biases give 0.349",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Model 2's SDs differ for a known reason",
+            "test": "See table3.sigma",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.data",
+      "label": "Text: 80 tumours and 6 genes; 10 genes in 5 tissue types",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "values": {
+        "fields": [
+          {
+            "name": "breast tumour samples",
+            "expected": "80",
+            "observed": "80"
+          },
+          {
+            "name": "genes assayed in breast tumours",
+            "expected": "6",
+            "observed": "6"
+          },
+          {
+            "name": "genes in Vandesompele et al.'s data",
+            "expected": "10",
+            "observed": "10"
+          },
+          {
+            "name": "tissue types",
+            "expected": "5",
+            "observed": "5"
+          }
+        ]
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "The claims recomputed from the paper's own tables and Fig. 3",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "8 of 8 claims hold on the paper's own numbers: Table 2's best pair from Table 1 with |S|^2 (holds, 0.1716 against 0.1718 (|S| gives 0.2426)); the four-gene set lowest in Table 2 (holds, 0.1490); three genes barely worse than four, two far worse (holds, 0.0004 and 0.0224); GAPD lowest in Table 3, then UBC, HPRT1, YWHAZ (holds); ACTB plus TBP in pooled tissues 0.35 (bias of the set summed) (holds, 0.349 (the mean of the biases gives 0.335)); ACTB and TBP individual MSEs in pooled tissues above 6 (holds, 6.45 and 6.70); Table 4's ten-gene MSE from Table 3 (no bias) (holds, 0.0490); Table 4's single gene RPL13A from Table 3 and Fig. 3, within Table 3's rounding (holds, 0.5435 against 0.544)"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "table5",
+      "label": "Table 5, primers",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "Primer sequences, lengths, GC content and melting temperatures: laboratory reagents, nothing computed.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC507884/"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "R package hkselect and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "check": {
+        "passed": true,
+        "detail": "R package hkselect: R CMD check OK; tests 23 passed, 0 failed, 0 skipped; tutorial rendering equals the committed TUTORIAL.md (figures by name)"
+      },
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 28,
+    "exact": 5,
+    "agrees": 12,
+    "partly": 5,
+    "inconclusive": 0,
+    "differs": 4,
+    "not_attempted": 2,
+    "open_causes": 6
+  }
+}

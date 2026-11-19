@@ -1,0 +1,45 @@
+{
+ "about": "Numbers as printed in Szabo et al. (2004), typed from the article (PMC507884). Strings keep the printed precision.",
+ "table1": {
+  "MRPL19": {"sd": "0.218", "lower": "0.168", "upper": "0.284"},
+  "PUM1": {"sd": "0.265", "lower": "0.215", "upper": "0.328"},
+  "PSMC4": {"sd": "0.288", "lower": "0.235", "upper": "0.352"},
+  "SF3A1": {"sd": "0.393", "lower": "0.327", "upper": "0.472"},
+  "ACTB": {"sd": "0.448", "lower": "0.376", "upper": "0.533"},
+  "GAPD": {"sd": "0.519", "lower": "0.439", "upper": "0.613"}
+ },
+ "table2": [
+  {"size": 1, "genes": ["MRPL19"], "sd": "0.2182"},
+  {"size": 2, "genes": ["PUM1", "MRPL19"], "sd": "0.1718"},
+  {"size": 3, "genes": ["PSMC4", "MRPL19", "PUM1"], "sd": "0.1494"},
+  {"size": 4, "genes": ["PSMC4", "MRPL19", "PUM1", "SP3A1"], "sd": "0.1490"},
+  {"size": 5, "genes": ["PSMC4", "MRPL19", "SF3A1", "PUM1", "ACTB"], "sd": "0.1491"},
+  {"size": 6, "genes": ["PSMC4", "MRPL19", "SF3A1", "PUM1", "GAPD", "ACTB"], "sd": "0.1513"}
+ ],
+ "table3": {
+  "sigma": {"GAPD": "0.211", "UBC": "0.226", "HPRT1": "0.227", "YWHAZ": "0.232", "SDHA": "0.255", "RPL13A": "0.339",
+            "TBP": "0.339", "HMBS": "0.431", "ACTB": "0.460", "B2M": "0.562"},
+  "varsigma": {"BM": "1.000", "FIB": "1.204", "NB": "1.582", "LEU": "1.879", "POOL": "2.014"}
+ },
+ "table4": [
+  {"size": 1, "genes": ["RPL13A"], "mse": "0.544"},
+  {"size": 2, "genes": ["HPRT1", "UBC"], "mse": "0.328"},
+  {"size": 3, "genes": ["HPRT1", "RPL13A", "UBC"], "mse": "0.136"},
+  {"size": 4, "genes": ["HPRT1", "RPL13A", "UBC"], "mse": "0.136"},
+  {"size": 5, "genes": ["HPRT1", "RPL13A", "UBC"], "mse": "0.136"},
+  {"size": 6, "genes": ["ACTB", "HPRT1", "SDHA", "TBP", "UBC", "YWHAZ"], "mse": "0.131"},
+  {"size": 7, "genes": ["ACTB", "HPRT1", "RPL13A", "SDHA", "TBP", "UBC", "YWHAZ"], "mse": "0.064"},
+  {"size": 8, "genes": ["ACTB", "HPRT1", "RPL13A", "SDHA", "TBP", "UBC", "YWHAZ"], "mse": "0.064"},
+  {"size": 9, "genes": ["ACTB", "HPRT1", "RPL13A", "SDHA", "TBP", "UBC", "YWHAZ"], "mse": "0.064"},
+  {"size": 10, "genes": ["ACTB", "B2M", "GAPD", "HMBS", "HPRT1", "RPL13A", "SDHA", "TBP", "UBC", "YWHAZ"], "mse": "0.049"}
+ ],
+ "text": {
+  "p_value": "0.0014",
+  "actb_tbp_pool_mse": "0.35",
+  "actb_tbp_individual_above": "6",
+  "breast_samples": "80",
+  "breast_genes": "6",
+  "vandesompele_genes": "10",
+  "tissue_types": "5"
+ }
+}

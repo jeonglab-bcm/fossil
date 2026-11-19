@@ -1,0 +1,22 @@
+Package: hkselect
+Title: Selecting Housekeeper Genes with Heteroscedastic Linear Models (Szabo et al. 2004)
+Version: 0.1.0
+Authors@R: person("fossil contributors", role = c("aut", "cre"), email = "noreply@github.com")
+Description: The statistical models of Szabo, Perou, Karaca, Perreard, Palais, Quackenbush and
+    Bernard (2004, Genome Biology 5:R59, <doi:10.1186/gb-2004-5-8-r59>) for choosing
+    housekeeper (reference) genes for normalizing quantitative RT-PCR data. Within one tissue
+    type, a two-way model of log expression with one error variance per gene (Model 1a) gives
+    each gene's standard deviation and the standard deviation of the log geometric mean of any
+    gene set. Across tissue types, a model with a tissue-specific gene effect and errors whose
+    standard deviation is a gene factor times a tissue factor (Model 2) gives each gene's bias
+    and variance per tissue type, and a minimax mean squared error search finds the best
+    universal set of each size. Also Vandesompele's geNorm M-values for comparison. Rebuilt from
+    the paper's text; the authors' code was never released.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports: nlme (>= 3.1-164), numDeriv (>= 2016.8-1.1), stats, utils
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1

@@ -1,0 +1,145 @@
+{
+  "main": {
+    "name": "Model 2 by REML (our fit)",
+    "distance": 0.389021,
+    "sigma": {
+      "ACTB": 0.436,
+      "B2M": 0.5482,
+      "GAPD": 0.2065,
+      "HMBS": 0.4208,
+      "HPRT1": 0.2208,
+      "RPL13A": 0.3308,
+      "SDHA": 0.2492,
+      "TBP": 0.3302,
+      "UBC": 0.2208,
+      "YWHAZ": 0.2255
+    },
+    "varsigma": {
+      "BM": 1,
+      "FIB": 1.2366,
+      "LEU": 1.9391,
+      "NB": 1.6251,
+      "POOL": 2.0678
+    }
+  },
+  "variants": [
+    {
+      "name": "maximum likelihood instead of REML",
+      "distance": 1.554185,
+      "sigma": {
+        "ACTB": 0.4085,
+        "B2M": 0.5105,
+        "GAPD": 0.1729,
+        "HMBS": 0.3929,
+        "HPRT1": 0.1912,
+        "RPL13A": 0.302,
+        "SDHA": 0.2229,
+        "TBP": 0.3026,
+        "UBC": 0.192,
+        "YWHAZ": 0.1981
+      },
+      "varsigma": {
+        "BM": 1,
+        "FIB": 1.2646,
+        "LEU": 1.9543,
+        "NB": 1.6954,
+        "POOL": 2.0836
+      }
+    },
+    {
+      "name": "random sample effects (lme)",
+      "distance": 0.402937,
+      "sigma": {
+        "ACTB": 0.4426,
+        "B2M": 0.5474,
+        "GAPD": 0.2056,
+        "HMBS": 0.4124,
+        "HPRT1": 0.2181,
+        "RPL13A": 0.3301,
+        "SDHA": 0.2445,
+        "TBP": 0.3314,
+        "UBC": 0.2255,
+        "YWHAZ": 0.2281
+      },
+      "varsigma": {
+        "BM": 1,
+        "FIB": 1.241,
+        "LEU": 1.948,
+        "NB": 1.6232,
+        "POOL": 2.0661
+      }
+    },
+    {
+      "name": "no tissue-by-gene effect",
+      "distance": 3.989668,
+      "sigma": {
+        "ACTB": 0.5118,
+        "B2M": 0.7616,
+        "GAPD": 0.3183,
+        "HMBS": 0.5215,
+        "HPRT1": 0.2912,
+        "RPL13A": 0.3895,
+        "SDHA": 0.3351,
+        "TBP": 0.4669,
+        "UBC": 0.2651,
+        "YWHAZ": 0.2448
+      },
+      "varsigma": {
+        "BM": 1,
+        "FIB": 0.9957,
+        "LEU": 2.6846,
+        "NB": 1.3273,
+        "POOL": 5.8138
+      }
+    },
+    {
+      "name": "log10 instead of natural logarithms",
+      "distance": 8.729346,
+      "sigma": {
+        "ACTB": 0.1894,
+        "B2M": 0.2381,
+        "GAPD": 0.0897,
+        "HMBS": 0.1827,
+        "HPRT1": 0.0959,
+        "RPL13A": 0.1437,
+        "SDHA": 0.1082,
+        "TBP": 0.1434,
+        "UBC": 0.0959,
+        "YWHAZ": 0.0979
+      },
+      "varsigma": {
+        "BM": 1,
+        "FIB": 1.2366,
+        "LEU": 1.9391,
+        "NB": 1.6251,
+        "POOL": 2.0678
+      }
+    }
+  ],
+  "drop_one": {
+    "best": [
+      {
+        "sample": "BM4",
+        "distance": 0.10276
+      },
+      {
+        "sample": "BM6",
+        "distance": 0.122608
+      },
+      {
+        "sample": "BM5",
+        "distance": 0.178659
+      },
+      {
+        "sample": "BM1",
+        "distance": 0.261649
+      },
+      {
+        "sample": "FIB12",
+        "distance": 0.334871
+      }
+    ],
+    "runs": 85,
+    "note": "Model 2 refitted without each of the 85 samples in turn; the five closest to Table 3"
+  }
+}
