@@ -122,6 +122,8 @@ and rebuilds the profiles.
 
 ## Limits
 
+- `CHECK` compares every committed output with the fresh run, numbers to 1e-9 and images by decoded pixels, except `figs/fig7b_*.png` and `figs/figS2_*.png`: on GitHub's runners their bar edges antialias differently by a few pixels. The values they draw (`figs/figures.json`) are still compared.
+
 - The junction database and every annotation are today's, not the paper's; counts move by several per cent.
 - TROMER, one of the paper's six exon sources for PTC calls, has no mouse data online; junctions whose exons only it held are unannotated, which cuts our PTC+ counts to about a third.
 - The paper's PSI formulas, its false-positive gene filter, its random-exon baseline (Fig. 7a) and its read cutoff for Fig. 3b are not fully stated.

@@ -39,7 +39,8 @@ same_items = json.dumps([{k: v for k, v in i.items()} for i in new["items"]], so
 report["pass_marks"] = {"passed": not changed and new.get("summary") == old.get("summary"), "changed": changed,
                         "items_identical": same_items}
 
-r = subprocess.run([sys.executable, here / "compare_runs.py", fresh, committed, "--ignore", "package.json", "results.json", "mapping/*", "report.md", "check.json", "hypotheses.json"],
+r = subprocess.run([sys.executable, here / "compare_runs.py", fresh, committed, "--ignore", "package.json", "results.json", "mapping/*", "report.md", "check.json", "hypotheses.json",
+                    "figs/fig7b_*.png", "figs/figS2_*.png"],
                    capture_output=True, text=True)
 report["compare_runs"] = {"passed": r.returncode == 0, "output": r.stdout.strip().splitlines()[-40:]}
 
