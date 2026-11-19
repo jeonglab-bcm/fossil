@@ -74,10 +74,12 @@ pattern holds: forward selection beats CHISQ filtering, dropping all but the str
 adding publication types raises AUC a little while average precision, F1 and MSE get worse.
 
 What does not come back depends on the lost supplement or on manual labels: the number of feature sets chosen (10 and 13
-here, 7 and 10 in the paper; comparing AUC at three decimals gives 7 and 7), the size of the CHISQ models (the test's
-threshold is not given), the zero-centred-sigmoid MSE, the disagreement counts at 0.95 and 0.05 (set by the lost
-confidence method), the acute cholecystitis example (its search is lost), and Fig. 1, the 2014 sample and the kappa (the
-reviewed articles were never released). The arithmetic check found four slips in the paper: 2751 of 3088 is 89%, not 85%;
+here, 7 and 10 in the paper; as a hypothesis test, comparing AUC at three decimals gives 7 and 7, which matches the paper
+for CITATION_ONLY only), the total feature count (54 million against about 45), the size of the CHISQ models (the test's
+threshold is not given), the zero-centred-sigmoid MSE, the F1 of the single feature "randomized" (0.58 against about
+0.72), the flatness of the training-fraction curve (AUC +0.0026 from 5% to 10%), the disagreement counts at 0.95, 0.50
+and 0.05 (set by the lost confidence method), the acute cholecystitis example (its search is lost), and Fig. 1, the 2014
+sample and the kappa (the reviewed articles were never released). The arithmetic check found four slips in the paper: 2751 of 3088 is 89%, not 85%;
 5% of 277,789 is 13,889, not 12,900; 7,900 + 12,900 is about 21,000, not 20,000; and Table 3's feature counts give a
 431-fold reduction for CITATION_ONLY, not 300-400.
 

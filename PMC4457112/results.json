@@ -261,7 +261,7 @@
           },
           {
             "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
-            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
             "result": "rejected"
           },
           {
@@ -481,7 +481,7 @@
           },
           {
             "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
-            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
             "result": "rejected"
           },
           {
@@ -806,7 +806,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score higher than the paper's, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score as high as the paper's or higher, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
         "evidence": [
           "figure-reproduction/output/models.json",
           "figure-reproduction/output/variants.json"
@@ -814,7 +814,7 @@
         "hypotheses": [
           {
             "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
-            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's counts and scores lie between our p < 0.05 and Bonferroni models, so its threshold lay between them; no threshold was fitted to the paper",
+            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's CHISQ feature counts and CHISQ scores lie between our p < 0.05 and Bonferroni models (MeSH CHISQ F1 equals our p < 0.05 model's at printed precision), so its threshold lay between them; the POSTHOC scores do not bracket; no threshold was fitted to the paper",
             "result": "supported"
           },
           {
@@ -931,7 +931,7 @@
           },
           {
             "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
-            "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
+            "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: default (-s 1 -c 1, binary): AUC 0.974, AP 0.877, F1 0.824, sigmoid MSE 0.052; C = 0.1: AUC 0.974, AP 0.877, F1 0.825, sigmoid MSE 0.052; rows scaled to unit length: AUC 0.977, AP 0.878, F1 0.827, sigmoid MSE 0.053. CITATION_ONLY: default (-s 1 -c 1, binary): AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; C = 0.1: AUC 0.968, AP 0.858, F1 0.807, sigmoid MSE 0.055; rows scaled to unit length: AUC 0.973, AP 0.857, F1 0.808, sigmoid MSE 0.057",
             "result": "rejected"
           },
           {
@@ -1496,7 +1496,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score higher than the paper's, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+        "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps 2,628,721 and 2,651,049 features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score as high as the paper's or higher, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep 53,810,398 and 54,035,744 features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
         "evidence": [
           "figure-reproduction/output/models.json",
           "figure-reproduction/output/variants.json"
@@ -1504,7 +1504,7 @@
         "hypotheses": [
           {
             "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
-            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's counts and scores lie between our p < 0.05 and Bonferroni models, so its threshold lay between them; no threshold was fitted to the paper",
+            "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: p < 0.05: 2,628,721, p < 0.001: 191,826, p < 1e-6: 71,853, Bonferroni: 46,126; refitted CHISQ AUC 0.926, AP 0.745, F1 0.713, POSTHOC AUC 0.951, AP 0.814, F1 0.775. CITATION_PLUS_MESH kept: p < 0.05: 2,651,049, p < 0.001: 203,591, p < 1e-6: 79,034, Bonferroni: 51,194; CHISQ AUC 0.941, AP 0.780, F1 0.742, POSTHOC AUC 0.961, AP 0.844, F1 0.799. The paper's CHISQ feature counts and CHISQ scores lie between our p < 0.05 and Bonferroni models (MeSH CHISQ F1 equals our p < 0.05 model's at printed precision), so its threshold lay between them; the POSTHOC scores do not bracket; no threshold was fitted to the paper",
             "result": "supported"
           },
           {
@@ -1690,7 +1690,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add under 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
         "evidence": [
           "figure-reproduction/output/selection.json",
           "figure-reproduction/output/variants.json"
@@ -1703,7 +1703,7 @@
           },
           {
             "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
-            "test": "Read where these sets enter: keywords and substances come last, adding no AUC at four decimals (selection.json)",
+            "test": "Read where these sets enter (selection.json): keywords and substances come last, adding 0.00001 to 0.00004 AUC unrounded",
             "result": "inconclusive"
           }
         ],
@@ -1783,7 +1783,7 @@
       },
       "cause": {
         "category": "undocumented_setting",
-        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+        "summary": "Our forward selection kept 10 citation sets (abstract_bigrams, abstract_unigrams, abstract_trigrams, title_unigrams, author_count, journal, title_bigrams, authors, title_trigrams, keywords) and 13 sets with MeSH (abstract_bigrams, abstract_unigrams, mesh_terms, abstract_trigrams, title_unigrams, journal, author_count, authors, mesh_qualified, title_trigrams, title_bigrams, chemicals, keywords) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add under 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
         "evidence": [
           "figure-reproduction/output/selection.json",
           "figure-reproduction/output/variants.json"
@@ -1796,7 +1796,7 @@
           },
           {
             "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
-            "test": "Read where these sets enter: keywords and substances come last, adding no AUC at four decimals (selection.json)",
+            "test": "Read where these sets enter (selection.json): keywords and substances come last, adding 0.00001 to 0.00004 AUC unrounded",
             "result": "inconclusive"
           }
         ],
@@ -2165,7 +2165,7 @@
         "hypotheses": [
           {
             "hypothesis": "The confidence method sets the counts",
-            "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the counts by orders of magnitude, but neither version gives the paper's",
+            "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the 0.95 and 0.05 counts by orders of magnitude (4,064 to 2, 27,979 to 0) and the 0.50 count from 23,344 to 19,384, but neither version gives the paper's",
             "result": "inconclusive"
           },
           {

@@ -525,7 +525,7 @@
     },
     {
      "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
-     "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
+     "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
      "result": "rejected"
     },
     {
@@ -538,7 +538,7 @@
   },
   "table3": {
    "category": "undocumented_setting",
-   "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps {n_chisq_c} and {n_chisq_m} features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score higher than the paper's, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep {n_feat_c} and {n_feat_m} features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
+   "summary": "As for Tables 1 and 2, and the CHISQ test is not described: at p < 0.05 our filter keeps {n_chisq_c} and {n_chisq_m} features against the paper's 102,023 and 113,177, so our CHISQ models are larger and score as high as the paper's or higher, and our POSTHOC models, cut to the same count, are close to forward selection by construction. Our forward-selection models keep {n_feat_c} and {n_feat_m} features against 44,114,421 and 34,636,788, because selection kept more sets (abstract trigrams alone hold 35 million).",
    "evidence": [
     "figure-reproduction/output/models.json",
     "figure-reproduction/output/variants.json"
@@ -546,7 +546,7 @@
    "hypotheses": [
     {
      "hypothesis": "The paper's CHISQ threshold was much stricter than p < 0.05",
-     "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: {chisq_c_kept}; refitted CHISQ {chisq_c_bonf_chisq}, POSTHOC {chisq_c_bonf_posthoc}. CITATION_PLUS_MESH kept: {chisq_m_kept}; CHISQ {chisq_m_bonf_chisq}, POSTHOC {chisq_m_bonf_posthoc}. The paper's counts and scores lie between our p < 0.05 and Bonferroni models, so its threshold lay between them; no threshold was fitted to the paper",
+     "test": "Count the features each threshold keeps and refit CHISQ and POSTHOC at the Bonferroni threshold (variants.json). CITATION_ONLY kept: {chisq_c_kept}; refitted CHISQ {chisq_c_bonf_chisq}, POSTHOC {chisq_c_bonf_posthoc}. CITATION_PLUS_MESH kept: {chisq_m_kept}; CHISQ {chisq_m_bonf_chisq}, POSTHOC {chisq_m_bonf_posthoc}. The paper's CHISQ feature counts and CHISQ scores lie between our p < 0.05 and Bonferroni models (MeSH CHISQ F1 equals our p < 0.05 model's at printed precision), so its threshold lay between them; the POSTHOC scores do not bracket; no threshold was fitted to the paper",
      "result": "supported"
     },
     {
@@ -578,7 +578,7 @@
     },
     {
      "hypothesis": "An unstated LIBLINEAR setting (C, row scaling, loss) moves the measures onto the paper's",
-     "test": "Retrain the forward-selection models with C = 0.1, unit-length rows and logistic regression, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
+     "test": "Retrain the forward-selection models with C = 0.1 and unit-length rows, one at a time, and evaluate on 2011 (variants.json). CITATION_PLUS_MESH: {var_m}. CITATION_ONLY: {var_c}",
      "result": "rejected"
     },
     {
@@ -591,7 +591,7 @@
   },
   "sets": {
    "category": "undocumented_setting",
-   "summary": "Our forward selection kept {n_sets_c} citation sets ({sets_c}) and {n_sets_m} sets with MeSH ({sets_m}) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
+   "summary": "Our forward selection kept {n_sets_c} citation sets ({sets_c}) and {n_sets_m} sets with MeSH ({sets_m}) out of candidate lists we had to choose; the paper's lists and rule are in the lost supplement. Late sets add under 0.0001 to 0.0003 AUC each. Our candidates hold 54 million features in the training sample, the paper's 'approximately 45 million'.",
    "evidence": [
     "figure-reproduction/output/selection.json",
     "figure-reproduction/output/variants.json"
@@ -604,7 +604,7 @@
     },
     {
      "hypothesis": "Our candidate list holds sets the paper did not have (keywords, substances, qualified MeSH)",
-     "test": "Read where these sets enter: keywords and substances come last, adding no AUC at four decimals (selection.json)",
+     "test": "Read where these sets enter (selection.json): keywords and substances come last, adding 0.00001 to 0.00004 AUC unrounded",
      "result": "inconclusive"
     }
    ],
@@ -660,7 +660,7 @@
    "hypotheses": [
     {
      "hypothesis": "The confidence method sets the counts",
-     "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the counts by orders of magnitude, but neither version gives the paper's",
+     "test": "Recount with the zero-centred sigmoid of the margin in place of our fitted sigmoid (disagreements.json, sigmoid_baseline); it moves the 0.95 and 0.05 counts by orders of magnitude (4,064 to 2, 27,979 to 0) and the 0.50 count from 23,344 to 19,384, but neither version gives the paper's",
      "result": "inconclusive"
     },
     {
@@ -694,7 +694,7 @@
   }
  },
  "page": {
-  "lede": "Cohen and colleagues released their RCT classifier only as a web service, which is gone. In November 2026 we rebuilt it from the paper and retrained both models on {dataset} MEDLINE citations of 1987 to 2012. Of {items} results, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} could not be attempted. Every gap has a tested cause.",
+  "lede": "Cohen and colleagues released their RCT classifier only as a web service, which is gone. In November 2026 we rebuilt it from the paper and retrained both models on {dataset} MEDLINE citations of 1987 to 2012. Of {items} results, {agrees} agree, {partly} partly agree, {differs} differ and {not_attempted} could not be attempted. Every gap has a stated cause.",
   "label_rows": [
    [
     "table1",
@@ -761,7 +761,7 @@
   "buried": [
    "The supplement. Its feature lists, PubMed query, confidence method and Table S2 are not in PMC, and the publisher refused every request.",
    "The manual review behind Fig. 1, the 2014 sample and the kappa. The 250 reviewed articles and their labels were never released.",
-   "The confidence method. Our fitted sigmoid comes within 0.001 of the paper's MSE, but the counts at 0.95 and 0.05 depend on the lost method and do not come back."
+   "The confidence method. Our fitted sigmoid comes within 0.001 of the paper's MSE, but the counts at 0.95, 0.50 and 0.05 depend on the lost method and do not come back."
   ],
   "matched_intro": "What the paper does not say, and what we chose.",
   "matched": [
@@ -775,7 +775,7 @@
    ],
    [
     "Classifier",
-    "LIBLINEAR with its default solver and C = 1. C = 0.1 gives the same numbers; unit-length rows raise AUC further."
+    "LIBLINEAR with its default solver and C = 1. C = 0.1 gives nearly the same numbers (within 0.001); unit-length rows raise AUC further."
    ],
    [
     "Selection",
