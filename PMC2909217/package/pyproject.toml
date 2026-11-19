@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fgnssl"
+version = "0.1.0"
+description = "Synthetic genetic interaction prediction from a weighted functional gene network with graph-based semi-supervised learning (You et al. 2010), rebuilt from the paper."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = [
+  "numpy>=2.0,<3",
+  "scipy>=1.13,<2",
+  "scikit-learn>=1.5,<2",
+  "python-igraph>=0.11,<0.12",
+  "numba>=0.60,<1",
+]
+
+[project.scripts]
+fgnssl = "fgnssl.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2909217"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2909217/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fgnssl"]

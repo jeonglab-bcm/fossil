@@ -1,0 +1,158 @@
+"""Build the results page from results.json, the renders and the published figures.
+
+usage: build_page.py RESULTS_JSON RUN_DIR PUBLISHED_DIR OUT_HTML  (renders in RUN_DIR/figures)
+
+Every verdict on the page is read from results.json (computed there by check_results.py); the prose
+comes from results_notes.json ("page"), with its numbers filled from the run by build_results.py
+(RUN_DIR/page.json). Images are embedded, so the page works offline; it links ../results.css like
+the site's other results pages.
+"""
+import base64
+import html
+import io
+import json
+import sys
+from pathlib import Path
+
+from PIL import Image
+
+HERE = Path(__file__).resolve().parent
+esc = html.escape
+STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
+         "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
+FIGS = {"2": "fig2.", "3": "fig3.", "4": "fig4.", "5": "fig5.", "6": "fig6."}
+CAPTIONS = {
+    "2": "Fig. 2. ROC curves of SSL (blue) and SVM (red) with 20% of the gene pairs unlabelled (5-fold cross-validation).",
+    "3": "Fig. 3. ROC curves of SSL and SVM with 50% unlabelled (2-fold).",
+    "4": "Fig. 4. ROC curves of SSL and SVM with 80% unlabelled (trained on one fold of five).",
+    "5": "Fig. 5. ROC curves of SSL on the weighted functional gene network (blue) and on the binary network (red), 50% unlabelled. The published legend reads SSL, Random, SVM.",
+    "6": "Fig. 6. Densities of the absolute difference of (a) degree, (b) closeness, (c) betweenness and (d) clustering coefficient across a gene pair, SGI pairs (blue) and non-SGI pairs (red dashed), weighted network.",
+}
+OLD_CAPTIONS = {
+    "1": "Fig. 1. Mean IM of the risk SNPs (H4M4, K4S4) against the number of SNPs in LD with each risk SNP (r series) or with each of four noise SNPs (n series), for RF0 and RF1 with IM0 and IM1.",
+    "2": "Fig. 2. Share of replicates where every risk SNP and LD.rSNP has a higher IM than every noise SNP.",
+    "3": "Fig. 3. Share of replicates with each risk SNP (or one of its LD.rSNPs) among the top X SNPs: (a) RF0 with IM0 and IM1 by number of LD.rSNPs; (b) 1 and 4 LD.rSNPs; (c) the four RF/IM combinations.",
+    "4": "Fig. 4. Mean IM of the risk SNPs, true risk haplotypes and predicted risk haplotypes (H4M4, K4S4N100) against r\u00b2 between the two SNPs of a risk haplotype.",
+    "5": "Fig. 5. Share of replicates where every risk SNP, risk haplotype or predicted haplotype has a higher IM than every noise SNP.",
+    "6": "Fig. 6. Share of replicates with all risk variables among the top X: (a) SNPs, both and the best SNP of each haplotype; (b) true and predicted haplotypes; (c) the four codings at r\u00b2 = 0 and 0.9.",
+}
+
+
+def b64(path):
+    buf = io.BytesIO()
+    im = Image.open(path).convert("RGB")
+    if im.width > 2000:
+        im = im.resize((2000, round(im.height * 2000 / im.width)), Image.LANCZOS)
+    im.save(buf, "PNG", optimize=True)
+    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
+
+
+def stamp(v, small=""):
+    if v == "not_attempted":
+        return '<span class="stamp" data-v="running">Not attempted</span>'
+    cls, word = STAMP[v]
+    return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
+
+
+def worst(vs):
+    order = ["differs", "inconclusive", "partly", "agrees", "exact"]
+    vs = [v for v in vs if v in order]
+    return min(vs, key=order.index) if vs else "not_attempted"
+
+
+def measure(it):
+    if it["method"] == "values":
+        f = it["values"]["fields"]
+        from check_results import field_matches
+        hits = sum(field_matches(x, it["values"].get("tolerance")) for x in f)
+        return f"{hits} of {len(f)} values"
+    if it["method"] == "pixels":
+        p = it["pixels"]
+        s = min(p["published_near_ours"], p["ours_near_published"])
+        return f"{100 * s:.1f}% within {p['tolerance_px']} px"
+    return ""
+
+
+def fmt(v):
+    if isinstance(v, float):
+        return f"{v:g}"
+    return str(v)
+
+
+def main(results, figs, pub, out):
+    sys.path.insert(0, str(HERE))
+    R = json.loads(Path(results).read_text())
+    N = json.loads((Path(figs) / "page.json").read_text())
+    items = R["items"]
+    by = {i["id"]: i for i in items}
+    sm = R["summary"]
+
+    lede = N["lede"].format(**sm, attempted=sm["items"] - sm["not_attempted"])
+    def vrow(a, k, ids):
+        v = worst([by[i]["verdict"] for i in ids])
+        cls, word = STAMP.get(v, ("none", "Not attempted"))
+        return f'<li><a href="#{a}"><span>{esc(k)}</span><span class="v" data-v="{cls}">{esc(word)}</span></a></li>'
+    label = "<ol>" + "".join(vrow(a, k, ids) for a, k, ids in N["label_rows"]) + "</ol>"
+
+    stations, figjs = [], []
+    for n, prefix in FIGS.items():
+        its = [i for i in items if (i["id"] == prefix[:-1] or i["id"].startswith(prefix))
+               and i["method"] in ("pixels", "values")]
+        if not its:
+            continue
+        v = worst([i["verdict"] for i in its])
+        pf = Path(pub) / f"figure-{n}.png"
+        psrc, (w, h) = b64(pf if pf.exists() else Path(pub) / f"figure-{n}.jpg")
+        osrc, _ = b64(next(p for p in (Path(figs) / d / f"fig{n}_ours.png" for d in ("figures", ".")) if p.exists()))
+        stats = "".join(f"<div><dt>{esc(i['label'])}</dt><dd>{esc(measure(i))} · {esc(STAMP[i['verdict']][1] if i['verdict'] in STAMP else '')}</dd></div>"
+                        .replace(" · ", ", ") for i in its)
+        causes = []
+        for i in its:
+            c = (i.get("cause") or {}).get("summary")
+            if c and c not in causes:
+                causes.append(c)
+        note = " ".join(causes)
+        stations.append(
+            f'<section class="station surface" id="fig-{n}" aria-labelledby="fig-{n}-head">'
+            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v)}</header>'
+            f'<div class="stage"><div class="pair">'
+            f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Figure {n} as published" width="{w}" height="{h}"></figure>'
+            f'<figure class="plate"><figcaption>Our run</figcaption><img src="{osrc}" alt="Figure {n} redrawn from our run" width="{w}" height="{h}"></figure>'
+            f'</div></div><div class="station-foot"><dl class="dose">{stats}</dl><p class="note">{esc(note)}</p></div></section>')
+        figjs.append({"id": n, "w": w, "h": h})
+
+    rows = []
+    for i in items:
+        fields = ""
+        if i["method"] == "values":
+            fields = "<ul class=fields>" + "".join(
+                f"<li>{esc(f['name'])}: paper {esc(fmt(f['expected']))}, ours <strong>{esc(fmt(f['observed']))}</strong></li>"
+                for f in i["values"]["fields"]) + "</ul>"
+        cause = (i.get("cause") or {}).get("summary", "")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+    extra = (f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
+             f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
+             f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'
+             f'<th scope="col">Measure</th><th scope="col">Why</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+             f'<p class="note">{esc(N["claims_line"])}</p></div></section>')
+
+    recovered = ('<section class="notes" aria-labelledby="back-head"><div class="container"><h2 id="back-head">What came back</h2><dl class="ledger">'
+                 + "".join(f'<div class="row"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in N["came_back"])
+                 + '</dl></div></section><section class="buried" aria-labelledby="buried-head"><div class="container"><div class="plastic buried-band">'
+                 '<h2 id="buried-head">What stayed buried</h2><ul>' + "".join(f"<li>{esc(x)}</li>" for x in N["buried"])
+                 + f'</ul><p class="so">{esc(N["claims_line"])}</p></div></div></section>')
+    matched = "".join(f'<div class="row"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in N["matched"])
+
+    page = (HERE / "page_template.html").read_text()
+    for k, v in {"LEDE": esc(lede), "LABEL": label, "STATIONS": "".join(stations), "EXTRA": extra,
+                 "RECOVERED": recovered, "MATCHED_INTRO": esc(N["matched_intro"]), "MATCHED": matched,
+                 "CLOSING": esc(N["closing"])}.items():
+        page = page.replace(f"<!--__{k}__-->", v)
+    page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
+    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    Path(out).write_text(page)
+    print(f"wrote {out} ({len(page) // 1024} KB)")
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:5])

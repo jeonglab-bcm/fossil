@@ -1,0 +1,2862 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC2909217",
+    "title": "A semi-supervised learning approach to predict synthetic genetic interactions by combining functional and topological properties of functional gene network",
+    "citation": "You ZH, Yin Z, Han K, Huang DS, Zhou X. A semi-supervised learning approach to predict synthetic genetic interactions by combining functional and topological properties of functional gene network. BMC Bioinformatics 11:343 (2010)",
+    "doi": "10.1186/1471-2105-11-343",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-13",
+    "pipeline": "PMC2909217/figure-reproduction/main.nf",
+    "command": "nextflow run PMC2909217/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "interaction_data.tab.20091219.gz",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/curation/literature/archive/interaction_data.tab.20091219.gz",
+        "sha256": "3ed60847be0c92eed33e9affc572ea0f34aad539f6cf89382211a8b11dcf7a6e"
+      },
+      {
+        "name": "phenotype_data.tab.20091205.gz",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/curation/literature/archive/phenotype_data.tab.20091205.gz",
+        "sha256": "a40fe22df68e0e39c83bac1c455f0a2cbe96c0f174f09679656a27332ba82bdd"
+      },
+      {
+        "name": "SGD_features.tab.20091205.gz",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/curation/chromosomal_feature/archive/SGD_features.tab.20091205.gz",
+        "sha256": "bbc81ae52d812db621d465ed628f998041e4a6a4dab521240f072b9472684b17"
+      },
+      {
+        "name": "Cho_1998_PMID_9702192.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Cho_1998_PMID_9702192/Cho_1998_PMID_9702192.zip",
+        "sha256": "5e5666534fb558ab4c72df09f4735db103293896739600db5421b05b810a8fe9"
+      },
+      {
+        "name": "Chu_1998_PMID_9784122.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Chu_1998_PMID_9784122/Chu_1998_PMID_9784122.zip",
+        "sha256": "f6d0013b1a3f3ac183adeb555a602384e84b14b1057f59772586965a7f880b5f"
+      },
+      {
+        "name": "Spellman_1998_PMID_9843569.zip",
+        "url": "https://s3-us-west-2.amazonaws.com/sgd-archive.yeastgenome.org/expression/microarray/Spellman_1998_PMID_9843569/Spellman_1998_PMID_9843569.zip",
+        "sha256": "7b46af23498289f2b9a9afeac0c5ec04d73d50ad1953bd5c5c585c6f09ca3687"
+      },
+      {
+        "name": "figure-1 (1471-2105-11-343-1.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-1.jpg",
+        "sha256": "7c8cc087b3b848a581a5e90555561a7e78ccc341f2937be3925e6877d0d4607e"
+      },
+      {
+        "name": "figure-2 (1471-2105-11-343-2.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-2.jpg",
+        "sha256": "dc79e15b727b012760967ab546ae0f11bb4fdead8f5a6f27c67604ef14e06ab5"
+      },
+      {
+        "name": "figure-3 (1471-2105-11-343-3.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-3.jpg",
+        "sha256": "8f3ae64bcabc94d5cdf993776e7d5b0d5cda1e36e25ddd147f3e7d2b2ff91eb7"
+      },
+      {
+        "name": "figure-4 (1471-2105-11-343-4.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-4.jpg",
+        "sha256": "b3d5bc5bb949d87c016d435e2ec3264edaf3d9aee2b3447c8dac83fe5bbfd430"
+      },
+      {
+        "name": "figure-5 (1471-2105-11-343-5.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-5.jpg",
+        "sha256": "dbfa1d60284e86ae1f79fb4c41752bd0d303d7b282b6a22520188977e18cec52"
+      },
+      {
+        "name": "figure-6 (1471-2105-11-343-6.jpg, committed in published/)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-6.jpg",
+        "sha256": "e2f37ba0e106162496fc2a03f1686df29b25c565b659103d72f166a81ca1a9e7"
+      },
+      {
+        "name": "Additional file 1 (1471-2105-11-343-S1.DOC, read, not used by the pipeline)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2909217.1/1471-2105-11-343-S1.DOC",
+        "sha256": "205bd9bbaff5dc8922991dfbdc8b1efb0eccd509b47853160e7d1cd8cbcf6d11"
+      }
+    ],
+    "environment": {
+      "python": "3.12",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "scikit-learn": "1.6.1",
+      "python-igraph": "0.11.8",
+      "numba": "0.61.2",
+      "pillow": "11.2.1",
+      "nextflow": "26.04.3",
+      "java": "21"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "fig1",
+      "label": "Fig. 1, workflow schematic",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "A diagram of the workflow; nothing is computed.",
+        "evidence": [
+          "figure-reproduction/published/figure-1.jpg"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.operating_point",
+      "label": "Abstract and Results: sensitivity 92% at specificity 91% (TPR 0.92 at FPR 0.09)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Best SSL sensitivity at 1 - specificity 0.09",
+            "expected": "0.92",
+            "observed": "0.20"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve 0.675 to 0.645 for SSL and 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL 0.859, SVM 0.9096 without Tong 2004's own rows, 0.89 and 0.9587 with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
+        "evidence": [
+          "figure-reproduction/output/roc.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "detail": {
+        "curve": "unlabelled20/ssl/weighted"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, ROC of SSL and SVM, 20% unlabelled",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig2_ours.png",
+        "figure-reproduction/output/figures/fig2_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve 0.675 to 0.645 for SSL and 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL 0.859, SVM 0.9096 without Tong 2004's own rows, 0.89 and 0.9587 with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
+        "evidence": [
+          "figure-reproduction/output/roc.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.0341,
+        "ours_near_published": 0.04,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "curves swapped",
+            "kind": "wrong_input",
+            "score": 0.0552
+          },
+          {
+            "name": "random predictor (both curves on the diagonal)",
+            "kind": "wrong_input",
+            "score": 0.0082
+          },
+          {
+            "name": "TPR + 0.03",
+            "kind": "near_miss",
+            "score": 0.0446
+          },
+          {
+            "name": "TPR - 0.03",
+            "kind": "near_miss",
+            "score": 0.0302
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, ROC of SSL and SVM, 50% unlabelled",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve 0.675 to 0.645 for SSL and 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL 0.859, SVM 0.9096 without Tong 2004's own rows, 0.89 and 0.9587 with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
+        "evidence": [
+          "figure-reproduction/output/roc.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.0631,
+        "ours_near_published": 0.0776,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "curves swapped",
+            "kind": "wrong_input",
+            "score": 0.0524
+          },
+          {
+            "name": "random predictor (both curves on the diagonal)",
+            "kind": "wrong_input",
+            "score": 0.006
+          },
+          {
+            "name": "TPR + 0.03",
+            "kind": "near_miss",
+            "score": 0.0729
+          },
+          {
+            "name": "TPR - 0.03",
+            "kind": "near_miss",
+            "score": 0.0135
+          }
+        ]
+      },
+      "verdict": "inconclusive"
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4, ROC of SSL and SVM, 80% unlabelled",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Not reproduced with the network the Methods describe (protein interactions and complexes): areas under the ROC curve 0.675 to 0.645 for SSL and 0.705 to 0.678 for SVM; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM), read from Figs 2-4. The published level comes back once BioGRID's genetic interactions are in the network (Fig. 3 setting: SSL 0.859, SVM 0.9096 without Tong 2004's own rows, 0.89 and 0.9587 with them); these edges carry the SGI labels into the features. Open: the authors' exact network, and the order of the two classifiers (SVM stays ahead of SSL in every variant we ran).",
+        "evidence": [
+          "figure-reproduction/output/roc.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.091,
+        "ours_near_published": 0.1054,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "curves swapped",
+            "kind": "wrong_input",
+            "score": 0.1021
+          },
+          {
+            "name": "random predictor (both curves on the diagonal)",
+            "kind": "wrong_input",
+            "score": 0.0154
+          },
+          {
+            "name": "TPR + 0.03",
+            "kind": "near_miss",
+            "score": 0.083
+          },
+          {
+            "name": "TPR - 0.03",
+            "kind": "near_miss",
+            "score": 0.0742
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.ssl_above_svm",
+      "label": "Results: SSL outperforms SVM in almost all the range of threshold (Figs 2-4)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Fig. 2: SSL at or above SVM over at least 90% of the FPR range",
+            "expected": "yes",
+            "observed": "no",
+            "share": 0.01
+          },
+          {
+            "name": "Fig. 3: SSL at or above SVM over at least 90% of the FPR range",
+            "expected": "yes",
+            "observed": "no",
+            "share": 0.0
+          },
+          {
+            "name": "Fig. 4: SSL at or above SVM over at least 90% of the FPR range",
+            "expected": "yes",
+            "observed": "no",
+            "share": 0.0
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "On our run SVM is at or above SSL over most of the range at every training size, and it stays ahead in every variant we ran, including the networks with genetic interactions that bring the AUC back to the published level.",
+        "evidence": [
+          "figure-reproduction/output/claims.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.fig2_start",
+      "label": "Results: at 20% unlabelled SVM is slightly better at the start of the ROC curve and SSL elsewhere",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "SVM above SSL at FPR up to 0.05",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "SSL at or above SVM at FPR above 0.05 (90% of the range)",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "SVM is ahead at the start of our Fig. 2 curve, as the paper says, but also over the rest of it.",
+        "evidence": [
+          "figure-reproduction/output/claims.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.small_training",
+      "label": "Results: SSL much better than SVM with 80% unlabelled; its advantage grows as training sets shrink",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Fig. 4: SSL area under the ROC curve above SVM's by more than 0.05",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "SSL's lead over SVM larger at 80% than at 20% unlabelled",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "SSL minus SVM area under the ROC curve on our run: -0.0301 (20% unlabelled), -0.0293 (50%), -0.0328 (80%). SVM leads at every size, with or without genetic interactions in the network.",
+        "evidence": [
+          "figure-reproduction/output/claims.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "detail": {
+        "unlabelled20": -0.0301,
+        "unlabelled50": -0.0293,
+        "unlabelled80": -0.0328
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5, ROC of SSL on the weighted FGN and on the binary network, 50% unlabelled",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's interaction count in a search over experiment-type subsets; it matches that one count only. The release's genetic interactions cover 4470 genes, close to the paper's 4,478.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Both curves sit far below the published ones (SSL area under the ROC curve 0.664 weighted, 0.656 binary; read from Fig. 5, 0.912 and 0.759). The weighted curve stays above the binary one, by a small margin. The published legend reads SSL / Random / SVM although the caption compares weighted and binary networks.",
+        "evidence": [
+          "figure-reproduction/output/roc.json",
+          "figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our classifier settings are off: the SSL length scale or alpha.",
+            "test": "Fig. 3 setting, repeat 0: SSL with sigma = the median distance (no selection), and with alpha = 0.5 instead of 0.99. SSL area under the ROC curve 0.6163 and 0.6779 against 0.66; the published curves enclose 0.963, 0.912 and 0.875 (SSL) and 0.878, 0.818 and 0.74 (SVM) at 20, 50 and 80% unlabelled, read from Figs 2-4.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our protein-interaction filter is wrong (the paper gives only 'BioGrid').",
+            "test": "Every physical interaction except Gavin's and Ho's (44,346 edges) in place of two-hybrid plus Affinity Capture-Western. SSL 0.6531, SVM 0.6893 (ours 0.66, 0.6955).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Eq. 2's W is a distance, so the tie strength is 1 / W.",
+            "test": "Weighted network rebuilt with 1 / W. SSL 0.6373, SVM 0.6949.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our feature scaling hides the signal.",
+            "test": "Features z-scored without the log transform. SSL 0.6445, SVM 0.7018.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The non-SGI pairs were random gene pairs, not tested pairs.",
+            "test": "1,500 random pairs of network genes (no reported SGI) as negatives. SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955): higher, but far from the published curves.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network measures are computed wrongly.",
+            "test": "Stress, current-flow betweenness and information centrality checked against networkx and a brute-force path count on random graphs (package tests).",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper's pair-level cross-validation lets a gene's identity carry from training to test pairs: each Tong query gene sits in many pairs.",
+            "test": "SVM and SSL on one-hot gene identity alone, no network: SSL 0.8124, SVM 0.8874 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955). Every test pair shares a gene with the training pairs (1.0 of them), 0.5473 share both. A problem with the paper's evaluation: its AUCs measure, in part, which genes are SGI hubs.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The authors' 'BioGrid' network included genetic interactions. Many Tong SGI pairs are reported again by other papers (1899 of 3411), so the labels become edges of the network.",
+            "test": "Our network plus the genetic interactions of papers other than Tong 2004 (107926 edges; 882 of the 1,500 sampled SGI pairs and 18 non-SGI pairs become edges): SSL 0.859, SVM 0.9096 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955); the published Fig. 3 curves enclose 0.912 (SSL) and 0.818 (SVM). With every genetic interaction, Tong 2004 included: SSL 0.89, SVM 0.9587. Suggested by a reviewer (hyunhwan-bcm) on the pull request.",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Genetic interactions help beyond the leaked labels (genes with many genetic partners are SGI hubs).",
+            "test": "The same network with every Tong SGI pair removed from the added edges: SSL 0.8328, SVM 0.8674.",
+            "result": "supported"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.1021,
+        "ours_near_published": 0.1198,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "curves swapped",
+            "kind": "wrong_input",
+            "score": 0.096
+          },
+          {
+            "name": "random predictor (both curves on the diagonal)",
+            "kind": "wrong_input",
+            "score": 0.0061
+          },
+          {
+            "name": "TPR + 0.03",
+            "kind": "near_miss",
+            "score": 0.0629
+          },
+          {
+            "name": "TPR - 0.03",
+            "kind": "near_miss",
+            "score": 0.0482
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.weighted_above_binary",
+      "label": "Results: the weighted network beats the binary network in almost all the range of threshold (Fig. 5)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Weighted FGN at or above the binary network over at least 90% of the FPR range",
+            "expected": "yes",
+            "observed": "yes",
+            "share": 0.939
+          },
+          {
+            "name": "Weighted FGN area under the ROC curve above the binary network's",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Features: sign(x) log(1 + |x|), then z-scored (the paper does not say how features were scaled).",
+          "source": "our_choice",
+          "sensitivity": "Without the log: SSL 0.6445, SVM 0.7018 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SSL: alpha = 0.99 (Zhou et al.'s value); sigma chosen among 0.05, 0.1, 0.2, 0.5 and 1 times the median distance by hiding a third of the training labels.",
+          "source": "our_choice",
+          "sensitivity": "sigma = the median distance: SSL 0.6163; alpha = 0.5: 0.6779 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "SVM: scikit-learn 1.6.1 SVC (LIBSVM), RBF kernel, C in 2^-1..2^9 and gamma in 2^-9..2^1 (steps of 4x), 3-fold grid search on the training folds by area under the ROC curve.",
+          "source": "our_choice"
+        },
+        {
+          "what": "The 18 features: the average and the absolute difference of 8 node properties (weighted degree, Barrat clustering, betweenness, closeness, eigenvector centrality; binary stress, information and current-flow betweenness), the weighted shortest path, and the number of mutual neighbours.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Five repeats with seeds 0-4; test scores ranked within each fold and pooled; repeats averaged at 26 score quantiles (threshold averaging), which also place the drawn markers.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig6.a",
+      "label": "Fig. 6a, absolute difference of degree (weighted network)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig6_ours.png",
+        "figure-reproduction/output/figures/fig6_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Axes calibration of the published JPEG: box edges and tick marks measured by pixel profile (pipeline/calibration.json).",
+          "source": "read_from_figure",
+          "sensitivity": "A shift of 1% of the x axis (2-3 px) is one of the near-miss controls; it moves the score by less than 0.01."
+        },
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Densities as R's density() draws them (Gaussian kernel, bw.nrd0, 512 points); all SGI and tested non-SGI pairs in the network (the paper does not say which pairs).",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Our weighted degree values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 2,218 against a published axis that ends near 460), so our densities spread past the published axes.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/hypotheses.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The panel shows the binary network.",
+            "test": "Binary densities of the same property scored as a control.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our curves are right but shifted or scaled a little.",
+            "test": "Near-miss controls: density x 0.95 and x 1.05, x shifted by 1% of the axis, classes swapped; none reaches the pass mark.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper standardized each gene's expression before eq. 2.",
+            "test": "Per-gene standardized expression: median weight 48.608 against 11.713, degree-difference 99th percentile 7991.3: larger, not smaller.",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.0745,
+        "ours_near_published": 0.0747,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "binary network, same property",
+            "kind": "wrong_input",
+            "score": 0.2021
+          },
+          {
+            "name": "classes swapped",
+            "kind": "near_miss",
+            "score": 0.094
+          },
+          {
+            "name": "density x 1.05",
+            "kind": "near_miss",
+            "score": 0.079
+          },
+          {
+            "name": "density x 0.95",
+            "kind": "near_miss",
+            "score": 0.0649
+          },
+          {
+            "name": "x shifted by 1% of the axis",
+            "kind": "near_miss",
+            "score": 0.074
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig6.b",
+      "label": "Fig. 6b, absolute difference of closeness (weighted network)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig6_ours.png",
+        "figure-reproduction/output/figures/fig6_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Axes calibration of the published JPEG: box edges and tick marks measured by pixel profile (pipeline/calibration.json).",
+          "source": "read_from_figure",
+          "sensitivity": "A shift of 1% of the x axis (2-3 px) is one of the near-miss controls; it moves the score by less than 0.01."
+        },
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Densities as R's density() draws them (Gaussian kernel, bw.nrd0, 512 points); all SGI and tested non-SGI pairs in the network (the paper does not say which pairs).",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Our weighted closeness values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 3.981 against a published axis that ends near 1.5), so our densities spread past the published axes.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/hypotheses.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The panel shows the binary network.",
+            "test": "Binary densities of the same property scored as a control.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our curves are right but shifted or scaled a little.",
+            "test": "Near-miss controls: density x 0.95 and x 1.05, x shifted by 1% of the axis, classes swapped; none reaches the pass mark.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper standardized each gene's expression before eq. 2.",
+            "test": "Per-gene standardized expression: median weight 48.608 against 11.713, degree-difference 99th percentile 7991.3: larger, not smaller.",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.0299,
+        "ours_near_published": 0.0341,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "binary network, same property",
+            "kind": "wrong_input",
+            "score": 0.1355
+          },
+          {
+            "name": "classes swapped",
+            "kind": "near_miss",
+            "score": 0.0315
+          },
+          {
+            "name": "density x 1.05",
+            "kind": "near_miss",
+            "score": 0.0348
+          },
+          {
+            "name": "density x 0.95",
+            "kind": "near_miss",
+            "score": 0.0282
+          },
+          {
+            "name": "x shifted by 1% of the axis",
+            "kind": "near_miss",
+            "score": 0.0315
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig6.c",
+      "label": "Fig. 6c, absolute difference of betweenness (weighted network)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig6_ours.png",
+        "figure-reproduction/output/figures/fig6_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Axes calibration of the published JPEG: box edges and tick marks measured by pixel profile (pipeline/calibration.json).",
+          "source": "read_from_figure",
+          "sensitivity": "A shift of 1% of the x axis (2-3 px) is one of the near-miss controls; it moves the score by less than 0.01."
+        },
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Densities as R's density() draws them (Gaussian kernel, bw.nrd0, 512 points); all SGI and tested non-SGI pairs in the network (the paper does not say which pairs).",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Our weighted betweenness values are on a larger scale than the paper's (99th percentile of the SGI pairs' absolute difference 1.164e+05 against a published axis that ends near 6e+04), so our densities spread past the published axes.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/hypotheses.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The panel shows the binary network.",
+            "test": "Binary densities of the same property scored as a control.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our curves are right but shifted or scaled a little.",
+            "test": "Near-miss controls: density x 0.95 and x 1.05, x shifted by 1% of the axis, classes swapped; none reaches the pass mark.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The paper standardized each gene's expression before eq. 2.",
+            "test": "Per-gene standardized expression: median weight 48.608 against 11.713, degree-difference 99th percentile 7991.3: larger, not smaller.",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.2278,
+        "ours_near_published": 0.1539,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "binary network, same property",
+            "kind": "wrong_input",
+            "score": 0.1631
+          },
+          {
+            "name": "classes swapped",
+            "kind": "near_miss",
+            "score": 0.1554
+          },
+          {
+            "name": "density x 1.05",
+            "kind": "near_miss",
+            "score": 0.1476
+          },
+          {
+            "name": "density x 0.95",
+            "kind": "near_miss",
+            "score": 0.1436
+          },
+          {
+            "name": "x shifted by 1% of the axis",
+            "kind": "near_miss",
+            "score": 0.1673
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig6.d",
+      "label": "Fig. 6d, absolute difference of clustering coefficient (weighted network)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "outputs": [
+        "figure-reproduction/output/figures/fig6_ours.png",
+        "figure-reproduction/output/figures/fig6_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Axes calibration of the published JPEG: box edges and tick marks measured by pixel profile (pipeline/calibration.json).",
+          "source": "read_from_figure",
+          "sensitivity": "A shift of 1% of the x axis (2-3 px) is one of the near-miss controls; it moves the score by less than 0.01."
+        },
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        },
+        {
+          "what": "Densities as R's density() draws them (Gaussian kernel, bw.nrd0, 512 points); all SGI and tested non-SGI pairs in the network (the paper does not say which pairs).",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "Our clustering coefficients span the published axis (0 to 1), but the densities have another shape: ours are flatter and bimodal where the paper's peak near 0.05. The pairs and the network behind the panel are not the paper's (see Table 1).",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/hypotheses.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The panel shows the binary network.",
+            "test": "Binary densities of the same property scored as a control.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our curves are right but shifted or scaled a little.",
+            "test": "Near-miss controls: density x 0.95 and x 1.05, x shifted by 1% of the axis, classes swapped; none reaches the pass mark.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The panel used the 1,500 + 1,500 sampled pairs, not all pairs.",
+            "test": "KS D of the weighted clustering-coefficient difference on repeat 0's sample: 0.0573 (all pairs 0.0666, paper 0.0571).",
+            "result": "rejected"
+          }
+        ]
+      },
+      "pixels": {
+        "tolerance_px": 2.0,
+        "dpi": "PMC web JPEG",
+        "published_near_ours": 0.1083,
+        "ours_near_published": 0.1054,
+        "threshold": 0.9,
+        "controls": [
+          {
+            "name": "binary network, same property",
+            "kind": "wrong_input",
+            "score": 0.1018
+          },
+          {
+            "name": "classes swapped",
+            "kind": "near_miss",
+            "score": 0.058
+          },
+          {
+            "name": "density x 1.05",
+            "kind": "near_miss",
+            "score": 0.1009
+          },
+          {
+            "name": "density x 0.95",
+            "kind": "near_miss",
+            "score": 0.1004
+          },
+          {
+            "name": "x shifted by 1% of the axis",
+            "kind": "near_miss",
+            "score": 0.1001
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig6.labels",
+      "label": "Fig. 6, KSStat and P-value printed in each panel",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Fig. 6a KSStat",
+            "expected": "0.0715",
+            "observed": "0.0444"
+          },
+          {
+            "name": "Fig. 6a P-value (x 1E-25)",
+            "expected": "5.7137",
+            "observed": "1.24632e+20"
+          },
+          {
+            "name": "Fig. 6b KSStat",
+            "expected": "0.0441",
+            "observed": "0.0427"
+          },
+          {
+            "name": "Fig. 6b P-value (x 1E-10)",
+            "expected": "9.3646",
+            "observed": "309319"
+          },
+          {
+            "name": "Fig. 6c KSStat",
+            "expected": "0.0414",
+            "observed": "0.0903"
+          },
+          {
+            "name": "Fig. 6c P-value (x 1E-08)",
+            "expected": "1.1590",
+            "observed": "5.78922e-14"
+          },
+          {
+            "name": "Fig. 6d KSStat",
+            "expected": "0.0571",
+            "observed": "0.0666"
+          },
+          {
+            "name": "Fig. 6d P-value (x 1E-26)",
+            "expected": "4.4346",
+            "observed": "3.98738e+14"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "The paper's P-values imply about 5,531 (weighted) to 5,782 (binary) effective pairs per test; ours are 3,029 (all 3054 SGI pairs in the network against 376654 tested non-SGI pairs). The pairs and network behind Table 1 are not stated and are not the ones we can rebuild.",
+        "evidence": [
+          "figure-reproduction/output/claims.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Table 1 used the 1,500 + 1,500 sampled pairs.",
+            "test": "KS on repeat 0's sample (table1.json, sample_D): e.g. weighted average degree D 0.1033 against 0.0261; and 1,500 per class gives an effective size of 750, far below the size the printed P-values imply.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Table 1 used all SGI and all tested non-SGI pairs, as we do.",
+            "test": "Our D on all pairs: none of the 32 values matches; our effective size is about half the implied one.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network differs in scale, which moves D.",
+            "test": "D does not depend on scale; per-gene standardized expression moves the weighted-degree-difference D only from 0.0444 to 0.0428.",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1",
+      "label": "Table 1, KS statistic and P-value for 8 pair characteristics, binary and weighted network",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "avg_degree binary P",
+            "category": "paper_error",
+            "evidence": "At the effective size the other Table 1 cells imply (about 5,782 pairs), D = 0.0364 gives P = 4.4e-07, not 0.9; the printed 0.9 implies 246 pairs (claims.json, text.arithmetic)."
+          },
+          {
+            "field": "diff_closeness binary D",
+            "category": "paper_error",
+            "evidence": "The row repeats the absolute-difference degree row exactly (0.0587 and 1.00E-17)."
+          },
+          {
+            "field": "diff_closeness binary P (x 1E-17)",
+            "category": "paper_error",
+            "evidence": "The row repeats the absolute-difference degree row exactly (0.0587 and 1.00E-17)."
+          }
+        ],
+        "fields": [
+          {
+            "name": "avg_degree binary D",
+            "expected": "0.0364",
+            "observed": "0.1207"
+          },
+          {
+            "name": "avg_degree binary P",
+            "expected": "0.9",
+            "observed": "6.79405e-39"
+          },
+          {
+            "name": "avg_degree weighted D",
+            "expected": "0.0261",
+            "observed": "0.0960"
+          },
+          {
+            "name": "avg_degree weighted P",
+            "expected": "0.0011",
+            "observed": "1.0079e-24"
+          },
+          {
+            "name": "avg_closeness binary D",
+            "expected": "0.0212",
+            "observed": "0.0573"
+          },
+          {
+            "name": "avg_closeness binary P",
+            "expected": "0.0108",
+            "observed": "4.35142e-09"
+          },
+          {
+            "name": "avg_closeness weighted D",
+            "expected": "0.0385",
+            "observed": "0.0213"
+          },
+          {
+            "name": "avg_closeness weighted P (x 1E-07)",
+            "expected": "1.48",
+            "observed": "1.25377e+06"
+          },
+          {
+            "name": "avg_betweenness binary D",
+            "expected": "0.0319",
+            "observed": "0.1271"
+          },
+          {
+            "name": "avg_betweenness binary P (x 1E-05)",
+            "expected": "1.55",
+            "observed": "3.98759e-38"
+          },
+          {
+            "name": "avg_betweenness weighted D",
+            "expected": "0.0529",
+            "observed": "0.0961"
+          },
+          {
+            "name": "avg_betweenness weighted P (x 1E-14)",
+            "expected": "7.05",
+            "observed": "8.51884e-11"
+          },
+          {
+            "name": "avg_clustering binary D",
+            "expected": "0.0679",
+            "observed": "0.1171"
+          },
+          {
+            "name": "avg_clustering binary P (x 1E-23)",
+            "expected": "1.41",
+            "observed": "1.22617e-13"
+          },
+          {
+            "name": "avg_clustering weighted D",
+            "expected": "0.0691",
+            "observed": "0.1163"
+          },
+          {
+            "name": "avg_clustering weighted P (x 1E-24)",
+            "expected": "2.365",
+            "observed": "3.76071e-12"
+          },
+          {
+            "name": "diff_degree binary D",
+            "expected": "0.0587",
+            "observed": "0.0468"
+          },
+          {
+            "name": "diff_degree binary P (x 1E-17)",
+            "expected": "1.00",
+            "observed": "3.24078e+11"
+          },
+          {
+            "name": "diff_degree weighted D",
+            "expected": "0.0715",
+            "observed": "0.0444"
+          },
+          {
+            "name": "diff_degree weighted P (x 1E-25)",
+            "expected": "5.71",
+            "observed": "1.24632e+20"
+          },
+          {
+            "name": "diff_closeness binary D",
+            "expected": "0.0587",
+            "observed": "0.0561"
+          },
+          {
+            "name": "diff_closeness binary P (x 1E-17)",
+            "expected": "1.00",
+            "observed": "1.02022e+09"
+          },
+          {
+            "name": "diff_closeness weighted D",
+            "expected": "0.0441",
+            "observed": "0.0427"
+          },
+          {
+            "name": "diff_closeness weighted P (x 1E-10)",
+            "expected": "9.365",
+            "observed": "309319"
+          },
+          {
+            "name": "diff_betweenness binary D",
+            "expected": "0.0313",
+            "observed": "0.0945"
+          },
+          {
+            "name": "diff_betweenness binary P (x 1E-05)",
+            "expected": "2.35",
+            "observed": "5.54848e-19"
+          },
+          {
+            "name": "diff_betweenness weighted D",
+            "expected": "0.0414",
+            "observed": "0.0903"
+          },
+          {
+            "name": "diff_betweenness weighted P (x 1E-08)",
+            "expected": "1.56",
+            "observed": "5.78922e-14"
+          },
+          {
+            "name": "diff_clustering binary D",
+            "expected": "0.0615",
+            "observed": "0.0663"
+          },
+          {
+            "name": "diff_clustering binary P (x 1E-19)",
+            "expected": "1.97",
+            "observed": "4.90206e+07"
+          },
+          {
+            "name": "diff_clustering weighted D",
+            "expected": "0.0571",
+            "observed": "0.0666"
+          },
+          {
+            "name": "diff_clustering weighted P (x 1E-26)",
+            "expected": "4.435",
+            "observed": "3.98738e+14"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "open",
+        "summary": "The paper's P-values imply about 5,531 (weighted) to 5,782 (binary) effective pairs per test; ours are 3,029 (all 3054 SGI pairs in the network against 376654 tested non-SGI pairs). The pairs and network behind Table 1 are not stated and are not the ones we can rebuild.",
+        "evidence": [
+          "figure-reproduction/output/claims.json",
+          "figure-reproduction/output/table1.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Table 1 used the 1,500 + 1,500 sampled pairs.",
+            "test": "KS on repeat 0's sample (table1.json, sample_D): e.g. weighted average degree D 0.1033 against 0.0261; and 1,500 per class gives an effective size of 750, far below the size the printed P-values imply.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Table 1 used all SGI and all tested non-SGI pairs, as we do.",
+            "test": "Our D on all pairs: none of the 32 values matches; our effective size is about half the implied one.",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our network differs in scale, which moves D.",
+            "test": "D does not depend on scale; per-gene standardized expression moves the weighted-degree-difference D only from 0.0444 to 0.0428.",
+            "result": "rejected"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.ks_all_significant",
+      "label": "Discussion: all Table 1 P-values are below 0.05",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "All Table 1 P-values below 0.05",
+            "category": "paper_error",
+            "evidence": "The paper's own Table 1 prints P = 0.9 for the binary average degree (claims.json, text.arithmetic)."
+          }
+        ],
+        "fields": [
+          {
+            "name": "All Table 1 P-values below 0.05",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "The claim does not hold in the paper's own Table 1 (binary average degree, P = 0.9). On our run the weighted average closeness is not significant either (P = 0.125).",
+        "evidence": [
+          "figure-reproduction/output/claims.json"
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.sgi_higher",
+      "label": "Discussion: SGI pairs tend to have higher average degree and higher average closeness (medians)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "SGI pairs have the higher average degree (weighted FGN)",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "SGI pairs have the higher average closeness (weighted FGN)",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Both medians are higher for SGI pairs, as the paper says; on our run the closeness difference is small and not significant (weighted average closeness P = 0.125).",
+        "evidence": [
+          "figure-reproduction/output/table1.json"
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.weighted_p_smaller",
+      "label": "Discussion: the P-values of all properties are much smaller in the weighted network than in the binary one",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "exceptions": [
+          {
+            "field": "Weighted-network P below the binary network's for all 8 characteristics",
+            "category": "paper_error",
+            "evidence": "In the paper's own Table 1 the absolute-difference closeness has P = 9.365E-10 (weighted) against 1.00E-17 (binary): 7 of 8 rows, not all."
+          }
+        ],
+        "fields": [
+          {
+            "name": "Weighted-network P below the binary network's for all 8 characteristics",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Eq. 2's W used as the tie strength (the paper calls it a confidence score) and inverted for shortest paths; the published Fig. 6 and Fig. S18 axes (weighted degrees in the hundreds, closeness above 1) fit this reading.",
+          "source": "read_from_figure",
+          "sensitivity": "1 / W instead: SSL 0.6373, SVM 0.6949 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Non-SGI pairs: Tong 2004 query genes x the deletion array (Verified and Uncharacterized ORFs without an inviable systematic deletion, 4,747 genes) with no reported Tong 2004 interaction, both genes in the network.",
+          "source": "our_choice",
+          "sensitivity": "Random gene pairs instead: SSL 0.7249, SVM 0.7666 (Fig. 3 setting, repeat 0; baseline SSL 0.66, SVM 0.6955)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "paper_error",
+        "status": "explained",
+        "summary": "The claim fails in one of the 8 rows of the paper's own Table 1 (absolute difference of closeness: 9.365E-10 weighted against 1.00E-17 binary). On our run the weighted P is the smaller in 1 of 8 rows.",
+        "evidence": [
+          "figure-reproduction/output/claims.json"
+        ]
+      },
+      "detail": {
+        "rows_smaller": 1
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Arithmetic check: the Discussion's claims recomputed from the paper's own Table 1 and Fig. 6 (the paper's numbers, not our run)",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "From the paper's own Table 1: P below 0.05 in 15 of 16 cells (not: avg_degree/binary); the weighted-network P below the binary one in 7 of 8 rows (not: diff_closeness). The printed D and P imply about 5,782 (binary) and 5,531 (weighted) effective pairs per test; at that size D = 0.0364 gives P = 4.4e-07, not 0.9. Binary absolute-difference degree and closeness rows are identical. Fig. 6 labels equal Table 1 except panel c's P (1.1590e-008 against 1.56E-08)."
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, list of the 10 network properties",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "A list of the properties used, with references; nothing is computed. Our implementation of each is in package/src/fgnssl/network.py.",
+        "evidence": [
+          "package/src/fgnssl/network.py"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.data_counts",
+      "label": "Methods: data counts (Tong 2004 screen, PPI, complexes, expression conditions)",
+      "kind": "value",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "Tong 2004 query genes",
+            "expected": "132",
+            "observed": "125"
+          },
+          {
+            "name": "Deletion-array genes (about 4,700)",
+            "expected": "4700",
+            "observed": "4747",
+            "tolerance": {
+              "rel": 0.05
+            }
+          },
+          {
+            "name": "Tested pairs (about 650,000)",
+            "expected": "650000",
+            "observed": "586472",
+            "tolerance": {
+              "rel": 0.05
+            }
+          },
+          {
+            "name": "Synthetic lethal and sick interactions (about 4,000)",
+            "expected": "4000",
+            "observed": "3411",
+            "tolerance": {
+              "rel": 0.05
+            }
+          },
+          {
+            "name": "PPI interactions",
+            "expected": "12990",
+            "observed": "13007"
+          },
+          {
+            "name": "PPI proteins",
+            "expected": "4478",
+            "observed": "3915"
+          },
+          {
+            "name": "Complex interactions (about 49,000)",
+            "expected": "49000",
+            "observed": "48129",
+            "tolerance": {
+              "rel": 0.05
+            }
+          },
+          {
+            "name": "Expression conditions",
+            "expected": "64",
+            "observed": "54"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Protein interactions: BioGRID two-hybrid and Affinity Capture-Western interactions of S. cerevisiae as SGD imported them on 2009-12-19 (13,007 interactions, 3,915 proteins; the paper has 12,990 and 4,478). Chosen as the interpretable filter closest to the paper's count in a search over experiment-type subsets.",
+          "source": "found_by_search",
+          "sensitivity": "Every physical interaction instead: SSL 0.6531, SVM 0.6893 against 0.66 and 0.6955 (Fig. 3 setting, repeat 0)."
+        },
+        {
+          "what": "Expression: SGD's processed copies of Cho 1998 (17 conditions), Chu 1998 sporulation (7), Spellman 1998 alpha factor (16) and elutriation (14): 54 conditions, not 64. Eisen 1998's 6 heat-shock points were not reachable.",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "The counts come from the BioGRID data SGD imported on 2009-12-19 and SGD's processed expression sets. The complex cliques (48129, 'about 49,000') and the deletion array (4747, '~4,700') agree; the release has 125 Tong query genes (132 in the paper), 3411 distinct SGI pairs ('~4,000'), and the paper's PPI filter is not stated. 54 expression conditions, not 64: the 6 Eisen heat-shock points are not reachable and SGD's alpha-factor set keeps 16 of 18 points.",
+        "evidence": [
+          "figure-reproduction/output/counts.json"
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS1",
+      "label": "Additional file 1, Fig. S1",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS2",
+      "label": "Additional file 1, Fig. S2",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS3",
+      "label": "Additional file 1, Fig. S3",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS4",
+      "label": "Additional file 1, Fig. S4",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS5",
+      "label": "Additional file 1, Fig. S5",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS6",
+      "label": "Additional file 1, Fig. S6",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS7",
+      "label": "Additional file 1, Fig. S7",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS8",
+      "label": "Additional file 1, Fig. S8",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS9",
+      "label": "Additional file 1, Fig. S9",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS10",
+      "label": "Additional file 1, Fig. S10",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS11",
+      "label": "Additional file 1, Fig. S11",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS12",
+      "label": "Additional file 1, Fig. S12",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS13",
+      "label": "Additional file 1, Fig. S13",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS14",
+      "label": "Additional file 1, Fig. S14",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS15",
+      "label": "Additional file 1, Fig. S15",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS16",
+      "label": "Additional file 1, Fig. S16",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Densities of the same properties as Fig. 6 (average and absolute difference, binary and weighted network). Their values are computed (output/densities.json) and their KS numbers are Table 1's; Fig. 6 shows our weighted values on a larger scale than the paper's, so a pixel comparison would repeat that result.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS17",
+      "label": "Additional file 1, Fig. S17",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS18",
+      "label": "Additional file 1, Fig. S18",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS19",
+      "label": "Additional file 1, Fig. S19",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS20",
+      "label": "Additional file 1, Fig. S20",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS21",
+      "label": "Additional file 1, Fig. S21",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS22",
+      "label": "Additional file 1, Fig. S22",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS23",
+      "label": "Additional file 1, Fig. S23",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS24",
+      "label": "Additional file 1, Fig. S24",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS25",
+      "label": "Additional file 1, Fig. S25",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS26",
+      "label": "Additional file 1, Fig. S26",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS27",
+      "label": "Additional file 1, Fig. S27",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS28",
+      "label": "Additional file 1, Fig. S28",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS29",
+      "label": "Additional file 1, Fig. S29",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS30",
+      "label": "Additional file 1, Fig. S30",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS31",
+      "label": "Additional file 1, Fig. S31",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "id": "figS32",
+      "label": "Additional file 1, Fig. S32",
+      "cause": {
+        "category": "data_differs",
+        "status": "explained",
+        "summary": "Not drawn. Empirical CDFs of the properties of Figs S1-S16 (quantiles in output/densities.json); the same scale difference as Fig. 6 applies.",
+        "evidence": [
+          "figure-reproduction/output/densities.json",
+          "figure-reproduction/output/comparison.json"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package fgnssl and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "fgnssl 0.1.0: wheel installed in a fresh environment and imported from it; tests 9 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 55,
+    "exact": 0,
+    "agrees": 4,
+    "partly": 4,
+    "inconclusive": 1,
+    "differs": 12,
+    "not_attempted": 34,
+    "open_causes": 14
+  }
+}
