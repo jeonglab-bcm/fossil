@@ -467,7 +467,6 @@ Page renders without errors. Writing the session ledger (will refresh it after C
 
 Ledger written. The instructions forbid model identifiers in pushed artifacts, so checking the ledger and conversation for those and for anything private.
 
-- `Bash` grep -n -i "opus\|sonnet\|claude-\|bcm.edu\|Jennifer" PMC3196500/session/ledger.json PMC3196500/session/conversation.md | head; grep -n "models" PMC3022898/sess
 
 ### Claude · 2026-11-19 03:28:32
 
