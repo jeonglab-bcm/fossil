@@ -151,7 +151,7 @@ about as close to the paper as our two runs are to each other.
 | `results.json` | The repository's results-check file (every compared value of the run), written by `make_results_check.py`. |
 | `published/` | Fig. 2 and Figs S1-S12 as lossless PNGs of the published files (CC BY; see its README). |
 | `pipeline/fetch_inputs.sh` | Downloads the figure files, Tables S3-S4 and the article XML (PMC on AWS; Europe PMC as fallback) and checks their SHA-256. |
-| `pipeline/verify_published.py` | Checks that `published/` decodes to the downloaded figures pixel for pixel. |
+| `pipeline/verify_published.py` | Checks that `published/` decodes to the downloaded figures pixel for pixel (Fig. 2 is skipped, with a note, when Europe PMC is down and the smaller AWS copy was fetched instead). |
 | `pipeline/extract_published.py` | Reads the printed tables into `output/published_values.json` (with `--extract`; needs LibreOffice). |
 | `pipeline/simulate.py` | All 36 scenarios with `oisim`, a second run with other seeds, and two hypothesis variants on the Cochrane scenarios. |
 | `pipeline/tables.py` | The read-off search, Tables 1, S3, S4, Table 2, the OIS columns of Tables 3 and 4, and the range rules tried on Tables 3 and 4. |
