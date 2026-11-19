@@ -42,80 +42,80 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3196500/>
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Fig. 1 (flowchart of the 36 scenarios) | not attempted | not attempted |
-| Fig. 2, upper panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 56.15% within 2 px (pass 73.6%, best control 72.5%) |
-| Fig. 2, lower panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 36.99% within 2 px (pass 78.4%, best control 50.8%) |
-| Fig. S1, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 42.11% within 2 px (pass 84.4%, best control 77.3%) |
-| Fig. S1, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 65.15% within 2 px (pass 85.9%, best control 80.4%) |
-| Fig. S1, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative patients) | partly | 64.39% within 2 px (pass 88.4%, best control 56.7%) |
+| Fig. 2, upper panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 55.37% within 2 px (pass 73.6%, best control 72.5%) |
+| Fig. 2, lower panel (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 36.99% within 2 px (pass 78.6%, best control 50.9%) |
+| Fig. S1, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 42.19% within 2 px (pass 84.4%, best control 76.9%) |
+| Fig. S1, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 65.15% within 2 px (pass 85.6%, best control 80.1%) |
+| Fig. S1, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative patients) | partly | 64.21% within 2 px (pass 88.0%, best control 54.9%) |
 | Fig. S1, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative patients) | partly | 70.22% within 2 px (pass 89.7%, best control 68.5%) |
-| Fig. S1, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 70.22% within 2 px (pass 89.0%, best control 88.0%) |
-| Fig. S1, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative patients) | agrees | 85.97% within 2 px (pass 82.8%, best control 62.4%) |
-| Fig. S2, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative events) | partly | 77.68% within 2 px (pass 90.0%, best control 73.4%) |
-| Fig. S2, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 79.75% within 2 px (pass 90.0%, best control 83.2%) |
-| Fig. S2, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 53.57% within 2 px (pass 90.0%, best control 83.2%) |
-| Fig. S2, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 51.92% within 2 px (pass 88.0%, best control 76.3%) |
-| Fig. S2, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 59.69% within 2 px (pass 89.7%, best control 80.1%) |
-| Fig. S2, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 52.29% within 2 px (pass 81.1%, best control 76.9%) |
-| Fig. S3, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 64.96% within 2 px (pass 84.1%, best control 70.4%) |
-| Fig. S3, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 10%, cumulative patients) | agrees | 85.96% within 2 px (pass 65.4%, best control 58.9%) |
-| Fig. S3, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative patients) | agrees | 89.11% within 2 px (pass 86.6%, best control 50.9%) |
-| Fig. S3, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative patients) | partly | 77.16% within 2 px (pass 77.6%, best control 62.1%) |
-| Fig. S3, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative patients) | partly | 84.89% within 2 px (pass 85.0%, best control 66.2%) |
-| Fig. S3, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative patients) | agrees | 91.26% within 2 px (pass 81.1%, best control 55.0%) |
-| Fig. S4, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative events) | partly | 85.67% within 2 px (pass 89.7%, best control 68.6%) |
+| Fig. S1, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 69.67% within 2 px (pass 89.0%, best control 88.0%) |
+| Fig. S1, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative patients) | agrees | 85.79% within 2 px (pass 82.9%, best control 62.4%) |
+| Fig. S2, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative events) | partly | 77.68% within 2 px (pass 90.0%, best control 73.7%) |
+| Fig. S2, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 80.07% within 2 px (pass 90.0%, best control 83.2%) |
+| Fig. S2, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 53.85% within 2 px (pass 90.0%, best control 83.2%) |
+| Fig. S2, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 52.24% within 2 px (pass 88.0%, best control 76.5%) |
+| Fig. S2, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 59.88% within 2 px (pass 89.6%, best control 80.6%) |
+| Fig. S2, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 53.14% within 2 px (pass 81.3%, best control 77.0%) |
+| Fig. S3, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 64.54% within 2 px (pass 84.1%, best control 70.4%) |
+| Fig. S3, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 10%, cumulative patients) | agrees | 85.84% within 2 px (pass 65.5%, best control 58.7%) |
+| Fig. S3, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative patients) | agrees | 88.84% within 2 px (pass 86.8%, best control 50.9%) |
+| Fig. S3, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative patients) | partly | 75.60% within 2 px (pass 76.7%, best control 62.1%) |
+| Fig. S3, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative patients) | partly | 81.92% within 2 px (pass 85.0%, best control 66.2%) |
+| Fig. S3, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative patients) | agrees | 91.26% within 2 px (pass 82.9%, best control 55.0%) |
+| Fig. S4, top left (Cochrane trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative events) | partly | 85.67% within 2 px (pass 89.8%, best control 69.1%) |
 | Fig. S4, top middle (Cochrane trial sizes, PC 1-5%, tau2 0.15, true RRR 10%, cumulative events) | inconclusive | 74.10% within 2 px (pass 88.6%, best control 87.6%) |
-| Fig. S4, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 78.08% within 2 px (pass 88.0%, best control 78.6%) |
-| Fig. S4, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 64.69% within 2 px (pass 86.8%, best control 82.1%) |
-| Fig. S4, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative events) | inconclusive | 55.41% within 2 px (pass 87.2%, best control 74.3%) |
-| Fig. S4, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 59.94% within 2 px (pass 78.1%, best control 77.1%) |
+| Fig. S4, top right (Cochrane trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 78.21% within 2 px (pass 88.0%, best control 78.6%) |
+| Fig. S4, bottom left (Cochrane trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 65.68% within 2 px (pass 84.9%, best control 82.9%) |
+| Fig. S4, bottom middle (Cochrane trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative events) | inconclusive | 55.49% within 2 px (pass 87.2%, best control 74.3%) |
+| Fig. S4, bottom right (Cochrane trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 60.03% within 2 px (pass 78.2%, best control 77.2%) |
 | Fig. S5, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative patients) | differs | 11.28% within 2 px (pass 89.5%, best control 23.8%) |
 | Fig. S5, top middle (common trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative patients) | differs | 18.32% within 2 px (pass 90.0%, best control 27.5%) |
 | Fig. S5, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative patients) | differs | 12.33% within 2 px (pass 85.5%, best control 20.1%) |
 | Fig. S5, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative patients) | differs | 28.15% within 2 px (pass 90.0%, best control 38.1%) |
 | Fig. S5, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative patients) | differs | 27.64% within 2 px (pass 89.8%, best control 33.9%) |
-| Fig. S5, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative patients) | differs | 17.88% within 2 px (pass 89.1%, best control 30.8%) |
-| Fig. S6, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative events) | differs | 16.72% within 2 px (pass 89.4%, best control 50.5%) |
+| Fig. S5, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative patients) | differs | 17.92% within 2 px (pass 89.1%, best control 31.4%) |
+| Fig. S6, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 0%, cumulative events) | differs | 16.72% within 2 px (pass 89.4%, best control 50.8%) |
 | Fig. S6, top middle (common trial sizes, PC 1-5%, tau2 0.15, true RRR 0%, cumulative events) | differs | 21.47% within 2 px (pass 89.8%, best control 39.9%) |
 | Fig. S6, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 0%, cumulative events) | differs | 17.37% within 2 px (pass 89.6%, best control 39.5%) |
-| Fig. S6, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative events) | differs | 33.24% within 2 px (pass 90.0%, best control 42.7%) |
-| Fig. S6, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 32.44% within 2 px (pass 90.0%, best control 33.6%) |
-| Fig. S6, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 22.22% within 2 px (pass 89.4%, best control 23.0%) |
-| Fig. S7, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative patients) | differs | 2.42% within 2 px (pass 64.7%, best control 17.9%) |
+| Fig. S6, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 0%, cumulative events) | differs | 33.82% within 2 px (pass 90.0%, best control 42.7%) |
+| Fig. S6, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 32.55% within 2 px (pass 89.8%, best control 33.3%) |
+| Fig. S6, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 22.22% within 2 px (pass 89.4%, best control 23.2%) |
+| Fig. S7, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative patients) | differs | 2.42% within 2 px (pass 64.4%, best control 17.9%) |
 | Fig. S7, top middle (common trial sizes, PC 1-5%, tau2 0.15, true RRR 10%, cumulative patients) | inconclusive | 16.78% within 2 px (pass 84.7%, best control 17.7%) |
-| Fig. S7, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative patients) | differs | 5.72% within 2 px (pass 89.2%, best control 9.1%) |
+| Fig. S7, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative patients) | differs | 5.72% within 2 px (pass 88.9%, best control 9.1%) |
 | Fig. S7, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative patients) | differs | 10.39% within 2 px (pass 87.6%, best control 31.4%) |
-| Fig. S7, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative patients) | differs | 18.99% within 2 px (pass 87.4%, best control 20.2%) |
+| Fig. S7, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative patients) | differs | 18.99% within 2 px (pass 87.4%, best control 20.7%) |
 | Fig. S7, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative patients) | differs | 10.14% within 2 px (pass 89.5%, best control 16.8%) |
 | Fig. S8, top left (common trial sizes, PC 1-5%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 79.82% within 2 px (pass 90.3%, best control 89.3%) |
 | Fig. S8, top middle (common trial sizes, PC 1-5%, tau2 0.15, true RRR 10%, cumulative events) | agrees | 93.97% within 2 px (pass 88.6%, best control 72.3%) |
-| Fig. S8, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 76.94% within 2 px (pass 99.4%, best control 98.4%) |
-| Fig. S8, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative events) | partly | 79.51% within 2 px (pass 89.8%, best control 79.1%) |
-| Fig. S8, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative events) | partly | 84.27% within 2 px (pass 89.8%, best control 83.7%) |
-| Fig. S8, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative events) | partly | 81.25% within 2 px (pass 90.0%, best control 70.0%) |
-| Fig. S9, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 64.96% within 2 px (pass 89.1%, best control 83.3%) |
+| Fig. S8, top right (common trial sizes, PC 1-5%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 78.00% within 2 px (pass 99.4%, best control 98.4%) |
+| Fig. S8, bottom left (common trial sizes, PC 5-15%, tau2 0.05, true RRR 10%, cumulative events) | partly | 79.51% within 2 px (pass 89.7%, best control 79.5%) |
+| Fig. S8, bottom middle (common trial sizes, PC 5-15%, tau2 0.15, true RRR 10%, cumulative events) | partly | 84.42% within 2 px (pass 89.8%, best control 83.2%) |
+| Fig. S8, bottom right (common trial sizes, PC 5-15%, tau2 0.25, true RRR 10%, cumulative events) | partly | 81.56% within 2 px (pass 90.0%, best control 70.1%) |
+| Fig. S9, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 63.38% within 2 px (pass 87.9%, best control 84.2%) |
 | Fig. S9, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 65.78% within 2 px (pass 90.0%, best control 73.0%) |
 | Fig. S9, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 0%, cumulative patients) | partly | 75.77% within 2 px (pass 89.7%, best control 74.8%) |
-| Fig. S9, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 71.00% within 2 px (pass 89.8%, best control 72.9%) |
-| Fig. S9, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 70.38% within 2 px (pass 90.0%, best control 71.9%) |
+| Fig. S9, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 0%, cumulative patients) | inconclusive | 71.19% within 2 px (pass 89.8%, best control 73.2%) |
+| Fig. S9, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 0%, cumulative patients) | inconclusive | 71.38% within 2 px (pass 90.0%, best control 71.9%) |
 | Fig. S9, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 0%, cumulative patients) | partly | 74.80% within 2 px (pass 89.9%, best control 66.6%) |
-| Fig. S10, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 57.19% within 2 px (pass 89.4%, best control 79.0%) |
-| Fig. S10, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 66.61% within 2 px (pass 90.0%, best control 81.8%) |
-| Fig. S10, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 67.52% within 2 px (pass 89.3%, best control 82.0%) |
-| Fig. S10, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 58.16% within 2 px (pass 88.3%, best control 68.5%) |
-| Fig. S10, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 47.46% within 2 px (pass 89.6%, best control 61.5%) |
-| Fig. S10, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 50.53% within 2 px (pass 85.7%, best control 66.7%) |
-| Fig. S11, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 38.82% within 2 px (pass 90.0%, best control 74.3%) |
-| Fig. S11, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 10%, cumulative patients) | inconclusive | 35.66% within 2 px (pass 89.6%, best control 71.7%) |
-| Fig. S11, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 10%, cumulative patients) | inconclusive | 38.15% within 2 px (pass 89.1%, best control 65.4%) |
-| Fig. S11, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 46.83% within 2 px (pass 89.5%, best control 78.0%) |
-| Fig. S11, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 10%, cumulative patients) | differs | 45.82% within 2 px (pass 83.5%, best control 75.4%) |
-| Fig. S11, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 10%, cumulative patients) | inconclusive | 57.97% within 2 px (pass 77.1%, best control 62.0%) |
-| Fig. S12, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 63.06% within 2 px (pass 90.0%, best control 84.2%) |
-| Fig. S12, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 10%, cumulative events) | partly | 78.38% within 2 px (pass 88.3%, best control 69.0%) |
-| Fig. S12, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 10%, cumulative events) | agrees | 98.59% within 2 px (pass 90.0%, best control 66.3%) |
-| Fig. S12, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 57.69% within 2 px (pass 82.2%, best control 71.3%) |
-| Fig. S12, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 10%, cumulative events) | inconclusive | 66.67% within 2 px (pass 78.0%, best control 73.6%) |
-| Fig. S12, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 36.90% within 2 px (pass 85.5%, best control 72.2%) |
+| Fig. S10, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 57.60% within 2 px (pass 89.2%, best control 81.5%) |
+| Fig. S10, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 66.83% within 2 px (pass 90.0%, best control 83.0%) |
+| Fig. S10, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 68.44% within 2 px (pass 89.3%, best control 83.7%) |
+| Fig. S10, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 0%, cumulative events) | inconclusive | 58.51% within 2 px (pass 87.8%, best control 68.8%) |
+| Fig. S10, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 0%, cumulative events) | inconclusive | 47.25% within 2 px (pass 89.7%, best control 64.3%) |
+| Fig. S10, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 0%, cumulative events) | inconclusive | 51.06% within 2 px (pass 85.4%, best control 66.9%) |
+| Fig. S11, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 38.88% within 2 px (pass 90.0%, best control 74.5%) |
+| Fig. S11, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 10%, cumulative patients) | inconclusive | 35.66% within 2 px (pass 89.9%, best control 71.8%) |
+| Fig. S11, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 10%, cumulative patients) | inconclusive | 38.15% within 2 px (pass 89.3%, best control 65.4%) |
+| Fig. S11, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 10%, cumulative patients) | inconclusive | 46.83% within 2 px (pass 85.5%, best control 78.2%) |
+| Fig. S11, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 10%, cumulative patients) | differs | 45.82% within 2 px (pass 83.5%, best control 75.5%) |
+| Fig. S11, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 10%, cumulative patients) | inconclusive | 57.97% within 2 px (pass 76.1%, best control 61.9%) |
+| Fig. S12, top left (common trial sizes, PC 15-40%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 63.27% within 2 px (pass 90.0%, best control 85.3%) |
+| Fig. S12, top middle (common trial sizes, PC 15-40%, tau2 0.15, true RRR 10%, cumulative events) | partly | 79.44% within 2 px (pass 88.3%, best control 69.7%) |
+| Fig. S12, top right (common trial sizes, PC 15-40%, tau2 0.25, true RRR 10%, cumulative events) | agrees | 99.22% within 2 px (pass 89.7%, best control 66.3%) |
+| Fig. S12, bottom left (common trial sizes, PC 40-80%, tau2 0.05, true RRR 10%, cumulative events) | inconclusive | 57.44% within 2 px (pass 81.8%, best control 72.9%) |
+| Fig. S12, bottom middle (common trial sizes, PC 40-80%, tau2 0.15, true RRR 10%, cumulative events) | inconclusive | 67.03% within 2 px (pass 77.8%, best control 73.8%) |
+| Fig. S12, bottom right (common trial sizes, PC 40-80%, tau2 0.25, true RRR 10%, cumulative events) | inconclusive | 37.06% within 2 px (pass 85.5%, best control 72.1%) |
 | Table 1 (Cochrane trial sizes, PC 1-5% and 5-15%: patients and events required) | partly | 81 of 144 fields as printed |
 | Table S3 ('common' trial sizes, PC 15-40% and 40-80%) | partly | 71 of 144 fields as printed |
 | Table S4 ('common' trial sizes, PC 1-5% and 5-15%) | partly | 101 of 144 fields as printed |
@@ -144,11 +144,11 @@ the paper's own tables, including the main claim: in most scenarios the share of
 
 **What did not, and why.**
 
-- *Chance does not explain everything.* Our two runs with different seeds agree with each other on 87, 86
+- *Chance does not explain everything.* Our two runs with different seeds agree with each other on 87, 85
   and 124 of the 144 cells of Tables 1, S3 and S4; the paper agrees with ours on 81, 71 and 101. Where ours
   misses, it is higher more often than lower (51 against 12 in Table 1; 34 against 5 for patients alone).
 - *The curves differ by a few per cent.* On the published pixel grids, outside Figs S5-S7, our two runs are
-  73% to 100% alike (most above 85%); ours and the paper's 36% to 99%, most between 42% and 86%. A near miss (ours ×1.05 or ×0.95, or shifted one point) often scores
+  73% to 100% alike (most above 85%); ours and the paper's 36% to 99%, most between 41% and 86%. A near miss (ours ×1.05 or ×0.95, or shifted one point) often scores
   as well as ours, so 40 panels are inconclusive. In the panels, ours ×0.95 often scores better on the event axis and ours ×1.05 on the patient axis.
 - *How the curves were binned is not stated.* The tables fit best when every pooled estimate counts in the
   interval its cumulative count falls in (253 of 432 cells; counting at the nearest point 225; once per
@@ -167,7 +167,7 @@ the paper's own tables, including the main claim: in most scenarios the share of
 
 - Figs S5, S6 and S7 are byte copies of Figs S1, S2 and S3 (identical TIFF files): they show the Cochrane
   trial sizes, not the 'common' sizes their captions name. Our Cochrane curves score 42% to 91% on them, our
-  'common' curves 2% to 33%.
+  'common' curves 2% to 34%.
 - Table 2's footnote rounds patients up to 1,000 (PC 3%, 10%) or 100 and events up to 50; the printed cells
   follow that rule in 78 of 144 cases. They are rounded to the nearest 500 or 100, with no single rule.
 - Table 3 prints PC "3%" for the 5%-15% row, whose OIS values are those of PC 10%.

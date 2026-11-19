@@ -37,6 +37,7 @@ ZERO_RULES = ("exclude_double", "correct_all")
 BINOMIAL_N = ("arm", "total")
 BIN_RULES = ("nearest", "interval", "edge_last", "edge_first")
 READ_RULES = ("first", "stays")
+TIE_MARGIN = 1e-9
 
 
 # --------------------------------------------------------------------------------------------- OIS
@@ -260,7 +261,10 @@ def overestimation_curve(cum: np.ndarray, rrr: np.ndarray, threshold: float, wid
     if rule not in BIN_RULES:
         raise ValueError(f"rule must be one of {BIN_RULES}")
     cum = np.asarray(cum, float)
-    over = np.asarray(rrr) > threshold
+    # Integer counts can put a pooled RR exactly on 1 - threshold (RRR exactly 20% or 30%); in exact
+    # arithmetic that is not above the threshold. The margin keeps last-bit floating-point differences
+    # between CPUs from flipping such ties.
+    over = np.asarray(rrr) > threshold + TIE_MARGIN
     ok = np.isfinite(rrr)
     edges = np.arange(width, cap + width / 2, width)
     nb = len(edges)
