@@ -104,7 +104,7 @@ def main(results, run, out):
     pub = json.load(open(Path(run) / "published_values.json"))
     sm = R["summary"]
     facts = {**facts_of(Path(run)), **sm, "attempted": sm["items"] - sm["not_attempted"],
-             "agree_total": sm.get("exact", 0) + sm.get("agrees", 0), "main_verdict": main_verdict(R)}
+             "agree_total": sm.get("exact", 0) + sm.get("agrees", 0), "main_verdict": main_verdict(R), "reviewed": sm.get("reviewed", 0)}
     N = fill(json.loads((HERE.parent / "results_notes.json").read_text())["page"], facts)
     items = R["items"]
     by = {i["id"]: i for i in items}

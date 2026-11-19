@@ -32,17 +32,17 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2430201/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-2 exact, 14 agrees, 3 partly, 3 not attempted; 0 open causes.
+2 exact, 16 agrees, 1 partly, 3 not attempted; 0 open causes; 2 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Table 1, low-dose dopamine meta-analysis: pooled MD, SMD and RoM with CIs, p and I2 | not attempted | not attempted |
 | Table 1: each estimate at the midpoint of its CI, and each p-value from its CI | exact | 13 of 13 fields as printed, 1 paper errors |
 | Table 2, the parameter values of the simulated data sets | not attempted | not attempted |
-| Table 3, normal data, SD 40% of the control mean, equal arms (18 rows x 21 cells) | partly | 377 of 378 fields as printed |
+| Table 3, normal data, SD 40% of the control mean, equal arms (18 rows x 21 cells) | agrees | 377 of 378 fields as printed; computed partly, reviewer agrees |
 | Table 4, normal data, SD 10% of the control mean, equal arms (18 rows x 21 cells) | agrees | 378 of 378 fields as printed |
 | Table 5, normal data, SD 70% of the control mean, equal arms (18 rows x 21 cells) | agrees | 378 of 378 fields as printed |
-| Table 6, skewed data, SD 40% of the control mean, equal arms (18 rows x 21 cells) | partly | 377 of 378 fields as printed |
+| Table 6, skewed data, SD 40% of the control mean, equal arms (18 rows x 21 cells) | agrees | 377 of 378 fields as printed; computed partly, reviewer agrees |
 | Table 7, normal data, SD 40%, 2:1 experimental to control (14/6 and 134/66; 18 rows x 21 cells) | agrees | 378 of 378 fields as printed |
 | Table 8, normal data, SD 40%, 1:2 experimental to control (6/14 and 66/134; 18 rows x 21 cells) | agrees | 378 of 378 fields as printed |
 | SMD bias towards no effect: about 5% with 10 patients per arm (Abstract), -4 to -6% in Table 3, smaller with 100 (Results) | agrees | 4 of 4 fields as printed |
