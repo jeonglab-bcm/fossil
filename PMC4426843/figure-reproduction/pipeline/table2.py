@@ -6,6 +6,8 @@ COUNTS.tsv: empirical.py output. Empirical P = draws at or above the observed ov
 Benjamini-Hochberg over all biological-process terms of the species; a term is significant when
 its adjusted P < 0.05 (Supplementary Table S5 flags its terms this way: BH over all 9,462 terms).
 Writes OUT_DIR/table2.csv (ours next to the paper's) and OUT_DIR/pvalues/<study>.tsv.
+For each algorithm, *_diff = ours - paper and *_rel_diff = (ours - paper) / paper, empty when the
+paper's count is 0 (the absolute difference is then in *_diff).
 """
 import csv
 import os
@@ -23,6 +25,13 @@ def bh(p):
     out = np.empty(n)
     out[o] = np.minimum(q, 1)
     return out
+
+
+def diff(paper, ours):
+    if ours == "":
+        return "", ""
+    d = ours - int(paper)
+    return d, f"{d / int(paper):.3f}" if int(paper) else ""
 
 
 def main(published, out, *counts):
@@ -46,11 +55,12 @@ def main(published, out, *counts):
     with open(os.path.join(out, "table2.csv"), "w", newline="") as f:
         w = csv.writer(f, lineterminator="\n")
         w.writerow(["study", "reference", "species", "mirnas", "paper_basic", "ours_basic",
-                     "paper_multi_hit", "ours_multi_hit", "terms_tested"])
+                     "paper_multi_hit", "ours_multi_hit", "terms_tested",
+                     "basic_diff", "basic_rel_diff", "multi_diff", "multi_rel_diff"])
         for p in csv.DictReader(open(published)):
             b, m, n = res.get(p["study"], ("", "", ""))
             w.writerow([p["study"], p["reference"], p["species"], p["mirnas"], p["basic"], b,
-                        p["multi_hit"], m, n])
+                        p["multi_hit"], m, n, *diff(p["basic"], b), *diff(p["multi_hit"], m)])
             print(f"{p['study']:15s} basic {p['basic']:>5s} / {b!s:>5s}   multi {p['multi_hit']:>5s} / {m!s:>5s}")
 
 

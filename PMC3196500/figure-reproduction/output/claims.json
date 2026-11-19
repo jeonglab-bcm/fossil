@@ -1,0 +1,95 @@
+{
+ "claims": [
+  {
+   "id": "text.larger_overestimation",
+   "statement": "The larger the overestimation, the smaller the number of patients and events required",
+   "fields": [
+    {
+     "name": ">30% needs no more than >20% (all three tables)",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 1.0,
+     "cases": 216,
+     "arithmetic": "yes",
+     "arithmetic_share": 1.0
+    }
+   ]
+  },
+  {
+   "id": "text.control_risk",
+   "statement": "A larger number of patients, but a smaller number of events, were required when the control group risk was low",
+   "fields": [
+    {
+     "name": "PC 1-5% needs more patients than 5-15% (Tables 1, S4)",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 1.0,
+     "cases": 72,
+     "arithmetic": "yes",
+     "arithmetic_share": 1.0
+    },
+    {
+     "name": "PC 1-5% needs fewer events than 5-15% (Tables 1, S4)",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 0.9167,
+     "cases": 72,
+     "arithmetic": "yes",
+     "arithmetic_share": 0.8889
+    }
+   ]
+  },
+  {
+   "id": "text.heterogeneity",
+   "statement": "Generally smaller numbers with tau2 = 0.05 than 0.25; reversed with 'common' sizes and PC 1-5%",
+   "fields": [
+    {
+     "name": "tau2 0.05 needs fewer than 0.25 (except common sizes, PC 1-5%)",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 0.9123,
+     "cases": 114,
+     "arithmetic": "yes",
+     "arithmetic_share": 0.9189
+    },
+    {
+     "name": "common sizes, PC 1-5%: tau2 0.05 needs more than 0.25",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 1.0,
+     "cases": 17,
+     "arithmetic": "yes",
+     "arithmetic_share": 1.0
+    }
+   ]
+  },
+  {
+   "id": "text.ois_protects",
+   "statement": "Surpassing the optimal information size generally provided sufficient protection against overestimation",
+   "fields": [
+    {
+     "name": "P(RRR > T) below 5% at or before the OIS for RRR = T, 90% power",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 0.7778,
+     "cases": 72,
+     "arithmetic": "yes",
+     "arithmetic_share": 0.7639
+    }
+   ]
+  },
+  {
+   "id": "text.early_above_25",
+   "statement": "In most scenarios, the probability of overestimation was higher than 25% when the number of patients was small",
+   "fields": [
+    {
+     "name": "first point of the RRR > 20% patient curve above 25% (36 scenarios)",
+     "expected": "yes",
+     "observed": "yes",
+     "observed_share": 0.8056,
+     "cases": 36
+    }
+   ]
+  }
+ ]
+}
