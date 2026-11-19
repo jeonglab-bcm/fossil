@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-19T15:10:39+00:00 / 2026-11-19T19:28:28+00:00 |
-| Wall clock | 257.8 min |
+| Started / ended (UTC) | 2026-11-19T15:10:39+00:00 / 2026-11-19T19:49:15+00:00 |
+| Wall clock | 278.6 min |
 | Models | claude-opus-5-5 |
 | Human prompts | 2 (0 sent mid-turn) |
-| Assistant responses (API calls) | 233 + 21 in subagents |
-| Tool calls | 241 + 21 in subagents |
-| Tokens: input / cache write / cache read / output | 480 / 635,825 / 81,638,817 / 260,559 |
-| Tokens: total (incl. subagents) | 82,535,681 |
+| Assistant responses (API calls) | 255 + 22 in subagents |
+| Tool calls | 263 + 22 in subagents |
+| Tokens: input / cache write / cache read / output | 524 / 659,303 / 93,794,003 / 276,309 |
+| Tokens: total (incl. subagents) | 94,730,139 |
 
 ## Conversation
 
@@ -890,3 +890,98 @@ Drafting the pull-request body while the review runs:
 Status: the reproduction is complete and passes all checks from a clean clone. I'm waiting on the independent write-up review, then I'll push and open the PR.
 
 - `Bash` Draft the session ledger
+
+- `Bash` Scan ledger files for personal details
+
+### Claude · 2026-11-19 19:28:51
+
+The reproduction is finished and committed locally, but nothing is pushed and there is no pull request yet. I'm waiting for the independent review of the write-up to come back, then I'll fix whatever it finds, push, open the PR for issue #94 and get CI green.
+
+- **Paper:** PMC4457112, the RCT Tagger. The authors only released it as a web service, which is now down; no code, model or scores were published, and the methods supplement couldn't be fetched (HTTP 403 everywhere).
+- **What I did:** rebuilt the method from the paper as an installable Python package, `rctconf`. I retrained both of the paper's models on the 2026 PubMed baseline: all 1,334 files, about 52 GB streamed, giving 6.16 million human-related citations from 1987–2012. 278,869 of them are tagged as RCTs; the paper had 277,789.
+- **Tables 1 and 2:** every AUC, average precision, F1 and accuracy is within 0.008 of the paper's. On 2011 the model with MeSH terms gets AUC 0.9738 (paper 0.973) and the citation-only model 0.9681 (paper 0.966). The baseline-sigmoid MSE comes out 0.007–0.009 higher than printed.
+- **Overall:** of 26 results, 10 agree, 7 partly agree, 4 differ and 5 couldn't be attempted. The main claim holds: both models rank RCTs with AUC near 0.97, with the MeSH model ahead.
+- **What doesn't match, and why:**
+  - **Feature sets chosen:** I got 10 and 13, the paper 7 and 10. Judging improvement at three decimals of AUC instead of four gives exactly 7 for the citation-only model, but 7 rather than 10 for the MeSH model.
+  - **Chi-squared filtering model:** the paper doesn't give its significance threshold. Its feature counts and scores fall between my p < 0.05 and Bonferroni versions.
+  - **Disagreement counts:** the counts at confidence ≥ 0.95 and ≤ 0.05 depend on the paper's confidence method, which is only described in the lost supplement.
+  - **Cholecystitis example:** the paper's search query is lost, so I rebuilt it. Mine finds 941 articles in the dataset against the paper's 3,883.
+  - **Not attempted:** Fig. 1, the 2014 sample and the kappa need manual labels that were never released.
+- **Slips in the paper's own arithmetic:** 2,751 of 3,088 is 89%, not 85%. 5% of 277,789 is 13,889, not 12,900. 7,900 + 12,900 is about 21,000, not 20,000. Table 3 implies a 431-fold feature reduction, not 300–400.
+- **Checks:** the pipeline's CI command passes from a fresh clone in about 70 seconds. It includes a small end-to-end rerun on three baseline files that gives identical results every time. The full rerun takes about 4 hours and only runs when started by hand. The package check also passes: fresh install, 7 tests, executed tutorial.
+
+The session record isn't from a fresh session: it includes your earlier prompt to install the skill. I'll say so in the PR.
+
+### Claude · 2026-11-19 19:28:53
+
+Regenerating the outputs affected by the last edits, then committing and pushing:
+
+- `Bash` Regenerate, verify, commit and push branch
+
+### Claude · 2026-11-19 19:31:24
+
+Good review. Applying all ten fixes:
+
+- `Bash` Apply reviewer fixes to notes and READMEs
+
+- `Bash` Regenerate, verify, commit and push fixes
+
+### Claude · 2026-11-19 19:34:08
+
+Pushed. Checking for a PR template, then opening the pull request:
+
+- `Bash` Check template; prepare PR inputs
+
+- `Bash` Open the pull request
+
+### Claude · 2026-11-19 19:34:33
+
+Now watching CI on the PR:
+
+- `mcp__claude-code-remote__subscribe_pr_activity` 
+
+- `Bash` Wait for CI check runs to finish
+
+- `Bash` Check CI status
+
+- `Bash` List workflow runs for the branch
+
+### Claude · 2026-11-19 19:44:47
+
+No CI ran: the PR has merge conflicts with `main` (it moved since I cloned). Rebasing onto the latest `main`:
+
+- `Bash` Rebase branch onto latest main
+
+- `Bash` Show conflicts
+
+- `Bash` Rebuild branch from latest main with my files
+
+- `Bash` Reapply README and front-page edits on new main
+
+- `Bash` Verify, commit on new main, force-push branch
+
+### Claude · 2026-11-19 19:45:30
+
+Force-pushing was blocked, so I'll take the non-destructive route: keep the pushed history and merge the latest `main` into the branch, using the conflict resolutions I just prepared.
+
+- `Bash` Save resolved shared files
+
+- `Bash` Restore pushed branch and merge latest main
+
+- `Bash` Resolve merge, verify, commit and push
+
+- `Bash` Check mergeability and CI runs
+
+### Claude · 2026-11-19 19:47:15
+
+Conflicts resolved; both workflows are running. Waiting for them:
+
+- `Bash` Wait for CI workflows to complete
+
+### Claude · 2026-11-19 19:49:09
+
+Both workflows pass. Getting the CI duration, then pushing the final ledger as the skill requires:
+
+- `Bash` Get CI run durations
+
+- `Bash` Write and push final session ledger
