@@ -1,18 +1,57 @@
 {
- "status_note": "TO BE WRITTEN",
- "site_note": "TO BE WRITTEN",
+ "status_note": "RAINMAN rebuilt as `nmdsplice` and rerun from the SRA reads; regulated junctions of Fig. 2a within a few per cent (BMM up 14,145 against 14,056; common up 2,226 against 2,257) and the UGA preference of Fig. 7b back; about a third of the paper's PTC+ junctions, because exons only the lost TROMER set held are unannotated today",
+ "site_note": "Regulated junctions and stop codons back; fewer PTC+ junctions.",
  "page": {
-  "lede": "Weischenfeldt and colleagues mapped RNA-seq of NMD-deficient mouse liver and macrophages with RAINMAN, a pipeline that is gone. We rebuilt it from the paper and reran it from the reads. Of {attempted} results we tried, {exact} came back exactly, {agrees} agree, {partly} partly agree and {differs} differ.",
-  "label_rows": [],
-  "tables_caption": "TO BE WRITTEN",
-  "tables_note": "TO BE WRITTEN",
-  "captions": {},
+  "lede": "Weischenfeldt and colleagues mapped RNA-seq of NMD-deficient mouse liver and macrophages with RAINMAN, a pipeline whose website went down. We rebuilt it from the paper and reran it from the reads. Of {attempted} results we tried, {exact} came back exactly, {agrees} agree, {partly} partly agree, {inconclusive} cannot be told apart and {differs} differ.",
+  "label_rows": [
+   ["tables", "Tables 1, S1, S2, S5, S7, S8", ["table1", "tableS1", "tableS2", "tableS5", "tableS7", "tableS8"]],
+   ["fig-1a", "Fig. 1a", ["fig1a"]],
+   ["fig-2a", "Fig. 2a", ["fig2a"]],
+   ["fig-3a", "Fig. 3a", ["fig3a"]],
+   ["fig-3b", "Fig. 3b", ["fig3b"]],
+   ["fig-5a", "Fig. 5", ["fig5.a", "fig5.b"]],
+   ["fig-6", "Fig. 6", ["fig6"]],
+   ["fig-7a", "Fig. 7a", ["fig7a"]],
+   ["fig-7b", "Fig. 7b", ["fig7b"]],
+   ["fig-s2", "Fig. S2", ["figS2.a", "figS2.b"]]
+  ],
+  "tables_caption": "The paper's tables, paper against ours. Counts depend on a junction database rebuilt from today's annotation and on the PTC calls.",
+  "tables_note": "Table S1's TopHat junctions are the authors' own, from their alignments in GEO. Table S2 and Tables S7 and S8 count PTC+ junctions, which we find about a third as often as the paper.",
+  "captions": {
+   "1a": "Reads mapped to exons, junctions, introns and between genes, and the share of reads mapped.",
+   "2a": "Junctions with at least three reads, up, unchanged or down in the knockout, all and PTC+, and their genes.",
+   "3a": "Canonical and alternative junctions by regulation, and the PTC+ share of the up-regulated ones.",
+   "3b": "Alternative and PTC+ junctions per gene against all junctions per gene, after downsampling to BMM WT.",
+   "5a": "Conservation around exons skipped more in the liver knockout. Red PTC+, green PTC-, grey unregulated, yellow RefSeq exons.",
+   "5b": "Conservation around exons included more in the liver knockout.",
+   "6": "PTC+ to PTC- ratio of junctions in 1-RPKM bins of junction expression.",
+   "7a": "Conservation around PTCs and normal stops, minus random exons.",
+   "7b": "Stop codon shares: genome background, RefSeq stops and the stops of strongly up-regulated PTC+ junctions.",
+   "s2": "Distance from RefSeq stops to the mRNA end (last exon) and to the next junction (second-to-last exon).",
+   "s4": "As Fig. 5, for BMM."
+  },
   "items_caption": "Every figure, table and number of the paper, with our value and why it differs.",
-  "claims_line": "TO BE WRITTEN",
-  "came_back": [],
-  "buried": [],
-  "matched_intro": "TO BE WRITTEN",
-  "matched": [],
-  "closing": "TO BE WRITTEN"
+  "claims_line": "The main finding holds: losing NMD up-regulates PTC+ junctions and AS far more than canonical splicing, and regulated PTCs prefer UGA. The PTC+ counts are lower because exons the paper took from TROMER are not annotated today.",
+  "came_back": [
+   ["Fig. 2a", "Up, unchanged and down junctions within a few per cent in BMM; 2,226 junctions up in both tissues against 2,257."],
+   ["Fig. 7b", "Stop codon shares within 0.02 for 16 of 18 bars; UGA preferred in both tissues."],
+   ["TopHat", "The authors' own alignments give Table S1's TopHat junctions to within 6 per sample."],
+   ["PTC distances", "Our PTC rule gives the printed distance for 42 of 45 events of Additional file 9."],
+   ["Fig. 3a", "Canonical junctions barely move; alternative junctions go up about three times as often."]
+  ],
+  "buried": [
+   "RAINMAN's scripts and its junction database are gone.",
+   "TROMER, one of the paper's exon sources, has no mouse data online.",
+   "The 2011 RefSeq and Ensembl tables are gone; the database is 9% smaller.",
+   "The GO analyses need DAVID's 2012 knowledgebase."
+  ],
+  "matched_intro": "We matched what the paper and its supplement state:",
+  "matched": [
+   ["Mapping", "Bowtie with two mismatches in the first 68 bp, best stratum; truncation in 10-nt steps to 35 nt."],
+   ["Database", "All exon pairs within each RefSeq gene, 4 nt of overlap each side."],
+   ["Regulation", "Three reads, TMM within each tissue, two-fold change."],
+   ["PTC rule", "Stop more than 49 nt before the last junction."]
+  ],
+  "closing": "RAINMAN came back as a package. Its PTC calls need the exon set that is gone."
  }
 }

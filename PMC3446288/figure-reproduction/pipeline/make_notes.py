@@ -9,6 +9,8 @@ this script keeps whatever block the file already has.
 """
 import json
 import sys
+
+
 from pathlib import Path
 
 out = Path(sys.argv[1])
@@ -165,6 +167,14 @@ items = [
     dict(id="package", label="Python package nmdsplice and its tutorial", kind="code_check", source="reconstructed",
          outputs=["package/tutorial/TUTORIAL.md"]),
 ]
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from causes import CAUSES  # noqa: E402
+
+for it in items:
+    c = CAUSES.get(it["id"])
+    if c:
+        it["cause"] = c
 
 notes = {
     "paper": {"id": "PMC3446288", "title": "Mammalian tissues defective in nonsense-mediated mRNA decay display highly aberrant splicing patterns",

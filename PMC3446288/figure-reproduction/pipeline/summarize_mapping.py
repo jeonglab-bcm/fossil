@@ -105,7 +105,10 @@ def main(mapdir, annot, fai, sample, outdir):
                 if s < d and a < e:
                     counts[gi] += n
     cat["junction"] = jreads
-    cat["total_mapped"] = cat["exonic"] + cat["intronic"] + cat["intergenic"] + cat["junction"]
+    # Reads, not alignments: a truncated read whose two halves both map has two alignments in the
+    # categories above but is one mapped read.
+    cat["total_mapped"] = stats["genome"] + stats["junction"] + stats["truncation_recovered"]
+    cat["alignments_in_categories"] = cat["exonic"] + cat["intronic"] + cat["intergenic"] + cat["junction"]
     cat["reads"] = stats["reads"]
     cat["mapping_frequency"] = cat["total_mapped"] / stats["reads"]
     cat["truncation_recovered"] = stats["truncation_recovered"]

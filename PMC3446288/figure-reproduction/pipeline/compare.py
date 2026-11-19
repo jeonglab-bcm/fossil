@@ -154,8 +154,7 @@ def main(pv_path, an_path, fig_path, cons_path, stops_path, jdb_path, port_path,
         field("AS directly degraded by NMD, BMM (%)", t3["nmd_share_BMM"], r(share["BMM"], 2)),
         field("AS directly degraded by NMD, liver (%)", t3["nmd_share_Liver"], r(share["Liver"], 2)),
     ], exceptions=[{"field": "unique AS junctions, liver (approximately)", "category": "paper_error",
-                    "evidence": "The Fig. 3b caption gives 33,164 unique AS junctions in liver; the text says approximately 35,000."}]
-       if abs(fb["Liver_union"] - 35000) > 500 else None)
+                    "evidence": "The Fig. 3b caption gives 33,164 unique AS junctions in liver; the text says approximately 35,000."}])
 
     # ---- Fig. 3b
     fl = []

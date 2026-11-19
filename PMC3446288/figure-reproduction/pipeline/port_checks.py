@@ -55,15 +55,21 @@ def ptc_distance_check(supp, annot, genome):
 
 def tmm_check(matrix, rscript):
     x = np.loadtxt(matrix, delimiter="\t")
-    ours = tmm_factors(x)
+    # per tissue, as the reproduction normalises
+    ours = []
+    for cols in ([0, 1], [2, 3]):
+        y = x[:, cols]
+        ours += list(tmm_factors(y[y.sum(axis=1) > 0]))
+    ours = np.array(ours)
     code = (f'x <- as.matrix(read.table(gzfile("{matrix}"))); suppressMessages(library(edgeR)); '
-            'cat(sprintf("%.10f", calcNormFactors(x)), "\\n"); cat(as.character(packageVersion("edgeR")), "\\n")')
+            'f <- c(); for (cols in list(1:2, 3:4)) {{ y <- x[, cols]; y <- y[rowSums(y) > 0, ]; f <- c(f, calcNormFactors(y)) }}; '
+            'cat(sprintf("%.10f", f), "\\n"); cat(as.character(packageVersion("edgeR")), "\\n")')
     out = subprocess.run([rscript, "-e", code], capture_output=True, text=True, check=True).stdout.split("\n")
     edger = np.array([float(v) for v in out[0].split()])
     ver = out[1].strip()
     diff = float(np.max(np.abs(ours - edger)))
     return {"passed": diff < 1e-6,
-            "detail": f"nmdsplice.tmm_factors and edgeR {ver} calcNormFactors on the {x.shape[0]:,} x 4 junction count "
+            "detail": f"nmdsplice.tmm_factors and edgeR {ver} calcNormFactors on our junction counts ({x.shape[0]:,} junctions, BMM and liver pairs) "
                       f"matrix: largest difference {diff:.1e} (ours {', '.join(f'{v:.4f}' for v in ours)})"}
 
 

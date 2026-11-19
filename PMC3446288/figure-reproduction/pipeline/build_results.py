@@ -39,7 +39,9 @@ for n in notes["items"]:
     if method != "none":
         for key in ("values", "check"):
             if key in c:
-                it[key] = {k: v for k, v in c[key].items() if k in ("fields", "tolerance", "passed", "detail")}
+                it[key] = {k: v for k, v in c[key].items() if k in ("fields", "tolerance", "passed", "detail", "exceptions")}
+        if "pixels" in c:
+            it["pixels"] = c["pixels"]
     if "exceptions" in n and "values" in it:
         it["values"]["exceptions"] = n["exceptions"]
     assumptions = [shared[r] for r in n.get("assumptions_ref", [])] + n.get("assumptions", [])

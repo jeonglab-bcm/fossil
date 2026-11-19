@@ -126,10 +126,17 @@ def main():
     out["unique_junctions_min3"] = int(ev_any.sum())
 
     # ---------------- TMM
-    tmm = tmm_factors(reads[any_reads])
+    # TMM within each tissue (WT against KO): the paper's factors multiply to 1.000 in each tissue
+    # (0.998 x 1.002, 1.188 x 0.841), which a four-sample normalisation would not give.
+    tmm = np.ones(4)
+    for t, (w, k) in TISSUES.items():
+        sub = reads[:, [w, k]]
+        sub = sub[sub.sum(axis=1) > 0]
+        tmm[[w, k]] = tmm_factors(sub)
     out["tmm_factors"] = dict(zip(SAMPLES, map(float, tmm)))
+    out["tmm_factors_four_samples"] = dict(zip(SAMPLES, map(float, tmm_factors(reads[any_reads]))))
     np.savetxt(f"{a.outdir}/junction_matrix_for_edger.tsv.gz", reads[any_reads], fmt="%d", delimiter="\t")
-    lib = reads[any_reads].sum(axis=0) * tmm  # effective library sizes
+    lib = reads.sum(axis=0) * tmm  # effective library sizes
 
     # ---------------- genes: upper-quartile RPKM, fold changes
     grows, gcounts = load_genes(a.genes)

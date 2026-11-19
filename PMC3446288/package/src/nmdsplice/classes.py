@@ -182,6 +182,8 @@ def infer_events(junctions: dict, exons, first_exons, last_exons, ptc: dict, gen
                             continue
                         e1, e2, b = mx
                         ev = _pair("MXE", chrom, strand, j1, j2, junctions, ptc, gene_of)
+                        if ev is None:
+                            continue
                         up = (j1, (chrom, e1, b)) if ev.dpsi > 0 else (j2, (chrom, e2, b))
                         ev.ptc_up = any(ptc.get(x) for x in up)
                         ev.extra["exons"] = [(a1, e1), (a2, e2)]
