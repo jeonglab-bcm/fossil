@@ -36,7 +36,7 @@ Install the package: `pip install "git+https://github.com/jeonglab-bcm/fossil#su
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-3 agrees, 12 partly, 1 inconclusive, 20 differs, 9 not attempted; 18 open causes.
+3 agrees, 12 partly, 1 inconclusive, 20 differs, 9 not attempted; 30 open causes.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -87,10 +87,13 @@ Install the package: `pip install "git+https://github.com/jeonglab-bcm/fossil#su
 | Python package nmdsplice and its tutorial | agrees | nmdsplice 0.1.0: wheel installed in a fresh environment and imported from it; tests 5 passed; tutorial 5 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |
 <!--/RESULTS-SUMMARY-->
 
-The main finding holds: losing NMD up-regulates PTC+ junctions and alternative splicing far more than
-canonical splicing, and the stops of regulated PTCs prefer UGA. Most counts differ by a few per cent
-(the database is rebuilt from today's annotation); every count of PTC+ junctions is about a third of
-the paper's, because junctions whose exons only the paper's TROMER set held are unannotated today.
+The direction of the main finding holds on our run: losing NMD up-regulates PTC+ junctions and
+alternative splicing far more often than canonical splicing, and the stops of regulated PTCs prefer
+UGA. Many counts differ by more than a few per cent: the junction database is rebuilt from today's
+annotation, liver maps more reads, and truncation recovers about twice as many. We call 24 to 28% of the
+paper's PTC+ junctions, and counts built on them come back at 24 to 77% of the paper's. Why is open:
+the junctions we must exclude because TROMER, one of the paper's exon sources, is gone are numerous
+enough to explain the gap, but that is not shown.
 
 ## Kept local, not in the repository
 

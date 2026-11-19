@@ -342,8 +342,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -351,7 +351,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -361,11 +361,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -387,7 +387,7 @@
    ],
    "cause": {
     "category": "data_unavailable",
-    "summary": "Without TROMER we exclude 2.8 to 3.4 times as many junctions as unannotated; the paper gives no threshold for its false-positive gene filter, and ours removes 251 and 269 genes against 118 and 190.",
+    "summary": "Without TROMER we exclude 1.7 to 4.0 times as many junctions as unannotated; the paper gives no threshold for its false-positive gene filter, and ours removes 251 and 269 genes against 118 and 190.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -395,8 +395,8 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -405,7 +405,7 @@
      },
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      }
     ],
@@ -449,8 +449,8 @@
     "figure-reproduction/output/figs/fig2a_overlay.png"
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "All junctions come back within a few per cent (BMM up, unregulated and down 14,145, 70,924, 12,020 against 14,056, 72,499, 11,311; common up 2,226 against 2,257). The PTC+ rows are about a third of the paper's, from the PTC calls (see Table S2), and 'common unregulated' counts junctions the paper did not count as common.",
+    "category": "unknown",
+    "summary": "All junctions in BMM come back within 7% (up, unregulated and down 14,145, 70,924, 12,020 against 14,056, 72,499, 11,311) and common up within 2% (2,226 against 2,257); liver is 8% low for up and 14% low for down. The PTC+ rows are 13% to 54% of the paper's, from the PTC calls (see Table S2), and 'common unregulated' counts junctions the paper did not count as common.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -458,7 +458,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -468,11 +468,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -508,8 +508,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -517,7 +517,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -527,11 +527,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -567,8 +567,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -576,7 +576,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -586,11 +586,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -660,8 +660,8 @@
     "figure-reproduction/output/figs/fig3a_overlay.png"
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "Regulation of canonical and AS junctions agrees in BMM to 2 points (AS up 33% against 35%); the PTC+ share of up-regulated AS junctions is about half the paper's (20% against 47%), from the PTC calls.",
+    "category": "unknown",
+    "summary": "Regulation of canonical and AS junctions agrees in BMM to 2 points (AS up 33% against 35%); the PTC+ share of up-regulated AS junctions is about half the paper's (20% against 47%; liver 24% against 45%), from the PTC calls.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -669,7 +669,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -679,11 +679,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -738,8 +738,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
     "status": "open"
@@ -783,7 +783,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "AS junction counts depend on the read cutoff the caption says was not used: without one we find three times as many; with three reads per sample, 5,783 and 8,190 in BMM against 8,107 and 9,447. Slopes are lower (BMM AS 0.26 against 0.35); liver KO has the steepest slope, as in the paper.",
+    "summary": "AS junction counts depend on the read cutoff the caption says was not used: without one we find 1.5 to 3.7 times as many per sample; with three reads per sample, 5,783 and 8,190 in BMM against 8,107 and 9,447. Slopes are lower (BMM AS 0.26 against 0.35); liver KO has the steepest slope, as in the paper.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -860,8 +860,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
     "status": "open"
@@ -1003,8 +1003,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -1038,7 +1038,7 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
+    "category": "unknown",
     "summary": "We find a PTC+ event for 8 of the liver factors against 19, and 5 of them are deregulated more than 1.5-fold (all down). The count follows from the PTC calls.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
@@ -1047,16 +1047,21 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
       "test": "Count PTC+ evident junctions without it: 1,794 in BMM and 4,334 in liver, still far below 4,047 and 14,387 (hypotheses.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our PTC rule or translation differs from the paper's",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
+      "result": "rejected"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1087,8 +1092,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1096,7 +1101,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -1106,11 +1111,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1141,8 +1146,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1150,7 +1155,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -1160,11 +1165,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1218,8 +1223,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1271,8 +1276,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1307,7 +1312,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "Fewer SES events in each group (liver exclusion PTC+ 310 against 439, unregulated 1,845 against 3,494); RefSeq exons 180,246 unique internal exons against 274,281.",
+    "summary": "Fewer SES events in most groups (liver exclusion PTC+ 310 against 439, unregulated 1,845 against 3,494), more in the inclusion groups (97 and 171 against 64 and 162); RefSeq exons 180,246 unique internal exons against 274,281.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1320,8 +1325,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1368,8 +1373,8 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1422,8 +1427,8 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
     "status": "explained"
@@ -1461,8 +1466,8 @@
     "figure-reproduction/output/figs/fig6_overlay.png"
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "Our curves fall with expression as the paper's do, but the PTC+ fraction is 3 to 4 times lower (the PTC calls), so no curve lies within 3 px.",
+    "category": "unknown",
+    "summary": "Our curves fall with expression as the paper's do, but our PTC+ fraction lies well below the paper's at every expression level (the PTC calls), so no curve lies within 3 px.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1470,8 +1475,8 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1480,11 +1485,11 @@
      },
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1516,7 +1521,7 @@
    ],
    "cause": {
     "category": "data_unavailable",
-    "summary": "Low-expressed junctions are enriched in PTC+ and KO lies above WT, as in the paper; liver lies above BMM only at low expression.",
+    "summary": "Low-expressed junctions are enriched in PTC+ and KO lies above WT, as in the paper; liver lies below BMM in the two lowest bins (1 and 2 RPKM) and above it from 3 RPKM up.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1524,8 +1529,8 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
@@ -1534,7 +1539,7 @@
      },
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      }
     ],
@@ -1569,7 +1574,7 @@
    ],
    "cause": {
     "category": "undocumented_setting",
-    "summary": "Our curves lie 0.1 to 0.2 below the paper's: the random-exon baseline (which exons, which window) is described in one sentence.",
+    "summary": "Our curves lie below the paper's (no pixel within 3 px): the random-exon baseline (which exons, which window) is described in one sentence.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1607,8 +1612,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "We call about a third as many PTC+ junctions as the paper (BMM 1,139 against 4,047; liver 3,446 against 14,387). Our PTC rule gives the paper's own PTC distances, and the filter is not the cause; most of the gap is junctions whose exons only the paper's TROMER set held, which we must exclude as unannotated.",
+    "category": "unknown",
+    "summary": "We call fewer PTC+ junctions than the paper: 28% of its count in BMM (1,139 against 4,047) and 24% in liver (3,446 against 14,387); counts built on them come back at 24% to 77% of the paper's. Our PTC rule and the false-positive filter do not explain the gap. Junctions we must exclude as unannotated (no TROMER) are numerous enough to explain it, but that is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1616,7 +1621,7 @@
     "hypotheses": [
      {
       "hypothesis": "Our PTC rule or translation differs from the paper's",
-      "test": "Run it on the paper's own events (Additional files 8 and 9): the printed PTC distance comes back for 42 of 45 exclusion events called PTC+",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
       "result": "rejected"
      },
      {
@@ -1626,11 +1631,11 @@
      },
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1660,8 +1665,8 @@
     "figure-reproduction/output/figs/fig7b_overlay.png"
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "The codon shares come back within 0.02 for 16 of 18 bars and UGA is preferred in both tissues (Fisher P 0.0065 and 4e-14); there are fewer junctions (196 and 504 against 497 and 670), from the PTC calls.",
+    "category": "unknown",
+    "summary": "The codon shares come back within 0.02 for 18 of 18 bars and UGA is preferred in both tissues (Fisher P 0.0065 and 4e-14); there are fewer junctions (196 and 504 against 497 and 670), from the PTC calls.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1669,16 +1674,21 @@
     "hypotheses": [
      {
       "hypothesis": "Exons the paper found in TROMER (an EST transcriptome with no mouse data online) are unannotated for us, so their junctions are excluded instead of called",
-      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768; 2,864 of 97,089 evident BMM junctions; TopHat-only junctions give 3 PTC+ calls against 1,328",
-      "result": "supported"
+      "test": "Count junctions excluded as unannotated: 7,431 to 26,659 per sample against the paper's 2,665 to 7,768 (1.7 to 4.0 times); 2,864 evident BMM junctions against a PTC+ gap of 2,908, and 8,511 against 10,941 in liver. TopHat-only junctions give 3 PTC+ calls against 1,328 and 2,888. This is an upper bound only: nothing shows those junctions would be PTC+",
+      "result": "inconclusive"
      },
      {
       "hypothesis": "Our false-positive gene filter removes too many PTC calls",
       "test": "Count PTC+ evident junctions without it: 1,794 in BMM and 4,334 in liver, still far below 4,047 and 14,387 (hypotheses.json)",
       "result": "rejected"
+     },
+     {
+      "hypothesis": "Our PTC rule or translation differs from the paper's",
+      "test": "Run it on the paper's own events (Additional files 8 and 9): 45 of 50 exclusion events are called PTC+ and 42 of those give the printed distance; the 5 not called (10%) cannot account for a shortfall of 72 to 76%",
+      "result": "rejected"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1704,7 +1714,7 @@
    ],
    "cause": {
     "category": "data_unavailable",
-    "summary": "Today's RefSeq has more short 3' UTRs in the first bin (2,135 against about 600); the shape after 100 nt follows the paper's.",
+    "summary": "Today's RefSeq has more short 3' UTRs in the first bin (2,135 against about 600); after 100 nt our bars fall as the paper's do but run 10 to 20% lower, 13 of 42 bins within tolerance.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1759,9 +1769,9 @@
       "result": "inconclusive"
      },
      {
-      "hypothesis": "Distance convention",
-      "test": "Peaks at 0 and 20 nt come back in place",
-      "result": "rejected"
+      "hypothesis": "Distance convention (a shift of 2 nt)",
+      "test": "Our bin 20 peaks (71) where the paper's dips (34.5) and its bin 18 peaks (59.6); a 2-nt shift would line these up, but it would break the 42 of 45 exact PTC distances, which use the same convention",
+      "result": "inconclusive"
      }
     ],
     "status": "open"
@@ -1840,8 +1850,8 @@
     }
    ],
    "cause": {
-    "category": "data_unavailable",
-    "summary": "58 of 76 events give the printed distance; the others use a model or exon that today's RefSeq or Ensembl changed (4 lose their annotated start, 1110038B12Rik has no coding model).",
+    "category": "unknown",
+    "summary": "58 of 76 events give the printed distance. Of the 18 misses, 5 lose their annotated start or have no coding model in today's tables, 7 are not called PTC+ (Arih2, Il4ra, Prpf38b, Rps9, Scaf1, Tra2b, Phkg2) and 6 give another distance (Luc7l, Rabggtb, Srsf6, Abhd10, Hsf1, Prei4); that these come from changed annotation is not shown.",
     "evidence": [
      "figure-reproduction/output/comparison.json",
      "figure-reproduction/output/hypotheses.json"
@@ -1849,16 +1859,16 @@
     "hypotheses": [
      {
       "hypothesis": "A distance convention",
-      "test": "42 of 45 exclusion events equal the printed value exactly",
+      "test": "42 of 45 exclusion events called PTC+ equal the printed value exactly",
       "result": "rejected"
      },
      {
       "hypothesis": "Annotation version",
-      "test": "The misses are ambiguous CDS or no model in today's dumps",
-      "result": "supported"
+      "test": "5 of the 18 misses are ambiguous CDS or no model in today's tables; the other 13 are not traced to an annotation change",
+      "result": "inconclusive"
      }
     ],
-    "status": "explained"
+    "status": "open"
    }
   },
   {
@@ -1965,7 +1975,7 @@
    ]
   ],
   "tables_caption": "The paper's tables, paper against ours. Counts depend on a junction database rebuilt from today's annotation and on the PTC calls.",
-  "tables_note": "Table S1's TopHat junctions are the authors' own, from their alignments in GEO. Table S2 and Tables S7 and S8 count PTC+ junctions, which we find about a third as often as the paper.",
+  "tables_note": "Table S1's TopHat junctions are the authors' own, from their alignments in GEO. Table S2 counts PTC+ junctions, which we find at a quarter of the paper's count; Tables S7 and S8 count events, which come back at half the paper's.",
   "captions": {
    "1a": "Reads mapped to exons, junctions, introns and between genes, and the share of reads mapped.",
    "2a": "Junctions with at least three reads, up, unchanged or down in the knockout, all and PTC+, and their genes.",
@@ -1980,27 +1990,23 @@
    "s4": "As Fig. 5, for BMM."
   },
   "items_caption": "Every figure, table and number of the paper, with our value and why it differs.",
-  "claims_line": "The main finding holds: losing NMD up-regulates PTC+ junctions and AS far more than canonical splicing, and regulated PTCs prefer UGA. The PTC+ counts are lower because exons the paper took from TROMER are not annotated today.",
+  "claims_line": "The direction of the main finding holds on our run: PTC+ junctions and alternative splicing go up far more often than canonical splicing when NMD is lost, and regulated PTCs prefer UGA. We find a quarter of the paper's PTC+ junctions; why is open, and the lost TROMER exon set is the main suspect.",
   "came_back": [
    [
     "Fig. 2a",
-    "Up, unchanged and down junctions within a few per cent in BMM; 2,226 junctions up in both tissues against 2,257."
+    "Up, unchanged and down junctions within 7% in BMM; 2,226 junctions up in both tissues against 2,257."
    ],
    [
     "Fig. 7b",
-    "Stop codon shares within 0.02 for 16 of 18 bars; UGA preferred in both tissues."
-   ],
-   [
-    "TopHat",
-    "The authors' own alignments give Table S1's TopHat junctions to within 6 per sample."
+    "All 18 stop codon shares within 0.02; UGA preferred in both tissues."
    ],
    [
     "PTC distances",
-    "Our PTC rule gives the printed distance for 42 of 45 events of Additional file 9."
+    "Of the 50 events of Additional file 9, our PTC rule calls 45 and gives the printed distance for 42."
    ],
    [
     "Fig. 3a",
-    "Canonical junctions barely move; alternative junctions go up about three times as often."
+    "Alternative junctions go up about three times as often as canonical ones (BMM 33% against 12%)."
    ]
   ],
   "buried": [
@@ -2028,8 +2034,8 @@
     "Stop more than 49 nt before the last junction."
    ]
   ],
-  "closing": "RAINMAN came back as a package. Its PTC calls need the exon set that is gone."
+  "closing": "RAINMAN came back as a package. Its PTC counts fall short, and we have not yet shown why."
  },
- "status_note": "RAINMAN rebuilt as `nmdsplice` and rerun from the SRA reads; regulated junctions of Fig. 2a within a few per cent (BMM up 14,145 against 14,056; common up 2,226 against 2,257) and the UGA preference of Fig. 7b back; about a third of the paper's PTC+ junctions, because exons only the lost TROMER set held are unannotated today",
+ "status_note": "RAINMAN rebuilt as `nmdsplice` and rerun from the SRA reads; Fig. 2a's regulated junctions within 7% in BMM (up 14,145 against 14,056) and 8 to 14% low in liver, and the UGA preference of Fig. 7b back; PTC+ junctions at 24 to 28% of the paper's count, with the cause open (TROMER, a lost exon source, is the main suspect)",
  "site_note": "Regulated junctions and stop codons back; fewer PTC+ junctions."
 }
