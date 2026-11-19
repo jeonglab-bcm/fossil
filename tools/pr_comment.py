@@ -27,6 +27,10 @@ import check_results  # noqa: E402
 import overlay  # noqa: E402
 
 ASSETS = "ci-assets"
+# GitHub refuses a comment body over 65,536 characters (HTTP 422). Long lists are cut to stay well below it;
+# the full report is the run's results-check artifact.
+MAX_DIFF_LINES = 200
+MAX_TABLE_CHARS = 40_000
 
 
 def git(*args, cwd=None, check=True):
@@ -99,6 +103,8 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
     for i, e in old.items():
         if i not in new:
             lines.append(f"- {i:<{width}}  {fmt(e['expected'])}   (removed)")
+    if len(lines) > MAX_DIFF_LINES:
+        lines = lines[:MAX_DIFF_LINES] + [f"  ... and {len(lines) - MAX_DIFF_LINES} more lines (the full list is in the results-check artifact)"]
     out.append(diff_block(lines) if lines else "No expected value changes.")
     out.append("")
 
@@ -107,20 +113,27 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
         out.append("#### Results that do not agree")
         width = max(len(r["id"]) for r in bad)
         lines = []
-        for r in bad:
+        for r in bad[:MAX_DIFF_LINES // 2]:
             lines.append(f"- expected   {r['id']:<{width}}  {fmt(r['expected'])}")
             lines.append(f"+ committed  {r['id']:<{width}}  " + (fmt(r["observed"]) if r["status"] != "missing" else f"missing: {r.get('why')}"))
+        if len(bad) > MAX_DIFF_LINES // 2:
+            lines.append(f"  ... and {len(bad) - MAX_DIFF_LINES // 2} more (the full list is in the results-check artifact)")
         out.append(diff_block(lines))
         out.append("")
 
     out.append(f"<details><summary>All {len(rows)} results</summary>\n")
     out.append("| Result | Expected | Committed | Gap | Allowed | |\n| --- | --- | --- | --- | --- | --- |")
-    for r in rows:
+    used = 0
+    for k, r in enumerate(rows):
+        if used > MAX_TABLE_CHARS:
+            out.append(f"\n{len(rows) - k} more results are not listed here; the full table is in the results-check artifact.")
+            break
         gap = f"{r['gap']:+.3g}" if isinstance(r["gap"], (int, float)) else ""
         mark = {"pass": "agrees", "fail": "**differs**", "missing": "**missing**"}[r["status"]]
         cells = [r["label"], fmt(r["expected"]), fmt(r["observed"]) if r["status"] != "missing" else "", gap,
                  check_results.fmt_tol(r.get("tolerance")), mark]
         out.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
+        used += len(out[-1]) + 1
     out.append("\n</details>\n")
 
     out.append("#### The paper's figures against the renders in this PR")
