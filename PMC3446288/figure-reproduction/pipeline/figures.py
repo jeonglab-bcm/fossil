@@ -19,6 +19,14 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+# Renders must be the same on every machine: matplotlib's own DejaVu Sans, no system fonts, and fixed
+# figure sizes ( depends on text extents).
+from matplotlib import font_manager  # noqa: E402
+
+font_manager.fontManager.ttflist = [f for f in font_manager.fontManager.ttflist if "mpl-data" in f.fname]
+plt.rcParams.update({"font.family": "DejaVu Sans", "svg.fonttype": "none", "text.hinting": "default",
+                     "text.hinting_factor": 8})
 import numpy as np
 from PIL import Image
 from scipy.interpolate import make_smoothing_spline
@@ -311,29 +319,34 @@ def fig7b(img, fd, stops, out):
 def value_renders(an, fd, cons, out):
     """Renders of figures compared as values: Figs 1a, 2a, 3a, 3b, S4, S5."""
     # Fig. 1a
-    fig, ax = plt.subplots(figsize=(8, 2.6))
+    fig, ax = plt.subplots(figsize=(9, 2.6))
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
     ax.axis("off")
     rows = ["exonic", "junction", "intronic", "intergenic", "total_mapped", "mapping_frequency"]
     cells = [[(f"{an['fig1a'][s][r]:,}" if r != "mapping_frequency" else f"{an['fig1a'][s][r]:.2f}") for s in SAMPLES] for r in rows]
-    t = ax.table(cellText=cells, rowLabels=["Exonic", "Junction", "Intronic", "Intergenic", "Total mapped", "Mapping frequency"],
-                 colLabels=[f"Reads, {s.replace('_', ' ')}" for s in SAMPLES], loc="center")
+    labels = ["Exonic", "Junction", "Intronic", "Intergenic", "Total mapped", "Mapping frequency"]
+    t = ax.table(cellText=[[lab] + row for lab, row in zip(labels, cells)],
+                 colLabels=[""] + [f"Reads, {s.replace('_', ' ')}" for s in SAMPLES],
+                 colWidths=[0.24, 0.19, 0.19, 0.19, 0.19], bbox=[0.0, 0.0, 1.0, 1.0])
     t.scale(1, 1.4)
-    fig.savefig(f"{out}/fig1a_ours.png", dpi=150, bbox_inches="tight")
+    fig.savefig(f"{out}/fig1a_ours.png", dpi=150)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/fig1a.png", f"{out}/fig1a_ours.png", f"{out}/fig1a_overlay.png", height=400)
     # Fig. 2a
-    fig, ax = plt.subplots(figsize=(8, 4))
+    fig, ax = plt.subplots(figsize=(9, 4))
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
     ax.axis("off")
     rl, cells = [], []
     for block, key in (("All junctions", "fig2a_all"), ("PTC+ junctions", "fig2a_ptc")):
         for t_ in ("BMM", "Liver", "Common"):
             src = an["common"] if t_ == "Common" else an["tissues"][t_]
             for unit in ("junctions", "genes"):
-                rl.append(f"{block[:3]} {t_} {unit}")
+                rl.append(f"{'PTC+' if block.startswith('PTC') else 'All'}, {t_}, {unit}")
                 cells.append([f"{src[key][r][unit]:,} ({src[key][r][unit + '_pct']:.0f} %)" for r in ("up", "unregulated", "down")])
-    t = ax.table(cellText=cells, rowLabels=rl, colLabels=["Upregulated", "Unregulated", "Downregulated"], loc="center")
+    t = ax.table(cellText=[[lab] + row for lab, row in zip(rl, cells)], colLabels=["", "Upregulated", "Unregulated", "Downregulated"],
+                 colWidths=[0.31, 0.23, 0.23, 0.23], bbox=[0.0, 0.0, 1.0, 1.0])
     t.scale(1, 1.2)
-    fig.savefig(f"{out}/fig2a_ours.png", dpi=150, bbox_inches="tight")
+    fig.savefig(f"{out}/fig2a_ours.png", dpi=150)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/fig2a.png", f"{out}/fig2a_ours.png", f"{out}/fig2a_overlay.png", height=500)
     # Fig. 3a pies
@@ -344,7 +357,7 @@ def value_renders(an, fd, cons, out):
             v = [src[kind][r] for r in ("up", "unregulated", "down")]
             axs[row, col].pie(v, colors=["#d6332b", "#f2b24a", "#6aa84f"], autopct="%.0f%%", startangle=90)
             axs[row, col].set_title(f"{t_} {kind}\nPTC+ of up: {src[kind]['ptc_of_up']:.0f}%", fontsize=9)
-    fig.savefig(f"{out}/fig3a_ours.png", dpi=110, bbox_inches="tight")
+    fig.savefig(f"{out}/fig3a_ours.png", dpi=110)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/fig3a.png", f"{out}/fig3a_ours.png", f"{out}/fig3a_overlay.png", height=500)
     # Fig. 3b scatter
@@ -366,7 +379,7 @@ def value_renders(an, fd, cons, out):
             if col == 0:
                 ax.set_ylabel(lab)
     fig.supxlabel("Number of junctions per gene")
-    fig.savefig(f"{out}/fig3b_ours.png", dpi=110, bbox_inches="tight")
+    fig.savefig(f"{out}/fig3b_ours.png", dpi=110)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/fig3b.png", f"{out}/fig3b_ours.png", f"{out}/fig3b_overlay.png", height=600)
     # Fig. S4 (BMM SES conservation) and S5 (unnormalised stop conservation)
@@ -384,7 +397,7 @@ def value_renders(an, fd, cons, out):
         ax.set_title(f"Exon {mode} events upregulated in BMM KO")
         ax.set_ylim(0, 1)
     axs[0].set_ylabel("Conservation")
-    fig.savefig(f"{out}/figS4_ours.png", dpi=110, bbox_inches="tight")
+    fig.savefig(f"{out}/figS4_ours.png", dpi=110)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/figS4.png", f"{out}/figS4_ours.png", f"{out}/figS4_overlay.png", height=500)
     c7 = cons["fig7a"]
@@ -396,7 +409,7 @@ def value_renders(an, fd, cons, out):
     ax.set_xlabel("Position in 100bp window, STOP codon-centered")
     ax.set_ylabel("phastCons score")
     ax.legend()
-    fig.savefig(f"{out}/figS5_ours.png", dpi=110, bbox_inches="tight")
+    fig.savefig(f"{out}/figS5_ours.png", dpi=110)
     plt.close(fig)
     ps.side_by_side(f"{PUB}/figS5.png", f"{out}/figS5_ours.png", f"{out}/figS5_overlay.png", height=500)
 
