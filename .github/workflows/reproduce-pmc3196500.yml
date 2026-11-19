@@ -1,0 +1,72 @@
+name: Reproduce PMC3196500
+
+# Reruns the whole PMC3196500 pipeline (Thorlund et al. 2011, the patients and events a meta-analysis needs
+# before chance overestimation is unlikely) and checks it: the figure files, Tables S3-S4 and the article XML
+# are downloaded and their SHA-256 checked, and the committed published figures are checked against them;
+# all 36 scenarios are simulated again (20,000 meta-analyses of 100 trials each, a second run with other
+# seeds and two hypothesis variants); every printed cell of Tables 1-4, S3 and S4 and every panel of Fig. 2
+# and Figs S1-S12 are compared; check_results.py runs on the fresh results.json; the package oisim is built
+# and tested in a fresh environment and its tutorial rerun; and the fresh run is compared with the committed
+# outputs, results.json, figure-reproduction/results.json and the page. About 5 minutes on a standard runner,
+# so nothing is left to a manual run.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC3196500/figure-reproduction/**"
+      - "PMC3196500/package/**"
+      - "PMC3196500/results.json"
+      - "site/PMC3196500/**"
+      - ".github/workflows/reproduce-pmc3196500.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3196500/figure-reproduction/**"
+      - "PMC3196500/package/**"
+      - "PMC3196500/results.json"
+      - "site/PMC3196500/**"
+      - ".github/workflows/reproduce-pmc3196500.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package oisim
+        run: pip install -r PMC3196500/figure-reproduction/requirements.txt ./PMC3196500/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3196500/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3196500-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

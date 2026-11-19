@@ -1,0 +1,80 @@
+name: Reproduce PMC2430201
+
+# Reruns the whole PMC2430201 pipeline (Friedrich, Adhikari and Beyene 2008, the ratio of means for
+# meta-analysis of continuous outcomes) and checks it: the article XML is downloaded and its SHA-256 checked;
+# the simulation study runs again in full (216 scenarios x 10,000 meta-analyses, a second run, the hypothesis
+# variants); every printed cell of Tables 3-8 and every claim of the text are compared; rommeta's pooling is
+# checked against R metafor's committed results; check_results.py runs on the fresh results.json; the package
+# rommeta is built and tested in a fresh environment and its tutorial rerun; and the fresh run is compared with
+# the committed outputs, results.json, figure-reproduction/results.json and the page.
+# About 5 minutes on a standard runner. Rerunning R's metafor itself (--metafor) is left to a manual run.
+on:
+  workflow_dispatch:
+    inputs:
+      metafor:
+        description: "Also rerun R's metafor and check it gives the committed reference"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2430201/figure-reproduction/**"
+      - "PMC2430201/package/**"
+      - "PMC2430201/results.json"
+      - "site/PMC2430201/**"
+      - ".github/workflows/reproduce-pmc2430201.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2430201/figure-reproduction/**"
+      - "PMC2430201/package/**"
+      - "PMC2430201/results.json"
+      - "site/PMC2430201/**"
+      - ".github/workflows/reproduce-pmc2430201.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package rommeta
+        run: pip install -r PMC2430201/figure-reproduction/requirements.txt ./PMC2430201/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - name: Install R and metafor (manual runs with metafor only)
+        if: ${{ inputs.metafor }}
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends r-base-core r-cran-metafor
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC2430201/figure-reproduction/main.nf --outdir results -ansi-log false ${{ inputs.metafor && '--metafor' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2430201-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
