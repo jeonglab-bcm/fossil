@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rommeta"
+version = "0.1.0"
+description = "Ratio of means (RoM), mean difference and standardized mean difference for meta-analysis of continuous outcomes, with random-effects pooling and the simulation study of Friedrich, Adhikari and Beyene (2008)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.scripts]
+rommeta = "rommeta.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC2430201"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC2430201/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rommeta"]
