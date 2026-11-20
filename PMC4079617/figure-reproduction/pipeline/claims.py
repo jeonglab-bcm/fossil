@@ -3,7 +3,7 @@ and the design check of Additional file 1.
 
 Usage: claims.py PUBLISHED_VALUES_JSON SIMULATION_JSON OUT_JSON
 
-Each claim is a list of fields {name, expected (the paper's statement, as printed or 'yes'), arithmetic (the
+Keys are the item ids of results.json with "." written "_" (text.mse -> text_mse). Each claim is a list of fields {name, expected (the paper's statement, as printed or 'yes'), arithmetic (the
 same computed from the paper's Tables 1-3 and A1-A3), observed (from our main run), tolerance}. A yes/no field is
 computed the same way from both; a number field carries a tolerance of 0.1 (two printed values differenced) plus
 3 x sqrt(2) Monte Carlo SEs of the paired LB - RP difference.
@@ -220,6 +220,8 @@ def main():
         "ours": conv}
     doc["design"] = {"statement": "alpha0 and beta0 of Additional file 1 give 50% exposure and 10, 25 or 40% outcome.",
                      "fields": design_check()}
+    # keys without dots: the repository's tools/check_results.py reads a value by a dotted path
+    doc = {k.replace(".", "_"): v for k, v in doc.items()}
     json.dump(doc, open(out, "w"), indent=1)
     open(out, "a").write("\n")
     for cid, c in doc.items():

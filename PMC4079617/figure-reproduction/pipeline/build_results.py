@@ -123,11 +123,11 @@ def facts_of(run):
     f.update({"vert_read": co["read"], "vert_all": co["vertices"], "vert_within": co["within_1_point"],
               "vert_max": f"{co['max_abs_difference']:.2f}", "tick_res": f"{fig['max_tick_residual_px']:.2f}"})
     # claims
-    g = cl["text.linear_gap"]["gaps"]
+    g = cl["text_linear_gap"]["gaps"]
     f["gaps_paper"] = ", ".join(f"{x_['paper']:.1f}" for x_ in g)
     f["gaps_ours"] = ", ".join(f"{x_['ours']:.2f}" for x_ in g)
-    f["se0_diff"] = f"{cl['text.se_uncontaminated']['ours_largest_unrounded_difference']:.4f}"
-    cv = cl["text.convergence"]["ours"]
+    f["se0_diff"] = f"{cl['text_se_uncontaminated']['ours_largest_unrounded_difference']:.4f}"
+    cv = cl["text_convergence"]["ours"]
     f.update({"copy_lin": cv["linear"]["copy_needed_in_some_fit"], "copy_non": cv["nonlinear"]["copy_needed_in_some_fit"],
               "copy_non_max": cv["nonlinear"]["copy_used_max"], "copy_non_med": f"{cv['nonlinear']['copy_used_median']:.0f}",
               "copy_lin_max": cv["linear"]["copy_used_max"]})
@@ -177,7 +177,7 @@ def arithmetic(claims):
             if a is None:
                 continue
             g = {"expected": fl["expected"], "observed": a, "tolerance": {"printed": True}}
-            (back if matches(g) else missed).append(f"{cid}: {fl['name']} ({fl['expected']} against {a})")
+            (back if matches(g) else missed).append(f"{cid.replace('_', '.', 1)}: {fl['name']} ({fl['expected']} against {a})")
     detail = (f"{len(back)} of {len(back) + len(missed)} statements follow from the paper's own tables."
               + (" Not: " + "; ".join(missed) + "." if missed else ""))
     return True, detail
