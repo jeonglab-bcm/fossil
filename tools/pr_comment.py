@@ -1,6 +1,6 @@
 """Post (or update) one PR comment per reproduction: what the PR changes in results.json, whether
 results.json agrees with the committed outputs, and an overlay of each published figure with the
-render committed in the PR.
+render committed in the PR, and (with --ai-review) the plain-language AI review from tools/ai_review.py.
 
 The overlays go to the ci-assets branch (pr-<number>/<paper>/<commit>/fig<N>.png) so the comment can
 show them. Only figures whose render the PR changes are shown, or every figure when the PR adds
@@ -27,6 +27,10 @@ import check_results  # noqa: E402
 import overlay  # noqa: E402
 
 ASSETS = "ci-assets"
+# GitHub refuses a comment body over 65,536 characters (HTTP 422). Long lists are cut to stay well below it;
+# the full report is the run's results-check artifact.
+MAX_DIFF_LINES = 200
+MAX_TABLE_CHARS = 40_000
 
 
 def git(*args, cwd=None, check=True):
@@ -73,7 +77,7 @@ def diff_block(lines):
     return "```diff\n" + "\n".join(lines) + "\n```"
 
 
-def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
+def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url, ai_review=None):
     fmt = check_results.fmt
     rows = check["results"]
     n_ok = sum(r["status"] == "pass" for r in rows)
@@ -99,6 +103,8 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
     for i, e in old.items():
         if i not in new:
             lines.append(f"- {i:<{width}}  {fmt(e['expected'])}   (removed)")
+    if len(lines) > MAX_DIFF_LINES:
+        lines = lines[:MAX_DIFF_LINES] + [f"  ... and {len(lines) - MAX_DIFF_LINES} more lines (the full list is in the results-check artifact)"]
     out.append(diff_block(lines) if lines else "No expected value changes.")
     out.append("")
 
@@ -107,20 +113,27 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
         out.append("#### Results that do not agree")
         width = max(len(r["id"]) for r in bad)
         lines = []
-        for r in bad:
+        for r in bad[:MAX_DIFF_LINES // 2]:
             lines.append(f"- expected   {r['id']:<{width}}  {fmt(r['expected'])}")
             lines.append(f"+ committed  {r['id']:<{width}}  " + (fmt(r["observed"]) if r["status"] != "missing" else f"missing: {r.get('why')}"))
+        if len(bad) > MAX_DIFF_LINES // 2:
+            lines.append(f"  ... and {len(bad) - MAX_DIFF_LINES // 2} more (the full list is in the results-check artifact)")
         out.append(diff_block(lines))
         out.append("")
 
     out.append(f"<details><summary>All {len(rows)} results</summary>\n")
     out.append("| Result | Expected | Committed | Gap | Allowed | |\n| --- | --- | --- | --- | --- | --- |")
-    for r in rows:
+    used = 0
+    for k, r in enumerate(rows):
+        if used > MAX_TABLE_CHARS:
+            out.append(f"\n{len(rows) - k} more results are not listed here; the full table is in the results-check artifact.")
+            break
         gap = f"{r['gap']:+.3g}" if isinstance(r["gap"], (int, float)) else ""
         mark = {"pass": "agrees", "fail": "**differs**", "missing": "**missing**"}[r["status"]]
         cells = [r["label"], fmt(r["expected"]), fmt(r["observed"]) if r["status"] != "missing" else "", gap,
                  check_results.fmt_tol(r.get("tolerance")), mark]
         out.append("| " + " | ".join(str(c).replace("|", "\\|") for c in cells) + " |")
+        used += len(out[-1]) + 1
     out.append("\n</details>\n")
 
     out.append("#### The paper's figures against the renders in this PR")
@@ -135,6 +148,24 @@ def build(paper, check, base_spec, head_spec, figures, image_url, sha, run_url):
         rows_html = ["<tr>" + "".join(cells[i:i + 2]) + "</tr>" for i in range(0, len(cells), 2)]
         out.append("<table>" + "".join(rows_html) + "</table>")
     out.append("")
+    if ai_review:
+        out += [ai_review.strip(), ""]
+    foot = f"For {sha[:7]}." if sha else ""
+    if run_url:
+        foot += f" [This run]({run_url}); its full report is the `{paper}-results-check` artifact."
+    out.append(f"<sub>{foot.strip()}</sub>")
+    return "\n".join(out)
+
+
+def build_ai_only(paper, ai_review, sha, run_url):
+    """The comment for a paper with no figure-reproduction/results.json: the AI review alone."""
+    if len(ai_review) > 64_000:
+        short = ai_review.split("<details>", 1)[0].rstrip()
+        concl = ai_review[ai_review.find("**Final conclusion:**"):] if "**Final conclusion:**" in ai_review else ""
+        ai_review = short + "\n\nThe explanations do not fit in this comment. They are in ai-review.md in the run's results-check artifact.\n\n" + concl
+    out = [f"<!-- fossil-results-check: {paper} -->", f"### {paper}: AI review of results.json", "",
+           f"{paper} has no figure-reproduction/results.json, so this comment has no figure checks.", "",
+           ai_review.strip(), ""]
     foot = f"For {sha[:7]}." if sha else ""
     if run_url:
         foot += f" [This run]({run_url}); its full report is the `{paper}-results-check` artifact."
@@ -173,16 +204,36 @@ def upsert(repo, pr, body, marker):
 def main():
     ap = argparse.ArgumentParser(description="Post the results check and figure overlays as a PR comment.")
     ap.add_argument("paper")
-    ap.add_argument("--check", required=True, help="results-check.json from check_results.py --report")
+    ap.add_argument("--check", help="results-check.json from check_results.py --report; without it (a paper with no "
+                    "figure-reproduction/results.json) the comment holds the AI review only")
     ap.add_argument("--base", required=True, help="the PR's base branch")
     ap.add_argument("--pr")
     ap.add_argument("--repo")
     ap.add_argument("--sha", default="")
     ap.add_argument("--run-url", default="")
+    ap.add_argument("--ai-review", help="ai-review.md from tools/ai_review.py, added as the last section")
     ap.add_argument("--dry-run", action="store_true", help="print the comment; push and post nothing")
     args = ap.parse_args()
 
+    ai_review = None
+    if args.ai_review and os.path.exists(args.ai_review):
+        with open(args.ai_review) as f:
+            ai_review = f.read()
+    elif args.ai_review:
+        # The AI step stopped before writing its section: say so rather than drop the section.
+        ai_review = ("#### 🤖 AI review: ❌ not run\n\nThe AI review step stopped before it wrote a review. "
+                     "Its log in this run says why. Fix the cause, then run the job again.")
+
     folder = os.path.join(args.paper, "figure-reproduction")
+    if not (args.check and os.path.exists(args.check)):
+        if not ai_review:
+            raise SystemExit("nothing to post: no --check report and no --ai-review")
+        body = build_ai_only(args.paper, ai_review, args.sha, args.run_url)
+        if args.dry_run:
+            print(body)
+            return
+        upsert(args.repo, args.pr, body, body.split("\n", 1)[0])
+        return
     with open(args.check) as f:
         check = json.load(f)
     with open(os.path.join(folder, "results.json")) as f:
@@ -205,7 +256,13 @@ def main():
             publish(tmp, [f["file"] for f in figures], dest, f"Overlays for {args.paper}, PR #{args.pr} at {args.sha[:7]}")
         image_url = lambda name: f"https://raw.githubusercontent.com/{args.repo}/{ASSETS}/{dest}/{name}"
 
-    body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url)
+    body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, ai_review)
+    if ai_review and len(body) > 64_000:
+        # Too long for GitHub: keep the AI review's summary table and conclusion, drop its explanations.
+        short = ai_review.split("<details>", 1)[0].rstrip()
+        concl = ai_review[ai_review.find("**Final conclusion:**"):] if "**Final conclusion:**" in ai_review else ""
+        short += "\n\nThe explanations do not fit in this comment. They are in ai-review.md in the run's results-check artifact.\n\n" + concl
+        body = build(args.paper, check, base_spec, head_spec, figures, image_url, args.sha, args.run_url, short)
     if args.dry_run:
         print(body)
         return

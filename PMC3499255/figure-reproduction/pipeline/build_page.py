@@ -130,6 +130,8 @@ def main():
     <p class="lead">{html.escape(lead)}. The lost MCMC was rebuilt from the paper and Text S1. The 2007 and 2001 outbreaks came back with the same trees, and the latency and distance medians land where the paper put them.</p>
   </div></section>
   <section class="container"><p class="cite">{html.escape(paper['citation'])}. <a href="https://doi.org/{paper['doi']}">doi:{paper['doi']}</a>. {html.escape(paper.get('license',''))}.</p></section>
+  <div class="container bench">
+  </div>
   <section class="container items">
     {''.join(blocks)}
   </section>
