@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mutbench"
+version = "0.1.0"
+description = "Benchmark mutation effect predictors against functionally validated mutations: performance with bootstrap CIs, Cohen's kappa, clustering, low-confidence calls and 'at least p of n' predictor combinations (Martelotto et al. 2014)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.scripts]
+mutbench = "mutbench.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC4232638"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC4232638/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mutbench"]

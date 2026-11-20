@@ -1,0 +1,1715 @@
+{
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.6.0",
+  "tag": "paper2repro-v0.6.0",
+  "commit": null,
+  "modified": null
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "paper": {
+  "id": "PMC4232638",
+  "title": "Benchmarking mutation effect prediction algorithms using functionally validated cancer-related missense mutations",
+  "citation": "Martelotto LG, Ng CKY, De Filippo MR, Zhang Y, Piscuoglio S, Lim RS, Shen R, Norton L, Reis-Filho JS, Weigelt B. Benchmarking mutation effect prediction algorithms using functionally validated cancer-related missense mutations. Genome Biology 15:484 (2014)",
+  "doi": "10.1186/s13059-014-0484-1",
+  "license": "CC BY 4.0 (data CC0)"
+ },
+ "run": {
+  "date": "2026-11-20",
+  "pipeline": "PMC4232638/figure-reproduction/main.nf",
+  "command": "nextflow run PMC4232638/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC4232638.1.pdf (the article; Figs 1-4)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/PMC4232638.1.pdf",
+    "sha256": "c2fb4dd960dc2a199230fc2ff594366e591ba23518b6dcde30ce42ac43b675e2"
+   },
+   {
+    "name": "PMC4232638.1.xml (the article; Tables 1-4)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/PMC4232638.1.xml",
+    "sha256": "375ed01447dbc6d3aeb75101ba933dc9a5051ddeddb4d2206fe750fa67f26f29"
+   },
+   {
+    "name": "13059_2014_484_MOESM2_ESM.xlsx (Additional file 2)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM2_ESM.xlsx",
+    "sha256": "d11518f7b0244a07ce11169c28b0a8f8da6d7f6fc6af58f0c8af6fa5471430d6"
+   },
+   {
+    "name": "13059_2014_484_MOESM3_ESM.pdf (Additional file 3)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM3_ESM.pdf",
+    "sha256": "667c826acc44463d54d54887947c6e4d9487af02154ca98ba43e771b2a9f2278"
+   },
+   {
+    "name": "13059_2014_484_MOESM4_ESM.pdf (Additional file 4)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM4_ESM.pdf",
+    "sha256": "3795b71e357fd8ec4e77e3c0cbb778b4fc0c71c5d809700f29820914036eed09"
+   },
+   {
+    "name": "13059_2014_484_MOESM5_ESM.pdf (Additional file 5)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM5_ESM.pdf",
+    "sha256": "8ef58f9a82a8fafd4ffb748bcfc975b563ff238cd588213586fb6be8dbf5a3b7"
+   },
+   {
+    "name": "13059_2014_484_MOESM6_ESM.pdf (Additional file 6)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM6_ESM.pdf",
+    "sha256": "4ae42057c5940e9ff07a4f51df69c94ce03aa1aad826a5876a3b97a7a9ce6cff"
+   },
+   {
+    "name": "13059_2014_484_MOESM7_ESM.pdf (Additional file 7)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM7_ESM.pdf",
+    "sha256": "51d25f16da67f840400b5c18ac7b68a01109a7bfd565db694178c790144448ab"
+   },
+   {
+    "name": "13059_2014_484_MOESM8_ESM.pdf (Additional file 8)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM8_ESM.pdf",
+    "sha256": "570aec40e40f9ee798ebf9abf839ff671332cd2963b26e9d78a83a6cfbd304fc"
+   },
+   {
+    "name": "13059_2014_484_MOESM9_ESM.pdf (Additional file 9)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM9_ESM.pdf",
+    "sha256": "c3f679bf0feed1fd360cdef53415aac1a552f37deddcbd9ec30f4f16131f09e7"
+   },
+   {
+    "name": "13059_2014_484_MOESM10_ESM.pdf (Additional file 10)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM10_ESM.pdf",
+    "sha256": "79c98c184c07e56bfef275d98865c1c560bbc91e1f46bef33802f3502ab1ffd7"
+   },
+   {
+    "name": "13059_2014_484_MOESM11_ESM.pdf (Additional file 11)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM11_ESM.pdf",
+    "sha256": "08d2c9e7708f6a569865568452b58e92d001052650e006d2ac8ef7ad3a8be7d1"
+   },
+   {
+    "name": "13059_2014_484_MOESM12_ESM.pdf (Additional file 12)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM12_ESM.pdf",
+    "sha256": "69dde8b9c38feb2aa2fc680a001b44d8b556db9f9de2bc5ab81cd83ea76cc005"
+   },
+   {
+    "name": "13059_2014_484_MOESM13_ESM.pdf (Additional file 13)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM13_ESM.pdf",
+    "sha256": "f3475d96c327979e9870c852c4c24888a03365183ce3b8b53454f12ff194e62b"
+   },
+   {
+    "name": "13059_2014_484_MOESM14_ESM.pdf (Additional file 14)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM14_ESM.pdf",
+    "sha256": "1b940de2e24f1b816b0b5b1dfe9407bdb4497f7e3d291c49d194081e8a8dd626"
+   },
+   {
+    "name": "13059_2014_484_MOESM15_ESM.pdf (Additional file 15)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM15_ESM.pdf",
+    "sha256": "ba2a1931b688abcebbaccc9d490974b91f4fc2d2d7d1919cf86784f7f7f2a0d7"
+   },
+   {
+    "name": "13059_2014_484_MOESM16_ESM.pdf (Additional file 16)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM16_ESM.pdf",
+    "sha256": "901d97770dbd0fa47eca491b45c8d15c86cb71b2a8f43cb3541b8c2f04f00b2a"
+   },
+   {
+    "name": "13059_2014_484_MOESM17_ESM.pdf (Additional file 17)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM17_ESM.pdf",
+    "sha256": "4128dd380d91f38cc62f303186693d06db1fa9b355e6fcaa0693d7c00228415b"
+   },
+   {
+    "name": "13059_2014_484_MOESM18_ESM.pdf (Additional file 18)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM18_ESM.pdf",
+    "sha256": "4f707494dfe58b84eb1f8b8ed6899456249bd4dd53e3c6a8a6a6865574fff341"
+   },
+   {
+    "name": "13059_2014_484_MOESM19_ESM.pdf (Additional file 19)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM19_ESM.pdf",
+    "sha256": "8c07d3b792ef6be13607aa5dcd1fbf384180f23a42368f7720d6fe03d1e919d5"
+   },
+   {
+    "name": "13059_2014_484_MOESM20_ESM.pdf (Additional file 20)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM20_ESM.pdf",
+    "sha256": "4b9dc7a2bcb7254cb5078ed103c72819a0ccbd0c7dda1956a78d949f12cf491e"
+   },
+   {
+    "name": "13059_2014_484_MOESM21_ESM.pdf (Additional file 21)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM21_ESM.pdf",
+    "sha256": "d95dee4278cd5739a8952ad0fb4d7e96d15f0caf7b13445c53fe8ba2bd8add80"
+   },
+   {
+    "name": "13059_2014_484_MOESM22_ESM.pdf (Additional file 22)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM22_ESM.pdf",
+    "sha256": "1c184cb051b2362c0e44309d4a57fb8468c329f7a66fafda62b760415120423e"
+   },
+   {
+    "name": "13059_2014_484_MOESM23_ESM.pdf (Additional file 23)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM23_ESM.pdf",
+    "sha256": "721f3a6c89665bea754aee8064a600776e5ce3b28173753c50d9fbea8ba51573"
+   },
+   {
+    "name": "13059_2014_484_MOESM24_ESM.pdf (Additional file 24)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM24_ESM.pdf",
+    "sha256": "0692bbb6f8eb6200ca2d73d636c81c8831a97a5b7515bf95340f08fafb3137fe"
+   },
+   {
+    "name": "13059_2014_484_MOESM25_ESM.pdf (Additional file 25)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM25_ESM.pdf",
+    "sha256": "1c8a8d27dd52bf5fda51fd193fac62dcd6edb28029e87ef05c34bacae69dfaa0"
+   },
+   {
+    "name": "13059_2014_484_MOESM26_ESM.pdf (Additional file 26)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM26_ESM.pdf",
+    "sha256": "cb5562c39c97ac9e7b06e02430733904bf6b8863f6a6d11013b16b2dc89bbe52"
+   },
+   {
+    "name": "13059_2014_484_MOESM27_ESM.pdf (Additional file 27)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM27_ESM.pdf",
+    "sha256": "fca3cb1c1c300ca4f9d926eaefc0adf383bf1b8eb55ff1328d97cbd3105ba60b"
+   },
+   {
+    "name": "13059_2014_484_MOESM28_ESM.pdf (Additional file 28)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM28_ESM.pdf",
+    "sha256": "aa210efe4904127a792cd6b135301ce55881d743bb505ee1350009615cf43061"
+   },
+   {
+    "name": "13059_2014_484_MOESM29_ESM.pdf (Additional file 29)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4232638.1/13059_2014_484_MOESM29_ESM.pdf",
+    "sha256": "f142dd80c17c2d5886ff7401d48527c05798b0d189d29101a4731877af8d1e8e"
+   }
+  ]
+ },
+ "assumption_sets": {
+  "calls": [
+   {
+    "what": "A call the predictor did not make (CanDrA 'No-call', FATHMM (missense) 'No weights', Mutation Assessor N/A) is left out of that predictor's performance counts. The paper calls the no-call 'equivocal' without saying how it enters the statistics; we tried leaving it out, counting it as neutral and counting it as non-neutral.",
+    "source": "found_by_search",
+    "sensitivity": "Left out, every point value of Tables 3 and 4 comes back. Counted as neutral, CanDrA (lung) accuracy on the 989 SNVs is 89.28% and counted as non-neutral 90.19%, against the printed 91.28%."
+   }
+  ],
+  "bootstrap": [
+   {
+    "what": "95% intervals are percentile intervals of 1,000 resamples of the labelled SNVs with replacement, not stratified by label (the paper gives neither the interval method nor the stratification), with fixed seeds.",
+    "source": "found_by_search",
+    "sensitivity": "Chosen by comparing interval widths with Table 3: resampling within each label narrows the intervals that depend on the number of neutral SNVs (CHASM (breast) NPV about 51.9-62.7% against the printed 50.23-64.58%; unstratified 50.2-64.2%)."
+   },
+   {
+    "what": "Tolerance of an interval end: half a printed unit plus 3 x sqrt(2) standard deviations of that end over 20 repeat bootstraps with other seeds (the paper's seeds are unknown).",
+    "source": "our_choice"
+   }
+  ],
+  "kappa": [
+   {
+    "what": "In Cohen's kappa and the clustering, a missing call is a third category ('equivocal'), and the kappa interval is kappa +/- 1.96 SE0, SE0 being the standard error under kappa = 0 (Fleiss, Cohen and Everitt 1969), capped at 1.",
+    "source": "found_by_search",
+    "sensitivity": "Dropping the pairs with a missing call instead gives CHASM (breast) / CanDrA (lung) kappa 0.8453 against the printed 0.7537. With z = 1.959964 instead of 1.96, 56 of the 2,880 printed kappa values and interval ends of Additional files 3, 5, 11 and 13 miss by one unit in the fourth significant digit."
+   }
+  ],
+  "low": [
+   {
+    "what": "The low-confidence score intervals include their end points, and a call the predictor did not make (FATHMM (missense) 'No weights', Mutation Assessor N/A) is of low confidence.",
+    "source": "found_by_search",
+    "sensitivity": "These give all 44 counts of Additional file 9. With open intervals 28 of the 44 differ; without the missing calls as low confidence 14 differ."
+   }
+  ],
+  "splits": [
+   {
+    "what": "Combinations: 1,000 random splits of the labelled SNVs into subset 1 (round(2/3 n) SNVs drawn without replacement, not stratified) and subset 2; mean and 2.5/97.5 percentiles over the splits; a missing call does not count as non-neutral; fixed seeds (1 and, for the second run, 2).",
+    "source": "our_choice"
+   },
+   {
+    "what": "Tolerance of a mean or interval end over the splits: half a printed unit plus 3 times the RMS difference between our two runs over all 11,253 combinations (the paper's splits are unknown). For Additional files 17 and 18, the mean's own standard error (its spread over the splits / sqrt(1,000), times sqrt(2)).",
+    "source": "our_choice"
+   }
+  ],
+  "drawing": [
+   {
+    "what": "Values read from the vector drawing of the PMC PDF: each axis is calibrated from its own tick marks and printed tick labels (least squares, residual below 1e-4 of the axis unit); a bar of height zero has no drawing and reads as the axis base.",
+    "source": "read_from_figure",
+    "sensitivity": "The tolerance (0.0005 of the 0-1 axes, 0.002 of the 0-4 composite axes) is about four times the reading precision (PDF coordinates to 0.01 pt on axes of about 70 pt)."
+   }
+  ],
+  "fig1": [
+   {
+    "what": "Fig. 1: the predictor order and the dendrograms' clades transcribed by eye (published/fig1_reading.json); each kappa cell's colour matched to the nearest colour of the key; each row's shares of non-neutral, neutral and no call found by unmixing the row's mean colour into the three key colours; join heights read from the vector dendrogram relative to the root.",
+    "source": "read_from_figure",
+    "sensitivity": "Shares agree within 0.0065 at most; at a tolerance of 0.005 instead of 0.01, 77 of the 90 shares match. The nearest key colour is at most 0.0044 (RGB 0-1) from every cell's colour."
+   }
+  ]
+ },
+ "causes": {
+  "mc_ci": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "The intervals come from unseeded resampling. The fields outside three standard deviations are the tail one expects among hundreds of interval ends, or intervals of tiny groups (7 neutral SNVs among the oncogenes) whose ends jump between few possible values.",
+   "evidence": [
+    "figure-reproduction/output/analysis.json (repeats)",
+    "figure-reproduction/output/comparison.json"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Another interval method (stratified resampling).",
+     "test": "Stratified percentile intervals of CHASM (breast) on the 989 SNVs.",
+     "result": "rejected"
+    }
+   ]
+  },
+  "mc_comb": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "Rankings and counts over 11,253 combinations depend on the random splits: neighbours in the ranking differ by less than the Monte Carlo error, so another set of splits reorders them, and combinations near a reference value move across it.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/analysis.json (run1, run2)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "A different rule (ranking, counting or significance) from ours.",
+     "test": "Recompute the same quantity from the paper's own printed numbers (Additional files 17 and 18, Tables 3 and 4).",
+     "result": "rejected"
+    }
+   ]
+  },
+  "af19": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "Counts of combinations above a reference move with the random splits: our two runs differ from each other as much as from the paper (the second run matches {af19_second_run} of 144 counts, the first {af19_match}; higher mean accuracy than FATHMM (cancer) in both subsets: {acc_both_run1} combinations in the first run, {acc_both_run2} in the second, 1,854 in the paper). The counts recomputed from the paper's own Additional files 17 and 18 also come back only to within a few combinations, because the printed means are rounded at the reference values.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (af19, arithmetic)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "A different rule (ranking, counting or significance) from ours.",
+     "test": "Recompute the same quantity from the paper's own printed numbers (Additional files 17 and 18, Tables 3 and 4).",
+     "result": "rejected"
+    }
+   ]
+  },
+  "mc_af23": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "Rankings by mean accuracy have many near ties (combinations whose accuracies differ by less than the Monte Carlo error), so the top 10 to 100 change with the random splits. Even recomputed from the accuracies printed in Additional file 17 and 18 (rounded to two decimals, so more ties), Additional file 23 comes back for {af23_arith_match} of 176 points.",
+   "evidence": [
+    "figure-reproduction/output/comparison.json",
+    "figure-reproduction/output/analysis.json (run1, run2)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "A different rule (ranking, counting or significance) from ours.",
+     "test": "Recompute the same quantity from the paper's own printed numbers (Additional files 17 and 18, Tables 3 and 4).",
+     "result": "rejected"
+    }
+   ]
+  },
+  "t3text": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "A significance call near the edge: whether FATHMM (cancer)'s NPV interval reaches CanDrA (lung)'s depends on the resamples. The published call comes back in {rep_text_table3_25} of our 20 repeat bootstraps; from the paper's own Table 3 it comes back.",
+   "evidence": [
+    "figure-reproduction/output/claims.json (repeats)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Our significance rule differs from the paper's.",
+     "test": "Apply the rule to the intervals printed in Table 3 (arithmetic column).",
+     "result": "rejected"
+    }
+   ]
+  },
+  "t4text": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "CanDrA (melanoma)'s accuracy without COSMIC (Table 4 high end 86.64%) and with it (Table 3 low end 87.02%) almost touch, so whether the drop is significant depends on the resamples: 13 predictors in the paper, 12 in our run; the published call comes back in {rep_text_table4_8} of our 20 repeat bootstraps, and from the paper's own tables.",
+   "evidence": [
+    "figure-reproduction/output/claims.json (repeats)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "Our significance rule differs from the paper's.",
+     "test": "Apply the rule to the intervals printed in Tables 3 and 4 (arithmetic column).",
+     "result": "rejected"
+    }
+   ]
+  },
+  "combtext": {
+   "category": "nondeterminism",
+   "status": "explained",
+   "summary": "The counts and the best combination's means and intervals come from random splits. Our second run gives {acc_both_run2} combinations above FATHMM (cancer)'s accuracy in both subsets ({acc_sig_run2} significantly) and {comp_both_run2} above CHASM (lung)'s composite ({comp_sig_run2} significantly), against the paper's 1,854 (6) and 1,483 (5). Every count and value of the best combination comes back from the paper's own Additional files 17, 19 and 21 (arithmetic column).",
+   "evidence": [
+    "figure-reproduction/output/comparison.json (af19, arithmetic)"
+   ],
+   "hypotheses": [
+    {
+     "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
+     "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
+     "result": "supported"
+    },
+    {
+     "hypothesis": "A different rule (ranking, counting or significance) from ours.",
+     "test": "Recompute the same quantity from the paper's own printed numbers (Additional files 17 and 18, Tables 3 and 4).",
+     "result": "rejected"
+    }
+   ]
+  }
+ },
+ "items": [
+  {
+   "id": "table1",
+   "label": "Table 1, SNVs by gene and functional category",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table1"
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, calls of the 15 predictors by functional category",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table2"
+  },
+  {
+   "id": "table3",
+   "label": "Table 3, performance on the 989 labelled SNVs (point values)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table3",
+   "assumptions_from": [
+    "calls"
+   ]
+  },
+  {
+   "id": "table3.ci",
+   "label": "Table 3, bootstrap 95% intervals",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table3.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ]
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, performance on the 297 labelled non-COSMIC SNVs (point values)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table4",
+   "assumptions_from": [
+    "calls"
+   ]
+  },
+  {
+   "id": "table4.ci",
+   "label": "Table 4, bootstrap 95% intervals",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:table4.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ],
+   "cause_from": "mc_ci",
+   "expect_misses": 1
+  },
+  {
+   "id": "fig1a",
+   "label": "Fig. 1A, clustering of the calls of all 3,591 SNVs (clades, join heights, row shares)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig1a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "fig1"
+   ]
+  },
+  {
+   "id": "fig1b",
+   "label": "Fig. 1B, kappa of each pair of predictors, all SNVs (cell colours)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig1b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "fig1"
+   ]
+  },
+  {
+   "id": "fig1c",
+   "label": "Fig. 1C, clustering of the calls of the 1,699 non-COSMIC SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig1c",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "fig1"
+   ]
+  },
+  {
+   "id": "fig1d",
+   "label": "Fig. 1D, kappa of each pair of predictors, non-COSMIC SNVs (cell colours)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig1d",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "fig1"
+   ]
+  },
+  {
+   "id": "fig2a",
+   "label": "Fig. 2A, performance on the 989 labelled SNVs (bars)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig2a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "drawing"
+   ]
+  },
+  {
+   "id": "fig2a.ci",
+   "label": "Fig. 2A, error bars",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig2a.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "drawing"
+   ]
+  },
+  {
+   "id": "fig2b",
+   "label": "Fig. 2B, performance on the 297 non-COSMIC SNVs (bars)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig2b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "drawing"
+   ]
+  },
+  {
+   "id": "fig2b.ci",
+   "label": "Fig. 2B, error bars",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig2b.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "drawing"
+   ]
+  },
+  {
+   "id": "fig3a",
+   "label": "Fig. 3A, top five combinations by composite score, all SNVs, subset 1 (names, bars, error bars, significance marks)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig3a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ]
+  },
+  {
+   "id": "fig3b",
+   "label": "Fig. 3B, top five combinations by composite score, all SNVs, subset 2 (names, bars, error bars, significance marks)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig3b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 4
+  },
+  {
+   "id": "fig3c",
+   "label": "Fig. 3C, top five combinations by composite score, non-COSMIC SNVs, subset 1 (names, bars, error bars, significance marks)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig3c",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 7
+  },
+  {
+   "id": "fig3d",
+   "label": "Fig. 3D, top five combinations by composite score, non-COSMIC SNVs, subset 2 (names, bars, error bars, significance marks)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig3d",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 7
+  },
+  {
+   "id": "fig4a",
+   "label": "Fig. 4A, how often each predictor is in the top 10, 20, 50 and 100 combinations, all SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig4a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig4_ours.png",
+    "figure-reproduction/output/fig4_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 14
+  },
+  {
+   "id": "fig4b",
+   "label": "Fig. 4B, the same for the non-COSMIC SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:fig4b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig4_ours.png",
+    "figure-reproduction/output/fig4_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 45
+  },
+  {
+   "id": "af3",
+   "label": "Additional file 3, kappa and its interval for every pair of predictors (all and non-COSMIC SNVs)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af3",
+   "assumptions_from": [
+    "kappa"
+   ]
+  },
+  {
+   "id": "af5",
+   "label": "Additional file 5, kappa for the 989 labelled and the 297 labelled non-COSMIC SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af5",
+   "assumptions_from": [
+    "kappa"
+   ]
+  },
+  {
+   "id": "af8",
+   "label": "Additional file 8, three-category calls (with low confidence) by functional category",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af8",
+   "assumptions_from": [
+    "low"
+   ],
+   "exceptions": [
+    {
+     "field": "all: Mutation Assessor Low confidence non-neutral",
+     "category": "paper_error",
+     "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+    },
+    {
+     "field": "all: Mutation Assessor Low confidence uncertain",
+     "category": "paper_error",
+     "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+    },
+    {
+     "field": "all: Mutation Assessor Low confidence total",
+     "category": "paper_error",
+     "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+    },
+    {
+     "field": "non_cosmic: Mutation Assessor Low confidence uncertain",
+     "category": "paper_error",
+     "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+    },
+    {
+     "field": "non_cosmic: Mutation Assessor Low confidence total",
+     "category": "paper_error",
+     "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+    }
+   ]
+  },
+  {
+   "id": "af9",
+   "label": "Additional file 9, SNVs by number of low-confidence calls, and those with eight or more",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af9",
+   "assumptions_from": [
+    "low"
+   ],
+   "exceptions": [
+    {
+     "field": "all: majority vote of low confidence",
+     "category": "paper_error",
+     "evidence": "The list for all SNVs puts G451V under ERBB2; in Additional file 2 G451V is a PIK3CA mutation and ERBB2 has no G451V. Everything else in the list is ours."
+    }
+   ]
+  },
+  {
+   "id": "af11",
+   "label": "Additional file 11, kappa with the low-confidence category (all and non-COSMIC SNVs)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af11",
+   "assumptions_from": [
+    "kappa",
+    "low"
+   ]
+  },
+  {
+   "id": "af13",
+   "label": "Additional file 13, kappa with the low-confidence category (989 and 297 labelled SNVs)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af13",
+   "assumptions_from": [
+    "kappa",
+    "low"
+   ]
+  },
+  {
+   "id": "af16",
+   "label": "Additional file 16, performance in oncogenes (176 SNVs) and tumour suppressor genes (783)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af16",
+   "assumptions_from": [
+    "calls"
+   ]
+  },
+  {
+   "id": "af16.ci",
+   "label": "Additional file 16, bootstrap 95% intervals",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af16.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ],
+   "cause_from": "mc_ci",
+   "expect_misses": 8
+  },
+  {
+   "id": "af17",
+   "label": "Additional file 17, all 11,253 combinations on the 989 labelled SNVs (means and intervals in both subsets)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "af17",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ]
+  },
+  {
+   "id": "af18",
+   "label": "Additional file 18, all 11,253 combinations on the 297 labelled non-COSMIC SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "af18",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ]
+  },
+  {
+   "id": "af19",
+   "label": "Additional file 19, combinations that beat the best single and meta-predictor",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af19",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits"
+   ],
+   "cause_from": "af19",
+   "expect_misses": 92
+  },
+  {
+   "id": "af21",
+   "label": "Additional file 21, top five combinations by accuracy and by composite score, 989 SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af21",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 3
+  },
+  {
+   "id": "af22",
+   "label": "Additional file 22, top five combinations, 297 non-COSMIC SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af22",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 18
+  },
+  {
+   "id": "af25",
+   "label": "Additional file 25, optimal p for each n and n for each p, 989 SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af25",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 1
+  },
+  {
+   "id": "af27",
+   "label": "Additional file 27, optimal p and n, 297 non-COSMIC SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af27",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 5
+  },
+  {
+   "id": "af28",
+   "label": "Additional file 28, training-set SNVs left among the labelled SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af28",
+   "assumptions": [
+    {
+     "what": "Additional file 2's columns AG and AH carry swapped headers: AG ('FATHMM (cancer) v2.3 training set') holds the 'Disease' entries of FATHMM's inherited-disease training set and AH the 'CANCER' entries. We read each column by its content (data.py checks it).",
+     "source": "paper"
+    }
+   ]
+  },
+  {
+   "id": "af4",
+   "label": "Additional file 4, kappa heat maps for the 989 and the 297 labelled SNVs (cell colours; the call heat maps and dendrograms are not compared)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af4",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af4_ours.png",
+    "figure-reproduction/output/af4_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af6",
+   "label": "Additional file 6, the 1,699 non-COSMIC SNVs by gene and functional category",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af6"
+  },
+  {
+   "id": "af7",
+   "label": "Additional file 7, calls of the 15 predictors on the 1,699 non-COSMIC SNVs",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af7",
+   "exceptions": [
+    {
+     "field": "PolyPhen-2 probably damaging non-neutral",
+     "category": "paper_error",
+     "evidence": "Additional file 7's PolyPhen-2 rows sum to 1,698 of the 1,699 non-COSMIC SNVs and to 187 of the 188 non-neutral ones; Additional file 8 prints 118 and 553 for the same row (probably damaging), as we count."
+    },
+    {
+     "field": "PolyPhen-2 probably damaging total",
+     "category": "paper_error",
+     "evidence": "Additional file 7's PolyPhen-2 rows sum to 1,698 of the 1,699 non-COSMIC SNVs and to 187 of the 188 non-neutral ones; Additional file 8 prints 118 and 553 for the same row (probably damaging), as we count."
+    }
+   ]
+  },
+  {
+   "id": "af10",
+   "label": "Additional file 10, kappa heat maps with the low-confidence category, all and non-COSMIC SNVs (cell colours)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af10",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af10_ours.png",
+    "figure-reproduction/output/af10_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "low",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af12",
+   "label": "Additional file 12, kappa heat maps with the low-confidence category, 989 and 297 labelled SNVs (cell colours)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af12",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af12_ours.png",
+    "figure-reproduction/output/af12_overlay.png"
+   ],
+   "assumptions_from": [
+    "kappa",
+    "low",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af14",
+   "label": "Additional file 14, calls on the 989 labelled SNVs by gene class",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af14"
+  },
+  {
+   "id": "af15a",
+   "label": "Additional file 15A, performance in oncogenes (bars)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af15a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af15_ours.png",
+    "figure-reproduction/output/af15_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af15a.ci",
+   "label": "Additional file 15A, error bars",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af15a.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "drawing"
+   ],
+   "cause_from": "mc_ci",
+   "expect_misses": 5
+  },
+  {
+   "id": "af15b",
+   "label": "Additional file 15B, performance in tumour suppressor genes (bars)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af15b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af15_ours.png",
+    "figure-reproduction/output/af15_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af15b.ci",
+   "label": "Additional file 15B, error bars",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af15b.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af20a",
+   "label": "Additional file 20A, top five combinations by accuracy, all SNVs, subset 1",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af20a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af20_ours.png",
+    "figure-reproduction/output/af20_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 1
+  },
+  {
+   "id": "af20b",
+   "label": "Additional file 20B, top five combinations by accuracy, all SNVs, subset 2",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af20b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af20_ours.png",
+    "figure-reproduction/output/af20_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 1
+  },
+  {
+   "id": "af20c",
+   "label": "Additional file 20C, top five combinations by accuracy, non-COSMIC SNVs, subset 1",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af20c",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af20_ours.png",
+    "figure-reproduction/output/af20_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 2
+  },
+  {
+   "id": "af20d",
+   "label": "Additional file 20D, top five combinations by accuracy, non-COSMIC SNVs, subset 2",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af20d",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af20_ours.png",
+    "figure-reproduction/output/af20_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 8
+  },
+  {
+   "id": "af23a",
+   "label": "Additional file 23A, how often each predictor is in the top combinations by accuracy, all SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af23a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af23_ours.png",
+    "figure-reproduction/output/af23_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_af23",
+   "expect_misses": 25
+  },
+  {
+   "id": "af23b",
+   "label": "Additional file 23B, the same for the non-COSMIC SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af23b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af23_ours.png",
+    "figure-reproduction/output/af23_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_af23",
+   "expect_misses": 43
+  },
+  {
+   "id": "af24",
+   "label": "Additional file 24, box plots of the combinations' accuracy by n and p, 989 SNVs (hinges and medians)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af24",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af24_ours.png",
+    "figure-reproduction/output/af24_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ],
+   "cause_from": "mc_comb",
+   "expect_misses": 8,
+   "assumptions": [
+    {
+     "what": "The panels titled 'n=k' hold the combinations with p = k, and their x axis (labelled p) is n; the panels titled 'p=k' hold n = k. The file swaps the names of n and p, as Additional file 25 does; read the other way round, panel 'n=1' would hold combinations of one predictor, which the method does not make.",
+     "source": "paper"
+    }
+   ]
+  },
+  {
+   "id": "af26",
+   "label": "Additional file 26, the same box plots for the 297 non-COSMIC SNVs",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af26",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af26_ours.png",
+    "figure-reproduction/output/af26_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "splits",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af29",
+   "label": "Additional file 29, performance of six predictors on all, non-COSMIC and non-training-set SNVs (bars)",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af29",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/af29_ours.png",
+    "figure-reproduction/output/af29_overlay.png"
+   ],
+   "assumptions_from": [
+    "calls",
+    "drawing"
+   ]
+  },
+  {
+   "id": "af29.ci",
+   "label": "Additional file 29, error bars",
+   "kind": "figure",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:af29.ci",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "drawing"
+   ]
+  },
+  {
+   "id": "text.dataset",
+   "label": "Dataset sizes and SNVs per gene class (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.dataset"
+  },
+  {
+   "id": "text.table2",
+   "label": "Calls of VEST and PROVEAN (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.table2"
+  },
+  {
+   "id": "text.kappa_all",
+   "label": "Kappa within and between the two clusters, all SNVs (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.kappa_all",
+   "assumptions_from": [
+    "kappa"
+   ]
+  },
+  {
+   "id": "text.kappa_non_cosmic",
+   "label": "Cluster 1 median kappa without COSMIC SNVs (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.kappa_non_cosmic",
+   "assumptions_from": [
+    "kappa"
+   ]
+  },
+  {
+   "id": "text.non_cosmic",
+   "label": "SNVs not in COSMIC v68 (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.non_cosmic"
+  },
+  {
+   "id": "text.clusters",
+   "label": "Cluster structure of Fig. 1A, 1C and Additional file 4 (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.clusters",
+   "assumptions_from": [
+    "kappa"
+   ]
+  },
+  {
+   "id": "text.low_confidence",
+   "label": "Low-confidence calls (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.low_confidence",
+   "assumptions_from": [
+    "low"
+   ],
+   "exceptions": [
+    {
+     "field": "most among predictors with a built-in category (Mutation Assessor)",
+     "category": "paper_error",
+     "evidence": "The 1,099 is Additional file 8's Mutation Assessor row, which leaves out its 7 N/A calls; Additional file 9's counts (and the 27 SNVs with eight or more low-confidence calls) need them as low-confidence calls, which gives 1,106."
+    }
+   ]
+  },
+  {
+   "id": "text.table3",
+   "label": "Medians, ranges and significance calls of Table 3 (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.table3",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ],
+   "cause_from": "t3text",
+   "expect_misses": 1
+  },
+  {
+   "id": "text.table4",
+   "label": "Table 4 and the loss of accuracy without COSMIC SNVs (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.table4",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ],
+   "cause_from": "t4text",
+   "expect_misses": 2
+  },
+  {
+   "id": "text.gene_classes",
+   "label": "Oncogenes against tumour suppressor genes (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.gene_classes",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ]
+  },
+  {
+   "id": "text.combinations",
+   "label": "The combinations against FATHMM (cancer) and CHASM (lung), and the best combination (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.combinations",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits"
+   ],
+   "cause_from": "combtext",
+   "expect_misses": 3
+  },
+  {
+   "id": "text.npv",
+   "label": "The best combination's NPV gain in every subset (Results, Discussion)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.npv",
+   "assumptions_from": [
+    "calls",
+    "bootstrap",
+    "splits"
+   ]
+  },
+  {
+   "id": "text.recurrence",
+   "label": "MutationTaster and CHASM (breast, lung) lead the top combinations (Results, Fig. 4)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.recurrence",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ]
+  },
+  {
+   "id": "text.training",
+   "label": "Removing COSMIC or training-set SNVs never raises accuracy significantly (Discussion)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.training",
+   "assumptions_from": [
+    "calls",
+    "bootstrap"
+   ]
+  },
+  {
+   "id": "text.optimal",
+   "label": "Optimal n and p (Results)",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text.optimal",
+   "assumptions_from": [
+    "calls",
+    "splits"
+   ],
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "Both sentences have n and p swapped: the paper's own Additional file 25, and our run, give a best n of about 2p (p about n/2), capped at all 11 predictors. Our run gives the same optimal p and n as Additional file 25 for 20 of 21 rows (af25).",
+    "evidence": [
+     "Additional file 25",
+     "figure-reproduction/output/comparison.json (af25)",
+     "https://github.com/jeonglab-bcm/fossil/issues/97"
+    ]
+   },
+   "exceptions": [
+    {
+     "field": "for n = 1 to 4, the best p is about 2n",
+     "category": "paper_error",
+     "evidence": "Additional file 25 (B) gives p = 1, 1, 2 for n = 2, 3, 4: the best p is about n/2 (n about 2p), as the next sentence's 'n approximately p/2' would say were it also reversed. p <= n everywhere, so p about 2n cannot hold."
+    },
+    {
+     "field": "for p = 3 to 11, the best n is about p/2",
+     "category": "paper_error",
+     "evidence": "Additional file 25 (A) gives n = 6, 7, 9, 10 for p = 3 to 6 and n = 11 (all predictors) for p = 7 to 11: the best n is about 2p, capped at 11. n >= p everywhere, so n about p/2 cannot hold."
+    }
+   ]
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "The text's statements recomputed from the paper's own tables (arithmetic check)",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "arithmetic"
+  },
+  {
+   "id": "af1",
+   "label": "Additional file 1, overview of the predictors",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "status": "explained",
+    "summary": "A diagram of the 15 predictors and their features; nothing to recompute.",
+    "evidence": [
+     "Additional file 1"
+    ]
+   }
+  },
+  {
+   "id": "authors_code",
+   "label": "The authors' statistical code",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "data_unavailable",
+    "status": "explained",
+    "summary": "Never released: the paper has no code or availability statement, and no copy was found (fossil issue #97 lists the searches). The method is rebuilt from the text as the package mutbench.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/97"
+    ]
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package mutbench and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "Martelotto and colleagues scored 15 mutation effect predictors, and 11,253 ways of combining them, on 989 cancer mutations whose effect is known. Their statistics code was never shared. We rebuilt it from the paper as the package mutbench and reran it on their own spreadsheet.",
+  "label_rows": [
+   [
+    "fig-1",
+    "Fig. 1, clustering and kappa",
+    [
+     "fig1a",
+     "fig1b",
+     "fig1c",
+     "fig1d"
+    ]
+   ],
+   [
+    "fig-2",
+    "Fig. 2, each predictor",
+    [
+     "fig2a",
+     "fig2a.ci",
+     "fig2b",
+     "fig2b.ci"
+    ]
+   ],
+   [
+    "fig-3",
+    "Fig. 3, the best combinations",
+    [
+     "fig3a",
+     "fig3b",
+     "fig3c",
+     "fig3d"
+    ]
+   ],
+   [
+    "fig-4",
+    "Fig. 4, who is in the top",
+    [
+     "fig4a",
+     "fig4b"
+    ]
+   ],
+   [
+    "tables",
+    "Tables 3 and 4",
+    [
+     "table3",
+     "table3.ci",
+     "table4",
+     "table4.ci"
+    ]
+   ],
+   [
+    "items",
+    "Supplement tables",
+    [
+     "af3",
+     "af5",
+     "af8",
+     "af9",
+     "af11",
+     "af13",
+     "af16",
+     "af17",
+     "af18",
+     "af28"
+    ]
+   ]
+  ],
+  "tables_caption": "Every point value came back. The intervals come from random resampling, so they come back within the spread of our own repeat runs.",
+  "items_caption": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differ, {not_attempted} not attempted. Each verdict is computed from the numbers by check_results.py.",
+  "came_back": [
+   [
+    "Tables 1 and 2",
+    "Every count, from the paper's spreadsheet."
+   ],
+   [
+    "Tables 3 and 4",
+    "All 180 point values. The intervals {table3_ci_match} of 180 and {table4_ci_match} of 180 within the resampling spread."
+   ],
+   [
+    "Kappa",
+    "All 2,880 printed kappa values and interval ends of Additional files 3, 5, 11 and 13, to the last digit."
+   ],
+   [
+    "Fig. 1",
+    "The same two clusters, the same dendrograms with the same join heights, and the same colour in all 450 kappa cells."
+   ],
+   [
+    "Fig. 2",
+    "Every bar, and every error bar within the resampling spread."
+   ],
+   [
+    "All 11,253 combinations",
+    "Every one of the {af17_means} published means of Additional file 17, and of {af18_means} of file 18, within the resampling spread."
+   ],
+   [
+    "The best combination",
+    "At least 1 of CHASM (breast) and MutationTaster: first by accuracy and composite score in both subsets, as in the paper."
+   ],
+   [
+    "Low confidence",
+    "Every count of Additional file 9, the 27 SNVs with eight or more low-confidence calls, and 132 by PROVEAN alone."
+   ]
+  ],
+  "buried": [
+   "The authors' code. It was never released; the method is rebuilt from the text.",
+   "The exact random splits and resamples. Counts of combinations near a cutoff and the order of near ties move with them: 1,854 combinations beat FATHMM (cancer) in both subsets in the paper and in our run, and 6 of them significantly in the paper, 5 in ours.",
+   "Two sentences on the optimal n and p have n and p swapped. The paper's own Additional file 25 agrees with our run, not with the sentences.",
+   "Additional file 8 leaves out Mutation Assessor's 7 N/A calls; Additional file 9 counts them as low confidence.",
+   "Additional file 2 swaps the headers of FATHMM's two training-set columns. We read them by their content."
+  ],
+  "claims_line": "The main finding holds: no single predictor is accurate enough, and combining CHASM (breast) with MutationTaster gives the best accuracy, composite score and NPV, in both subsets, as the paper says. The claims that do not match move with the random splits, or are the paper's own slips.",
+  "matched_intro": "What our run had to match, and how closely.",
+  "matched": [
+   [
+    "Counts and point values",
+    "As printed."
+   ],
+   [
+    "Kappa",
+    "As printed, to four significant digits."
+   ],
+   [
+    "Values from the figures",
+    "Read from the vector drawing of the article, within 0.0005 of each axis unit."
+   ],
+   [
+    "Intervals, combination means and ranks",
+    "Within three standard deviations of our own run-to-run spread."
+   ]
+  ],
+  "closing": "Fig. 2 came back the same. The benchmark is a package now."
+ }
+}
