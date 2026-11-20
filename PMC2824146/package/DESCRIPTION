@@ -1,0 +1,32 @@
+Package: misscox
+Type: Package
+Title: Simulation of Missing Covariate Data in Cox Prognostic Models
+Version: 0.1.0
+Authors@R: person("fossil contributors", role = c("aut", "cre"), email = "noreply@github.com")
+Description: Rebuilds the simulation study of Marshall, Altman, Royston and Holder
+    (2010) <doi:10.1186/1471-2288-10-7>, which compares complete case analysis,
+    single imputation and multiple imputation for missing covariates in Cox
+    proportional hazards prognostic models. Generates covariates and survival
+    times resembling the German Breast Cancer Study Group 2 data, imposes MCAR,
+    MAR, MNAR or combined multivariate missingness on four covariates, handles
+    the missing data with nine methods (CC, SI, NORM, MIX, MICE, MICE-PMM and
+    aregImpute variants) and pools the Cox model results with Rubin's rules.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports:
+    survival (>= 3.5-8),
+    mice (>= 3.16.0),
+    Hmisc (>= 5.1-1),
+    norm (>= 1.0-11.1),
+    mix (>= 1.0-13),
+    stats,
+    utils
+Suggests:
+    TH.data (>= 1.1-2),
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1

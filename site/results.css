@@ -8,7 +8,7 @@
 /* Hallmark · answered F2 · the three periods are R code, survfit(...) as typed in the call, not an ellipsis */
 /* Hallmark · answered F4 · the mint fill is the latched state of a clear key; the hero's green key is the one primary on each page */
 /* Hallmark · answered F6 · each station head is one figure number that never stands in a column, and tabular figures spaced Fig. 5 apart */
-/* Hallmark · answered F20 · each station head is one row of number, caption and stamp; the stamp's two-degree turn measures as a second row */
+/* Hallmark · answered F20 · each station head is one row of number, caption and verdict */
 /* Hallmark · answered F25 · the 21-row box table for Fig. 2 scrolls sideways inside its own wrap on a phone; restacking it would part each paper value from ours */
 @import url("./tokens.css");
 @import url("./base.css");
@@ -35,6 +35,11 @@ html { padding-block: env(safe-area-inset-top) env(safe-area-inset-bottom); }
 .label ol { list-style: none; margin: 0 0 var(--space-sm); padding: 0; }
 .label li a { display: flex; justify-content: space-between; gap: var(--space-sm); padding-block: var(--space-xs); border-bottom: var(--rule-hair) solid var(--color-rule); text-decoration: none; }
 .label li:last-child a { border-bottom: 0; }
+/* Some builders write the rows as bare <a class="label-row"> instead of a list: give them the same row. */
+.label .label-row { display: flex; justify-content: space-between; gap: var(--space-sm); padding-block: var(--space-xs); border-bottom: var(--rule-hair) solid var(--color-rule); text-decoration: none; }
+.label .label-row > span:first-child { flex: none; white-space: nowrap; }
+.label .label-row > span:last-child { text-align: right; }
+.label .label-row:last-of-type { border-bottom: 0; margin-bottom: var(--space-sm); }
 .label li a:hover .v { text-decoration: underline; text-decoration-color: var(--color-accent); }
 .label .v[data-v="agrees"] { color: var(--color-accent-deep); }
 .label .v[data-v="partly"], .label .v[data-v="differs"], .label .v[data-v="running"], .label .v[data-v="none"] { color: var(--color-muted); }
@@ -49,7 +54,6 @@ html { padding-block: env(safe-area-inset-top) env(safe-area-inset-bottom); }
 .station-head .caption { flex: 1 1 30rem; max-width: 60ch; font-size: var(--text-lead); line-height: 1.4; color: var(--color-ink-2); }
 .station-head .stamp, .station-head .basis { flex: none; margin-left: auto; }
 .basis { font: 500 var(--text-sm)/1.3 var(--font-body); color: var(--color-muted); }
-.station-head .stamp small { color: inherit; }
 
 /* Keys: clear plastic, the pressed one latched in mint and sitting lower. */
 .controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-xl); }
@@ -117,6 +121,18 @@ table.record td:first-child { font-family: var(--font-body); }
 .jt th, .jt td { padding: var(--space-2xs) var(--space-sm) var(--space-2xs) 0; text-align: left; font-weight: 400; }
 .jt .num { text-align: right; font-family: var(--font-outlier); }
 
+/* Install: the recovered package, first thing on the bench. Written by tools/site_install.py from the package README. */
+.install { display: grid; gap: var(--space-md); margin-bottom: var(--space-2xl); padding: var(--space-lg) var(--space-xl); }
+.install-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-xs) var(--space-lg); }
+.install-head h2 { font-size: var(--text-xl); }
+.install-lang { font: 500 var(--text-sm)/1.2 var(--font-outlier); color: var(--color-accent-deep); }
+.install-code { margin: 0; padding: var(--space-md) var(--space-lg); overflow-x: auto; border-radius: var(--radius-input); background: var(--color-ink); color: var(--color-accent-soft); font: 400 var(--text-sm)/1.6 var(--font-outlier); }
+.install-code code { font: inherit; white-space: pre; }
+.install-foot { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-xs) var(--space-lg); font-size: var(--text-sm); color: var(--color-muted); }
+.install-needs { margin: 0; max-width: 70ch; }
+.install-needs code { font: 400 0.95em var(--font-outlier); }
+.install-links { display: flex; gap: var(--space-md); }
+
 /* The notes under the bench: a ledger of rows on the paper, hairlines between. */
 .notes { padding-block: var(--section-gap) 0; }
 .notes h2 { font-size: var(--text-section); margin-bottom: var(--space-xl); }
@@ -150,6 +166,9 @@ table.record td:first-child { font-family: var(--font-body); }
   .hero-text, .label { grid-column: 1 / -1; }
   .label { max-width: 26rem; }
   .station { padding: var(--space-lg) var(--space-md); }
+  .install { padding: var(--space-lg) var(--space-md); }
+  .install-code { padding: var(--space-sm) var(--space-md); }
+  .install-code code { white-space: pre-wrap; overflow-wrap: anywhere; }
   .station-foot { margin-inline: calc(-1 * var(--space-md)); padding-inline: var(--space-md); }
   .station-head .stamp, .station-head .basis { margin-left: 0; }
   .dose, .station-foot .note, .pending .plate, .pending .note, .split > .wide, .split > .side, .split > .side--lead, .split > .side--lead + .wide { grid-column: 1 / -1; }

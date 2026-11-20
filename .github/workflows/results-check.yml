@@ -1,18 +1,37 @@
 name: Results check
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('Results check for PR #{0}', inputs.pr) || '' }}"
 
 # A pull request that creates or changes a reproduction's results.json: compare it with the outputs
 # committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
 # the diffs and an overlay of each published figure with the committed render.
 # A separate job checks that every paper the PR adds, or whose results.json it changes, names the
 # Paper2Repro release it was made with (tools/check_skill.py).
+# The comment ends with a plain-language AI review (tools/ai_review.py) of the items the PR changes in
+# <paper>/results.json: why each matched the paper or not, and a flag where the evidence seems to
+# contradict the verdict. It needs the ANTHROPIC_API_KEY secret; without it (e.g. a PR from a fork) the
+# step fails. A normal approval of the PR is the final conclusion. A paper with only a paper-level
+# results.json gets a comment with the AI review alone.
+# Run workflow (workflow_dispatch) runs the same check on an open PR by number without pushing to the PR's
+# branch. It checks out GitHub's test merge of the PR into its base, as a pull_request run does, so the PR's
+# own tool changes and the base's new tools are both there. When the PR has conflicts it falls back to the
+# PR's head with the base's tools, except the tool files the PR changes itself.
 on:
   pull_request:
     paths:
       - "PMC*/**"
       - "tools/check_skill.py"
       - "tools/site_versions.py"
+      - "tools/check_index_links.py"
+      - "tools/site_install.py"
+      - "site/PMC*/index.html"
       - "site/index.html"
       - ".github/workflows/results-check.yml"
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request number"
+        required: true
+        type: number
 
 permissions:
   contents: write        # the figure overlays go to the ci-assets branch
@@ -20,6 +39,7 @@ permissions:
 
 jobs:
   skill:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -40,21 +60,69 @@ jobs:
           set -o pipefail
           python3 tools/site_versions.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
 
+      - name: Front page titles link to the results pages
+        run: |
+          set -o pipefail
+          python3 tools/check_index_links.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Results pages show how to install each recovered package
+        run: |
+          set -o pipefail
+          python3 tools/site_install.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
   find:
     runs-on: ubuntu-24.04
     outputs:
       papers: ${{ steps.find.outputs.papers }}
+      base: ${{ steps.pr.outputs.base }}
+      sha: ${{ steps.pr.outputs.sha }}
+      number: ${{ steps.pr.outputs.number }}
+      same_repo: ${{ steps.pr.outputs.same_repo }}
+      ref: ${{ steps.pr.outputs.ref }}
     steps:
+      - id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          INPUT_PR: ${{ inputs.pr }}
+          PR_BASE: ${{ github.base_ref }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$INPUT_PR")
+            [ "$(jq -r .state <<<"$pr")" = open ] || { echo "PR #$INPUT_PR is not open"; exit 1; }
+            # GitHub computes mergeable in the background; ask again while it is null.
+            for i in 1 2 3 4 5; do
+              [ "$(jq -r .mergeable <<<"$pr")" != null ] && break
+              sleep 3; pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$INPUT_PR")
+            done
+            if [ "$(jq -r .mergeable <<<"$pr")" = true ]; then ref="refs/pull/$INPUT_PR/merge"; else ref="refs/pull/$INPUT_PR/head"; fi
+            echo "checking out $ref"
+            {
+              echo "ref=$ref"
+              echo "base=$(jq -r .base.ref <<<"$pr")"
+              echo "sha=$(jq -r .head.sha <<<"$pr")"
+              echo "number=$INPUT_PR"
+              echo "same_repo=$(jq -r --arg r "$GITHUB_REPOSITORY" '.head.repo.full_name == $r' <<<"$pr")"
+            } >> "$GITHUB_OUTPUT"
+          else
+            { echo "base=$PR_BASE"; echo "sha=$PR_SHA"; echo "number=$PR_NUMBER"; echo "same_repo=$PR_SAME_REPO"; echo "ref="; } >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ steps.pr.outputs.ref }}
 
       - id: find
         env:
-          BASE: ${{ github.base_ref }}
+          BASE: ${{ steps.pr.outputs.base }}
         run: |
-          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' \
-            | cut -d/ -f1 | sort -u | jq -R . | jq -cs .)
+          papers=$(git diff --name-only "origin/$BASE...HEAD" -- 'PMC*/figure-reproduction/results.json' 'PMC*/results.json' \
+            | cut -d/ -f1 | sort -u | while read -r p; do if [ -f "$p/results.json" ] || [ -f "$p/figure-reproduction/results.json" ]; then echo "$p"; fi; done \
+            | jq -R . | jq -cs .)
           echo "papers=$papers" >> "$GITHUB_OUTPUT"
           echo "results.json created or changed in: $papers"
 
@@ -70,33 +138,71 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ needs.find.outputs.ref }}
+
+      # A manual run uses the AI review's own files (ai_review.py, tools/ste80/, pr_comment.py) from the
+      # commit the workflow runs from, so they match this workflow: GitHub's test merge of a PR can predate
+      # the latest base. On a PR with conflicts (its head is checked out) the rest of tools/ comes from that
+      # commit too, except the tool files the PR changes itself.
+      - name: Use the current tools
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          TOOLS_REF: ${{ github.sha }}
+          BASE: ${{ needs.find.outputs.base }}
+          REF: ${{ needs.find.outputs.ref }}
+        run: |
+          if [ "${REF##*/}" = head ]; then
+            own=$(git diff --name-only "origin/$BASE...HEAD" -- tools)
+            git checkout "$TOOLS_REF" -- tools
+            for f in $own; do
+              case "$f" in tools/pr_comment.py|tools/ai_review.py|tools/ste80/*) ;; *) git checkout HEAD -- "$f" 2>/dev/null || true ;; esac
+            done
+            echo "kept the PR's own: $own"
+          fi
+          git checkout "$TOOLS_REF" -- tools/ai_review.py tools/ste80 tools/pr_comment.py
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install Python packages
-        run: pip install numpy scipy pillow
+        run: pip install numpy scipy pillow anthropic
 
       - name: Check results.json against the committed outputs
+        if: hashFiles(format('{0}/figure-reproduction/results.json', matrix.paper)) != ''
         env:
           PAPER: ${{ matrix.paper }}
         run: |
           set -o pipefail
           python3 tools/check_results.py "$PAPER/figure-reproduction/results.json" --committed --report results-check | tee -a "$GITHUB_STEP_SUMMARY"
 
-      - name: Comment on the PR with the diffs and the figure overlays
-        if: ${{ !cancelled() && github.event.pull_request.head.repo.full_name == github.repository && hashFiles('results-check/results-check.json') != '' }}
+      - name: AI review of the items this PR changes
+        if: ${{ !cancelled() }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAPER: ${{ matrix.paper }}
+          BASE: ${{ needs.find.outputs.base }}
+          PR: ${{ needs.find.outputs.number }}
+        run: |
+          set -o pipefail
+          python3 tools/ai_review.py "$PAPER" --base "$BASE" --out results-check --repo "$GITHUB_REPOSITORY" --pr "$PR" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR with the diffs, the figure overlays and the AI review
+        if: ${{ !cancelled() && needs.find.outputs.same_repo == 'true' && (hashFiles('results-check/results-check.json') != '' || hashFiles('results-check/ai-review.md') != '') }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
           PAPER: ${{ matrix.paper }}
-          BASE: ${{ github.base_ref }}
-          PR: ${{ github.event.pull_request.number }}
-          SHA: ${{ github.event.pull_request.head.sha }}
+          BASE: ${{ needs.find.outputs.base }}
+          PR: ${{ needs.find.outputs.number }}
+          SHA: ${{ needs.find.outputs.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: >
-          python3 tools/pr_comment.py "$PAPER" --check results-check/results-check.json --base "$BASE"
-          --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL"
+        run: |
+          check=()
+          if [ -f results-check/results-check.json ]; then check=(--check results-check/results-check.json); fi
+          python3 tools/pr_comment.py "$PAPER" "${check[@]}" --base "$BASE" \
+            --pr "$PR" --repo "$GITHUB_REPOSITORY" --sha "$SHA" --run-url "$RUN_URL" \
+            --ai-review results-check/ai-review.md
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

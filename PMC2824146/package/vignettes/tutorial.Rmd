@@ -1,0 +1,123 @@
+---
+title: "misscox tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{misscox tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+options(width = 100)
+```
+
+## What it does
+
+misscox rebuilds the simulation study of Marshall, Altman, Royston and Holder (2010). It simulates
+prognostic cohorts like the German Breast Cancer Study Group 2 data, deletes values of four
+covariates under MCAR, MAR, MNAR or a combined mechanism, handles the missing data by complete case
+analysis, single imputation or one of seven multiple imputation methods, and fits the full Cox
+model with Rubin's rules.
+
+Marshall A, Altman DG, Royston P, Holder RL. Comparison of techniques for handling missing covariate
+data within prognostic modelling studies: a simulation study. *BMC Medical Research Methodology*
+10:7 (2010). doi:10.1186/1471-2288-10-7
+
+## Install
+
+```{r install, eval = FALSE}
+remotes::install_github("jeonglab-bcm/fossil/PMC2824146/package")
+```
+
+```{r load}
+library(misscox)
+packageVersion("misscox")
+```
+
+## Example input
+
+The missingness design of the paper: the share of the incomplete cases that miss each covariate,
+and each pair.
+
+```{r shares}
+shares <- read.csv(example_path("missing_shares.csv"))
+shares
+```
+
+And one simulated cohort of 1000 cases with 25% of cases made incomplete under MAR.
+
+```{r cohort}
+x <- read.csv(example_path("example_cohort_mar25.csv"))
+dim(x)
+head(x)
+colSums(is.na(x))
+mean(!complete.cases(x))
+```
+
+## Run the method
+
+The odds ratios between the missingness indicators (Table 3) follow from the design: the shares
+become whole cases of 1000, rounded half up.
+
+```{r table3}
+t3 <- table3_odds_ratios()
+t3
+```
+
+Handle the missing data of the example cohort with three of the methods and fit the Cox model.
+Five imputations here to keep the tutorial quick; the paper used twenty.
+
+```{r methods}
+fits <- lapply(c("CC", "SI", "MICE_PMM_notrans"), function(m) handle_missing(x, m, m = 5, seed = 1))
+res <- do.call(rbind, fits)
+data.frame(method = c("CC", "SI", "MICE_PMM_notrans"), n = res$n_analysed,
+           X2 = signif(res$est_X2, 3), se_X2 = signif(res$se_X2, 3),
+           X3 = signif(res$est_X3, 3), se_X3 = signif(res$se_X3, 3))
+```
+
+## Compare with the expected output
+
+Table 3 as printed in the paper, at printed precision (half a unit in the last digit):
+
+```{r compare-t3}
+exp <- read.csv(example_path("table3_expected.csv"), colClasses = "character")
+printed_ok <- function(observed, printed) {
+  d <- nchar(sub("^[^.]*\\.?", "", printed))
+  abs(observed - as.numeric(printed)) <= 0.5 * 10^(-d) + 1e-12
+}
+ok <- sapply(c("pct5", "pct10", "pct25", "pct50", "pct75"), function(k) printed_ok(t3[[k]], exp[[k]]))
+cat(sum(ok), "of", length(ok), "odds ratios match Table 3\n")
+stopifnot(all(ok))
+```
+
+The full Cox model on the breast cancer data (`TH.data::GBSG2`) against the paper's linear
+predictor:
+
+```{r compare-lp}
+lp <- read.csv(example_path("lp_expected.csv"), colClasses = "character")
+b <- coef(fit_full_cox(gbsg_covariates()))
+ok <- printed_ok(unname(b), lp$printed)
+data.frame(term = lp$term, paper = lp$printed, ours = signif(unname(b), 4), match = ok)
+cat(sum(ok), "of", length(ok), "coefficients match the paper\n")
+stopifnot(all(ok))
+```
+
+## Your own data
+
+`handle_missing()` takes a data frame with columns `X1` to `X7` (numeric; X5 to X7 coded 0/1),
+`X8g` (tumour size group 1, 2 or 3), `time` (days) and `status` (1 = event), with `NA` where a value
+of X2, X3, X5 or X8g is missing. The method is one of `method_labels()`: `CC`, `SI`, `NORM`, `MIX`,
+`MIX_notrunc`, `MICE`, `MICE_PMM`, `MICE_PMM_notrans`, `AREG`. The result has, for each
+coefficient, the pooled estimate (`est_`), its standard error (`se_`), the Wald p-value (`p_`) and
+the 95% interval (`lo_`, `hi_`), then the likelihood ratio p-value, Nagelkerke's R2, the D
+statistic, the predicted 2-year survival at the mean covariates and the number of cases analysed.
+
+To run the study itself: `generation_parameters(gbsg_covariates())` builds the generator,
+`run_replicate()` runs one replicate over mechanisms, levels and methods, and
+`summarise_replicates()` gives bias, coverage and the other figure quantities.
+
+## The full reproduction
+
+The pipeline that reruns the paper's study with this package, and compares every table, figure
+point and claim with the paper: <https://github.com/jeonglab-bcm/fossil/tree/main/PMC2824146>.

@@ -124,9 +124,9 @@ def main():
                 <td class="date" data-label="Analyzed"><time datetime="{RES['run']['date']}">8 Nov 2026</time></td>
                 <td data-label="Paper">
                   <span class="pmc">PMC2850872</span>
-                  <a class="title" href="https://doi.org/10.1186/1472-6947-10-16">Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes</a>
+                  <a class="title" href="PMC2850872/">Application of support vector machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes</a>
                   <span class="journal">Yu et al., BMC Medical Informatics and Decision Making</span>
-                  <span class="go"><a href="PMC2850872/">Results</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872">GitHub</a></span>
+                  <span class="go"><a href="https://doi.org/10.1186/1472-6947-10-16">Article</a><a href="https://github.com/jeonglab-bcm/fossil/tree/main/PMC2850872">GitHub</a></span>
                 </td>
                 <td data-label="What we lost"><ul>
                   <li>The Diabetes Classifier web tool and its Java code</li>
