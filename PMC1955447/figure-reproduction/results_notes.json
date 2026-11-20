@@ -1,0 +1,1187 @@
+{
+ "paper": {
+  "id": "PMC1955447",
+  "title": "A simulation study of sample size for multilevel logistic regression models",
+  "citation": "Moineddin R, Matheson FI, Glazier RH. A simulation study of sample size for multilevel logistic regression models. BMC Medical Research Methodology 7:34 (2007)",
+  "doi": "10.1186/1471-2288-7-34",
+  "license": "CC BY 2.0"
+ },
+ "run": {
+  "date": "2026-11-20",
+  "pipeline": "PMC1955447/figure-reproduction/main.nf",
+  "command": "nextflow run PMC1955447/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC1955447.1.xml (article, Tables 1-5; used with --extract)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1955447.1/PMC1955447.1.xml",
+    "sha256": "de1b46918d20ebbfbdad12d22e3eca0514b6e040a9788672269c493bfaab19b1"
+   }
+  ]
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.6.0",
+  "tag": "paper2repro-v0.6.0",
+  "commit": null,
+  "modified": null
+ },
+ "assumption_sets": {
+  "simulation": [
+   {
+    "what": "The fitted model estimates the covariance σ01 of the random intercept and slope (the model of equation 1), started at 0, although the data are drawn with σ01 = 0. The paper reports no σ01 and does not say whether it was fitted.",
+    "source": "found_by_search",
+    "sensitivity": "Fitted without σ01 (variant nocov, replicates 0-199 of every cell), {h_nocov_table1_converged} of 27 Table 1 convergence cells come back (mean gap {h_nocov_gap} points), against {h_baseline_table1_converged} (gap {h_baseline_gap} points) with it: without σ01 nearly every data set of groups of 5 converges."
+   },
+   {
+    "what": "σ0 and σ1 in Tables 1-5 are the variances as fitted (NLMIXED's random statement takes variances): % bias of the variance estimate, Wald interval on the variance. The tables label them σ0 and σ1.",
+    "source": "found_by_search",
+    "sensitivity": "On the SD scale (bias of the square root, delta-method interval) {h_sd_scale_table1_lowconv} of 48 Table 1 low-convergence cells and {h_sd_scale_table1_stable} of 114 high-convergence cells come back, against {h_main_run_table1_lowconv} and {h_main_run_table1_stable}."
+   },
+   {
+    "what": "The paper's 'absolute value for parameter convergence criterion' of 1e-8 is read as NLMIXED's ABSXCONV: a fit also counts as converged when no parameter moves by more than 1e-8 in an iteration, which is how fits that creep towards a zero variance stop.",
+    "source": "paper",
+    "sensitivity": "Without that criterion (variant noabsx, replicates 0-199) {h_noabsx_table1_converged} of 27 convergence cells come back (mean gap {h_noabsx_gap} points)."
+   },
+   {
+    "what": "NLMIXED's dual quasi-Newton is emulated by BFGS with a backtracking (Armijo) line search, an initial Hessian from finite differences, the quadrature re-centred at every iteration, NLMIXED's default ABSGCONV 1e-5 and GCONV 1e-8, 200 iterations and 500 function calls (MAXFUNC). NLMIXED's own line search and update are not public.",
+    "source": "our_choice",
+    "sensitivity": "With 2,000 function calls (variant maxfunc2000) {h_maxfunc2000_table1_converged} of 27 convergence cells come back (mean gap {h_maxfunc2000_gap} points)."
+   },
+   {
+    "what": "Quadrature points per dimension chosen at the starting values by NLMIXED's sequence 1, 3, 5, 7, 9, 11, 21, 31 with QTOL 1e-4, keeping the larger of the two counts that agree. In our runs: {qpoints} fits used each number of points.",
+    "source": "our_choice",
+    "sensitivity": "Keeping the smaller count (variant qfirst): {h_qfirst_table1_converged} of 27 convergence and {h_qfirst_table1_stable} of 114 high-convergence bias cells; 1 point (Laplace, variant q1): {h_q1_table1_converged} and {h_q1_table1_stable}; 3 points (q3): {h_q3_table1_converged} and {h_q3_table1_stable}."
+   },
+   {
+    "what": "Random numbers: NumPy PCG64, one stream per data set (seed 19554471, study, cell, replicate); the paper's SAS generator and seeds are not given.",
+    "source": "our_choice",
+    "sensitivity": "A second run with other seeds (base 19554472): {table1_stable_second} of 114, {table1_lowconv_second} of 48 and {table3_stable_second} of 114 cells within tolerance of the paper."
+   }
+  ],
+  "table4": [
+   {
+    "what": "Table 4 pools the nine groups x size cells of the main grid, 1,000 data sets each, at each prevalence; the paper says only that it 'repeated our simulations'.",
+    "source": "our_choice",
+    "sensitivity": "Pooling only the cells of group size 5: {h_table4_size5_cells_table4} of 54 cells within tolerance; only the cells of 30 groups: {h_table4_groups30_cells_table4}; all nine: {table4_within}. % converged pooled over all nine: {t4_conv_all_cells}; over size 5: {t4_conv_size5} (paper 77, 86, 87)."
+   }
+  ],
+  "table5": [
+   {
+    "what": "The true variance of a random effect in Table 5 is the variance of the distribution it is drawn from (N(0, 4): 4; U(-2, 2): 4/3; t3: 3; t5: 5/3); the paper does not say.",
+    "source": "our_choice",
+    "sensitivity": "A wrong truth moves every σ bias of the model by a fixed factor; the t3 models (6 and 7) are the ones whose σ biases miss."
+   },
+   {
+    "what": "Table 5's non-coverage is a share of all 100 data sets of a cell, a data set that did not converge counted as not covered (Tables 3 and 4 take it over converged fits).",
+    "source": "found_by_search",
+    "sensitivity": "Over converged fits only, {h_table5_noncoverage_converged_only_table5_noncoverage} of 432 non-coverage cells come back ({h_table5_noncoverage_converged_only_group_size_5} of 144 at group size 5), against {table5_noncoverage_within} ({h_table5_noncoverage_converged_only_main_run_group_size_5})."
+   }
+  ],
+  "table2": [
+   {
+    "what": "Table 2's p-values: a likelihood-ratio test of the 3-level factor in a logistic regression of the non-coverage indicator of every converged fit; compared as significant or not at 0.05.",
+    "source": "our_choice",
+    "sensitivity": "The paper does not say how the factor entered the model."
+   }
+  ]
+ },
+ "items": [
+  {
+   "id": "methods.design",
+   "label": "Methods: variances 0.13, 0.67, 2.0 give ICC 0.04, 0.17, 0.38 and σ0 0.36, 0.82, 1.42",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:methods_design/fields",
+   "expect_misses": "any",
+   "exceptions": [
+    {
+     "field": "sigma0 = sqrt(2.0)",
+     "category": "paper_error",
+     "evidence": "sqrt(2.0) = 1.414, which prints as 1.41; the paper prints 1.42 (Methods). The other two σ0 and the three ICCs follow from the stated variances."
+    }
+   ]
+  },
+  {
+   "id": "methods.prevalence",
+   "label": "Methods and Table 4: prevalence close to 30% in the main grid; 0.10, 0.34, 0.45 with Table 4's coefficients",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:methods_prevalence/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "The stated design gives a prevalence of {prev_main}% over the main grid (30.5, 31.8 and 34.0% at the three ICCs, by numerical integration), which the paper calls 'close to 30 percent'; Table 4's middle column, labelled 0.34, has an expected prevalence of 0.324 ({t4_prev} in our data sets).",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our generator differs from the stated design",
+      "test": "Expected prevalence of the stated model computed by Monte Carlo integration over 4 million draws: 30.45, 31.76, 34.05% for the three ICCs; -3/.3/.3/.3 gives 9.46%, -1/.3/.3/.3 32.43%, -.3 x 4 44.64%. Result: our data sets have these prevalences, so the labels are the paper's rounding",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table1.converged",
+   "label": "Table 1, % converged in each of the 27 cells",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table1_converged",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "Which fits count as converged is NLMIXED's verdict, and NLMIXED cannot be run here. Our NLMIXED-like optimizer gives {conv_30x5}% at 30 groups x 5 (paper 56, 68, 76); the bias and coverage of the group-size-5 cells move with which fits are kept. No variant of the optimizer settings moves 30 groups x 5 to the paper's rates (replicates 0-199: without σ01 {v_nocov_conv30x5}%, without ABSXCONV {v_noabsx_conv30x5}%, 2,000 function calls {v_maxfunc2000_conv30x5}%, fewer quadrature points {v_qfirst_conv30x5}%, 3 points {v_q3_conv30x5}%). On 200 data sets per design, whose tolerance is wider, three variants score all 27 convergence cells, as our own reading does.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED keeps going longer before giving up",
+      "test": "Variant maxfunc2000 (2,000 function calls instead of 500). Result: {h_maxfunc2000_table1_converged} of 27 (gap {h_maxfunc2000_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED picks fewer quadrature points",
+      "test": "Variants qfirst (the smaller of the two agreeing counts), q1 (Laplace) and q3. Result: {h_qfirst_table1_converged}, {h_q1_table1_converged} and {h_q3_table1_converged} of 27 (gaps {h_qfirst_gap}, {h_q1_gap}, {h_q3_gap} points). With one point no fit converges: our re-centred quadrature's gradient leaves out the derivative of the Laplace determinant, so q1 is not a fair test; qfirst is as close as ours on 200 data sets per design",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "A fit converges only with a positive definite Hessian",
+      "test": "The main run's fits with that extra rule. Result: {h_hessian_pd_required_table1_converged} of 27 (gap {h_hessian_pd_required_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run with other seeds. Result: as the whole story: the second run gives {second_conv_30x5}% at 30 groups x 5, as the main run ({conv_30x5}%), against the paper's 56, 68, 76",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table1.stable",
+   "label": "Table 1, % relative bias in the 19 cells that converged in 98-100% of data sets (114 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table1_stable",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any"
+  },
+  {
+   "id": "table1.lowconv",
+   "label": "Table 1, % relative bias in the 8 cells that converged in 56-94% of data sets (48 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table1_lowconv",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "The {t1low_nmiss} misses are σ1's bias at {t1low_misses}. At 30 groups x 5 our σ1 biases are {s1_30x5}% against the paper's 55.49, 54.55, 54.02 (second run {s1_30x5_second}). These designs keep 55-82% of fits, and the mean of the kept variance estimates depends on which fits NLMIXED declared converged; NLMIXED cannot be run here.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED keeps going longer before giving up",
+      "test": "Variant maxfunc2000 (2,000 function calls instead of 500). Result: {h_maxfunc2000_table1_converged} of 27 (gap {h_maxfunc2000_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED picks fewer quadrature points",
+      "test": "Variants qfirst (the smaller of the two agreeing counts), q1 (Laplace) and q3. Result: {h_qfirst_table1_converged}, {h_q1_table1_converged} and {h_q3_table1_converged} of 27 (gaps {h_qfirst_gap}, {h_q1_gap}, {h_q3_gap} points). With one point no fit converges: our re-centred quadrature's gradient leaves out the derivative of the Laplace determinant, so q1 is not a fair test; qfirst is as close as ours on 200 data sets per design",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "A fit converges only with a positive definite Hessian",
+      "test": "The main run's fits with that extra rule. Result: {h_hessian_pd_required_table1_converged} of 27 (gap {h_hessian_pd_required_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run with other seeds. Result: as the whole story: the second run gives {second_conv_30x5}% at 30 groups x 5, as the main run ({conv_30x5}%), against the paper's 56, 68, 76",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits at an interior maximum are kept",
+      "test": "The main run's fits that met a gradient criterion: {conv_30x5_interior}% converged at 30 x 5, σ1 bias {s1_30x5_interior}%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.rates",
+   "label": "Table 2, non-coverage pooled by number of groups, group size and ICC (54 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table2_rates",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "The misses are σ0's pooled non-coverage at 100 groups, group size 5 and ICC 0.04, the levels that hold the low-ICC and group-size-5 designs where σ0's interval covers more often than the paper's (Table 3). There NLMIXED's verdict on the fit and its standard error at a near-zero variance decide the interval; our boundary fits have no positive definite Hessian and no interval. Elsewhere the variance-scale interval matches ({ci_variance_stable} of {ci_stable_n} σ cells of the 98-100% designs).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The interval is on the SD scale",
+      "test": "Delta-method interval for the SD: {ci_sd_scale_stable} of {ci_stable_n} high-convergence and {ci_sd_scale_low} of {ci_low_n} low-convergence σ cells (variance scale: {ci_variance_stable} and {ci_variance_low}); 30 x 5, ICC 0.04: {ci_sd_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The interval is on the log variance",
+      "test": "{ci_log_scale_stable} and {ci_log_scale_low} cells; 30 x 5, ICC 0.04: {ci_log_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boundary fits are kept and count as not covered",
+      "test": "{ci_boundary_as_miss_stable} and {ci_boundary_as_miss_low} cells; 30 x 5, ICC 0.04: {ci_boundary_as_miss_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "The second run gives the same low σ0 non-coverage in these designs (second_run in comparison.json); the gaps are several Monte Carlo SEs",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table2.pvalues",
+   "label": "Table 2, the 18 p-values for the effect of each factor on non-coverage, as significant or not at 0.05",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table2_pvalues",
+   "assumptions_from": [
+    "simulation",
+    "table2"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "metric_resolution",
+    "status": "open",
+    "summary": "Table 2's p-values pool about 24,000 fits, so a difference of half a point of non-coverage between levels is significant; whether the paper's small differences cross 0.05 depends on Monte Carlo error and on which fits enter. σ0's group-size test follows σ0's coverage gap at group size 5 (Table 3). {t2_pv_flips} of 18 calls change between our two runs.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The factor entered as a number (1 df trend) rather than as 3 levels",
+      "test": "Likelihood-ratio test of a linear trend: {t2_trend} of 18 calls as printed",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run: {t2_pv_second} of 18 calls as printed; {t2_pv_flips} calls differ between our two runs",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "σ0's coverage at group size 5 drives σ0's group-size test",
+      "test": "σ0's pooled non-coverage at group size 5 is below the paper's (Table 2 rates), which makes the effect significant",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table3.stable",
+   "label": "Table 3, non-coverage in the 19 cells that converged in 98-100% of data sets (114 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_stable",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any"
+  },
+  {
+   "id": "table3.lowconv",
+   "label": "Table 3, non-coverage in the 8 cells that converged in 56-94% of data sets (48 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_lowconv",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "σ0's interval covers more often than the paper's where the random intercept is small and fits often stop near a zero variance (ICC 0.04, and groups of 5): non-coverage {s0_nc_30x5_004} at 30 groups x 5, ICC 0.04 (paper 0.142) and {s0_nc_100x5_004} at 100 x 5 (paper 0.172). There NLMIXED's verdict on the fit and its standard error at a near-zero variance decide the interval; our boundary fits have no positive definite Hessian and no interval. Elsewhere the variance-scale interval matches ({ci_variance_stable} of {ci_stable_n} σ cells of the 98-100% designs).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The interval is on the SD scale",
+      "test": "Delta-method interval for the SD: {ci_sd_scale_stable} of {ci_stable_n} high-convergence and {ci_sd_scale_low} of {ci_low_n} low-convergence σ cells (variance scale: {ci_variance_stable} and {ci_variance_low}); 30 x 5, ICC 0.04: {ci_sd_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The interval is on the log variance",
+      "test": "{ci_log_scale_stable} and {ci_log_scale_low} cells; 30 x 5, ICC 0.04: {ci_log_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boundary fits are kept and count as not covered",
+      "test": "{ci_boundary_as_miss_stable} and {ci_boundary_as_miss_low} cells; 30 x 5, ICC 0.04: {ci_boundary_as_miss_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "The second run gives the same low σ0 non-coverage in these designs (second_run in comparison.json); the gaps are several Monte Carlo SEs",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, % bias, non-coverage and % converged at prevalence 0.10, 0.34 and 0.45 (54 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table4",
+   "assumptions_from": [
+    "simulation",
+    "table4"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "{t4_bnc_within} of the {t4_bnc_total} biases and non-coverage rates come back; % converged does not: pooled over the nine groups x size designs our fit converges in {t4_conv_all_cells}% of data sets at the three prevalences, against the paper's 77, 86, 87. The paper does not say which designs Table 4 ran, and its own Table 1 has about 95% converged at a random-intercept variance near 1. The misses in bias (σ1 at 0.10, γ11 at 0.45) and σ0's non-coverage at 0.10 sit in the designs whose fits depend on convergence.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Only the designs of group size 5",
+      "test": "% converged {t4_conv_size5}; {h_table4_size5_cells_table4} of 54 cells within tolerance (all nine designs: {table4_within})",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only the designs of 30 groups",
+      "test": "% converged {t4_conv_groups30}; {h_table4_groups30_cells_table4} of 54 cells",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Any subset of the nine designs",
+      "test": "Every one of the {t4_subsets} combinations of numbers of groups and group sizes, scored by its mean gap to 77, 86, 87 (comparison.json, table4_design_subsets): the closest ({t4_best_subset}) gives {t4_best_conv}%, {t4_best_gap} points off on average",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Which fits NLMIXED declared converged",
+      "test": "As for Table 1 (the same optimizer); cannot be tested without SAS",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table5.converged",
+   "label": "Table 5, % converged of the eight non-normal models in 9 cells each (72 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table5_converged",
+   "assumptions_from": [
+    "simulation",
+    "table5"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "paper_error",
+    "status": "explained",
+    "summary": "Model 7 at 50 groups x 5: the paper prints 80% converged, below model 1's 88%, while its text says model 7 converged more often than model 1 with groups of 5 (p < 0.01). Our 100% agrees with the text.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The table cell contradicts the paper's own text",
+      "test": "Table 5 gives model 7 76, 80, 94% and model 1 80, 88, 100% at groups of 5; the text says model 7 'more likely to converge'",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table5.bias",
+   "label": "Table 5, % relative bias (432 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table5_bias",
+   "assumptions_from": [
+    "simulation",
+    "table5"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "{t5_miss_m67} of the {t5_miss_total} missed Table 5 bias and coverage cells are in models 6 and 7, nearly all of them σ0 and σ1; their random effects are t with 3 degrees of freedom, and our variance estimates fall further below the t3 variance than the paper's ({t5_miss_m15} misses in models 1 to 5). The paper does not say how the t variates were drawn or which true variance the bias refers to.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ on the SD scale for Table 5",
+      "test": "Bias of the SD against the t3 SD: model 6 {t5_m6_sd} of 18 σ bias cells (variance scale {t5_m6_var}), model 7 {t5_m7_sd} ({t5_m7_var})",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The true variance is 1 (standardized t)",
+      "test": "Relative bias does not depend on the scale when the data and the truth are scaled together; with t3 drawn unscaled and a truth of 1 the bias would be strongly positive, the paper's is negative",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of 100 data sets",
+      "test": "Models 1-5, with the same 100 replicates, miss {t5_miss_m15} cells",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "table5.noncoverage",
+   "label": "Table 5, % non-coverage (432 values)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table5_noncoverage",
+   "assumptions_from": [
+    "simulation",
+    "table5"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "Most misses are σ0 and σ1 of models 6 and 7 (t3 random effects), whose variance estimates and intervals fall further from the t3 variance than the paper's; see the Table 5 bias row.",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ on the SD scale for Table 5",
+      "test": "Bias of the SD against the t3 SD: model 6 {t5_m6_sd} of 18 σ bias cells (variance scale {t5_m6_var}), model 7 {t5_m7_sd} ({t5_m7_var})",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The true variance is 1 (standardized t)",
+      "test": "Relative bias does not depend on the scale when the data and the truth are scaled together; with t3 drawn unscaled and a truth of 1 the bias would be strongly positive, the paper's is negative",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error of 100 data sets",
+      "test": "Models 1-5, with the same 100 replicates, miss {t5_miss_m15} cells",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.convergence",
+   "label": "LABEL:text_convergence",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_convergence/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "The text's convergence rates are the means of Table 1's, so they carry Table 1's convergence gap: by number of groups ours are {c_text_convergence_5}, {c_text_convergence_6}, {c_text_convergence_7}% (paper 87.7, 93.8, 98.1) and by ICC {c_text_convergence_8}, {c_text_convergence_9}, {c_text_convergence_10}% (89.2, 94.5, 95.9). The pattern (rising with groups and group size) came back.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED keeps going longer before giving up",
+      "test": "Variant maxfunc2000 (2,000 function calls instead of 500). Result: {h_maxfunc2000_table1_converged} of 27 (gap {h_maxfunc2000_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "NLMIXED picks fewer quadrature points",
+      "test": "Variants qfirst (the smaller of the two agreeing counts), q1 (Laplace) and q3. Result: {h_qfirst_table1_converged}, {h_q1_table1_converged} and {h_q3_table1_converged} of 27 (gaps {h_qfirst_gap}, {h_q1_gap}, {h_q3_gap} points). With one point no fit converges: our re-centred quadrature's gradient leaves out the derivative of the Laplace determinant, so q1 is not a fair test; qfirst is as close as ours on 200 data sets per design",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "A fit converges only with a positive definite Hessian",
+      "test": "The main run's fits with that extra rule. Result: {h_hessian_pd_required_table1_converged} of 27 (gap {h_hessian_pd_required_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run with other seeds. Result: as the whole story: the second run gives {second_conv_30x5}% at 30 groups x 5, as the main run ({conv_30x5}%), against the paper's 56, 68, 76",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.converged_vs_not",
+   "label": "LABEL:text_converged_vs_not",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_converged_vs_not/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The stated design gives a prevalence of 32.1% over the main grid, so ours is {prev_conv}% in converged and {prev_not}% in non-converged data sets against the paper's 30.4 and 30.0. Our SD of z is the mean over data sets of each one's sample SD (below 1 by the small-sample bias of an SD); the paper's 1.01 is not stated as either. Means of z and x come back.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The comparison used only the designs of ICC 0.04, whose prevalence is 30.5%",
+      "test": "Ours in those designs: {prev_icc04_conv}% converged, {prev_icc04_not}% not converged",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Our generator gives the wrong prevalence",
+      "test": "Expected prevalence of the stated model by numerical integration: 30.45, 31.76 and 34.05% at the three ICCs, mean 32.1%, equal to our data sets'",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.nonconverged_followup",
+   "label": "LABEL:text_nonconverged_followup",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_nonconverged_followup/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "The paper examined 168 non-converged data sets of 30 groups x 5; we have {nc_datasets} ({nc_by_cell} at the three ICCs), and the paper does not say which 168 it took. With likelihood-ratio tests both random effects are significant in {nc_lrt_both}% of ours (paper 2.4%, within Monte Carlo error of 168 data sets); with NLMIXED's Wald t tests on the variances in {nc_wald_both}%.",
+    "evidence": [
+     "figure-reproduction/output/record_tests.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "All non-converged data sets of the three ICCs",
+      "test": "{nc_datasets} data sets",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The data sets of one ICC",
+      "test": "{nc_by_cell} data sets",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Significance by Wald t tests on the variances",
+      "test": "Both significant in {nc_wald_both}%; the random intercept alone and the slope alone in {nc_int}% and {nc_slope}%",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.normality",
+   "label": "LABEL:text_normality",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_normality/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "With 100 groups of 50, {norm_100x50} of 12 Shapiro-Wilk tests is significant at 0.05 (twelve tests at 0.05 give at least one in about half of all runs); with 100 groups of 5, {norm_100x5} of 12 are, not the majority. With 50 groups of 30, {norm_50x30} of 12, as the paper says. The paper does not give its counts.",
+    "evidence": [
+     "figure-reproduction/output/record_tests.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Chance among twelve tests",
+      "test": "Expected false positives at 0.05: 0.6 of 12; P(at least one) = 0.46",
+      "result": "supported"
+     },
+     {
+      "hypothesis": "The paper's group-size-5 fits are fewer and more extreme",
+      "test": "Which fits enter depends on NLMIXED's convergence (Table 1); cannot be tested without SAS",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper tested at 0.01",
+      "test": "At 0.01, {norm01_100x5} of 12 tests are significant at 100 groups x 5 (still not the majority) and {norm01_100x50} of 12 at 100 x 50",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fixed_bias_overall",
+   "label": "LABEL:text_fixed_bias_overall",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_fixed_bias_overall/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "The text's overall biases are Table 1 averaged over all converged fits (the arithmetic gives 0.60, 2.58, 1.37, 3.75); they are dominated by the groups-of-5 designs, whose kept fits depend on NLMIXED's convergence. Ours are {c_text_fixed_bias_overall_0}, {c_text_fixed_bias_overall_1}, {c_text_fixed_bias_overall_2}, {c_text_fixed_bias_overall_3}%; γ11's falls short because our γ11 bias at 30 groups x 5 is lower (Table 1).",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run (other seeds): {s_text_fixed_bias_overall_0}, {s_text_fixed_bias_overall_1}, {s_text_fixed_bias_overall_2}, {s_text_fixed_bias_overall_3}%",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.fixed_bias_cells",
+   "label": "LABEL:text_fixed_bias_cells",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_fixed_bias_cells/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "exceptions": [
+    {
+     "field": "g01: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+     "category": "paper_error",
+     "evidence": "Table 1's largest γ01 bias is 12.22 at 30 x 5, ICC 0.38, not 11.12 at ICC 0.04 (text.arithmetic)."
+    },
+    {
+     "field": "g11: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+     "category": "paper_error",
+     "evidence": "Table 1's largest γ11 bias is 14.93 at 30 x 5, ICC 0.17, not 13.26 at ICC 0.04 (text.arithmetic)."
+    },
+    {
+     "field": "every fixed-effect bias 1% or less at 100 groups x 30",
+     "category": "paper_error",
+     "evidence": "Table 1 prints 1.04 and 1.07 at 100 x 30 (text.arithmetic)."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "One threshold misses: at 50 groups x 30 our largest fixed-effect bias is {fix50x30_par}'s {fix50x30_val}% at ICC {fix50x30_icc} (Monte Carlo SE {fix50x30_se}), against the text's 'below 4%'. Three statements are left out because the paper's own Table 1 contradicts them.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run (other seeds): 'every fixed-effect bias below 4% at 50 groups x 30': {s_text_fixed_bias_cells_9}",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper's γ01 bias at 50 x 30 is a different quantity",
+      "test": "Table 1 prints -0.56 to 0.28 there, and our values at 100 x 30 and 100 x 50 are within tolerance of the paper's",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.random_bias",
+   "label": "LABEL:text_random_bias",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_random_bias/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "σ1's overall bias at ICC 0.04 is {c_text_random_bias_6}% (paper: 4 to 6% at every ICC) because our σ1 bias at 30 groups x 5, ICC 0.04, is about half the paper's (Table 1), a design that keeps {conv_30x5_004}% of fits. At 100 groups x 50 our {var100x50_par} bias at ICC {var100x50_icc} is {var100x50_val}% (Monte Carlo SE {var100x50_se}), against the text's 'below 4%'. σ0's overall and by-ICC biases come back.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run (other seeds): lowest σ1 bias over the ICCs {s_text_random_bias_6}%; 'below 4% at 100 x 50' {s_text_random_bias_8}",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.noncoverage",
+   "label": "LABEL:text_noncoverage",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_noncoverage/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "exceptions": [
+    {
+     "field": "lowest variance-component non-coverage of a cell (%)",
+     "category": "paper_error",
+     "evidence": "The text gives 7% to 17%; Table 3 prints 0.030 for σ1 at 30 groups x 5, ICC 0.38, and five more cells below 0.07 (text.arithmetic)."
+    }
+   ],
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "The misses follow σ0's coverage gap in the low-ICC designs (Table 3): our σ0 non-coverage rises with ICC instead of falling, and at 30 and 100 groups it is below the paper's. There NLMIXED's verdict on the fit and its standard error at a near-zero variance decide the interval; our boundary fits have no positive definite Hessian and no interval. Elsewhere the variance-scale interval matches ({ci_variance_stable} of {ci_stable_n} σ cells of the 98-100% designs).",
+    "evidence": [
+     "figure-reproduction/output/comparison.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "The interval is on the SD scale",
+      "test": "Delta-method interval for the SD: {ci_sd_scale_stable} of {ci_stable_n} high-convergence and {ci_sd_scale_low} of {ci_low_n} low-convergence σ cells (variance scale: {ci_variance_stable} and {ci_variance_low}); 30 x 5, ICC 0.04: {ci_sd_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "The interval is on the log variance",
+      "test": "{ci_log_scale_stable} and {ci_log_scale_low} cells; 30 x 5, ICC 0.04: {ci_log_scale_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Boundary fits are kept and count as not covered",
+      "test": "{ci_boundary_as_miss_stable} and {ci_boundary_as_miss_low} cells; 30 x 5, ICC 0.04: {ci_boundary_as_miss_cell}",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "The second run gives the same low σ0 non-coverage in these designs (second_run in comparison.json); the gaps are several Monte Carlo SEs",
+      "result": "rejected"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.prevalence",
+   "label": "LABEL:text_prevalence",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_prevalence/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "undocumented_setting",
+    "status": "open",
+    "summary": "These statements rest on Table 4, whose designs the paper does not state and whose convergence we do not reproduce ({t4_conv_all_cells}% against 77, 86, 87). Keeping more fits at 10% prevalence, our biases there are smaller: the 10% prevalence does not have the largest bias, and the largest variance-component bias with groups of 5 is {c_text_prevalence_8}% (paper 50%, 'data not shown').",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Only the designs of group size 5",
+      "test": "% converged {t4_conv_size5}; {h_table4_size5_cells_table4} of 54 cells within tolerance (all nine designs: {table4_within})",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only the designs of 30 groups",
+      "test": "% converged {t4_conv_groups30}; {h_table4_groups30_cells_table4} of 54 cells",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Any subset of the nine designs",
+      "test": "Every combination of numbers of groups and group sizes scored by its mean gap to 77, 86, 87: the closest ({t4_best_subset}) is 2.8 points off on average and misses 86 and 87 by 4 points",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Which fits NLMIXED declared converged",
+      "test": "As for Table 1 (the same optimizer); cannot be tested without SAS",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.robustness",
+   "label": "LABEL:text_robustness",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_robustness/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "exceptions": [
+    {
+     "field": "no model differs from model 1 in convergence with groups of 30 or 50",
+     "category": "paper_error",
+     "evidence": "Table 5 prints 76, 92 and 100% converged for model 4 at groups of 30 (model 1: 100, 100, 100), a difference significant at 0.01 on the table's own counts (text.arithmetic)."
+    }
+   ],
+   "cause": {
+    "category": "nondeterminism",
+    "status": "open",
+    "summary": "With groups of 5, model 2 converges in {rt_m2_5}% of our data sets against model 1's {rt_m1_5}% (p {rt_m2_p}); the paper finds no difference. Every other test came back but the statement that no model differs with groups of 30 or more: ours differ (models 4 and 5), and so does the paper's own Table 5, so it is set aside as a slip in the text.",
+    "evidence": [
+     "figure-reproduction/output/record_tests.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Chance at p < 0.01 with 300 data sets per model",
+      "test": "Table 5's own counts (84, 94, 100 against 80, 88, 100) give no difference; ours are {rt_m2_5}% against {rt_m1_5}%, p {rt_m2_p}",
+      "result": "inconclusive"
+     },
+     {
+      "hypothesis": "Which fits NLMIXED declared converged",
+      "test": "Model 1's convergence with groups of 5 is {t5_m1_conv5}% in ours against 89% in the paper (Table 5, the mean of 80, 88 and 100); cannot be tested without SAS",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.main_claim",
+   "label": "LABEL:text_main_claim",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_main_claim/fields",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": "any",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "{mc_hold} of {mc_total} parts hold on our run: fixed effects are unbiased with 100 groups of 50, biases are severe with groups of 5, convergence fails where samples are small, and the variance intervals stay too narrow at 100 x 50. The misses: at 100 x 50 our largest variance bias is {var100x50_par}'s {var100x50_val}% (Monte Carlo SE {var100x50_se}) against the text's 'below 4%'; with groups of 5 our fixed-effect intervals over-cover (non-coverage down to {fixnc_min}%) and σ0's under ICC 0.04 also covers more than the paper's (Table 3); and our Table 4 does not make the 10% prevalence the most biased (Table 4's convergence).",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/simulation.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "σ01 is not estimated",
+      "test": "Variant nocov: replicates 0-199 of every cell refitted without σ01. Result: {h_nocov_table1_converged} of 27 convergence cells within tolerance (mean gap {h_nocov_gap} points) against {h_baseline_table1_converged} ({h_baseline_gap}) for the same data sets with σ01",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Only fits that meet a gradient criterion converge (no ABSXCONV)",
+      "test": "Variant noabsx, replicates 0-199. Result: {h_noabsx_table1_converged} of 27 (gap {h_noabsx_gap} points)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo error",
+      "test": "Our second run (other seeds): parts as printed: {s_text_main_claim_1}, {s_text_main_claim_3}, {s_text_main_claim_4} for the three main-grid misses",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims and pooled values recomputed from the paper's own tables (Table 2 from Tables 1 and 3; the text from Tables 1-5)",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "claims.json"
+  },
+  {
+   "id": "crosscheck.integration",
+   "label": "mlagq's likelihood and maxima against direct numerical integration",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "crosscheck.json"
+  },
+  {
+   "id": "port",
+   "label": "The authors' SAS 9.1 PROC NLMIXED programs",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "explained",
+    "summary": "The simulations ran in SAS 9.1 with PROC NLMIXED and no code was released or found (issue #86 lists the search). SAS is proprietary and not available here, so the rebuilt method (mlagq) is checked against the paper's tables and against direct numerical integration, not against NLMIXED.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/86"
+    ],
+    "hypotheses": []
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package mlagq and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "page": {
+  "lede": "Moineddin, Matheson and Glazier ran their simulation in SAS with PROC NLMIXED and published it in 2007 without the code. In November 2026 we rebuilt the data and an NLMIXED-like fit from the paper and reran every design: 27 cells of 1,000 data sets for Tables 1 to 3, 27,000 more for Table 4 and 7,200 for Table 5. {cells_within} of the {cells_total} printed values of Tables 1-5 (all but Table 2's p-values) came back within Monte Carlo error. Of {items} results, {agree_total} agree and {partly} partly agree; {not_attempted} (the SAS code) could not be attempted. Every gap has a tested cause.",
+  "label_rows": [
+   [
+    "table-1",
+    "Table 1, bias and convergence",
+    [
+     "table1.converged",
+     "table1.stable",
+     "table1.lowconv"
+    ]
+   ],
+   [
+    "table-2",
+    "Table 2, coverage by factor",
+    [
+     "table2.rates",
+     "table2.pvalues"
+    ]
+   ],
+   [
+    "table-3",
+    "Table 3, coverage by cell",
+    [
+     "table3.stable",
+     "table3.lowconv"
+    ]
+   ],
+   [
+    "table-4",
+    "Table 4, prevalence",
+    [
+     "table4"
+    ]
+   ],
+   [
+    "table-5",
+    "Table 5, non-normal data",
+    [
+     "table5.converged",
+     "table5.bias",
+     "table5.noncoverage"
+    ]
+   ],
+   [
+    "items",
+    "Claims of the text",
+    [
+     "text.convergence",
+     "text.converged_vs_not",
+     "text.nonconverged_followup",
+     "text.normality",
+     "text.fixed_bias_overall",
+     "text.fixed_bias_cells",
+     "text.random_bias",
+     "text.noncoverage",
+     "text.prevalence",
+     "text.robustness"
+    ]
+   ],
+   [
+    "items",
+    "Main claim",
+    [
+     "text.main_claim"
+    ]
+   ],
+   [
+    "items",
+    "The fit against direct integration",
+    [
+     "crosscheck.integration"
+    ]
+   ]
+  ],
+  "captions": {
+   "1": "Each row is one design: number of groups x group size, ICC. The cells are % converged and the % relative bias of the four fixed effects and the two random-effect variances. Paper above, ours below; shaded where ours is outside the tolerance.",
+   "2": "Non-coverage of the 95% Wald interval pooled over each level of each factor, and whether the factor's effect on non-coverage is significant at 0.05 (n.s. when not).",
+   "3": "Non-coverage of the 95% Wald interval in each design.",
+   "4": "% bias, non-coverage and % converged at prevalence 0.10, 0.34 and 0.45, pooled over the nine groups x size designs.",
+   "5": "Eight models for the distributions of z, u0, u1 and x, 100 data sets each: % converged, % relative bias and % non-coverage (counting a data set that did not converge as not covered)."
+  },
+  "no_miss_note": "Every cell is within Monte Carlo error of the paper's.",
+  "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
+  "claims_line": "The main claim {main_verdict}: on our run fixed effects are unbiased with 100 groups of 50, biases are severe with groups of 5, convergence fails where samples are small, and the variances' intervals stay too narrow even with 100 groups of 50. Our run does not make the 10% prevalence the most biased, and with groups of 5 some of our fixed-effect intervals cover more often than the paper's (non-coverage down to {fixnc_min}% against its lowest 2.8%); both depend on which fits NLMIXED kept.",
+  "came_back": [
+   [
+    "The simulation study",
+    "{main_cells_within} of {main_cells_total} printed values of Tables 1 to 3 (all but Table 2's p-values) came back within Monte Carlo error, from one run of all 27 designs with 1,000 data sets each. In the 19 designs where nearly every fit converged, all bias and coverage cells came back."
+   ],
+   [
+    "Convergence",
+    "The pattern came back: fits fail with few small groups and a small random intercept. Our NLMIXED-like fit converges in {conv_low}% to {conv_high}% of data sets per design, against the paper's 56% to 100%."
+   ],
+   [
+    "Prevalence and non-normal data",
+    "Table 4's bias and non-coverage came back, its convergence did not ({table4_within} of 54 cells). Table 5 came back in {table5_bias_within} of 432 bias and {table5_noncoverage_within} of 432 coverage cells, counting a data set that did not converge as not covered, as the paper's numbers show it did."
+   ],
+   [
+    "The method",
+    "mlagq, a Python package that fits multilevel logistic regression by adaptive Gauss-Hermite quadrature the way NLMIXED does, with a tutorial. Its likelihood equals a direct numerical integral."
+   ]
+  ],
+  "buried": [
+   "The SAS programs. The paper names SAS 9.1 and PROC NLMIXED and released no code; SAS cannot be run here.",
+   "Which fits NLMIXED called converged. That verdict decides the group-size-5 rows of Tables 1 and 3 and Table 5's low-convergence models; our optimizer keeps a different set of fits.",
+   "Some numbers of the text. A few do not follow from the paper's own tables."
+  ],
+  "matched_intro": "How we read what the paper does not say. Each reading was tested against the paper's tables.",
+  "matched": [
+   [
+    "σ0 and σ1",
+    "Variances as fitted, not standard deviations: the biases at group size 5 only come back on the variance scale."
+   ],
+   [
+    "σ01",
+    "Estimated, although the data have none: without it nearly every data set converges."
+   ],
+   [
+    "Convergence",
+    "A fit also stops when no parameter moves by more than 1e-8, the paper's 'absolute parameter convergence criterion'."
+   ],
+   [
+    "Table 5 coverage",
+    "Counted over all 100 data sets, a data set that did not converge counting as not covered."
+   ],
+   [
+    "The follow-up of non-converged data sets",
+    "Random effects tested by likelihood ratio: Wald tests of the variances find none significant in our data sets."
+   ]
+  ],
+  "closing": "The paper's sample-size advice came back from a rebuilt NLMIXED; its convergence rates stay tied to SAS."
+ },
+ "readme": {
+  "package_checks": "The package is implemented from the paper's text and checked against the paper's printed tables ({cells_within} of {cells_total} printed values of Tables 1-5, all but Table 2's p-values, within Monte Carlo error) and its likelihood against direct numerical integration (the example data, and the cross-check of the reproduction).",
+  "status": "the SAS PROC NLMIXED simulation rebuilt as `mlagq` and rerun; {cells_within} of {cells_total} printed values of Tables 1-5 (all but Table 2's p-values) within Monte Carlo error; σ as variances, σ01 estimated and Table 5's coverage over all data sets found from the tables; convergence tied to NLMIXED",
+  "front_note": "The main claim {main_verdict}; {cells_within} of {cells_total} table values came back",
+  "details": "## Comparing Monte Carlo tables\n\nNo printed cell can come back exactly: the paper's seeds and random-number generator are not given. Each cell is\ncompared at a tolerance fixed before the comparison: half a unit of the last printed digit plus 3 x √2 Monte Carlo\nstandard errors of one estimate (ours stands in for the paper's): the SD of the converged fits' estimates over √n\nfor % bias, √(p(1 - p)/n) for non-coverage and % converged. Table 2's p-values are compared as significant or not at\n0.05.\n\nHow good is that test? Our second run (other seeds) falls within the tolerance of our main run in\n{table1_stable_replicate} of 114, {table1_lowconv_replicate} of 48 and {table1_converged_replicate} of 27 Table 1 cells, and\n{table3_stable_replicate} of 114 and {table3_lowconv_replicate} of 48 Table 3 cells. Against the paper, the right designs\ngive {table1_stable_within} of 114 high-convergence bias cells; the neighbouring design of a wrong input gives at most\n{table1_stable_ctrl_max} (a neighbouring ICC barely moves the fixed effects, so only the σ columns and the other factors\ntell designs apart), and {table1_converged_ctrl_max} of 27 convergence cells against our {table1_converged_within}. For Table 5\nthe next model scores {table5_bias_ctrl} bias and {table5_noncoverage_ctrl} non-coverage cells against our\n{table5_bias_within} and {table5_noncoverage_within}.\n\nThe settings the paper does not state were found by scoring alternatives on the same data sets\n(`hypotheses` in `output/comparison.json`): σ01 estimated, the variance scale of σ0 and σ1, the paper's ABSXCONV,\nthe number of quadrature points, the interval for the variances, Table 4's designs and Table 5's non-coverage.\nEach is an assumption of `results.json` with its sensitivity. The variants refit replicates 0-199 of every cell of\nthe main grid; their records are not kept (about 4 MB), their summaries are (`output/records/extra.json`).\n\n## Layout\n\n| Path | Content |\n| --- | --- |\n| `main.nf`, `nextflow.config` | The pipeline. |\n| `requirements.txt` | Pinned Python packages; the package `mlagq` is installed from `../package`. |\n| `results_notes.json` | Labels, assumptions, causes and the page's prose, written by hand; merged with the run into `../results.json`. Numbers in the prose are filled from the run. |\n| `results.json` | The repository's results check (`tools/check_results.py`): our value for every compared cell and claim. |\n| `pipeline/` | `fetch_inputs.sh`, `extract_published.py`, `simulate.py`, `sim_check.py`, `summarize.py`, `record_tests.py`, `compare.py`, `claims.py`, `crosscheck.py`, `build_results.py`, `make_results_check.py`, `build_page.py` with `page_template.html`, `check_reproduction.py`, `update_readmes.py`, `env_versions.py`; copies of the skill's `check_results.py`, `compare_runs.py` and `check_package.py`. |\n| `output/published_values.json` | Every printed number of Tables 1-5. |\n| `output/records/` | One record per data set (status, estimates, standard errors) of the main grid (27,000), the prevalence study (27,000) and Table 5 (7,200), gzipped CSV with 8 significant digits; `extra.json`, the summaries of the second run and the variants. |\n| `output/simulation.json` | Every summary the comparison uses. |\n| `output/comparison.json`, `output/tables.csv` | Every printed cell against ours, with tolerances, the second run, the controls and the hypotheses; the same cells as one CSV. |\n| `output/claims.json`, `output/record_tests.json` | Every claim of the text against the paper's own tables and our two runs; the tests the claims need from the records (the non-converged follow-up, Shapiro-Wilk, the Table 5 tests). |\n| `output/crosscheck.json`, `output/sim_check.json`, `output/package.json` | The likelihood against direct integration; the first replicates rerun from scratch; the package check. |\n\n## Run\n\n```bash\npip install -r PMC1955447/figure-reproduction/requirements.txt ./PMC1955447/package\nnextflow run PMC1955447/figure-reproduction/main.nf --outdir results\nnextflow run PMC1955447/figure-reproduction/main.nf --outdir results --full       # rerun the whole study\nnextflow run PMC1955447/figure-reproduction/main.nf --outdir results --extract    # reread the printed tables from the XML\n```\n\nThe default run takes about 10 minutes on 4 cores: 378 data sets (the first 3 of every cell) simulated and fitted\nagain from scratch and checked against the committed records, the summaries, comparisons and claims recomputed\nfrom the records, the cross-check (about 2 minutes) and the package check (about 1 minute). `--full` reruns all\n61,200 data sets of Tables 1-5, the second run of Tables 1-3 (27,000) and the six variants (32,400), about 6 CPU\nhours. `.github/workflows/reproduce-pmc1955447.yml` runs the default on every pull request that touches this paper,\nand `--full` when started by hand.\n\n## Pipeline steps\n\n1. `FETCH`: the article XML from PMC's open-access bucket (Europe PMC as a fallback), SHA-256 checked.\n2. `PUBLISHED_VALUES`: the committed printed values, or with `--extract` read again from the XML and checked against them.\n3. `RECORDS_COMMITTED` and `SIM_CHECK` (default), or `SIMULATE` (`--full`): the per-replicate records.\n4. `SUMMARIZE`: every printed quantity from the records.\n5. `RECORD_TESTS`: the non-converged follow-up (refits), Shapiro-Wilk tests and the Table 5 tests.\n6. `COMPARE` and `CLAIMS`: every printed cell and claim against ours, the controls and the hypotheses.\n7. `CROSSCHECK`: mlagq's likelihood against a dense-grid integral, and its maxima against the exact likelihood's.\n8. `PACKAGE`: `check_package.py` on `../package` (wheel, fresh install, tests, tutorial rerun).\n9. `RESULTS`: `results.json` (verdicts by `check_results.py`), the repository's results check, the results page, and `check_reproduction.py` against the committed outputs (`report.md`); `CHECK` fails the run if anything differs.\n\n## Limits\n\n- **The SAS code is lost and SAS is not available.** The fit is rebuilt from the paper's description of PROC NLMIXED and checked against direct numerical integration and the paper's tables, not against NLMIXED (`port` is not attempted).\n- **Convergence is NLMIXED's.** Which fits count as converged decides the group-size-5 rows of Tables 1 and 3, Table 4's convergence and the low-convergence models of Table 5. Our optimizer follows NLMIXED's documented defaults; its line search and update are not public. Every summary depends on this through the fits it keeps.\n- **Three readings were found from the tables**, not read from the paper: σ01 estimated, σ0 and σ1 as variances, and Table 5's non-coverage over all data sets (`found_by_search` in `results.json`). The follow-up's likelihood-ratio tests are a fourth.\n- **Table 4's designs are not stated.** We pool the nine designs of the main grid; no combination of numbers of groups and group sizes we tried ({t4_subsets}) gives the paper's convergence (the closest is {t4_best_gap} points off on average).\n- **Monte Carlo error.** Every cell carries it, Table 5 most (100 data sets per cell).\n",
+  "summary_prose": "Every simulated cell is compared at a tolerance fixed before the comparison: half a printed unit plus three\ncombined Monte Carlo standard errors ([figure-reproduction/README.md](figure-reproduction/README.md#comparing-monte-carlo-tables)).\nNo simulated item can be \"exact\": the paper gives no seeds, and three of its unstated settings were found by testing\nagainst its tables.\n\n**What came back.** {cells_within} of the {cells_total} printed values of Tables 1-5 (all but Table 2's p-values) came back within Monte Carlo error.\nIn the 19 designs where 98-100% of fits converged, every bias and non-coverage cell of Tables 1 and 3 came back\n({table1_stable_within} of 114 and {table3_stable_within} of 114), and so did {t4_bnc_within} of Table 4's {t4_bnc_total} biases and non-coverage rates. The\npattern of convergence came back: fits fail with few small groups and a small random intercept.\n\n**What did not.** Which fits count as converged is NLMIXED's verdict. Our NLMIXED-like optimizer converges in\n{conv_30x5}% of data sets of 30 groups of 5 (paper 56, 68, 76), so the group-size-5 rows of Tables 1 and 3, Table 4's\nconvergence and the t3 models of Table 5 differ where they depend on which fits are kept. σ0's interval covers more\noften than the paper's where the random intercept is small. Each gap has its tested hypotheses in `results.json`.\n\n**Settings the paper does not state**, each tested against its tables (`output/comparison.json`, `hypotheses`):\n\n- σ0 and σ1 are the variances as fitted, not standard deviations: the biases at group size 5 only come back on the\n  variance scale, and so do the intervals ({ci_variance_stable} of {ci_stable_n} high-convergence σ cells of Table 3,\n  against {ci_sd_scale_stable} on the SD scale).\n- The model estimates σ01, although the data have none. Without it nearly every data set of groups of 5 converges.\n- A fit also stops when no parameter moves by more than 1e-8 (the paper's \"absolute parameter convergence\n  criterion\", NLMIXED's ABSXCONV); fits creeping towards a zero variance stop this way and count as converged.\n- Table 5's non-coverage counts a data set that did not converge as not covered: {table5_noncoverage_within} of 432\n  cells come back, against {h_table5_noncoverage_converged_only_table5_noncoverage} over converged fits only.\n\n**Slips in the paper**, found by recomputing its text from its own tables (`text.arithmetic`): the Methods give\nσ0 = 1.42 for a variance of 2.0 (√2 = 1.41); the text puts the largest γ01 and γ11 biases at 30 x 5, ICC 0.04,\nwhere Table 1 has them at ICC 0.38 and 0.17; \"1% or less\" at 100 x 30, where Table 1 prints 1.04 and 1.07;\nvariance-component non-coverage of \"7% to 17%\" by cell, where Table 3 goes down to 0.030; the convergence of groups\nof 5 (80.4%) is not the mean of Table 1's (81.1%); and \"no significant difference between the rates of convergence\"\nwith groups larger than 5, where Table 5 has model 4 at 76% against model 1's 100%. Table 2's σ0 row by ICC repeats\nits row by number of groups but is what Table 3 gives: not a copy error."
+ }
+}

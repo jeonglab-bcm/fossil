@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mlagq"
+version = "0.1.0"
+description = "Multilevel logistic regression by full maximum likelihood with adaptive Gauss-Hermite quadrature, and the simulation study of Moineddin, Matheson and Glazier (2007)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors" }]
+dependencies = ["numpy>=2.1,<3"]
+
+[project.scripts]
+mlagq = "mlagq.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC1955447"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC1955447/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mlagq"]
