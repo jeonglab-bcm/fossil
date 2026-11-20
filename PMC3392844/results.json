@@ -312,6 +312,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -486,7 +493,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "table3.svm",
@@ -598,6 +605,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+      },
       "assumptions": [
         {
           "what": "scikit-learn RF, 100 trees, 13 features per split, seed 0.",
@@ -675,7 +689,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "table3.knn",
@@ -683,6 +697,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+      },
       "assumptions": [
         {
           "what": "KNN score: share of positives among the 55 nearest, ties included, no prior.",
@@ -760,7 +781,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "table3.nb",
@@ -768,6 +789,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+      },
       "assumptions": [
         {
           "what": "Bernoulli naive Bayes, smoothing 1 (CLOP is no longer available).",
@@ -855,7 +883,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "table3.lr",
@@ -863,6 +891,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+      },
       "assumptions": [
         {
           "what": "LIBLINEAR L2 LR, C 10, epsilon 1, no bias.",
@@ -960,7 +995,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "fig2",
@@ -3417,12 +3452,12 @@
   "summary": {
     "items": 36,
     "exact": 3,
-    "agrees": 14,
-    "partly": 11,
+    "agrees": 19,
+    "partly": 9,
     "inconclusive": 0,
-    "differs": 5,
+    "differs": 2,
     "not_attempted": 3,
     "open_causes": 21,
-    "reviewed": 7
+    "reviewed": 12
   }
 }

@@ -38,19 +38,19 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3392844/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-3 exact, 14 agrees, 11 partly, 5 differs, 3 not attempted; 21 open causes; 7 verdicts set by a reviewer.
+3 exact, 19 agrees, 9 partly, 2 differs, 3 not attempted; 21 open causes; 12 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Fig. 1, the surveillance framework | not attempted | not attempted |
 | Table 1, feature dimensions | exact | 7 of 7 fields as printed |
 | Table 2, SVM by feature set, all ADRs | agrees | 5 of 24 fields as printed; computed partly, reviewer agrees |
-| Table 2, SVM by feature set, ADR_50+ | partly | 1 of 24 fields as printed |
+| Table 2, SVM by feature set, ADR_50+ | agrees | 1 of 24 fields as printed; computed partly, reviewer agrees |
 | Table 3, SVM row | agrees | 1 of 8 fields as printed; computed partly, reviewer agrees |
-| Table 3, RF row | differs | 0 of 8 fields as printed |
-| Table 3, KNN row | partly | 3 of 8 fields as printed |
-| Table 3, NB row | differs | 0 of 8 fields as printed |
-| Table 3, LR row | differs | 0 of 8 fields as printed |
+| Table 3, RF row | agrees | 0 of 8 fields as printed; computed differs, reviewer agrees |
+| Table 3, KNN row | agrees | 3 of 8 fields as printed; computed partly, reviewer agrees |
+| Table 3, NB row | agrees | 0 of 8 fields as printed; computed differs, reviewer agrees |
+| Table 3, LR row | agrees | 0 of 8 fields as printed; computed differs, reviewer agrees |
 | Fig. 2, ROC curves of six feature sets, all ADRs (drawn) | agrees | 100.00% within 2 px (pass 95.0%, best control 56.0%) |
 | Fig. 2, ROC curves of six feature sets, all ADRs, TPR at five FPRs read from the vector curves | agrees | 30 of 30 fields as printed |
 | Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn) | partly | 87.04% within 2 px (pass 95.0%, best control 37.5%) |
