@@ -978,7 +978,7 @@ The exact CI command passes from a fresh clone with a fresh environment (1 min 2
 
 - `Bash` python3 ~/.claude/skills/paper2agent/paper2repro/scripts/session_ledger.py --transcript /root/.claude/projects/-home-user/6b96ed79-8263-5124-b43b-a706a35a69ad.j
 
-- `Bash` grep -n -i "bcm.edu\|sofia\|salazar\|@" PMC4232638/session/conversation.md | head; head -30 PMC4232638/session/conversation.md
+- `Bash` grep -n -i "<private details>" PMC4232638/session/conversation.md | head; head -30 PMC4232638/session/conversation.md
 
 - `Bash` git add PMC4232638/session && git -c user.name="Claude" -c user.email="noreply@anthropic.com" commit -q -m "PMC4232638: session ledger Co-Authored-By: Claude Op
 
