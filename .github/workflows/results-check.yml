@@ -21,6 +21,9 @@ on:
       - "PMC*/**"
       - "tools/check_skill.py"
       - "tools/site_versions.py"
+      - "tools/check_index_links.py"
+      - "tools/site_install.py"
+      - "site/PMC*/index.html"
       - "site/index.html"
       - ".github/workflows/results-check.yml"
   workflow_dispatch:
@@ -56,6 +59,16 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/site_versions.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Front page titles link to the results pages
+        run: |
+          set -o pipefail
+          python3 tools/check_index_links.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Results pages show how to install each recovered package
+        run: |
+          set -o pipefail
+          python3 tools/site_install.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
 
   find:
     runs-on: ubuntu-24.04
