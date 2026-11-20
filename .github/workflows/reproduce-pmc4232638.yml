@@ -1,0 +1,75 @@
+name: Reproduce PMC4232638
+
+# Reruns the whole PMC4232638 pipeline (Martelotto et al. 2014, benchmarking mutation effect prediction
+# algorithms) and checks it: the article and 28 supplement files are downloaded and their SHA-256 checked;
+# the printed values are read from the article XML and the supplement PDFs and the drawn values from the
+# vector figures; every analysis runs again with the package mutbench (performance with bootstrap
+# intervals, kappa, clustering, low-confidence calls, gene classes, and all 11,253 predictor combinations
+# over 1,000 random splits, twice); every published value is compared; the figures are drawn on the
+# published frames; the package is built and tested in a fresh environment and its tutorial rerun; and the
+# fresh run is compared with the committed outputs, results.json, figure-reproduction/results.json and the
+# results page. Everything runs in about two minutes, so nothing is left to a manual run.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC4232638/figure-reproduction/**"
+      - "PMC4232638/package/**"
+      - "PMC4232638/results.json"
+      - "site/PMC4232638/**"
+      - ".github/workflows/reproduce-pmc4232638.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4232638/figure-reproduction/**"
+      - "PMC4232638/package/**"
+      - "PMC4232638/results.json"
+      - "site/PMC4232638/**"
+      - ".github/workflows/reproduce-pmc4232638.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poppler-utils (pdftotext reads the supplement tables)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package mutbench
+        run: pip install -r PMC4232638/figure-reproduction/requirements.txt ./PMC4232638/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC4232638/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4232638-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
