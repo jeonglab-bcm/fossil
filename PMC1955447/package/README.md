@@ -76,7 +76,7 @@ that give the paper's tables back best:
 
 ## Checks
 
-<!--CHECKS--><!--/CHECKS-->
+<!--CHECKS-->The package is implemented from the paper's text and checked against the paper's printed tables (1,294 of 1,395 cells of Tables 1-5 within Monte Carlo error) and its likelihood against direct numerical integration (the example data, and the cross-check of the reproduction).<!--/CHECKS-->
 
 ## Licence
 

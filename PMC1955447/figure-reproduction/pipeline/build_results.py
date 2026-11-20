@@ -181,6 +181,11 @@ def facts_of(run):
     f["nc_wald_both"] = f1(nc["both_significant_pct"])
     f["nc_lrt_both"] = f1(nc["lrt"]["both_significant_pct"])
     f["nc_by_cell"] = ", ".join(str(v["datasets"]) for v in nc["by_cell"].values())
+    t4bn = [x for x in T["table4"]["fields"] if "converged" not in x["name"]]
+    f["t4_bnc_within"], f["t4_bnc_total"] = sum(x["within"] for x in t4bn), len(t4bn)
+    mc = cl["text_main_claim"]["fields"]
+    f["mc_hold"] = sum(x["observed"] == x["expected"] for x in mc)
+    f["mc_total"] = len(mc)
     for k in ("cells_within", "cells_total", "main_cells_within", "main_cells_total"):
         f[k] = f"{f[k]:,}"
     # second run

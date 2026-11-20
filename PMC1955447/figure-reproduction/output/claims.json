@@ -1,0 +1,1580 @@
+{
+ "methods_design": {
+  "label": "Methods: random-intercept variances 0.13, 0.67 and 2.0 give ICC 0.04, 0.17 and 0.38 (with sigma_e^2 = pi^2/3) and sigma0 0.36, 0.82 and 1.42",
+  "quote": "the variances of the random intercept were set at 0.13, 0.67, and 2.0, corresponding to intra-class correlation coefficients (ICC) of 0.04, 0.17, and 0.38 ... σ0 follows from the ICC and is set to 0.36, 0.82, and 1.42",
+  "fields": [
+   {
+    "name": "ICC of variance 0.13",
+    "expected": "0.04",
+    "observed": 0.038,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 0.038,
+    "second_run": 0.038
+   },
+   {
+    "name": "sigma0 = sqrt(0.13)",
+    "expected": "0.36",
+    "observed": 0.3606,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 0.3606,
+    "second_run": 0.3606
+   },
+   {
+    "name": "ICC of variance 0.67",
+    "expected": "0.17",
+    "observed": 0.1692,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 0.1692,
+    "second_run": 0.1692
+   },
+   {
+    "name": "sigma0 = sqrt(0.67)",
+    "expected": "0.82",
+    "observed": 0.8185,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 0.8185,
+    "second_run": 0.8185
+   },
+   {
+    "name": "ICC of variance 2.0",
+    "expected": "0.38",
+    "observed": 0.3781,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 0.3781,
+    "second_run": 0.3781
+   },
+   {
+    "name": "sigma0 = sqrt(2.0)",
+    "expected": "1.42",
+    "observed": 1.4142,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "arithmetic": 1.4142,
+    "second_run": 1.4142
+   }
+  ]
+ },
+ "methods_prevalence": {
+  "label": "Methods and Table 4: the outcome's prevalence is close to 30% in the main grid, and 0.10, 0.34 and 0.45 with Table 4's coefficients",
+  "quote": "The overall prevalence of the outcome is close to 30 percent. ... We set the parameters ... at -3.0, 0.3, 0.3, and 0.3 for prevalence of 10%, at -1.0, 0.3, 0.3, and 0.3 for prevalence of 34% and -0.3, -0.3, -0.3, and -0.3 for prevalence of 45%.",
+  "fields": [
+   {
+    "name": "prevalence, all data sets of the main grid (%)",
+    "expected": "30",
+    "observed": 32.0517,
+    "tolerance": {
+     "abs": 0.5
+    },
+    "second_run": 32.0517
+   },
+   {
+    "name": "prevalence of the Table 4 column 0.10",
+    "expected": "0.10",
+    "observed": 0.0947,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "second_run": 0.0947
+   },
+   {
+    "name": "prevalence of the Table 4 column 0.34",
+    "expected": "0.34",
+    "observed": 0.3239,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "second_run": 0.3239
+   },
+   {
+    "name": "prevalence of the Table 4 column 0.45",
+    "expected": "0.45",
+    "observed": 0.446,
+    "tolerance": {
+     "abs": 0.005
+    },
+    "second_run": 0.446
+   }
+  ]
+ },
+ "text_convergence": {
+  "label": "Convergence: 56% to 100% by cell; 80.4/99.3/99.9% by group size, 87.7/93.8/98.1% by number of groups, 89.2/94.5/95.9% by ICC; no negative variances",
+  "quote": "The overall rate of model convergence varied from 56% to 100%. There were no negative variance estimates in converged models ...",
+  "fields": [
+   {
+    "name": "lowest % converged of a cell",
+    "expected": "56",
+    "observed": 54.7,
+    "tolerance": {
+     "abs": 7.1785
+    },
+    "arithmetic": 56.0,
+    "second_run": 52.3
+   },
+   {
+    "name": "highest % converged of a cell",
+    "expected": "100",
+    "observed": 100.0,
+    "tolerance": {
+     "abs": 0.5
+    },
+    "arithmetic": 100.0,
+    "second_run": 100.0
+   },
+   {
+    "name": "% converged, size 5",
+    "expected": "80.4",
+    "observed": 81.5,
+    "tolerance": {
+     "abs": 1.7865
+    },
+    "arithmetic": 81.1111,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 80.7556
+   },
+   {
+    "name": "% converged, size 30",
+    "expected": "99.3",
+    "observed": 99.0,
+    "tolerance": {
+     "abs": 0.495
+    },
+    "arithmetic": 99.2222,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 98.9667
+   },
+   {
+    "name": "% converged, size 50",
+    "expected": "99.9",
+    "observed": 99.8,
+    "tolerance": {
+     "abs": 0.2498
+    },
+    "arithmetic": 99.8889,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 99.8
+   },
+   {
+    "name": "% converged, groups 30",
+    "expected": "87.7",
+    "observed": 89.3556,
+    "tolerance": {
+     "abs": 1.4292
+    },
+    "arithmetic": 88.1111,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 88.8556
+   },
+   {
+    "name": "% converged, groups 50",
+    "expected": "93.8",
+    "observed": 93.9222,
+    "tolerance": {
+     "abs": 1.1185
+    },
+    "arithmetic": 94.0,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 93.7667
+   },
+   {
+    "name": "% converged, groups 100",
+    "expected": "98.1",
+    "observed": 97.0222,
+    "tolerance": {
+     "abs": 0.8101
+    },
+    "arithmetic": 98.1111,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 96.9
+   },
+   {
+    "name": "% converged, icc 0.04",
+    "expected": "89.2",
+    "observed": 87.1667,
+    "tolerance": {
+     "abs": 1.5458
+    },
+    "arithmetic": 89.5556,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 86.5667
+   },
+   {
+    "name": "% converged, icc 0.17",
+    "expected": "94.5",
+    "observed": 95.9778,
+    "tolerance": {
+     "abs": 0.9287
+    },
+    "arithmetic": 94.6667,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 95.5778
+   },
+   {
+    "name": "% converged, icc 0.38",
+    "expected": "95.9",
+    "observed": 97.1556,
+    "tolerance": {
+     "abs": 0.7934
+    },
+    "arithmetic": 96.0,
+    "arithmetic_tolerance": {
+     "abs": 0.55
+    },
+    "second_run": 97.3778
+   },
+   {
+    "name": "convergence rises with the number of groups and with group size",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "negative variance estimates in converged models",
+    "expected": "none",
+    "observed": "none",
+    "second_run": "none"
+   }
+  ]
+ },
+ "text_converged_vs_not": {
+  "label": "Converged against non-converged data sets: prevalence 30.4% vs 30.0%; z mean and SD 0.01 and 1.01 vs 0.02 and 1.00; x 0.00 and 1.00 vs 0.00 and 1.00",
+  "quote": "no significant differences in prevalence (30.4% vs. 30.0%), mean and standard deviation of zj (0.01 and 1.01 versus 0.02 and 1.00), or mean and standard deviation of xij (0.00 and 1.00 vs. 0.00 and 1.00)",
+  "fields": [
+   {
+    "name": "prevalence of converged data sets (%)",
+    "expected": "30.4",
+    "observed": 32.1403,
+    "tolerance": {
+     "abs": 0.1382
+    },
+    "second_run": 32.1483
+   },
+   {
+    "name": "prevalence of non-converged data sets (%)",
+    "expected": "30.0",
+    "observed": 30.7914,
+    "tolerance": {
+     "abs": 0.4552
+    },
+    "second_run": 30.9098
+   },
+   {
+    "name": "mean of z, converged",
+    "expected": "0.01",
+    "observed": 0.0004,
+    "tolerance": {
+     "abs": 0.0089
+    },
+    "second_run": -0.0008
+   },
+   {
+    "name": "SD of z, converged",
+    "expected": "1.01",
+    "observed": 0.9938,
+    "tolerance": {
+     "abs": 0.0078
+    },
+    "second_run": 0.9943
+   },
+   {
+    "name": "mean of z, not converged",
+    "expected": "0.02",
+    "observed": -0.0083,
+    "tolerance": {
+     "abs": 0.0216
+    },
+    "second_run": 0.0011
+   },
+   {
+    "name": "SD of z, not converged",
+    "expected": "1.00",
+    "observed": 0.9942,
+    "tolerance": {
+     "abs": 0.0163
+    },
+    "second_run": 0.9965
+   },
+   {
+    "name": "mean of x, converged",
+    "expected": "0.00",
+    "observed": -0.0003,
+    "tolerance": {
+     "abs": 0.0061
+    },
+    "second_run": 0.0002
+   },
+   {
+    "name": "SD of x, converged",
+    "expected": "1.00",
+    "observed": 0.9998,
+    "tolerance": {
+     "abs": 0.0057
+    },
+    "second_run": 0.9996
+   },
+   {
+    "name": "mean of x, not converged",
+    "expected": "0.00",
+    "observed": 0.0017,
+    "tolerance": {
+     "abs": 0.0118
+    },
+    "second_run": -0.0001
+   },
+   {
+    "name": "SD of x, not converged",
+    "expected": "1.00",
+    "observed": 0.9966,
+    "tolerance": {
+     "abs": 0.01
+    },
+    "second_run": 0.998
+   }
+  ]
+ },
+ "text_nonconverged_followup": {
+  "label": "Non-converged data sets of 30 groups x 5 refitted with a random intercept only and a random slope only: both significant in 2.4% (168 data sets)",
+  "quote": "we examined 168 non-convergent simulated data sets with 30 groups and group size of 5 ... Both the random intercept and random slope were statistically significant in only a small proportion of these data sets (2.4%).",
+  "fields": [
+   {
+    "name": "non-converged data sets of 30 groups x 5 examined",
+    "expected": "168",
+    "observed": 867,
+    "second_run": 867
+   },
+   {
+    "name": "both random effects significant (%), likelihood-ratio tests",
+    "expected": "2.4",
+    "observed": 1.2687,
+    "tolerance": {
+     "abs": 5.0597
+    },
+    "second_run": 1.2687
+   }
+  ]
+ },
+ "text_normality": {
+  "label": "Shapiro-Wilk tests of the fixed-effect estimates: most non-normal with groups of 5 even with 100 groups, a few non-normal with groups of 30 and 50 groups, all normal with 100 groups of 50",
+  "quote": "The majority of estimates from simulations with a group size of 5 were non-normal even with 100 groups. For simulations with a group size of 30 a few estimates were non-normal even with 50 groups. All estimates were normally distributed with 100 groups and group size of 50.",
+  "fields": [
+   {
+    "name": "majority of the 12 fixed-effect estimates of 100 groups x 5 non-normal",
+    "expected": "yes",
+    "observed": "no",
+    "second_run": "no"
+   },
+   {
+    "name": "a few (some, not most) of the 12 of 50 groups x 30 non-normal",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "all 12 of 100 groups x 50 normal",
+    "expected": "yes",
+    "observed": "no",
+    "second_run": "no"
+   }
+  ],
+  "counts": {
+   "100x5": [
+    6,
+    12
+   ],
+   "50x30": [
+    2,
+    12
+   ],
+   "100x50": [
+    1,
+    12
+   ]
+  }
+ },
+ "text_fixed_bias_overall": {
+  "label": "Overall fixed-effect bias 0.6%, 2.6%, 1.4% and 3.7% for γ00, γ01, γ10, γ11 ('data not shown'); γ11 the largest",
+  "quote": "the overall biases for the fixed effect parameters γ00, γ01, γ10, and γ11 were 0.6%, 2.6%, 1.4%, and 3.7% respectively (data not shown). The cross-level interaction parameter (γ11) had the largest overall bias.",
+  "fields": [
+   {
+    "name": "overall % bias g00",
+    "expected": "0.6",
+    "observed": 1.1985,
+    "tolerance": {
+     "abs": 0.5723
+    },
+    "arithmetic": 0.6028,
+    "second_run": 1.105
+   },
+   {
+    "name": "overall % bias g01",
+    "expected": "2.6",
+    "observed": 2.8357,
+    "tolerance": {
+     "abs": 1.8092
+    },
+    "arithmetic": 2.5846,
+    "second_run": 1.7482
+   },
+   {
+    "name": "overall % bias g10",
+    "expected": "1.4",
+    "observed": 0.7512,
+    "tolerance": {
+     "abs": 1.8629
+    },
+    "arithmetic": 1.3665,
+    "second_run": 1.3284
+   },
+   {
+    "name": "overall % bias g11",
+    "expected": "3.7",
+    "observed": 1.9209,
+    "tolerance": {
+     "abs": 1.9001
+    },
+    "arithmetic": 3.7489,
+    "second_run": 2.7736
+   },
+   {
+    "name": "γ11 has the largest overall bias of the fixed effects",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   }
+  ]
+ },
+ "text_fixed_bias_cells": {
+  "label": "Largest fixed-effect biases 8.8%, 11.1%, 15.8%, 13.3% at 30 groups x 5, ICC 0.04; below 6% at 30 x 30, below 4% at 50 x 30, 1% or less at 100 x 30",
+  "quote": "the largest biases (8.8%, 11.1%, 15.8%, and 13.3% for γ00, γ01, γ10, and γ11) were found under conditions where of the smallest variance for the random intercept (0.13), the smallest group size (5), and the lowest number of groups (30) ...",
+  "fields": [
+   {
+    "name": "% bias g00 at 30 groups x 5, ICC 0.04",
+    "expected": "8.8",
+    "observed": 7.0435,
+    "tolerance": {
+     "abs": 4.5819
+    },
+    "arithmetic": 8.77,
+    "second_run": 6.1379
+   },
+   {
+    "name": "g00: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "% bias g01 at 30 groups x 5, ICC 0.04",
+    "expected": "11.1",
+    "observed": 13.5647,
+    "tolerance": {
+     "abs": 14.5177
+    },
+    "arithmetic": 11.12,
+    "second_run": 10.4997
+   },
+   {
+    "name": "g01: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "no",
+    "second_run": "yes"
+   },
+   {
+    "name": "% bias g10 at 30 groups x 5, ICC 0.04",
+    "expected": "15.8",
+    "observed": 9.493,
+    "tolerance": {
+     "abs": 17.8104
+    },
+    "arithmetic": 15.85,
+    "second_run": 11.4686
+   },
+   {
+    "name": "g10: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "% bias g11 at 30 groups x 5, ICC 0.04",
+    "expected": "13.3",
+    "observed": 5.7339,
+    "tolerance": {
+     "abs": 19.8183
+    },
+    "arithmetic": 13.26,
+    "second_run": 5.9453
+   },
+   {
+    "name": "g11: the largest bias of the 27 cells is at 30 groups x 5, ICC 0.04",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "no",
+    "second_run": "no"
+   },
+   {
+    "name": "every fixed-effect bias below 6% at 30 groups x 30",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "every fixed-effect bias below 4% at 50 groups x 30",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "every fixed-effect bias 1% or less at 100 groups x 30",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "no",
+    "second_run": "no"
+   }
+  ]
+ },
+ "text_random_bias": {
+  "label": "Variance components: overall bias 6.9% (σ0) and 5.0% (σ1); σ0 21.2% at σ0 0.36 (21%, 0.5%, 0.1% by ICC); σ1 4-6% by ICC; below 4% at 100 x 50; positive at group size 5, negative at 30 and 50",
+  "quote": "The overall biases (data not shown) for σ0 and σ1 were 6.9% and 5.0% ... The overall relative bias for the random intercept was 21%, 0.5%, 0.1% for ICC 0.04, 0.17, 0.38",
+  "fields": [
+   {
+    "name": "overall % bias σ0",
+    "expected": "6.9",
+    "observed": 7.3192,
+    "tolerance": {
+     "abs": 2.1443
+    },
+    "arithmetic": 7.5363,
+    "second_run": 7.7289
+   },
+   {
+    "name": "overall % bias σ1",
+    "expected": "5.0",
+    "observed": 3.5728,
+    "tolerance": {
+     "abs": 1.5076
+    },
+    "arithmetic": 5.2064,
+    "second_run": 3.2291
+   },
+   {
+    "name": "% bias σ0 at σ0 = 0.36 (ICC 0.04)",
+    "expected": "21.2",
+    "observed": 21.2789,
+    "tolerance": {
+     "abs": 5.927
+    },
+    "arithmetic": 22.7106,
+    "second_run": 23.8164
+   },
+   {
+    "name": "% bias σ0, ICC 0.04",
+    "expected": "21",
+    "observed": 21.2789,
+    "tolerance": {
+     "abs": 6.377
+    },
+    "arithmetic": 22.7106,
+    "second_run": 23.8164
+   },
+   {
+    "name": "% bias σ0, ICC 0.17",
+    "expected": "0.5",
+    "observed": 1.3765,
+    "tolerance": {
+     "abs": 2.4113
+    },
+    "arithmetic": 0.6467,
+    "second_run": 0.3978
+   },
+   {
+    "name": "% bias σ0, ICC 0.38",
+    "expected": "0.1",
+    "observed": 0.6655,
+    "tolerance": {
+     "abs": 1.8571
+    },
+    "arithmetic": 0.1746,
+    "second_run": 0.623
+   },
+   {
+    "name": "lowest % bias σ1 over the ICCs",
+    "expected": "4",
+    "observed": 1.4193,
+    "tolerance": {
+     "abs": 2.7452
+    },
+    "arithmetic": 4.6512,
+    "second_run": 1.1674
+   },
+   {
+    "name": "highest % bias σ1 over the ICCs",
+    "expected": "6",
+    "observed": 5.9444,
+    "tolerance": {
+     "abs": 2.7452
+    },
+    "arithmetic": 6.009,
+    "second_run": 4.3746
+   },
+   {
+    "name": "every variance-component bias below 4% at 100 groups x 50",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "variance components positively biased in every cell of group size 5",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "variance components underestimated in every cell of group size 30 or 50",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   }
+  ]
+ },
+ "text_noncoverage": {
+  "label": "Non-coverage: fixed effects 5-6% by number of groups (4-6% in Table 2, 3-7% by cell); variance components 7-11% (11% and 10% at 30 groups, 9% and 7% at 100; 7-17% by cell); σ1 rises with group size, σ0 falls with ICC",
+  "quote": "the effect of number of groups on the standard errors of the fixed effect parameters is small with non-coverage rates ranging from 5% and 6% ... The rates of non-coverage for the variance-covariance components range from 7% and 17%.",
+  "fields": [
+   {
+    "name": "lowest fixed-effect non-coverage by number of groups (%)",
+    "expected": "5",
+    "observed": 4.9465,
+    "tolerance": {
+     "abs": 1.5306
+    },
+    "arithmetic": 4.9,
+    "second_run": 4.7192
+   },
+   {
+    "name": "highest fixed-effect non-coverage by number of groups (%)",
+    "expected": "6",
+    "observed": 6.0346,
+    "tolerance": {
+     "abs": 1.623
+    },
+    "arithmetic": 6.0,
+    "second_run": 6.3252
+   },
+   {
+    "name": "lowest variance-component non-coverage by number of groups (%)",
+    "expected": "7",
+    "observed": 7.2543,
+    "tolerance": {
+     "abs": 1.7065
+    },
+    "arithmetic": 7.0,
+    "second_run": 6.596
+   },
+   {
+    "name": "highest variance-component non-coverage by number of groups (%)",
+    "expected": "11",
+    "observed": 9.9772,
+    "tolerance": {
+     "abs": 1.9796
+    },
+    "arithmetic": 10.6,
+    "second_run": 9.704
+   },
+   {
+    "name": "σ0 non-coverage, 30 groups (%)",
+    "expected": "11",
+    "observed": 9.635,
+    "tolerance": {
+     "abs": 1.9796
+    },
+    "arithmetic": 10.6,
+    "second_run": 9.3737
+   },
+   {
+    "name": "σ1 non-coverage, 30 groups (%)",
+    "expected": "10",
+    "observed": 9.9772,
+    "tolerance": {
+     "abs": 1.9186
+    },
+    "arithmetic": 9.5,
+    "second_run": 9.704
+   },
+   {
+    "name": "σ0 non-coverage, 100 groups (%)",
+    "expected": "9",
+    "observed": 7.2543,
+    "tolerance": {
+     "abs": 1.8533
+    },
+    "arithmetic": 8.9,
+    "second_run": 6.596
+   },
+   {
+    "name": "σ1 non-coverage, 100 groups (%)",
+    "expected": "7",
+    "observed": 7.3557,
+    "tolerance": {
+     "abs": 1.7065
+    },
+    "arithmetic": 7.0,
+    "second_run": 7.271
+   },
+   {
+    "name": "lowest fixed-effect non-coverage in Table 2 (%)",
+    "expected": "4",
+    "observed": 3.8007,
+    "tolerance": {
+     "abs": 1.4266
+    },
+    "arithmetic": 4.3,
+    "second_run": 3.9157
+   },
+   {
+    "name": "highest fixed-effect non-coverage in Table 2 (%)",
+    "expected": "6",
+    "observed": 6.0987,
+    "tolerance": {
+     "abs": 1.623
+    },
+    "arithmetic": 6.1,
+    "second_run": 6.3252
+   },
+   {
+    "name": "random-slope non-coverage rises with group size",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "random-intercept non-coverage falls as ICC rises",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "lowest fixed-effect non-coverage of a cell (%)",
+    "expected": "3",
+    "observed": 0.9146,
+    "tolerance": {
+     "abs": 2.7887
+    },
+    "arithmetic": 2.8,
+    "second_run": 1.7301
+   },
+   {
+    "name": "highest fixed-effect non-coverage of a cell (%)",
+    "expected": "7",
+    "observed": 8.1,
+    "tolerance": {
+     "abs": 3.9232
+    },
+    "arithmetic": 7.1,
+    "second_run": 8.2
+   },
+   {
+    "name": "lowest variance-component non-coverage of a cell (%)",
+    "expected": "7",
+    "observed": 1.3333,
+    "tolerance": {
+     "abs": 3.9232
+    },
+    "arithmetic": 3.0,
+    "second_run": 1.3841
+   },
+   {
+    "name": "highest variance-component non-coverage of a cell (%)",
+    "expected": "17",
+    "observed": 13.6,
+    "tolerance": {
+     "abs": 5.5396
+    },
+    "arithmetic": 17.2,
+    "second_run": 13.2
+   }
+  ]
+ },
+ "text_prevalence": {
+  "label": "Prevalence: 10% gives the largest bias and the lowest convergence; non-coverage 5-6% (fixed) and 8-11% (random); largest bias 12% and 50% with groups of 5, 9% and 15% with 30 groups ('data not shown')",
+  "quote": "Table 4 shows that for both fixed and random effect parameters the simulated data with 10% prevalence had the largest bias ... (12% for fixed effect and 50% for random effect) ... with 30 groups and a 10% prevalence the largest bias was 9% for the fixed effect parameters and 15% for the random slope.",
+  "fields": [
+   {
+    "name": "the 10% prevalence has the largest fixed-effect bias",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "the 10% prevalence has the largest variance-component bias",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "convergence lowest at 10% prevalence",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "lowest fixed-effect non-coverage over the prevalences (%)",
+    "expected": "5",
+    "observed": 4.9836,
+    "tolerance": {
+     "abs": 1.5819
+    },
+    "arithmetic": 5.2,
+    "second_run": 4.9836
+   },
+   {
+    "name": "highest fixed-effect non-coverage over the prevalences (%)",
+    "expected": "6",
+    "observed": 6.1578,
+    "tolerance": {
+     "abs": 1.679
+    },
+    "arithmetic": 6.2,
+    "second_run": 6.1578
+   },
+   {
+    "name": "lowest variance-component non-coverage over the prevalences (%)",
+    "expected": "8",
+    "observed": 8.1562,
+    "tolerance": {
+     "abs": 1.8468
+    },
+    "arithmetic": 8.1,
+    "second_run": 8.1562
+   },
+   {
+    "name": "highest variance-component non-coverage over the prevalences (%)",
+    "expected": "11",
+    "observed": 8.8928,
+    "tolerance": {
+     "abs": 2.0533
+    },
+    "arithmetic": 10.7,
+    "second_run": 8.8928
+   },
+   {
+    "name": "largest fixed-effect bias, group size 5 and 10% prevalence (%)",
+    "expected": "12",
+    "observed": 7.4187,
+    "tolerance": {
+     "abs": 14.8976
+    },
+    "second_run": 7.4187
+   },
+   {
+    "name": "largest variance-component bias, group size 5 and 10% prevalence (%)",
+    "expected": "50",
+    "observed": 28.8614,
+    "tolerance": {
+     "abs": 14.3585
+    },
+    "second_run": 28.8614
+   },
+   {
+    "name": "largest fixed-effect bias, 30 groups and 10% prevalence (%)",
+    "expected": "9",
+    "observed": 5.8271,
+    "tolerance": {
+     "abs": 10.5835
+    },
+    "second_run": 5.8271
+   },
+   {
+    "name": "random-slope bias, 30 groups and 10% prevalence (%)",
+    "expected": "15",
+    "observed": 6.4564,
+    "tolerance": {
+     "abs": 9.8811
+    },
+    "second_run": 6.4564
+   }
+  ]
+ },
+ "text_robustness": {
+  "label": "Non-normal models against model 1 (Discussion): convergence with groups of 5 higher for models 3, 6, 7, 8 and lower for 4, 5; no difference in fixed effects; variances underestimated for models 6-8; random-effect coverage lower for models 6 and 7",
+  "quote": "Models 3, 6, 7, and 8 were more likely to converge while models 4 and 5 were less likely to converge (p-value < 0.01) when group size was 5 ... For models 6, 7, and 8 the random intercept and random slope were underestimated compare to model 1 (p < 0.01) ... The rates of coverage for the random components of models 6 and 7 were significantly lower",
+  "fields": [
+   {
+    "name": "model 2 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "no difference",
+    "observed": "more likely",
+    "arithmetic": "no difference",
+    "second_run": "more likely"
+   },
+   {
+    "name": "model 3 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "more likely",
+    "observed": "more likely",
+    "arithmetic": "more likely",
+    "second_run": "more likely"
+   },
+   {
+    "name": "model 4 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "less likely",
+    "observed": "less likely",
+    "arithmetic": "less likely",
+    "second_run": "less likely"
+   },
+   {
+    "name": "model 5 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "less likely",
+    "observed": "less likely",
+    "arithmetic": "less likely",
+    "second_run": "less likely"
+   },
+   {
+    "name": "model 6 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "more likely",
+    "observed": "more likely",
+    "arithmetic": "more likely",
+    "second_run": "more likely"
+   },
+   {
+    "name": "model 7 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "more likely",
+    "observed": "more likely",
+    "arithmetic": "no difference",
+    "second_run": "more likely"
+   },
+   {
+    "name": "model 8 against model 1, convergence with groups of 5 (p < 0.01)",
+    "expected": "more likely",
+    "observed": "more likely",
+    "arithmetic": "no difference",
+    "second_run": "more likely"
+   },
+   {
+    "name": "no model differs from model 1 in convergence with groups of 30 or 50",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "no",
+    "second_run": "no"
+   },
+   {
+    "name": "no fixed-effect estimate of models 2-8 differs from model 1 (t tests, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 6: random intercept underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 6: random slope underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 7: random intercept underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 7: random slope underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 8: random intercept underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 8: random slope underestimated against model 1 (p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 6: random intercept coverage lower than model 1's (Fisher, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 6: random slope coverage lower than model 1's (Fisher, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 7: random intercept coverage lower than model 1's (Fisher, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "model 7: random slope coverage lower than model 1's (Fisher, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "fixed-effect coverage of models 2-8 equal to model 1's with groups of 30 or more and 50 or more groups (Fisher, p < 0.01)",
+    "expected": "yes",
+    "observed": "yes",
+    "second_run": "yes"
+   }
+  ]
+ },
+ "text_main_claim": {
+  "label": "Main claim (Abstract, Conclusion): fixed effects unbiased with 100 groups of 50, variance components slightly biased there, severe bias with groups of 5, fixed-effect SEs right and variance-component SEs too small, low prevalence needs larger samples",
+  "quote": "The results show that the estimates of the fixed effect parameters are unbiased for 100 groups with group size of 50 or higher. The estimates of the variance covariance components are slightly biased even with 100 groups and group size of 50. The biases for both fixed and random effects are severe for group size of 5. ...",
+  "fields": [
+   {
+    "name": "fixed effects unbiased at 100 groups x 50: every |bias| below 2%",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "variance components slightly biased at 100 groups x 50: largest |bias| between 1% and 4%",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "biases severe with groups of 5: some fixed-effect bias above 10% and some variance bias above 50%",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "fixed-effect standard errors unbiased: every cell's non-coverage within 2.5-7.5%",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "variance-component standard errors underestimated: non-coverage above 5% in every cell of group size 30 or 50",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "the 10% prevalence has the largest fixed-effect bias",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "the 10% prevalence has the largest variance-component bias",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes",
+    "second_run": "no"
+   },
+   {
+    "name": "convergence problems where prevalence, the number of groups or group size is low (Conclusion i)",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   },
+   {
+    "name": "variance-component standard errors too small even with 100 groups of 50: non-coverage above 5% in all three cells (Conclusion iv)",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes",
+    "second_run": "yes"
+   }
+  ]
+ },
+ "_table2_from_table3": {
+  "label": "Table 2 recomputed from Table 3 (weighted by Table 1's % converged)",
+  "fields": [
+   {
+    "name": "Table 2, g00, groups 30",
+    "expected": "0.053",
+    "arithmetic": 0.053,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, groups 50",
+    "expected": "0.058",
+    "arithmetic": 0.0579,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, groups 100",
+    "expected": "0.049",
+    "arithmetic": 0.0493,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, size 5",
+    "expected": "0.046",
+    "arithmetic": 0.0465,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, size 30",
+    "expected": "0.053",
+    "arithmetic": 0.0528,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, size 50",
+    "expected": "0.059",
+    "arithmetic": 0.0595,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, icc 0.04",
+    "expected": "0.050",
+    "arithmetic": 0.0505,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, icc 0.17",
+    "expected": "0.055",
+    "arithmetic": 0.055,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g00, icc 0.38",
+    "expected": "0.055",
+    "arithmetic": 0.0545,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, groups 30",
+    "expected": "0.057",
+    "arithmetic": 0.0569,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, groups 50",
+    "expected": "0.056",
+    "arithmetic": 0.0561,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, groups 100",
+    "expected": "0.055",
+    "arithmetic": 0.055,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, size 5",
+    "expected": "0.047",
+    "arithmetic": 0.0472,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, size 30",
+    "expected": "0.059",
+    "arithmetic": 0.0588,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, size 50",
+    "expected": "0.060",
+    "arithmetic": 0.0603,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, icc 0.04",
+    "expected": "0.053",
+    "arithmetic": 0.0532,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, icc 0.17",
+    "expected": "0.058",
+    "arithmetic": 0.0581,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g01, icc 0.38",
+    "expected": "0.056",
+    "arithmetic": 0.0565,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, groups 30",
+    "expected": "0.059",
+    "arithmetic": 0.0595,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, groups 50",
+    "expected": "0.055",
+    "arithmetic": 0.0546,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, groups 100",
+    "expected": "0.051",
+    "arithmetic": 0.0511,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, size 5",
+    "expected": "0.043",
+    "arithmetic": 0.0433,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, size 30",
+    "expected": "0.060",
+    "arithmetic": 0.0603,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, size 50",
+    "expected": "0.059",
+    "arithmetic": 0.059,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, icc 0.04",
+    "expected": "0.055",
+    "arithmetic": 0.0548,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, icc 0.17",
+    "expected": "0.055",
+    "arithmetic": 0.0548,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g10, icc 0.38",
+    "expected": "0.055",
+    "arithmetic": 0.0551,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, groups 30",
+    "expected": "0.060",
+    "arithmetic": 0.0596,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, groups 50",
+    "expected": "0.058",
+    "arithmetic": 0.0585,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, groups 100",
+    "expected": "0.049",
+    "arithmetic": 0.0491,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, size 5",
+    "expected": "0.044",
+    "arithmetic": 0.0442,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, size 30",
+    "expected": "0.059",
+    "arithmetic": 0.0594,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, size 50",
+    "expected": "0.061",
+    "arithmetic": 0.061,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, icc 0.04",
+    "expected": "0.056",
+    "arithmetic": 0.0562,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, icc 0.17",
+    "expected": "0.055",
+    "arithmetic": 0.0546,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, g11, icc 0.38",
+    "expected": "0.056",
+    "arithmetic": 0.0559,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, groups 30",
+    "expected": "0.106",
+    "arithmetic": 0.1059,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, groups 50",
+    "expected": "0.090",
+    "arithmetic": 0.0903,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, groups 100",
+    "expected": "0.089",
+    "arithmetic": 0.0895,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, size 5",
+    "expected": "0.097",
+    "arithmetic": 0.0976,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, size 30",
+    "expected": "0.094",
+    "arithmetic": 0.0944,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, size 50",
+    "expected": "0.093",
+    "arithmetic": 0.0932,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, icc 0.04",
+    "expected": "0.106",
+    "arithmetic": 0.1063,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, icc 0.17",
+    "expected": "0.090",
+    "arithmetic": 0.0904,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma0, icc 0.38",
+    "expected": "0.089",
+    "arithmetic": 0.0888,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, groups 30",
+    "expected": "0.095",
+    "arithmetic": 0.0947,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, groups 50",
+    "expected": "0.077",
+    "arithmetic": 0.0772,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, groups 100",
+    "expected": "0.070",
+    "arithmetic": 0.0694,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, size 5",
+    "expected": "0.057",
+    "arithmetic": 0.0565,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, size 30",
+    "expected": "0.085",
+    "arithmetic": 0.0852,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, size 50",
+    "expected": "0.094",
+    "arithmetic": 0.0939,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, icc 0.04",
+    "expected": "0.080",
+    "arithmetic": 0.0801,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, icc 0.17",
+    "expected": "0.080",
+    "arithmetic": 0.0795,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   },
+   {
+    "name": "Table 2, sigma1, icc 0.38",
+    "expected": "0.080",
+    "arithmetic": 0.0803,
+    "tolerance": {
+     "abs": 0.0015
+    }
+   }
+  ],
+  "note": "tolerance 0.0015: Table 3's rounding (0.0005) and Table 1's (0.5 points of each weight)"
+ }
+}

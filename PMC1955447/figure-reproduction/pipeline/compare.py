@@ -40,6 +40,8 @@ def tol_bias(printed, mcse):
 
 def tol_prop(printed, ours, n, scale=1.0):
     """Proportion printed on `scale` (1 for a rate, 100 for a percentage)."""
+    if ours is None:
+        ours = float(printed)
     p = (float(printed) / scale + ours / scale) / 2
     return 0.5 * unit(printed) + K * scale * math.sqrt(max(p * (1 - p), 0.0) / max(n, 1))
 
