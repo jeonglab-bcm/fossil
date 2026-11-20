@@ -41,7 +41,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4232638/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-9 exact, 40 agrees, 23 partly, 1 differs, 2 not attempted; 0 open causes.
+9 exact, 40 agrees, 23 partly, 1 differs, 2 not attempted; 3 open causes.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -130,21 +130,24 @@ deviations of the run-to-run difference, plus half a printed unit).
 
 ## What came back
 
-- **The data and the counts.** Tables 1 and 2 and Additional files 6, 7 and 14 count by count, from the paper's
-  spreadsheet.
+- **The data and the counts.** Tables 1 and 2 and Additional files 6 and 14 count by count, from the paper's
+  spreadsheet, and Additional file 7 apart from its own slip (below).
 - **Each predictor.** Every point value of Tables 3 and 4 and of Additional file 16 (oncogenes and tumour
   suppressor genes), once a call the predictor did not make is left out of its counts. The bootstrap
-  intervals are percentile intervals of unstratified resamples; they come back within the spread of our own
-  repeats.
+  intervals are percentile intervals of unstratified resamples: all 180 interval ends of Table 3 and 179 of 180
+  of Table 4 come back within the spread of our own repeats. In the oncogenes (7 neutral SNVs) 8 of 360 ends of
+  Additional file 16 miss, three of them in a way no seed of ours reproduces (an open cause).
 - **Agreement between predictors.** All 2,880 kappa values and interval ends of Additional files 3, 5, 11 and 13,
   to the fourth significant digit, once a missing call is kept as a third category and the interval is
   kappa +/- 1.96 standard errors under no agreement. The dendrograms of Fig. 1 have our clades and our
   join heights, and every cell of the kappa heat maps of Fig. 1 and Additional files 4, 10 and 12 has our colour.
-- **Low confidence.** Every count of Additional file 9, the 27 SNVs with eight or more low-confidence calls, and
-  Additional file 8, with the interval end points included and a missing call counted as low confidence.
+- **Low confidence.** Every count of Additional file 9 and the 27 SNVs with eight or more low-confidence calls, and
+  Additional file 8 apart from its own slip (below), with the interval end points included and a missing call
+  counted as low confidence.
 - **The combinations.** Every one of the 11,253 x 6 x 2 means of Additional files 17 and 18 within the Monte
   Carlo spread, and the best combination, at least 1 of CHASM (breast) and MutationTaster, first by accuracy and
-  by composite score in both subsets, with a significant gain in NPV everywhere.
+  by composite score in both subsets, with an NPV significantly above the best single and meta-predictor in every
+  subset.
 
 ## What does not match, and why
 
@@ -155,15 +158,19 @@ deviations of the run-to-run difference, plus half a printed unit).
   the means the paper itself prints in Additional files 17 and 18, Fig. 4 comes back for 173 of 176 points.
 - **Two sentences on the optimal n and p** swap n and p: the paper's own Additional file 25 gives a best n of about
   2p, as our run does, where the text says p is about 2n and n about p/2.
-- **Three slips in the supplement.** Additional file 7's PolyPhen-2 rows add up to 1,698 of 1,699 SNVs; Additional
-  file 8 leaves out Mutation Assessor's 7 N/A calls, which Additional file 9 counts as low confidence; Additional
-  file 9 lists PIK3CA G451V under ERBB2. Additional file 2 swaps the headers of FATHMM's two training-set columns;
-  we read them by their content.
+- **Four slips in the supplement.** Additional file 7's PolyPhen-2 rows add up to 1,698 of 1,699 SNVs; Additional
+  file 8 leaves out Mutation Assessor's N/A calls (7, and 2 without COSMIC), which Additional file 9 counts as low
+  confidence; Additional file 9 lists PIK3CA G451V under ERBB2; Additional file 2 swaps the headers of FATHMM's two
+  training-set columns, which we read by their content.
+- **One significance call.** Without COSMIC SNVs, the paper finds the accuracy of 13 predictors significantly lower;
+  from its own intervals that comes back, but our run finds 12 (CanDrA (melanoma) not), and only 2 of our 20 repeat
+  bootstraps find 13. Open.
 
 The main finding holds: no single predictor is accurate enough, the cancer-specific predictors agree more with
-each other than the others do, and combining CHASM (breast) with MutationTaster gives the best accuracy,
-composite score and NPV in both subsets. The claims that do not match move with the random splits or
-resamples, or are the paper's own slips.
+each other than the others do, and combining CHASM (breast) with MutationTaster ranks first by accuracy and
+composite score in both subsets, with an NPV significantly above the best single and meta-predictor. Most
+claims that do not match move with the random splits or resamples; one significance call does not come back
+for a reason we have not found; two sentences are the paper's own slip.
 
 ## Run
 
@@ -172,5 +179,5 @@ pip install -r PMC4232638/figure-reproduction/requirements.txt ./PMC4232638/pack
 nextflow run PMC4232638/figure-reproduction/main.nf --outdir results
 ```
 
-It needs Python 3.12, poppler-utils (`pdftotext`), Java 21 and Nextflow, and takes about two minutes on four
+It needs Python 3.12, poppler-utils (`pdftotext`), Java 21 and Nextflow, and takes about 90 seconds on four
 cores. See [`figure-reproduction/README.md`](figure-reproduction/README.md).

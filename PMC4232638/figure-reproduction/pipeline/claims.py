@@ -15,7 +15,7 @@ import sys
 
 import numpy as np
 
-from compare import mc_spread, ptol
+from compare import af19_arith, mc_spread, ptol
 from data import META, PRED, SINGLE
 
 STATS = ["accuracy", "sensitivity", "specificity", "ppv", "npv", "composite"]
@@ -255,14 +255,17 @@ def main():
     # Combinations (Results, 'Combination of mutation effect prediction algorithms'; Additional files 17-22).
     c_all, c_nc = ours["combinations"]["all"]["run1"], ours["combinations"]["non_cosmic"]["run1"]
     nb = c_all["named"][BEST]
-    a19 = pub["af19"]["single"]
+    # The counts recomputed from the paper's own Additional file 17 and Table 3 (not AF19's printed counts).
+    a19c = af19_arith(pub, comb, "af17", "table3", 0)
+    a19 = {k: a19c[f"single {k}"] for k in ("accuracy", "composite")}
+    near = {"arithmetic_tolerance": {"abs": 5}}
     best_p = comb["af17"][BEST]
     fields = [
         F("combinations", "11253", c_all["n_combinations"], len(comb["af17"])),
-        F("higher mean accuracy than FATHMM (cancer) in both subsets", "1854", c_all["counts"]["single"]["accuracy"]["mean"][2], int(a19["accuracy"]["mean"][2])),
-        F("of these, significantly higher in both", "6", c_all["counts"]["single"]["accuracy"]["significant"][2], int(a19["accuracy"]["significant"][2])),
-        F("higher mean composite than CHASM (lung) in both subsets", "1483", c_all["counts"]["single"]["composite"]["mean"][2], int(a19["composite"]["mean"][2])),
-        F("of these, significantly higher in both", "5", c_all["counts"]["single"]["composite"]["significant"][2], int(a19["composite"]["significant"][2])),
+        dict(F("higher mean accuracy than FATHMM (cancer) in both subsets", "1854", c_all["counts"]["single"]["accuracy"]["mean"][2], int(a19["accuracy"]["mean"][2])), **near),
+        dict(F("of these, significantly higher in both", "6", c_all["counts"]["single"]["accuracy"]["significant"][2], int(a19["accuracy"]["significant"][2])), **near),
+        dict(F("higher mean composite than CHASM (lung) in both subsets", "1483", c_all["counts"]["single"]["composite"]["mean"][2], int(a19["composite"]["mean"][2])), **near),
+        dict(F("of these, significantly higher in both", "5", c_all["counts"]["single"]["composite"]["significant"][2], int(a19["composite"]["significant"][2])), **near),
         F("first by accuracy and composite in both subsets", BEST, BEST if all(v == 1 for v in nb["rank"].values()) else "no",
           BEST if all(pub["af21"][f"{s}/{b}"]["top5"][0]["name"] == BEST for s in ("subset1", "subset2") for b in ("accuracy", "composite")) else "no"),
     ]

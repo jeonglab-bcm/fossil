@@ -28,7 +28,7 @@ NOTES = HERE.parent / "results_notes.json"
 sys.path.insert(0, str(HERE))
 from check_results import field_matches  # noqa: E402
 
-FIELD_KEYS = ("name", "expected", "observed", "tolerance", "arithmetic", "repeats")
+FIELD_KEYS = ("name", "expected", "observed", "tolerance", "arithmetic", "arithmetic_tolerance", "repeats")
 
 
 def get(run, ref):
@@ -62,6 +62,19 @@ def facts_of(run):
         facts[f"{k}_control"] = f"{c[k]['control_other_set'][0]:,}"
     facts["af19_second_run"] = c["af19"]["second_run"]
     facts["af23_arith_match"] = c["af23_arithmetic"]["match"]
+    r1a, r2a = a["combinations"]["all"]["run1"]["counts"], a["combinations"]["all"]["run2"]["counts"]
+    pub19 = json.load(open(Path(run) / "published_values.json"))["af19"]
+    d12, d1p = [], []
+    for grp in ("single", "meta"):
+        for k in r1a[grp]:
+            for kind in ("mean", "significant"):
+                for j in range(3):
+                    d12.append(abs(r1a[grp][k][kind][j] - r2a[grp][k][kind][j]))
+                    d1p.append(abs(r1a[grp][k][kind][j] - int(pub19[grp][k][kind][j])))
+    facts["af19_run_diff_median"] = sorted(d12)[len(d12) // 2]
+    facts["af19_paper_diff_median"] = sorted(d1p)[len(d1p) // 2]
+    facts["af19_run_diff_max"] = max(d12)
+    facts["af19_paper_diff_max"] = max(d1p)
     facts["fig4a_second_run"] = c["fig4a"]["second_run"]
     facts["fig4b_second_run"] = c["fig4b"]["second_run"]
     for k, v in c["controls"].items():
@@ -102,7 +115,8 @@ def arithmetic(claims, comparison, excepted):
         for f in c["fields"]:
             if f.get("arithmetic") is None:
                 continue
-            g = {"expected": f["expected"], "observed": f["arithmetic"], "tolerance": f.get("tolerance", {"printed": True})}
+            # A count recomputed from rounded printed means may move by a few at a cutoff: arithmetic_tolerance.
+            g = {"expected": f["expected"], "observed": f["arithmetic"], "tolerance": f.get("arithmetic_tolerance", f.get("tolerance", {"printed": True}))}
             ok = field_matches(g, {"printed": True})
             (back if ok else missed).append(f"{cid}: {f['name']} (printed {f['expected']}, from the tables {f['arithmetic']})")
             if not ok and (cid, f["name"]) not in excepted:

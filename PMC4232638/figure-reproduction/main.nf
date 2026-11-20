@@ -95,7 +95,7 @@ process FIGURES {
     path analysis
     path combinations
     output:
-    path 'fig*.png', emit: pngs
+    path '*_o*.png', emit: pngs
     path 'figures.json', emit: json
     script:
     """

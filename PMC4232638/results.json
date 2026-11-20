@@ -28591,27 +28591,27 @@
           {
             "field": "all: Mutation Assessor Low confidence non-neutral",
             "category": "paper_error",
-            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,697 of the 1,699 without COSMIC): the SNVs with N/A (7, and 2 without COSMIC) are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7, and 608 = 606 + 2."
           },
           {
             "field": "all: Mutation Assessor Low confidence uncertain",
             "category": "paper_error",
-            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,697 of the 1,699 without COSMIC): the SNVs with N/A (7, and 2 without COSMIC) are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7, and 608 = 606 + 2."
           },
           {
             "field": "all: Mutation Assessor Low confidence total",
             "category": "paper_error",
-            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,697 of the 1,699 without COSMIC): the SNVs with N/A (7, and 2 without COSMIC) are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7, and 608 = 606 + 2."
           },
           {
             "field": "non_cosmic: Mutation Assessor Low confidence uncertain",
             "category": "paper_error",
-            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,697 of the 1,699 without COSMIC): the SNVs with N/A (7, and 2 without COSMIC) are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7, and 608 = 606 + 2."
           },
           {
             "field": "non_cosmic: Mutation Assessor Low confidence total",
             "category": "paper_error",
-            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,692 of 1,699 without COSMIC): the 7 SNVs with N/A are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7."
+            "evidence": "Additional file 8's Mutation Assessor rows sum to 3,584 of the 3,591 SNVs (1,697 of the 1,699 without COSMIC): the SNVs with N/A (7, and 2 without COSMIC) are left out, while Additional file 9's counts need them as low-confidence calls. Our row holds them: 1,106 = 1,099 + 7, and 608 = 606 + 2."
           }
         ]
       },
@@ -37185,22 +37185,22 @@
         }
       ],
       "cause": {
-        "category": "nondeterminism",
-        "status": "explained",
-        "summary": "The intervals come from unseeded resampling. The fields outside three standard deviations are the tail one expects among hundreds of interval ends, or intervals of tiny groups (7 neutral SNVs among the oncogenes) whose ends jump between few possible values.",
+        "category": "unknown",
+        "status": "open",
+        "summary": "Most of the interval ends outside the tolerance belong to the oncogenes, which have 7 neutral SNVs, so the ends of specificity, NPV and composite jump between a few possible values. Three of them do not move at all across our 20 repeat bootstraps and still miss: CanDrA (melanoma) specificity low end (printed 14.29%, ours 0% in every repeat), CanDrA (lung) NPV low end (11.11%, ours 0% or near it) and CanDrA (lung) accuracy high end (98.15%, ours 98.12%). Tables 3 and 4 do not show this, so the paper's resampling of the oncogene set differed in a way we have not found.",
         "evidence": [
-          "figure-reproduction/output/analysis.json (repeats)",
-          "figure-reproduction/output/comparison.json"
+          "figure-reproduction/output/comparison.json (af16.ci)",
+          "figure-reproduction/output/analysis.json (repeats)"
         ],
         "hypotheses": [
           {
-            "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
-            "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
-            "result": "supported"
+            "hypothesis": "Another seed (Monte Carlo).",
+            "test": "20 repeat bootstraps: the three ends are the same in every repeat.",
+            "result": "rejected"
           },
           {
-            "hypothesis": "Another interval method (stratified resampling).",
-            "test": "Stratified percentile intervals of CHASM (breast) on the 989 SNVs.",
+            "hypothesis": "Resampling all labelled SNVs, no-calls included, and dropping the no-calls afterwards.",
+            "test": "1,000 resamples x 20 seeds for CanDrA (melanoma) and CanDrA (lung) on the oncogenes: specificity low end 0% and accuracy high end 98.05-98.13%, as before.",
             "result": "rejected"
           }
         ]
@@ -40181,7 +40181,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "explained",
-        "summary": "Counts of combinations above a reference move with the random splits: our two runs differ from each other as much as from the paper (the second run matches 48 of 144 counts, the first 52; higher mean accuracy than FATHMM (cancer) in both subsets: 1854 combinations in the first run, 1854 in the second, 1,854 in the paper). The counts recomputed from the paper's own Additional files 17 and 18 also come back only to within a few combinations, because the printed means are rounded at the reference values.",
+        "summary": "Counts of combinations above a reference move with the random splits: our two runs differ from each other by a median of 3 combinations (at most 252) and from the paper by a median of 2 (at most 252); the first run matches 52 of 144 printed counts, the second 48. The counts recomputed from the paper's own Additional files 17 and 18 also come back only to within a few combinations, because the printed means are rounded at the reference values.",
         "evidence": [
           "figure-reproduction/output/comparison.json (af19, arithmetic)"
         ],
@@ -57681,22 +57681,22 @@
         }
       ],
       "cause": {
-        "category": "nondeterminism",
-        "status": "explained",
-        "summary": "The intervals come from unseeded resampling. The fields outside three standard deviations are the tail one expects among hundreds of interval ends, or intervals of tiny groups (7 neutral SNVs among the oncogenes) whose ends jump between few possible values.",
+        "category": "unknown",
+        "status": "open",
+        "summary": "Most of the interval ends outside the tolerance belong to the oncogenes, which have 7 neutral SNVs, so the ends of specificity, NPV and composite jump between a few possible values. Three of them do not move at all across our 20 repeat bootstraps and still miss: CanDrA (melanoma) specificity low end (printed 14.29%, ours 0% in every repeat), CanDrA (lung) NPV low end (11.11%, ours 0% or near it) and CanDrA (lung) accuracy high end (98.15%, ours 98.12%). Tables 3 and 4 do not show this, so the paper's resampling of the oncogene set differed in a way we have not found.",
         "evidence": [
-          "figure-reproduction/output/analysis.json (repeats)",
-          "figure-reproduction/output/comparison.json"
+          "figure-reproduction/output/comparison.json (af16.ci)",
+          "figure-reproduction/output/analysis.json (repeats)"
         ],
         "hypotheses": [
           {
-            "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
-            "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
-            "result": "supported"
+            "hypothesis": "Another seed (Monte Carlo).",
+            "test": "20 repeat bootstraps: the three ends are the same in every repeat.",
+            "result": "rejected"
           },
           {
-            "hypothesis": "Another interval method (stratified resampling).",
-            "test": "Stratified percentile intervals of CHASM (breast) on the 989 SNVs.",
+            "hypothesis": "Resampling all labelled SNVs, no-calls included, and dropping the no-calls afterwards.",
+            "test": "1,000 resamples x 20 seeds for CanDrA (melanoma) and CanDrA (lung) on the oncogenes: specificity low end 0% and accuracy high end 98.05-98.13%, as before.",
             "result": "rejected"
           }
         ]
@@ -67653,10 +67653,10 @@
       "cause": {
         "category": "nondeterminism",
         "status": "explained",
-        "summary": "Rankings and counts over 11,253 combinations depend on the random splits: neighbours in the ranking differ by less than the Monte Carlo error, so another set of splits reorders them, and combinations near a reference value move across it.",
+        "summary": "The 8 hinges and medians outside the tolerance are those of the combinations of 10 and 11 predictors that need 10 or 11 non-neutral calls; they miss by 0.1 point at most. The tolerance uses the average run-to-run spread of a combination's mean accuracy (0.025 point RMS); these combinations spread more (the one of all 11 has a standard error of 0.036 point, so 3 x sqrt(2) of it is 0.15 point, which holds the 0.097 gap). Our second run moves its mean by 0.028 point.",
         "evidence": [
-          "figure-reproduction/output/comparison.json",
-          "figure-reproduction/output/analysis.json (run1, run2)"
+          "figure-reproduction/output/comparison.json (af24)",
+          "figure-reproduction/output/analysis.json"
         ],
         "hypotheses": [
           {
@@ -67665,8 +67665,8 @@
             "result": "supported"
           },
           {
-            "hypothesis": "A different rule (ranking, counting or significance) from ours.",
-            "test": "Recompute the same quantity from the paper's own printed numbers (Additional files 17 and 18, Tables 3 and 4).",
+            "hypothesis": "The box plots draw another statistic (all splits pooled, or subset 2).",
+            "test": "The other 382 hinges and medians agree within 0.084 point with subset 1's means; Additional file 26 agrees 390 of 390.",
             "result": "rejected"
           }
         ]
@@ -77286,16 +77286,16 @@
       ],
       "cause": {
         "category": "nondeterminism",
-        "status": "explained",
-        "summary": "CanDrA (melanoma)'s accuracy without COSMIC (Table 4 high end 86.64%) and with it (Table 3 low end 87.02%) almost touch, so whether the drop is significant depends on the resamples: 13 predictors in the paper, 12 in our run; the published call comes back in 2 of 20 of our 20 repeat bootstraps, and from the paper's own tables.",
+        "status": "open",
+        "summary": "CanDrA (melanoma)'s accuracy without COSMIC (Table 4 high end 86.64%) and with it (Table 3 low end 87.02%) almost touch, so whether the drop is significant depends on the resamples: 13 predictors in the paper, 12 in our run. From the paper's own intervals the call comes back, but only 2 of 20 of our 20 repeat bootstraps give it, so a different seed alone is an unlikely cause; the paper's interval method may differ in a way the other intervals do not show.",
         "evidence": [
           "figure-reproduction/output/claims.json (repeats)"
         ],
         "hypotheses": [
           {
-            "hypothesis": "Monte Carlo: the paper's resamples or splits are not ours.",
-            "test": "Rerun with another seed (second run) and compare the run-to-run change with the gap to the paper.",
-            "result": "supported"
+            "hypothesis": "Another seed (Monte Carlo).",
+            "test": "20 repeat bootstraps with other seeds.",
+            "result": "inconclusive"
           },
           {
             "hypothesis": "Our significance rule differs from the paper's.",
@@ -77537,7 +77537,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "explained",
-        "summary": "The counts and the best combination's means and intervals come from random splits. Our second run gives 1854 combinations above FATHMM (cancer)'s accuracy in both subsets (5 significantly) and 1491 above CHASM (lung)'s composite (4 significantly), against the paper's 1,854 (6) and 1,483 (5). Every count and value of the best combination comes back from the paper's own Additional files 17, 19 and 21 (arithmetic column).",
+        "summary": "The counts and the best combination's means and intervals come from random splits. Our second run gives 1854 combinations above FATHMM (cancer)'s accuracy in both subsets (5 significantly) and 1491 above CHASM (lung)'s composite (4 significantly), against the paper's 1,854 (6) and 1,483 (5). Recomputed from the means and intervals the paper prints in Additional file 17 (arithmetic column), the counts are 1,853 (6) and 1,482 (5): the printed means are rounded, so combinations right at FATHMM (cancer)'s or CHASM (lung)'s value can fall either way. The best combination's values come back from Additional file 21.",
         "evidence": [
           "figure-reproduction/output/comparison.json (af19, arithmetic)"
         ],
@@ -77566,25 +77566,37 @@
             "name": "higher mean accuracy than FATHMM (cancer) in both subsets",
             "expected": "1854",
             "observed": 1854,
-            "arithmetic": 1854
+            "arithmetic": 1853,
+            "arithmetic_tolerance": {
+              "abs": 5
+            }
           },
           {
             "name": "of these, significantly higher in both",
             "expected": "6",
             "observed": 5,
-            "arithmetic": 6
+            "arithmetic": 6,
+            "arithmetic_tolerance": {
+              "abs": 5
+            }
           },
           {
             "name": "higher mean composite than CHASM (lung) in both subsets",
             "expected": "1483",
             "observed": 1497,
-            "arithmetic": 1483
+            "arithmetic": 1482,
+            "arithmetic_tolerance": {
+              "abs": 5
+            }
           },
           {
             "name": "of these, significantly higher in both",
             "expected": "5",
             "observed": 4,
-            "arithmetic": 5
+            "arithmetic": 5,
+            "arithmetic_tolerance": {
+              "abs": 5
+            }
           },
           {
             "name": "first by accuracy and composite in both subsets",
@@ -78014,7 +78026,7 @@
       "cause": {
         "category": "paper_error",
         "status": "explained",
-        "summary": "Both sentences have n and p swapped: the paper's own Additional file 25, and our run, give a best n of about 2p (p about n/2), capped at all 11 predictors. Our run gives the same optimal p and n as Additional file 25 for 20 of 21 rows (af25).",
+        "summary": "Both sentences have n and p swapped: the paper's own Additional file 25, and our run, give a best n of about 2p (p about n/2), capped at all 11 predictors. Our run gives the same optimal p or n as Additional file 25 in all 21 rows; in one row (n = 8) the best combination has SIFT where the file has VEST (af25).",
         "evidence": [
           "Additional file 25",
           "figure-reproduction/output/comparison.json (af25)",
@@ -78137,6 +78149,6 @@
     "inconclusive": 0,
     "differs": 1,
     "not_attempted": 2,
-    "open_causes": 0
+    "open_causes": 3
   }
 }
