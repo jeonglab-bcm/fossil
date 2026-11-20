@@ -22,7 +22,9 @@ EXPECTED = ["published_values.json", "targets.json", "summary.json", "comparison
     f"figures/fig{n}_{k}.png" for n in range(1, 9) for k in ("ours", "overlay", "published")]
 # package.json and sim_check.json are this run's own records (their pass/fail is in results.json,
 # which is compared); report.md and results.json are compared through check_results.py.
-IGNORE = ["package.json", "sim_check.json", "report.md", "results.json", "sim/*", "sim/*/*", "site/*"]
+# pooling_check.csv comes from pipeline/pooling_check.R, run by hand (about 2.5 CPU hours), not from main.nf
+IGNORE = ["package.json", "sim_check.json", "report.md", "results.json", "sim/*", "sim/*/*", "site/*",
+          "pooling_check.csv"]
 
 
 def run(cmd):
