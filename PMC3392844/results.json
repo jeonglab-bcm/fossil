@@ -915,42 +915,42 @@
           {
             "name": "lr|all|auc",
             "expected": "0.9102",
-            "observed": 0.9337389197
+            "observed": 0.9337416233
           },
           {
             "name": "lr|all|acc",
             "expected": "0.9486",
-            "observed": 0.9640160719
+            "observed": 0.9640143363
           },
           {
             "name": "lr|all|precision",
             "expected": "0.4152",
-            "observed": 0.5915897223
+            "observed": 0.5916038454
           },
           {
             "name": "lr|all|recall",
             "expected": "0.5671",
-            "observed": 0.5778903809
+            "observed": 0.5779241618
           },
           {
             "name": "lr|50+|auc",
             "expected": "0.7648",
-            "observed": 0.8787678658
+            "observed": 0.8787806062
           },
           {
             "name": "lr|50+|acc",
             "expected": "0.8023",
-            "observed": 0.8727545153
+            "observed": 0.8727463942
           },
           {
             "name": "lr|50+|precision",
             "expected": "0.5321",
-            "observed": 0.6340674573
+            "observed": 0.6340815462
           },
           {
             "name": "lr|50+|recall",
             "expected": "0.6908",
-            "observed": 0.6733588208
+            "observed": 0.6733997097
           }
         ],
         "tolerance": {
@@ -960,7 +960,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "0 of 8 fields at printed precision; largest gap lr|all|precision: 0.59159 against 0.4152. No LIBLINEAR setting tried gives the paper's row.",
+        "summary": "0 of 8 fields at printed precision; largest gap lr|all|precision: 0.591604 against 0.4152. No LIBLINEAR setting tried gives the paper's row.",
         "evidence": [],
         "hypotheses": [
           {
@@ -970,7 +970,7 @@
           },
           {
             "hypothesis": "LIBLINEAR's dual solver",
-            "test": "AUC 0.9272 / 0.8876, ACC 0.9651 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "test": "AUC 0.9272 / 0.8876, ACC 0.9652 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
             "result": "rejected"
           },
           {
@@ -980,7 +980,7 @@
           },
           {
             "hypothesis": "L1 regularization",
-            "test": "AUC 0.9179 / 0.8341, ACC 0.9595 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
+            "test": "AUC 0.9182 / 0.8357, ACC 0.9595 (paper 0.9102 / 0.7648; ours 0.9337 / 0.8788)",
             "result": "inconclusive"
           },
           {
@@ -1778,23 +1778,23 @@
         "tolerance_px": 2,
         "dpi": 600,
         "published_near_ours": 0.773581,
-        "ours_near_published": 0.785938,
+        "ours_near_published": 0.785797,
         "threshold": 0.95,
         "controls": [
           {
             "name": "each curve drawn from the next series of the legend",
             "kind": "wrong_input",
-            "score": 0.20956
+            "score": 0.209522
           },
           {
             "name": "the same models over ADR_50+",
             "kind": "wrong_input",
-            "score": 0.179602
+            "score": 0.179676
           },
           {
             "name": "ours with TPR - 0.01",
             "kind": "near_miss",
-            "score": 0.199046
+            "score": 0.199059
           },
           {
             "name": "ours with TPR + 0.01",
@@ -1831,14 +1831,14 @@
           },
           "lr": {
             "published_near_ours": 0.47743,
-            "ours_near_published": 0.471713
+            "ours_near_published": 0.471289
           }
         }
       },
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "curves within 2 px: svm 100.0%, rf 99.9%, knn 100.0%, nb 45.3%, lr 47.2%. NB and LR as in Table 3.",
+        "summary": "curves within 2 px: svm 100.0%, rf 99.9%, knn 100.0%, nb 45.3%, lr 47.1%. NB and LR as in Table 3.",
         "evidence": [],
         "hypotheses": [
           {
@@ -2043,7 +2043,7 @@
           {
             "name": "lr at FPR 0.01",
             "expected": "0.0531",
-            "observed": 0.475163,
+            "observed": 0.475044,
             "tolerance": {
               "abs": 0.005
             }
@@ -2051,7 +2051,7 @@
           {
             "name": "lr at FPR 0.05",
             "expected": "0.5517",
-            "observed": 0.711325,
+            "observed": 0.711393,
             "tolerance": {
               "abs": 0.005
             }
@@ -2088,7 +2088,7 @@
       "cause": {
         "category": "undocumented_setting",
         "status": "open",
-        "summary": "17 of 25 fields at printed precision; largest gap lr at FPR 0.01: 0.475163 against 0.0531. NB and LR as in Table 3.",
+        "summary": "17 of 25 fields at printed precision; largest gap lr at FPR 0.01: 0.475044 against 0.0531. NB and LR as in Table 3.",
         "evidence": [],
         "hypotheses": [
           {
