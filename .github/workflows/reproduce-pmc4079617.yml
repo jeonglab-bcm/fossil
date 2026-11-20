@@ -1,0 +1,75 @@
+name: Reproduce PMC4079617
+
+# Reruns the whole PMC4079617 pipeline (Chen, Shi, Qian and Azen 2014, robust Poisson against log-binomial models
+# with outliers) and checks it: the article XML and PDF and both supplements are downloaded and their SHA-256
+# checked; every printed value and Fig. 1 are read again and checked against the committed copies; the simulation
+# study runs again in full (24 scenarios x 3 contamination rates x 1,000 replicates at n = 1500 and n = 500, a
+# second run and the hypothesis variants); every printed cell of Tables 1-3 and A1-A3, Fig. 1 and every claim of the
+# text are compared; robustrr's fits are checked against statsmodels and an independent maximizer; check_results.py
+# runs on the fresh results.json; the package robustrr is built and tested in a fresh environment and its tutorial
+# rerun; and the fresh run is compared with the committed outputs, results.json, figure-reproduction/results.json
+# and the page. About 10 minutes on a standard runner.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC4079617/figure-reproduction/**"
+      - "PMC4079617/package/**"
+      - "PMC4079617/results.json"
+      - "site/PMC4079617/**"
+      - ".github/workflows/reproduce-pmc4079617.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC4079617/figure-reproduction/**"
+      - "PMC4079617/package/**"
+      - "PMC4079617/results.json"
+      - "site/PMC4079617/**"
+      - ".github/workflows/reproduce-pmc4079617.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install poppler-utils (pdftotext, pdfimages)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends poppler-utils
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package robustrr
+        run: pip install -r PMC4079617/figure-reproduction/requirements.txt ./PMC4079617/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC4079617/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc4079617-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
