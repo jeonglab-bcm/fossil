@@ -1,0 +1,53 @@
+{
+ "_about": "One-off checks run during the session, not part of the pipeline (work/libsvm_pre.py, kept local). Each tests a hypothesis behind a cause in results.json.",
+ "official_libsvm_srand1_chem": {
+  "hypothesis": "The paper's digits come from the official LIBSVM C library with C rand() seeded afresh for every model (one svm-train process per model, glibc seed 1), which the Platt fit's internal 5-fold split draws from.",
+  "test": "libsvm-official 3.37 (the C library), precomputed RBF kernel (-t 4 -c 2 -b 1), srand(1) before every svm_train, on the paper's folds; chem feature set.",
+  "all": {
+   "auc": 0.9053,
+   "acc": 0.9539,
+   "precision": 0.4206,
+   "recall": 0.5115
+  },
+  "50+": {
+   "auc": 0.7658,
+   "acc": 0.8261,
+   "precision": 0.466,
+   "recall": 0.5407
+  },
+  "paper": {
+   "all": {
+    "auc": "0.9054",
+    "acc": "0.9538",
+    "precision": "0.4337",
+    "recall": "0.4925"
+   },
+   "50+": {
+    "auc": "0.7659",
+    "acc": "0.8268",
+    "precision": "0.4539",
+    "recall": "0.5569"
+   }
+  },
+  "result": "rejected: as far from the paper as scikit-learn's libsvm with other seeds"
+ },
+ "rf_seed_1": {
+  "hypothesis": "RF's gap to Table 3 is the random forest's own randomness (WEKA's trees cannot be replayed in scikit-learn).",
+  "test": "scikit-learn RandomForestClassifier, 100 trees, 13 features per split, random_state 1 (the pipeline uses 0), full feature set, the paper's folds (work/algos2.py).",
+  "all": {
+   "auc": 0.9486
+  },
+  "50+": {
+   "auc": 0.9039
+  },
+  "paper": {
+   "all": {
+    "auc": "0.9491"
+   },
+   "50+": {
+    "auc": "0.9052"
+   }
+  },
+  "result": "inconclusive: seeds 0 and 1 differ by 0.0002 in AUC; the paper is 0.0003 to 0.0013 higher"
+ }
+}

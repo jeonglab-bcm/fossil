@@ -1,0 +1,421 @@
+{
+ "text_sider": {
+  "label": "SIDER: 888 drugs, 1385 side-effect terms, 61 102 associations, 68.8 side effects per drug",
+  "fields": [
+   {
+    "name": "drugs",
+    "expected": "888",
+    "observed": 888
+   },
+   {
+    "name": "side-effect terms",
+    "expected": "1385",
+    "observed": 1385
+   },
+   {
+    "name": "associations",
+    "expected": "61102",
+    "observed": 61102
+   },
+   {
+    "name": "side effects per drug",
+    "expected": "68.8",
+    "observed": 68.808559,
+    "arithmetic": 68.808559
+   }
+  ]
+ },
+ "text_dataset": {
+  "label": "832 drugs (56 of SIDER's 888 unmapped) with 1385 ADRs; 4276 = 881 + 1142 + 2253 features",
+  "fields": [
+   {
+    "name": "drugs",
+    "expected": "832",
+    "observed": 832,
+    "arithmetic": 832
+   },
+   {
+    "name": "ADRs",
+    "expected": "1385",
+    "observed": 1385
+   },
+   {
+    "name": "features",
+    "expected": "4276",
+    "observed": 4276,
+    "arithmetic": 4276
+   },
+   {
+    "name": "biological features",
+    "expected": "1142",
+    "observed": 1142,
+    "arithmetic": 1142
+   },
+   {
+    "name": "phenotypic features",
+    "expected": "2253",
+    "observed": 2253,
+    "arithmetic": 2253
+   }
+  ]
+ },
+ "text_headline": {
+  "label": "Main claim: adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9524, precision from 43.37% to 66.17% and recall from 49.25% to 63.06%",
+  "fields": [
+   {
+    "name": "auc chem",
+    "expected": "0.9054",
+    "observed": 0.9054457564,
+    "arithmetic": 0.9054
+   },
+   {
+    "name": "auc chem+bio+pheno",
+    "expected": "0.9524",
+    "observed": 0.9524504386,
+    "arithmetic": 0.9524
+   },
+   {
+    "name": "precision chem",
+    "expected": "43.37",
+    "observed": 43.32170004,
+    "arithmetic": 43.37
+   },
+   {
+    "name": "precision chem+bio+pheno",
+    "expected": "66.17",
+    "observed": 65.31183576,
+    "arithmetic": 66.17
+   },
+   {
+    "name": "recall chem",
+    "expected": "49.25",
+    "observed": 49.48061819,
+    "arithmetic": 49.25
+   },
+   {
+    "name": "recall chem+bio+pheno",
+    "expected": "63.06",
+    "observed": 63.83582468,
+    "arithmetic": 63.06
+   }
+  ]
+ },
+ "text_feature_gains": {
+  "label": "Feature assessment: pheno has the highest AUC alone; adding bio raises AUC by 0.004 (0.02 for ADR_50+), precision by ~3% and recall by ~1%; adding pheno raises precision by ~21% and recall by ~15%",
+  "fields": [
+   {
+    "name": "pheno has the highest AUC of the single feature sets",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "AUC gain of bio, all ADRs",
+    "expected": "0.004",
+    "observed": 0.0044653414,
+    "arithmetic": 0.0044
+   },
+   {
+    "name": "AUC gain of bio, ADR_50+",
+    "expected": "0.02",
+    "observed": 0.0189665271,
+    "arithmetic": 0.019
+   },
+   {
+    "name": "precision gain of bio (about, points)",
+    "expected": "3",
+    "tolerance": {
+     "abs": 1.0
+    },
+    "observed": 1.81855075,
+    "arithmetic": 2.86
+   },
+   {
+    "name": "recall gain of bio (about, points)",
+    "expected": "1",
+    "tolerance": {
+     "abs": 1.0
+    },
+    "observed": 1.83768263,
+    "arithmetic": 0.83
+   },
+   {
+    "name": "precision gain of pheno (about, points)",
+    "expected": "21",
+    "tolerance": {
+     "abs": 1.0
+    },
+    "observed": 21.99761393,
+    "arithmetic": 21.51
+   },
+   {
+    "name": "recall gain of pheno (about, points)",
+    "expected": "15",
+    "tolerance": {
+     "abs": 1.0
+    },
+    "observed": 14.52580019,
+    "arithmetic": 15.18
+   }
+  ]
+ },
+ "text_ks": {
+  "label": "KS tests on per-ADR AUCs (Bonferroni-corrected): chem to chem+bio p = 1.45E-07 and chem to chem+bio+pheno p = 1.10E-15, both significant; the drop from pheno to chem+bio+pheno is not (p = 0.177)",
+  "fields": [
+   {
+    "name": "chem to chem+bio, log10 p",
+    "expected": "-6.84",
+    "observed": -6.053395
+   },
+   {
+    "name": "chem to chem+bio+pheno, log10 p",
+    "expected": "-14.96",
+    "observed": -188.914654
+   },
+   {
+    "name": "pheno to chem+bio+pheno, log10 p",
+    "expected": "-0.75",
+    "observed": -0.654947
+   },
+   {
+    "name": "chem to chem+bio significant",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "chem to chem+bio+pheno significant",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "pheno to chem+bio+pheno significant",
+    "expected": "no",
+    "observed": "no",
+    "arithmetic": "no"
+   }
+  ]
+ },
+ "text_combination": {
+  "label": "chem+bio+pheno has a lower global AUC than pheno alone, and its ROC curve almost overlaps that of chem+pheno",
+  "fields": [
+   {
+    "name": "chem+bio+pheno below pheno",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "chem+bio+pheno within 0.001 AUC of chem+pheno",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_common_adrs": {
+  "label": "Over the common ADRs (ADR_50+) AUC and accuracy fall for every feature set, and the curves separate more",
+  "fields": [
+   {
+    "name": "chem: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "bio: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "pheno: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "chem+bio: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "chem+pheno: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "chem+bio+pheno: AUC and ACC lower over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "AUC range of the six sets wider over ADR_50+",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_methods": {
+  "label": "Method comparison: SVM performs best, followed by RF, KNN, NB and LR; SVM's precision (66.17%) and recall (63.06%) beat RF's (63.10%, 62.50%)",
+  "fields": [
+   {
+    "name": "order by AUC over all ADRs",
+    "expected": "SVM>RF>KNN>NB>LR",
+    "observed": "SVM>RF>NB>LR>KNN",
+    "arithmetic": "SVM>RF>KNN>NB>LR"
+   },
+   {
+    "name": "SVM has the highest AUC",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "SVM precision above RF's",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "SVM recall above RF's",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_indication": {
+  "label": "Discussion: indications alone added to chemical structures raise AUC from 0.9054 to 0.9110",
+  "fields": [
+   {
+    "name": "AUC of chem+indication",
+    "expected": "0.9110",
+    "observed": 0.9110625991
+   }
+  ]
+ },
+ "text_class_weights": {
+  "label": "Discussion: class weights (1 - class share) raise RF's AUC from 0.9491 to 0.9524; SVM does not improve",
+  "fields": [
+   {
+    "name": "AUC of weighted RF",
+    "expected": "0.9524",
+    "observed": 0.9483338066
+   },
+   {
+    "name": "weights raise RF's AUC",
+    "expected": "yes",
+    "observed": "no"
+   },
+   {
+    "name": "weights do not raise SVM's AUC",
+    "expected": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_data_facts": {
+  "label": "Discussion: nausea and headache co-occur in 596 drugs; 49 pairs of ADRs co-occur in more than 400 drugs; 554 ADRs have fewer than five drugs (about 1:166 positives to negatives)",
+  "fields": [
+   {
+    "name": "drugs with nausea and headache",
+    "expected": "596",
+    "observed": 598
+   },
+   {
+    "name": "ADR pairs in more than 400 drugs",
+    "expected": "49",
+    "observed": 50
+   },
+   {
+    "name": "ADRs with fewer than five drugs",
+    "expected": "554",
+    "observed": 560
+   },
+   {
+    "name": "negatives per positive at five drugs",
+    "expected": "166",
+    "observed": 166.4,
+    "arithmetic": 166.4
+   }
+  ]
+ },
+ "text_clinical": {
+  "label": "Clinical validation: chem detects 1 of 7 rhabdomyolysis ADRs and 0 of 4 heart-attack ADRs, chem+bio 5 and 0, chem+bio+pheno 5 and 2; every classifier detects both grouped ADRs",
+  "fields": [
+   {
+    "name": "Cerivastatin detected by chem",
+    "expected": "1",
+    "observed": 2,
+    "arithmetic": 1
+   },
+   {
+    "name": "Rofecoxib detected by chem",
+    "expected": "0",
+    "observed": 0,
+    "arithmetic": 0
+   },
+   {
+    "name": "Cerivastatin detected by chem+bio",
+    "expected": "5",
+    "observed": 4,
+    "arithmetic": 5
+   },
+   {
+    "name": "Rofecoxib detected by chem+bio",
+    "expected": "0",
+    "observed": 0,
+    "arithmetic": 0
+   },
+   {
+    "name": "Cerivastatin detected by chem+bio+pheno",
+    "expected": "5",
+    "observed": 5,
+    "arithmetic": 5
+   },
+   {
+    "name": "Rofecoxib detected by chem+bio+pheno",
+    "expected": "2",
+    "observed": 2,
+    "arithmetic": 2
+   },
+   {
+    "name": "both groups detected by every feature set",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_fig5": {
+  "label": "Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone",
+  "fields": [
+   {
+    "name": "chem or bio, not pheno",
+    "expected": "5072",
+    "observed": 4812,
+    "arithmetic": 5072
+   },
+   {
+    "name": "pheno only",
+    "expected": "10581",
+    "observed": 10944,
+    "arithmetic": 10581
+   }
+  ]
+ },
+ "_data_identity": {
+  "positives": 59205,
+  "implied_by_fig5_and_table2": {
+   "chem": 59214.2,
+   "bio": 59204.8,
+   "pheno": 59201.2
+  }
+ }
+}

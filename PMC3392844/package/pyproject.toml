@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "adrfusion"
+version = "0.1.0"
+description = "Adverse drug reaction prediction from chemical, biological and phenotypic drug properties: per-ADR classifiers and micro-averaged evaluation (Liu et al. 2012)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3", "scipy>=1.13,<2", "scikit-learn>=1.6,<1.11"]
+
+[project.scripts]
+adrfusion = "adrfusion.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC3392844"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC3392844/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/adrfusion"]
