@@ -1,0 +1,1384 @@
+{
+  "paper": {
+    "id": "PMC2824146",
+    "title": "Comparison of techniques for handling missing covariate data within prognostic modelling studies: a simulation study",
+    "citation": "Marshall A, Altman DG, Royston P, Holder RL. Comparison of techniques for handling missing covariate data within prognostic modelling studies: a simulation study. BMC Medical Research Methodology 10:7 (2010)",
+    "doi": "10.1186/1471-2288-10-7",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-16",
+    "pipeline": "PMC2824146/figure-reproduction/main.nf",
+    "command": "nextflow run PMC2824146/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "PMC2824146.1.pdf",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/PMC2824146.1.pdf",
+        "sha256": "aa1cd04c309d51a853850000fce89a7ccfc748275a6922e694bc93abf1f49095"
+      },
+      {
+        "name": "1471-2288-10-7-1.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-1.jpg",
+        "sha256": "37d0e0560f4fe6d2b83676252885d6b0f96a20cb46b780a51f095ea31ba1d17d"
+      },
+      {
+        "name": "1471-2288-10-7-2.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-2.jpg",
+        "sha256": "e34022298652cc0d5225d6ec7afd853ed5d30f4f29f0c3e0061c2b228b77b69d"
+      },
+      {
+        "name": "1471-2288-10-7-3.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-3.jpg",
+        "sha256": "4550250dfdf82ae8c38a725d9cbd1d9c909a594d9c86cbc727540003e02227bf"
+      },
+      {
+        "name": "1471-2288-10-7-4.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-4.jpg",
+        "sha256": "fe172381151af367ba89fef443f0f1d1498c3240ec8572a72d8152fd0b40963a"
+      },
+      {
+        "name": "1471-2288-10-7-5.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-5.jpg",
+        "sha256": "582cc7d63eca2358c2c0c8cd886df545e893eddef245b0498cd52e11e79bac0f"
+      },
+      {
+        "name": "1471-2288-10-7-6.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-6.jpg",
+        "sha256": "f605603a9605b454c746f4ec6654b43bfe235c1a584f7b0f3911105c9e52cbf1"
+      },
+      {
+        "name": "1471-2288-10-7-7.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-7.jpg",
+        "sha256": "7c521409393c5808b2d6d68b17c15f872dd3a98f40eb116467ee71a0ee836757"
+      },
+      {
+        "name": "1471-2288-10-7-8.jpg",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC2824146.1/1471-2288-10-7-8.jpg",
+        "sha256": "cded9485c362a0e544f874bcf1e228ea136ce12cec52699aa8dd2f6d55b890dc"
+      },
+      {
+        "name": "TH.data 1.1-2 (GBSG2, the motivating data; Ubuntu 24.04 r-cran-th.data)",
+        "url": "https://cloud.r-project.org/src/contrib/Archive/TH.data/TH.data_1.1-2.tar.gz",
+        "sha256": "47f94eb57b6fcef42efa30824c1356bf10529c4b94b0d0acdb787b434dddde73"
+      },
+      {
+        "name": "norm 1.0-11.1",
+        "url": "https://cloud.r-project.org/src/contrib/norm_1.0-11.1.tar.gz",
+        "sha256": "c2ffe6c30fc203337bde49ef630a740141604d8e648c558e58c20116c47963bc"
+      },
+      {
+        "name": "mix 1.0-13",
+        "url": "https://cloud.r-project.org/src/contrib/mix_1.0-13.tar.gz",
+        "sha256": "006d4bc0e1f7d4d59f1dba67793ce41846d42be898ae8d413dad776dc9f74d8b"
+      }
+    ],
+    "environment": {
+      "os": "Ubuntu 24.04",
+      "R": "4.3.3",
+      "survival": "3.5-8",
+      "mice": "3.16.0",
+      "Hmisc": "5.1-1",
+      "TH.data": "1.1-2",
+      "norm": "1.0-11.1",
+      "mix": "1.0-13",
+      "jsonlite": "1.8.8",
+      "python": "3.12 (CI) / 3.13 (session)",
+      "pymupdf": "2.1",
+      "pillow": "12.3.0",
+      "numpy": "2.5.3",
+      "java": "21",
+      "nextflow": "26.04.3",
+      "cpu": "4 cores"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "table1",
+      "label": "Table 1, means and SDs after transformation",
+      "kind": "table",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "comparison.json:table1",
+      "values": {
+        "tolerance": {
+          "printed": true
+        }
+      }
+    },
+    {
+      "id": "text.skewness",
+      "label": "Skewness of X2, X3, X4, X8 (Methods text)",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "comparison.json:text.skewness",
+      "values": {
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Skewness b1 = m3 / s^3 with the n - 1 SD, on the raw scale (the paper does not define it)",
+          "source": "found_by_search",
+          "sensitivity": "g1 and G1 give 2.88 / 4.78 / 3.08 / 1.77 and 2.88 / 4.79 / 3.09 / 1.78: three of four fields miss by 0.01"
+        }
+      ]
+    },
+    {
+      "id": "text.correlations",
+      "label": "Correlations quoted in the Methods text",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "comparison.json:text.correlations",
+      "values": {
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Pearson correlations on the raw (untransformed) scale",
+          "source": "found_by_search",
+          "sensitivity": "On the transformed scale X3-X4 is 0.64 and X2-X8 0.29: two of four fields miss"
+        }
+      ]
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1, histograms of the covariates (a) and the transformed covariates (b)",
+      "kind": "figure",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "comparison.json:fig1",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig1_ours.png",
+        "figure-reproduction/output/figures/fig1_overlay.png"
+      ]
+    },
+    {
+      "id": "lp",
+      "label": "Linear predictor, full Cox model on the breast cancer data (Methods equation)",
+      "kind": "value",
+      "source": "papers_data",
+      "method": "values",
+      "fields_from": "comparison.json:lp",
+      "values": {
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "Efron ties (R's default); X8 as two dummies at 20 and 30 mm",
+          "source": "our_choice",
+          "sensitivity": "Breslow ties give X3 -0.00228, still -0.0023 printed: same 9 of 9"
+        }
+      ]
+    },
+    {
+      "id": "text.censoring",
+      "label": "About 35% censored (Methods text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.censoring",
+      "assumptions": [
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        }
+      ],
+      "cause": {
+        "category": "paper_error",
+        "summary": "The text's 'approximately 35%' is a rounded figure: the stated hazards (0.0002 for censoring against 0.00027 exp(LP) for events) give 36.4% censored in our run and 36.6% with every variant of our generator.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/truth_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our binary covariates or the floor at 0 change the censoring",
+            "test": "Censored share of 20,000 cohorts under each generator variant (truth_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The stated hazards give about 36%, which the text rounds to 35",
+            "test": "Every variant gives 36.6% (2000 cohorts each) and our 200 replicates 36.4%",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "text.design",
+      "label": "Missingness design: incomplete cases, shares and overlaps (Methods text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.design",
+      "assumptions": [
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each covariate is missing in exactly its share of all cases (X3 at 25%: 67.98% of 25.75% incomplete cases is 17.50% of all cases, the design's 0.70 x 25%), but the overall share of incomplete cases runs 0.3 to 0.8 points above the target because only three pairs of indicators are tied (X5 and X3 or X8 and X2 can be missing together by chance). The shares of incomplete cases then fall slightly below the stated ones. The paper's numbers are design targets ('approximately'), and how it tied the other pairs is not stated.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The per-covariate rates are wrong",
+            "test": "Share of incomplete cases times the incomplete rate against the design's share times the level, every level (comparison.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Untied pairs of indicators add incomplete cases",
+            "test": "The excess of incomplete cases over the target (0.3 to 0.8 points) against the chance overlap of X5 with X3 and of X8 with X2 under independence",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, specification of the missingness mechanisms",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A design input, used as given (the blank X3 cell of the combined mechanism read as MCAR).",
+        "evidence": [
+          "PMC2824146/package/R/missing.R"
+        ],
+        "hypotheses": [],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, odds ratios between missingness indicators",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:table3",
+      "values": {
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "assumptions": [
+        {
+          "what": "The shares become whole cases of 1000, rounded half up, before the odds ratio is taken",
+          "source": "found_by_search",
+          "sensitivity": "With unrounded shares 8 of 15 odds ratios match (10% and 50% columns and X2|MX3 at 75%); rounding half to even gives 45.14 -> 19.42 at 5% for X8|MX3"
+        }
+      ]
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, the missing data methods",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A list of methods and settings, implemented as given in the package.",
+        "evidence": [
+          "PMC2824146/package/R/impute.R"
+        ],
+        "hypotheses": [],
+        "status": "explained"
+      }
+    },
+    {
+      "id": "truth",
+      "label": "Figs 2 and 3, reference lines: true values and empirical SEs (20,000 complete-data cohorts)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:truth",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Our generator's empirical SEs are 14% smaller for X1 and X6 and 14% larger for X4 than the paper's, and its true values 1 to 5% larger in magnitude for X2, X3, X4 and X5 (X7 0.8%). Keeping the binaries' observed correlations takes the X1 and X6 SEs past the paper's (0.0064 and 0.132 against 0.0060 and 0.119, ours 0.0051 and 0.104); the unrounded coefficients move X2's true value from 0.0517 to 0.0513 (paper 0.0507); the X4 SE and the larger magnitudes stay open.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/truth_variants.json",
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The binary covariates of the paper kept their observed correlations (the 0.5 cut-point weakens X1 with X6 from 0.77 to 0.61)",
+            "test": "True-value cohorts with the binaries' covariances divided by the attenuation of the cut (truth_variants.json, 2000 cohorts)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The paper generated survival from the unrounded Cox coefficients (its true values equal them to three figures)",
+            "test": "True-value cohorts with GBSG2's unrounded coefficients (truth_variants.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Setting back-transformed X3 and X4 below 0 to 0 moves the true values",
+            "test": "True-value cohorts without the floor (truth_variants.json)",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig2",
+      "label": "Fig. 2, coefficient estimates under MAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig2",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig2_ours.png",
+        "figure-reproduction/output/figures/fig2_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Most points fall within Monte Carlo error. Most of the 32 misses are estimates of X2, X3, X4 and X5 at 50 and 75% (five at 25%), mostly MI and SI, where our MIX without truncating, MICE-PMM and SI are further from or nearer the truth than the paper's. The offset of the true values does not explain them; the 2004 to 2005 package versions could not be tested.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees. Earlier note, withdrawn by hyunhwan-bcm on 2026-11-20: \"the generated figures are not aligned with the original paper's figure.\" Agrees stays: 301 of 333 points are within Monte Carlo error."
+      }
+    },
+    {
+      "id": "text.fig2",
+      "label": "Claims about Fig. 2 (bias, 0.5 SE, 10% bias)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.fig2",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each claim is computed from our figure values with the paper's thresholds (0.5 SE, 10% bias, 90% coverage, p = 0.05). Where the text disagrees with the paper's own figures and our run agrees with the figures, the field is a paper error and is not counted; the claims that still differ follow the gaps of the figure they rest on.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig3",
+      "label": "Fig. 3, average SEs under MAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig3",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig3_ours.png",
+        "figure-reproduction/output/figures/fig3_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Every point of X1, X4 and X6 misses by a near-constant factor across methods and levels (ours 0.83 to 0.91, 1.12 to 1.29 and 0.83 to 0.87 times the paper's, medians 0.86, 1.14 and 0.86), close to the ratio of their empirical SEs with no missing data (0.86, 1.14, 0.87): the generated covariates differ (see the reference lines). Keeping the binaries' correlations moves the X1 and X6 SEs past the paper's. The other misses (X2, X5) are MI SEs at 50 and 75%.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/truth_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The binary covariates of the paper kept their observed correlations (the 0.5 cut-point weakens X1 with X6 from 0.77 to 0.61)",
+            "test": "True-value cohorts with the binaries' covariances divided by the attenuation of the cut (truth_variants.json, 2000 cohorts)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "partly",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees, with the note \"the generated figures are not aligned with the original paper's figure.\" Changed from Agrees to Partly by hyunhwan-bcm on 2026-11-20: 164 of 333 points are within Monte Carlo error; X1, X4 and X6 are off by a near-constant factor (medians 0.86, 1.14 and 0.86)."
+      }
+    },
+    {
+      "id": "text.fig3",
+      "label": "Claims about Fig. 3 (SEs)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.fig3",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each claim is computed from our figure values with the paper's thresholds (0.5 SE, 10% bias, 90% coverage, p = 0.05). Where the text disagrees with the paper's own figures and our run agrees with the figures, the field is a paper error and is not counted; the claims that still differ follow the gaps of the figure they rest on.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig4",
+      "label": "Fig. 4, coverage under MAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig4",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig4_ours.png",
+        "figure-reproduction/output/figures/fig4_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Nearly all points fall within binomial error; the misses are X3 coverage of the MI methods at 50 and 75%, where our MICE-PMM and MIX without truncating cover the true value more often than the paper's, as their X3 estimates in Fig. 2 are less biased.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees."
+      }
+    },
+    {
+      "id": "text.fig4",
+      "label": "Claims about Fig. 4 (coverage)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.fig4",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each claim is computed from our figure values with the paper's thresholds (0.5 SE, 10% bias, 90% coverage, p = 0.05). Where the text disagrees with the paper's own figures and our run agrees with the figures, the field is a paper error and is not counted; the claims that still differ follow the gaps of the figure they rest on.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig5",
+      "label": "Fig. 5, mean p-values under MAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig5",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig5_ours.png",
+        "figure-reproduction/output/figures/fig5_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Most misses are X6, whose mean p-value is lower in our run at every level and method, as its SE is about 14% smaller (Fig. 3); the rest are scattered MI points for X2 to X5.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/truth_variants.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The binary covariates of the paper kept their observed correlations (the 0.5 cut-point weakens X1 with X6 from 0.77 to 0.61)",
+            "test": "True-value cohorts with the binaries' covariances divided by the attenuation of the cut (truth_variants.json, 2000 cohorts)",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees."
+      }
+    },
+    {
+      "id": "text.fig5",
+      "label": "Claims about Fig. 5 (significance)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.fig5",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each claim is computed from our figure values with the paper's thresholds (0.5 SE, 10% bias, 90% coverage, p = 0.05). Where the text disagrees with the paper's own figures and our run agrees with the figures, the field is a paper error and is not counted; the claims that still differ follow the gaps of the figure they rest on.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig6",
+      "label": "Fig. 6, model performance under MAR (LR p, R2, D, 2-year survival)",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig6",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig6_ours.png",
+        "figure-reproduction/output/figures/fig6_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Two gaps. The pooled likelihood ratio p-values after MI are below 3 x 10^-6 in our run against up to 0.0046 in the paper; no pooling rule we tried gives the paper's values. Complete-case R2, D and 2-year survival rise with missingness in our run (2-year survival 0.805 at 75% against 0.760): reversing X5's time term brings survival to 0.771 but leaves R2 and D high.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/hypotheses.json",
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/pooling_check.csv"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The paper pooled the m likelihood ratio statistics differently from Li et al. (1991) D2",
+            "test": "Mean p over 10 replicates at 50 and 75% (MICE-PMM, aregImpute, MIX without truncating) with D2, D2 on var(d) instead of var(sqrt(d)), the median and the mean of the m p-values (hypotheses.json): 10^-7 to 10^-20, 1, and below 10^-20, never 10^-4 to 10^-3",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Another standard rule for combining the m = 20 analyses gives the paper's p-values",
+            "test": "152 replicates at 50 and 75% MAR, five MI methods, each pooled with D1 (Wald, Rubin's rules), a Wald test on the total variance, D2 (Li et al. 1991, the paper's stated method), D2 on var(d), D3 (Meng and Rubin 1992) and the mean, median and maximum of the m p-values (pipeline/pooling_check.R, output/pooling_check.csv; D2 equals the committed run in all 1,520 rows). At 75% the mean p stays at 10^-17 to 10^-6 for every rule except D3 with MIX without truncating (0.05, from single replicates near 1), against the paper's 4.7 x 10^-4 to 4.6 x 10^-3; the largest single replicate with D2 is 4 x 10^-4",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "X5's missingness depends on survival time in the opposite direction, so complete cases are not the longer survivors",
+            "test": "Complete cases at 50 and 75% MAR under four forms of the time term (hypotheses.json): reversed, 2-year survival 0.771 and 0.771 against the paper's 0.768 and 0.760, but R2 0.252 and D 1.108 at 75% against 0.244 and 1.070",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Differs (\"the p-value distribution is flat, without any changes\"). Changed from Differs to Agrees by hyunhwan-bcm on 2026-11-20, after the pooling check: every claim the paper draws from Fig. 6a holds (LR p below 0.01 for every method and level; at 50% MICE smallest and MIX without truncating largest); on a log scale our LR p-values rise with missingness and keep the paper's order of the MI methods at 75%, 3 to 9 orders of magnitude lower, with the paper's stated pooling (Li et al. 1991) and with D1 and D3; the MI curves of panels b-d agree. The complete-case gap in panels b-d stays open in the cause."
+      }
+    },
+    {
+      "id": "text.fig6",
+      "label": "Claims about Fig. 6 (model performance)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.fig6",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Each claim is computed from our figure values with the paper's thresholds (0.5 SE, 10% bias, 90% coverage, p = 0.05). Where the text disagrees with the paper's own figures and our run agrees with the figures, the field is a paper error and is not counted; the claims that still differ follow the gaps of the figure they rest on.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "fig7",
+      "label": "Fig. 7, coefficients of X2 to X5 under MAR and MNAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig7",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig7_ours.png",
+        "figure-reproduction/output/figures/fig7_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The MAR series match as in Fig. 2. Under MNAR our X4 estimates (every MI method shown) and X3 with MICE are further from the truth than the paper's at 50 and 75% (X4 with MICE-PMM at 75%: -0.00049 against -0.00036); X3 with MICE-PMM is nearer. The scale of X3's own term does not explain it.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "X3's MNAR term acts on log(X3 + 1), not on X3 itself",
+            "test": "MICE at 50 and 75% MNAR with the term on the log scale, 10 replicates (hypotheses.json): X3 estimate -0.00139 and -0.00112 against -0.00137 and -0.00109 on the raw scale (paper -0.00157 and -0.00127)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The offset between our true values and the paper's explains the misses",
+            "test": "Compare each point's bias from its own run's true value instead of its value (comparison.json, bias_relative_to_own_truth)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees."
+      }
+    },
+    {
+      "id": "fig8",
+      "label": "Fig. 8, coverage of X2 to X4 under MAR and MNAR",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:fig8",
+      "assumptions": [
+        {
+          "what": "Published values are read from the article PDF's vector figures: each plotted point is a vertex of the series' line, each axis is mapped from its tick marks and printed labels; the PDF writer's coordinate grid is 0.405 pt",
+          "source": "read_from_figure",
+          "sensitivity": "One grid step is added to every tolerance; the tick fits have residuals below 0.3% of a tick interval"
+        },
+        {
+          "what": "Tolerance per point: 3 times the combined Monte Carlo SE of our mean (200 replicates; 100 for MCAR and combined) and the paper's (1000 replicates, from our SD), plus one PDF grid step",
+          "source": "our_choice",
+          "sensitivity": "At 2 times the matches rise, at 4 times they rise further; the controls are scored at the same tolerance"
+        },
+        {
+          "what": "Binary covariates X5 to X7 are the multivariate normal draw cut at 0.5, as the text says; this weakens their correlation with the other covariates (X1 with X6: 0.77 in the data, 0.61 generated)",
+          "source": "paper",
+          "sensitivity": "Keeping the observed correlations moves the empirical SE of X1 from 0.0051 to 0.0064 and of X6 from 0.104 to 0.132 (paper 0.0060 and 0.119); see truth_variants.json"
+        },
+        {
+          "what": "Back-transformed X3 and X4 below 0 set to 0 (the text gives upper limits only)",
+          "source": "our_choice",
+          "sensitivity": "Without the floor the true values move by less than their Monte Carlo error (truth_variants.json)"
+        },
+        {
+          "what": "Hazards are per day, 2-year survival at 730.5 days, predicted at the means of all covariates",
+          "source": "our_choice",
+          "sensitivity": "The full-data 2-year survival is 0.776 against the figure's 0.78"
+        },
+        {
+          "what": "Missingness intercepts solved at the average value of each mechanism's term; continuous terms (and survival time, as log(t / SD(t))) divided by their SD",
+          "source": "our_choice",
+          "sensitivity": "Realised shares in text.design"
+        },
+        {
+          "what": "Imputation settings beyond Table 4 are the current packages' defaults (mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13); MIX uses a restricted general location model (two-way loglinear, additive means) because the unrestricted model fails on empty cells; aregImpute with burnin = 1 (Table 4: 1 iteration); imputed X2 and X3 clipped to the observed range except for MIX without truncating and PMM",
+          "source": "our_choice",
+          "sensitivity": "Not varied; see the causes"
+        },
+        {
+          "what": "200 replicates for MAR and MNAR, 100 for MCAR and combined, instead of 1000 (compute); true values from 20,000 cohorts as in the paper",
+          "source": "our_choice",
+          "sensitivity": "Monte Carlo error is in every tolerance"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/figures/fig8_ours.png",
+        "figure-reproduction/output/figures/fig8_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The misses are X3 coverage at 50 and 75%, following the X3 estimates of Fig. 7: under MNAR our MICE covers the true value in 12% of replicates at 75% against the paper's 33%; under MAR our MICE-PMM covers it more often (64% against 49%).",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/hypotheses.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "X3's MNAR term acts on log(X3 + 1), not on X3 itself",
+            "test": "MICE at 50 and 75% MNAR with the term on the log scale, 10 replicates (hypotheses.json): X3 estimate -0.00139 and -0.00112 against -0.00137 and -0.00109 on the raw scale (paper -0.00157 and -0.00127)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
+        "note": "Review of 13c8b62: Partly -> Agrees."
+      }
+    },
+    {
+      "id": "text.mnar",
+      "label": "Claims about Figs 7 and 8 (MNAR against MAR)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.mnar",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Under MNAR X3 and X4 are more than 0.5 SE from the truth from 25% with every MI, as the paper says, and MICE-PMM without transformation reaches 0.5 SE under MAR only at 50%, as it says. The direction claims at 75% differ in places: our X3 is not further from the truth under MNAR for every method, X5 is not closer, and X2 coverage is not lower for every method; the paper's own Fig. 8 has X3 coverage higher under MNAR for two of three methods (a paper error).",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "X3's MNAR term acts on log(X3 + 1), not on X3 itself",
+            "test": "MICE at 50 and 75% MNAR with the term on the log scale, 10 replicates (hypotheses.json): X3 estimate -0.00139 and -0.00112 against -0.00137 and -0.00109 on the raw scale (paper -0.00157 and -0.00127)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Monte Carlo error at 200 replicates",
+            "test": "Tolerance of three combined Monte Carlo SEs; at that tolerance chance alone misses about 1 point in 370, and the misses cluster in a few covariates and methods instead of spreading",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "text.other",
+      "label": "MCAR and combined like MAR; NORM and MIX like MICE (Results text, not plotted)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.other",
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The text judges 'no apparent differences' and 'indistinguishable' by eye; we set 0.25 SE (mechanisms) and 0.1 SE (methods). MIX is within 0.1 SE of MICE everywhere and NORM in 44 of 45 points (X5 at 75%: 0.17 SE). MCAR differs from MAR by more than 0.25 SE in 10% of the points, all of them X3 (up to 1.2 SE with MIX without truncating at 75%), with a median difference of 0.09 SE.",
+        "evidence": [
+          "PMC2824146/figure-reproduction/output/comparison.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Monte Carlo error (100 MCAR and 200 MAR replicates)",
+            "test": "The X3 differences of 0.6 to 1.2 SE against a Monte Carlo SE of the difference near 0.12 SE",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The thresholds are stricter than the paper's eye",
+            "test": "The same points at 0.5 SE: the X3 differences at 50 and 75% remain",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The imputation packages changed since 2004 to 2005 (mice 1.13.1, Hmisc 2.2-3, norm 1.0-9, mix 1.0-4 against mice 3.16.0, Hmisc 5.1-1, norm 1.0-11.1, mix 1.0-13), and with them the defaults the paper does not state",
+            "test": "Not run: mice 1.13.1 is not in the CRAN archive and the 2004 packages do not build on R 4.3",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      }
+    },
+    {
+      "id": "text.main",
+      "label": "Main claim (Abstract and Conclusions): MICE-PMM least biased, fails from 50% and under MNAR",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:text.main"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own figure values",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check_from": "comparison.json:arithmetic"
+    },
+    {
+      "id": "sim_check",
+      "label": "Replicates rerun from scratch equal the committed results",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "sim_check.json"
+    },
+    {
+      "id": "package",
+      "label": "R package misscox and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "package.json",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {
+    "lede": "{items} results: {exact} exact, {agrees} agree, {partly} partly agree, {differs} differ, {not_attempted} not attempted. The lost simulation was rebuilt from the paper as an R package and run again, and every plotted point was read back out of the paper's own figures.",
+    "label_rows": [
+      [
+        "fig-1",
+        "Fig. 1",
+        [
+          "fig1"
+        ]
+      ],
+      [
+        "fig-2",
+        "Fig. 2",
+        [
+          "fig2"
+        ]
+      ],
+      [
+        "fig-3",
+        "Fig. 3",
+        [
+          "fig3"
+        ]
+      ],
+      [
+        "fig-4",
+        "Fig. 4",
+        [
+          "fig4"
+        ]
+      ],
+      [
+        "fig-5",
+        "Fig. 5",
+        [
+          "fig5"
+        ]
+      ],
+      [
+        "fig-6",
+        "Fig. 6",
+        [
+          "fig6"
+        ]
+      ],
+      [
+        "fig-7",
+        "Fig. 7",
+        [
+          "fig7"
+        ]
+      ],
+      [
+        "fig-8",
+        "Fig. 8",
+        [
+          "fig8"
+        ]
+      ],
+      [
+        "items",
+        "Tables 1 and 3",
+        [
+          "table1",
+          "table3"
+        ]
+      ],
+      [
+        "items",
+        "Main claim",
+        [
+          "text.main"
+        ]
+      ]
+    ],
+    "items_caption": "Every figure, table and claim of the paper. A figure point agrees when it is within 3 combined Monte Carlo standard errors and one PDF grid step of the published one; long lists show only the points that miss.",
+    "claims_line": "The main claim holds: MICE-PMM without transformation is the least biased MI method for the skewed covariates, stays within 10% bias at 25% (MAR), and is more than 0.5 SE from the truth at 50% under MAR, MCAR and the combined mechanism, and every MI method is more than 0.5 SE off for X3 under MNAR from 25%. The text contradicts its own figures in 18 claim fields; the 12 where our run agrees with the figures are counted as paper errors. The claims that differ follow the generated covariates and the newer imputation packages (open).",
+    "came_back": [
+      [
+        "Table 1",
+        "Every mean and SD from the breast cancer data."
+      ],
+      [
+        "The data",
+        "The skewness, the correlations and the Cox model of the Methods, to the printed digit."
+      ],
+      [
+        "Fig. 1",
+        "Every bar tall enough to read (82)."
+      ],
+      [
+        "Table 3",
+        "All 15 odds ratios, once the shares are counted as whole cases."
+      ],
+      [
+        "Figs 2 to 8",
+        "Most plotted points within Monte Carlo error, read from the paper's vector figures."
+      ],
+      [
+        "The method",
+        "The simulation and the nine missing data methods, as the R package misscox."
+      ]
+    ],
+    "buried": [
+      "The simulation code, its seeds and its 1000 data sets were never released.",
+      "How the paper's binary covariates kept their correlations: ours lose some, and the SEs of age and menopausal status come out about 14% smaller.",
+      "How the paper pooled the likelihood ratio test after imputation: no rule we tried gives its p-values.",
+      "The 2004 to 2005 imputation packages: mice 1.13.1 is gone, the others do not build on today's R."
+    ],
+    "matched_intro": "How each part of the paper's method was rebuilt.",
+    "matched": [
+      [
+        "Data",
+        "GBSG2 from the CRAN package TH.data: 686 patients, the eight covariates of Table 1."
+      ],
+      [
+        "Cohorts",
+        "Multivariate normal on the transformed scale, back-transformed, cut and truncated; exponential event and censoring times."
+      ],
+      [
+        "Missingness",
+        "Logistic models per covariate with Table 3's odds ratios, four mechanisms, five levels."
+      ],
+      [
+        "Methods",
+        "CC, SI and seven MI methods with norm, mix, mice and Hmisc, 20 imputations."
+      ],
+      [
+        "Analysis",
+        "The full Cox model, Rubin's rules, Li's pooled test, R2, D and 2-year survival."
+      ]
+    ],
+    "closing": "Missing covariates in Cox models came back from the paper's text, its data and its own vector figures."
+  }
+}

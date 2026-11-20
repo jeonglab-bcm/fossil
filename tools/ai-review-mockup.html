@@ -97,7 +97,7 @@ html { scroll-behavior: smooth; }
   </div>
   <nav aria-label="Cases">
     <a href="#case-1">1 · Several changes</a><a href="#case-2">2 · All match</a><a href="#case-3">3 · Not attempted</a>
-    <a href="#case-4">4 · Too generous</a><a href="#case-5">5 · New paper</a><a href="#case-6">6 · No change</a><a href="#case-7">7 · Can't run</a>
+    <a href="#case-4">4 · Too generous</a><a href="#case-5">5 · New paper</a><a href="#case-6">6 · No change</a><a href="#case-7">7 · Can't run</a><a href="#case-8">8 · Your likely call</a>
   </nav>
   <p class="when">The text follows the rules of <a href="https://github.com/Dodaios/ste80-humanizer">STE80 Humanizer</a> (MIT): one idea per sentence, active voice, plain words, no semicolons or dashes. A checker from the same project reads each answer and writes its notes to the CI log.</p>
 </header>
@@ -111,10 +111,11 @@ html { scroll-behavior: smooth; }
     <div class="comment-body">
       <div class="elided">… diffs and figure overlays, unchanged …</div>
       <h4>🤖 AI review of the 5 items this PR changes</h4>
+      <p>To look closer, open this PR in the <a href="https://jeonglab-bcm.github.io/Paper2Repro/?r=jeonglab-bcm/fossil/pull/89">review page</a>. It shows each figure and table with its numbers, and lets you record a decision. Each item name below links to that item there.</p>
       <div class="tablewrap"><table>
         <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
         <tbody>
-          <tr><td>Table 2, statistic × transformation</td><td><b>partly</b><br><span class="sub">set by SophSM. The numbers alone say agrees.</span></td><td>The numbers match. We picked one setting after we saw the paper's rates.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
+          <tr><td><a href="https://jeonglab-bcm.github.io/Paper2Repro/?r=jeonglab-bcm/fossil/pull/89#i-table2">Table 2, statistic × transformation</a></td><td><b>partly</b><br><span class="sub">set by SophSM. The numbers alone say agrees.</span></td><td>The numbers match. We picked one setting after we saw the paper's rates.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
           <tr><td>Table 5, globaltest</td><td><b>agrees</b><br><span class="sub">set by SophSM. The numbers alone say partly.</span></td><td>35 of 36 rates match. Chance explains the one that does not.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
           <tr><td>Fig. 2 right, p53 sets with p ≤ 0.01</td><td><b>partly</b></td><td>9 of 16 bars match. Our cond. FDR finds far fewer sets, and the cause is still open.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
           <tr><td>Fig. 4 right, Hedenfalk sets with p ≤ 0.01</td><td><b>differs</b><br><span class="sub">set by SophSM. The numbers alone say partly.</span></td><td>1 of 16 bars matches. Our gene mapping differs from the paper's.</td><td class="mark"><span class="pill ok">✅</span></td></tr>
@@ -240,5 +241,23 @@ html { scroll-behavior: smooth; }
     </div>
   </div></div>
   <div class="check"><span class="dot" aria-hidden="true"></span>Results check / check (PMC2661051): failed at "AI review of the items this PR changes"</div>
+</section>
+
+<!-- Case 8 -->
+<section class="case" id="case-8">
+  <div class="case-head"><span class="case-no">Case 8</span><h2>The verdict you would likely give</h2></div>
+  <p class="when">The AI reads your 25 past review decisions on main. When a partly or inconclusive item has the same kind of gap as one you accepted, it suggests your likely verdict and links that decision. This example is made up. The precedent it cites is real.</p>
+  <div class="comment"><div class="comment-body">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Item</th><th>Verdict</th><th>In one line</th><th></th></tr></thead>
+      <tbody><tr><td>Table 2, test-set accuracy of six classifiers</td><td><b>partly</b></td><td>4 of 6 accuracies match. Two are one and two samples short.</td><td class="mark"><span class="pill ok">✅</span><br><span class="sub">hyunhwan-bcm would likely say agrees</span></td></tr></tbody>
+    </table></div>
+    <details open><summary><b>Table 2: partly</b>, why it did not fully match</summary><div>
+      <p>4 of 6 accuracies fall inside the allowed band. Our SVM gets 32 of 34 test samples right, and the paper prints 33. Our kNN gets 31, and the paper prints 33. The paper gives no seeds or folds. The cause is still open.</p>
+      <p class="worth" style="background: var(--accent-soft)"><b>Likely reviewer verdict: agrees.</b> Both gaps are a few samples, and neither paper gives seeds or folds. hyunhwan-bcm set agrees on <a href="https://github.com/jeonglab-bcm/fossil/pull/76#pullrequestreview-5906417135">PMC522806/table2.test</a>, where the numbers gave partly. Compare the two in the review page: <a href="https://jeonglab-bcm.github.io/Paper2Repro/?r=jeonglab-bcm/fossil/pull/84#i-table2">this item</a>, <a href="https://jeonglab-bcm.github.io/Paper2Repro/?r=jeonglab-bcm/fossil/pull/76#i-table2.test">the past one</a>.</p>
+      <p class="sub"><a href="https://jeonglab-bcm.github.io/Paper2Repro/?r=jeonglab-bcm/fossil/pull/84#i-table2">See this item in the review page</a></p>
+    </div></details>
+    <p class="conclusion"><b>Final conclusion:</b> approve this PR if you accept the verdicts above. The AI flagged nothing. 1 item looks like a gap hyunhwan-bcm accepted before. To change a verdict, add a review block.</p>
+  </div></div>
 </section>
 </div>

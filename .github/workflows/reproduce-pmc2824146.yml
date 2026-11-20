@@ -1,0 +1,100 @@
+name: Reproduce PMC2824146
+
+# Reruns the PMC2824146 pipeline (missing covariate data in Cox prognostic models, Marshall et al.
+# 2010) and checks it: every plotted point read from the article's vector figures, Table 1, the data
+# description, the linear predictor, Figure 1 and Table 3 recomputed from GBSG2, replicate 1 of the
+# MAR and MNAR studies and the first 200 true-value cohorts rerun from scratch against the committed
+# per-replicate results, every figure and claim compared, the R package misscox checked, and the
+# fresh run compared with the committed output/ (compare_runs.py).
+#
+# The job runs in an ubuntu:24.04 container so that apt gives the R and R package versions the
+# committed results were made with (R 4.3.3, survival 3.5-8, mice 3.16.0, Hmisc 5.1-1, TH.data
+# 1.1-2); norm 1.0-11.1 and mix 1.0-13 come from CRAN by version and checksum.
+#
+# The full simulation (MAR and MNAR 200 replicates, MCAR and combined 100, 20,000 true-value
+# cohorts, about 24 CPU hours) does not run here: it ran with `main.nf --full` on 4 cores, and its
+# per-replicate results are committed in output/sim. Start the workflow by hand with full = true to
+# run it again (it does not fit the 6-hour job limit on a standard runner; use a larger runner).
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Simulate every replicate again (about 24 CPU hours)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2824146/figure-reproduction/**"
+      - "PMC2824146/package/**"
+      - ".github/workflows/reproduce-pmc2824146.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2824146/figure-reproduction/**"
+      - "PMC2824146/package/**"
+      - ".github/workflows/reproduce-pmc2824146.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    container: ubuntu:24.04
+    timeout-minutes: 60
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+    steps:
+      - name: Install system packages, R and the R packages
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends ca-certificates curl git python3 python3-venv \
+            openjdk-21-jre-headless pandoc r-base-core r-base-dev r-cran-survival r-cran-mice \
+            r-cran-hmisc r-cran-th.data r-cran-jsonlite r-cran-rmarkdown r-cran-knitr r-cran-testthat
+
+      - uses: actions/checkout@v4
+
+      - name: Install norm and mix (CRAN, pinned by checksum)
+        run: |
+          get() { curl -sSfL --retry 3 -o "$1" "https://cloud.r-project.org/src/contrib/$1" \
+                  || curl -sSfL --retry 3 -o "$1" "https://cloud.r-project.org/src/contrib/Archive/$2/$1"; }
+          get norm_1.0-11.1.tar.gz norm
+          get mix_1.0-13.tar.gz mix
+          echo "c2ffe6c30fc203337bde49ef630a740141604d8e648c558e58c20116c47963bc  norm_1.0-11.1.tar.gz" | sha256sum -c
+          echo "006d4bc0e1f7d4d59f1dba67793ce41846d42be898ae8d413dad776dc9f74d8b  mix_1.0-13.tar.gz" | sha256sum -c
+          R CMD INSTALL norm_1.0-11.1.tar.gz mix_1.0-13.tar.gz
+          R CMD INSTALL PMC2824146/package
+          Rscript -e 'for (p in c("survival", "mice", "Hmisc", "TH.data", "norm", "mix", "misscox")) cat(p, format(packageVersion(p)), "\n")'
+
+      - name: Install Python packages
+        run: |
+          python3 -m venv /opt/venv
+          /opt/venv/bin/pip install -r PMC2824146/figure-reproduction/requirements.txt
+          echo "/opt/venv/bin" >> "$GITHUB_PATH"
+
+      - name: Install Nextflow 26.04.3
+        run: |
+          curl -sSfL --retry 3 -o /usr/local/bin/nextflow \
+            https://github.com/nextflow-io/nextflow/releases/download/v26.04.3/nextflow-26.04.3-dist
+          chmod +x /usr/local/bin/nextflow
+          nextflow -version
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2824146/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.full && '--full' || '' }}
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2824146-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

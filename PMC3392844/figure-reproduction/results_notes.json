@@ -339,6 +339,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:tables/table2_all/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 5 of 24 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+   },
    "cause_from": "svm",
    "assumptions_from": [
     "svm",
@@ -366,6 +373,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "comparison.json:tables/table3_svm/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 8 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+   },
    "cause_from": "svm",
    "assumptions_from": [
     "svm",
@@ -535,6 +549,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "table4.json:fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 36 of 39 clinical calls as printed; the paper does not state the decision threshold."
+   },
    "cause_from": "table4",
    "assumptions_from": [
     "svm",
@@ -575,6 +596,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "claims.json:text_headline/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: AUC, precision and recall rise as the claim says; 1 of 6 fields is at printed precision and the others are close (precision 65.31 against 66.17)."
+   },
    "cause_from": "svm",
    "assumptions_from": [
     "svm"
@@ -588,6 +616,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "claims.json:text_feature_gains/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 6 of 7 fields as printed; the miss is the 'about 3%' precision gain from bio (ours 1.8 points)."
+   },
    "cause_from": "svm",
    "assumptions_from": [
     "svm"
@@ -651,6 +686,13 @@
    "source": "reconstructed",
    "method": "values",
    "fields_from": "claims.json:text_indication/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 after the AI review flag: AUC 0.9111 against the printed 0.9110, one unit in the last digit and smaller than our seed range (0.0003)."
+   },
    "cause_from": "indication",
    "assumptions_from": [
     "svm"
@@ -677,6 +719,13 @@
    "source": "papers_data",
    "method": "values",
    "fields_from": "claims.json:text_data_facts/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 4 counts as printed; the others differ slightly on the 832-drug file (560 against 554 ADRs with fewer than five drugs)."
+   },
    "cause_from": "counts",
    "label_from": "claims.json:text_data_facts/label"
   },

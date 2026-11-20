@@ -128,6 +128,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 5 of 24 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -297,7 +304,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "table2.50",
@@ -487,6 +494,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 8 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -576,7 +590,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "table3.rf",
@@ -2147,6 +2161,13 @@
       "kind": "table",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 36 of 39 clinical calls as printed; the paper does not state the decision threshold."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -2384,7 +2405,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "tableS1",
@@ -2540,6 +2561,13 @@
       "kind": "value",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: AUC, precision and recall rise as the claim says; 1 of 6 fields is at printed precision and the others are close (precision 65.31 against 66.17)."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -2620,7 +2648,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "text.feature_gains",
@@ -2628,6 +2656,13 @@
       "kind": "value",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 6 of 7 fields as printed; the miss is the 'about 3%' precision gain from bio (ours 1.8 points)."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -2726,7 +2761,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "text.ks",
@@ -2989,6 +3024,13 @@
       "kind": "value",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 after the AI review flag: AUC 0.9111 against the printed 0.9110, one unit in the last digit and smaller than our seed range (0.0003)."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -3031,7 +3073,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "text.class_weights",
@@ -3099,6 +3141,13 @@
       "kind": "value",
       "source": "papers_data",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 4 counts as printed; the others differ slightly on the 832-drug file (560 against 554 ADRs with fewer than five drugs)."
+      },
       "values": {
         "fields": [
           {
@@ -3145,7 +3194,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "text.clinical",
@@ -3368,11 +3417,12 @@
   "summary": {
     "items": 36,
     "exact": 3,
-    "agrees": 7,
-    "partly": 17,
+    "agrees": 14,
+    "partly": 11,
     "inconclusive": 0,
-    "differs": 6,
+    "differs": 5,
     "not_attempted": 3,
-    "open_causes": 21
+    "open_causes": 21,
+    "reviewed": 7
   }
 }
