@@ -235,6 +235,15 @@ def main(results, run, out):
                  "RECOVERED": recovered, "MATCHED_INTRO": esc(N["matched_intro"]), "MATCHED": matched,
                  "CLOSING": esc(N["closing"])}.items():
         page = page.replace(f"<!--__{k}__-->", v)
+    # The repository's install block (tools/site_install.py), generated from package/README.md, so the page the
+    # pipeline writes is the page the site shows.
+    tools = HERE.parents[2] / "tools"
+    if (tools / "site_install.py").is_file():
+        sys.path.insert(0, str(tools))
+        import site_install
+        want = site_install.block(HERE.parents[1].name)
+        if want and site_install.ANCHOR in page:
+            page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
     outp = Path(out) / "index.html"
     outp.parent.mkdir(parents=True, exist_ok=True)
     outp.write_text(page)
