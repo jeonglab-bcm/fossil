@@ -9,7 +9,7 @@ the pipeline calls it and holds no second copy.
 
 <!-- table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-TABLE-->
-8 exact, 7 agrees, 1 partly, 3 differs, 4 not attempted; 8 open causes; 5 verdicts set by a reviewer.
+8 exact, 8 agrees, 1 partly, 2 differs, 4 not attempted; 8 open causes; 6 verdicts set by a reviewer.
 
 | Item | Verdict | Measure | Why |
 | --- | --- | --- | --- |
@@ -23,7 +23,7 @@ the pipeline calls it and holds no second copy.
 | Table 3, LOOCV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | DLBCL comes back (46 of 47). Ovarian 252 of 253 against 251, one sample better. Colon 54 of 62 against 57; none of eight variants moves colon above 54. |
 | Table 3, 10-fold CV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees | DLBCL comes back (45 of 47). Ovarian 251 of 253 against the printed 98.82%, which is not a whole count of 253 (250/253 = 98.81%, our third fold assignment). Colon 54 of 62 against 56 (53 to 54 over three fold assignments). |
 | Table 3, other methods (quoted) | not attempted | not attempted | Accuracies quoted from Dettling and Buhlmann (colon, 85.48%) and Liu, Li and Wong (ovarian, 100%), not results of this paper. |
-| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed | DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, 0.43 above its label 98.82% and close to the LOOCV 99.21% (the other bars of this figure sit up to 0.36 off their labels). |
+| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | agrees | 0 of 3 fields as printed; computed differs, reviewer agrees | DLBCL on 22/25 splits: 89.6% over 20 random splits (72% to 100%; one split gives 25 of 25), against 98%; Cho and Won's samples are not listed, and 98% is not a whole count of 25. Ovarian and colon bars as in Table 3. The published ovarian bar is drawn at 99.25%, 0.43 above its label 98.82% and close to the LOOCV 99.21% (the other bars of this figure sit up to 0.36 off their labels). |
 | Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |  |
 | Text: 75 features in all | exact | 1 of 1 fields as printed |  |
 | Claims recomputed from the paper's own tables | agrees | 7 of 7 claims come back from the paper's own tables. 11 of 12 printed accuracies are whole counts of samples; not a whole count: Ovarian 98.82% of 253. Fig. 4's 98% on 25 test samples is not a whole count either (24/25 = 96, 25/25 = 100). |  |
