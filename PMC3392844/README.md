@@ -38,7 +38,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3392844/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-3 exact, 19 agrees, 9 partly, 2 differs, 3 not attempted; 21 open causes; 12 verdicts set by a reviewer.
+3 exact, 25 agrees, 5 partly, 3 not attempted; 21 open causes; 18 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -53,11 +53,11 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3392844/>
 | Table 3, LR row | agrees | 0 of 8 fields as printed; computed differs, reviewer agrees |
 | Fig. 2, ROC curves of six feature sets, all ADRs (drawn) | agrees | 100.00% within 2 px (pass 95.0%, best control 56.0%) |
 | Fig. 2, ROC curves of six feature sets, all ADRs, TPR at five FPRs read from the vector curves | agrees | 30 of 30 fields as printed |
-| Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn) | partly | 87.04% within 2 px (pass 95.0%, best control 37.5%) |
-| Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves | partly | 26 of 30 fields as printed |
-| Fig. 4, ROC curves of five algorithms (drawn) | partly | 77.36% within 2 px (pass 95.0%, best control 50.8%) |
-| Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves | partly | 17 of 25 fields as printed |
-| Fig. 5, overlap of true positives of chem, bio and pheno | differs | 0 of 7 fields as printed |
+| Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn) | agrees | 87.04% within 2 px (pass 95.0%, best control 37.5%); computed partly, reviewer agrees |
+| Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves | agrees | 26 of 30 fields as printed; computed partly, reviewer agrees |
+| Fig. 4, ROC curves of five algorithms (drawn) | agrees | 77.36% within 2 px (pass 95.0%, best control 50.8%); computed partly, reviewer agrees |
+| Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves | agrees | 17 of 25 fields as printed; computed partly, reviewer agrees |
+| Fig. 5, overlap of true positives of chem, bio and pheno | agrees | 0 of 7 fields as printed; computed differs, reviewer agrees |
 | Table 4, clinical validation calls (cerivastatin, rofecoxib) | agrees | 36 of 39 fields as printed; computed partly, reviewer agrees |
 | Table S1, share of informative features (chi-square p < 0.05) | partly | 1 of 7 fields as printed |
 | SIDER: 888 drugs, 1385 side-effect terms, 61 102 associations, 68.8 side effects per drug | exact | 4 of 4 fields as printed |
@@ -72,7 +72,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC3392844/>
 | Discussion: class weights (1 - class share) raise RF's AUC from 0.9491 to 0.9524; SVM does not improve | partly | 1 of 3 fields as printed |
 | Discussion: nausea and headache co-occur in 596 drugs; 49 pairs of ADRs co-occur in more than 400 drugs; 554 ADRs have fewer than five drugs (about 1:166 positives to negatives) | agrees | 1 of 4 fields as printed; computed partly, reviewer agrees |
 | Clinical validation: chem detects 1 of 7 rhabdomyolysis ADRs and 0 of 4 heart-attack ADRs, chem+bio 5 and 0, chem+bio+pheno 5 and 2; every classifier detects both grouped ADRs | partly | 4 of 7 fields as printed |
-| Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone | differs | 0 of 2 fields as printed |
+| Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone | agrees | 0 of 2 fields as printed; computed differs, reviewer agrees |
 | Chem-only AUC 0.9054 'similar to' Pauwels et al.'s 0.8930 | not attempted | not attempted |
 | Claims recomputed from the paper's own tables | agrees | 44 of 44 statements follow from the paper's own tables and figures. |
 | The recovered training file is the paper's | agrees | The recovered file has 59,205 positive (drug, ADR) pairs; Fig. 5's true positives over Table 2's recalls imply chem 59,214, bio 59,205, pheno 59,201, all within 0.1%. |
@@ -109,7 +109,7 @@ our RF's AUC (0.9483 against 0.9488) where the paper's rose to 0.9524. Three cou
 differ by 1 to 6 (598, 50 and 560 against 596, 49 and 554). Each cause, with the hypotheses tested, is in
 `results.json`.
 
-<!--CLAIMS-LINE-->The main claim holds: in our run adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9525, precision from 43.32% to 65.31% and recall from 49.48% to 63.84% (paper 0.9054 to 0.9524, 43.37% to 66.17%, 49.25% to 63.06%). The claims that do not match come from the unstated variant of the KS test, the LR and NB settings, the class weighting of RF (our AUC falls), the unstated threshold of Table 4 and the precision and recall points behind Fig. 5.<!--/CLAIMS-LINE-->
+<!--CLAIMS-LINE-->The main claim holds: in our run adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9525, precision from 43.32% to 65.31% and recall from 49.48% to 63.84% (paper 0.9054 to 0.9524, 43.37% to 66.17%, 49.25% to 63.06%). The claims that do not match come from the unstated variant of the KS test, the LR and NB settings, the class weighting of RF (our AUC falls) and the unstated threshold of Table 4.<!--/CLAIMS-LINE-->
 
 Kept local and gitignored: `sources/` (the paper, its PDF, XML and supplement, the figure JPEGs, Zhang et
 al.'s supplement), `work/` (exploration runs) and `.venv/`.

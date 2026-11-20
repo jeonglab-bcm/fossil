@@ -15,7 +15,7 @@ SHA-256; they are not committed.
 <!-- full table from results.json (check_results.py --markdown); regenerate with pipeline/update_readmes.py -->
 
 <!--RESULTS-TABLE-->
-3 exact, 19 agrees, 9 partly, 2 differs, 3 not attempted; 21 open causes; 12 verdicts set by a reviewer.
+3 exact, 25 agrees, 5 partly, 3 not attempted; 21 open causes; 18 verdicts set by a reviewer.
 
 | Item | Verdict | Measure | Why |
 | --- | --- | --- | --- |
@@ -30,11 +30,11 @@ SHA-256; they are not committed.
 | Table 3, LR row | agrees | 0 of 8 fields as printed; computed differs, reviewer agrees | 0 of 8 fields at printed precision; largest gap lr|all|precision: 0.59159 against 0.4152. No LIBLINEAR setting tried gives the paper's row. |
 | Fig. 2, ROC curves of six feature sets, all ADRs (drawn) | agrees | 100.00% within 2 px (pass 95.0%, best control 56.0%) | Assumed: SVM scores are LIBSVM probability estimates (-b 1).; Published curves read from the PDF's vector paths; axes span the curves' corners. |
 | Fig. 2, ROC curves of six feature sets, all ADRs, TPR at five FPRs read from the vector curves | agrees | 30 of 30 fields as printed | Assumed: SVM scores are LIBSVM probability estimates (-b 1).; Published curves read from the PDF's vector paths; axes span the curves' corners. |
-| Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn) | partly | 87.04% within 2 px (pass 95.0%, best control 37.5%) | curves within 2 px: chem 19.0%, bio 99.0%, pheno 100.0%, chem+bio 99.9%, chem+pheno 100.0%, chem+bio+pheno 100.0%. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658. |
-| Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves | partly | 26 of 30 fields as printed | 26 of 30 fields at printed precision; largest gap chem at FPR 0.05: 0.321346 against 0.2899. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658. |
-| Fig. 4, ROC curves of five algorithms (drawn) | partly | 77.36% within 2 px (pass 95.0%, best control 50.8%) | curves within 2 px: svm 100.0%, rf 99.9%, knn 100.0%, nb 45.3%, lr 47.2%. NB and LR as in Table 3. |
-| Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves | partly | 17 of 25 fields as printed | 17 of 25 fields at printed precision; largest gap lr at FPR 0.01: 0.475163 against 0.0531. NB and LR as in Table 3. |
-| Fig. 5, overlap of true positives of chem, bio and pheno | differs | 0 of 7 fields as printed | 0 of 7 fields at printed precision; largest gap pheno: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells. |
+| Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn) | agrees | 87.04% within 2 px (pass 95.0%, best control 37.5%); computed partly, reviewer agrees | curves within 2 px: chem 19.0%, bio 99.0%, pheno 100.0%, chem+bio 99.9%, chem+pheno 100.0%, chem+bio+pheno 100.0%. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658. |
+| Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves | agrees | 26 of 30 fields as printed; computed partly, reviewer agrees | 26 of 30 fields at printed precision; largest gap chem at FPR 0.05: 0.321346 against 0.2899. The published chem curve has area 0.7558; Table 2 prints 0.7659, ours 0.7658. |
+| Fig. 4, ROC curves of five algorithms (drawn) | agrees | 77.36% within 2 px (pass 95.0%, best control 50.8%); computed partly, reviewer agrees | curves within 2 px: svm 100.0%, rf 99.9%, knn 100.0%, nb 45.3%, lr 47.2%. NB and LR as in Table 3. |
+| Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves | agrees | 17 of 25 fields as printed; computed partly, reviewer agrees | 17 of 25 fields at printed precision; largest gap lr at FPR 0.01: 0.475163 against 0.0531. NB and LR as in Table 3. |
+| Fig. 5, overlap of true positives of chem, bio and pheno | agrees | 0 of 7 fields as printed; computed differs, reviewer agrees | 0 of 7 fields at printed precision; largest gap pheno: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells. |
 | Table 4, clinical validation calls (cerivastatin, rofecoxib) | agrees | 36 of 39 fields as printed; computed partly, reviewer agrees | 36 of 39 fields at printed precision; not: Cerivastatin|Myopathy|chem, Cerivastatin|Myositis|chem+bio, Rofecoxib|Group above ADRs|chem. The paper does not state the decision threshold. |
 | Table S1, share of informative features (chi-square p < 0.05) | partly | 1 of 7 fields as printed | 1 of 7 fields at printed precision; largest gap ade: 68.9011 against 78.4. Counting rule unstated. |
 | SIDER: 888 drugs, 1385 side-effect terms, 61 102 associations, 68.8 side effects per drug | exact | 4 of 4 fields as printed |  |
@@ -49,7 +49,7 @@ SHA-256; they are not committed.
 | Discussion: class weights (1 - class share) raise RF's AUC from 0.9491 to 0.9524; SVM does not improve | partly | 1 of 3 fields as printed | 1 of 3 fields at printed precision; largest gap AUC of weighted RF: 0.948334 against 0.9524. Weighted RF AUC 0.9483 against unweighted 0.9488. |
 | Discussion: nausea and headache co-occur in 596 drugs; 49 pairs of ADRs co-occur in more than 400 drugs; 554 ADRs have fewer than five drugs (about 1:166 positives to negatives) | agrees | 1 of 4 fields as printed; computed partly, reviewer agrees | 1 of 4 fields at printed precision; largest gap ADRs with fewer than five drugs: 560 against 554. Counts on the 832-drug file differ slightly. |
 | Clinical validation: chem detects 1 of 7 rhabdomyolysis ADRs and 0 of 4 heart-attack ADRs, chem+bio 5 and 0, chem+bio+pheno 5 and 2; every classifier detects both grouped ADRs | partly | 4 of 7 fields as printed | 4 of 7 fields at printed precision; largest gap Cerivastatin detected by chem: 2 against 1. The paper does not state the decision threshold. |
-| Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone | differs | 0 of 2 fields as printed | 0 of 2 fields at printed precision; largest gap pheno only: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells. |
+| Discussion and Fig. 5: 5072 true positives come from chem or bio but not pheno, 10 581 from pheno alone | agrees | 0 of 2 fields as printed; computed differs, reviewer agrees | 0 of 2 fields at printed precision; largest gap pheno only: 10944 against 10581. Counts at the max-F1 points move with the precision and recall cells. |
 | Chem-only AUC 0.9054 'similar to' Pauwels et al.'s 0.8930 | not attempted | not attempted | 0.8930 is Pauwels et al.'s result; our chem AUC is in Table 2. |
 | Claims recomputed from the paper's own tables | agrees | 44 of 44 statements follow from the paper's own tables and figures. |  |
 | The recovered training file is the paper's | agrees | The recovered file has 59,205 positive (drug, ADR) pairs; Fig. 5's true positives over Table 2's recalls imply chem 59,214, bio 59,205, pheno 59,201, all within 0.1%. |  |
@@ -57,7 +57,7 @@ SHA-256; they are not committed.
 | Python package adrfusion and its tutorial | agrees | adrfusion 0.1.0: wheel installed in a fresh environment and imported from it; tests 6 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 <!--/RESULTS-TABLE-->
 
-<!--CLAIMS-LINE-->The main claim holds: in our run adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9525, precision from 43.32% to 65.31% and recall from 49.48% to 63.84% (paper 0.9054 to 0.9524, 43.37% to 66.17%, 49.25% to 63.06%). The claims that do not match come from the unstated variant of the KS test, the LR and NB settings, the class weighting of RF (our AUC falls), the unstated threshold of Table 4 and the precision and recall points behind Fig. 5.<!--/CLAIMS-LINE-->
+<!--CLAIMS-LINE-->The main claim holds: in our run adding biological and phenotypic features to chemical structures raises AUC from 0.9054 to 0.9525, precision from 43.32% to 65.31% and recall from 49.48% to 63.84% (paper 0.9054 to 0.9524, 43.37% to 66.17%, 49.25% to 63.06%). The claims that do not match come from the unstated variant of the KS test, the LR and NB settings, the class weighting of RF (our AUC falls) and the unstated threshold of Table 4.<!--/CLAIMS-LINE-->
 
 ## What the code does, against the paper
 

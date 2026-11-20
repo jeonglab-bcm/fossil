@@ -1373,6 +1373,13 @@
         "figure-reproduction/output/fig3_ours.png",
         "figure-reproduction/output/fig3_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 87.04% within 2 px; five of six curves are 99 to 100% within 2 px. The chem curve (19%) is drawn with area 0.7558 while the paper's own Table 2 prints 0.7659; ours is 0.7658."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -1464,7 +1471,7 @@
         ],
         "hypotheses": []
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig3.values",
@@ -1472,6 +1479,13 @@
       "kind": "figure",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 26 of 30 TPRs as printed; the misses are on the chem curve, whose drawn area disagrees with the paper's Table 2."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -1745,7 +1759,7 @@
         ],
         "hypotheses": []
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig4",
@@ -1757,6 +1771,13 @@
         "figure-reproduction/output/fig4_ours.png",
         "figure-reproduction/output/fig4_overlay.png"
       ],
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): SVM, RF and KNN curves 99.9 to 100% within 2 px; NB and LR (45 and 47%) follow their Table 3 rows, already accepted in review."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -1853,7 +1874,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig4.values",
@@ -1861,6 +1882,13 @@
       "kind": "figure",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "partly",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 17 of 25 TPRs as printed; the misses are the NB and LR curves, as in Table 3."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -2103,7 +2131,7 @@
           }
         ]
       },
-      "verdict": "partly"
+      "verdict": "agrees"
     },
     {
       "id": "fig5",
@@ -2111,6 +2139,13 @@
       "kind": "figure",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): the overlap counts are taken at the max-F1 points and move with the precision and recall cells (pheno alone 10944 against 10581, 3.4%)."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -2188,7 +2223,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "table4",
@@ -3324,6 +3359,13 @@
       "kind": "value",
       "source": "reconstructed",
       "method": "values",
+      "review": {
+        "verdict": "agrees",
+        "computed": "differs",
+        "by": "hyunhwan-bcm",
+        "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+        "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): as Fig. 5: pheno alone 10944 against 10581; the counts follow the precision and recall cells."
+      },
       "assumptions": [
         {
           "what": "SVM scores are LIBSVM probability estimates (-b 1).",
@@ -3373,7 +3415,7 @@
           }
         ]
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "text.pauwels",
@@ -3452,12 +3494,12 @@
   "summary": {
     "items": 36,
     "exact": 3,
-    "agrees": 19,
-    "partly": 9,
+    "agrees": 25,
+    "partly": 5,
     "inconclusive": 0,
-    "differs": 2,
+    "differs": 0,
     "not_attempted": 3,
     "open_causes": 21,
-    "reviewed": 12
+    "reviewed": 18
   }
 }
