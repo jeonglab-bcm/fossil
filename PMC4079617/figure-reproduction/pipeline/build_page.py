@@ -43,6 +43,22 @@ ul.fields { margin: var(--space-xs) 0 0; padding-left: 1.1em; font-size: var(--t
 </style>"""
 
 
+def with_install_block(page):
+    """The repository's "Install" block (tools/site_install.py, from package/README.md), placed as that
+    tool places it, so the page the pipeline writes equals the committed one."""
+    tools = HERE.parents[2] / "tools"
+    if not (tools / "site_install.py").is_file():
+        return page
+    sys.path.insert(0, str(tools))
+    import site_install
+
+    want = site_install.block(HERE.parents[1].name)
+    page = site_install.BLOCK.sub("", page)
+    if want and site_install.ANCHOR in page:
+        page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
+    return page
+
+
 def b64(im):
     buf = io.BytesIO()
     im.convert("RGB").save(buf, "PNG", optimize=True)
@@ -204,7 +220,7 @@ def main(results, run, pub_png, out):
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
     outp = Path(out) / "index.html"
     outp.parent.mkdir(parents=True, exist_ok=True)
-    outp.write_text(page)
+    outp.write_text(with_install_block(page))
     print(f"wrote {outp} ({len(page) // 1024} KB)", file=sys.stderr)
 
 
