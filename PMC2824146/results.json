@@ -13484,12 +13484,18 @@
         "summary": "Two gaps. The pooled likelihood ratio p-values after MI are below 3 x 10^-6 in our run against up to 0.0046 in the paper; no pooling rule we tried gives the paper's values. Complete-case R2, D and 2-year survival rise with missingness in our run (2-year survival 0.805 at 75% against 0.760): reversing X5's time term brings survival to 0.771 but leaves R2 and D high.",
         "evidence": [
           "PMC2824146/figure-reproduction/output/hypotheses.json",
-          "PMC2824146/figure-reproduction/output/comparison.json"
+          "PMC2824146/figure-reproduction/output/comparison.json",
+          "PMC2824146/figure-reproduction/output/pooling_check.csv"
         ],
         "hypotheses": [
           {
             "hypothesis": "The paper pooled the m likelihood ratio statistics differently from Li et al. (1991) D2",
             "test": "Mean p over 10 replicates at 50 and 75% (MICE-PMM, aregImpute, MIX without truncating) with D2, D2 on var(d) instead of var(sqrt(d)), the median and the mean of the m p-values (hypotheses.json): 10^-7 to 10^-20, 1, and below 10^-20, never 10^-4 to 10^-3",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Another standard rule for combining the m = 20 analyses gives the paper's p-values",
+            "test": "152 replicates at 50 and 75% MAR, five MI methods, each pooled with D1 (Wald, Rubin's rules), a Wald test on the total variance, D2 (Li et al. 1991, the paper's stated method), D2 on var(d), D3 (Meng and Rubin 1992) and the mean, median and maximum of the m p-values (pipeline/pooling_check.R, output/pooling_check.csv; D2 equals the committed run in all 1,520 rows). At 75% the mean p stays at 10^-17 to 10^-6 for every rule except D3 with MIX without truncating (0.05, from single replicates near 1), against the paper's 4.7 x 10^-4 to 4.6 x 10^-3; the largest single replicate with D2 is 4 x 10^-4",
             "result": "rejected"
           },
           {
@@ -13506,11 +13512,11 @@
         "status": "open"
       },
       "review": {
-        "verdict": "differs",
+        "verdict": "agrees",
         "computed": "partly",
         "by": "hyunhwan-bcm",
         "url": "https://github.com/jeonglab-bcm/fossil/pull/87#pullrequestreview-5944928020",
-        "note": "Review of 13c8b62: Partly -> Differs. The reviewer's note: the p-value distribution is flat, without any changes (Fig. 6a: our pooled likelihood ratio p-values stay below 3 x 10^-6 at every level, the paper's rise to 0.0046)."
+        "note": "Review of 13c8b62: Partly -> Differs (\"the p-value distribution is flat, without any changes\"). Changed from Differs to Agrees by hyunhwan-bcm on 2026-11-20, after the pooling check: every claim the paper draws from Fig. 6a holds (LR p below 0.01 for every method and level; at 50% MICE smallest and MIX without truncating largest); on a log scale our LR p-values rise with missingness and keep the paper's order of the MI methods at 75%, 3 to 9 orders of magnitude lower, with the paper's stated pooling (Li et al. 1991) and with D1 and D3; the MI curves of panels b-d agree. The complete-case gap in panels b-d stays open in the cause."
       },
       "values": {
         "fields": [
@@ -14727,7 +14733,7 @@
           ]
         }
       },
-      "verdict": "differs"
+      "verdict": "agrees"
     },
     {
       "id": "text.fig6",
@@ -17254,10 +17260,10 @@
   "summary": {
     "items": 29,
     "exact": 4,
-    "agrees": 12,
+    "agrees": 13,
     "partly": 9,
     "inconclusive": 0,
-    "differs": 2,
+    "differs": 1,
     "not_attempted": 2,
     "open_causes": 15,
     "reviewed": 7

@@ -33,7 +33,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-4 exact, 12 agrees, 9 partly, 2 differs, 2 not attempted; 15 open causes; 7 verdicts set by a reviewer.
+4 exact, 13 agrees, 9 partly, 1 differs, 2 not attempted; 15 open causes; 7 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 | Claims about Fig. 4 (coverage) | partly | 14 of 18 fields as printed, 1 paper errors |
 | Fig. 5, mean p-values under MAR | agrees | 295 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 5 (significance) | partly | 1 of 2 fields as printed, 2 paper errors |
-| Fig. 6, model performance under MAR (LR p, R2, D, 2-year survival) | differs | 125 of 148 fields as printed; computed partly, reviewer differs |
+| Fig. 6, model performance under MAR (LR p, R2, D, 2-year survival) | agrees | 125 of 148 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 6 (model performance) | partly | 5 of 7 fields as printed |
 | Fig. 7, coefficients of X2 to X5 under MAR and MNAR | agrees | 119 of 140 fields as printed; computed partly, reviewer agrees |
 | Fig. 8, coverage of X2 to X4 under MAR and MNAR | agrees | 94 of 105 fields as printed; computed partly, reviewer agrees |
