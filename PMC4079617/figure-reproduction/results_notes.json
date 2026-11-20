@@ -1,0 +1,711 @@
+{
+ "paper": {
+  "id": "PMC4079617",
+  "title": "Comparison of robustness to outliers between robust poisson models and log-binomial models when estimating relative risks for common binary outcomes: a simulation study",
+  "citation": "Chen W, Shi J, Qian L, Azen SP. Comparison of robustness to outliers between robust poisson models and log-binomial models when estimating relative risks for common binary outcomes: a simulation study. BMC Medical Research Methodology 14:82 (2014)",
+  "doi": "10.1186/1471-2288-14-82",
+  "license": "CC BY 4.0"
+ },
+ "run": {
+  "date": "2026-11-20",
+  "pipeline": "PMC4079617/figure-reproduction/main.nf",
+  "command": "nextflow run PMC4079617/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "PMC4079617.1.xml",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4079617.1/PMC4079617.1.xml",
+    "sha256": "86fb4d9c2d90276d4d59e4d5e4b44e4937307501bf37c3d08966b104183ffc60"
+   },
+   {
+    "name": "1471-2288-14-82-S1.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4079617.1/1471-2288-14-82-S1.pdf",
+    "sha256": "a173bfa2c69abc0f59807d0a8dd1adf32c6f0c91a901c9376259cff4e0986cab"
+   },
+   {
+    "name": "1471-2288-14-82-S2.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4079617.1/1471-2288-14-82-S2.pdf",
+    "sha256": "7dbfdbafe41925eb8b1a9c8537efc93dcc6c2daf184b32a60c61b543ca17e916"
+   },
+   {
+    "name": "PMC4079617.1.pdf",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4079617.1/PMC4079617.1.pdf",
+    "sha256": "7413d9f877173238ff007c939d826a638a7bb53d6c9fe5fa882dd485587fdae2"
+   }
+  ]
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.6.0",
+  "tag": "paper2repro-v0.6.0",
+  "commit": null,
+  "modified": null
+ },
+ "items": [
+  {
+   "id": "design",
+   "label": "Additional file 1, the 24 scenarios: exposure 50% and outcome 10, 25 or 40%",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:design",
+   "assumptions": [
+    {
+     "what": "P(X = 1) and P(Y = 1) are computed by quadrature over Z ~ Beta(6, 2) from the alpha0 and beta0 printed in Additional file 1",
+     "source": "paper",
+     "sensitivity": "Exact up to quadrature; the largest p_y of any scenario is {design_pmax}, so p_y never exceeds 1 and no rule for p_y > 1 is needed."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "table1",
+   "label": "Table 1, relative bias (%) of the log RR, n = 1500 (18 rows x 8 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table1",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "fig1.a",
+   "label": "Fig. 1A, relative bias, linear Z, moderate association (n = 1500)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figure.json:panels/a",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_a_ours.png",
+    "figure-reproduction/output/fig1_a_overlay.png"
+   ],
+   "assumptions_from": [
+    "simulation"
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "status": "explained",
+    "summary": "Ours scores {fig_a} against a pass mark of {fig_a_thr}; the best wrong input scores {fig_a_wrong} and the best near miss {fig_a_near}. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is {px_per_point} px, and the Monte Carlo SE of a {reps}-replicate relative bias is {mc_min} to {mc_max} points. Two runs of our own simulation with different seeds score only {fig_a_self} against each other in this panel, while the paper's own Table 1 drawn with the same code scores {fig_a_paper}, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at {table1_within} of 144 cells.",
+    "evidence": [
+     "figure-reproduction/output/figure.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our drawing or the calibration of the frame is off",
+      "test": "Draw the paper's own Table 1 with the same code and score it against the published panel",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo noise is larger than the 2 px tolerance",
+      "test": "Score our second run (other seeds) against our main run with the same code; compare Table 1 cell by cell within Monte Carlo tolerance",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.b",
+   "label": "Fig. 1B, relative bias, linear Z, strong association (n = 1500)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figure.json:panels/b",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_b_ours.png",
+    "figure-reproduction/output/fig1_b_overlay.png"
+   ],
+   "assumptions_from": [
+    "simulation"
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "status": "explained",
+    "summary": "Ours scores {fig_b} against a pass mark of {fig_b_thr}; the best wrong input scores {fig_b_wrong} and the best near miss {fig_b_near}. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is {px_per_point} px, and the Monte Carlo SE of a {reps}-replicate relative bias is {mc_min} to {mc_max} points. Two runs of our own simulation with different seeds score only {fig_b_self} against each other in this panel, while the paper's own Table 1 drawn with the same code scores {fig_b_paper}, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at {table1_within} of 144 cells.",
+    "evidence": [
+     "figure-reproduction/output/figure.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our drawing or the calibration of the frame is off",
+      "test": "Draw the paper's own Table 1 with the same code and score it against the published panel",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo noise is larger than the 2 px tolerance",
+      "test": "Score our second run (other seeds) against our main run with the same code; compare Table 1 cell by cell within Monte Carlo tolerance",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.c",
+   "label": "Fig. 1C, relative bias, non-linear Z, moderate association (n = 1500)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figure.json:panels/c",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_c_ours.png",
+    "figure-reproduction/output/fig1_c_overlay.png"
+   ],
+   "assumptions_from": [
+    "simulation"
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "status": "explained",
+    "summary": "Ours scores {fig_c} against a pass mark of {fig_c_thr}; the best wrong input scores {fig_c_wrong} and the best near miss {fig_c_near}. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is {px_per_point} px, and the Monte Carlo SE of a {reps}-replicate relative bias is {mc_min} to {mc_max} points. Two runs of our own simulation with different seeds score only {fig_c_self} against each other in this panel, while the paper's own Table 1 drawn with the same code scores {fig_c_paper}, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at {table1_within} of 144 cells.",
+    "evidence": [
+     "figure-reproduction/output/figure.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our drawing or the calibration of the frame is off",
+      "test": "Draw the paper's own Table 1 with the same code and score it against the published panel",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo noise is larger than the 2 px tolerance",
+      "test": "Score our second run (other seeds) against our main run with the same code; compare Table 1 cell by cell within Monte Carlo tolerance",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.d",
+   "label": "Fig. 1D, relative bias, non-linear Z, strong association (n = 1500)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figure.json:panels/d",
+   "layout": {
+    "drawn_on_published": true
+   },
+   "outputs": [
+    "figure-reproduction/output/fig1_d_ours.png",
+    "figure-reproduction/output/fig1_d_overlay.png"
+   ],
+   "assumptions_from": [
+    "simulation"
+   ],
+   "cause": {
+    "category": "metric_resolution",
+    "status": "explained",
+    "summary": "Ours scores {fig_d} against a pass mark of {fig_d_thr}; the best wrong input scores {fig_d_wrong} and the best near miss {fig_d_near}. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is {px_per_point} px, and the Monte Carlo SE of a {reps}-replicate relative bias is {mc_min} to {mc_max} points. Two runs of our own simulation with different seeds score only {fig_d_self} against each other in this panel, while the paper's own Table 1 drawn with the same code scores {fig_d_paper}, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at {table1_within} of 144 cells.",
+    "evidence": [
+     "figure-reproduction/output/figure.json",
+     "figure-reproduction/output/comparison.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our drawing or the calibration of the frame is off",
+      "test": "Draw the paper's own Table 1 with the same code and score it against the published panel",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "Monte Carlo noise is larger than the 2 px tolerance",
+      "test": "Score our second run (other seeds) against our main run with the same code; compare Table 1 cell by cell within Monte Carlo tolerance",
+      "result": "supported"
+     }
+    ]
+   }
+  },
+  {
+   "id": "fig1.consistency",
+   "label": "Fig. 1 draws Table 1 (the published vertices read back)",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "figure.json"
+  },
+  {
+   "id": "table2",
+   "label": "Table 2, empirical SE of the log RR, n = 1500 (18 rows x 8 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table2",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "table3",
+   "label": "Table 3, MSE of the log RR, n = 1500 (18 rows x 8 cells)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": [],
+   "exceptions": [
+    {
+     "field": "RR 2.0, 25%, 5%: linear strong, LB",
+     "category": "paper_error",
+     "evidence": "The paper prints 0.013. Its own Tables 1 and 2 give this cell a relative bias of -23.7% and an SE of 0.09, which make an MSE of {typo_implied} (computed in comparison.json, consistency); the robust Poisson cell next to it prints 0.035. Ours is {typo_ours} (second run {typo_second}). {cons3} of the 144 MSEs of Table 3 agree with the paper's own bias and SE at their printed precision; besides this one, {cons_other}."
+    }
+   ]
+  },
+  {
+   "id": "tableA1",
+   "label": "Additional file 2, Table A1, relative bias (%), n = 500",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/tableA1",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "tableA2",
+   "label": "Additional file 2, Table A2, empirical SE, n = 500",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/tableA2",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "tableA3",
+   "label": "Additional file 2, Table A3, MSE, n = 500",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/tableA3",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.contaminated_negative",
+   "label": "Results: with contamination every relative bias is negative",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.contaminated_negative",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.outcome_rate",
+   "label": "Results: lower outcome rates go with larger biases",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.outcome_rate",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.linear_gap",
+   "label": "Results: linear Z, log-binomial 3.5% to 6.7% more biased at outcome 10% and 5% contamination",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.linear_gap",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": [],
+   "assumptions": [
+    {
+     "what": "The 'higher biases' of the log-binomial model are differences of |relative bias| in points (6.7 = 43.4 - 36.7)",
+     "source": "paper",
+     "sensitivity": "The four gaps of Table 1 are {gaps_paper}; ours are {gaps_ours}."
+    }
+   ]
+  },
+  {
+   "id": "text.nonlinear",
+   "label": "Results: non-linear Z, robust Poisson less biased from 2% contamination on",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.nonlinear",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.se_uncontaminated",
+   "label": "Results: without contamination the two SEs are identical at the 2nd decimal",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.se_uncontaminated",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": [],
+   "exceptions": [
+    {
+     "field": "Table 2, 0% rows: LB and RP SEs equal at the 2nd decimal in all 24 pairs",
+     "category": "paper_error",
+     "evidence": "The paper's own Table 2 prints 0.06 and 0.07 for RR 1.5, outcome 40%, 0%, linear strong. Our largest unrounded difference over the 24 pairs is {se0_diff}: two SEs that close can round to different second decimals, so the statement holds in substance and the printed table breaks it by rounding. Ours breaks it the same way."
+    }
+   ]
+  },
+  {
+   "id": "text.se_contaminated",
+   "label": "Results: with contamination, comparable SEs at outcome 25% and 40%, log-binomial higher at 10%",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.se_contaminated",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.mse",
+   "label": "Results: the MSEs follow the biases",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.mse",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.n500",
+   "label": "Results: the same pattern at n = 500, with larger SEs",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.n500",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.no_outliers",
+   "label": "Discussion: no difference between the models without outliers",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.no_outliers",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.convergence",
+   "label": "Discussion: COPY converged in all fits of 48 of 48 linear and 30 of 48 non-linear scenarios",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.convergence",
+   "expect_misses": [
+    "Non-linear Z: scenarios with every log-binomial fit converged (of 48)"
+   ],
+   "assumptions": [
+    {
+     "what": "A 'scenario' of the Discussion is a design at one contaminated rate and one sample size (12 x 2 x 2 = 48 per confounder form); the paper does not say",
+     "source": "our_choice",
+     "sensitivity": "Counting the 0% runs too would make 72 per form; 48 fits only this reading."
+    }
+   ],
+   "cause": {
+    "category": "proprietary_software",
+    "status": "open",
+    "summary": "Every log-binomial fit of ours converges, plain or COPY, so ours counts 48 of 48 non-linear scenarios against the paper's 30. The paper's failures are failures of SAS GENMOD's optimizer on the COPY data, which we cannot run. The boundary that COPY handles is common in our non-linear runs: COPY is needed in some fit of {copy_non} of 48 non-linear scenarios (up to {copy_non_max} of 1,000 fits, median {copy_non_med}) and of {copy_lin} of 48 linear ones (at most {copy_lin_max} fits), which agrees with the paper's split between the forms but cannot say which 18 failed.",
+    "evidence": [
+     "figure-reproduction/output/claims.json",
+     "figure-reproduction/output/crosscheck.json"
+    ],
+    "hypotheses": [
+     {
+      "hypothesis": "Our solver stops at a different point than a converged GENMOD fit would",
+      "test": "Our fits against an independent maximizer of the same likelihood (crosscheck.json)",
+      "result": "rejected"
+     },
+     {
+      "hypothesis": "SAS failed where the COPY step is needed most often",
+      "test": "Count the fits that need COPY per non-linear scenario (claims.json, text.convergence)",
+      "result": "inconclusive"
+     }
+    ]
+   }
+  },
+  {
+   "id": "text.main_claim",
+   "label": "Main claim: comparable models with a linear Z; robust Poisson less biased with a quadratic Z from 2% contamination on",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text.main_claim",
+   "assumptions_from": [
+    "simulation"
+   ],
+   "assumptions": [
+    {
+     "what": "'Comparable' is read as |relative bias| within 2 points",
+     "source": "our_choice",
+     "sensitivity": "Outside the four cells the paper excepts, the largest linear gap of |relative bias| is {lin_rest_paper} points in the paper's Table 1 and {lin_rest_ours} in ours."
+    }
+   ],
+   "expect_misses": []
+  },
+  {
+   "id": "text.cited",
+   "label": "Discussion: results cited from Petersen and Deddens (three decimals with 10,000 copies; 70% to 100% convergence)",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "not_a_result",
+    "status": "explained",
+    "summary": "Results of another paper, quoted in the Discussion; this paper does not compute them.",
+    "evidence": [
+     "https://doi.org/10.1136/oem.2008.043018"
+    ],
+    "hypotheses": []
+   }
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Each statement of the text recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "claims.json"
+  },
+  {
+   "id": "crosscheck.fits",
+   "label": "robustrr's fits against statsmodels and an independent maximizer",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "crosscheck.json"
+  },
+  {
+   "id": "port",
+   "label": "The authors' SAS 9.2 program and COPY macro",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause": {
+    "category": "proprietary_software",
+    "status": "explained",
+    "summary": "The simulation program was never released, and the revised COPY macro of Petersen and Deddens is not online (its NIOSH page answers 403). Both are SAS, which no free runtime runs. The method is implemented from the paper's text and checked against its printed tables.",
+    "evidence": [
+     "https://github.com/jeonglab-bcm/fossil/issues/74"
+    ],
+    "hypotheses": []
+   }
+  },
+  {
+   "id": "package",
+   "label": "Python package robustrr and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ],
+ "assumption_sets": {
+  "simulation": [
+   {
+    "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets ({flip5_mean} on average at 5% and n = 1500, SD {flip5_sd}). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
+    "source": "found_by_search",
+    "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set ({flip5_sample} at 5%, n = 1500) leaves the means where they are (Table 1 {h_sample_table1} of {h_sample_table1_of} within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 {h_sample_table2}, Table A1 {h_sample500_tableA1}, Table A2 {h_sample500_tableA2} of 96 contaminated cells within tolerance, against {h_sample_table2_main}, {h_sample500_tableA1_main} and {h_sample500_tableA2_main} with population cut-offs."
+   },
+   {
+    "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
+    "source": "paper",
+    "sensitivity": "The whole rate flipped at the bottom gives {h_bottom_table1} of 96 contaminated cells of Table 1 within tolerance, at the top {h_top_table1}; both tails {h_bottom_table1_main}."
+   },
+   {
+    "what": "Records are ranked by the true p_y of the generating model",
+    "source": "our_choice",
+    "sensitivity": "Ranking by p_y fitted by the uncontaminated log-binomial model (a fixed number per data set) gives {h_fitted_table1} of 96 contaminated cells of Table 1 within tolerance and {h_fitted_table3} of Table 3."
+   },
+   {
+    "what": "The fitted models include Z^2 when the confounder is quadratic (the Discussion speaks of 'the higher-order term of Z' added into the model; the Methods do not say)",
+    "source": "paper",
+    "sensitivity": "Leaving Z^2 out gives {h_noquad_table1} of {h_noquad_table1_of} non-linear cells of Table 1 within tolerance and {h_noquad_table3} of Table 3, against {h_noquad_table1_main} and {h_noquad_table3_main} with it."
+   },
+   {
+    "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
+    "source": "paper",
+    "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: {x_detail}."
+   },
+   {
+    "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
+    "source": "our_choice",
+    "sensitivity": "A second run with other seeds puts {second_within} of {cells} printed cells within tolerance."
+   },
+   {
+    "what": "The alpha0 and beta0 of Additional file 1 are used for n = 500 too",
+    "source": "our_choice",
+    "sensitivity": "Not varied; Tables A1-A3 come back at {tableA1_within}, {tableA2_within} and {tableA3_within} of 144 cells."
+   },
+   {
+    "what": "The empirical SE uses the divisor 999 and the MSE is the squared mean error plus that variance",
+    "source": "our_choice",
+    "sensitivity": "The divisor 1,000 changes an SE by 0.05% of its value, far below the printed precision."
+   }
+  ]
+ },
+ "page": {
+  "lede": "Chen, Shi, Qian and Azen asked which model for relative risks holds up when a few outcomes are recorded wrong. Their SAS program was never released. We rebuilt the simulation from the paper and ran all 24 scenarios again. {within} of {cells} printed table cells came back within Monte Carlo error.",
+  "label_rows": [
+   [
+    "fig-1a",
+    "Fig. 1",
+    [
+     "fig1.a",
+     "fig1.b",
+     "fig1.c",
+     "fig1.d"
+    ]
+   ],
+   [
+    "table1",
+    "Table 1",
+    [
+     "table1"
+    ]
+   ],
+   [
+    "table2",
+    "Table 2",
+    [
+     "table2"
+    ]
+   ],
+   [
+    "table3",
+    "Table 3",
+    [
+     "table3"
+    ]
+   ],
+   [
+    "tableA1",
+    "Tables A1 to A3",
+    [
+     "tableA1",
+     "tableA2",
+     "tableA3"
+    ]
+   ],
+   [
+    "items",
+    "The text",
+    [
+     "text.contaminated_negative",
+     "text.outcome_rate",
+     "text.linear_gap",
+     "text.nonlinear",
+     "text.se_uncontaminated",
+     "text.se_contaminated",
+     "text.mse",
+     "text.n500",
+     "text.no_outliers",
+     "text.main_claim"
+    ]
+   ]
+  ],
+  "fig_caption": "Relative bias (%) of the log RR by contamination rate, n = 1500. Log-binomial blue and solid, robust Poisson red and dashed. Rows RR 1.5 and 2.0, columns outcome 10, 25 and 40%.",
+  "grid_caption": "Paper above, ours below; shaded where ours is outside the Monte Carlo tolerance.",
+  "slip_note": "The italic cell is a misprint of the paper and is left out.",
+  "tables_caption": "Every printed cell of Tables 1 to 3 (n = 1500) and of Tables A1 to A3 in Additional file 2 (n = 500), in the paper's layout. A cell agrees when ours is within half a printed unit plus three times the Monte Carlo error of the difference of two {reps} replicate estimates.",
+  "items_caption": "Each table, figure panel and statement of the paper. check_results.py computes every verdict from the numbers.",
+  "claims_line": "The main claim {main_verdict}. Every claim about bias, SE and MSE holds on our run. The one table cell that misses is a misprint in Table 3, and the convergence count of the Discussion belongs to SAS, which we cannot run.",
+  "came_back": [
+   [
+    "The simulation",
+    "All 24 scenarios at n = 1500 and n = 500, rebuilt as the Python package robustrr and run again with {reps} replicates each."
+   ],
+   [
+    "The tables",
+    "{within} of {cells} printed cells within Monte Carlo error. The one miss is Table 3 printing 0.013 where its own bias and SE give {typo_implied}; ours is {typo_ours}."
+   ],
+   [
+    "The contamination rule",
+    "Records past fixed quantiles of p_y are flipped, so how many are flipped varies from data set to data set. Flipping a fixed number in every data set makes the SEs too small at outcome 10%."
+   ],
+   [
+    "Fig. 1",
+    "Drawn on the published picture. Panel A passes the 2 px test. B, C and D sit within Monte Carlo noise of the published lines, which a 2 px test cannot resolve."
+   ],
+   [
+    "The claims",
+    "Robust Poisson is less biased than log-binomial in every contaminated cell with a quadratic confounder, and the two are close with a linear one."
+   ]
+  ],
+  "buried": [
+   "The authors' SAS 9.2 program and the revised COPY macro.",
+   "Which 18 non-linear scenarios SAS failed to fit. Every fit of ours converges."
+  ],
+  "matched_intro": "Each line is a count from our run against the paper's printed values.",
+  "matched": [
+   [
+    "Table 1, relative bias",
+    "{table1_within} of 144 cells"
+   ],
+   [
+    "Table 2, SE",
+    "{table2_within} of 144 cells"
+   ],
+   [
+    "Table 3, MSE",
+    "{table3_within} of 144 cells; the miss is a misprint"
+   ],
+   [
+    "Tables A1 to A3, n = 500",
+    "{tableA1_within}, {tableA2_within} and {tableA3_within} of 144 cells"
+   ],
+   [
+    "Linear Z gaps at outcome 10% and 5%",
+    "paper {gaps_paper}; ours {gaps_ours}"
+   ],
+   [
+    "Fig. 1 against Table 1",
+    "{vert_within} of {vert_read} readable vertices within 1 point"
+   ]
+  ],
+  "closing": "Robust Poisson came back the sturdier of the two, as the paper says."
+ }
+}

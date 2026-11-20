@@ -21,7 +21,8 @@ over the contamination rates 0%, 2% and 5% (category positions, equally spaced).
    axis). Pass mark: 0.95, or 0.02 above the best control when a control reaches 0.93. The dashed robust
    Poisson line is closed for scoring (gaps filled with a 4 px disk) and ours drawn solid. The resolution of the
    score: our second run (other seeds) scored against our main run with the same code.
-Writes OUT_DIR/fig1_ours.png, fig1_overlay.png, fig1_<panel>_ours.png / _overlay.png (crops), figure.json.
+Writes OUT_DIR/fig1_ours.png, fig1_overlay.png, fig1_<panel>_ours.png / _overlay.png (crops; the page crops the
+published panel with the same box, panels.<p>.crop), figure.json.
 """
 import json
 import sys
@@ -139,7 +140,7 @@ def to_px(cal, vals):
     return xs, ys
 
 
-def draw(base, cal, values, colors, width_px, out, only=None, mono=None, models=("LB", "RP"), solid=False):
+def draw(base, cal, values, colors, width_px, out, only=None, mono=None, models=("LB", "RP"), solid=False, dash=(16.0, 8.0)):
     """Draw values on base (an RGB array) at the calibrated places; returns the RGB array of the drawing."""
     H, W = base.shape[:2]
     fig = plt.figure(figsize=(W / 100, H / 100), dpi=100)
@@ -154,8 +155,8 @@ def draw(base, cal, values, colors, width_px, out, only=None, mono=None, models=
             continue
         for m in models:
             xs, ys = to_px(c, values[key][m])
-            dash = "-" if (m == "LB" or solid) else (0, (8 / width_px, 4 / width_px))
-            ax.plot(xs, ys, color=mono or colors[m], lw=lw, ls=dash, solid_capstyle="butt", dash_capstyle="butt",
+            ls = "-" if (m == "LB" or solid) else (0, (dash[0] / width_px, dash[1] / width_px))
+            ax.plot(xs, ys, color=mono or colors[m], lw=lw, ls=ls, solid_capstyle="butt", dash_capstyle="butt",
                     antialiased=True)
     fig.canvas.draw()
     img = np.asarray(fig.canvas.buffer_rgba())[..., :3].copy()
@@ -208,23 +209,32 @@ def main():
         x0, x1, y0, y1 = c["box"]
         inside[y0:y1 + 1, x0:x1 + 1] = True
     pub_m = {"LB": blue & inside, "RP": red & inside}
-    # for scoring, the dashed robust Poisson line is closed (its 4 px gaps filled) and ours is drawn solid, so
+    # for scoring, the dashed robust Poisson line is closed (its gaps filled) and ours is drawn solid, so
     # the score does not depend on the phase of the dashes
     yy, xx = np.mgrid[-4:5, -4:5]
     pub_s = {"LB": pub_m["LB"], "RP": ndimage.binary_closing(red, structure=(xx**2 + yy**2) <= 16) & inside}
     # colours and line width of the published series
     colors = {m: tuple(a[pub_m[m]].mean(0) / 255) for m in ("LB", "RP")}
-    widths = []
-    for c in cal.values():
-        x0, x1, y0, y1 = c["box"]
-        for x in range(x0 + 10, x1 - 10, 7):
-            for s, e in runs(pub_m["LB"][y0:y1, x]):
-                widths.append(e - s + 1)
-    # a sloped line is taller than wide; the stroke width is the vertical run times cos(angle), taken as the
-    # smallest runs (the flattest segments)
-    width = float(np.percentile(widths, 10))
-    # 2. the published vertices against Table 1
     paper = paper_values(pub)
+    # stroke width: the blue ink of each cell over the length of the paper's log-binomial polyline (the median over
+    # the cells); dash pattern: the red runs along the first segment of each cell, sampled at 0.1 px, corrected
+    # for the stroke's round ends
+    wl, on_l, off_l = [], [], []
+    for key, c in cal.items():
+        x0, x1, y0, y1 = c["box"]
+        xs, ys = to_px(c, paper[key]["LB"])
+        wl.append(pub_m["LB"][y0 + 2:y1 - 1, x0 + 2:x1 - 1].sum() / np.hypot(np.diff(xs), np.diff(ys)).sum())
+        xr, yr = to_px(c, paper[key]["RP"])
+        L = float(np.hypot(xr[1] - xr[0], yr[1] - yr[0]))
+        t = np.linspace(0, 1, int(L * 10))
+        on = np.array([pub_m["RP"][int(round(y)) - 1:int(round(y)) + 2, int(round(x))].any()
+                       for x, y in zip(xr[0] + (xr[1] - xr[0]) * t, yr[0] + (yr[1] - yr[0]) * t)])
+        r = runs(on)
+        on_l += [(e - s_ + 1) / 10 for s_, e in r[1:-1]]
+        off_l += [(e - s_ + 1) / 10 for s_, e in runs(~on)[1:-1]]
+    width = float(np.median(wl))
+    dash = (float(np.median(on_l)) - width, float(np.median(off_l)) + width)
+    # 2. the published vertices against Table 1
     digit = []
     for key, c in cal.items():
         x0, x1, y0, y1 = c["box"]
@@ -243,8 +253,8 @@ def main():
     blank[inside & (sat > 30)] = 255
     left = int((masks(blank)[0] | masks(blank)[1]).sum())
     ours = ours_values(sim)
-    draw(blank, cal, ours, colors, width, out_dir / "fig1_ours.png")
-    draw(a, cal, ours, colors, width, out_dir / "fig1_overlay.png", mono=(0.0, 0.62, 0.25))
+    draw(blank, cal, ours, colors, width, out_dir / "fig1_ours.png", dash=dash)
+    draw(a, cal, ours, colors, width, out_dir / "fig1_overlay.png", mono=(0.0, 0.62, 0.25), dash=dash)
     # 4. score
     our_m = our_masks_of(a.shape, cal, ours, width, colors)
     variants = {"x1.05": {k: {m: [x * 1.05 for x in v[m]] for m in v} for k, v in ours.items()},
@@ -277,7 +287,6 @@ def main():
         for name in ("ours", "overlay"):
             Image.open(out_dir / f"fig1_{name}.png").crop((x0 - 120, y0 - 45, x1 + 42, y1 + 105)).save(
                 out_dir / f"fig1_{p}_{name}.png")
-        Image.fromarray(a).crop((x0 - 120, y0 - 45, x1 + 42, y1 + 105)).save(out_dir / f"fig1_{p}_published.png")
         panels[p] = {"form": form, "level": lev, "tolerance_px": TOL, "dpi": DPI, **s, "threshold": thr,
                      "controls": ctrls, "second_run": {k: s2[k] for k in ("published_near_ours", "ours_near_published")},
                      "second_run_vs_ours": round(min(s22["published_near_ours"], s22["ours_near_published"]), 4),
@@ -285,7 +294,7 @@ def main():
                      "crop": [x0 - 120, y0 - 45, x1 + 42, y1 + 105]}
     doc = {"about": "Fig. 1: our Table 1 (n = 1500) drawn on the published picture with its series removed; "
                     "both-way pixel scores per panel with controls; the published vertices read back against Table 1.",
-           "picture": {"size": [int(a.shape[1]), int(a.shape[0])], "dpi": DPI, "line_width_px": round(width, 2),
+           "picture": {"size": [int(a.shape[1]), int(a.shape[0])], "dpi": DPI, "line_width_px": round(width, 2), "dash_px": [round(d, 1) for d in dash],
                        "colors": {m: [round(255 * x) for x in c] for m, c in colors.items()},
                        "series_pixels_left_after_removal": left},
            "calibration": {f"{k[0]}|{k[1]}|{k[2]}": v for k, v in cal.items()},
