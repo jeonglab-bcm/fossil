@@ -34,6 +34,10 @@ on:
 permissions:
   contents: read
 
+env:
+  # Same OpenBLAS kernels on every runner CPU (see nextflow.config).
+  OPENBLAS_CORETYPE: Haswell
+
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
