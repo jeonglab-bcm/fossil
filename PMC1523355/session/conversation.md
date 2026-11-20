@@ -2,14 +2,14 @@
 
 | Measure | Value |
 | --- | --- |
-| Started / ended (UTC) | 2026-11-20T15:33:53+00:00 / 2026-11-20T16:05:55+00:00 |
-| Wall clock | 32.0 min |
+| Started / ended (UTC) | 2026-11-20T15:33:53+00:00 / 2026-11-20T16:10:44+00:00 |
+| Wall clock | 36.9 min |
 | Models | claude-opus-5-5 |
 | Human prompts | 2 (0 sent mid-turn) |
-| Assistant responses (API calls) | 100 + 0 in subagents |
-| Tool calls | 126 + 0 in subagents |
-| Tokens: input / cache write / cache read / output | 201 / 335,853 / 25,191,034 / 136,745 |
-| Tokens: total (incl. subagents) | 25,663,833 |
+| Assistant responses (API calls) | 107 + 0 in subagents |
+| Tool calls | 133 + 0 in subagents |
+| Tokens: input / cache write / cache read / output | 215 / 346,421 / 27,959,834 / 144,130 |
+| Tokens: total (incl. subagents) | 28,450,600 |
 
 ## Conversation
 
@@ -357,3 +357,25 @@ The results page renders as intended. Committing the work so far, then the sessi
 - `Bash` git add -A && git status --short | grep -v "^A PMC1523355/\(figure-reproduction\|package\)/" ; git status --short | grep -i "sources\|venv\|pycache\|\.pdf" ; gi
 
 - `Bash` ls ~/.claude/projects/ 2>/dev/null | head; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --out PMC1523355/session 2>&1 | tail -5; ls -la PMC152
+
+- `Bash` grep -n -i "@bcm\|jennifer\|email\|token\|secret" PMC1523355/session/conversation.md | head; head -30 PMC1523355/session/conversation.md
+
+- `Bash` cd /home/user/fossil/PMC1523355/figure-reproduction && cat > /tmp/claude-0/-home-user-fossil/c2d638aa-ff08-5730-8f37-8b0dc51a8b85/scratchpad/sens.py <<'EOF' imp
+
+- `Bash` python3 - <<'EOF' p='pipeline/figures.py'; s=open(p).read() old=''' # renders: ours in place of the published curve''' new=''' # sensitivity to the curve's CER 
+
+- `Bash` cd /home/user/fossil && sed -i 's/values within Monte Carlo error, "/values within tolerance, "/' PMC1523355/figure-reproduction/pipeline/update_readmes.py && g
+
+### Claude · 2026-11-20 16:09:15
+
+Both runs pass and the prose now matches the numbers. Committing, then running the exact CI commands from a clean checkout.
+
+- `Bash` rm -rf results work .nextflow* && git add -A && git commit -q -m "PMC1523355: state the power gap in both directions; test the Fig. 1A range sensitivity Co-Auth
+
+### Claude · 2026-11-20 16:10:38
+
+The clean checkout passes in 1 min 13 s. Running the repository's skill check, then writing the final ledger and pushing.
+
+- `Bash` python3 tools/check_skill.py --base origin/main 2>&1 | grep -i "1523355\|fail\|error" ; echo "exit $?"; python3 tools/check_skill.py --all >/dev/null 2>&1; echo
+
+- `Bash` python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --out PMC1523355/session >/dev/null 2>&1; python3 -c " import json; d=json.load(open('PMC1523355/
