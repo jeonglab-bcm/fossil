@@ -1,0 +1,879 @@
+{
+ "paper": {
+  "id": "PMC3392844",
+  "title": "Large-scale prediction of adverse drug reactions using chemical, biological, and phenotypic properties of drugs",
+  "citation": "Liu M, Wu Y, Chen Y, Sun J, Zhao Z, Chen XW, Matheny ME, Xu H. Large-scale prediction of adverse drug reactions using chemical, biological, and phenotypic properties of drugs. J Am Med Inform Assoc 19(e1):e28-e35 (2012)",
+  "doi": "10.1136/amiajnl-2011-000699",
+  "license": "CC BY-NC 2.0"
+ },
+ "run": {
+  "date": "2026-11-18",
+  "pipeline": "PMC3392844/figure-reproduction/main.nf",
+  "command": "nextflow run PMC3392844/figure-reproduction/main.nf --outdir results",
+  "inputs": [
+   {
+    "name": "12859_2015_774_MOESM1_ESM.zip (Zhang et al. 2015, PMC4634905, Additional file 1, CC BY 4.0)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC4634905.1/12859_2015_774_MOESM1_ESM.zip",
+    "sha256": "6733ca5650274a6ae987ef92eabc31a43b9ae196420ea73f8a4ff5bd2a6466bc"
+   },
+   {
+    "name": "random_group_cv_data.indication (in the zip)",
+    "url": "inside the zip",
+    "sha256": "a95d1113e7e6c0f426befa4e9b9ad9e8c9b5f69be7907ed47b72b78e36a0d9b8"
+   },
+   {
+    "name": "PMC3392844.1.pdf (--extract)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3392844.1/PMC3392844.1.pdf",
+    "sha256": "7dc617e64af5ee3ae7c1e0c109ce553c5d64c92e0988f3f97200799c81a97cbc"
+   },
+   {
+    "name": "PMC3392844.1.xml (--extract)",
+    "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC3392844.1/PMC3392844.1.xml",
+    "sha256": "7ada8cc2cbed085a46c37761b9ae5a998d667e8eef19dcef3576fcc7e968ad94"
+   }
+  ]
+ },
+ "session": {
+  "ledger": "session/ledger.json"
+ },
+ "skill": {
+  "name": "paper2repro",
+  "version": "0.5.0",
+  "tag": "paper2repro-v0.5.0",
+  "commit": null,
+  "modified": null
+ },
+ "assumption_sets": {
+  "svm": [
+   {
+    "what": "SVM scores are LIBSVM probability estimates (-b 1).",
+    "source": "found_by_search",
+    "sensitivity": "Decision values give chem AUC {svm_decision_auc} (paper 0.9054)."
+   },
+   {
+    "what": "Folds are the authors', from their training file.",
+    "source": "paper",
+    "sensitivity": "none"
+   }
+  ],
+  "op": [
+   {
+    "what": "ACC at the maximum-accuracy point; precision and recall at the maximum-F1 point.",
+    "source": "found_by_search",
+    "sensitivity": "chem: max F1 {chem_prec}/{chem_rec}; Youden {op_youden_prec}/{op_youden_rec}; threshold 0.5 {op_half_prec}/{op_half_rec} (paper 0.4337/0.4925)."
+   }
+  ],
+  "adr50": [
+   {
+    "what": "ADR_50+: more than 50 drugs (Methods).",
+    "source": "paper",
+    "sensitivity": "At least 50 (footnote): chem AUC {adr50_ge_chem}."
+   }
+  ],
+  "lr": [
+   {
+    "what": "LIBLINEAR L2 LR, C 10, epsilon 1, no bias.",
+    "source": "our_choice",
+    "sensitivity": "With bias: AUC {h_lr_bias_all}."
+   }
+  ],
+  "nb": [
+   {
+    "what": "Bernoulli naive Bayes, smoothing 1 (CLOP is no longer available).",
+    "source": "our_choice",
+    "sensitivity": "Multinomial: AUC {h_nb_multinomial_all}."
+   }
+  ],
+  "knn": [
+   {
+    "what": "KNN score: share of positives among the 55 nearest, ties included, no prior.",
+    "source": "found_by_search",
+    "sensitivity": "With IBk's prior: AUC {h_knn_weka_prior_all}."
+   }
+  ],
+  "rf": [
+   {
+    "what": "scikit-learn RF, 100 trees, 13 features per split, seed 0.",
+    "source": "our_choice",
+    "sensitivity": "Seed 1: AUC 0.9486."
+   }
+  ],
+  "t4": [
+   {
+    "what": "Call Yes when the SVM probability exceeds 0.5.",
+    "source": "our_choice",
+    "sensitivity": "Decision value > 0: {t4_decision_hits} of {t4_fields}."
+   }
+  ],
+  "figures": [
+   {
+    "what": "Published curves read from the PDF's vector paths; axes span the curves' corners.",
+    "source": "read_from_figure",
+    "sensitivity": "Curve areas equal the printed AUCs within 0.0001, except Fig. 3 chem."
+   }
+  ]
+ },
+ "causes": {
+  "schematic": {
+   "category": "not_a_result",
+   "reason": "A diagram.",
+   "evidence_explains": true,
+   "evidence": [
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC3392844/figure/amiajnl-2011-000699-f01/"
+   ]
+  },
+  "cited": {
+   "category": "not_a_result",
+   "reason": "0.8930 is Pauwels et al.'s result; our chem AUC is in Table 2.",
+   "evidence_explains": true,
+   "evidence": [
+    "https://doi.org/10.1186/1471-2105-12-169"
+   ]
+  },
+  "nocode": {
+   "category": "data_unavailable",
+   "reason": "Never released (fossil issue #93 lists the search). Rebuilt from the text as adrfusion and checked against the paper only.",
+   "evidence": [
+    "https://github.com/jeonglab-bcm/fossil/issues/93"
+   ],
+   "evidence_explains": true
+  },
+  "svm": {
+   "category": "nondeterminism",
+   "reason": "Every AUC within {t2_auc_maxdiff} and every precision and recall within {t2_pr_maxdiff} of the paper. Over four seeds of the SVM's probability fit our AUCs move by up to {seed_auc_range} and precision and recall by up to {seed_pr_range}; the paper's value lies inside our seed range in {seed_inside} of {seed_cells} Table 2 cells. The rest of the gap is not explained: the official LIBSVM build was tested and does not close it.",
+   "tests": [
+    "seed",
+    "offline:official_libsvm_srand1_chem",
+    "svm_decision@svm"
+   ],
+   "evidence": [
+    "figure-reproduction/output/seed_spread.json"
+   ]
+  },
+  "rf": {
+   "category": "nondeterminism",
+   "reason": "Not explained: two scikit-learn seeds differ by 0.0002 in AUC and both fall below the paper; WEKA itself was not rerun.",
+   "tests": [
+    "offline:rf_seed_1"
+   ],
+   "extra_tests": [
+    {
+     "hypothesis": "WEKA's features per split",
+     "test": "used: log2(4276)+1 = 13",
+     "result": "rejected"
+    }
+   ]
+  },
+  "knn": {
+   "category": "undocumented_setting",
+   "reason": "WEKA's neighbour search order cannot be replayed exactly.",
+   "tests": [
+    "knn_weka_prior@knn",
+    "knn_exact_k@knn"
+   ]
+  },
+  "nb": {
+   "category": "undocumented_setting",
+   "reason": "CLOP's naive Bayes settings are not stated.",
+   "tests": [
+    "nb_multinomial@nb",
+    "nb_alpha_0.1@nb",
+    "nb_single_one@nb",
+    "nb_first_label@nb"
+   ]
+  },
+  "lr": {
+   "category": "undocumented_setting",
+   "reason": "No LIBLINEAR setting tried gives the paper's row.",
+   "tests": [
+    "lr_bias@lr",
+    "lr_dual@lr",
+    "lr_tight@lr",
+    "lr_l1@lr",
+    "lr_single_one@lr",
+    "lr_first_label@lr"
+   ]
+  },
+  "lrnb": {
+   "category": "undocumented_setting",
+   "reason": "LR and NB rows differ (see Table 3).",
+   "tests": [
+    "lr_bias@lr",
+    "nb_multinomial@nb"
+   ]
+  },
+  "fig3": {
+   "category": "paper_error",
+   "reason": "The published chem curve has area {fig3_chem_pub_auc}; Table 2 prints 0.7659, ours {fig3_chem_ours_auc}.",
+   "evidence": [
+    "figure-reproduction/output/published_curves.json"
+   ],
+   "evidence_explains": true
+  },
+  "fig4": {
+   "category": "undocumented_setting",
+   "reason": "NB and LR as in Table 3.",
+   "tests": [
+    "lr_bias@lr",
+    "nb_multinomial@nb"
+   ]
+  },
+  "fig5": {
+   "category": "nondeterminism",
+   "reason": "Counts at the max-F1 points move with the precision and recall cells.",
+   "tests": [
+    "seed"
+   ],
+   "extra_tests": [
+    {
+     "hypothesis": "another operating point than Table 2's",
+     "test": "Fig. 5 totals over Table 2 recalls give the file's positives within 0.1%",
+     "result": "rejected"
+    }
+   ]
+  },
+  "table4": {
+   "category": "undocumented_setting",
+   "reason": "The paper does not state the decision threshold.",
+   "tests": [
+    "seed"
+   ],
+   "extra_tests": [
+    {
+     "hypothesis": "decision value > 0",
+     "test": "{t4_decision_hits} of {t4_fields} calls",
+     "result": "rejected"
+    }
+   ]
+  },
+  "s1": {
+   "category": "undocumented_setting",
+   "reason": "Counting rule unstated.",
+   "extra_tests": [
+    {
+     "hypothesis": "Yates correction",
+     "test": "chem {s1_yates_chem}%, other ADRs {s1_yates_ade}%",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "per feature, not per pair",
+     "test": "chem {s1_feat_chem}%, other ADRs {s1_feat_ade}%",
+     "result": "rejected"
+    }
+   ]
+  },
+  "ks": {
+   "category": "undocumented_setting",
+   "reason": "All three significance calls match; the p-values depend on the per-ADR AUCs and the unstated test variant.",
+   "tests": [
+    "seed"
+   ],
+   "extra_tests": [
+    {
+     "hypothesis": "two-sided KS",
+     "test": "p {ks2_1} and {ks2_3}",
+     "result": "rejected"
+    }
+   ]
+  },
+  "weights": {
+   "category": "nondeterminism",
+   "reason": "Weighted RF AUC {rf_weighted_auc} against unweighted {rf_auc}.",
+   "tests": [
+    "offline:rf_seed_1"
+   ],
+   "extra_tests": [
+    {
+     "hypothesis": "weights 1 - class share",
+     "test": "AUC {rf_weighted_auc}",
+     "result": "rejected"
+    }
+   ]
+  },
+  "counts": {
+   "category": "data_differs",
+   "reason": "Counts on the 832-drug file differ slightly.",
+   "extra_tests": [
+    {
+     "hypothesis": "at least 400 drugs",
+     "test": "{pairs400ge} pairs",
+     "result": "rejected"
+    },
+    {
+     "hypothesis": "ADRs with 1 to 4 drugs",
+     "test": "{adrs_1to4}",
+     "result": "rejected"
+    }
+   ]
+  },
+  "indication": {
+   "category": "nondeterminism",
+   "reason": "AUC {chem_ind_auc} against 0.9110, a gap smaller than the seed range of our AUCs ({seed_auc_range}).",
+   "tests": [
+    "seed",
+    "offline:official_libsvm_srand1_chem"
+   ]
+  }
+ },
+ "items": [
+  {
+   "id": "fig1",
+   "label": "Fig. 1, the surveillance framework",
+   "kind": "figure",
+   "source": "none",
+   "method": "none",
+   "cause_from": "schematic"
+  },
+  {
+   "id": "table1",
+   "label": "Table 1, feature dimensions",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table1/fields"
+  },
+  {
+   "id": "table2.all",
+   "label": "Table 2, SVM by feature set, all ADRs",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table2_all/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 5 of 24 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+   },
+   "cause_from": "svm",
+   "assumptions_from": [
+    "svm",
+    "op"
+   ]
+  },
+  {
+   "id": "table2.50",
+   "label": "Table 2, SVM by feature set, ADR_50+",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table2_50/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+   },
+   "cause_from": "svm",
+   "assumptions_from": [
+    "svm",
+    "op",
+    "adr50"
+   ]
+  },
+  {
+   "id": "table3.svm",
+   "label": "Table 3, SVM row",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_svm/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 8 fields at printed precision, but every AUC is within 0.0005 and every precision and recall within 0.0124 of the paper, inside the spread of the SVM seeds."
+   },
+   "cause_from": "svm",
+   "assumptions_from": [
+    "svm",
+    "op"
+   ]
+  },
+  {
+   "id": "table3.rf",
+   "label": "Table 3, RF row",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_rf/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+   },
+   "cause_from": "rf",
+   "assumptions_from": [
+    "rf",
+    "op"
+   ]
+  },
+  {
+   "id": "table3.knn",
+   "label": "Table 3, KNN row",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_knn/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+   },
+   "cause_from": "knn",
+   "assumptions_from": [
+    "knn",
+    "op"
+   ]
+  },
+  {
+   "id": "table3.nb",
+   "label": "Table 3, NB row",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_nb/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+   },
+   "cause_from": "nb",
+   "assumptions_from": [
+    "nb",
+    "op"
+   ]
+  },
+  {
+   "id": "table3.lr",
+   "label": "Table 3, LR row",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/table3_lr/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 per review comment #6000027304."
+   },
+   "cause_from": "lr",
+   "assumptions_from": [
+    "lr",
+    "op"
+   ]
+  },
+  {
+   "id": "fig2",
+   "label": "Fig. 2, ROC curves of six feature sets, all ADRs (drawn)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figures.json:figures/fig2",
+   "threshold": 0.95,
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ],
+   "outputs": [
+    "figure-reproduction/output/fig2_ours.png",
+    "figure-reproduction/output/fig2_overlay.png"
+   ]
+  },
+  {
+   "id": "fig2.values",
+   "label": "Fig. 2, ROC curves of six feature sets, all ADRs, TPR at five FPRs read from the vector curves",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "figures.json:figures/fig2/tpr_fields",
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ]
+  },
+  {
+   "id": "fig3",
+   "label": "Fig. 3, ROC curves of six feature sets, ADR_50+ (drawn)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figures.json:figures/fig3",
+   "threshold": 0.95,
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ],
+   "outputs": [
+    "figure-reproduction/output/fig3_ours.png",
+    "figure-reproduction/output/fig3_overlay.png"
+   ],
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 87.04% within 2 px; five of six curves are 99 to 100% within 2 px. The chem curve (19%) is drawn with area 0.7558 while the paper's own Table 2 prints 0.7659; ours is 0.7658."
+   },
+   "cause_from": "fig3"
+  },
+  {
+   "id": "fig3.values",
+   "label": "Fig. 3, ROC curves of six feature sets, ADR_50+, TPR at five FPRs read from the vector curves",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "figures.json:figures/fig3/tpr_fields",
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ],
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 26 of 30 TPRs as printed; the misses are on the chem curve, whose drawn area disagrees with the paper's Table 2."
+   },
+   "cause_from": "fig3"
+  },
+  {
+   "id": "fig4",
+   "label": "Fig. 4, ROC curves of five algorithms (drawn)",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "pixels",
+   "pixels_from": "figures.json:figures/fig4",
+   "threshold": 0.95,
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ],
+   "outputs": [
+    "figure-reproduction/output/fig4_ours.png",
+    "figure-reproduction/output/fig4_overlay.png"
+   ],
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): SVM, RF and KNN curves 99.9 to 100% within 2 px; NB and LR (45 and 47%) follow their Table 3 rows, already accepted in review."
+   },
+   "cause_from": "fig4"
+  },
+  {
+   "id": "fig4.values",
+   "label": "Fig. 4, ROC curves of five algorithms, TPR at five FPRs read from the vector curves",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "figures.json:figures/fig4/tpr_fields",
+   "assumptions_from": [
+    "svm",
+    "figures"
+   ],
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): 17 of 25 TPRs as printed; the misses are the NB and LR curves, as in Table 3."
+   },
+   "cause_from": "fig4"
+  },
+  {
+   "id": "fig5",
+   "label": "Fig. 5, overlap of true positives of chem, bio and pheno",
+   "kind": "figure",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "comparison.json:tables/fig5/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): the overlap counts are taken at the max-F1 points and move with the precision and recall cells (pheno alone 10944 against 10581, 3.4%)."
+   },
+   "cause_from": "fig5",
+   "assumptions_from": [
+    "svm",
+    "op"
+   ]
+  },
+  {
+   "id": "table4",
+   "label": "Table 4, clinical validation calls (cerivastatin, rofecoxib)",
+   "kind": "table",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "table4.json:fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 36 of 39 clinical calls as printed; the paper does not state the decision threshold."
+   },
+   "cause_from": "table4",
+   "assumptions_from": [
+    "svm",
+    "t4"
+   ]
+  },
+  {
+   "id": "tableS1",
+   "label": "Table S1, share of informative features (chi-square p < 0.05)",
+   "kind": "table",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "comparison.json:tables/tableS1/fields",
+   "cause_from": "s1"
+  },
+  {
+   "id": "text.sider",
+   "label": "",
+   "kind": "value",
+   "source": "public_data",
+   "method": "values",
+   "fields_from": "claims.json:text_sider/fields",
+   "label_from": "claims.json:text_sider/label"
+  },
+  {
+   "id": "text.dataset",
+   "label": "",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text_dataset/fields",
+   "label_from": "claims.json:text_dataset/label"
+  },
+  {
+   "id": "text.headline",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_headline/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: AUC, precision and recall rise as the claim says; 1 of 6 fields is at printed precision and the others are close (precision 65.31 against 66.17)."
+   },
+   "cause_from": "svm",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_headline/label"
+  },
+  {
+   "id": "text.feature_gains",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_feature_gains/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 6 of 7 fields as printed; the miss is the 'about 3%' precision gain from bio (ours 1.8 points)."
+   },
+   "cause_from": "svm",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_feature_gains/label"
+  },
+  {
+   "id": "text.ks",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_ks/fields",
+   "cause_from": "ks",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_ks/label"
+  },
+  {
+   "id": "text.combination",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_combination/fields",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_combination/label"
+  },
+  {
+   "id": "text.common_adrs",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_common_adrs/fields",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_common_adrs/label"
+  },
+  {
+   "id": "text.methods",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_methods/fields",
+   "cause_from": "lrnb",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_methods/label"
+  },
+  {
+   "id": "text.indication",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_indication/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 after the AI review flag: AUC 0.9111 against the printed 0.9110, one unit in the last digit and smaller than our seed range (0.0003)."
+   },
+   "cause_from": "indication",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_indication/label"
+  },
+  {
+   "id": "text.class_weights",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_class_weights/fields",
+   "cause_from": "weights",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_class_weights/label"
+  },
+  {
+   "id": "text.data_facts",
+   "label": "",
+   "kind": "value",
+   "source": "papers_data",
+   "method": "values",
+   "fields_from": "claims.json:text_data_facts/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "partly",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20, merging with the AI review's likely verdicts: 1 of 4 counts as printed; the others differ slightly on the 832-drug file (560 against 554 ADRs with fewer than five drugs)."
+   },
+   "cause_from": "counts",
+   "label_from": "claims.json:text_data_facts/label"
+  },
+  {
+   "id": "text.clinical",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_clinical/fields",
+   "cause_from": "table4",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_clinical/label"
+  },
+  {
+   "id": "text.fig5",
+   "label": "",
+   "kind": "value",
+   "source": "reconstructed",
+   "method": "values",
+   "fields_from": "claims.json:text_fig5/fields",
+   "review": {
+    "verdict": "agrees",
+    "computed": "differs",
+    "by": "hyunhwan-bcm",
+    "url": "https://github.com/jeonglab-bcm/fossil/pull/100",
+    "note": "Set by hyunhwan-bcm on 2026-11-20 (the gap is small): as Fig. 5: pheno alone 10944 against 10581; the counts follow the precision and recall cells."
+   },
+   "cause_from": "fig5",
+   "assumptions_from": [
+    "svm"
+   ],
+   "label_from": "claims.json:text_fig5/label"
+  },
+  {
+   "id": "text.pauwels",
+   "label": "Chem-only AUC 0.9054 'similar to' Pauwels et al.'s 0.8930",
+   "kind": "value",
+   "source": "none",
+   "method": "none",
+   "cause_from": "cited"
+  },
+  {
+   "id": "text.arithmetic",
+   "label": "Claims recomputed from the paper's own tables",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "claims.json"
+  },
+  {
+   "id": "data.identity",
+   "label": "The recovered training file is the paper's",
+   "kind": "code_check",
+   "source": "papers_data",
+   "method": "check",
+   "check_from": "identity"
+  },
+  {
+   "id": "port",
+   "label": "The authors' code",
+   "kind": "code_check",
+   "source": "none",
+   "method": "none",
+   "cause_from": "nocode"
+  },
+  {
+   "id": "package",
+   "label": "Python package adrfusion and its tutorial",
+   "kind": "code_check",
+   "source": "reconstructed",
+   "method": "check",
+   "check_from": "package.json",
+   "outputs": [
+    "package/tutorial/TUTORIAL.md"
+   ]
+  }
+ ]
+}
