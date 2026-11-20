@@ -358,7 +358,7 @@ The results page renders as intended. Committing the work so far, then the sessi
 
 - `Bash` ls ~/.claude/projects/ 2>/dev/null | head; python3 ~/.claude/skills/paper2repro/scripts/session_ledger.py --out PMC1523355/session 2>&1 | tail -5; ls -la PMC152
 
-- `Bash` grep -n -i "@bcm\|jennifer\|email\|token\|secret" PMC1523355/session/conversation.md | head; head -30 PMC1523355/session/conversation.md
+- `Bash` grep -n -i "[redacted]\|email\|token\|secret" PMC1523355/session/conversation.md | head; head -30 PMC1523355/session/conversation.md
 
 - `Bash` cd /home/user/fossil/PMC1523355/figure-reproduction && cat > /tmp/claude-0/-home-user-fossil/c2d638aa-ff08-5730-8f37-8b0dc51a8b85/scratchpad/sens.py <<'EOF' imp
 
