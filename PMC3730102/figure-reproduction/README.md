@@ -83,7 +83,7 @@ own Fig. 3J counts (20, 8, 2 and 70).
 | `pipeline/prepare.py` | Gold standard, network and expression (Table 1). |
 | `pipeline/train.py` | Feature sets, leave-two-out DC-kNN, Fig. 2. |
 | `pipeline/conditional.py` | Location maps per condition, high-confidence calls, Fig. 3I/J, mislocations, Fig. 5A, the named proteins. |
-| `pipeline/figures.py` | Our panels and their overlays on the published ones. |
+| `pipeline/figures.py` | Renders the paper's vector figures at 600 dpi from PMC's PDF and crops the published panels; draws ours at the same size in the published layout (Liberation Sans, metric-compatible with the paper's Arial), and overlays the two. |
 | `pipeline/build_results.py`, `check_results.py` | `../results.json` and its verdicts. |
 | `pipeline/build_page.py`, `page_template.html` | The results page. |
 | `pipeline/check_reproduction.py`, `compare_runs.py`, `check_package.py` | The check step. |

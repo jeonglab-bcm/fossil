@@ -6,7 +6,7 @@
 //   nextflow run PMC3730102/figure-reproduction/main.nf --outdir results [--sources DIR]
 //
 // Steps: download the inputs (GEO, GO 2007-01, Pathway Commons 2011, Ramani 2005, UniProt, the paper's
-// figures) and check their SHA-256; build the gold standard, network and expression (Table 1); train
+// PDF) and check their SHA-256; build the gold standard, network and expression (Table 1); train
 // DC-kNN with leave-two-out selection (Fig. 2); compute the conditional location maps, mislocations and
 // the named proteins (Figs 3 to 6); draw every attempted panel and its overlay; check the package; write
 // results.json and the results page; check the run against the committed outputs. About 15 minutes on

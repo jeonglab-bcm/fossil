@@ -13,6 +13,6 @@ with this attribution.
 
 | File | Source |
 | --- | --- |
-| `fig*.png` | Crops of `1283fig2.jpg` to `1283fig6.jpg` from PMC's open-access copy (<https://pmc-oa-opendata.s3.amazonaws.com/PMC3730102.1/>), converted to grey PNG by `pipeline/figures.py`; the crop boxes are in `output/figures.json` |
+| `fig*.png` | Crops of the paper's vector figures, rendered at 600 dpi with `pdftoppm` from PMC's open-access PDF (<https://pmc-oa-opendata.s3.amazonaws.com/PMC3730102.1/PMC3730102.1.pdf>) by `pipeline/figures.py`; the pages and crop boxes are in `output/figures.json` |
 
 Fig. 1 is a diagram; Fig. 7 and the image panels of Figs 3 to 6 are wet-lab results and are not compared.

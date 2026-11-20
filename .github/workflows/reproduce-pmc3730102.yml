@@ -36,6 +36,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install poppler and Liberation fonts
+        # pdftoppm renders the paper's vector figures at 600 dpi; Liberation Sans stands in for Arial
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-liberation
+
       - name: Install Python packages
         run: pip install -r PMC3730102/figure-reproduction/requirements.txt
 

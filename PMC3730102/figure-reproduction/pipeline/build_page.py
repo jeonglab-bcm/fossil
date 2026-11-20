@@ -42,8 +42,8 @@ STATIONS = [
 def b64(path):
     buf = io.BytesIO()
     im = Image.open(path).convert("RGB")
-    if im.width > 2000:
-        im = im.resize((2000, round(im.height * 2000 / im.width)), Image.LANCZOS)
+    if im.width > 1400:  # keeps the page small; the full-size panels are in output/ and published/
+        im = im.resize((1400, round(im.height * 1400 / im.width)), Image.LANCZOS)
     im.save(buf, "PNG", optimize=True)
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
@@ -99,7 +99,6 @@ def main(results, figs, pub, out):
         v = worst([i["verdict"] for i in its])
         psrc, (w, h) = b64(Path(pub) / f"{n}.png")
         osrc, _ = b64(Path(figs) / f"{n}_ours.png")
-        w, h = w * 3, h * 3
         stats = "".join(f"<div><dt>{esc(i['label'])}</dt><dd>{esc(measure(i))}, {esc(STAMP[i['verdict']][1] if i['verdict'] in STAMP else '')}</dd></div>" for i in its)
         causes = []
         for i in its:

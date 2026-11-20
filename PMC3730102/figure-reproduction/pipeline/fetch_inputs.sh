@@ -15,7 +15,8 @@
 # OUTDIR/uniprot   human Swiss-Prot entries: sequence, gene names, InterPro and GeneID cross-references
 #                  (UniProt REST). UniProt has no pinned download by release: its checksum is checked and
 #                  a mismatch is reported as a warning, with the release that was served.
-# OUTDIR/paper     the paper's figure files (PMC open-access copy on AWS), for the comparison only
+# OUTDIR/paper     the paper's PDF (PMC open-access copy on AWS; CC BY-NC 3.0), whose vector figures are
+#                  rendered at 600 dpi for the comparison only
 set -euo pipefail
 
 out="${1:?usage: fetch_inputs.sh OUTDIR [--sources DIR]}"
@@ -80,13 +81,7 @@ fetch ppi/biogrid-node-attributes.txt.zip fac16224219ebd4df948b29aa697fd8213fb69
 for f in "$out"/ppi/*.zip; do unzip -o -q "$f" -d "$out/ppi"; done
 fetch ppi/ramani/gb-2005-6-5-r40-S4.txt c7c210198a232b889d486d9f80253cca5949b580ab9b8273234222de968958cd $PMC/PMC1175952.1/gb-2005-6-5-r40-S4.txt
 
-for f in 1283fig2.jpg:ccf9a8f5bbbd0258933e3681ea450a41510d02433ac94b036109810f8c4dd4e1 \
-         1283fig3.jpg:cb4457270ae913f9282245ab832377c80d60ca7cfa468774eac0c483414922d3 \
-         1283fig4.jpg:af1a728c5f16b4597e7f24fc1a567d1745deb857e7345f77875b6e6c7aeafac9 \
-         1283fig5.jpg:5d399c64577109af5f773759ed86ceeb37c060a201d5d7a3edfa1643abeeda38 \
-         1283fig6.jpg:9591bc4e5b163aaafc5e97e9b5c71a570b9fc3c9755cca3a8257861250ce4abe; do
-    fetch "paper/${f%%:*}" "${f##*:}" "$PMC/PMC3730102.1/${f%%:*}"
-done
+fetch paper/PMC3730102.1.pdf 3b70f7328e6f625f2a81854b67a6aee7007c900eb5d4670577a0ffafe5e07c05 "$PMC/PMC3730102.1/PMC3730102.1.pdf"
 
 UNIPROT_SHA=6b1c2cbb0ecea692d24119add60fc13aba9bec86291d4d3e6e9d36418d24697b  # release 2026_04
 fetch uniprot/human_sprot.tsv.gz warn "$UNIPROT"
