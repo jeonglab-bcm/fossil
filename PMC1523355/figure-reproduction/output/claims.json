@@ -1,0 +1,251 @@
+{
+ "text_fig1a": {
+  "label": "Fig. 1A in the text: net harm below a 3% pre-treatment risk; a steep gain from 2% to 5%, modest above",
+  "fields": [
+   {
+    "name": "pre-treatment risk where net RRR is 0",
+    "expected": "0.03",
+    "observed": 0.03,
+    "arithmetic": 0.03
+   },
+   {
+    "name": "gain in net RRR from 2% to 5% larger than from 5% to 9%",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_design_power": {
+  "label": "Methods: N = 8,800 gives 80% power to detect an RRR of 25%",
+  "fields": [
+   {
+    "name": "power for an RRR of 25% at the Table 1 population's average CER",
+    "expected": "0.80",
+    "observed": 0.5562,
+    "tolerance": {
+     "abs": 0.033828
+    }
+   }
+  ]
+ },
+ "text_fig1b": {
+  "label": "Fig. 1B in the text: the 4-RF score has more power than one RF, and power falls as the population's CER rises",
+  "fields": [
+   {
+    "name": "the 4-RF score has more power than one RF at every average CER",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "one RF: power falls as the average CER rises",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "4-RF score: power falls as the average CER rises",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_table2": {
+  "label": "Table 2 in the text: OR 2, prevalence 50% against 25%: .22 against .21; OR 3, prevalence 50%: 44%",
+  "fields": [
+   {
+    "name": "OR 2, prevalence 50%",
+    "expected": ".22",
+    "observed": 0.2648,
+    "tolerance": {
+     "abs": 0.034322
+    },
+    "arithmetic": 0.22
+   },
+   {
+    "name": "OR 2, prevalence 25%",
+    "expected": ".21",
+    "observed": 0.2298,
+    "tolerance": {
+     "abs": 0.033743
+    },
+    "arithmetic": 0.21
+   },
+   {
+    "name": "OR 3, prevalence 50% (%)",
+    "expected": "44",
+    "observed": 52.59,
+    "tolerance": {
+     "abs": 3.99428
+    },
+    "arithmetic": 44.0
+   },
+   {
+    "name": "prevalence 50% gives only slightly more power than 25% (OR 2)",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_table3": {
+  "label": "Table 3 in the text: 3 RFs of 1.5 give an AUROC of 0.55; combining RFs always beats one RF",
+  "fields": [
+   {
+    "name": "AUROC of a score of 3 RFs of 1.5",
+    "expected": "0.55",
+    "observed": 0.5555,
+    "arithmetic": 0.55
+   },
+   {
+    "name": "every score of 3 or 6 RFs has more power than one RF of the same OR",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_table4": {
+  "label": "Table 4 in the text: perfect to reverse weighting takes power from 82% to 69%; one RF of 2.5 alone has 37%",
+  "fields": [
+   {
+    "name": "perfect weighting (%)",
+    "expected": "82",
+    "observed": 87.06,
+    "tolerance": {
+     "abs": 3.173752
+    },
+    "arithmetic": 82.0
+   },
+   {
+    "name": "reverse weighting (%)",
+    "expected": "69",
+    "observed": 77.66,
+    "tolerance": {
+     "abs": 3.725886
+    },
+    "arithmetic": 69.0
+   },
+   {
+    "name": "conventional analysis of one RF with RR 2.5 (%)",
+    "expected": "37",
+    "observed": 37.84,
+    "tolerance": {
+     "abs": 3.898229
+    }
+   }
+  ]
+ },
+ "text_table5": {
+  "label": "Table 5 in the text: power rises with the rate of treatment complications",
+  "fields": [
+   {
+    "name": "conventional power rises with the complication rate",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "risk-stratified power rises with the complication rate",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_abstract": {
+  "label": "Abstract: conventional subgroup analysis has at best 30% to 45% power, even for a RF of OR 3",
+  "fields": [
+   {
+    "name": "one RF of OR 3 at prevalence 25% and 50%: power between 30% and 45%",
+    "expected": "yes",
+    "observed": "no",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "text_main_claim": {
+  "label": "Main claim: a multivariable risk-stratified analysis has much more power than conventional subgroup analysis",
+  "fields": [
+   {
+    "name": "risk-stratified power above conventional in every paired setting (Tables 1 and 5, Fig. 1B)",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   },
+   {
+    "name": "the smallest gain is at least 20 points",
+    "expected": "yes",
+    "observed": "yes",
+    "arithmetic": "yes"
+   }
+  ]
+ },
+ "_table1_arithmetic": [
+  {
+   "group": "rf_absent",
+   "rrr_printed": "-.19",
+   "rrr_from_cer": -0.1818181818181818,
+   "nnt_printed": "-239",
+   "nnt_from_cer": -250.0
+  },
+  {
+   "group": "rf_present",
+   "rrr_printed": ".13",
+   "rrr_from_cer": 0.14285714285714282,
+   "nnt_printed": "183",
+   "nnt_from_cer": 166.6666666666667
+  },
+  {
+   "group": "idx_0_1",
+   "rrr_printed": "-.57",
+   "rrr_from_cer": -0.5714285714285715,
+   "nnt_printed": "-125",
+   "nnt_from_cer": -125.0
+  },
+  {
+   "group": "idx_ge2",
+   "rrr_printed": ".16",
+   "rrr_from_cer": 0.15909090909090906,
+   "nnt_printed": "143",
+   "nnt_from_cer": 142.85714285714286
+  },
+  {
+   "group": "k0",
+   "rrr_printed": "-1.59",
+   "rrr_from_cer": -1.5,
+   "nnt_printed": "-88",
+   "nnt_from_cer": -88.88888888888889
+  },
+  {
+   "group": "k1",
+   "rrr_printed": "-.51",
+   "rrr_from_cer": -0.5,
+   "nnt_printed": "-132",
+   "nnt_from_cer": -133.33333333333334
+  },
+  {
+   "group": "k2",
+   "rrr_printed": "-.02",
+   "rrr_from_cer": 0.0,
+   "nnt_printed": "-1936",
+   "nnt_from_cer": null
+  },
+  {
+   "group": "k3",
+   "rrr_printed": ".21",
+   "rrr_from_cer": 0.25,
+   "nnt_printed": "83",
+   "nnt_from_cer": 66.66666666666667
+  },
+  {
+   "group": "k_ge4",
+   "rrr_printed": ".35",
+   "rrr_from_cer": 0.3828125,
+   "nnt_printed": "24",
+   "nnt_from_cer": 20.408163265306122
+  }
+ ]
+}

@@ -1,0 +1,2048 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC1523355",
+    "title": "Multivariable risk prediction can greatly enhance the statistical power of clinical trial subgroup analysis",
+    "citation": "Hayward RA, Kent DM, Vijan S, Hofer TP. Multivariable risk prediction can greatly enhance the statistical power of clinical trial subgroup analysis. BMC Medical Research Methodology 6:18 (2006)",
+    "doi": "10.1186/1471-2288-6-18",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-20",
+    "pipeline": "PMC1523355/figure-reproduction/main.nf",
+    "command": "nextflow run PMC1523355/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "1471-2288-6-18-1.jpg (Fig. 1)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1523355.1/1471-2288-6-18-1.jpg",
+        "sha256": "6fba733238396e8e437e6d826eb628e7f95a12b8d919a218571ab03189057de3"
+      },
+      {
+        "name": "PMC1523355.1.xml (article, Tables 1-5)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1523355.1/PMC1523355.1.xml",
+        "sha256": "b4bdb4c758dc7f6cd05699b661197acc5a3fef4e8a7d56da892e8b7e95471b3b"
+      }
+    ],
+    "environment": {
+      "python": "3.12.3",
+      "numpy": "2.2.6",
+      "pillow": "11.2.1",
+      "stratpower": "0.1.0",
+      "platform": "x86_64"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.6.0",
+    "tag": "paper2repro-v0.6.0",
+    "commit": "77478b5feb750918304a323f96d44f5456c6fe51",
+    "modified": false
+  },
+  "items": [
+    {
+      "id": "fig1a",
+      "label": "Fig. 1A, net RRR against pre-treatment risk",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "layout": {
+        "drawn_on_published": true
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1a_ours.png",
+        "figure-reproduction/output/fig1a_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "The curve's CER range, 0.016 to 0.075, is read from the published curve's ends.",
+          "source": "read_from_figure",
+          "sensitivity": "Moving either end by 0.001 gives a score of 97.0% to 99.1%, still above the 95% pass mark (figures.json, curve_range_sensitivity)."
+        }
+      ],
+      "pixels": {
+        "tolerance_px": 2,
+        "dpi": 282,
+        "published_near_ours": 1.0,
+        "ours_near_published": 1.0,
+        "threshold": 0.95,
+        "controls": [
+          {
+            "name": "harm 2 per 1,000 per year",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "harm 4 per 1,000 per year",
+            "kind": "wrong_input",
+            "score": 0.0
+          },
+          {
+            "name": "net RRR x 0.95",
+            "kind": "near_miss",
+            "score": 0.6033834586466166
+          },
+          {
+            "name": "net RRR x 1.05",
+            "kind": "near_miss",
+            "score": 0.5627705627705628
+          },
+          {
+            "name": "CER + 1% of the x axis",
+            "kind": "near_miss",
+            "score": 0.7030075187969925
+          }
+        ]
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1b",
+      "label": "Fig. 1B, power and AUROC of one RF and of a 4-RF score at four average CERs",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "layout": {
+        "drawn_on_published": true
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1b_ours.png",
+        "figure-reproduction/output/fig1b_overlay.png"
+      ],
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+          "source": "found_by_search",
+          "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; 22 of 63 printed values come back with it (hypotheses.auroc_control_arm)."
+        },
+        {
+          "what": "Fig. 1B: four RFs of OR 2 and prevalence 25%; the baseline risk (no RF) is set so the population's average CER is 1.5%, 3%, 6% or 9%; the one-RF analysis tests one of the four.",
+          "source": "paper",
+          "sensitivity": "The panel names the four RFs, their OR and prevalence, and the average CERs; how the average was reached is ours (baseline CER 0.625%, 1.272%, 2.629%, 4.073%)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "average CER 1.5%, one RF, power",
+            "expected": ".28",
+            "observed": 0.25425,
+            "tolerance": {
+              "abs": 0.036504
+            },
+            "z": -2.452
+          },
+          {
+            "name": "average CER 1.5%, one RF, AUROC",
+            "expected": ".54",
+            "observed": 0.544651
+          },
+          {
+            "name": "average CER 1.5%, 4-RF score, power",
+            "expected": ".77",
+            "observed": 0.73325,
+            "tolerance": {
+              "abs": 0.034748
+            },
+            "z": -3.706
+          },
+          {
+            "name": "average CER 1.5%, 4-RF score, AUROC",
+            "expected": ".61",
+            "observed": 0.601358
+          },
+          {
+            "name": "average CER 3%, one RF, power",
+            "expected": ".25",
+            "observed": 0.23255,
+            "tolerance": {
+              "abs": 0.035398
+            },
+            "z": -1.722
+          },
+          {
+            "name": "average CER 3%, one RF, AUROC",
+            "expected": ".55",
+            "observed": 0.555
+          },
+          {
+            "name": "average CER 3%, 4-RF score, power",
+            "expected": ".74",
+            "observed": 0.69985,
+            "tolerance": {
+              "abs": 0.035989
+            },
+            "z": -3.887
+          },
+          {
+            "name": "average CER 3%, 4-RF score, AUROC",
+            "expected": ".63",
+            "observed": 0.625498
+          },
+          {
+            "name": "average CER 6%, one RF, power",
+            "expected": ".19",
+            "observed": 0.1907,
+            "tolerance": {
+              "abs": 0.032604
+            },
+            "z": 0.076
+          },
+          {
+            "name": "average CER 6%, one RF, AUROC",
+            "expected": ".55",
+            "observed": 0.561122
+          },
+          {
+            "name": "average CER 6%, 4-RF score, power",
+            "expected": ".60",
+            "observed": 0.61255,
+            "tolerance": {
+              "abs": 0.03945
+            },
+            "z": 1.093
+          },
+          {
+            "name": "average CER 6%, 4-RF score, AUROC",
+            "expected": ".65",
+            "observed": 0.640796
+          },
+          {
+            "name": "average CER 9%, one RF, power",
+            "expected": ".14",
+            "observed": 0.16825,
+            "tolerance": {
+              "abs": 0.029592
+            },
+            "z": 3.446
+          },
+          {
+            "name": "average CER 9%, one RF, AUROC",
+            "expected": ".56",
+            "observed": 0.562498
+          },
+          {
+            "name": "average CER 9%, 4-RF score, power",
+            "expected": ".44",
+            "observed": 0.56885,
+            "tolerance": {
+              "abs": 0.039917
+            },
+            "z": 11.071
+          },
+          {
+            "name": "average CER 9%, 4-RF score, AUROC",
+            "expected": ".66",
+            "observed": 0.64519
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table1.true",
+      "label": "Table 1, shares, CER, RRR and NNT of the subgroups",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "risk factor absent (75%), % of population",
+            "expected": "75",
+            "observed": 75.0
+          },
+          {
+            "name": "risk factor absent (75%), CER (%)",
+            "expected": "2.2",
+            "observed": 2.218494
+          },
+          {
+            "name": "risk factor absent (75%), net RRR",
+            "expected": "-.19",
+            "observed": -0.176134
+          },
+          {
+            "name": "risk factor absent (75%), NNT",
+            "expected": "-239",
+            "observed": -255.916254
+          },
+          {
+            "name": "risk factor present (25%), % of population",
+            "expected": "25",
+            "observed": 25.0
+          },
+          {
+            "name": "risk factor present (25%), CER (%)",
+            "expected": "4.2",
+            "observed": 4.28195
+          },
+          {
+            "name": "risk factor present (25%), net RRR",
+            "expected": ".13",
+            "observed": 0.149692
+          },
+          {
+            "name": "risk factor present (25%), NNT",
+            "expected": "183",
+            "observed": 156.012367
+          },
+          {
+            "name": "0-1 RFs, % of population",
+            "expected": "53.4",
+            "observed": 53.393555
+          },
+          {
+            "name": "0-1 RFs, CER (%)",
+            "expected": "1.4",
+            "observed": 1.242556
+          },
+          {
+            "name": "0-1 RFs, net RRR",
+            "expected": "-.57",
+            "observed": -0.707189
+          },
+          {
+            "name": "0-1 RFs, NNT",
+            "expected": "-125",
+            "observed": -113.801624
+          },
+          {
+            "name": "2 or more RFs, % of population",
+            "expected": "46.6",
+            "observed": 46.606445
+          },
+          {
+            "name": "2 or more RFs, CER (%)",
+            "expected": "4.4",
+            "observed": 4.443406
+          },
+          {
+            "name": "2 or more RFs, net RRR",
+            "expected": ".16",
+            "observed": 0.162421
+          },
+          {
+            "name": "2 or more RFs, NNT",
+            "expected": "143",
+            "observed": 138.561183
+          },
+          {
+            "name": "0 RFs, % of population",
+            "expected": "17.8",
+            "observed": 17.797852
+          },
+          {
+            "name": "0 RFs, CER (%)",
+            "expected": "0.75",
+            "observed": 0.75
+          },
+          {
+            "name": "0 RFs, net RRR",
+            "expected": "-1.59",
+            "observed": -1.5
+          },
+          {
+            "name": "0 RFs, NNT",
+            "expected": "-88",
+            "observed": -88.888889
+          },
+          {
+            "name": "1 RF, % of population",
+            "expected": "35.6",
+            "observed": 35.595703
+          },
+          {
+            "name": "1 RF, CER (%)",
+            "expected": "1.5",
+            "observed": 1.488834
+          },
+          {
+            "name": "1 RF, net RRR",
+            "expected": "-.51",
+            "observed": -0.5075
+          },
+          {
+            "name": "1 RF, NNT",
+            "expected": "-132",
+            "observed": -132.348112
+          },
+          {
+            "name": "2 RFs, % of population",
+            "expected": "29.7",
+            "observed": 29.663086
+          },
+          {
+            "name": "2 RFs, CER (%)",
+            "expected": "3.0",
+            "observed": 2.933985
+          },
+          {
+            "name": "2 RFs, net RRR",
+            "expected": "-.02",
+            "observed": -0.01125
+          },
+          {
+            "name": "2 RFs, NNT",
+            "expected": "-1936",
+            "observed": -3029.62963
+          },
+          {
+            "name": "3 RFs, % of population",
+            "expected": "13.2",
+            "observed": 13.183594
+          },
+          {
+            "name": "3 RFs, CER (%)",
+            "expected": "6.0",
+            "observed": 5.700713
+          },
+          {
+            "name": "3 RFs, net RRR",
+            "expected": ".21",
+            "observed": 0.236875
+          },
+          {
+            "name": "3 RFs, NNT",
+            "expected": "83",
+            "observed": 74.054529
+          },
+          {
+            "name": "4 or more RFs, % of population",
+            "expected": "3.7",
+            "observed": 3.759766
+          },
+          {
+            "name": "4 or more RFs, CER (%)",
+            "expected": "12.8",
+            "observed": 11.943406
+          },
+          {
+            "name": "4 or more RFs, net RRR",
+            "expected": ".35",
+            "observed": 0.374408
+          },
+          {
+            "name": "4 or more RFs, NNT",
+            "expected": "24",
+            "observed": 22.362845
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "Table 1's subgroup shares follow from six independent RFs of prevalence 25%, but its CER, RRR and NNT columns follow neither from the odds scale (15 of 36 values), nor from the relative-risk scale (12 of 36), nor do its RRR and NNT follow from its own CER column with Fig. 1A's formula (4 of 18). The 0-1 and 2-or-more rows do follow from their printed CERs (1.4 and 4.4), which no population of the stated RFs gives. The columns read like rates realized in a finite simulated population, whose size and seed are not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/claims.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Odds-ratio scale, CER 0.75% with no RF",
+            "test": "Closed-form shares, CERs, RRRs and NNTs",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Relative-risk scale, CER 0.75% with no RF",
+            "test": "The same on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "RRR and NNT computed from the printed CER column with EER = .5 CER + .015",
+            "test": "Recomputed from the paper's own column",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Rates realized in a finite simulated population",
+            "test": "Not testable without the population's size and seed",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table1.power",
+      "label": "Table 1, power of the conventional and the two risk-index analyses, and the index's AUROC",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+          "source": "found_by_search",
+          "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; 22 of 63 printed values come back with it (hypotheses.auroc_control_arm)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "conventional (one RF)",
+            "expected": ".23",
+            "observed": 0.23565,
+            "tolerance": {
+              "abs": 0.034631
+            },
+            "z": 0.572
+          },
+          {
+            "name": "risk index, dichotomized (0-1 vs 2 or more RFs)",
+            "expected": ".72",
+            "observed": 0.73695,
+            "tolerance": {
+              "abs": 0.036535
+            },
+            "z": 1.613
+          },
+          {
+            "name": "risk index, continuous (RF count)",
+            "expected": ".83",
+            "observed": 0.8591,
+            "tolerance": {
+              "abs": 0.031257
+            },
+            "z": 3.325
+          },
+          {
+            "name": "AUROC of the risk index",
+            "expected": "0.65",
+            "observed": 0.649376
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, power of one RF at three ORs and three prevalences",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "In Table 2 the RF analysed is one of six; the other five have prevalence 25% and OR 2 (the table's footnote).",
+          "source": "paper",
+          "sensitivity": "Giving the other five the analysed RF's OR changes Table 2 to 5 of 9 within (hypotheses.table2_others_same_or)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "OR 1.5, prevalence 10%",
+            "expected": ".08",
+            "observed": 0.07355,
+            "tolerance": {
+              "abs": 0.024023
+            },
+            "z": -1.017
+          },
+          {
+            "name": "OR 1.5, prevalence 25%",
+            "expected": ".12",
+            "observed": 0.1106,
+            "tolerance": {
+              "abs": 0.027792
+            },
+            "z": -1.237
+          },
+          {
+            "name": "OR 1.5, prevalence 50%",
+            "expected": ".13",
+            "observed": 0.12495,
+            "tolerance": {
+              "abs": 0.028625
+            },
+            "z": -0.641
+          },
+          {
+            "name": "OR 2.0, prevalence 10%",
+            "expected": ".13",
+            "observed": 0.13465,
+            "tolerance": {
+              "abs": 0.028694
+            },
+            "z": 0.589
+          },
+          {
+            "name": "OR 2.0, prevalence 25%",
+            "expected": ".21",
+            "observed": 0.22975,
+            "tolerance": {
+              "abs": 0.033743
+            },
+            "z": 2.061
+          },
+          {
+            "name": "OR 2.0, prevalence 50%",
+            "expected": ".22",
+            "observed": 0.2648,
+            "tolerance": {
+              "abs": 0.034322
+            },
+            "z": 4.584
+          },
+          {
+            "name": "OR 3.0, prevalence 10%",
+            "expected": ".26",
+            "observed": 0.30235,
+            "tolerance": {
+              "abs": 0.035995
+            },
+            "z": 4.099
+          },
+          {
+            "name": "OR 3.0, prevalence 25%",
+            "expected": ".41",
+            "observed": 0.4921,
+            "tolerance": {
+              "abs": 0.039656
+            },
+            "z": 7.107
+          },
+          {
+            "name": "OR 3.0, prevalence 50%",
+            "expected": ".44",
+            "observed": 0.52585,
+            "tolerance": {
+              "abs": 0.039943
+            },
+            "z": 7.371
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, power and AUROC of scores of 1, 3 and 6 RFs at three ORs",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+          "source": "found_by_search",
+          "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; 22 of 63 printed values come back with it (hypotheses.auroc_control_arm)."
+        },
+        {
+          "what": "In Table 3 the population keeps six RFs: the index's k RFs have the column's OR and the other 6 - k have OR 2, so the 1-RF column is Table 2's 25% column, as printed. The paper does not say.",
+          "source": "our_choice",
+          "sensitivity": "A population with only the index's k RFs gives 10 of 18 within (hypotheses.table3_only_index_rfs)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "OR 1.5, 1 RF, power",
+            "expected": ".12",
+            "observed": 0.11265,
+            "tolerance": {
+              "abs": 0.027807
+            },
+            "z": -0.967
+          },
+          {
+            "name": "OR 1.5, 1 RF, AUROC",
+            "expected": ".53",
+            "observed": 0.529023
+          },
+          {
+            "name": "OR 1.5, 3 RFs, power",
+            "expected": ".27",
+            "observed": 0.24945,
+            "tolerance": {
+              "abs": 0.036164
+            },
+            "z": -1.978
+          },
+          {
+            "name": "OR 1.5, 3 RFs, AUROC",
+            "expected": ".55",
+            "observed": 0.555533
+          },
+          {
+            "name": "OR 1.5, 6 RFs, power",
+            "expected": ".45",
+            "observed": 0.4566,
+            "tolerance": {
+              "abs": 0.040006
+            },
+            "z": 0.566
+          },
+          {
+            "name": "OR 1.5, 6 RFs, AUROC",
+            "expected": ".58",
+            "observed": 0.572884
+          },
+          {
+            "name": "OR 2.0, 1 RF, power",
+            "expected": ".21",
+            "observed": 0.2338,
+            "tolerance": {
+              "abs": 0.03376
+            },
+            "z": 2.483
+          },
+          {
+            "name": "OR 2.0, 1 RF, AUROC",
+            "expected": ".54",
+            "observed": 0.553295
+          },
+          {
+            "name": "OR 2.0, 3 RFs, power",
+            "expected": ".61",
+            "observed": 0.5732,
+            "tolerance": {
+              "abs": 0.03936
+            },
+            "z": -3.213
+          },
+          {
+            "name": "OR 2.0, 3 RFs, AUROC",
+            "expected": ".59",
+            "observed": 0.604459
+          },
+          {
+            "name": "OR 2.0, 6 RFs, power",
+            "expected": ".83",
+            "observed": 0.86275,
+            "tolerance": {
+              "abs": 0.031234
+            },
+            "z": 3.745
+          },
+          {
+            "name": "OR 2.0, 6 RFs, AUROC",
+            "expected": ".65",
+            "observed": 0.649376
+          },
+          {
+            "name": "OR 3.0, 1 RF, power",
+            "expected": ".41",
+            "observed": 0.4902,
+            "tolerance": {
+              "abs": 0.039656
+            },
+            "z": 6.943
+          },
+          {
+            "name": "OR 3.0, 1 RF, AUROC",
+            "expected": ".57",
+            "observed": 0.591718
+          },
+          {
+            "name": "OR 3.0, 3 RFs, power",
+            "expected": ".92",
+            "observed": 0.8879,
+            "tolerance": {
+              "abs": 0.02439
+            },
+            "z": -4.966
+          },
+          {
+            "name": "OR 3.0, 3 RFs, AUROC",
+            "expected": ".67",
+            "observed": 0.678374
+          },
+          {
+            "name": "OR 3.0, 6 RFs, power",
+            "expected": ".93",
+            "observed": 0.99285,
+            "tolerance": {
+              "abs": 0.022209
+            },
+            "z": 10.957
+          },
+          {
+            "name": "OR 3.0, 6 RFs, AUROC",
+            "expected": ".76",
+            "observed": 0.75286
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, AUROC and power of a 6-RF score under four weightings",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+          "source": "found_by_search",
+          "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; 22 of 63 printed values come back with it (hypotheses.auroc_control_arm)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "perfect weighting, AUROC",
+            "expected": ".69",
+            "observed": 0.655465
+          },
+          {
+            "name": "perfect weighting, power",
+            "expected": ".82",
+            "observed": 0.8706,
+            "tolerance": {
+              "abs": 0.031738
+            },
+            "z": 5.677
+          },
+          {
+            "name": "uniform weighting, AUROC",
+            "expected": ".66",
+            "observed": 0.645418
+          },
+          {
+            "name": "uniform weighting, power",
+            "expected": ".75",
+            "observed": 0.84285,
+            "tolerance": {
+              "abs": 0.035056
+            },
+            "z": 9.268
+          },
+          {
+            "name": "reverse weighting, AUROC",
+            "expected": ".63",
+            "observed": 0.635119
+          },
+          {
+            "name": "reverse weighting, power",
+            "expected": ".69",
+            "observed": 0.77655,
+            "tolerance": {
+              "abs": 0.037259
+            },
+            "z": 8.049
+          },
+          {
+            "name": "incomplete reverse weighting, AUROC",
+            "expected": ".60",
+            "observed": 0.606377
+          },
+          {
+            "name": "incomplete reverse weighting, power",
+            "expected": ".51",
+            "observed": 0.54555,
+            "tolerance": {
+              "abs": 0.040158
+            },
+            "z": 3.033
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table5",
+      "label": "Table 5, power of conventional and risk-stratified analysis at 1 to 4 complications per 1,000 patient-years",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "1 per 1,000 patient-years, conventional (%)",
+            "expected": "6",
+            "observed": 8.865,
+            "tolerance": {
+              "abs": 2.203397
+            },
+            "z": 5.046
+          },
+          {
+            "name": "1 per 1,000 patient-years, risk-stratified (%)",
+            "expected": "39",
+            "observed": 31.115,
+            "tolerance": {
+              "abs": 3.91614
+            },
+            "z": -6.924
+          },
+          {
+            "name": "2 per 1,000 patient-years, conventional (%)",
+            "expected": "11",
+            "observed": 15.8,
+            "tolerance": {
+              "abs": 2.736998
+            },
+            "z": 6.437
+          },
+          {
+            "name": "2 per 1,000 patient-years, risk-stratified (%)",
+            "expected": "59",
+            "observed": 65.405,
+            "tolerance": {
+              "abs": 3.950175
+            },
+            "z": 5.569
+          },
+          {
+            "name": "3 per 1,000 patient-years, conventional (%)",
+            "expected": "21",
+            "observed": 23.575,
+            "tolerance": {
+              "abs": 3.376851
+            },
+            "z": 2.685
+          },
+          {
+            "name": "3 per 1,000 patient-years, risk-stratified (%)",
+            "expected": "83",
+            "observed": 86.35,
+            "tolerance": {
+              "abs": 3.122957
+            },
+            "z": 3.832
+          },
+          {
+            "name": "4 per 1,000 patient-years, conventional (%)",
+            "expected": "28",
+            "observed": 30.675,
+            "tolerance": {
+              "abs": 3.666851
+            },
+            "z": 2.534
+          },
+          {
+            "name": "4 per 1,000 patient-years, risk-stratified (%)",
+            "expected": "92",
+            "observed": 94.535,
+            "tolerance": {
+              "abs": 2.38268
+            },
+            "z": 4.039
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table6",
+      "label": "Table 6, glossary",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "Definitions of terms; nothing computed.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC1523355/table/T6/"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "text.fig1a",
+      "label": "Results: net harm below a 3% pre-treatment risk; a steep gain from 2% to 5%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "pre-treatment risk where net RRR is 0",
+            "expected": "0.03",
+            "observed": 0.03,
+            "arithmetic": 0.03
+          },
+          {
+            "name": "gain in net RRR from 2% to 5% larger than from 5% to 9%",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.design_power",
+      "label": "Methods: N = 8,800 gives 80% power to detect an RRR of 25%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "power for an RRR of 25% at the Table 1 population's average CER",
+            "expected": "0.80",
+            "observed": 0.5562,
+            "tolerance": {
+              "abs": 0.033828
+            }
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "undocumented_setting",
+        "status": "explained",
+        "summary": "The paper does not say at what control event rate N = 8,800 gives 80% power for an RRR of 25%. At the Table 1 population's average CER (2.73%) it gives 0.56; it reaches 80% at a CER of 4.8% (two-sided alpha .05, 4,400 per arm), so the claim holds for a trial whose control arm has about 5% events.",
+        "evidence": [
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The power was computed at the base-case population's average CER",
+            "test": "Simulated at that CER",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The power was computed for a trial with about 5% control events",
+            "test": "Normal-approximation power over CERs",
+            "result": "supported"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.fig1b",
+      "label": "Results: the 4-RF score beats one RF, and power falls as the population's CER rises",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "Fig. 1B: four RFs of OR 2 and prevalence 25%; the baseline risk (no RF) is set so the population's average CER is 1.5%, 3%, 6% or 9%; the one-RF analysis tests one of the four.",
+          "source": "paper",
+          "sensitivity": "The panel names the four RFs, their OR and prevalence, and the average CERs; how the average was reached is ours (baseline CER 0.625%, 1.272%, 2.629%, 4.073%)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "the 4-RF score has more power than one RF at every average CER",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "one RF: power falls as the average CER rises",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "4-RF score: power falls as the average CER rises",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.table2",
+      "label": "Results: OR 2 at 50% against 25% prevalence (.22 against .21); OR 3 at 50%, 44%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "In Table 2 the RF analysed is one of six; the other five have prevalence 25% and OR 2 (the table's footnote).",
+          "source": "paper",
+          "sensitivity": "Giving the other five the analysed RF's OR changes Table 2 to 5 of 9 within (hypotheses.table2_others_same_or)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "OR 2, prevalence 50%",
+            "expected": ".22",
+            "observed": 0.2648,
+            "tolerance": {
+              "abs": 0.034322
+            },
+            "arithmetic": 0.22
+          },
+          {
+            "name": "OR 2, prevalence 25%",
+            "expected": ".21",
+            "observed": 0.2298,
+            "tolerance": {
+              "abs": 0.033743
+            },
+            "arithmetic": 0.21
+          },
+          {
+            "name": "OR 3, prevalence 50% (%)",
+            "expected": "44",
+            "observed": 52.59,
+            "tolerance": {
+              "abs": 3.99428
+            },
+            "arithmetic": 44.0
+          },
+          {
+            "name": "prevalence 50% gives only slightly more power than 25% (OR 2)",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.table3",
+      "label": "Results: 3 RFs of 1.5 give an AUROC of 0.55; a score always beats one RF",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+          "source": "found_by_search",
+          "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; 22 of 63 printed values come back with it (hypotheses.auroc_control_arm)."
+        },
+        {
+          "what": "In Table 3 the population keeps six RFs: the index's k RFs have the column's OR and the other 6 - k have OR 2, so the 1-RF column is Table 2's 25% column, as printed. The paper does not say.",
+          "source": "our_choice",
+          "sensitivity": "A population with only the index's k RFs gives 10 of 18 within (hypotheses.table3_only_index_rfs)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "AUROC of a score of 3 RFs of 1.5",
+            "expected": "0.55",
+            "observed": 0.5555,
+            "arithmetic": 0.55
+          },
+          {
+            "name": "every score of 3 or 6 RFs has more power than one RF of the same OR",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.table4",
+      "label": "Results: perfect to reverse weighting, 82% to 69%; one RF of 2.5 alone, 37%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "perfect weighting (%)",
+            "expected": "82",
+            "observed": 87.06,
+            "tolerance": {
+              "abs": 3.173752
+            },
+            "arithmetic": 82.0
+          },
+          {
+            "name": "reverse weighting (%)",
+            "expected": "69",
+            "observed": 77.66,
+            "tolerance": {
+              "abs": 3.725886
+            },
+            "arithmetic": 69.0
+          },
+          {
+            "name": "conventional analysis of one RF with RR 2.5 (%)",
+            "expected": "37",
+            "observed": 37.84,
+            "tolerance": {
+              "abs": 3.898229
+            }
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.table5",
+      "label": "Results: power rises with the rate of treatment complications",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "conventional power rises with the complication rate",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "risk-stratified power rises with the complication rate",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.abstract",
+      "label": "Abstract: conventional analysis has at best 30% to 45% power, even for a RF of OR 3",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        },
+        {
+          "what": "In Table 2 the RF analysed is one of six; the other five have prevalence 25% and OR 2 (the table's footnote).",
+          "source": "paper",
+          "sensitivity": "Giving the other five the analysed RF's OR changes Table 2 to 5 of 9 within (hypotheses.table2_others_same_or)."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "one RF of OR 3 at prevalence 25% and 50%: power between 30% and 45%",
+            "expected": "yes",
+            "observed": "no",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "cause": {
+        "category": "unknown",
+        "status": "open",
+        "summary": "21 of 41 printed powers come back within Monte Carlo error. Of the 20 that do not, 16 are higher than the paper's and 4 lower, by up to 13 points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in 41 of 41 powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD 0.05 to 0.08 with 100,000 people, 0.16 to 0.25 with 8,800), but its size is not given.",
+        "evidence": [
+          "figure-reproduction/output/comparison.json",
+          "figure-reproduction/output/simulation.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+            "test": "Every setting rerun on the relative-risk scale",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+            "test": "Every setting rerun with a likelihood-ratio test",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Outcome and complication are independent events, not added risks",
+            "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+            "test": "Table 2 rerun with all six RFs at the column's OR",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "In Table 3 the population holds only the index's RFs",
+            "test": "Table 3 rerun without the RFs outside the index",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+            "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+            "result": "inconclusive"
+          }
+        ]
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.main_claim",
+      "label": "Main claim: a multivariable risk-stratified analysis has much more power than conventional subgroup analysis",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "assumptions": [
+        {
+          "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+          "source": "paper",
+          "sensitivity": "On the relative-risk scale 18 of 59 printed powers and AUROCs come back, against 28 of 63 on the odds scale (comparison.json, hypotheses.rr_scale)."
+        },
+        {
+          "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+          "source": "paper",
+          "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives 28 of 63 (hypotheses.harm_independent)."
+        },
+        {
+          "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+          "source": "our_choice",
+          "sensitivity": "A likelihood-ratio test gives 28 of 63; 2,000 trials, as in the paper, 34. A second run with another seed agrees with the first within the tolerance in 41 of 41 powers."
+        },
+        {
+          "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+          "source": "our_choice",
+          "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and 34 of 63 come back."
+        }
+      ],
+      "values": {
+        "fields": [
+          {
+            "name": "risk-stratified power above conventional in every paired setting (Tables 1 and 5, Fig. 1B)",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          },
+          {
+            "name": "the smallest gain is at least 20 points",
+            "expected": "yes",
+            "observed": "yes",
+            "arithmetic": "yes"
+          }
+        ],
+        "tolerance": {
+          "printed": true
+        }
+      },
+      "verdict": "exact"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables and Fig. 1A's formula",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "18 of 18 statements follow from the paper's own tables and Fig. 1A's formula. Table 1's RRR and NNT recomputed from its own CER column with Fig. 1A's formula: 2 of 9 rows come back; not: rf_absent RRR -.19 against -0.182, NNT -239 against -250; rf_present RRR .13 against 0.143, NNT 183 against 167; k0 RRR -1.59 against -1.500, NNT -88 against -89; k1 RRR -.51 against -0.500, NNT -132 against -133; k2 RRR -.02 against 0.000, NNT -1936 against infinite; k3 RRR .21 against 0.250, NNT 83 against 67; k_ge4 RRR .35 against 0.383, NNT 24 against 20"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "port",
+      "label": "The authors' simulation code",
+      "kind": "code_check",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "status": "explained",
+        "summary": "The paper names no software and released no code ('TH created the initial statistical code'; a referee reads the references as Stata). No copy was found (issue #77 lists the search). The method was rebuilt from the text as stratpower and checked against the paper's tables and figure only.",
+        "evidence": [
+          "https://github.com/jeonglab-bcm/fossil/issues/77"
+        ]
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package stratpower and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "stratpower 0.1.0: wheel installed in a fresh environment and imported from it; tests 5 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 21,
+    "exact": 4,
+    "agrees": 4,
+    "partly": 9,
+    "inconclusive": 0,
+    "differs": 2,
+    "not_attempted": 2,
+    "open_causes": 10
+  }
+}

@@ -1,0 +1,470 @@
+{
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.6.0",
+    "tag": "paper2repro-v0.6.0",
+    "commit": "77478b5feb750918304a323f96d44f5456c6fe51",
+    "modified": false
+  },
+  "paper": {
+    "id": "PMC1523355",
+    "title": "Multivariable risk prediction can greatly enhance the statistical power of clinical trial subgroup analysis",
+    "citation": "Hayward RA, Kent DM, Vijan S, Hofer TP. Multivariable risk prediction can greatly enhance the statistical power of clinical trial subgroup analysis. BMC Medical Research Methodology 6:18 (2006)",
+    "doi": "10.1186/1471-2288-6-18",
+    "license": "CC BY 2.0"
+  },
+  "run": {
+    "date": "2026-11-20",
+    "pipeline": "PMC1523355/figure-reproduction/main.nf",
+    "command": "nextflow run PMC1523355/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "1471-2288-6-18-1.jpg (Fig. 1)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1523355.1/1471-2288-6-18-1.jpg",
+        "sha256": "6fba733238396e8e437e6d826eb628e7f95a12b8d919a218571ab03189057de3"
+      },
+      {
+        "name": "PMC1523355.1.xml (article, Tables 1-5)",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1523355.1/PMC1523355.1.xml",
+        "sha256": "b4bdb4c758dc7f6cd05699b661197acc5a3fef4e8a7d56da892e8b7e95471b3b"
+      }
+    ]
+  },
+  "assumption_sets": {
+    "model": [
+      {
+        "what": "Risk factors act on the odds scale (odds ratios), for every table. Tables 2 and 3 and Fig. 1B say odds ratio; Table 4, Table 5 and the text say relative risk. Six RFs of relative risk 3.0 (Table 3) would give risks above 1, and Tables 2-5 point back to Table 1's population.",
+        "source": "paper",
+        "sensitivity": "On the relative-risk scale {rr_within} of {rr_compared} printed powers and AUROCs come back, against {or_within} of {or_compared} on the odds scale (comparison.json, hypotheses.rr_scale)."
+      },
+      {
+        "what": "Treated risk EER = CER x .5 + .003 x 5, as printed in Fig. 1A (harm counted as an outcome, added to the halved risk).",
+        "source": "paper",
+        "sensitivity": "Outcome and complication as independent events, EER = 1 - (1 - .5 CER)(1 - .003)^5, gives {harm_within} of {or_compared} (hypotheses.harm_independent)."
+      },
+      {
+        "what": "Each trial draws 4,400 people per arm with replacement from an infinite population (exact pattern shares); the interaction is tested with a Wald test; 20,000 trials per setting, our own seeds.",
+        "source": "our_choice",
+        "sensitivity": "A likelihood-ratio test gives {lr_within} of {or_compared}; 2,000 trials, as in the paper, {paper_it_within}. A second run with another seed agrees with the first within the tolerance in {own_within} of {own_cells} powers."
+      },
+      {
+        "what": "Comparison tolerance for a power: half a printed unit plus 3 combined Monte Carlo standard errors, the paper's (2,000 trials) and ours (20,000), fixed before the comparison. Other values at their printed precision.",
+        "source": "our_choice",
+        "sensitivity": "With the paper's 2,000 trials on our side too the tolerance is wider and {paper_it_within} of {or_compared} come back."
+      }
+    ],
+    "auroc": [
+      {
+        "what": "The AUROC of a risk index is that of the index for the 5-year outcome over both arms of the trial (control and treated people together), from the population. The paper says only 'from a logistic regression model'. Chosen after comparing with the control arm alone.",
+        "source": "found_by_search",
+        "sensitivity": "The control arm alone gives AUROCs 0.01 to 0.07 higher; {auroc_ctrl_within} of {or_compared} printed values come back with it (hypotheses.auroc_control_arm)."
+      }
+    ],
+    "table2": [
+      {
+        "what": "In Table 2 the RF analysed is one of six; the other five have prevalence 25% and OR 2 (the table's footnote).",
+        "source": "paper",
+        "sensitivity": "Giving the other five the analysed RF's OR changes Table 2 to {t2_same_within} of 9 within (hypotheses.table2_others_same_or)."
+      }
+    ],
+    "table3": [
+      {
+        "what": "In Table 3 the population keeps six RFs: the index's k RFs have the column's OR and the other 6 - k have OR 2, so the 1-RF column is Table 2's 25% column, as printed. The paper does not say.",
+        "source": "our_choice",
+        "sensitivity": "A population with only the index's k RFs gives {t3_only_within} of 18 within (hypotheses.table3_only_index_rfs)."
+      }
+    ],
+    "fig1b": [
+      {
+        "what": "Fig. 1B: four RFs of OR 2 and prevalence 25%; the baseline risk (no RF) is set so the population's average CER is 1.5%, 3%, 6% or 9%; the one-RF analysis tests one of the four.",
+        "source": "paper",
+        "sensitivity": "The panel names the four RFs, their OR and prevalence, and the average CERs; how the average was reached is ours (baseline CER {f1b_cer0})."
+      }
+    ],
+    "fig1a": [
+      {
+        "what": "The curve's CER range, {curve_lo} to {curve_hi}, is read from the published curve's ends.",
+        "source": "read_from_figure",
+        "sensitivity": "Moving either end by 0.001 gives a score of {range_sens_lo}% to {range_sens_hi}%, still above the 95% pass mark (figures.json, curve_range_sensitivity)."
+      }
+    ]
+  },
+  "causes": {
+    "power_gap": {
+      "category": "unknown",
+      "status": "open",
+      "summary": "{power_within} of {power_fields} printed powers come back within Monte Carlo error. Of the {miss} that do not, {miss_high} are higher than the paper's and {miss_low} lower, by up to {max_gap} points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in {own_within} of {own_cells} powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD {fp100k_sd} with 100,000 people, {fp8800_sd} with 8,800), but its size is not given.",
+      "evidence": [
+        "figure-reproduction/output/comparison.json",
+        "figure-reproduction/output/simulation.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "The RFs act on the relative-risk scale (as Table 4, Table 5 and the text say)",
+          "test": "Every setting rerun on the relative-risk scale",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "The interaction was tested by likelihood ratio, not by Wald's z",
+          "test": "Every setting rerun with a likelihood-ratio test",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "Outcome and complication are independent events, not added risks",
+          "test": "EER = 1 - (1 - .5 CER)(1 - .003)^5",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "In Table 2 the other five RFs share the analysed RF's OR",
+          "test": "Table 2 rerun with all six RFs at the column's OR",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "In Table 3 the population holds only the index's RFs",
+          "test": "Table 3 rerun without the RFs outside the index",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "Each power was estimated from trials sampled from one finite simulated population",
+          "test": "20 populations of 8,800 and 20 of 100,000 people, 2,000 trials each (Table 1 and Table 2, OR 3 at 25%)",
+          "result": "inconclusive"
+        }
+      ]
+    },
+    "table1_true": {
+      "category": "unknown",
+      "status": "open",
+      "summary": "Table 1's subgroup shares follow from six independent RFs of prevalence 25%, but its CER, RRR and NNT columns follow neither from the odds scale ({or_true_within} of 36 values), nor from the relative-risk scale ({rr_true_within} of 36), nor do its RRR and NNT follow from its own CER column with Fig. 1A's formula ({t1_arith_ok} of 18). The 0-1 and 2-or-more rows do follow from their printed CERs (1.4 and 4.4), which no population of the stated RFs gives. The columns read like rates realized in a finite simulated population, whose size and seed are not given.",
+      "evidence": [
+        "figure-reproduction/output/comparison.json",
+        "figure-reproduction/output/claims.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "Odds-ratio scale, CER 0.75% with no RF",
+          "test": "Closed-form shares, CERs, RRRs and NNTs",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "Relative-risk scale, CER 0.75% with no RF",
+          "test": "The same on the relative-risk scale",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "RRR and NNT computed from the printed CER column with EER = .5 CER + .015",
+          "test": "Recomputed from the paper's own column",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "Rates realized in a finite simulated population",
+          "test": "Not testable without the population's size and seed",
+          "result": "inconclusive"
+        }
+      ]
+    },
+    "design_power": {
+      "category": "undocumented_setting",
+      "status": "explained",
+      "summary": "The paper does not say at what control event rate N = 8,800 gives 80% power for an RRR of 25%. At the Table 1 population's average CER ({t1_mean_cer}%) it gives {design_power}; it reaches 80% at a CER of {cer_80}% (two-sided alpha .05, 4,400 per arm), so the claim holds for a trial whose control arm has about 5% events.",
+      "evidence": [
+        "figure-reproduction/output/simulation.json"
+      ],
+      "hypotheses": [
+        {
+          "hypothesis": "The power was computed at the base-case population's average CER",
+          "test": "Simulated at that CER",
+          "result": "rejected"
+        },
+        {
+          "hypothesis": "The power was computed for a trial with about 5% control events",
+          "test": "Normal-approximation power over CERs",
+          "result": "supported"
+        }
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "fig1a",
+      "label": "Fig. 1A, net RRR against pre-treatment risk",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "pixels",
+      "pixels_from": "figures.json:figures/fig1a",
+      "threshold": 0.95,
+      "assumptions_from": [
+        "fig1a"
+      ],
+      "layout": {
+        "drawn_on_published": true
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1a_ours.png",
+        "figure-reproduction/output/fig1a_overlay.png"
+      ]
+    },
+    {
+      "id": "fig1b",
+      "label": "Fig. 1B, power and AUROC of one RF and of a 4-RF score at four average CERs",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/fig1b",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "auroc",
+        "fig1b"
+      ],
+      "layout": {
+        "drawn_on_published": true
+      },
+      "outputs": [
+        "figure-reproduction/output/fig1b_ours.png",
+        "figure-reproduction/output/fig1b_overlay.png"
+      ]
+    },
+    {
+      "id": "table1.true",
+      "label": "Table 1, shares, CER, RRR and NNT of the subgroups",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table1_true",
+      "cause_from": "table1_true",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "table1.power",
+      "label": "Table 1, power of the conventional and the two risk-index analyses, and the index's AUROC",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table1_power",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "auroc"
+      ]
+    },
+    {
+      "id": "table2",
+      "label": "Table 2, power of one RF at three ORs and three prevalences",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table2",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "table2"
+      ]
+    },
+    {
+      "id": "table3",
+      "label": "Table 3, power and AUROC of scores of 1, 3 and 6 RFs at three ORs",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table3",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "auroc",
+        "table3"
+      ]
+    },
+    {
+      "id": "table4",
+      "label": "Table 4, AUROC and power of a 6-RF score under four weightings",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table4",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "auroc"
+      ]
+    },
+    {
+      "id": "table5",
+      "label": "Table 5, power of conventional and risk-stratified analysis at 1 to 4 complications per 1,000 patient-years",
+      "kind": "table",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "comparison.json:items/table5",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "table6",
+      "label": "Table 6, glossary",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "status": "explained",
+        "summary": "Definitions of terms; nothing computed.",
+        "evidence": [
+          "https://pmc.ncbi.nlm.nih.gov/articles/PMC1523355/table/T6/"
+        ]
+      }
+    },
+    {
+      "id": "text.fig1a",
+      "label": "Results: net harm below a 3% pre-treatment risk; a steep gain from 2% to 5%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_fig1a",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "text.design_power",
+      "label": "Methods: N = 8,800 gives 80% power to detect an RRR of 25%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_design_power",
+      "cause_from": "design_power",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "text.fig1b",
+      "label": "Results: the 4-RF score beats one RF, and power falls as the population's CER rises",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_fig1b",
+      "assumptions_from": [
+        "model",
+        "fig1b"
+      ]
+    },
+    {
+      "id": "text.table2",
+      "label": "Results: OR 2 at 50% against 25% prevalence (.22 against .21); OR 3 at 50%, 44%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_table2",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "table2"
+      ]
+    },
+    {
+      "id": "text.table3",
+      "label": "Results: 3 RFs of 1.5 give an AUROC of 0.55; a score always beats one RF",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_table3",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "auroc",
+        "table3"
+      ]
+    },
+    {
+      "id": "text.table4",
+      "label": "Results: perfect to reverse weighting, 82% to 69%; one RF of 2.5 alone, 37%",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_table4",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "text.table5",
+      "label": "Results: power rises with the rate of treatment complications",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_table5",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "text.abstract",
+      "label": "Abstract: conventional analysis has at best 30% to 45% power, even for a RF of OR 3",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_abstract",
+      "cause_from": "power_gap",
+      "assumptions_from": [
+        "model",
+        "table2"
+      ]
+    },
+    {
+      "id": "text.main_claim",
+      "label": "Main claim: a multivariable risk-stratified analysis has much more power than conventional subgroup analysis",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "fields_from": "claims.json:text_main_claim",
+      "assumptions_from": [
+        "model"
+      ]
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "Claims recomputed from the paper's own tables and Fig. 1A's formula",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check_from": "claims.json"
+    },
+    {
+      "id": "port",
+      "label": "The authors' simulation code",
+      "kind": "code_check",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "proprietary_software",
+        "status": "explained",
+        "summary": "The paper names no software and released no code ('TH created the initial statistical code'; a referee reads the references as Stata). No copy was found (issue #77 lists the search). The method was rebuilt from the text as stratpower and checked against the paper's tables and figure only.",
+        "evidence": [
+          "https://github.com/jeonglab-bcm/fossil/issues/77"
+        ]
+      }
+    },
+    {
+      "id": "package",
+      "label": "Python package stratpower and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "check_from": "package.json",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ]
+    }
+  ],
+  "page": {
+    "lede": "Hayward, Kent, Vijan and Hofer simulated thousands of clinical trials in 2006 and released no code. In November 2026 we rebuilt the simulation from the paper and reran every setting. Of {attempted} results we tried, {exact_agrees} agree, {partly} partly agree and {differs} {differs_verb}. The main claim came back.",
+    "claims_line": "The main claim holds: in every setting the risk-stratified analysis has far more power than the one-RF analysis. The claims that do not match come from one open cause: where the heterogeneity is large, most of our powers are higher than the paper's."
+  }
+}
