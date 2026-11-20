@@ -144,6 +144,20 @@ def main():
                                         "rms_z": score(rows, cells, q)["rms_z"],
                                         "by_model": {k: {"within": v[0], "fields": v[1]} for k, v in by_model.items()}}}
         doc["replicate"][t] = score(rows, cells2, q)
+        if t == "table1":   # by Fig. 1 panel (confounder form and association level)
+            groups = {}
+            for row in rows:
+                for col, printed in row["cells"].items():
+                    o, se = ours(cells, row, col, q)
+                    o2, _ = ours(cells2, row, col, q)
+                    s_ = math.hypot(math.sqrt(2) * se, 10 ** -decimals(printed) / math.sqrt(12))
+                    g = groups.setdefault("|".join(col.split("|")[:2]), {"paper": [], "second": []})
+                    g["paper"].append((o - float(printed)) / s_)
+                    g["second"].append((o2 - o) / (math.sqrt(2) * se))
+            doc["tables"][t]["summary"]["rms_z_by_panel"] = {
+                k: {"ours_vs_paper": round(math.sqrt(sum(z * z for z in v["paper"]) / len(v["paper"])), 3),
+                    "second_vs_ours": round(math.sqrt(sum(z * z for z in v["second"]) / len(v["second"])), 3), "cells": len(v["paper"])}
+                for k, v in groups.items()}
         other = R["main"]["n500" if n == "1500" else "n1500"]
         doc["controls"][t] = {
             f"our n = {'500' if n == '1500' else '1500'} run (the other sample size)": score(rows, other, q),

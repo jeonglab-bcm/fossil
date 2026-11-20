@@ -80,9 +80,9 @@ def main():
     passed = (agg["rp_coef_max_diff"] < 1e-8 and agg["rp_se_max_rel_diff"] < 1e-6 and agg["lb_coef_max_diff"] < 1e-5
               and agg["lb_loglik_min_gain"] > -1e-8 and agg["lb_score_max"] < 1e-4)
     detail = (f"{agg['fits']} contaminated data sets ({agg['copy_fits']} COPY fits): robust Poisson coefficients equal "
-              f"statsmodels' to {agg['rp_coef_max_diff']:.0e} and the sandwich SE its HC0 SE to a relative {agg['rp_se_max_rel_diff']:.0e}; "
-              f"log-binomial coefficients equal an independent maximizer's to {agg['lb_coef_max_diff']:.0e}, with a likelihood "
-              f"at least as high (to {abs(agg['lb_loglik_min_gain']):.0e}) and a score of at most {agg['lb_score_max']:.0e}")
+              f"statsmodels' to {agg['rp_coef_max_diff']:.1e} and the sandwich SE its HC0 SE to a relative {agg['rp_se_max_rel_diff']:.1e}; "
+              f"log-binomial coefficients equal an independent maximizer's to {agg['lb_coef_max_diff']:.1e}, with a likelihood "
+              f"at least as high (to {abs(agg['lb_loglik_min_gain']):.1e}) and a score of at most {agg['lb_score_max']:.1e}")
     json.dump({"passed": passed, "detail": detail, **agg, "fits_detail": rows}, open(out, "w"), indent=1)
     open(out, "a").write("\n")
     print(("passed: " if passed else "FAILED: ") + detail, file=sys.stderr)

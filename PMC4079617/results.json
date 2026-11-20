@@ -327,7 +327,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -347,7 +347,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -1686,7 +1686,7 @@
       "cause": {
         "category": "metric_resolution",
         "status": "explained",
-        "summary": "Ours scores 0.958 against a pass mark of 0.95; the best wrong input scores 0.175 and the best near miss 0.736. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.741 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.983, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells.",
+        "summary": "Ours scores 0.958 against a pass mark of 0.95; the best wrong input scores 0.175 and the best near miss 0.736. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.741 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.983, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 0.43 from the paper's, where our two runs sit at 0.84 from each other.",
         "evidence": [
           "figure-reproduction/output/figure.json",
           "figure-reproduction/output/comparison.json"
@@ -1708,7 +1708,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -1728,7 +1728,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -1793,7 +1793,7 @@
       "cause": {
         "category": "metric_resolution",
         "status": "explained",
-        "summary": "Ours scores 0.684 against a pass mark of 0.95; the best wrong input scores 0.156 and the best near miss 0.568. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.736 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.970, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells.",
+        "summary": "Ours scores 0.684 against a pass mark of 0.95; the best wrong input scores 0.156 and the best near miss 0.568. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.736 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.970, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 1.05 from the paper's, where our two runs sit at 1.22 from each other.",
         "evidence": [
           "figure-reproduction/output/figure.json",
           "figure-reproduction/output/comparison.json"
@@ -1815,7 +1815,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -1835,7 +1835,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -1900,7 +1900,7 @@
       "cause": {
         "category": "metric_resolution",
         "status": "explained",
-        "summary": "Ours scores 0.413 against a pass mark of 0.95; the best wrong input scores 0.148 and the best near miss 0.513. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.674 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.954, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells.",
+        "summary": "Ours scores 0.413 against a pass mark of 0.95; the best wrong input scores 0.148 and the best near miss 0.513. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.674 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.954, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 1.36 from the paper's, where our two runs sit at 1.12 from each other.",
         "evidence": [
           "figure-reproduction/output/figure.json",
           "figure-reproduction/output/comparison.json"
@@ -1922,7 +1922,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -1942,7 +1942,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -2007,7 +2007,7 @@
       "cause": {
         "category": "metric_resolution",
         "status": "explained",
-        "summary": "Ours scores 0.886 against a pass mark of 0.95; the best wrong input scores 0.092 and the best near miss 0.838. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.714 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.956, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells.",
+        "summary": "Ours scores 0.886 against a pass mark of 0.95; the best wrong input scores 0.092 and the best near miss 0.838. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.714 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.956, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 0.55 from the paper's, where our two runs sit at 0.70 from each other.",
         "evidence": [
           "figure-reproduction/output/figure.json",
           "figure-reproduction/output/comparison.json"
@@ -2029,7 +2029,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -2049,7 +2049,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -2120,7 +2120,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -2140,7 +2140,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -3473,7 +3473,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -3493,7 +3493,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -4817,7 +4817,7 @@
           {
             "field": "RR 2.0, 25%, 5%: linear strong, LB",
             "category": "paper_error",
-            "evidence": "The paper prints 0.013. Its own Tables 1 and 2 give this cell a relative bias of -23.7% and an SE of 0.09, which make an MSE of 0.0351 (computed in comparison.json, consistency); the robust Poisson cell next to it prints 0.035. Ours is 0.0357 (second run 0.0341). 141 of the 144 MSEs of Table 3 agree with the paper's own bias and SE at their printed precision; besides this one, RR 1.5, 25%, 0%: linear moderate, LB prints 0.008 against 0.0090 to 0.0110; RR 1.5, 25%, 0%: linear moderate, RP prints 0.008 against 0.0090 to 0.0110; RR 2.0, 10%, 2%: non-linear moderate, RP prints 0.082 against 0.0749 to 0.0803."
+            "evidence": "The paper prints 0.013. Its own Tables 1 and 2 give this cell a relative bias of -23.7% and an SE of 0.09, which make an MSE of 0.0351 (computed in comparison.json, consistency); the robust Poisson cell next to it prints 0.035. Ours is 0.0357 (second run 0.0341). 141 of the 144 MSEs of Table 3 agree with the paper's own bias and SE at their printed precision. Besides this one, 2 more do not (RR 1.5, 25%, 0%: linear moderate, LB prints 0.008 against 0.0090 to 0.0110; RR 1.5, 25%, 0%: linear moderate, RP prints 0.008 against 0.0090 to 0.0110); ours is within tolerance of the printed value in each."
           }
         ]
       },
@@ -4833,7 +4833,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -4853,7 +4853,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -6186,7 +6186,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -6206,7 +6206,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -7539,7 +7539,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -7559,7 +7559,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -8892,7 +8892,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -8912,7 +8912,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -8955,7 +8955,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -8975,7 +8975,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9024,7 +9024,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9044,7 +9044,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9110,7 +9110,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9130,7 +9130,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9185,7 +9185,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9205,7 +9205,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9244,7 +9244,7 @@
           {
             "field": "Table 2, 0% rows: LB and RP SEs equal at the 2nd decimal in all 24 pairs",
             "category": "paper_error",
-            "evidence": "The paper's own Table 2 prints 0.06 and 0.07 for RR 1.5, outcome 40%, 0%, linear strong. Our largest unrounded difference over the 24 pairs is 0.0009: two SEs that close can round to different second decimals, so the statement holds in substance and the printed table breaks it by rounding. Ours breaks it the same way."
+            "evidence": "The paper's own Table 2 prints 0.06 and 0.07 for RR 1.5, outcome 40%, 0%, linear strong. Our largest unrounded difference over the 24 pairs is 0.0009: two SEs that close can round to different second decimals, so the statement holds in substance and the printed table breaks it by rounding. Ours breaks it at another pair, also by rounding."
           }
         ]
       },
@@ -9260,7 +9260,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9280,7 +9280,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9329,7 +9329,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9349,7 +9349,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9398,7 +9398,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9418,7 +9418,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9467,7 +9467,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9487,7 +9487,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9583,7 +9583,7 @@
         {
           "what": "Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%)",
           "source": "found_by_search",
-          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the means where they are (Table 1 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination: Table 2 89, Table A1 92, Table A2 87 of 96 contaminated cells within tolerance, against 96, 96 and 96 with population cut-offs."
+          "sensitivity": "Two readings tested on every contaminated cell. Flipping exactly ceil(n rate/2) records per tail in every data set (76 at 5%, n = 1500) leaves the n = 1500 means where they are (Table 1: 96 of 96 within tolerance) but makes the SEs too small at outcome 10% and 5% contamination (Table 2: 89 of 96, Table A2: 87 of 96 within tolerance, against 96 and 96 with population cut-offs), and at n = 500 it moves the biases of RR 2.0, outcome 10%, non-linear strong (Table A1: 92 of 96, against 96)."
         },
         {
           "what": "Both tails are flipped (2%: the bottom 1% and the top 1% of p_y)",
@@ -9603,7 +9603,7 @@
         {
           "what": "The log-binomial fit reported is the maximum likelihood fit when it lies inside the parameter space, else the COPY fit with C = 1,000,000 (weights C on the data, 1 on the data with the outcome reversed); our solver is Newton's method with a line search, not SAS GENMOD",
           "source": "paper",
-          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06."
+          "sensitivity": "When the maximum is interior the COPY fit equals it to O(1/C), so the switching rule does not move the estimates. Our fits equal an independent maximizer's: 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06."
         },
         {
           "what": "Random numbers: NumPy's PCG64 with fixed seeds per scenario; the paper's SAS seeds are not given",
@@ -9684,7 +9684,7 @@
       "method": "check",
       "check": {
         "passed": true,
-        "detail": "60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06"
+        "detail": "60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06"
       },
       "verdict": "agrees"
     },

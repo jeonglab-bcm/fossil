@@ -20,10 +20,10 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4079617/>
 | --- | --- | --- | --- |
 | Additional file 1, the 24 scenarios: exposure 50% and outcome 10, 25 or 40% | exact | 48 of 48 fields as printed |  |
 | Table 1, relative bias (%) of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 144 of 144 fields as printed | Assumed: Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%) |
-| Fig. 1A, relative bias, linear Z, moderate association (n = 1500) | agrees | 95.79% within 2.0 px (pass 95.0%, best control 73.6%) | Ours scores 0.958 against a pass mark of 0.95; the best wrong input scores 0.175 and the best near miss 0.736. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.741 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.983, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells. |
-| Fig. 1B, relative bias, linear Z, strong association (n = 1500) | partly | 68.37% within 2.0 px (pass 95.0%, best control 56.8%) | Ours scores 0.684 against a pass mark of 0.95; the best wrong input scores 0.156 and the best near miss 0.568. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.736 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.970, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells. |
-| Fig. 1C, relative bias, non-linear Z, moderate association (n = 1500) | inconclusive | 41.30% within 2.0 px (pass 95.0%, best control 51.3%) | Ours scores 0.413 against a pass mark of 0.95; the best wrong input scores 0.148 and the best near miss 0.513. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.674 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.954, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells. |
-| Fig. 1D, relative bias, non-linear Z, strong association (n = 1500) | partly | 88.57% within 2.0 px (pass 95.0%, best control 83.8%) | Ours scores 0.886 against a pass mark of 0.95; the best wrong input scores 0.092 and the best near miss 0.838. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.714 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.956, so the drawing and the frame are right. The values behind the panel are Table 1, which comes back at 144 of 144 cells. |
+| Fig. 1A, relative bias, linear Z, moderate association (n = 1500) | agrees | 95.79% within 2.0 px (pass 95.0%, best control 73.6%) | Ours scores 0.958 against a pass mark of 0.95; the best wrong input scores 0.175 and the best near miss 0.736. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.741 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.983, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 0.43 from the paper's, where our two runs sit at 0.84 from each other. |
+| Fig. 1B, relative bias, linear Z, strong association (n = 1500) | partly | 68.37% within 2.0 px (pass 95.0%, best control 56.8%) | Ours scores 0.684 against a pass mark of 0.95; the best wrong input scores 0.156 and the best near miss 0.568. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.736 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.970, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 1.05 from the paper's, where our two runs sit at 1.22 from each other. |
+| Fig. 1C, relative bias, non-linear Z, moderate association (n = 1500) | inconclusive | 41.30% within 2.0 px (pass 95.0%, best control 51.3%) | Ours scores 0.413 against a pass mark of 0.95; the best wrong input scores 0.148 and the best near miss 0.513. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.674 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.954, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 1.36 from the paper's, where our two runs sit at 1.12 from each other. |
+| Fig. 1D, relative bias, non-linear Z, strong association (n = 1500) | partly | 88.57% within 2.0 px (pass 95.0%, best control 83.8%) | Ours scores 0.886 against a pass mark of 0.95; the best wrong input scores 0.092 and the best near miss 0.838. At 2 px a pixel score cannot resolve Monte Carlo noise: one point of relative bias is 4.62 px, and the Monte Carlo SE of a 1,000-replicate relative bias is 0.3 to 1.3 points. Two runs of our own simulation with different seeds score only 0.714 against each other in this panel, while the paper's own Table 1 drawn with the same code scores 0.956, so the drawing and the frame are right. The values behind the panel are Table 1: its 36 values for this panel are each within tolerance and sit at an RMS z of 0.55 from the paper's, where our two runs sit at 0.70 from each other. |
 | Fig. 1 draws Table 1 (the published vertices read back) | agrees | 121 of the 123 vertices of Fig. 1 that can be read (of 144) lie within 1 point of Table 1 as printed; largest difference 1.09 points |  |
 | Table 2, empirical SE of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 144 of 144 fields as printed | Assumed: Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%) |
 | Table 3, MSE of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 143 of 143 fields as printed, 1 paper errors | Assumed: Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%) |
@@ -43,20 +43,20 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4079617/>
 | Main claim: comparable models with a linear Z; robust Poisson less biased with a quadratic Z from 2% contamination on | agrees | 2 of 2 fields as printed | Assumed: Contamination flips the outcome of the records whose true p_y lies beyond the population's rate/2 and 1 - rate/2 quantiles of p_y (computed exactly for each scenario), so the number flipped varies between data sets (74.9 on average at 5% and n = 1500, SD 8.5). The paper says only 'p_y at bottom or top 1%' (2.5% for 5%) |
 | Discussion: results cited from Petersen and Deddens (three decimals with 10,000 copies; 70% to 100% convergence) | not attempted | not attempted | Results of another paper, quoted in the Discussion; this paper does not compute them. |
 | Each statement of the text recomputed from the paper's own tables | agrees | 18 of 19 statements follow from the paper's own tables. Not: text.se_uncontaminated: Table 2, 0% rows: LB and RP SEs equal at the 2nd decimal in all 24 pairs (yes against no). |  |
-| robustrr's fits against statsmodels and an independent maximizer | agrees | 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06 |  |
+| robustrr's fits against statsmodels and an independent maximizer | agrees | 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06 |  |
 | The authors' SAS 9.2 program and COPY macro | not attempted | not attempted | The simulation program was never released, and the revised COPY macro of Petersen and Deddens is not online (its NIOSH page answers 403). Both are SAS, which no free runtime runs. The method is implemented from the paper's text and checked against its printed tables. |
 | Python package robustrr and its tutorial | agrees | robustrr 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |  |
 <!--/RESULTS-TABLE-->
 
 <!--CLAIMS-LINE-->
-The main claim holds. Every claim about bias, SE and MSE holds on our run. The one table cell that misses is a misprint in Table 3 (0.013 where the paper's own bias and SE give 0.0351), and the convergence count of the Discussion belongs to SAS's optimizer, which we cannot run.
+The main claim holds. Every statement about bias, SE and MSE holds on our run but one, which the paper's own Table 2 breaks as well: without contamination the two SEs differ by less than 0.0009, yet can round to different second decimals. The one table cell that misses is a misprint in Table 3 (0.013 where the paper's own bias and SE give 0.0351), and the convergence count of the Discussion belongs to SAS's optimizer, which we cannot run.
 <!--/CLAIMS-LINE-->
 
 ## What the code does, against the paper
 
 | Paper | Here |
 | --- | --- |
-| Z ~ Beta(6, 2); logit(p_x) = alpha0 + alpha1 Z; log(p_y) = beta0 + beta1 X + beta2 Z (+ 0.5 beta2 Z² for a quadratic confounder); beta1 = log RR; alpha1 = beta2 = log 2 or log 4 (Methods) | `robustrr.generate`: as printed. The main text writes "beta2 = alpha1" where the design means a1 = beta2. |
+| Z ~ Beta(6, 2); logit(p_x) = alpha0 + alpha1 Z; log(p_y) = beta0 + beta1 X + beta2 Z (+ 0.5 beta2 Z² for a quadratic confounder); beta1 = log RR; alpha1 = beta2 = log 2 or log 4 (Methods) | `robustrr.generate`: as printed. |
 | alpha0 and beta0 of the 24 scenarios (Additional file 1), "searched iteratively" to give 50% exposure and 10, 25 or 40% outcome | The printed values. Quadrature over Z confirms the rates (`design` in `results.json`); the largest p_y of any scenario is below 1, so the paper needs no rule for p_y > 1. |
 | Contamination: flip Y for "records with p_y at bottom or top 1%" (2%), "bottom or top 2.5%" (5%) | Records whose true p_y is beyond the population's 1% and 99% (2.5% and 97.5%) quantiles are flipped (`robustrr.population_cutoffs`, exact by quadrature), so how many are flipped varies between data sets. Found from the SEs: see below. |
 | Robust Poisson: Poisson GLM with the sandwich variance (PROC GENMOD, REPEATED) | `robustrr.poisson_coef` / `robust_poisson`: Newton's method; HC0 sandwich. The tables use only the point estimates, so the working correlation does not matter. |
@@ -70,35 +70,35 @@ The main claim holds. Every claim about bias, SE and MSE holds on our run. The o
 
 The Methods do not say whether "p_y at bottom or top 1%" means a fixed share of each data set or fixed cut-offs of
 p_y. A first run flipped exactly ceil(n x rate/2) records per tail in every data set. Its relative biases matched
-Table 1, but at outcome 10% and 5% contamination its SEs were too small, in both runs, by more than Monte Carlo error
-allows. Flipping the records beyond fixed cut-offs gives the same means and the larger spread the paper prints. Each
+Table 1, but at outcome 10% and 5% contamination its SEs were too small, at both sample sizes, by more than Monte Carlo
+error allows. Flipping the records beyond fixed cut-offs gives the same means and the larger spread the paper prints. Each
 reading was scored on the same seeds (`hypotheses` in `output/comparison.json`); counts are of the cells each
 variant changes, within tolerance:
 
 <!--HYPOTHESES-->
-| Variant | Table | Variant within | Main reading within | RMS z, variant / main |
-| --- | --- | --- | --- | --- |
-| a fixed ceil(n rate/2) records per tail in every data set | table1 | 96 of 96 | 96 of 96 | 0.97 / 0.90 |
-| a fixed ceil(n rate/2) records per tail in every data set | table2 | 89 of 96 | 96 of 96 | 1.69 / 0.92 |
-| a fixed ceil(n rate/2) records per tail in every data set | table3 | 95 of 96 | 95 of 96 | 1.99 / 1.81 |
-| the same at n = 500 | tableA1 | 92 of 96 | 96 of 96 | 1.53 / 1.15 |
-| the same at n = 500 | tableA2 | 87 of 96 | 96 of 96 | 2.19 / 1.28 |
-| the same at n = 500 | tableA3 | 95 of 96 | 96 of 96 | 1.34 / 1.27 |
-| a fixed floor(n rate/2) per tail (against the fixed ceil) | table1 | 48 of 48 | 48 of 48 | 0.96 / 1.03 |
-| a fixed floor(n rate/2) per tail (against the fixed ceil) | table2 | 42 of 48 | 42 of 48 | 1.97 / 2.02 |
-| a fixed floor(n rate/2) per tail (against the fixed ceil) | table3 | 47 of 48 | 47 of 48 | 2.65 / 2.56 |
-| the whole rate at the bottom of p_y | table1 | 3 of 96 | 96 of 96 | 49.14 / 0.90 |
-| the whole rate at the bottom of p_y | table2 | 94 of 96 | 96 of 96 | 1.50 / 0.92 |
-| the whole rate at the bottom of p_y | table3 | 7 of 96 | 95 of 96 | 31.94 / 1.81 |
-| the whole rate at the top of p_y | table1 | 0 of 96 | 96 of 96 | 49.75 / 0.90 |
-| the whole rate at the top of p_y | table2 | 85 of 96 | 96 of 96 | 2.12 / 0.92 |
-| the whole rate at the top of p_y | table3 | 19 of 96 | 95 of 96 | 19.00 / 1.81 |
-| a fixed number ranked by fitted p_y | table1 | 85 of 96 | 96 of 96 | 2.22 / 0.90 |
-| a fixed number ranked by fitted p_y | table2 | 85 of 96 | 96 of 96 | 2.07 / 0.92 |
-| a fixed number ranked by fitted p_y | table3 | 79 of 96 | 95 of 96 | 3.15 / 1.81 |
-| Z^2 left out of the fitted models (non-linear columns) | table1 | 50 of 72 | 72 of 72 | 3.89 / 1.04 |
-| Z^2 left out of the fitted models (non-linear columns) | table2 | 71 of 72 | 72 of 72 | 1.20 / 0.94 |
-| Z^2 left out of the fitted models (non-linear columns) | table3 | 56 of 72 | 72 of 72 | 3.95 / 0.94 |
+| Variant | Table | Variant within | Compared with | That reading within | RMS z, variant / that reading |
+| --- | --- | --- | --- | --- | --- |
+| a fixed ceil(n rate/2) records per tail in every data set | table1 | 96 of 96 | the main reading | 96 of 96 | 0.97 / 0.90 |
+| a fixed ceil(n rate/2) records per tail in every data set | table2 | 89 of 96 | the main reading | 96 of 96 | 1.69 / 0.92 |
+| a fixed ceil(n rate/2) records per tail in every data set | table3 | 95 of 96 | the main reading | 95 of 96 | 1.99 / 1.81 |
+| the same at n = 500 | tableA1 | 92 of 96 | the main reading | 96 of 96 | 1.53 / 1.15 |
+| the same at n = 500 | tableA2 | 87 of 96 | the main reading | 96 of 96 | 2.19 / 1.28 |
+| the same at n = 500 | tableA3 | 95 of 96 | the main reading | 96 of 96 | 1.34 / 1.27 |
+| a fixed floor(n rate/2) per tail (against the fixed ceil) | table1 | 48 of 48 | the fixed ceil reading | 48 of 48 | 0.96 / 1.03 |
+| a fixed floor(n rate/2) per tail (against the fixed ceil) | table2 | 42 of 48 | the fixed ceil reading | 42 of 48 | 1.97 / 2.02 |
+| a fixed floor(n rate/2) per tail (against the fixed ceil) | table3 | 47 of 48 | the fixed ceil reading | 47 of 48 | 2.65 / 2.56 |
+| the whole rate at the bottom of p_y | table1 | 3 of 96 | the main reading | 96 of 96 | 49.14 / 0.90 |
+| the whole rate at the bottom of p_y | table2 | 94 of 96 | the main reading | 96 of 96 | 1.50 / 0.92 |
+| the whole rate at the bottom of p_y | table3 | 7 of 96 | the main reading | 95 of 96 | 31.94 / 1.81 |
+| the whole rate at the top of p_y | table1 | 0 of 96 | the main reading | 96 of 96 | 49.75 / 0.90 |
+| the whole rate at the top of p_y | table2 | 85 of 96 | the main reading | 96 of 96 | 2.12 / 0.92 |
+| the whole rate at the top of p_y | table3 | 19 of 96 | the main reading | 95 of 96 | 19.00 / 1.81 |
+| a fixed number ranked by fitted p_y | table1 | 85 of 96 | the main reading | 96 of 96 | 2.22 / 0.90 |
+| a fixed number ranked by fitted p_y | table2 | 85 of 96 | the main reading | 96 of 96 | 2.07 / 0.92 |
+| a fixed number ranked by fitted p_y | table3 | 79 of 96 | the main reading | 95 of 96 | 3.15 / 1.81 |
+| Z^2 left out of the fitted models (non-linear columns) | table1 | 50 of 72 | the main reading | 72 of 72 | 3.89 / 1.04 |
+| Z^2 left out of the fitted models (non-linear columns) | table2 | 71 of 72 | the main reading | 72 of 72 | 1.20 / 0.94 |
+| Z^2 left out of the fitted models (non-linear columns) | table3 | 56 of 72 | the main reading | 72 of 72 | 3.95 / 0.94 |
 <!--/HYPOTHESES-->
 
 ## Comparing Monte Carlo tables
@@ -110,15 +110,31 @@ log RR) for the relative bias, SD/√(2 x 999) for the SE, and the SD of the squ
 The text's statements are recomputed first from the paper's own tables (`arithmetic` in `output/claims.json`),
 then from our run.
 
-How good is that test? Our second run, as if it were the paper, passes in nearly every cell (`replicate`). Our run
-of a wrong design (the other sample size, the linear and non-linear columns swapped, the RR rows swapped) passes far
-fewer (`controls`); the relative bias barely depends on n, so for Tables 1 and A1 only the swapped designs tell the
-designs apart, while the SEs and MSEs separate the sample sizes completely.
+How good is that test? Our second run, as if it were the paper, and our run of a wrong design (the other sample
+size, the linear and non-linear columns swapped, the RR rows swapped) are scored the same way (`replicate` and
+`controls`):
+
+<!--CONTROLS-->
+Cells of 144 within tolerance:
+
+| Table | Our run of the other sample size | Linear and non-linear columns swapped | RR rows swapped | Our run (the right design) | Our second run |
+| --- | --- | --- | --- | --- | --- |
+| Table 1 | 144 | 67 | 97 | 144 | 144 |
+| Table 2 | 0 | 139 | 144 | 144 | 144 |
+| Table 3 | 0 | 83 | 54 | 143 | 143 |
+| Table A1 | 140 | 101 | 114 | 144 | 144 |
+| Table A2 | 0 | 142 | 142 | 144 | 144 |
+| Table A3 | 0 | 105 | 77 | 144 | 144 |
+<!--/CONTROLS-->
+
+The relative bias barely depends on n, so Tables 1 and A1 tell the designs apart only by their columns and rows; the
+SEs depend mostly on n and the outcome rate, so Tables 2 and A2 tell the sample sizes apart and little else. The MSE
+tables separate every wrong design.
 
 Table 3 prints 0.013 for RR 2.0, outcome 25%, 5%, linear strong, log-binomial. The paper's own bias and SE for that
 cell (Tables 1 and 2) give 0.035, and the robust Poisson cell next to it prints 0.035; it is a misprint, left out
-as a `paper_error`. Three more MSEs of the paper disagree with its own bias and SE at the printed precision
-(`consistency` in `output/comparison.json`); ours matches the printed value in each.
+as a `paper_error`. A few more MSEs of the paper, in Tables 3 and A3, disagree with its own bias and SE at the printed precision
+(`consistency` in `output/comparison.json`); ours is within tolerance of the printed value in each.
 
 ## Fig. 1
 
@@ -127,7 +143,9 @@ Our Table 1 is drawn on a copy of the published picture with the published lines
 width, colours and dash pattern (`output/fig1_ours.png`; overlay in green, `output/fig1_overlay.png`; one crop per
 panel). Each panel is scored both ways at 2 px with wrong-input and near-miss controls. A 2 px test cannot resolve
 Monte Carlo noise here: two of our own runs score only about 0.7 against each other, while the paper's Table 1 drawn
-with the same code scores 0.95 or more. So Fig. 1's verdicts rest on the pixels, and its numbers on Table 1.
+with the same code scores 0.95 or more. Panel A passes; B and D fall short, and C scores below a near miss, so
+it is inconclusive. Their verdicts rest on the pixels, and their numbers on Table 1, where every value is within
+tolerance.
 
 ## Layout
 
@@ -153,8 +171,8 @@ pip install -r PMC4079617/figure-reproduction/requirements.txt ./PMC4079617/pack
 nextflow run PMC4079617/figure-reproduction/main.nf --outdir results
 ```
 
-The whole run takes about 8 minutes on 4 cores, nearly all of it the simulation study (204 scenario runs plus
-the variants); `--jobs N` sets the number of processes. `.github/workflows/reproduce-pmc4079617.yml` runs it on
+The whole run takes about 8 minutes on 4 cores, nearly all of it the simulation study; `--jobs N` sets the number
+of processes. `.github/workflows/reproduce-pmc4079617.yml` runs it on
 every pull request that touches this paper.
 
 ## Pipeline steps
@@ -175,5 +193,5 @@ every pull request that touches this paper.
 - **The SAS code and the COPY macro are lost.** The method is rebuilt from the paper's text and checked against its tables (`port` is not attempted); the fits are checked against statsmodels and an independent maximizer.
 - **The contamination rule was found from the tables**, not read from the paper (`found_by_search`), so no simulated item can be "exact".
 - **Convergence.** Every fit of ours converges; the paper's count of SAS failures (18 non-linear scenarios) belongs to GENMOD's optimizer and is left open.
-- **Fig. 1 at 2 px.** The pixel test cannot tell Monte Carlo noise from a wrong curve; panel B, C and D verdicts reflect that limit, not a gap in the numbers.
+- **Fig. 1 at 2 px.** The pixel test cannot tell Monte Carlo noise from a wrong curve; the verdicts of panels B, C and D reflect that limit. Their values are Table 1's, each within tolerance.
 - **Monte Carlo error.** Every simulated cell carries it; the tolerance allows for it.

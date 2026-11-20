@@ -42,9 +42,11 @@ R = json.load(open(paper / "results.json"))
 F = facts_of(paper / "figure-reproduction" / "output")
 sm = R["summary"]
 mv = main_verdict(R)
-claim_line = (f"The main claim {mv}. Every claim about bias, SE and MSE holds on our run. The one table cell that misses "
-              f"is a misprint in Table 3 (0.013 where the paper's own bias and SE give {F['typo_implied']}), and the "
-              f"convergence count of the Discussion belongs to SAS's optimizer, which we cannot run.")
+claim_line = (f"The main claim {mv}. Every statement about bias, SE and MSE holds on our run but one, which the paper's own "
+              f"Table 2 breaks as well: without contamination the two SEs differ by less than {F['se0_diff']}, yet can round to "
+              f"different second decimals. The one table cell that misses is a misprint in Table 3 (0.013 where the paper's own "
+              f"bias and SE give {F['typo_implied']}), and the convergence count of the Discussion belongs to SAS's optimizer, "
+              f"which we cannot run.")
 put(paper / "README.md", "RESULTS-SUMMARY", summary + "\n\n" + "\n".join(short))
 put(paper / "figure-reproduction" / "README.md", "RESULTS-TABLE", summary + "\n\n" + "\n".join(lines))
 put(paper / "figure-reproduction" / "README.md", "CLAIMS-LINE", claim_line)
@@ -54,13 +56,21 @@ WHAT = {"sample": "a fixed ceil(n rate/2) records per tail in every data set", "
         "floor": "a fixed floor(n rate/2) per tail (against the fixed ceil)", "bottom": "the whole rate at the bottom of p_y",
         "top": "the whole rate at the top of p_y", "fitted": "a fixed number ranked by fitted p_y",
         "noquad": "Z^2 left out of the fitted models (non-linear columns)"}
-hy = ["| Variant | Table | Variant within | Main reading within | RMS z, variant / main |", "| --- | --- | --- | --- | --- |"]
+hy = ["| Variant | Table | Variant within | Compared with | That reading within | RMS z, variant / that reading |",
+      "| --- | --- | --- | --- | --- | --- |"]
 for name, tabs in H.items():
     for t, s_ in tabs.items():
-        base = s_.get("sample_run", s_["main_run"])
-        hy.append(f"| {WHAT[name]} | {t} | {s_['within']} of {s_['fields']} | {base['within']} of {base['fields']} | "
+        base, who = (s_["sample_run"], "the fixed ceil reading") if "sample_run" in s_ else (s_["main_run"], "the main reading")
+        hy.append(f"| {WHAT[name]} | {t} | {s_['within']} of {s_['fields']} | {who} | {base['within']} of {base['fields']} | "
                   f"{s_['rms_z']:.2f} / {base['rms_z']:.2f} |")
 put(paper / "figure-reproduction" / "README.md", "HYPOTHESES", "\n".join(hy))
+C = json.load(open(paper / "figure-reproduction" / "output" / "comparison.json"))
+ct = ["| Table | Our run of the other sample size | Linear and non-linear columns swapped | RR rows swapped | Our run (the right design) | Our second run |",
+      "| --- | --- | --- | --- | --- | --- |"]
+for t, d in C["controls"].items():
+    ct.append(f"| {C['tables'][t]['label']} | " + " | ".join(f"{v['within']}" for v in d.values())
+              + f" | {C['replicate'][t]['within']} |")
+put(paper / "figure-reproduction" / "README.md", "CONTROLS", "Cells of 144 within tolerance:\n\n" + "\n".join(ct))
 put(paper / "package" / "README.md", "CHECKS",
     f"{F['within']} of {F['cells']} printed cells of Tables 1-3 and A1-A3 within Monte Carlo error (the miss is a "
     f"misprint of the paper), and its fits against statsmodels and an independent maximizer ({F['x_detail']}).", inline=True)
@@ -68,7 +78,7 @@ status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {s
           f"{sm['differs']} differ, {sm['not_attempted']} not attempted (`results.json`): the SAS simulation rebuilt as "
           f"`robustrr` and rerun; {F['within']} of {F['cells']} printed cells of Tables 1-3 and A1-A3 within Monte Carlo "
           f"error, the miss a misprint; the contamination cut-offs found from the SEs; Fig. 1A on the published lines, "
-          f"B-D within Monte Carlo noise; main claim {mv}")
+          f"B-D not resolved by a 2 px test, their values within tolerance; main claim {mv}")
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 
 # The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.

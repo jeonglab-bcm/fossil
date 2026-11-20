@@ -85,8 +85,12 @@ def facts_of(run):
     f.update({"typo_ours": f"{typo['observed']:.4f}", "typo_second": f"{typo['second_run']:.4f}", "typo_implied": f"{imp['implied']:.4f}",
               "typo_rp_ours": f"{rp['observed']:.4f}",
               "cons3": cmp_["consistency"]["table3"]["consistent"], "consA3": cmp_["consistency"]["tableA3"]["consistent"],
-              "cons_other": "; ".join(f"{i['name']} prints {i['printed_mse']} against {i['range'][0]:.4f} to {i['range'][1]:.4f}"
-                                      for t in ("table3", "tableA3") for i in cmp_["consistency"][t]["inconsistent"] if i["name"] != typo["name"] or t != "table3")})
+              "cons_other3": "; ".join(f"{i['name']} prints {i['printed_mse']} against {i['range'][0]:.4f} to {i['range'][1]:.4f}"
+                                       for i in inc if i["name"] != typo["name"]),
+              "cons_n_other3": len([i for i in inc if i["name"] != typo["name"]]),
+              "cons_otherA3": "; ".join(f"{i['name']} prints {i['printed_mse']} against {i['range'][0]:.4f} to {i['range'][1]:.4f}"
+                                        for i in cmp_["consistency"]["tableA3"]["inconsistent"]),
+              "cons_n_otherA3": len(cmp_["consistency"]["tableA3"]["inconsistent"])})
     # contamination
     m15 = sim["runs"]["main"]["n1500"]
     fl5 = [v["5%"]["flipped_mean"] for v in m15.values()]
@@ -109,6 +113,9 @@ def facts_of(run):
     f["px_per_point"] = f"{abs(sum(v['y_per_point'] for v in fig['calibration'].values()) / len(fig['calibration'])):.2f}"
     mcs = [v[r][m]["relbias_mcse"] for v in m15.values() for r in ("0%", "2%", "5%") for m in ("LB", "RP")]
     f["mc_min"], f["mc_max"] = f"{min(mcs):.1f}", f"{max(mcs):.1f}"
+    for p_, key in (("a", "linear|moderate"), ("b", "linear|strong"), ("c", "nonlinear|moderate"), ("d", "nonlinear|strong")):
+        z = T["table1"]["summary"]["rms_z_by_panel"][key]
+        f[f"fig_{p_}_z"], f[f"fig_{p_}_z2"] = f"{z['ours_vs_paper']:.2f}", f"{z['second_vs_ours']:.2f}"
     f["fig_paper_min"] = f"{min(min(v['paper_table1_drawn'].values()) for v in P.values()):.3f}"
     f["fig_self_min"] = f"{min(v['second_run_vs_ours'] for v in P.values()):.3f}"
     f["fig_self_max"] = f"{max(v['second_run_vs_ours'] for v in P.values()):.3f}"

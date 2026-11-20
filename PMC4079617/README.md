@@ -65,13 +65,13 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4079617/>
 | Main claim: comparable models with a linear Z; robust Poisson less biased with a quadratic Z from 2% contamination on | agrees | 2 of 2 fields as printed |
 | Discussion: results cited from Petersen and Deddens (three decimals with 10,000 copies; 70% to 100% convergence) | not attempted | not attempted |
 | Each statement of the text recomputed from the paper's own tables | agrees | 18 of 19 statements follow from the paper's own tables. Not: text.se_uncontaminated: Table 2, 0% rows: LB and RP SEs equal at the 2nd decimal in all 24 pairs (yes against no). |
-| robustrr's fits against statsmodels and an independent maximizer | agrees | 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06 |
+| robustrr's fits against statsmodels and an independent maximizer | agrees | 60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1.2e-12 and the sandwich SE its HC0 SE to a relative 3.1e-12; log-binomial coefficients equal an independent maximizer's to 1.0e-06, with a likelihood at least as high (to 1.1e-13) and a score of at most 4.0e-06 |
 | The authors' SAS 9.2 program and COPY macro | not attempted | not attempted |
 | Python package robustrr and its tutorial | agrees | robustrr 0.1.0: wheel installed in a fresh environment and imported from it; tests 8 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |
 <!--/RESULTS-SUMMARY-->
 
 <!--CLAIMS-LINE-->
-The main claim holds. Every claim about bias, SE and MSE holds on our run. The one table cell that misses is a misprint in Table 3 (0.013 where the paper's own bias and SE give 0.0351), and the convergence count of the Discussion belongs to SAS's optimizer, which we cannot run.
+The main claim holds. Every statement about bias, SE and MSE holds on our run but one, which the paper's own Table 2 breaks as well: without contamination the two SEs differ by less than 0.0009, yet can round to different second decimals. The one table cell that misses is a misprint in Table 3 (0.013 where the paper's own bias and SE give 0.0351), and the convergence count of the Discussion belongs to SAS's optimizer, which we cannot run.
 <!--/CLAIMS-LINE-->
 
 ## What is kept local
