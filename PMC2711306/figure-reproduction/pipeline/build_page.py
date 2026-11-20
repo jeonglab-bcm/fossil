@@ -32,6 +32,22 @@ CAPTIONS = {
 }
 
 
+def with_install_block(page):
+    """The repository's "Install" block (tools/site_install.py, from package/README.md), placed as that
+    tool places it, so the page the pipeline writes equals the committed one."""
+    tools = HERE.parents[2] / "tools"
+    if not (tools / "site_install.py").is_file():
+        return page
+    sys.path.insert(0, str(tools))
+    import site_install
+
+    want = site_install.block(HERE.parents[1].name)
+    page = site_install.BLOCK.sub("", page)
+    if want and site_install.ANCHOR in page:
+        page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
+    return page
+
+
 def b64(path):
     buf = io.BytesIO()
     im = Image.open(path).convert("RGB")
@@ -153,7 +169,7 @@ def main(results, figs, pub, out):
         page = page.replace(f"<!--__{k}__-->", v)
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
     Path(out).parent.mkdir(parents=True, exist_ok=True)
-    Path(out).write_text(page)
+    Path(out).write_text(with_install_block(page))
     print(f"wrote {out} ({len(page) // 1024} KB)")
 
 
