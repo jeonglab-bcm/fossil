@@ -154,8 +154,8 @@ process RESULTS {
     cp ${published} ${sim} ${comparison} ${tables} ${claims} ${cross} ${pkg} \$out/
     cp ${fig}/* \$out/
     ${params.python} ${params.pipe}/env_versions.py env.json
-    ${params.python} ${params.pipe}/build_results.py \$out results.json --environment env.json
-    cp results.json run/results.json
+    ${params.python} ${params.pipe}/build_results.py \$out run/results.json --environment env.json
+    cp run/results.json results.json
     ${params.python} ${params.pipe}/make_results_check.py \$out results_check.json
     cp results_check.json run/results_check.json
     ${params.python} ${params.pipe}/build_page.py run/results.json \$out ${fig1} site

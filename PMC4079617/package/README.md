@@ -9,7 +9,7 @@ COPY method, and the outlier simulation study of
 
 The authors ran the study in SAS 9.2 with the COPY macro of Petersen and Deddens; neither the program nor the
 macro was released. This package is implemented from the paper's text (it is not a port) and checked against the
-paper's printed tables: <!--CHECKS--><!--/CHECKS-->
+paper's printed tables: <!--CHECKS-->863 of 864 printed cells of Tables 1-3 and A1-A3 within Monte Carlo error (the miss is a misprint of the paper), and its fits against statsmodels and an independent maximizer (60 contaminated data sets (8 COPY fits): robust Poisson coefficients equal statsmodels' to 1e-12 and the sandwich SE its HC0 SE to a relative 3e-12; log-binomial coefficients equal an independent maximizer's to 1e-06, with a likelihood at least as high (to 1e-13) and a score of at most 4e-06).<!--/CHECKS-->
 
 ## Install
 

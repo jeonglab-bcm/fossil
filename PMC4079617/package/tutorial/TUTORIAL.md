@@ -121,21 +121,22 @@ log_binomial,z^2,15.0213628,1.505347826,3339604.033,174719.1805,63833604.67,copy
 s = rr.scenario(1.5, 10, "nonlinear", "moderate")
 res = rr.run_scenario(s, n=1500, reps=200, seed=2014)
 paper = {"0%": ("0.0", "0.0"), "2%": ("-30.0", "-19.5"), "5%": ("-51.7", "-41.3")}
-print(f"{'contamination':>14s}{'LB ours':>10s}{'paper':>8s}{'RP ours':>10s}{'paper':>8s}{'COPY fits':>11s}")
+print(f"{'contamination':>14s}{'LB ours':>10s}{'paper':>8s}{'RP ours':>10s}{'paper':>8s}{'MC SE':>8s}{'COPY fits':>11s}")
 for rate, d in res.items():
     lb, rp = rr.summarize(d["lb"], s["beta1"]), rr.summarize(d["rp"], s["beta1"])
     key = f"{round(100 * rate)}%"
-    print(f"{key:>14s}{lb['relbias']:10.1f}{paper[key][0]:>8s}{rp['relbias']:10.1f}{paper[key][1]:>8s}{int(d['copy'].sum()):11d}")
+    print(f"{key:>14s}{lb['relbias']:10.1f}{paper[key][0]:>8s}{rp['relbias']:10.1f}{paper[key][1]:>8s}"
+          f"{lb['relbias_mcse']:8.1f}{int(d['copy'].sum()):11d}")
 ```
 
 ```text
- contamination   LB ours   paper   RP ours   paper  COPY fits
-            0%      -3.5     0.0      -3.5     0.0          0
-            2%     -31.9   -30.0     -22.1   -19.5         69
-            5%     -50.5   -51.7     -41.9   -41.3        106
+ contamination   LB ours   paper   RP ours   paper   MC SE  COPY fits
+            0%      -3.5     0.0      -3.5     0.0     2.7          0
+            2%     -31.9   -30.0     -22.1   -19.5     2.4         69
+            5%     -50.5   -51.7     -41.9   -41.3     2.6        106
 ```
 
-With 200 data sets the Monte Carlo SE of each relative bias is about 2.5 points; the reproduction's 1,000 data sets of every scenario put all 144 cells of Table 1 within Monte Carlo error.
+With 200 data sets each relative bias carries the Monte Carlo SE in the `MC SE` column; the reproduction's 1,000 data sets of every scenario put all 144 cells of Table 1 within Monte Carlo error.
 
 ## 7. Your own data
 
