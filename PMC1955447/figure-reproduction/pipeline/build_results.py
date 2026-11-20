@@ -172,6 +172,10 @@ def facts_of(run):
     f["conv_30x5_004"] = f"{cells['J30_n5_icc0.04']['converged_pct']:.0f}"
     rob = sim["robustness"]["cells"]
     f["t5_m1_conv5"] = f"{sum(rob[f'm1_J{J}_n5']['converged_pct'] for J in (30, 50, 100)) / 3:.0f}"
+    nm = rt["normality"]
+    for key, g, nn in (("100x5", 100, 5), ("100x50", 100, 50)):
+        f[f"norm01_{key}"] = sum(nm[f"J{g}_n{nn}_icc{i}"][p]["p"] < 0.01 for i in ("0.04", "0.17", "0.38")
+                                 for p in ("g00", "g01", "g10", "g11"))
     cn = cl["text_normality"]["counts"]
     f.update({"norm_100x5": cn["100x5"][0], "norm_50x30": cn["50x30"][0], "norm_100x50": cn["100x50"][0]})
     f["nc_wald_both"] = f1(nc["both_significant_pct"])

@@ -695,6 +695,11 @@
       "hypothesis": "The paper's group-size-5 fits are fewer and more extreme",
       "test": "Which fits enter depends on NLMIXED's convergence (Table 1); cannot be tested without SAS",
       "result": "inconclusive"
+     },
+     {
+      "hypothesis": "The paper tested at 0.01",
+      "test": "At 0.01, {norm01_100x5} of 12 tests are significant at 100 groups x 5 (still not the majority) and {norm01_100x50} of 12 at 100 x 50",
+      "result": "rejected"
      }
     ]
    }
@@ -1040,7 +1045,7 @@
   }
  ],
  "page": {
-  "lede": "Moineddin, Matheson and Glazier ran their simulation in SAS with PROC NLMIXED and published it in 2007 without the code. In November 2026 we rebuilt the data and an NLMIXED-like fit from the paper and reran every design: 27 cells of 1,000 data sets for Tables 1 to 3, 27,000 more for Table 4 and 7,200 for Table 5. {cells_within} of the {cells_total} printed cells came back within Monte Carlo error. Of {items} results, {agree_total} agree, {partly} partly agree and {not_attempted} were not attempted. Every gap has a tested cause.",
+  "lede": "Moineddin, Matheson and Glazier ran their simulation in SAS with PROC NLMIXED and published it in 2007 without the code. In November 2026 we rebuilt the data and an NLMIXED-like fit from the paper and reran every design: 27 cells of 1,000 data sets for Tables 1 to 3, 27,000 more for Table 4 and 7,200 for Table 5. {cells_within} of the {cells_total} printed cells came back within Monte Carlo error. Of {items} results, {agree_total} agree and {partly} partly agree; {not_attempted} (the SAS code) could not be attempted. Every gap has a tested cause.",
   "label_rows": [
    [
     "table-1",
@@ -1123,7 +1128,7 @@
   },
   "no_miss_note": "Every cell is within Monte Carlo error of the paper's.",
   "items_caption": "Each result of the paper, with the verdict computed from results.json and, for each one that is not exact, why.",
-  "claims_line": "The main claim {main_verdict}: fixed effects are close to unbiased with 100 groups of 50, the variances are biased upward with groups of 5 and their intervals too narrow, and low prevalence needs more data. Where our run misses, the cause is which fits NLMIXED declared converged, Monte Carlo error on a threshold, or a statement the paper's own tables do not support.",
+  "claims_line": "The main claim {main_verdict}: on our run fixed effects are unbiased with 100 groups of 50, biases are severe with groups of 5, convergence fails where samples are small, and the variances' intervals stay too narrow even with 100 groups of 50. Our run does not make the 10% prevalence the most biased, and with groups of 5 our fixed-effect intervals cover more often than the paper's; both depend on which fits NLMIXED kept.",
   "came_back": [
    [
     "The simulation study",
@@ -1135,7 +1140,7 @@
    ],
    [
     "Prevalence and non-normal data",
-    "Table 4 came back in {table4_within} of 54 cells and Table 5 in {table5_bias_within} of 432 bias and {table5_noncoverage_within} of 432 coverage cells, once a data set that did not converge counts as not covered."
+    "Table 4's bias and non-coverage came back, its convergence did not ({table4_within} of 54 cells). Table 5 came back in {table5_bias_within} of 432 bias and {table5_noncoverage_within} of 432 coverage cells, counting a data set that did not converge as not covered, as the paper's numbers show it did."
    ],
    [
     "The method",
@@ -1167,7 +1172,7 @@
    ],
    [
     "The follow-up of non-converged data sets",
-    "Random effects tested by likelihood ratio: the paper's Wald p-values would find almost none significant."
+    "Random effects tested by likelihood ratio: Wald tests of the variances find none significant in our data sets."
    ]
   ],
   "closing": "The paper's sample-size advice came back from a rebuilt NLMIXED; its convergence rates stay tied to SAS."
