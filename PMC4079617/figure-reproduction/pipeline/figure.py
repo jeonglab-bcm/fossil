@@ -21,8 +21,7 @@ over the contamination rates 0%, 2% and 5% (category positions, equally spaced).
    axis). Pass mark: 0.95, or 0.02 above the best control when a control reaches 0.93. The dashed robust
    Poisson line is closed for scoring (gaps filled with a 4 px disk) and ours drawn solid. The resolution of the
    score: our second run (other seeds) scored against our main run with the same code.
-Writes OUT_DIR/fig1_ours.png, fig1_overlay.png, fig1_<panel>_ours.png / _overlay.png (crops; the page crops the
-published panel with the same box, panels.<p>.crop), figure.json.
+Writes OUT_DIR/fig1_ours.png, fig1_overlay.png (the whole figure, as the paper prints it) and figure.json.
 """
 import json
 import sys
@@ -279,19 +278,10 @@ def main():
         s2 = score_panel(pub_s, second_m, cal, p)
         s22 = score_panel(our_m, second_m, cal, p)
         sp = score_panel(pub_s, paper_m, cal, p)
-        boxes = [c for k, c in cal.items() if k[0] == p]
-        x0 = min(c["box"][0] for c in boxes) - 1
-        x1 = max(c["box"][1] for c in boxes) + 1
-        y0 = min(c["box"][2] for c in boxes) - 1
-        y1 = max(c["box"][3] for c in boxes) + 1
-        for name in ("ours", "overlay"):
-            Image.open(out_dir / f"fig1_{name}.png").crop((x0 - 120, y0 - 45, x1 + 42, y1 + 105)).save(
-                out_dir / f"fig1_{p}_{name}.png")
         panels[p] = {"form": form, "level": lev, "tolerance_px": TOL, "dpi": DPI, **s, "threshold": thr,
                      "controls": ctrls, "second_run": {k: s2[k] for k in ("published_near_ours", "ours_near_published")},
                      "second_run_vs_ours": round(min(s22["published_near_ours"], s22["ours_near_published"]), 4),
-                     "paper_table1_drawn": {k: sp[k] for k in ("published_near_ours", "ours_near_published")},
-                     "crop": [x0 - 120, y0 - 45, x1 + 42, y1 + 105]}
+                     "paper_table1_drawn": {k: sp[k] for k in ("published_near_ours", "ours_near_published")}}
     doc = {"about": "Fig. 1: our Table 1 (n = 1500) drawn on the published picture with its series removed; "
                     "both-way pixel scores per panel with controls; the published vertices read back against Table 1.",
            "picture": {"size": [int(a.shape[1]), int(a.shape[0])], "dpi": DPI, "line_width_px": round(width, 2), "dash_px": [round(d, 1) for d in dash],

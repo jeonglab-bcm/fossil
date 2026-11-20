@@ -4,9 +4,8 @@ Usage: build_page.py RESULTS_JSON RUN_OUTPUT_DIR PUBLISHED_FIG1_PNG OUT_DIR   (w
 
 Every verdict and number on the page is read from results.json (verdicts computed there by check_results.py)
 or, for the facts in the prose, from the run (build_results.facts_of); the prose that is not a number comes from
-results_notes.json ("page"). Fig. 1 is four stations, one per panel: the published panel (cropped from the
-published picture with the box figure.py used) next to ours drawn on it, with swipe, blink, overlay and
-difference views. Tables 1-3 and A1-A3 are grids of every printed cell, the paper's value above ours, shaded where
+results_notes.json ("page"). Fig. 1 is one station, as the paper prints it: the published figure (panels A to
+D) next to ours drawn on it, with swipe, blink, overlay and difference views, and the score of each panel. Tables 1-3 and A1-A3 are grids of every printed cell, the paper's value above ours, shaded where
 ours is outside the Monte Carlo tolerance. Images are embedded, so the page works offline; it links
 ../results.css like the site's other results pages.
 """
@@ -145,23 +144,20 @@ def main(results, run, pub_png, out):
         return f'<li><a href="#{anchor}"><span>{esc(name)}</span><span class="v" data-v="{cls}">{esc(word)}</span></a></li>'
     label = "<ol>" + "".join(label_row(a, k, ids) for a, k, ids in N["label_rows"]) + "</ol>"
 
-    stations, figjs = [], []
-    for p in ("a", "b", "c", "d"):
-        it = by[f"fig1.{p}"]
-        box = fig["panels"][p]["crop"]
-        psrc, (w, h) = b64(published.crop(tuple(box)))
-        osrc, _ = b64(Image.open(run / f"fig1_{p}_ours.png"))
-        stats = f"<div><dt>{esc(it['label'])}</dt><dd>{esc(measure(it))}, {esc(STAMP[it['verdict']][1])}</dd></div>"
-        note = (it.get("cause") or {}).get("summary", "")
-        stations.append(
-            f'<section class="station surface" id="fig-1{p}" aria-labelledby="fig-1{p}-head">'
-            f'<header class="station-head"><h2 id="fig-1{p}-head">Fig. 1{p.upper()}</h2><p class="caption">{esc(N["fig_caption"])} '
-            f'{esc(PANEL[p][0].upper() + PANEL[p][1:])}.</p>{stamp(it["verdict"])}</header>'
-            f'<div class="stage"><div class="pair">'
-            f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Fig. 1{p.upper()} as published" width="{w}" height="{h}"></figure>'
-            f'<figure class="plate"><figcaption>Our run, drawn on the published frame</figcaption><img src="{osrc}" alt="Fig. 1{p.upper()} drawn from our run" width="{w}" height="{h}"></figure>'
-            f'</div></div><div class="station-foot"><dl class="dose">{stats}</dl><p class="note">{esc(note)}</p></div></section>')
-        figjs.append({"id": f"1{p}", "w": w, "h": h})
+    # Fig. 1 as the paper prints it: one picture with panels A to D, published next to ours
+    its = [by[f"fig1.{p}"] for p in ("a", "b", "c", "d")]
+    psrc, (w, h) = b64(published)
+    osrc, _ = b64(Image.open(run / "fig1_ours.png"))
+    stats = "".join(f"<div><dt>{esc(it['label'])}</dt><dd>{esc(measure(it))}, {esc(STAMP[it['verdict']][1])}</dd></div>" for it in its)
+    stations = [
+        f'<section class="station surface" id="fig-1" aria-labelledby="fig-1-head">'
+        f'<header class="station-head"><h2 id="fig-1-head">Fig. 1</h2><p class="caption">{esc(N["fig_caption"])}</p>'
+        f'{stamp(worst([it["verdict"] for it in its]))}</header>'
+        f'<div class="stage"><div class="pair">'
+        f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Fig. 1 as published" width="{w}" height="{h}"></figure>'
+        f'<figure class="plate"><figcaption>Our run, drawn on the published frame</figcaption><img src="{osrc}" alt="Fig. 1 drawn from our run" width="{w}" height="{h}"></figure>'
+        f'</div></div><div class="station-foot"><dl class="dose">{stats}</dl><p class="note">{esc(N["fig_note"])}</p></div></section>']
+    figjs = [{"id": "1", "w": w, "h": h}]
 
     grids = []
     for tid in ("table1", "table2", "table3", "tableA1", "tableA2", "tableA3"):

@@ -83,8 +83,8 @@
     "drawn_on_published": true
    },
    "outputs": [
-    "figure-reproduction/output/fig1_a_ours.png",
-    "figure-reproduction/output/fig1_a_overlay.png"
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
    ],
    "assumptions_from": [
     "simulation"
@@ -122,8 +122,8 @@
     "drawn_on_published": true
    },
    "outputs": [
-    "figure-reproduction/output/fig1_b_ours.png",
-    "figure-reproduction/output/fig1_b_overlay.png"
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
    ],
    "assumptions_from": [
     "simulation"
@@ -161,8 +161,8 @@
     "drawn_on_published": true
    },
    "outputs": [
-    "figure-reproduction/output/fig1_c_ours.png",
-    "figure-reproduction/output/fig1_c_overlay.png"
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
    ],
    "assumptions_from": [
     "simulation"
@@ -200,8 +200,8 @@
     "drawn_on_published": true
    },
    "outputs": [
-    "figure-reproduction/output/fig1_d_ours.png",
-    "figure-reproduction/output/fig1_d_overlay.png"
+    "figure-reproduction/output/fig1_ours.png",
+    "figure-reproduction/output/fig1_overlay.png"
    ],
    "assumptions_from": [
     "simulation"
@@ -591,7 +591,7 @@
   "lede": "Chen, Shi, Qian and Azen asked which model for relative risks holds up when a few outcomes are recorded wrong. Their SAS program was never released. We rebuilt the simulation from the paper and ran all 24 scenarios again. {within} of {cells} printed table cells came back within Monte Carlo error.",
   "label_rows": [
    [
-    "fig-1a",
+    "fig-1",
     "Fig. 1",
     [
      "fig1.a",
@@ -647,7 +647,7 @@
     ]
    ]
   ],
-  "fig_caption": "Relative bias (%) of the log RR by contamination rate, n = 1500. Log-binomial blue and solid, robust Poisson red and dashed. Rows RR 1.5 and 2.0, columns outcome 10, 25 and 40%.",
+  "fig_caption": "Relative bias (%) of the log RR by contamination rate, n = 1500. Panels A and B linear Z, C and D non-linear Z; A and C moderate, B and D strong association. Log-binomial blue and solid, robust Poisson red and dashed.",
   "grid_caption": "Paper above, ours below; shaded where ours is outside the Monte Carlo tolerance.",
   "slip_note": "The italic cell is a misprint of the paper and is left out.",
   "tables_caption": "Every printed cell of Tables 1 to 3 (n = 1500) and of Tables A1 to A3 in Additional file 2 (n = 500), in the paper's layout. A cell agrees when ours is within half a printed unit plus three times the Monte Carlo error of the difference of two {reps} replicate estimates.",
@@ -706,6 +706,7 @@
     "{vert_within} of {vert_read} readable vertices within 1 point"
    ]
   ],
-  "closing": "Robust Poisson came back the sturdier of the two, as the paper says."
+  "closing": "Robust Poisson came back the sturdier of the two, as the paper says.",
+  "fig_note": "Panel A passes the 2 px test; B and D fall short of it, and C cannot be told from a near miss. Two of our own runs score {fig_self_min} to {fig_self_max} against each other with the same code, while the paper's own Table 1 drawn this way scores at least {fig_paper_min}: at 2 px the test cannot resolve Monte Carlo noise. Every value behind the four panels is within tolerance in Table 1."
  }
 }

@@ -140,8 +140,8 @@ as a `paper_error`. A few more MSEs of the paper, in Tables 3 and A3, disagree w
 
 Fig. 1 plots Table 1. Reading its vertices back from the published picture confirms that (`fig1.consistency`).
 Our Table 1 is drawn on a copy of the published picture with the published lines removed, at the measured stroke
-width, colours and dash pattern (`output/fig1_ours.png`; overlay in green, `output/fig1_overlay.png`; one crop per
-panel). Each panel is scored both ways at 2 px with wrong-input and near-miss controls. A 2 px test cannot resolve
+width, colours and dash pattern (`output/fig1_ours.png`; overlay in green, `output/fig1_overlay.png`; the whole figure,
+as the paper prints it). Each panel is scored both ways at 2 px with wrong-input and near-miss controls. A 2 px test cannot resolve
 Monte Carlo noise here: two of our own runs score only about 0.7 against each other, while the paper's Table 1 drawn
 with the same code scores 0.95 or more. Panel A passes; B and D fall short, and C scores below a near miss, so
 it is inconclusive. Their verdicts rest on the pixels, and their numbers on Table 1, where every value is within
@@ -160,7 +160,7 @@ tolerance.
 | `output/published_values.json` | Every printed number of Tables 1-3, A1-A3 and Additional file 1. |
 | `output/simulation.json` | Every scenario's summaries: the main run, the second run and the hypothesis variants. |
 | `output/comparison.json`, `output/tables.csv` | Every printed cell against ours, with tolerances, the second run, the controls, the hypotheses and the paper's own consistency; the same cells as one CSV. |
-| `output/figure.json`, `output/fig1_*.png` | Fig. 1: calibration, scores, controls, the vertices read back; our drawing and the overlay, whole and per panel. |
+| `output/figure.json`, `output/fig1_*.png` | Fig. 1: calibration, scores, controls, the vertices read back; our drawing and the overlay of the whole figure. |
 | `output/claims.json`, `output/crosscheck.json`, `output/package.json` | The statements of the text against the paper's own tables and our run, and the design check; the fits against statsmodels and an independent maximizer; the package check. |
 
 ## Run
