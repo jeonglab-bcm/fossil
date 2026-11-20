@@ -141,7 +141,17 @@ def facts_of(run):
     f["conv_30x5_interior"] = ", ".join(f"{R['interior'][f'J30_n5_icc{i}']['converged_pct']:.0f}" for i in ("0.04", "0.17", "0.38"))
     pp = sim["prevalence"]["pooled"]
     f["t4_s1_010"] = f1(pp["all_cells"]["0.10"]["sigma1"]["bias_pct"])
-    f["t4_best_subset"] = "30 groups of 5 and of 50"
+    best = H["table4_design_subsets"]["closest"][0]
+    f["t4_best_subset"] = f"{', '.join(map(str, best['groups']))} groups of {', '.join(map(str, best['sizes']))}"
+    f["t4_best_gap"] = f1(best["mean_gap"])
+    f["t4_best_conv"] = ", ".join(f"{x:.0f}" for x in best["converged_pct"])
+    f["t4_subsets"] = H["table4_design_subsets"]["subsets_tried"]
+    t1m = [x["name"].split(":")[0] + " " + x["name"].split("bias ")[1] for x in T["table1_lowconv"]["fields"] if not x["within"]]
+    f["t1low_misses"] = "; ".join(t1m)
+    f["t1low_nmiss"] = len(t1m)
+    V = sim["variants"]
+    for v in V:
+        f[f"v_{v}_conv30x5"] = ", ".join(f"{V[v][f'J30_n5_icc{i}']['converged_pct']:.0f}" for i in ("0.04", "0.17", "0.38"))
     for cid, c in cl.items():
         if cid.startswith("_"):
             continue

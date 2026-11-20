@@ -227,7 +227,7 @@
       "cause": {
         "category": "proprietary_software",
         "status": "open",
-        "summary": "Which fits count as converged is NLMIXED's verdict, and NLMIXED cannot be run here. Our NLMIXED-like optimizer gives 55, 77, 82% at 30 groups x 5 (paper 56, 68, 76); the bias and coverage of the group-size-5 cells move with which fits are kept. No variant of the optimizer settings closes the gap.",
+        "summary": "Which fits count as converged is NLMIXED's verdict, and NLMIXED cannot be run here. Our NLMIXED-like optimizer gives 55, 77, 82% at 30 groups x 5 (paper 56, 68, 76); the bias and coverage of the group-size-5 cells move with which fits are kept. No variant of the optimizer settings moves 30 groups x 5 to the paper's rates (replicates 0-199: without σ01 96, 98, 98%, without ABSXCONV 38, 62, 78%, 2,000 function calls 68, 76, 86%, fewer quadrature points 60, 80, 86%, 3 points 62, 74, 88%). On 200 data sets per design, whose tolerance is wider, three variants score all 27 convergence cells, as our own reading does.",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/simulation.json"
@@ -1631,7 +1631,7 @@
       "cause": {
         "category": "proprietary_software",
         "status": "open",
-        "summary": "The misses are the σ1 biases of 30 groups x 5 (28.6, 31.2, 43.2% against the paper's 55.49, 54.55, 54.02; second run 24.6, 36.2, 35.7) and σ1 at 50 groups x 5, ICC 0.04. These designs keep 55-82% of fits, and the mean of the kept variance estimates depends on which fits NLMIXED declared converged; NLMIXED cannot be run here.",
+        "summary": "The 3 misses are σ1's bias at 30 groups x 5, ICC 0.04 σ1; 30 groups x 5, ICC 0.17 σ1; 50 groups x 5, ICC 0.04 σ1. At 30 groups x 5 our σ1 biases are 28.6, 31.2, 43.2% against the paper's 55.49, 54.55, 54.02 (second run 24.6, 36.2, 35.7). These designs keep 55-82% of fits, and the mean of the kept variance estimates depends on which fits NLMIXED declared converged; NLMIXED cannot be run here.",
         "evidence": [
           "figure-reproduction/output/comparison.json",
           "figure-reproduction/output/simulation.json"
@@ -4507,7 +4507,7 @@
           },
           {
             "hypothesis": "Any subset of the nine designs",
-            "test": "Every combination of numbers of groups and group sizes scored by its mean gap to 77, 86, 87: the closest (30 groups of 5 and of 50) is 2.8 points off on average and misses 86 and 87 by 4 points",
+            "test": "Every one of the 49 combinations of numbers of groups and group sizes, scored by its mean gap to 77, 86, 87 (comparison.json, table4_design_subsets): the closest (30 groups of 5, 50) gives 77, 90, 92%, 2.8 points off on average",
             "result": "rejected"
           },
           {
@@ -14029,7 +14029,7 @@
           },
           {
             "hypothesis": "Any subset of the nine designs",
-            "test": "Every combination of numbers of groups and group sizes scored by its mean gap to 77, 86, 87: the closest (30 groups of 5 and of 50) is 2.8 points off on average and misses 86 and 87 by 4 points",
+            "test": "Every combination of numbers of groups and group sizes scored by its mean gap to 77, 86, 87: the closest (30 groups of 5, 50) is 2.8 points off on average and misses 86 and 87 by 4 points",
             "result": "rejected"
           },
           {
@@ -14186,7 +14186,7 @@
       "cause": {
         "category": "nondeterminism",
         "status": "open",
-        "summary": "With groups of 5, model 2 converges in 96% of our data sets against model 1's 90% (p 0.003); the paper finds no difference. Every other test came back.",
+        "summary": "With groups of 5, model 2 converges in 96% of our data sets against model 1's 90% (p 0.003); the paper finds no difference. Every other test came back but the statement that no model differs with groups of 30 or more: ours differ (models 4 and 5), and so does the paper's own Table 5, so it is set aside as a slip in the text.",
         "evidence": [
           "figure-reproduction/output/record_tests.json"
         ],

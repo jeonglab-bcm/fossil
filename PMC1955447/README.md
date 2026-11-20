@@ -72,7 +72,7 @@ combined Monte Carlo standard errors ([figure-reproduction/README.md](figure-rep
 No simulated item can be "exact": the paper gives no seeds, and three of its unstated settings were found by testing
 against its tables.
 
-**What came back.** 1,294 of the 1,395 printed cells of Tables 1-5 came back within Monte Carlo error.
+**What came back.** 1,294 of the 1,395 printed values of Tables 1-5 (all but Table 2's p-values) came back within Monte Carlo error.
 In the 19 designs where 98-100% of fits converged, every bias and non-coverage cell of Tables 1 and 3 came back
 (114 of 114 and 114 of 114), and so did 33 of Table 4's 36 biases and non-coverage rates. The
 pattern of convergence came back: fits fail with few small groups and a small random intercept.
@@ -103,7 +103,7 @@ its row by number of groups but is what Table 3 gives: not a copy error.
 <!--/SUMMARY-PROSE-->
 
 <!--CLAIMS-LINE-->
-The main claim holds in part: on our run fixed effects are unbiased with 100 groups of 50, biases are severe with groups of 5, convergence fails where samples are small, and the variances' intervals stay too narrow even with 100 groups of 50. Our run does not make the 10% prevalence the most biased, and with groups of 5 our fixed-effect intervals cover more often than the paper's; both depend on which fits NLMIXED kept.
+The main claim holds in part: on our run fixed effects are unbiased with 100 groups of 50, biases are severe with groups of 5, convergence fails where samples are small, and the variances' intervals stay too narrow even with 100 groups of 50. Our run does not make the 10% prevalence the most biased, and with groups of 5 some of our fixed-effect intervals cover more often than the paper's (non-coverage down to 0.9% against its lowest 2.8%); both depend on which fits NLMIXED kept.
 <!--/CLAIMS-LINE-->
 
 Kept local and gitignored: `sources/` (the paper's XML, text and PDF as downloaded), `work/` (scratch runs and

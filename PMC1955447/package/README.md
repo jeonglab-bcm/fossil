@@ -69,14 +69,14 @@ that give the paper's tables back best:
 - The fitted model estimates the covariance of the random intercept and slope (`cov=True`), although the data are
   drawn with none. Without it, far fewer data sets of 30 groups of 5 fail to converge than the paper reports.
 - σ0 and σ1 are reported on the variance scale, the parameters as fitted: their % bias is that of the variance
-  estimates, and their Wald intervals are on the variance. On the SD scale the biases at group size 5 are a
-  third to a fifth of the printed ones.
+  estimates, and their Wald intervals are on the variance. On the SD scale the biases at group size 5 are
+  about a fifth of the printed ones or less.
 - A fit that stops because no parameter moved by more than 1e-8 counts as converged (`absxconv=1e-8`), as the
   paper's "absolute parameter convergence criterion" says. Fits that creep towards a zero variance stop this way.
 
 ## Checks
 
-<!--CHECKS-->The package is implemented from the paper's text and checked against the paper's printed tables (1,294 of 1,395 cells of Tables 1-5 within Monte Carlo error) and its likelihood against direct numerical integration (the example data, and the cross-check of the reproduction).<!--/CHECKS-->
+<!--CHECKS-->The package is implemented from the paper's text and checked against the paper's printed tables (1,294 of 1,395 printed values of Tables 1-5, all but Table 2's p-values, within Monte Carlo error) and its likelihood against direct numerical integration (the example data, and the cross-check of the reproduction).<!--/CHECKS-->
 
 ## Licence
 

@@ -298,6 +298,19 @@ def main():
     hyp["table2_pvalues_trend_1df"] = {"table2_pvalues": {"within": sum(tr), "fields": len(tr)}}
     hyp["main_run"] = {k: doc["tables"][k]["summary"] for k in ("table1_converged", "table1_stable", "table1_lowconv", "table3_stable", "table3_lowconv")}
     hyp["main_run"]["mean_abs_converged_gap"] = round(sum(abs(f["observed"] - float(f["expected"])) for f in T["table1_converged"]) / 27, 2)
+    # Table 4: every combination of numbers of groups and group sizes, scored by its mean gap to the printed % converged
+    import itertools
+    pc = sim["prevalence"]["cells"]
+    target = [float(pub["table4"]["g00"]["converged"][p]) for p in ("0.10", "0.34", "0.45")]
+    subsets = []
+    for gs in [c for r in range(1, 4) for c in itertools.combinations((30, 50, 100), r)]:
+        for ns in [c for r in range(1, 4) for c in itertools.combinations((5, 30, 50), r)]:
+            conv = [sum(pc[f"p{p}_J{g}_n{n}"]["converged_pct"] for g in gs for n in ns) / (len(gs) * len(ns))
+                    for p in ("0.10", "0.34", "0.45")]
+            subsets.append({"groups": list(gs), "sizes": list(ns), "converged_pct": [round(x, 2) for x in conv],
+                            "mean_gap": round(sum(abs(a - b) for a, b in zip(conv, target)) / 3, 2)})
+    subsets.sort(key=lambda x: x["mean_gap"])
+    hyp["table4_design_subsets"] = {"subsets_tried": len(subsets), "closest": subsets[:3]}
     for alt in ("size5", "groups30"):
         hyp[f"table4_{alt}_cells"] = {"table4": score(t4_fields(pub["table4"], sim["prevalence"]["pooled"][alt]))}
     rsd = {cid: dict(rc[cid], **sim["robustness"]["sd_scale"][cid]) for cid in rc}
