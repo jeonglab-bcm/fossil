@@ -1,0 +1,69 @@
+{
+  "schema": "paper2repro/session-ledger/v1",
+  "session_id": "a02af6f0-cba1-55f5-bd2f-148e2f9855c1",
+  "transcript": "a02af6f0-cba1-55f5-bd2f-148e2f9855c1.jsonl",
+  "generated_at": "2026-11-20T16:42:18+00:00",
+  "started_at": "2026-11-20T15:31:28+00:00",
+  "ended_at": "2026-11-20T16:42:18+00:00",
+  "wall_clock_minutes": 70.8,
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "human_prompts": 2,
+  "mid_turn_prompts": 0,
+  "assistant_responses": 142,
+  "tool_calls": 161,
+  "tool_calls_by_name": {
+    "Bash": 133,
+    "Read": 7,
+    "Write": 6,
+    "TaskUpdate": 5,
+    "TaskCreate": 4,
+    "ToolSearch": 2,
+    "mcp__claude-code-remote__add_repo": 1,
+    "mcp__github__issue_read": 1,
+    "Edit": 1,
+    "Agent": 1
+  },
+  "tokens": {
+    "input": 284,
+    "cache_creation": 456692,
+    "cache_read": 44432345,
+    "output": 209185,
+    "thinking": 59264,
+    "total": 45098506
+  },
+  "subagents": {
+    "transcripts": 1,
+    "assistant_responses": 32,
+    "tool_calls": 32,
+    "tokens": {
+      "input": 64,
+      "cache_creation": 161350,
+      "cache_read": 3432211,
+      "output": 20844,
+      "thinking": 10437,
+      "total": 3614469
+    }
+  },
+  "tokens_all": {
+    "input": 348,
+    "cache_creation": 618042,
+    "cache_read": 47864556,
+    "output": 230029,
+    "thinking": 69701,
+    "total": 48712975
+  },
+  "prompts": [
+    {
+      "at": "2026-11-20T15:31:30.016Z",
+      "text": "Read https://github.com/jeonglab-bcm/Paper2Repro and install all skills\nfrom skills/paper2agent for Claude Code. Install nested skills as well",
+      "mid_turn": false
+    },
+    {
+      "at": "2026-11-20T15:32:48.650Z",
+      "text": "<command-message>paper2repro</command-message>\n<command-name>/paper2repro</command-name>\n<command-args>Reproduce https://pmc.ncbi.nlm.nih.gov/articles/PMC4079617/ with the paper2repro skill. Follow its definition of done. Open one pull request at the end. To address issue #74 of the github https://github.com/jeonglab-bcm/fossil/</command-args>",
+      "mid_turn": false
+    }
+  ]
+}
