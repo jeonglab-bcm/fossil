@@ -46,6 +46,8 @@ def facts_of(run):
     prim = {k: c["items"][k]["summary"] for k in c["items"]}
     gaps = [abs(f["observed"] - float(f["expected"])) * (0.01 if k == "table5" else 1)
             for k in POWER_ITEMS for f in c["items"][k]["fields"] if "tolerance" in f and f["observed"] is not None]
+    pw_fields = [f for k in POWER_ITEMS for f in c["items"][k]["fields"] if "tolerance" in f and f["observed"] is not None]
+    misses = [f["observed"] - float(f["expected"]) for f in pw_fields if not field_matches(f, None)]
     fp = c["finite_population"]
     sd = lambda size: [v["sd"] for blk in fp[size].values() for v in blk.values()]
     ar = cl["_table1_arithmetic"]
@@ -74,6 +76,10 @@ def facts_of(run):
         "cer_80": f"{100 * s['design_power']['cer_for_80pct']:.1f}",
         "f1b_cer0": ", ".join(f"{100 * s['primary'][f'fig1b/{r}']['cer0']:.3f}%" for r in ("1.5%", "3%", "6%", "9%")),
         "curve_lo": f"{f1a['curve_cer_range'][0]:g}", "curve_hi": f"{f1a['curve_cer_range'][1]:g}",
+        "range_sens_lo": f"{100 * min(f1a['curve_range_sensitivity'].values()):.1f}",
+        "range_sens_hi": f"{100 * max(f1a['curve_range_sensitivity'].values()):.1f}",
+        "miss": len(misses), "miss_high": sum(m > 0 for m in misses), "miss_low": sum(m < 0 for m in misses),
+        "power_within": len(pw_fields) - len(misses), "power_fields": len(pw_fields),
     }
 
 

@@ -68,7 +68,7 @@ comparison. Two runs of ours with different seeds agree with each other in every
 
 The main claim holds: in every setting the risk-stratified analysis has far more power than the
 conventional one. The claims that do not match come from one open cause: where the heterogeneity in net
-benefit is large, our powers are higher than the paper's, and no reading of the paper we tested closes the gap.
+benefit is large, most of our powers are higher than the paper's, and no reading of the paper we tested closes the gap.
 
 Kept local, not committed (git-ignored): `PMC1523355/sources/` (the article XML and figure as downloaded,
 the text conversion) and `PMC1523355/.venv/`.

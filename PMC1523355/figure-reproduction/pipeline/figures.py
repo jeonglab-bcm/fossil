@@ -159,6 +159,12 @@ def panel_a(src, out_dir):
         else:
             kind, label = name.split(": ", 1)
             controls.append({"name": label, "kind": kind, "score": min(s)})
+    # sensitivity to the curve's CER range (read from the published curve's ends): each end moved by 0.001
+    range_sens = {}
+    for a_lo, a_hi in ((lo + 0.001, hi), (lo - 0.001, hi), (lo, hi - 0.001), (lo, hi + 0.001)):
+        xx = np.linspace(a_lo, a_hi, 600)
+        m = np.asarray(draw_curve(im.size, cal, xx, sp.net_rrr(xx), width).convert("L")) < 128
+        range_sens[f"{a_lo:.3f}-{a_hi:.3f}"] = min(score(pub, m & valid, valid))
     # renders: ours in place of the published curve; overlay in green on the published picture
     erase = dilate(navy_mask(a) & valid, 1)
     base = a.copy()
@@ -174,7 +180,7 @@ def panel_a(src, out_dir):
     xr = [(x0 - cal["x"][1]) / cal["x"][0], (x1 - cal["x"][1]) / cal["x"][0]]
     yr = [(y1 - cal["y"][1]) / cal["y"][0], (y0 - cal["y"][1]) / cal["y"][0]]
     return {"calibration": cal, "plot_box_px": box, "equation_box_px": eq, "line_width_px": width,
-            "curve_cer_range": [lo, hi], "tolerance_px": TOL, **scores, "controls": controls,
+            "curve_cer_range": [lo, hi], "curve_range_sensitivity": range_sens, "tolerance_px": TOL, **scores, "controls": controls,
             "published_trace_px": int(pub.sum()), "our_trace_px": int((ours_mask & valid).sum()),
             "axes_data_range": {"x": xr, "y": yr}}
 

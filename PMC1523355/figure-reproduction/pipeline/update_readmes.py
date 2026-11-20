@@ -53,7 +53,7 @@ h1, n1 = hits("table1.power")
 pw = [hits(t) for t in ("table2", "table3", "table4", "table5", "fig1b")]
 status = (", ".join(parts) + f"; {sm['open_causes']} open causes (`results.json`): the lost simulation rebuilt as `stratpower` "
           f"and every setting rerun; Fig. 1A on the published axes; Table 1's powers and AUROC {h1} of {n1}; "
-          f"Tables 2-5 and Fig. 1B {sum(h for h, _ in pw)} of {sum(n for _, n in pw)} values within Monte Carlo error, "
-          f"ours higher where the heterogeneity is large; main claim holds")
+          f"Tables 2-5 and Fig. 1B {sum(h for h, _ in pw)} of {sum(n for _, n in pw)} values within tolerance, "
+          f"most misses higher than the paper's; main claim holds")
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 print("READMEs updated:", summary)

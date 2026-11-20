@@ -186,7 +186,7 @@ def main(results, figs, pub, out):
     ]
     buried = [
         "The code. The paper names no software and released nothing; no copy was found.",
-        f"Some powers. Where the heterogeneity is large our powers run higher than the paper's: Table 2 {hits(t2)[0]} of {hits(t2)[1]}, Table 3 {hits(t3)[0]} of {hits(t3)[1]}, Table 5 {hits(t5)[0]} of {hits(t5)[1]} within tolerance. No tested reading of the paper closes the gap.",
+        f"Some powers. Where the heterogeneity is large most of our powers are higher than the paper's: Table 2 {hits(t2)[0]} of {hits(t2)[1]}, Table 3 {hits(t3)[0]} of {hits(t3)[1]}, Table 5 {hits(t5)[0]} of {hits(t5)[1]} within tolerance. No tested reading of the paper closes the gap.",
         "Table 1's rates. Its CER, RRR and NNT columns follow from no population of the stated risk factors, nor from each other.",
     ]
     recovered = ('<section class="notes" aria-labelledby="back-head"><div class="container"><h2 id="back-head">What came back</h2><dl class="ledger">'

@@ -88,7 +88,7 @@
       {
         "what": "The curve's CER range, {curve_lo} to {curve_hi}, is read from the published curve's ends.",
         "source": "read_from_figure",
-        "sensitivity": "The score is over the drawn curve only; a range 0.001 shorter at either end removes about 7 px of curve and changes neither share by more than 2%."
+        "sensitivity": "Moving either end by 0.001 gives a score of {range_sens_lo}% to {range_sens_hi}%, still above the 95% pass mark (figures.json, curve_range_sensitivity)."
       }
     ]
   },
@@ -96,7 +96,7 @@
     "power_gap": {
       "category": "unknown",
       "status": "open",
-      "summary": "Where the paper's settings give much heterogeneity (larger ORs, the weighted indices of Table 4, Table 5's higher harm rates, Fig. 1B at 9%), our powers are higher than the paper's, by up to {max_gap} points; elsewhere they agree. Our two runs agree with each other in {own_within} of {own_cells} powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD {fp100k_sd} with 100,000 people, {fp8800_sd} with 8,800), but its size is not given.",
+      "summary": "{power_within} of {power_fields} printed powers come back within Monte Carlo error. Of the {miss} that do not, {miss_high} are higher than the paper's and {miss_low} lower, by up to {max_gap} points; the higher ones are where the heterogeneity in net benefit is large (ORs of 3, Table 4's weighted scores, Fig. 1B at 9%). Our two runs agree with each other in {own_within} of {own_cells} powers, so the gap is not our Monte Carlo error. None of the tested readings of the paper closes it; a finite simulated population, which the paper's 'drawing observations with replacement from a population' allows, would move each power by chance (SD {fp100k_sd} with 100,000 people, {fp8800_sd} with 8,800), but its size is not given.",
       "evidence": [
         "figure-reproduction/output/comparison.json",
         "figure-reproduction/output/simulation.json"
@@ -465,6 +465,6 @@
   ],
   "page": {
     "lede": "Hayward, Kent, Vijan and Hofer simulated thousands of clinical trials in 2006 and released no code. In November 2026 we rebuilt the simulation from the paper and reran every setting. Of {attempted} results we tried, {exact_agrees} agree, {partly} partly agree and {differs} {differs_verb}. The main claim came back.",
-    "claims_line": "The main claim holds: in every setting the risk-stratified analysis has far more power than the one-RF analysis. The claims that do not match come from one open cause: our powers run higher than the paper's where the heterogeneity is large."
+    "claims_line": "The main claim holds: in every setting the risk-stratified analysis has far more power than the one-RF analysis. The claims that do not match come from one open cause: where the heterogeneity is large, most of our powers are higher than the paper's."
   }
 }
