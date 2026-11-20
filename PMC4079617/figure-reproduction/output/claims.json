@@ -1,0 +1,505 @@
+{
+ "_about": "The statements of the text, computed from the paper's own tables (arithmetic) and from our run (observed);",
+ "text_contaminated_negative": {
+  "statement": "When the data were contaminated, the relative biases were all negative (Results).",
+  "fields": [
+   {
+    "name": "Table 1: every relative bias of the contaminated rows is negative (96 values)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_outcome_rate": {
+  "statement": "Scenarios with lower outcome rates seemed to be associated with more elevated absolute relative biases (Results).",
+  "fields": [
+   {
+    "name": "Table 1: |bias| at outcome 10% exceeds |bias| at 25%, every contaminated cell and model (32 pairs)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Table 1: |bias| at outcome 25% exceeds |bias| at 40%, every contaminated cell and model (32 pairs)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_linear_gap": {
+  "statement": "With a linear Z the largest differences occurred at 5% contamination and 10% outcome, where the log-binomial models had 3.5%-6.7% higher biases (Results).",
+  "fields": [
+   {
+    "name": "Linear Z: the largest LB - RP gaps in |bias| are at 5% contamination and 10% outcome",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Linear Z, 5% contamination, 10% outcome: smallest gap (points)",
+    "expected": "3.5",
+    "arithmetic": "3.5",
+    "observed": 3.576,
+    "tolerance": {
+     "abs": 0.816
+    }
+   },
+   {
+    "name": "Linear Z, 5% contamination, 10% outcome: largest gap (points)",
+    "expected": "6.7",
+    "arithmetic": "6.7",
+    "observed": 6.663,
+    "tolerance": {
+     "abs": 0.816
+    }
+   }
+  ],
+  "gaps": [
+   {
+    "cell": "RR 1.5, 10%, 5%, linear moderate",
+    "paper": 6.7,
+    "ours": 6.66,
+    "ours_mcse": 0.168656
+   },
+   {
+    "cell": "RR 1.5, 10%, 5%, linear strong",
+    "paper": 4.9,
+    "ours": 5.0,
+    "ours_mcse": 0.154678
+   },
+   {
+    "cell": "RR 2.0, 10%, 5%, linear moderate",
+    "paper": 4.5,
+    "ours": 4.47,
+    "ours_mcse": 0.105238
+   },
+   {
+    "cell": "RR 2.0, 10%, 5%, linear strong",
+    "paper": 3.5,
+    "ours": 3.58,
+    "ours_mcse": 0.099994
+   }
+  ]
+ },
+ "text_nonlinear": {
+  "statement": "With a non-linear Z the robust Poisson model outperformed the log-binomial model when the data were contaminated, visibly even at 2%; a larger difference went with smaller outcomes (Results).",
+  "fields": [
+   {
+    "name": "Non-linear Z: RP less biased than LB in every contaminated cell (24)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Non-linear Z: RP less biased than LB in every 2% cell (12)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Non-linear Z: the gap is larger at outcome 10% than at 40% (8 pairs)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_se_uncontaminated": {
+  "statement": "Without contamination the SEs of the two models were identical at the 2nd decimal point (Results).",
+  "fields": [
+   {
+    "name": "Table 2, 0% rows: LB and RP SEs equal at the 2nd decimal in all 24 pairs",
+    "expected": "yes",
+    "arithmetic": "no",
+    "observed": "no"
+   },
+   {
+    "name": "Table 2, 0% rows: LB and RP SEs differ by less than 0.005 before rounding (24 pairs)",
+    "expected": "yes",
+    "observed": "yes"
+   }
+  ],
+  "ours_largest_unrounded_difference": 0.00092
+ },
+ "text_se_contaminated": {
+  "statement": "With contamination the SEs remained comparable at outcome rates of 25% and 40%; at 10% the log-binomial SEs seemed slightly higher in some scenarios (Results).",
+  "fields": [
+   {
+    "name": "Table 2, contaminated rows at outcome 10%: LB SE above RP SE in some cells",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Table 2, contaminated rows at outcome 25% and 40%: LB and RP SEs within 0.01 in every cell",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_mse": {
+  "statement": "The MSEs follow the pattern of the biases: comparable with a linear Z except at outcome 10% and 5% contamination; with a non-linear Z the models diverge even at 2% (Results).",
+  "fields": [
+   {
+    "name": "Table 3, linear Z: LB MSE exceeds RP MSE by more than 0.005 only at outcome 10% and 5% contamination",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Table 3, non-linear Z: LB MSE at least RP MSE in every 2% cell (12), as printed",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_n500": {
+  "statement": "With n = 500 the same pattern was observed and the SEs were larger (Results, Additional file 2).",
+  "fields": [
+   {
+    "name": "Table A2 SE above Table 2 SE in every cell (144)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Table A1, non-linear Z: RP less biased than LB in every contaminated cell (24)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_no_outliers": {
+  "statement": "Without outliers the study did not observe any difference in biases or variances between the two models, for n = 1500 and n = 500 (Discussion).",
+  "fields": [
+   {
+    "name": "0% rows of Tables 1 and A1: LB and RP relative biases within 0.5 points in all 48 pairs",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_main_claim": {
+  "statement": "Comparable models with a linear confounder; the robust Poisson model consistently outperforms the log-binomial model with a quadratic confounder, even at 2% contamination (Abstract, Discussion, Conclusions).",
+  "fields": [
+   {
+    "name": "Linear Z: LB and RP |bias| within 2 points in every contaminated cell except outcome 10% at 5%",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   },
+   {
+    "name": "Non-linear Z: RP less biased than LB in every contaminated cell, from 2% on (24)",
+    "expected": "yes",
+    "arithmetic": "yes",
+    "observed": "yes"
+   }
+  ]
+ },
+ "text_convergence": {
+  "statement": "COPY (C = 1,000,000) converged in all 1,000 simulations in all 48 scenarios with the linear confounder and in 30 of 48 with the non-linear one; in the other 18, convergence rates 0.983-0.999 (median 0.996) (Discussion).",
+  "fields": [
+   {
+    "name": "Linear Z: scenarios with every log-binomial fit converged (of 48)",
+    "expected": "48",
+    "observed": "48"
+   },
+   {
+    "name": "Non-linear Z: scenarios with every log-binomial fit converged (of 48)",
+    "expected": "30",
+    "observed": "48"
+   }
+  ],
+  "ours": {
+   "linear": {
+    "scenarios": 48,
+    "all_converged": 48,
+    "copy_needed_in_some_fit": 5,
+    "copy_used_median": 0.0,
+    "copy_used_max": 2
+   },
+   "nonlinear": {
+    "scenarios": 48,
+    "all_converged": 48,
+    "copy_needed_in_some_fit": 47,
+    "copy_used_median": 171.5,
+    "copy_used_max": 863
+   }
+  }
+ },
+ "design": {
+  "statement": "alpha0 and beta0 of Additional file 1 give 50% exposure and 10, 25 or 40% outcome.",
+  "fields": [
+   {
+    "name": "RR 1.5, 10%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 10%, linear moderate: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 9.998,
+    "largest_p_y": 0.1418
+   },
+   {
+    "name": "RR 1.5, 10%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 10%, linear strong: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 9.995,
+    "largest_p_y": 0.1658
+   },
+   {
+    "name": "RR 1.5, 10%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 10%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 10.0,
+    "largest_p_y": 0.1623
+   },
+   {
+    "name": "RR 1.5, 10%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 10%, non-linear strong: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 10.001,
+    "largest_p_y": 0.2132
+   },
+   {
+    "name": "RR 1.5, 25%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 25%, linear moderate: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.009,
+    "largest_p_y": 0.3548
+   },
+   {
+    "name": "RR 1.5, 25%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 25%, linear strong: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.008,
+    "largest_p_y": 0.4149
+   },
+   {
+    "name": "RR 1.5, 25%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 25%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.0,
+    "largest_p_y": 0.4057
+   },
+   {
+    "name": "RR 1.5, 25%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 25%, non-linear strong: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.01,
+    "largest_p_y": 0.5333
+   },
+   {
+    "name": "RR 1.5, 40%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 40%, linear moderate: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.014,
+    "largest_p_y": 0.5676
+   },
+   {
+    "name": "RR 1.5, 40%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 40%, linear strong: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.005,
+    "largest_p_y": 0.6638
+   },
+   {
+    "name": "RR 1.5, 40%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 1.5, 40%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.015,
+    "largest_p_y": 0.6494
+   },
+   {
+    "name": "RR 1.5, 40%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 1.5, 40%, non-linear strong: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.0,
+    "largest_p_y": 0.8529
+   },
+   {
+    "name": "RR 2.0, 10%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 10%, linear moderate: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 10.0,
+    "largest_p_y": 0.1575
+   },
+   {
+    "name": "RR 2.0, 10%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 10%, linear strong: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 10.004,
+    "largest_p_y": 0.184
+   },
+   {
+    "name": "RR 2.0, 10%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 10%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 9.998,
+    "largest_p_y": 0.1801
+   },
+   {
+    "name": "RR 2.0, 10%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 10%, non-linear strong: P(Y = 1) (%)",
+    "expected": "10",
+    "observed": 10.004,
+    "largest_p_y": 0.2361
+   },
+   {
+    "name": "RR 2.0, 25%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 25%, linear moderate: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 24.98,
+    "largest_p_y": 0.3934
+   },
+   {
+    "name": "RR 2.0, 25%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 25%, linear strong: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.006,
+    "largest_p_y": 0.4599
+   },
+   {
+    "name": "RR 2.0, 25%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 25%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 25.019,
+    "largest_p_y": 0.4506
+   },
+   {
+    "name": "RR 2.0, 25%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 25%, non-linear strong: P(Y = 1) (%)",
+    "expected": "25",
+    "observed": 24.99,
+    "largest_p_y": 0.5898
+   },
+   {
+    "name": "RR 2.0, 40%, linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 40%, linear moderate: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 39.992,
+    "largest_p_y": 0.6299
+   },
+   {
+    "name": "RR 2.0, 40%, linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 40%, linear strong: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.002,
+    "largest_p_y": 0.7358
+   },
+   {
+    "name": "RR 2.0, 40%, non-linear moderate: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 50.028
+   },
+   {
+    "name": "RR 2.0, 40%, non-linear moderate: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 39.958,
+    "largest_p_y": 0.7197
+   },
+   {
+    "name": "RR 2.0, 40%, non-linear strong: P(X = 1) (%)",
+    "expected": "50",
+    "observed": 49.942
+   },
+   {
+    "name": "RR 2.0, 40%, non-linear strong: P(Y = 1) (%)",
+    "expected": "40",
+    "observed": 40.016,
+    "largest_p_y": 0.9444
+   }
+  ]
+ }
+}
