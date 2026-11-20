@@ -146,6 +146,22 @@ def main_claim_line(M, R):
     return line
 
 
+def with_install_block(page):
+    """The repository's "Install" block (tools/site_install.py, from package/README.md), placed as that
+    tool places it, so the page the pipeline writes equals the committed one."""
+    tools = HERE.parents[2] / "tools"
+    if not (tools / "site_install.py").is_file():
+        return page
+    sys.path.insert(0, str(tools))
+    import site_install
+
+    want = site_install.block(HERE.parents[1].name)
+    page = site_install.BLOCK.sub("", page)
+    if want and site_install.ANCHOR in page:
+        page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
+    return page
+
+
 def main(results, run, pub, out):
     R = json.loads(Path(results).read_text())
     run, pub = Path(run), Path(pub)
@@ -255,6 +271,7 @@ def main(results, run, pub, out):
                  "CLOSING": esc("Fig. 2 came back the same.")}.items():
         page = page.replace(f"<!--__{k}__-->", v)
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
+    page = with_install_block(page)
     outp = Path(out) / "index.html"
     outp.parent.mkdir(parents=True, exist_ok=True)
     outp.write_text(page)
