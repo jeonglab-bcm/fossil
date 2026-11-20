@@ -34,7 +34,7 @@ FIELD_KEYS = ("name", "expected", "observed", "tolerance", "arithmetic", "arithm
 def get(run, ref):
     f, _, key = ref.partition(":")
     d = json.load(open(Path(run) / f))
-    return d[key] if key else d
+    return d[key.replace(".", "_")] if key else d
 
 
 def misses(fields):
@@ -82,7 +82,7 @@ def facts_of(run):
     for cid, claim in cl.items():
         for j, f in enumerate(claim["fields"]):
             if "repeats" in f:
-                facts[f"rep_{cid.replace('.', '_')}_{j}"] = f["repeats"]
+                facts[f"rep_{cid}_{j}"] = f["repeats"]
     r1, r2 = a["combinations"]["all"]["run1"]["counts"], a["combinations"]["all"]["run2"]["counts"]
     facts["acc_both_run2"] = r2["single"]["accuracy"]["mean"][2]
     facts["acc_sig_run2"] = r2["single"]["accuracy"]["significant"][2]
@@ -181,7 +181,7 @@ def main():
                 f"plus three Monte Carlo standard deviations; {s['intervals_within']:,} of {s['intervals']:,} interval ends within three times "
                 f"the run-to-run spread. Control: our run on the other data set puts {comparison[chk]['control_other_set'][0]:,} of {s['means']:,} means within.")}
         elif chk == "arithmetic":
-            excepted = {(i["id"], e["field"]) for i in notes["items"] for e in i.get("exceptions", []) if e["category"] == "paper_error"}
+            excepted = {(i["id"].replace(".", "_"), e["field"]) for i in notes["items"] for e in i.get("exceptions", []) if e["category"] == "paper_error"}
             passed, detail = arithmetic(claims, comparison, excepted)
             it["check"] = {"passed": passed, "detail": detail}
         res["items"].append(it)

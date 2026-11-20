@@ -116,7 +116,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4232638/>
 | MutationTaster and CHASM (breast, lung) lead the top combinations (Results, Fig. 4) | agrees | 16 of 16 fields as printed |
 | Removing COSMIC or training-set SNVs never raises accuracy significantly (Discussion) | agrees | 12 of 12 fields as printed |
 | Optimal n and p (Results) | differs | 0 of 0 fields as printed, 2 paper errors |
-| The text's statements recomputed from the paper's own tables (arithmetic check) | agrees | 133 of 135 statements recomputed from the paper's own tables come back. Not: text.optimal: for n = 1 to 4, the best p is about 2n (printed yes, from the tables no); text.optimal: for p = 3 to 11, the best n is about p/2 (printed yes, from the tables no). Fig. 4 recomputed from the means printed in Additional files 17 and 18: 173 of 176 points. |
+| The text's statements recomputed from the paper's own tables (arithmetic check) | agrees | 133 of 135 statements recomputed from the paper's own tables come back. Not: text_optimal: for n = 1 to 4, the best p is about 2n (printed yes, from the tables no); text_optimal: for p = 3 to 11, the best n is about p/2 (printed yes, from the tables no). Fig. 4 recomputed from the means printed in Additional files 17 and 18: 173 of 176 points. |
 | Additional file 1, overview of the predictors | not attempted | not attempted |
 | The authors' statistical code | not attempted | not attempted |
 | Python package mutbench and its tutorial | agrees | mutbench 0.1.0: wheel installed in a fresh environment and imported from it; tests 9 passed; tutorial 7 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync |

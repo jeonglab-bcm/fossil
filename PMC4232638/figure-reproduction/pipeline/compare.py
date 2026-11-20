@@ -553,6 +553,8 @@ def main():
     res["fig4_arithmetic"] = fig4_arithmetic(figs, pub_comb)
     res["af23_arithmetic"] = fig4_arithmetic(figs, pub_comb, "af23", "accuracy")
     res["controls"] = controls(pub, figs, reading, ours)
+    # Top-level keys without dots: the repository's results check reads key paths split at dots.
+    res = {k.replace(".", "_"): v for k, v in res.items()}
     with open(out, "w") as fh:
         json.dump(res, fh, indent=1, default=lambda v: v.item() if hasattr(v, "item") else str(v))
         fh.write("\n")

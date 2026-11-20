@@ -343,6 +343,8 @@ def main():
         F("for n = 1 to 4, the best p is about 2n", "yes", rel_n_paper(o["by_n"]), rel_n_paper(a25["by_n"])),
         F("for p = 3 to 11, the best n is about p/2", "yes", rel_p(o["by_p"]), rel_p(a25["by_p"])),
     ]}
+    # Top-level keys without dots: the repository's results check reads key paths split at dots.
+    claims = {k.replace(".", "_"): v for k, v in claims.items()}
     with open(out, "w") as fh:
         json.dump(claims, fh, indent=1, default=lambda v: v.item() if hasattr(v, "item") else str(v))
         fh.write("\n")
