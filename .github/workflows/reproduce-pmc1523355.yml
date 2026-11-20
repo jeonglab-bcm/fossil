@@ -1,0 +1,71 @@
+name: Reproduce PMC1523355
+
+# Reruns the whole PMC1523355 pipeline (Hayward, Kent, Vijan and Hofer 2006, the power of risk-stratified
+# against conventional subgroup analysis) and checks it: the figure and the article XML are downloaded and
+# their SHA-256 checked; every simulated setting of Tables 1-5 and Fig. 1B runs again at 20,000 trials,
+# with a second run, the hypothesis variants and the finite-population runs; every printed value is
+# compared; Fig. 1A is drawn on the published axes and scored; check_results.py runs on the fresh
+# results.json; the package stratpower is built and tested in a fresh environment and its tutorial rerun;
+# and the fresh run is compared with the committed outputs, results.json, figure-reproduction/results.json
+# and the page. Everything runs in a few minutes, so nothing is left to a manual run.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC1523355/figure-reproduction/**"
+      - "PMC1523355/package/**"
+      - "PMC1523355/results.json"
+      - "site/PMC1523355/**"
+      - ".github/workflows/reproduce-pmc1523355.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC1523355/figure-reproduction/**"
+      - "PMC1523355/package/**"
+      - "PMC1523355/results.json"
+      - "site/PMC1523355/**"
+      - ".github/workflows/reproduce-pmc1523355.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package stratpower
+        run: pip install -r PMC1523355/figure-reproduction/requirements.txt ./PMC1523355/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC1523355/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc1523355-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

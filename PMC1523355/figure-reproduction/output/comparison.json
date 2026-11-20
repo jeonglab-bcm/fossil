@@ -1,0 +1,1110 @@
+{
+ "tolerance_rule": "power: .005 + 3 sqrt(p(1-p)/2000 + q(1-q)/n_ours); other values: printed precision",
+ "items": {
+  "table1_true": {
+   "fields": [
+    {
+     "name": "risk factor absent (75%), % of population",
+     "expected": "75",
+     "observed": 75.0
+    },
+    {
+     "name": "risk factor absent (75%), CER (%)",
+     "expected": "2.2",
+     "observed": 2.218494
+    },
+    {
+     "name": "risk factor absent (75%), net RRR",
+     "expected": "-.19",
+     "observed": -0.176134
+    },
+    {
+     "name": "risk factor absent (75%), NNT",
+     "expected": "-239",
+     "observed": -255.916254
+    },
+    {
+     "name": "risk factor present (25%), % of population",
+     "expected": "25",
+     "observed": 25.0
+    },
+    {
+     "name": "risk factor present (25%), CER (%)",
+     "expected": "4.2",
+     "observed": 4.28195
+    },
+    {
+     "name": "risk factor present (25%), net RRR",
+     "expected": ".13",
+     "observed": 0.149692
+    },
+    {
+     "name": "risk factor present (25%), NNT",
+     "expected": "183",
+     "observed": 156.012367
+    },
+    {
+     "name": "0-1 RFs, % of population",
+     "expected": "53.4",
+     "observed": 53.393555
+    },
+    {
+     "name": "0-1 RFs, CER (%)",
+     "expected": "1.4",
+     "observed": 1.242556
+    },
+    {
+     "name": "0-1 RFs, net RRR",
+     "expected": "-.57",
+     "observed": -0.707189
+    },
+    {
+     "name": "0-1 RFs, NNT",
+     "expected": "-125",
+     "observed": -113.801624
+    },
+    {
+     "name": "2 or more RFs, % of population",
+     "expected": "46.6",
+     "observed": 46.606445
+    },
+    {
+     "name": "2 or more RFs, CER (%)",
+     "expected": "4.4",
+     "observed": 4.443406
+    },
+    {
+     "name": "2 or more RFs, net RRR",
+     "expected": ".16",
+     "observed": 0.162421
+    },
+    {
+     "name": "2 or more RFs, NNT",
+     "expected": "143",
+     "observed": 138.561183
+    },
+    {
+     "name": "0 RFs, % of population",
+     "expected": "17.8",
+     "observed": 17.797852
+    },
+    {
+     "name": "0 RFs, CER (%)",
+     "expected": "0.75",
+     "observed": 0.75
+    },
+    {
+     "name": "0 RFs, net RRR",
+     "expected": "-1.59",
+     "observed": -1.5
+    },
+    {
+     "name": "0 RFs, NNT",
+     "expected": "-88",
+     "observed": -88.888889
+    },
+    {
+     "name": "1 RF, % of population",
+     "expected": "35.6",
+     "observed": 35.595703
+    },
+    {
+     "name": "1 RF, CER (%)",
+     "expected": "1.5",
+     "observed": 1.488834
+    },
+    {
+     "name": "1 RF, net RRR",
+     "expected": "-.51",
+     "observed": -0.5075
+    },
+    {
+     "name": "1 RF, NNT",
+     "expected": "-132",
+     "observed": -132.348112
+    },
+    {
+     "name": "2 RFs, % of population",
+     "expected": "29.7",
+     "observed": 29.663086
+    },
+    {
+     "name": "2 RFs, CER (%)",
+     "expected": "3.0",
+     "observed": 2.933985
+    },
+    {
+     "name": "2 RFs, net RRR",
+     "expected": "-.02",
+     "observed": -0.01125
+    },
+    {
+     "name": "2 RFs, NNT",
+     "expected": "-1936",
+     "observed": -3029.62963
+    },
+    {
+     "name": "3 RFs, % of population",
+     "expected": "13.2",
+     "observed": 13.183594
+    },
+    {
+     "name": "3 RFs, CER (%)",
+     "expected": "6.0",
+     "observed": 5.700713
+    },
+    {
+     "name": "3 RFs, net RRR",
+     "expected": ".21",
+     "observed": 0.236875
+    },
+    {
+     "name": "3 RFs, NNT",
+     "expected": "83",
+     "observed": 74.054529
+    },
+    {
+     "name": "4 or more RFs, % of population",
+     "expected": "3.7",
+     "observed": 3.759766
+    },
+    {
+     "name": "4 or more RFs, CER (%)",
+     "expected": "12.8",
+     "observed": 11.943406
+    },
+    {
+     "name": "4 or more RFs, net RRR",
+     "expected": ".35",
+     "observed": 0.374408
+    },
+    {
+     "name": "4 or more RFs, NNT",
+     "expected": "24",
+     "observed": 22.362845
+    }
+   ],
+   "summary": {
+    "fields": 36,
+    "compared": 36,
+    "within": 15,
+    "rms_z_power": null,
+    "mean_z_power": null
+   }
+  },
+  "table1_power": {
+   "fields": [
+    {
+     "name": "conventional (one RF)",
+     "expected": ".23",
+     "observed": 0.23565,
+     "tolerance": {
+      "abs": 0.034631
+     },
+     "z": 0.572
+    },
+    {
+     "name": "risk index, dichotomized (0-1 vs 2 or more RFs)",
+     "expected": ".72",
+     "observed": 0.73695,
+     "tolerance": {
+      "abs": 0.036535
+     },
+     "z": 1.613
+    },
+    {
+     "name": "risk index, continuous (RF count)",
+     "expected": ".83",
+     "observed": 0.8591,
+     "tolerance": {
+      "abs": 0.031257
+     },
+     "z": 3.325
+    },
+    {
+     "name": "AUROC of the risk index",
+     "expected": "0.65",
+     "observed": 0.649376
+    }
+   ],
+   "summary": {
+    "fields": 4,
+    "compared": 4,
+    "within": 4,
+    "rms_z_power": 2.159,
+    "mean_z_power": 1.837
+   }
+  },
+  "table2": {
+   "fields": [
+    {
+     "name": "OR 1.5, prevalence 10%",
+     "expected": ".08",
+     "observed": 0.07355,
+     "tolerance": {
+      "abs": 0.024023
+     },
+     "z": -1.017
+    },
+    {
+     "name": "OR 1.5, prevalence 25%",
+     "expected": ".12",
+     "observed": 0.1106,
+     "tolerance": {
+      "abs": 0.027792
+     },
+     "z": -1.237
+    },
+    {
+     "name": "OR 1.5, prevalence 50%",
+     "expected": ".13",
+     "observed": 0.12495,
+     "tolerance": {
+      "abs": 0.028625
+     },
+     "z": -0.641
+    },
+    {
+     "name": "OR 2.0, prevalence 10%",
+     "expected": ".13",
+     "observed": 0.13465,
+     "tolerance": {
+      "abs": 0.028694
+     },
+     "z": 0.589
+    },
+    {
+     "name": "OR 2.0, prevalence 25%",
+     "expected": ".21",
+     "observed": 0.22975,
+     "tolerance": {
+      "abs": 0.033743
+     },
+     "z": 2.061
+    },
+    {
+     "name": "OR 2.0, prevalence 50%",
+     "expected": ".22",
+     "observed": 0.2648,
+     "tolerance": {
+      "abs": 0.034322
+     },
+     "z": 4.584
+    },
+    {
+     "name": "OR 3.0, prevalence 10%",
+     "expected": ".26",
+     "observed": 0.30235,
+     "tolerance": {
+      "abs": 0.035995
+     },
+     "z": 4.099
+    },
+    {
+     "name": "OR 3.0, prevalence 25%",
+     "expected": ".41",
+     "observed": 0.4921,
+     "tolerance": {
+      "abs": 0.039656
+     },
+     "z": 7.107
+    },
+    {
+     "name": "OR 3.0, prevalence 50%",
+     "expected": ".44",
+     "observed": 0.52585,
+     "tolerance": {
+      "abs": 0.039943
+     },
+     "z": 7.371
+    }
+   ],
+   "summary": {
+    "fields": 9,
+    "compared": 9,
+    "within": 5,
+    "rms_z_power": 4.086,
+    "mean_z_power": 2.546
+   }
+  },
+  "table3": {
+   "fields": [
+    {
+     "name": "OR 1.5, 1 RF, power",
+     "expected": ".12",
+     "observed": 0.11265,
+     "tolerance": {
+      "abs": 0.027807
+     },
+     "z": -0.967
+    },
+    {
+     "name": "OR 1.5, 1 RF, AUROC",
+     "expected": ".53",
+     "observed": 0.529023
+    },
+    {
+     "name": "OR 1.5, 3 RFs, power",
+     "expected": ".27",
+     "observed": 0.24945,
+     "tolerance": {
+      "abs": 0.036164
+     },
+     "z": -1.978
+    },
+    {
+     "name": "OR 1.5, 3 RFs, AUROC",
+     "expected": ".55",
+     "observed": 0.555533
+    },
+    {
+     "name": "OR 1.5, 6 RFs, power",
+     "expected": ".45",
+     "observed": 0.4566,
+     "tolerance": {
+      "abs": 0.040006
+     },
+     "z": 0.566
+    },
+    {
+     "name": "OR 1.5, 6 RFs, AUROC",
+     "expected": ".58",
+     "observed": 0.572884
+    },
+    {
+     "name": "OR 2.0, 1 RF, power",
+     "expected": ".21",
+     "observed": 0.2338,
+     "tolerance": {
+      "abs": 0.03376
+     },
+     "z": 2.483
+    },
+    {
+     "name": "OR 2.0, 1 RF, AUROC",
+     "expected": ".54",
+     "observed": 0.553295
+    },
+    {
+     "name": "OR 2.0, 3 RFs, power",
+     "expected": ".61",
+     "observed": 0.5732,
+     "tolerance": {
+      "abs": 0.03936
+     },
+     "z": -3.213
+    },
+    {
+     "name": "OR 2.0, 3 RFs, AUROC",
+     "expected": ".59",
+     "observed": 0.604459
+    },
+    {
+     "name": "OR 2.0, 6 RFs, power",
+     "expected": ".83",
+     "observed": 0.86275,
+     "tolerance": {
+      "abs": 0.031234
+     },
+     "z": 3.745
+    },
+    {
+     "name": "OR 2.0, 6 RFs, AUROC",
+     "expected": ".65",
+     "observed": 0.649376
+    },
+    {
+     "name": "OR 3.0, 1 RF, power",
+     "expected": ".41",
+     "observed": 0.4902,
+     "tolerance": {
+      "abs": 0.039656
+     },
+     "z": 6.943
+    },
+    {
+     "name": "OR 3.0, 1 RF, AUROC",
+     "expected": ".57",
+     "observed": 0.591718
+    },
+    {
+     "name": "OR 3.0, 3 RFs, power",
+     "expected": ".92",
+     "observed": 0.8879,
+     "tolerance": {
+      "abs": 0.02439
+     },
+     "z": -4.966
+    },
+    {
+     "name": "OR 3.0, 3 RFs, AUROC",
+     "expected": ".67",
+     "observed": 0.678374
+    },
+    {
+     "name": "OR 3.0, 6 RFs, power",
+     "expected": ".93",
+     "observed": 0.99285,
+     "tolerance": {
+      "abs": 0.022209
+     },
+     "z": 10.957
+    },
+    {
+     "name": "OR 3.0, 6 RFs, AUROC",
+     "expected": ".76",
+     "observed": 0.75286
+    }
+   ],
+   "summary": {
+    "fields": 18,
+    "compared": 18,
+    "within": 7,
+    "rms_z_power": 5.04,
+    "mean_z_power": 1.508
+   }
+  },
+  "table4": {
+   "fields": [
+    {
+     "name": "perfect weighting, AUROC",
+     "expected": ".69",
+     "observed": 0.655465
+    },
+    {
+     "name": "perfect weighting, power",
+     "expected": ".82",
+     "observed": 0.8706,
+     "tolerance": {
+      "abs": 0.031738
+     },
+     "z": 5.677
+    },
+    {
+     "name": "uniform weighting, AUROC",
+     "expected": ".66",
+     "observed": 0.645418
+    },
+    {
+     "name": "uniform weighting, power",
+     "expected": ".75",
+     "observed": 0.84285,
+     "tolerance": {
+      "abs": 0.035056
+     },
+     "z": 9.268
+    },
+    {
+     "name": "reverse weighting, AUROC",
+     "expected": ".63",
+     "observed": 0.635119
+    },
+    {
+     "name": "reverse weighting, power",
+     "expected": ".69",
+     "observed": 0.77655,
+     "tolerance": {
+      "abs": 0.037259
+     },
+     "z": 8.049
+    },
+    {
+     "name": "incomplete reverse weighting, AUROC",
+     "expected": ".60",
+     "observed": 0.606377
+    },
+    {
+     "name": "incomplete reverse weighting, power",
+     "expected": ".51",
+     "observed": 0.54555,
+     "tolerance": {
+      "abs": 0.040158
+     },
+     "z": 3.033
+    }
+   ],
+   "summary": {
+    "fields": 8,
+    "compared": 8,
+    "within": 1,
+    "rms_z_power": 6.93,
+    "mean_z_power": 6.507
+   }
+  },
+  "table5": {
+   "fields": [
+    {
+     "name": "1 per 1,000 patient-years, conventional (%)",
+     "expected": "6",
+     "observed": 8.865,
+     "tolerance": {
+      "abs": 2.203397
+     },
+     "z": 5.046
+    },
+    {
+     "name": "1 per 1,000 patient-years, risk-stratified (%)",
+     "expected": "39",
+     "observed": 31.115,
+     "tolerance": {
+      "abs": 3.91614
+     },
+     "z": -6.924
+    },
+    {
+     "name": "2 per 1,000 patient-years, conventional (%)",
+     "expected": "11",
+     "observed": 15.8,
+     "tolerance": {
+      "abs": 2.736998
+     },
+     "z": 6.437
+    },
+    {
+     "name": "2 per 1,000 patient-years, risk-stratified (%)",
+     "expected": "59",
+     "observed": 65.405,
+     "tolerance": {
+      "abs": 3.950175
+     },
+     "z": 5.569
+    },
+    {
+     "name": "3 per 1,000 patient-years, conventional (%)",
+     "expected": "21",
+     "observed": 23.575,
+     "tolerance": {
+      "abs": 3.376851
+     },
+     "z": 2.685
+    },
+    {
+     "name": "3 per 1,000 patient-years, risk-stratified (%)",
+     "expected": "83",
+     "observed": 86.35,
+     "tolerance": {
+      "abs": 3.122957
+     },
+     "z": 3.832
+    },
+    {
+     "name": "4 per 1,000 patient-years, conventional (%)",
+     "expected": "28",
+     "observed": 30.675,
+     "tolerance": {
+      "abs": 3.666851
+     },
+     "z": 2.534
+    },
+    {
+     "name": "4 per 1,000 patient-years, risk-stratified (%)",
+     "expected": "92",
+     "observed": 94.535,
+     "tolerance": {
+      "abs": 2.38268
+     },
+     "z": 4.039
+    }
+   ],
+   "summary": {
+    "fields": 8,
+    "compared": 8,
+    "within": 2,
+    "rms_z_power": 4.88,
+    "mean_z_power": 2.902
+   }
+  },
+  "fig1b": {
+   "fields": [
+    {
+     "name": "average CER 1.5%, one RF, power",
+     "expected": ".28",
+     "observed": 0.25425,
+     "tolerance": {
+      "abs": 0.036504
+     },
+     "z": -2.452
+    },
+    {
+     "name": "average CER 1.5%, one RF, AUROC",
+     "expected": ".54",
+     "observed": 0.544651
+    },
+    {
+     "name": "average CER 1.5%, 4-RF score, power",
+     "expected": ".77",
+     "observed": 0.73325,
+     "tolerance": {
+      "abs": 0.034748
+     },
+     "z": -3.706
+    },
+    {
+     "name": "average CER 1.5%, 4-RF score, AUROC",
+     "expected": ".61",
+     "observed": 0.601358
+    },
+    {
+     "name": "average CER 3%, one RF, power",
+     "expected": ".25",
+     "observed": 0.23255,
+     "tolerance": {
+      "abs": 0.035398
+     },
+     "z": -1.722
+    },
+    {
+     "name": "average CER 3%, one RF, AUROC",
+     "expected": ".55",
+     "observed": 0.555
+    },
+    {
+     "name": "average CER 3%, 4-RF score, power",
+     "expected": ".74",
+     "observed": 0.69985,
+     "tolerance": {
+      "abs": 0.035989
+     },
+     "z": -3.887
+    },
+    {
+     "name": "average CER 3%, 4-RF score, AUROC",
+     "expected": ".63",
+     "observed": 0.625498
+    },
+    {
+     "name": "average CER 6%, one RF, power",
+     "expected": ".19",
+     "observed": 0.1907,
+     "tolerance": {
+      "abs": 0.032604
+     },
+     "z": 0.076
+    },
+    {
+     "name": "average CER 6%, one RF, AUROC",
+     "expected": ".55",
+     "observed": 0.561122
+    },
+    {
+     "name": "average CER 6%, 4-RF score, power",
+     "expected": ".60",
+     "observed": 0.61255,
+     "tolerance": {
+      "abs": 0.03945
+     },
+     "z": 1.093
+    },
+    {
+     "name": "average CER 6%, 4-RF score, AUROC",
+     "expected": ".65",
+     "observed": 0.640796
+    },
+    {
+     "name": "average CER 9%, one RF, power",
+     "expected": ".14",
+     "observed": 0.16825,
+     "tolerance": {
+      "abs": 0.029592
+     },
+     "z": 3.446
+    },
+    {
+     "name": "average CER 9%, one RF, AUROC",
+     "expected": ".56",
+     "observed": 0.562498
+    },
+    {
+     "name": "average CER 9%, 4-RF score, power",
+     "expected": ".44",
+     "observed": 0.56885,
+     "tolerance": {
+      "abs": 0.039917
+     },
+     "z": 11.071
+    },
+    {
+     "name": "average CER 9%, 4-RF score, AUROC",
+     "expected": ".66",
+     "observed": 0.64519
+    }
+   ],
+   "summary": {
+    "fields": 16,
+    "compared": 16,
+    "within": 9,
+    "rms_z_power": 4.656,
+    "mean_z_power": 0.49
+   }
+  }
+ },
+ "second_run": {
+  "table1_true": {
+   "fields": 36,
+   "compared": 36,
+   "within": 15,
+   "rms_z_power": null,
+   "mean_z_power": null
+  },
+  "table1_power": {
+   "fields": 4,
+   "compared": 4,
+   "within": 4,
+   "rms_z_power": 2.079,
+   "mean_z_power": 1.674
+  },
+  "table2": {
+   "fields": 9,
+   "compared": 9,
+   "within": 5,
+   "rms_z_power": 4.093,
+   "mean_z_power": 2.637
+  },
+  "table3": {
+   "fields": 18,
+   "compared": 18,
+   "within": 6,
+   "rms_z_power": 5.133,
+   "mean_z_power": 1.455
+  },
+  "table4": {
+   "fields": 8,
+   "compared": 8,
+   "within": 0,
+   "rms_z_power": 7.189,
+   "mean_z_power": 6.83
+  },
+  "table5": {
+   "fields": 8,
+   "compared": 8,
+   "within": 3,
+   "rms_z_power": 4.867,
+   "mean_z_power": 2.85
+  },
+  "fig1b": {
+   "fields": 16,
+   "compared": 16,
+   "within": 10,
+   "rms_z_power": 4.837,
+   "mean_z_power": 0.446
+  }
+ },
+ "own_runs": {
+  "cells": 41,
+  "within": 41
+ },
+ "hypotheses": {
+  "rr_scale": {
+   "table1_true": {
+    "fields": 36,
+    "compared": 36,
+    "within": 12,
+    "rms_z_power": null,
+    "mean_z_power": null
+   },
+   "table1_power": {
+    "fields": 4,
+    "compared": 4,
+    "within": 1,
+    "rms_z_power": 4.64,
+    "mean_z_power": 4.302
+   },
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 4,
+    "rms_z_power": 6.101,
+    "mean_z_power": 4.587
+   },
+   "table3": {
+    "fields": 18,
+    "compared": 14,
+    "within": 5,
+    "rms_z_power": 4.812,
+    "mean_z_power": 3.083
+   },
+   "table4": {
+    "fields": 8,
+    "compared": 8,
+    "within": 0,
+    "rms_z_power": 10.371,
+    "mean_z_power": 10.086
+   },
+   "table5": {
+    "fields": 8,
+    "compared": 8,
+    "within": 0,
+    "rms_z_power": 6.173,
+    "mean_z_power": 4.994
+   },
+   "fig1b": {
+    "fields": 16,
+    "compared": 16,
+    "within": 8,
+    "rms_z_power": 9.374,
+    "mean_z_power": 5.055
+   }
+  },
+  "lr_test": {
+   "table1_true": {
+    "fields": 36,
+    "compared": 36,
+    "within": 15,
+    "rms_z_power": null,
+    "mean_z_power": null
+   },
+   "table1_power": {
+    "fields": 4,
+    "compared": 4,
+    "within": 3,
+    "rms_z_power": 2.371,
+    "mean_z_power": 1.989
+   },
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 5,
+    "rms_z_power": 4.041,
+    "mean_z_power": 3.001
+   },
+   "table3": {
+    "fields": 18,
+    "compared": 18,
+    "within": 7,
+    "rms_z_power": 4.833,
+    "mean_z_power": 1.306
+   },
+   "table4": {
+    "fields": 8,
+    "compared": 8,
+    "within": 1,
+    "rms_z_power": 6.764,
+    "mean_z_power": 6.409
+   },
+   "table5": {
+    "fields": 8,
+    "compared": 8,
+    "within": 3,
+    "rms_z_power": 5.024,
+    "mean_z_power": 3.143
+   },
+   "fig1b": {
+    "fields": 16,
+    "compared": 16,
+    "within": 9,
+    "rms_z_power": 4.65,
+    "mean_z_power": 0.514
+   }
+  },
+  "harm_independent": {
+   "table1_true": {
+    "fields": 36,
+    "compared": 36,
+    "within": 15,
+    "rms_z_power": null,
+    "mean_z_power": null
+   },
+   "table1_power": {
+    "fields": 4,
+    "compared": 4,
+    "within": 3,
+    "rms_z_power": 2.49,
+    "mean_z_power": 2.0
+   },
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 5,
+    "rms_z_power": 4.094,
+    "mean_z_power": 2.709
+   },
+   "table3": {
+    "fields": 18,
+    "compared": 18,
+    "within": 8,
+    "rms_z_power": 5.124,
+    "mean_z_power": 1.572
+   },
+   "table4": {
+    "fields": 8,
+    "compared": 8,
+    "within": 0,
+    "rms_z_power": 7.205,
+    "mean_z_power": 6.833
+   },
+   "table5": {
+    "fields": 8,
+    "compared": 8,
+    "within": 4,
+    "rms_z_power": 4.523,
+    "mean_z_power": 2.66
+   },
+   "fig1b": {
+    "fields": 16,
+    "compared": 16,
+    "within": 8,
+    "rms_z_power": 4.564,
+    "mean_z_power": 0.27
+   }
+  },
+  "table2_others_same_or": {
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 5,
+    "rms_z_power": 3.58,
+    "mean_z_power": -1.068
+   }
+  },
+  "table3_only_index_rfs": {
+   "table3": {
+    "fields": 18,
+    "compared": 18,
+    "within": 10,
+    "rms_z_power": 5.601,
+    "mean_z_power": 3.365
+   }
+  },
+  "paper_iterations": {
+   "table1_true": {
+    "fields": 36,
+    "compared": 36,
+    "within": 15,
+    "rms_z_power": null,
+    "mean_z_power": null
+   },
+   "table1_power": {
+    "fields": 4,
+    "compared": 4,
+    "within": 4,
+    "rms_z_power": 1.674,
+    "mean_z_power": 1.287
+   },
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 7,
+    "rms_z_power": 3.146,
+    "mean_z_power": 1.964
+   },
+   "table3": {
+    "fields": 18,
+    "compared": 18,
+    "within": 8,
+    "rms_z_power": 4.379,
+    "mean_z_power": 1.418
+   },
+   "table4": {
+    "fields": 8,
+    "compared": 8,
+    "within": 1,
+    "rms_z_power": 5.655,
+    "mean_z_power": 5.311
+   },
+   "table5": {
+    "fields": 8,
+    "compared": 8,
+    "within": 4,
+    "rms_z_power": 3.717,
+    "mean_z_power": 1.948
+   },
+   "fig1b": {
+    "fields": 16,
+    "compared": 16,
+    "within": 10,
+    "rms_z_power": 3.27,
+    "mean_z_power": 0.432
+   }
+  },
+  "auroc_control_arm": {
+   "table1_power": {
+    "fields": 4,
+    "compared": 4,
+    "within": 3,
+    "rms_z_power": 2.159,
+    "mean_z_power": 1.837
+   },
+   "table2": {
+    "fields": 9,
+    "compared": 9,
+    "within": 5,
+    "rms_z_power": 4.086,
+    "mean_z_power": 2.546
+   },
+   "table3": {
+    "fields": 18,
+    "compared": 18,
+    "within": 5,
+    "rms_z_power": 5.04,
+    "mean_z_power": 1.508
+   },
+   "table4": {
+    "fields": 8,
+    "compared": 8,
+    "within": 1,
+    "rms_z_power": 6.93,
+    "mean_z_power": 6.507
+   },
+   "table5": {
+    "fields": 8,
+    "compared": 8,
+    "within": 2,
+    "rms_z_power": 4.88,
+    "mean_z_power": 2.902
+   },
+   "fig1b": {
+    "fields": 16,
+    "compared": 16,
+    "within": 6,
+    "rms_z_power": 4.656,
+    "mean_z_power": 0.49
+   }
+  }
+ },
+ "finite_population": {
+  "8800": {
+   "table1": {
+    "conventional": {
+     "mean": 0.2797,
+     "sd": 0.2052
+    },
+    "dichotomized": {
+     "mean": 0.6735,
+     "sd": 0.1888
+    },
+    "continuous": {
+     "mean": 0.8061,
+     "sd": 0.1594
+    }
+   },
+   "table2/3.0/25%": {
+    "conventional": {
+     "mean": 0.4877,
+     "sd": 0.2513
+    }
+   }
+  },
+  "100000": {
+   "table1": {
+    "conventional": {
+     "mean": 0.221,
+     "sd": 0.0829
+    },
+    "dichotomized": {
+     "mean": 0.7161,
+     "sd": 0.0783
+    },
+    "continuous": {
+     "mean": 0.8487,
+     "sd": 0.0455
+    }
+   },
+   "table2/3.0/25%": {
+    "conventional": {
+     "mean": 0.4747,
+     "sd": 0.0718
+    }
+   }
+  }
+ }
+}
