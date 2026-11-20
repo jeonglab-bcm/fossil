@@ -33,7 +33,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-4 exact, 13 agrees, 8 partly, 2 differs, 2 not attempted; 15 open causes; 7 verdicts set by a reviewer.
+4 exact, 12 agrees, 9 partly, 2 differs, 2 not attempted; 15 open causes; 7 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2824146/>
 | Figs 2 and 3, reference lines: true values and empirical SEs (20,000 complete-data cohorts) | partly | 10 of 18 fields as printed |
 | Fig. 2, coefficient estimates under MAR | agrees | 301 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 2 (bias, 0.5 SE, 10% bias) | partly | 11 of 18 fields as printed, 5 paper errors |
-| Fig. 3, average SEs under MAR | agrees | 164 of 333 fields as printed; computed partly, reviewer agrees |
+| Fig. 3, average SEs under MAR | partly | 164 of 333 fields as printed; computed partly, reviewer partly |
 | Claims about Fig. 3 (SEs) | exact | 6 of 6 fields as printed, 3 paper errors |
 | Fig. 4, coverage under MAR | agrees | 322 of 333 fields as printed; computed partly, reviewer agrees |
 | Claims about Fig. 4 (coverage) | partly | 14 of 18 fields as printed, 1 paper errors |
