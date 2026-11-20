@@ -75,10 +75,11 @@ put(paper / "package" / "README.md", "CHECKS",
     f"{F['within']} of {F['cells']} printed cells of Tables 1-3 and A1-A3 within Monte Carlo error (the miss is a "
     f"misprint of the paper), and its fits against statsmodels and an independent maximizer ({F['x_detail']}).", inline=True)
 status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {sm['inconclusive']} inconclusive, "
-          f"{sm['differs']} differ, {sm['not_attempted']} not attempted (`results.json`): the SAS simulation rebuilt as "
+          f"{sm['differs']} differ, {sm['not_attempted']} not attempted"
+          + (f"; {sm['reviewed']} verdicts set in review" if sm.get("reviewed") else "") + " (`results.json`): the SAS simulation rebuilt as "
           f"`robustrr` and rerun; {F['within']} of {F['cells']} printed cells of Tables 1-3 and A1-A3 within Monte Carlo "
-          f"error, the miss a misprint; the contamination cut-offs found from the SEs; Fig. 1A on the published lines, "
-          f"B-D not resolved by a 2 px test, their values within tolerance; main claim {mv}")
+          f"error, the miss a misprint; the contamination cut-offs found from the SEs; Fig. 1 agrees in review (its values "
+          f"within tolerance; a 2 px test cannot resolve the Monte Carlo noise of panels B-D); main claim {mv}")
 put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 
 # The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.

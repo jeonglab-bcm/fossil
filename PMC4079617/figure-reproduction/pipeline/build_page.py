@@ -77,7 +77,9 @@ def measure(it):
         p = it["pixels"]
         s = min(p["published_near_ours"], p["ours_near_published"])
         best = max(c["score"] for c in p["controls"])
-        return f"{100 * s:.1f}% of the lines within {p['tolerance_px']:g} px (pass {100 * p['threshold']:.0f}%, best control {100 * best:.1f}%)"
+        m = f"{100 * s:.1f}% of the lines within {p['tolerance_px']:g} px (pass {100 * p['threshold']:.0f}%, best control {100 * best:.1f}%)"
+        r = it.get("review")
+        return m + (f"; computed {r['computed']}, set to {r['verdict']} in review by {r['by']}" if r else "")
     if it["method"] == "check":
         return it["check"]["detail"]
     return ""

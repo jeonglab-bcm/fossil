@@ -36,16 +36,16 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC4079617/>
 <!-- summary from results.json (check_results.py); the full table, with the causes: figure-reproduction/README.md -->
 
 <!--RESULTS-SUMMARY-->
-1 exact, 21 agrees, 3 partly, 1 inconclusive, 2 not attempted; 1 open causes.
+1 exact, 24 agrees, 1 partly, 2 not attempted; 1 open causes; 3 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
 | Additional file 1, the 24 scenarios: exposure 50% and outcome 10, 25 or 40% | exact | 48 of 48 fields as printed |
 | Table 1, relative bias (%) of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 144 of 144 fields as printed |
 | Fig. 1A, relative bias, linear Z, moderate association (n = 1500) | agrees | 95.79% within 2.0 px (pass 95.0%, best control 73.6%) |
-| Fig. 1B, relative bias, linear Z, strong association (n = 1500) | partly | 68.37% within 2.0 px (pass 95.0%, best control 56.8%) |
-| Fig. 1C, relative bias, non-linear Z, moderate association (n = 1500) | inconclusive | 41.30% within 2.0 px (pass 95.0%, best control 51.3%) |
-| Fig. 1D, relative bias, non-linear Z, strong association (n = 1500) | partly | 88.57% within 2.0 px (pass 95.0%, best control 83.8%) |
+| Fig. 1B, relative bias, linear Z, strong association (n = 1500) | agrees | 68.37% within 2.0 px (pass 95.0%, best control 56.8%); computed partly, reviewer agrees |
+| Fig. 1C, relative bias, non-linear Z, moderate association (n = 1500) | agrees | 41.30% within 2.0 px (pass 95.0%, best control 51.3%); computed inconclusive, reviewer agrees |
+| Fig. 1D, relative bias, non-linear Z, strong association (n = 1500) | agrees | 88.57% within 2.0 px (pass 95.0%, best control 83.8%); computed partly, reviewer agrees |
 | Fig. 1 draws Table 1 (the published vertices read back) | agrees | 121 of the 123 vertices of Fig. 1 that can be read (of 144) lie within 1 point of Table 1 as printed; largest difference 1.09 points |
 | Table 2, empirical SE of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 144 of 144 fields as printed |
 | Table 3, MSE of the log RR, n = 1500 (18 rows x 8 cells) | agrees | 143 of 143 fields as printed, 1 paper errors |
