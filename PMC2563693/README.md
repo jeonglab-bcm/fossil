@@ -34,7 +34,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC2563693/>
 
 <!-- summary from results.json (check_results.py); the full table: python3 figure-reproduction/pipeline/check_results.py results.json --markdown -->
 
-53 results: 4 exact, 18 agree, 23 partly agree, 6 differ, 2 not attempted; 36 open causes. 11 verdicts were set in review by hyunhwan-bcm ([#59](https://github.com/jeonglab-bcm/fossil/pull/59#issuecomment-6931328785)): Fig. 2 and Fig. 3's AUC bars agree, Table 1's frequencies differ.
+53 results: 4 exact, 15 agree, 26 partly agree, 6 differ, 2 not attempted; 36 open causes. 11 verdicts were set in review by hyunhwan-bcm ([#59](https://github.com/jeonglab-bcm/fossil/pull/59#issuecomment-6931328785)): Fig. 2A, C, E, F and G and Fig. 3's AUC bars agree, Fig. 2B, D and H are partly (changed on 2026-11-20: 7 of 18, 9 of 19 and 5 of 20 points as printed), Table 1's frequencies differ.
 
 | Result | Verdict | Ours against the paper |
 | --- | --- | --- |
