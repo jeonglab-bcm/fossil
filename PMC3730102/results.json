@@ -1,0 +1,2504 @@
+{
+  "schema": "paper2repro/results/v1",
+  "paper": {
+    "id": "PMC3730102",
+    "title": "Proteome-wide discovery of mislocated proteins in cancer",
+    "citation": "Lee K, Byun K, Hong W, Chuang HY, Pack CG, Bayarsaikhan E, et al. Genome Research 23(8):1283-1294 (2013)",
+    "doi": "10.1101/gr.155499.113",
+    "license": "CC BY-NC 3.0"
+  },
+  "run": {
+    "pipeline": "PMC3730102/figure-reproduction/main.nf",
+    "command": "nextflow run PMC3730102/figure-reproduction/main.nf --outdir results",
+    "inputs": [
+      {
+        "name": "geo/GSE5281_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE5nnn/GSE5281/matrix/GSE5281_series_matrix.txt.gz",
+        "sha256": "4cf3d2e7948f712fe9a145fcc2e8f34767eb2715284011148b3204c732e68e36"
+      },
+      {
+        "name": "geo/GSE5390_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE5nnn/GSE5390/matrix/GSE5390_series_matrix.txt.gz",
+        "sha256": "45e25025a559ff950f3de44d750d378262badc028c937198ee569c99d37290a9"
+      },
+      {
+        "name": "geo/GSE3185-GPL8300_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE3nnn/GSE3185/matrix/GSE3185-GPL8300_series_matrix.txt.gz",
+        "sha256": "89e1fafac292d352498d87d79263a32ac793e37669fa5df4793b39972d082ab6"
+      },
+      {
+        "name": "geo/GSE3185-GPL96_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE3nnn/GSE3185/matrix/GSE3185-GPL96_series_matrix.txt.gz",
+        "sha256": "85016898fb77b0c3ce34f3d3c4bad7d8e5a85dd5e7f9a911cb46b932e521707d"
+      },
+      {
+        "name": "geo/GSE4271-GPL96_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4271/matrix/GSE4271-GPL96_series_matrix.txt.gz",
+        "sha256": "956b97238cd0a75d0c82e166d716b1e3ee21c73a24e77ca75b1243e43b67ebad"
+      },
+      {
+        "name": "geo/GSE4271-GPL97_series_matrix.txt.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE4nnn/GSE4271/matrix/GSE4271-GPL97_series_matrix.txt.gz",
+        "sha256": "11f36ea5263808058f6b3f07b8025da3e3d66accaaa2ac578f4a1031bf222207"
+      },
+      {
+        "name": "geo/GSE9885_family.soft.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE9nnn/GSE9885/soft/GSE9885_family.soft.gz",
+        "sha256": "a3f7585e1a8ad3593fb6f6a0933985899ca3ee488838afe6b1a10e3c72b43129"
+      },
+      {
+        "name": "geo/GPL96.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL96/annot/GPL96.annot.gz",
+        "sha256": "88e0b22362bac779eb220b3b185c80faa6510a92b9358eaad159a561ab4351c4"
+      },
+      {
+        "name": "geo/GPL97.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL97/annot/GPL97.annot.gz",
+        "sha256": "57f68da95e962424620581ba7d9615fce57452770726d49c4266a621ac8d07f5"
+      },
+      {
+        "name": "geo/GPL570.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL570/annot/GPL570.annot.gz",
+        "sha256": "d7cd44352127b1e34f3a720ebea86093ef255a38f1612a85a2962b71bde8f394"
+      },
+      {
+        "name": "geo/GPL8300.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPL8nnn/GPL8300/annot/GPL8300.annot.gz",
+        "sha256": "318e71026be4c7c5abafe8c4d87b694d8c8acfc3c87ce6022d12d697482749fe"
+      },
+      {
+        "name": "geo/GPL885.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL885/annot/GPL885.annot.gz",
+        "sha256": "e660d2b3f48f70231dbb93191b40a152c8d185186359b70e116044ee2e432c68"
+      },
+      {
+        "name": "geo/GPL887.annot.gz",
+        "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL887/annot/GPL887.annot.gz",
+        "sha256": "484b3b053e2ea7e9d924b9f4394d5b32de85e3a010b4f43f35dd9b140f658834"
+      },
+      {
+        "name": "go/goa_human.2007-01-01.gaf.gz",
+        "url": "https://s3.amazonaws.com/go-data-product-release/2007-01-01/annotations/goa_human.gaf.gz",
+        "sha256": "0e2a4c68ec509d36e58f4d16a5834cc1ad3b6250c92de9ab6262e99883a2f3f4"
+      },
+      {
+        "name": "go/gene_ontology.2007-01-01.obo",
+        "url": "https://s3.amazonaws.com/go-data-product-release/2007-01-01/ontology/gene_ontology.obo",
+        "sha256": "7ecc89dfee018b89c8fc347d16f67d9d6e4280fe29a514ccf2126c1191452494"
+      },
+      {
+        "name": "ppi/hprd-edge-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/hprd-edge-attributes.txt.zip",
+        "sha256": "0d03985c5dabefd091de7caabb44960d86ba5072423c3aae12e0c1baa5072c3c"
+      },
+      {
+        "name": "ppi/hprd-node-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/hprd-node-attributes.txt.zip",
+        "sha256": "c754e6841a20cf736a2fb180c55f5f3dbb3b16f094049c07dd48d1297e78a6f7"
+      },
+      {
+        "name": "ppi/reactome-edge-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/reactome-edge-attributes.txt.zip",
+        "sha256": "25ab191097ee04a08467354d90e45ed032ee7ea7f00334bfbb8f376be6aa9329"
+      },
+      {
+        "name": "ppi/reactome-node-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/reactome-node-attributes.txt.zip",
+        "sha256": "0eac2c2eecde158ffa36a167ce162a93f22f612399c1a93e3a9805e492f9e19f"
+      },
+      {
+        "name": "ppi/biogrid-edge-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/biogrid-edge-attributes.txt.zip",
+        "sha256": "b644702f6e8b18382a8d5e18397cf705c0fbcd0e207ee9e81e429e34fc409845"
+      },
+      {
+        "name": "ppi/biogrid-node-attributes.txt.zip",
+        "url": "https://download.baderlab.org/PathwayCommons/PC1/last_release-2011/tab_delim_network/by_source/biogrid-node-attributes.txt.zip",
+        "sha256": "fac16224219ebd4df948b29aa697fd8213fb69cfb856ac081b55889fff970da0"
+      },
+      {
+        "name": "ppi/ramani/gb-2005-6-5-r40-S4.txt",
+        "url": "https://pmc-oa-opendata.s3.amazonaws.com/PMC1175952.1/gb-2005-6-5-r40-S4.txt",
+        "sha256": "c7c210198a232b889d486d9f80253cca5949b580ab9b8273234222de968958cd"
+      },
+      {
+        "name": "uniprot/human_sprot.tsv.gz",
+        "url": "https://rest.uniprot.org/uniprotkb/stream (organism_id:9606 AND reviewed:true)",
+        "sha256": "6b1c2cbb0ecea692d24119add60fc13aba9bec86291d4d3e6e9d36418d24697b",
+        "release": "2026_04"
+      }
+    ],
+    "date": "2026-11-18",
+    "environment": {
+      "python": "3.12.3",
+      "numpy": "2.5.5",
+      "scipy": "1.18.1",
+      "pillow": "13.0.0",
+      "matplotlib": "3.11.2"
+    }
+  },
+  "session": {
+    "ledger": "session/ledger.json"
+  },
+  "skill": {
+    "name": "paper2repro",
+    "version": "0.5.0",
+    "tag": "paper2repro-v0.5.0",
+    "commit": null,
+    "modified": null
+  },
+  "items": [
+    {
+      "id": "table1a",
+      "label": "Table 1A, static protein features",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Lists the sources of the single-protein features; nothing to recompute.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "table1b",
+      "label": "Table 1B, gold-standard locations from GO",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "proteins",
+            "expected": "4570",
+            "observed": 4269
+          },
+          {
+            "name": "locations",
+            "expected": "5252",
+            "observed": 4890
+          },
+          {
+            "name": "AT",
+            "expected": "155",
+            "observed": 132
+          },
+          {
+            "name": "CC",
+            "expected": "41",
+            "observed": 41
+          },
+          {
+            "name": "CT",
+            "expected": "56",
+            "observed": 58
+          },
+          {
+            "name": "CY",
+            "expected": "308",
+            "observed": 283
+          },
+          {
+            "name": "ER",
+            "expected": "432",
+            "observed": 296
+          },
+          {
+            "name": "GL",
+            "expected": "222",
+            "observed": 222
+          },
+          {
+            "name": "LS",
+            "expected": "76",
+            "observed": 73
+          },
+          {
+            "name": "MT",
+            "expected": "419",
+            "observed": 366
+          },
+          {
+            "name": "NO",
+            "expected": "128",
+            "observed": 109
+          },
+          {
+            "name": "NU",
+            "expected": "1731",
+            "observed": 1666
+          },
+          {
+            "name": "PX",
+            "expected": "56",
+            "observed": 55
+          },
+          {
+            "name": "PM",
+            "expected": "1543",
+            "observed": 1507
+          },
+          {
+            "name": "VU",
+            "expected": "85",
+            "observed": 82
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The GO release is not stated, and the six experimental codes the Methods name cannot give 4,570 proteins in any release up to 2008. The 4,570 proteins are those of Lee et al. 2008 (Table S3), which come back only from a 2007 release with all non-IEA codes. Mapping 2007 accessions onto current Swiss-Prot then loses about 330 proteins (merged and deleted entries).",
+        "evidence": [
+          "figure-reproduction/search/gold_standard_search.json",
+          "Lee et al. 2008, Supplementary Table S3 (4,570 HS proteins, AT 156, CC 41, NU 1,739, PM 1,561)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The six stated experimental codes give the gold standard",
+            "test": "All 21 releases, 2007-01 to 2012-12",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The gold standard is Lee et al. 2008's, from a 2007 release with non-IEA codes",
+            "test": "2007-01 non-IEA before mapping: 4,597 proteins and 5,264 locations against 4,570 and 5,252",
+            "result": "supported"
+          }
+        ],
+        "status": "explained"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "table1c",
+      "label": "Table 1C, pooled interaction network",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "interactions",
+            "expected": "80,970",
+            "observed": 84309
+          },
+          {
+            "name": "proteins",
+            "expected": "10,819",
+            "observed": 10351
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "BIND is gone (only its 1,500 links inside Ramani's set survive) and DIP needs a login; the release dates of the other sources are not stated. The rebuilt network is 4% larger in links and 4% smaller in proteins.",
+        "evidence": [
+          "figure-reproduction/output/prepare.json",
+          "Ramani et al. 2005, Additional data file 4: 1,500 of its 31,609 rows carry BIND as evidence"
+        ],
+        "status": "explained"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "table1d",
+      "label": "Table 1D, expression samples",
+      "kind": "table",
+      "source": "public_data",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "normal",
+            "expected": "82",
+            "observed": 82
+          },
+          {
+            "name": "low",
+            "expected": "23",
+            "observed": 23
+          },
+          {
+            "name": "high",
+            "expected": "134",
+            "observed": 134
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig1",
+      "label": "Fig. 1",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "A diagram of the method.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig2a",
+      "label": "Fig. 2A, location sharing by expression correlation",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PPI positive minus negative",
+            "expected": "0.1",
+            "observed": 0.079
+          },
+          {
+            "name": "positive against negative, P < 0.001",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "linked pairs share more than all pairs",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "all pairs near random",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Correlation classes: Pearson r in normal brain significant at P < 0.05 (Fisher z) for positive and negative, otherwise none; r averaged over the normal-brain studies",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2a_ours.png",
+        "figure-reproduction/output/fig2a_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig2b",
+      "label": "Fig. 2B, AUC of static and network features",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "single + physical + correlated",
+            "expected": "0.95",
+            "observed": 0.867
+          },
+          {
+            "name": "physical + correlated",
+            "expected": "0.91",
+            "observed": 0.845
+          },
+          {
+            "name": "physical",
+            "expected": "0.86",
+            "observed": 0.826
+          },
+          {
+            "name": "correlated",
+            "expected": "0.79",
+            "observed": 0.743
+          },
+          {
+            "name": "same order as the paper",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Correlated pairs: as many top positively correlated pairs of network proteins in normal brain as there are physical links",
+          "source": "our_choice"
+        },
+        {
+          "what": "AUC of a configuration: mean over the 13 locations of the leave-two-out AUC; curves are the vertical average of the 13 ROC curves",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2b_ours.png",
+        "figure-reproduction/output/fig2b_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "The four configurations come back in the paper's order, 0.03 to 0.08 lower; the gaps between them differ (ours 0.02, 0.02 and 0.08 against the paper's 0.04, 0.05 and 0.07). The gold standard (4,269 against 4,570 proteins) and the network are rebuilt, and how leave-two-out was run is not stated.",
+        "evidence": [
+          "figure-reproduction/output/fig2.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Fewer gold-standard proteins lower every AUC",
+            "test": "Compare Fig. 2D's single-set AUCs, which need no selection: S 0.63 as published, network sets 0.02 to 0.03 higher than published",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Our leave-two-out is stricter than the paper's (selection and report on disjoint halves)",
+            "test": "TR in Fig. 2D: 0.86 against 0.93 with the same split; the paper's selection details are in the unavailable supplement",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2c",
+      "label": "Fig. 2C, known links among the most correlated pairs",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "top 1,000 pairs enriched for links in every condition",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "common pairs enriched more than any one condition (top 10,000)",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Correlation of a pair in a condition: Pearson r averaged over the condition's studies that measure both genes, weighted by samples, when those studies hold at least 10 samples together",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2c_ours.png",
+        "figure-reproduction/output/fig2c_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "In normal brain the top 1,000 correlated pairs hold 21 times more known links than chance, as in the paper; in low- and high-grade glioma only 2 times. How the paper pooled several studies of different platforms into one ranking is not stated; our gliomas pool three series on five platforms, two of them small.",
+        "evidence": [
+          "figure-reproduction/output/fig2.json (fig2c)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Pairs measured only in small studies fill the top of the glioma rankings with chance correlations",
+            "test": "Our main rule (pairs need studies with at least 10 samples together): glioma enrichment at 1,000 pairs is 2.4 (low) and 1.9 (high) times chance (output/fig2.json)",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Ranking only genes measured in every study of the condition",
+            "test": "A one-off run, not part of the pipeline, ranking only genes measured in every study of the condition: 1,842 high-grade genes; at 1,000 pairs normal 23, low 9 and high 17 times chance; common pairs still fewer than one condition's",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig2d",
+      "label": "Fig. 2D, average AUC by kind of feature",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "S",
+            "expected": "0.63",
+            "observed": 0.632
+          },
+          {
+            "name": "N1",
+            "expected": "0.66",
+            "observed": 0.683
+          },
+          {
+            "name": "N2",
+            "expected": "0.64",
+            "observed": 0.673
+          },
+          {
+            "name": "L1",
+            "expected": "0.64",
+            "observed": 0.667
+          },
+          {
+            "name": "L2",
+            "expected": "0.64",
+            "observed": 0.657
+          },
+          {
+            "name": "TR",
+            "expected": "0.93",
+            "observed": 0.865
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2d_ours.png",
+        "figure-reproduction/output/fig2d_overlay.png"
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "S comes back at 0.63. The network kinds are 0.02 to 0.03 higher (our network and gold standard are rebuilt) and the selected models (TR) are 0.07 lower.",
+        "evidence": [
+          "figure-reproduction/output/fig2.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Single-protein features are computed as in the paper",
+            "test": "S averaged over 9 sets and 13 locations: 0.632 against 0.63",
+            "result": "supported"
+          },
+          {
+            "hypothesis": "The TR gap is our stricter leave-two-out",
+            "test": "Forward selection on the same rows it is scored on gives a higher TR (in-sample), but that is not what the paper describes; the paper's protocol is in the unavailable supplement",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The network kinds are higher because our network is denser around gold-standard proteins",
+            "test": "Gold-standard proteins in the network: 3,497 here against 2,684 in Lee et al. 2008's network; the 2013 network's count is not printed",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "fig2e",
+      "label": "Fig. 2E, selected feature sets",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "N1 sets have the highest mean AUC of any kind",
+            "expected": "yes",
+            "observed": "yes"
+          },
+          {
+            "name": "single-protein sets also selected",
+            "expected": "yes",
+            "observed": "yes"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig2e_ours.png",
+        "figure-reproduction/output/fig2e_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.high_confidence",
+      "label": "High-confidence locations (text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "locations",
+            "expected": "29,999",
+            "observed": 13362
+          },
+          {
+            "name": "proteins",
+            "expected": "9543",
+            "observed": 5091
+          },
+          {
+            "name": "locations without a GO location",
+            "expected": "13,977",
+            "observed": 6710
+          },
+          {
+            "name": "proteins without a GO location",
+            "expected": "5011",
+            "observed": 2699
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The possibility formula, applied as printed, puts the median possibility at 0.39, so 'possibility 0.40' cannot also mean P < 0.005 as the paper says. Calling locations by P < 0.005 instead gives under half the paper's locations (13,362 against 29,999) and just over half its proteins (5,091 against 9,543). The calibration (Suppl. Fig. S5) is in the unavailable supplement.",
+        "evidence": [
+          "figure-reproduction/output/clm.json (literal_040, high_confidence)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Possibility >= 0.40 from the printed formula",
+            "test": "194,855 locations for 10,351 proteins; median possibility 0.39",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "Confidence above 99.5% of gold-standard negatives (P < 0.005)",
+            "test": "Counts in this item",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3a",
+      "label": "Fig. 3A, NKX2-2 location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "NKX2-2 normal",
+            "expected": "ER",
+            "observed": "NU"
+          },
+          {
+            "name": "NKX2-2 low",
+            "expected": "ER",
+            "observed": "NU"
+          },
+          {
+            "name": "NKX2-2 high",
+            "expected": "ER",
+            "observed": "NU"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig3a_ours.png",
+        "figure-reproduction/output/fig3a_overlay.png"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig3e",
+      "label": "Fig. 3E, CPB1 location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "CPB1 normal",
+            "expected": "CY",
+            "observed": "LS"
+          },
+          {
+            "name": "CPB1 low",
+            "expected": "ER",
+            "observed": "MT"
+          },
+          {
+            "name": "CPB1 high",
+            "expected": "ER",
+            "observed": "MT"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig3e_ours.png",
+        "figure-reproduction/output/fig3e_overlay.png"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig4a",
+      "label": "Fig. 4A, KIF13A location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "KIF13A normal",
+            "expected": "GL",
+            "observed": "CT"
+          },
+          {
+            "name": "KIF13A low",
+            "expected": "NU",
+            "observed": "GL"
+          },
+          {
+            "name": "KIF13A high",
+            "expected": "NU",
+            "observed": "GL"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig4a_ours.png",
+        "figure-reproduction/output/fig4a_overlay.png"
+      ],
+      "verdict": "differs"
+    },
+    {
+      "id": "fig5b",
+      "label": "Fig. 5B, RNF138 location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "RNF138 normal",
+            "expected": "ER",
+            "observed": "NU"
+          },
+          {
+            "name": "RNF138 low",
+            "expected": "NU",
+            "observed": "LS"
+          },
+          {
+            "name": "RNF138 high",
+            "expected": "NU",
+            "observed": "NU"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig5b_ours.png",
+        "figure-reproduction/output/fig5b_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig5c",
+      "label": "Fig. 5C, TLX3 location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "TLX3 normal",
+            "expected": "NU",
+            "observed": "NU"
+          },
+          {
+            "name": "TLX3 low",
+            "expected": "ER",
+            "observed": "NU"
+          },
+          {
+            "name": "TLX3 high",
+            "expected": "ER",
+            "observed": "NU"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig5c_ours.png",
+        "figure-reproduction/output/fig5c_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig6a",
+      "label": "Fig. 6A, GFRA4 location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "GFRA4 normal",
+            "expected": "PM",
+            "observed": "PM"
+          },
+          {
+            "name": "GFRA4 low",
+            "expected": "ER",
+            "observed": "PM"
+          },
+          {
+            "name": "GFRA4 high",
+            "expected": "ER",
+            "observed": "LS"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig6a_ours.png",
+        "figure-reproduction/output/fig6a_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig6b",
+      "label": "Fig. 6B, PSPN location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "PSPN normal",
+            "expected": "PM",
+            "observed": "CY"
+          },
+          {
+            "name": "PSPN low",
+            "expected": "ER",
+            "observed": "ER"
+          },
+          {
+            "name": "PSPN high",
+            "expected": "ER",
+            "observed": "ER"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig6b_ours.png",
+        "figure-reproduction/output/fig6b_overlay.png"
+      ],
+      "verdict": "partly"
+    },
+    {
+      "id": "fig6c",
+      "label": "Fig. 6C, RET location map",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "RET normal",
+            "expected": "PM",
+            "observed": "PM"
+          },
+          {
+            "name": "RET low",
+            "expected": "PM",
+            "observed": "PM"
+          },
+          {
+            "name": "RET high",
+            "expected": "PM",
+            "observed": "PM"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "outputs": [
+        "figure-reproduction/output/fig6c_ours.png",
+        "figure-reproduction/output/fig6c_overlay.png"
+      ],
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.smad4",
+      "label": "SMAD4 location map (text, Suppl. Fig. S6A)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "SMAD4 normal",
+            "expected": "NU",
+            "observed": "NU"
+          },
+          {
+            "name": "SMAD4 low",
+            "expected": "NU",
+            "observed": "NU"
+          },
+          {
+            "name": "SMAD4 high",
+            "expected": "NU",
+            "observed": "NU"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "fig3.wetlab",
+      "label": "Figs 3B-D and 3F-H",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Confocal imaging, Western blots, cell counts and the other wet-lab results cannot be regenerated; their observations are used only as labels.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig4.wetlab",
+      "label": "Figs 4B-D",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Confocal imaging, Western blots, cell counts and the other wet-lab results cannot be regenerated; their observations are used only as labels.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig5.wetlab",
+      "label": "Figs 5D-I",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Confocal imaging, Western blots, cell counts and the other wet-lab results cannot be regenerated; their observations are used only as labels.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig6.wetlab",
+      "label": "Figs 6A-C images, 6D-G",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Confocal imaging, Western blots, cell counts and the other wet-lab results cannot be regenerated; their observations are used only as labels.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig7",
+      "label": "Fig. 7",
+      "kind": "figure",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "not_a_result",
+        "summary": "Confocal imaging, Western blots, cell counts and the other wet-lab results cannot be regenerated; their observations are used only as labels.",
+        "evidence": [
+          "figure-reproduction/published/README.md"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "fig3j",
+      "label": "Figs 3I and 3J, 100 location tests of 20 proteins",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "TP",
+            "expected": "20",
+            "observed": 8
+          },
+          {
+            "name": "FN",
+            "expected": "8",
+            "observed": 20
+          },
+          {
+            "name": "FP",
+            "expected": "2",
+            "observed": 3
+          },
+          {
+            "name": "TN",
+            "expected": "70",
+            "observed": 69
+          },
+          {
+            "name": "correct of 100",
+            "expected": "90",
+            "observed": 77
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Observed locations (+) of the 20 proteins read from Fig. 3I",
+          "source": "read_from_figure",
+          "sensitivity": "Read cell by cell; the reading gives the paper's own 20, 8, 2 and 70 (text.arithmetic), so no cell is in doubt"
+        },
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig3i_ours.png",
+        "figure-reproduction/output/fig3i_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Our maps call fewer locations than the paper's (8 of the 28 observed against 20), so true positives fall and false negatives rise; the true negatives come back.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.mislocations",
+      "label": "Mislocated proteins (text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "mislocated proteins",
+            "expected": "157",
+            "observed": 62
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        },
+        {
+          "what": "Mislocation: the top location in normal brain differs from the top location in both gliomas, which is high-confidence in both gliomas but not in normal brain",
+          "source": "our_choice"
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The test behind 'P < 0.01' (Suppl. Fig. S15) is in the unavailable supplement. No version of the rule we tried gives 157.",
+        "evidence": [
+          "figure-reproduction/output/clm.json (mislocation_variants)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Any consistent change of the top location",
+            "test": "1,325 proteins",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "The new location is high-confidence in both gliomas",
+            "test": "117 proteins",
+            "result": "rejected"
+          },
+          {
+            "hypothesis": "... and the old location loses high confidence in both",
+            "test": "7 proteins",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig5a",
+      "label": "Fig. 5A, kinds of mislocation",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "ER>NU",
+            "expected": "21.66",
+            "observed": 3.23
+          },
+          {
+            "name": "NU>ER",
+            "expected": "15.92",
+            "observed": 0.0
+          },
+          {
+            "name": "PM>ER",
+            "expected": "12.10",
+            "observed": 0.0
+          },
+          {
+            "name": "ER>PM",
+            "expected": "6.37",
+            "observed": 0.0
+          },
+          {
+            "name": "CY>ER",
+            "expected": "5.73",
+            "observed": 4.84
+          },
+          {
+            "name": "PM>NU",
+            "expected": "3.82",
+            "observed": 0.0
+          },
+          {
+            "name": "CY>NU",
+            "expected": "3.18",
+            "observed": 9.68
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "outputs": [
+        "figure-reproduction/output/fig5a_ours.png",
+        "figure-reproduction/output/fig5a_overlay.png"
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Our mislocations are few and spread over many kinds; the paper's are dominated by moves into and out of the ER, which our maps rarely make.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "fig4eg",
+      "label": "Figs 4E-G, KIF13A neighbourhood",
+      "kind": "figure",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "AP1G1 more coherent in normal brain",
+            "expected": "yes",
+            "observed": "no"
+          },
+          {
+            "name": "COG2 more coherent in normal brain",
+            "expected": "yes",
+            "observed": "no link"
+          },
+          {
+            "name": "ATF7IP more coherent in both gliomas",
+            "expected": "yes",
+            "observed": "no"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "data_differs",
+        "summary": "KIF13A has 6 links in our network and none to COG2; its AP1G1 link is less coherent in normal brain than in glioma, the reverse of the figure.",
+        "evidence": [
+          "figure-reproduction/output/clm.json (kif13a_links)"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "The KIF13A-COG2 link is in a source we lack (BIND or DIP)",
+            "test": "Not in HPRD, Reactome, BioGRID's Rual, Stelzl and Ewing sets or Ramani's set",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "The normal-brain AP1G1 coherence depends on which studies are pooled",
+            "test": "Normal brain pools GSE5281 (74 samples) and GSE5390 (8); the paper does not say how studies were combined",
+            "result": "inconclusive"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.blinded",
+      "label": "Blinded candidate test, 10 proteins (text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "ATIC",
+            "expected": "CY>NU",
+            "observed": "PX/CY/NO"
+          },
+          {
+            "name": "DIP2A",
+            "expected": "NU>ER",
+            "observed": "PX/LS/LS"
+          },
+          {
+            "name": "DLX2",
+            "expected": "ER>NU",
+            "observed": "NU"
+          },
+          {
+            "name": "HPS5",
+            "expected": "PM>ER",
+            "observed": "GL/GL/PM"
+          },
+          {
+            "name": "TBX19",
+            "expected": "ER>NU",
+            "observed": "NU"
+          },
+          {
+            "name": "CDH2",
+            "expected": "PM",
+            "observed": "PM"
+          },
+          {
+            "name": "HSF1",
+            "expected": "NU",
+            "observed": "NU"
+          },
+          {
+            "name": "MAGED1",
+            "expected": "CY",
+            "observed": "CY/CT/CC"
+          },
+          {
+            "name": "PAX6",
+            "expected": "NU",
+            "observed": "NU"
+          },
+          {
+            "name": "STAT3",
+            "expected": "NU",
+            "observed": "CC/CY/CY"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "Three of the five proteins predicted stable come back stable in the same location; none of the five predicted mislocations comes back.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "partly"
+    },
+    {
+      "id": "text.validated",
+      "label": "15 validated mislocations (text)",
+      "kind": "value",
+      "source": "reconstructed",
+      "method": "values",
+      "values": {
+        "tolerance": {
+          "printed": true
+        },
+        "fields": [
+          {
+            "name": "KIF13A",
+            "expected": "GL>NU",
+            "observed": "CT/GL/GL"
+          },
+          {
+            "name": "RNF138",
+            "expected": "ER>NU",
+            "observed": "NU/LS/NU"
+          },
+          {
+            "name": "TLX3",
+            "expected": "NU>ER",
+            "observed": "NU"
+          },
+          {
+            "name": "PSPN",
+            "expected": "PM>ER",
+            "observed": "CY/ER/ER"
+          },
+          {
+            "name": "GFRA4",
+            "expected": "PM>ER",
+            "observed": "PM/PM/LS"
+          },
+          {
+            "name": "ATIC",
+            "expected": "CY>NU",
+            "observed": "PX/CY/NO"
+          },
+          {
+            "name": "DIP2A",
+            "expected": "NU>ER",
+            "observed": "PX/LS/LS"
+          },
+          {
+            "name": "DLX2",
+            "expected": "ER>NU",
+            "observed": "NU"
+          },
+          {
+            "name": "TBX19",
+            "expected": "ER>NU",
+            "observed": "NU"
+          },
+          {
+            "name": "AGAP1",
+            "expected": "CY>GL",
+            "observed": "GL"
+          },
+          {
+            "name": "CPB1",
+            "expected": "CY>ER",
+            "observed": "LS/MT/MT"
+          },
+          {
+            "name": "NFRKB",
+            "expected": "ER>NU",
+            "observed": "NU"
+          },
+          {
+            "name": "ARHGEF15",
+            "expected": "ER>PM",
+            "observed": "NO/GL/CY"
+          },
+          {
+            "name": "CLK2",
+            "expected": "ER>NU",
+            "observed": "NU/NU/CT"
+          },
+          {
+            "name": "SYT9",
+            "expected": "GL>NU",
+            "observed": "ER/CT/CY"
+          }
+        ]
+      },
+      "assumptions": [
+        {
+          "what": "Leave-two-out cross-validation as two random halves of the gold standard: feature sets chosen on one half, AUC reported on the other, both ways round (seed 20130506)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Euclidean distance for every kNN; ties broken by gold-standard order",
+          "source": "our_choice"
+        },
+        {
+          "what": "Forward selection stops when no set raises the AUC",
+          "source": "our_choice"
+        },
+        {
+          "what": "Psi in the coherence score is the upper-tail share of links in the study; coherence multiplies the neighbour weights, scaled to a median of 1; studies of one condition averaged with weights equal to their sample counts",
+          "source": "our_choice"
+        },
+        {
+          "what": "High-confidence location: confidence above 99.5% of the gold-standard negatives of that location and condition (the paper's P < 0.005)",
+          "source": "our_choice"
+        },
+        {
+          "what": "Gold standard from the GO release of 2007-01-01 with every evidence code except IEA",
+          "source": "found_by_search",
+          "sensitivity": "Over 21 monthly releases (2007-01 to 2012-12) and five evidence-code sets, the stated six experimental codes never give the paper's counts: 1,248 to 1,512 proteins from 2007-01 to 2008-03 and 2,414 to 7,061 after, with cytosol at 610 to 1,068 against 308 from 2008-06 to 2011-06. Non-IEA codes in 2007-01, 2007-06 and 2007-09 give 4,597, 4,658 and 4,641 proteins before mapping, within 2% of 4,570 (search/gold_standard_search.json)."
+        },
+        {
+          "what": "GO accessions mapped to current human Swiss-Prot (release 2026_04) by accession, entry name and gene symbol",
+          "source": "our_choice"
+        },
+        {
+          "what": "Network sources: HPRD and Reactome complex co-membership from the Pathway Commons 2011 archive, Rual, Stelzl and Ewing from BioGRID (2011) by PubMed ID, Ramani 2005 Additional file 4 without orthology-only links",
+          "source": "our_choice"
+        },
+        {
+          "what": "GEO series and sample selection for the three conditions (GSE5281 and GSE5390 controls; GSE3185 and GSE9885 low-grade; GSE3185, GSE9885 and GSE4271 high-grade)",
+          "source": "found_by_search",
+          "sensitivity": "Rebuilt from the five cited studies so the sample counts are 82, 23 and 134; the paper prints no accessions. Any other choice among these series changes the counts."
+        }
+      ],
+      "cause": {
+        "category": "undocumented_setting",
+        "summary": "The top location of each condition comes from the whole rebuilt chain (gold standard, network, feature sets, coherence weights). Static locations come back more often than condition changes: our condition weights move few maps.",
+        "evidence": [
+          "figure-reproduction/output/clm.json"
+        ],
+        "hypotheses": [
+          {
+            "hypothesis": "Our condition weights are too weak to move locations",
+            "test": "Across the 10,351 network proteins the top location changes between normal brain and both gliomas for 1,325; the new location is high-confidence in both gliomas for 117",
+            "result": "inconclusive"
+          },
+          {
+            "hypothesis": "Only proteins with a GO location come back",
+            "test": "SMAD4 (GO location NU) comes back in all three conditions, but so does RET, which has no GO location in the 2007 gold standard; NKX2-2 and KIF13A, also without one, do not",
+            "result": "rejected"
+          }
+        ],
+        "status": "open"
+      },
+      "verdict": "differs"
+    },
+    {
+      "id": "text.arithmetic",
+      "label": "The paper's own numbers against each other",
+      "kind": "code_check",
+      "source": "papers_data",
+      "method": "check",
+      "check": {
+        "passed": true,
+        "detail": "Table 1B counts sum to 5,252; the Fig. 3I cells read from the figure give Fig. 3J's 20, 8, 2 and 70 (90 of 100); each Fig. 5A share is a whole number of the 157 mislocations (34, 25, 19, 10, 9, 6, 5)"
+      },
+      "verdict": "agrees"
+    },
+    {
+      "id": "text.permutation",
+      "label": "Random and permuted-expression controls (Suppl. Figs S12, S13, S35)",
+      "kind": "value",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The supplementary figures with the numbers, and the permutation scheme, are in the Genome Research supplement, which could not be fetched; our maps do not reproduce the 15 validated mislocations to begin with.",
+        "evidence": [
+          "https://genome.cshlp.org/content/23/8/1283/suppl/DC1"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "supp.tables",
+      "label": "Supplemental Tables S1 and S2 (all predictions, 157 mislocations)",
+      "kind": "table",
+      "source": "none",
+      "method": "none",
+      "cause": {
+        "category": "data_unavailable",
+        "summary": "The tables are on genome.cshlp.org only, behind a Cloudflare challenge; the CoLP server that also served them is gone.",
+        "evidence": [
+          "https://genome.cshlp.org/content/23/8/1283/suppl/DC1",
+          "http://nbm.ajou.ac.kr/colp/SampleResult.jsp"
+        ],
+        "status": "explained"
+      },
+      "verdict": "not_attempted"
+    },
+    {
+      "id": "package",
+      "label": "Python package condloc and its tutorial",
+      "kind": "code_check",
+      "source": "reconstructed",
+      "method": "check",
+      "outputs": [
+        "package/tutorial/TUTORIAL.md"
+      ],
+      "check": {
+        "passed": true,
+        "detail": "condloc 0.1.0: wheel installed in a fresh environment and imported from it; tests 7 passed; tutorial 6 cells compared, 0 skipped (nondeterministic); TUTORIAL.md in sync"
+      },
+      "verdict": "agrees"
+    }
+  ],
+  "summary": {
+    "items": 35,
+    "exact": 0,
+    "agrees": 7,
+    "partly": 8,
+    "inconclusive": 0,
+    "differs": 11,
+    "not_attempted": 9,
+    "open_causes": 19
+  }
+}
