@@ -59,6 +59,27 @@ FIG_IMAGES = {"fig2": ("figure-2.jpg", "fig2_ours.png"),
               "fig4": ("figure-4.jpg", "fig4_ours.png")}
 
 
+
+def with_install_block(page):
+    """The repository's "Install" block (tools/site_install.py, from package/README.md), placed as that
+    tool places it, so the page the pipeline writes equals the committed one."""
+    import sys
+    from pathlib import Path
+
+    here = Path(__file__).resolve().parent
+    tools = here.parents[2] / "tools"
+    if not (tools / "site_install.py").is_file():
+        return page
+    sys.path.insert(0, str(tools))
+    import site_install
+
+    want = site_install.block(here.parents[1].name)
+    page = site_install.BLOCK.sub("", page)
+    if want and site_install.ANCHOR in page:
+        page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
+    return page
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("results")
@@ -149,7 +170,7 @@ def main():
 """
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as fh:
-        fh.write(page)
+        fh.write(with_install_block(page))
     print("wrote", args.out)
 
 
