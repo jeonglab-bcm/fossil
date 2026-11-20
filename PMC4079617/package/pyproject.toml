@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "robustrr"
+version = "0.1.0"
+description = "Relative risks for common binary outcomes by robust Poisson and log-binomial (COPY method) regression, with the outlier simulation study of Chen, Shi, Qian and Azen (2014)."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "fossil contributors (jeonglab-bcm)" }]
+dependencies = ["numpy>=2.0,<3"]
+
+[project.scripts]
+robustrr = "robustrr.cli:main"
+
+[project.urls]
+Reproduction = "https://github.com/jeonglab-bcm/fossil/tree/main/PMC4079617"
+Tutorial = "https://github.com/jeonglab-bcm/fossil/blob/main/PMC4079617/package/tutorial/TUTORIAL.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/robustrr"]

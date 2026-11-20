@@ -1,0 +1,210 @@
+// Reproduce PMC3499255 (Morelli et al. 2012, "A Bayesian inference framework to
+// reconstruct transmission trees using epidemiological and genetic data"). The
+// authors' R MCMC was never released; the method is the package PMC3499255/package
+// (transtree), reimplemented from the paper and Text S1. See README.md.
+//
+// Run from the repository root:
+//   nextflow run PMC3499255/figure-reproduction/main.nf --outdir results [--full]
+//
+// Default (CI): reconstruct the 2007 and 2001 outbreaks from the datasets
+// (deterministic, fixed seed), render Figs 3 and 4, run the pseudo-likelihood and
+// arithmetic checks, check the package, build results.json and the page, and
+// compare the fresh run with the committed outputs. The simulated Fig. 2 and the
+// Table 1 / Table S1 simulation series are read from the committed outputs.
+// --full: also rerun Fig. 2 (one 20-premise simulation) and the simulation series
+//   (scaled down from the paper's 100 x 5e5; counts recorded as deviations).
+
+nextflow.enable.dsl = 2
+
+params.outdir = 'results'
+params.python = 'python3'
+params.sources = null
+params.full = false
+params.converge = false
+params.conv_iters = 100000
+
+params.pipe = "${projectDir}/pipeline"
+params.committed = "${projectDir}/output"
+params.pkgsrc = "${projectDir}/../package/src"
+params.published = "${projectDir}/published"
+
+// real-data committed iteration counts (deterministic, reproduced exactly in CI)
+params.iters_real = 30000
+
+params.py = "PYTHONPATH=${params.pkgsrc}:${params.pipe} ${params.python}"
+
+process FETCH {
+    output:
+    path 'downloads'
+    script:
+    """
+    bash ${params.pipe}/fetch_inputs.sh downloads ${params.sources ? '--sources ' + params.sources : ''}
+    """
+}
+
+process ANALYZE {
+    tag "${name}"
+    input:
+    tuple val(name), val(iters), val(seed)
+    path downloads
+    output:
+    tuple val(name), path("${name}.json")
+    script:
+    """
+    ${params.py} ${params.pipe}/analyze.py ${name} --sources ${downloads} --iters ${iters} --seed ${seed} --out ${name}.json
+    """
+}
+
+process ANALYZE_TEST {
+    output:
+    path 'test.json'
+    script:
+    if (params.full)
+        """
+        ${params.py} ${params.pipe}/analyze.py test --iters 15000 --seed 1 --sim-seed 0 --n 20 --out test.json
+        """
+    else
+        """
+        cp ${params.committed}/test.json test.json
+        """
+}
+
+process SERIES {
+    input:
+    path downloads
+    output:
+    path 'series.json'
+    script:
+    if (params.full)
+        """
+        ${params.py} ${params.pipe}/series.py --sources ${downloads} --medians ${params.committed}/medians.json \
+            --n-sims 12 --iters 3000 --out series.json
+        """
+    else
+        """
+        cp ${params.committed}/series.json series.json
+        """
+}
+
+// Pooled multi-chain convergence study (R-hat, ESS, trace, tree stability).
+// Default: read the committed converged outputs. --converge reruns the four
+// chains per figure at 100k iterations each (slow; a manual/scheduled job).
+process CONVERGE {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path downloads
+    output:
+    path 'conv'
+    script:
+    if (params.converge)
+        """
+        mkdir conv
+        ${params.py} ${params.pipe}/converge.py y2007 --sources ${downloads} --iters ${params.conv_iters} --n-chains 4 --out-dir conv
+        ${params.py} ${params.pipe}/converge.py y2001 --sources ${downloads} --iters ${params.conv_iters} --n-chains 4 --out-dir conv
+        ${params.py} ${params.pipe}/converge.py test --iters ${params.conv_iters} --n-chains 4 --sim-seed 0 --n 20 --out-dir conv
+        """
+    else
+        """
+        mkdir conv
+        cp ${params.committed}/y2007_converged.json ${params.committed}/y2001_converged.json ${params.committed}/test_converged.json conv/
+        cp ${params.committed}/y2007_diagnostics.json ${params.committed}/y2001_diagnostics.json ${params.committed}/test_diagnostics.json conv/
+        cp ${params.committed}/y2007_trace.png ${params.committed}/y2001_trace.png ${params.committed}/test_trace.png conv/
+        """
+}
+
+process TEXTCLAIMS {
+    input:
+    path conv
+    output:
+    path 'textclaims.json'
+    script:
+    "${params.py} ${params.pipe}/textclaims.py ${conv}/y2007_converged.json ${conv}/y2001_converged.json --out textclaims.json"
+}
+
+process CHECKS {
+    input:
+    path downloads
+    output:
+    path 'pseudolik_check.json'
+    path 'arithmetic_check.json'
+    script:
+    """
+    ${params.py} ${params.pipe}/checks.py pseudolik --out pseudolik_check.json
+    ${params.py} ${params.pipe}/checks.py arithmetic --sources ${downloads} --out arithmetic_check.json
+    """
+}
+
+process PACKAGE {
+    output:
+    path 'package.json'
+    script:
+    "${params.python} ${params.pipe}/check_package.py ${projectDir}/../package --json package.json || true"
+}
+
+process RENDER {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path conv
+    output:
+    path 'fig*_ours.png'
+    path 'fig*_overlay.png'
+    script:
+    """
+    ${params.py} ${params.pipe}/render.py ${conv}/y2007_converged.json --published ${params.published}/figure-3.jpg --ours fig3_ours.png --overlay fig3_overlay.png --key fig3
+    ${params.py} ${params.pipe}/render.py ${conv}/y2001_converged.json --published ${params.published}/figure-4.jpg --ours fig4_ours.png --overlay fig4_overlay.png --key fig4
+    ${params.py} ${params.pipe}/render.py ${conv}/test_converged.json --published ${params.published}/figure-2.jpg --ours fig2_ours.png --overlay fig2_overlay.png --key fig2
+    """
+}
+
+process RESULTS {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path jsons        // all *.json outputs
+    path figs         // all fig png outputs
+    path conv         // converged pooled posteriors, diagnostics and trace plots
+    output:
+    path 'run', emit: run
+    path 'results.json', emit: results
+    path 'report.md', emit: report
+    script:
+    """
+    mkdir run
+    cp ${jsons} run/ 2>/dev/null || true
+    cp ${figs} run/ 2>/dev/null || true
+    cp ${conv}/* run/ 2>/dev/null || true
+    ${params.py} ${params.pipe}/build_results.py run ${projectDir}/results_notes.json results.json \
+        --check-results ${params.pipe}/check_results.py --root run
+    cp results.json run/results.json
+    ${params.py} ${params.pipe}/check_reproduction.py results.json run ${params.committed} report.md ${params.full ? '--full' : ''}
+    """
+}
+
+process BUILD_PAGE {
+    publishDir "${params.outdir}", mode: 'copy'
+    input:
+    path run
+    output:
+    path 'site'
+    script:
+    """
+    ${params.py} ${params.pipe}/build_page.py ${run}/results.json ${run} ${params.published} site/index.html
+    """
+}
+
+workflow {
+    dl = FETCH().first()
+    reals = ANALYZE(channel.of(['y2007', params.iters_real, 1], ['y2001', params.iters_real, 1]), dl)
+    a07 = reals.filter { it[0] == 'y2007' }.map { it[1] }
+    a01 = reals.filter { it[0] == 'y2001' }.map { it[1] }
+    tst = ANALYZE_TEST()
+    ser = SERIES(dl)
+    conv = CONVERGE(dl)
+    txt = TEXTCLAIMS(conv)
+    (pseudo, arith) = CHECKS(dl)
+    pkg = PACKAGE()
+    (ours, overlays) = RENDER(conv)
+    jsons = a07.mix(a01, tst, ser, txt, pseudo, arith, pkg).collect()
+    figs = ours.mix(overlays).collect()
+    r = RESULTS(jsons, figs, conv)
+    BUILD_PAGE(r.run)
+}

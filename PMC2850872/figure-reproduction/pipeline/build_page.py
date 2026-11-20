@@ -67,9 +67,20 @@ def matches(f, it):
 
 
 def word(iid):
-    """The stamp's word; a verdict a reviewer set says so."""
-    w = STAMP.get(verdict(iid), ("", "Not attempted"))[1]
-    return w + " on review" if items[iid].get("review") else w
+    """The stamp's word: the verdict alone, as on every other page."""
+    return STAMP.get(verdict(iid), ("", "Not attempted"))[1]
+
+
+def on_review(iid):
+    """True when a reviewer set this item's verdict (its review block), as in PMC522806."""
+    it = items[iid]
+    return (it.get("review") or {}).get("verdict") == it.get("verdict")
+
+
+def basis_line(iid, basis=None):
+    """The line under the word: the basis, then "on review" when a reviewer set the verdict."""
+    b = basis or measure(iid)
+    return f"{b}, on review" if on_review(iid) else b
 
 
 def stamp(iid, basis=None):
@@ -77,7 +88,7 @@ def stamp(iid, basis=None):
     if v not in STAMP:
         return ""
     cls, word_ = STAMP[v][0], word(iid)
-    return f'<span class="stamp" data-v="{cls}">{esc(word_)}<small>{esc(basis or measure(iid))}</small></span>'
+    return f'<span class="stamp" data-v="{cls}">{esc(word_)}<small>{esc(basis_line(iid, basis))}</small></span>'
 
 
 def b64(path: Path) -> str:
@@ -115,7 +126,7 @@ LABEL_ROWS = [("tables", "Table 1", "table1"), ("tables", "Table 2", "table2"),
               ("tables", "Table 3, scheme I", "table3.schemeI"), ("tables", "Table 3, scheme II", "table3.schemeII"),
               ("fig-2", "Fig. 2a values", "fig2.a.values"), ("fig-2", "Fig. 2b values", "fig2.b.values"),
               ("claims", "Claims", "text.delong")]
-LABEL = "".join(f'<a class="label-row" href="#{a}"><span>{esc(k)}</span><span>{esc(word(i))}, {esc(measure(i))}</span></a>'
+LABEL = "".join(f'<a class="label-row" href="#{a}"><span>{esc(k)}</span><span>{esc(word(i))}, {esc(basis_line(i))}</span></a>'
                 for a, k, i in LABEL_ROWS)
 
 pub_path = PUB / "figure-2.jpg"

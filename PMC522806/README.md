@@ -32,7 +32,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC522806/>
 
 <!-- summary and table from results.json (check_results.py --markdown); do not edit by hand -->
 <!--RESULTS-SUMMARY-->
-8 exact, 7 agrees, 1 partly, 3 differs, 4 not attempted; 8 open causes; 5 verdicts set by a reviewer.
+8 exact, 8 agrees, 1 partly, 2 differs, 4 not attempted; 8 open causes; 6 verdicts set by a reviewer.
 
 | Item | Verdict | Measure |
 | --- | --- | --- |
@@ -46,7 +46,7 @@ Results page: <https://jeonglab-bcm.github.io/fossil/PMC522806/>
 | Table 3, LOOCV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
 | Table 3, 10-fold CV (DLBCL, ovarian, colon) | agrees | 1 of 3 fields as printed; computed partly, reviewer agrees |
 | Table 3, other methods (quoted) | not attempted | not attempted |
-| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | differs | 0 of 3 fields as printed |
+| Fig. 4, 'OurMethod' bars (DLBCL 22/25 split, ovarian 10-fold, colon LOOCV) | agrees | 0 of 3 fields as printed; computed differs, reviewer agrees |
 | Text: MLL, 15 of 15 test samples correct | exact | 1 of 1 fields as printed |
 | Text: 75 features in all | exact | 1 of 1 fields as printed |
 | Claims recomputed from the paper's own tables | agrees | 7 of 7 claims come back from the paper's own tables. 11 of 12 printed accuracies are whole counts of samples; not a whole count: Ovarian 98.82% of 253. Fig. 4's 98% on 25 test samples is not a whole count either (24/25 = 96, 25/25 = 100). |

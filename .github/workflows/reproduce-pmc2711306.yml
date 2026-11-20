@@ -1,0 +1,88 @@
+name: Reproduce PMC2711306
+
+# Reruns the PMC2711306 pipeline (Kuchaiev et al. 2009) on pull requests and pushes to main that
+# touch it, and by hand from the Actions tab. The run rebuilds HumanBG from BioGRID 2.0.35 (it
+# must equal the committed copy), embeds Yhigh and HumanBG, redraws and scores every figure, checks
+# the package, rebuilds results.json, and fails if anything differs from the committed outputs or
+# a rule of results.json breaks. Yhigh comes from the committed pipeline/inputs and the validation
+# against BioGRID 2.0.50, HPRD, GO and KEGG from the committed output/run/validate.json: their
+# sources (the Wayback Machine, EBI, KEGG) are too unreliable or change too often for every pull
+# request. Start the workflow by hand with full = true to download and recompute them, and with
+# octave = true to also run the authors' Matlab embedding under GNU Octave.
+on:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Download every source and recompute the networks and the validation"
+        type: boolean
+        default: false
+      octave:
+        description: "Also run the authors' Matlab embedding under GNU Octave (port check)"
+        type: boolean
+        default: false
+  pull_request:
+    paths:
+      - "PMC2711306/figure-reproduction/**"
+      - "PMC2711306/package/**"
+      - "PMC2711306/results.json"
+      - ".github/workflows/reproduce-pmc2711306.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC2711306/figure-reproduction/**"
+      - "PMC2711306/package/**"
+      - "PMC2711306/results.json"
+      - ".github/workflows/reproduce-pmc2711306.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages and the package
+        run: pip install -r PMC2711306/figure-reproduction/requirements.txt ./PMC2711306/package
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - name: Install GNU Octave (port check only)
+        if: ${{ inputs.octave }}
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends octave
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "25.04.6"
+
+      - name: Run the Nextflow pipeline
+        run: >
+          nextflow run PMC2711306/figure-reproduction/main.nf --outdir results -ansi-log false
+          ${{ inputs.full && '--full' || '' }} ${{ inputs.octave && '--octave_check' || '' }}
+
+      - name: Check the committed results.json and its files
+        run: python3 PMC2711306/figure-reproduction/pipeline/check_results.py PMC2711306/results.json
+
+      - name: Write the check report to the job summary
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report. The pipeline stopped before the check step." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc2711306-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true

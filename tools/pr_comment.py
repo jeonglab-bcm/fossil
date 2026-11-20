@@ -219,6 +219,10 @@ def main():
     if args.ai_review and os.path.exists(args.ai_review):
         with open(args.ai_review) as f:
             ai_review = f.read()
+    elif args.ai_review:
+        # The AI step stopped before writing its section: say so rather than drop the section.
+        ai_review = ("#### 🤖 AI review: ❌ not run\n\nThe AI review step stopped before it wrote a review. "
+                     "Its log in this run says why. Fix the cause, then run the job again.")
 
     folder = os.path.join(args.paper, "figure-reproduction")
     if not (args.check and os.path.exists(args.check)):

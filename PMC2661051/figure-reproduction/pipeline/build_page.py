@@ -54,11 +54,16 @@ def b64(path):
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode(), im.size
 
 
-def stamp(v):
+def stamp(v, small=""):
     if v == "not_attempted":
         return '<span class="stamp" data-v="running">Not attempted</span>'
     cls, word = STAMP[v]
-    return f'<span class="stamp" data-v="{cls}">{esc(word)}</span>'
+    return f'<span class="stamp" data-v="{cls}">{esc(word)}' + (f"<small>{esc(small)}</small>" if small else "") + "</span>"
+
+
+def reviewed(its):
+    """'on review' when a reviewer set the verdict of any of these items (their review block), as in PMC522806."""
+    return "on review" if any((i.get("review") or {}).get("verdict") == i.get("verdict") for i in its) else ""
 
 
 def worst(vs):
@@ -122,7 +127,7 @@ def main(results, tables, figs, pub, out):
              f'<th class="num" scope="col">ours</th></tr></thead><tbody>{t7rows}</tbody></table></div></figure>')
     sim_v = worst([by[k]["verdict"] for k, *_ in TABLES])
     sim_station = (f'<section class="station surface" id="tables" aria-labelledby="tables-head">'
-                   f'<header class="station-head"><h2 id="tables-head">Tables 2 to 7</h2><p class="caption">{esc(N["tables_caption"])}</p>{stamp(sim_v)}</header>'
+                   f'<header class="station-head"><h2 id="tables-head">Tables 2 to 7</h2><p class="caption">{esc(N["tables_caption"])}</p>{stamp(sim_v, reviewed([by[k] for k, *_ in TABLES]))}</header>'
                    f'<div class="stack">{tabs}</div><div class="station-foot"><p class="note">{esc(N["tables_note"])}</p></div></section>')
 
     stations, figjs = [sim_station], []
@@ -141,7 +146,7 @@ def main(results, tables, figs, pub, out):
                 causes.append(c)
         stations.append(
             f'<section class="station surface" id="fig-{n}" aria-labelledby="fig-{n}-head">'
-            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v)}</header>'
+            f'<header class="station-head"><h2 id="fig-{n}-head">Fig. {n}</h2><p class="caption">{esc(CAPTIONS[n])}</p>{stamp(v, reviewed(its))}</header>'
             f'<div class="stage"><div class="pair">'
             f'<figure class="plate"><figcaption>Published</figcaption><img src="{psrc}" alt="Figure {n} as published" width="{w}" height="{h}"></figure>'
             f'<figure class="plate"><figcaption>Our run</figcaption><img src="{osrc}" alt="Figure {n} redrawn from our run" width="{w}" height="{h}"></figure>'
@@ -158,7 +163,7 @@ def main(results, tables, figs, pub, out):
         cause = (i.get("cause") or {}).get("summary", "")
         if i["verdict"] == "not_attempted" and not cause:
             cause = "Not attempted."
-        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'])}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
+        rows.append(f"<tr><td>{esc(i['label'])}</td><td>{stamp(i['verdict'], reviewed([i]))}</td><td>{esc(measure(i))}{fields}</td><td>{esc(cause)}</td></tr>")
     extra = (f'<section class="container after-bench" aria-labelledby="items-head"><div class="station surface" id="items">'
              f'<header class="station-head"><h2 id="items-head">Every result</h2><p class="caption">{esc(N["items_caption"])}</p></header>'
              f'<div class="table-wrap"><table class="record dense"><thead><tr><th scope="col">Result</th><th scope="col">Verdict</th>'
