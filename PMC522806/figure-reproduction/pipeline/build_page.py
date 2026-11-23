@@ -16,6 +16,8 @@ import sys
 from pathlib import Path
 
 from PIL import Image
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 HERE = Path(__file__).resolve().parent
 esc = html.escape
@@ -198,7 +200,9 @@ def main(results, figs, pub, out, tables=None):
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
     out = Path(out) / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(with_install_block(page))
+    page = with_install_block(page)
+    page = with_session(page, Path(__file__).resolve().parents[2], out)
+    out.write_text(page)
     print(f"wrote {out} ({len(page) // 1024} KB)")
 
 

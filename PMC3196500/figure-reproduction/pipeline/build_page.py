@@ -20,6 +20,8 @@ from PIL import Image
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from check_results import field_matches  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
@@ -211,7 +213,9 @@ def main(results, run_out, pub, out):
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
     outp = Path(out) / "index.html"
     outp.parent.mkdir(parents=True, exist_ok=True)
-    outp.write_text(with_install_block(page))
+    page = with_install_block(page)
+    page = with_session(page, Path(__file__).resolve().parents[2], outp)
+    outp.write_text(page)
     print(f"wrote {outp} ({len(page) // 1024} KB)", file=sys.stderr)
 
 

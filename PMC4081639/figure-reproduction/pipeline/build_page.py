@@ -7,6 +7,9 @@ The page links ../results.css, the stylesheet the site's results pages share.
 import base64, html, io, json, os, sys
 import numpy as np
 from PIL import Image
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PAPER = os.environ.get("FOSSIL_PUBLISHED", os.path.join(HERE, "..", "published"))
@@ -144,5 +147,6 @@ for marker, text in (("<!--__STATIONS__-->", "\n".join(stations)), ("<!--__TABLE
     page = page.replace(marker, text)
 os.makedirs(os.path.dirname(os.path.abspath(OUT)), exist_ok=True)
 assert "__TABLE1__" not in page
+page = with_session(page, Path(__file__).resolve().parents[2], OUT)
 open(OUT, "w").write(page)
 print("wrote", OUT, len(page) // 1024, "KB")

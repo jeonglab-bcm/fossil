@@ -14,6 +14,10 @@ import base64
 import html
 import json
 import os
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 STAMP = {"exact": "agrees", "agrees": "agrees", "partly": "partly",
          "inconclusive": "partly", "differs": "differs", "not_attempted": None}
@@ -170,7 +174,9 @@ def main():
 """
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
     with open(args.out, "w") as fh:
-        fh.write(with_install_block(page))
+        page = with_install_block(page)
+        page = with_session(page, Path(__file__).resolve().parents[2], args.out)
+        fh.write(page)
     print("wrote", args.out)
 
 

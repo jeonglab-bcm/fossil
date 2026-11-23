@@ -15,6 +15,9 @@ import sys
 
 import numpy as np
 from PIL import Image
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 D, OUT = sys.argv[1], sys.argv[2]
@@ -311,5 +314,6 @@ for marker, text in (("<!--__STATIONS__-->", STATIONS), ("<!--__EXTRA__-->", EXT
     page = page.replace(marker, text)
 assert "__EXTRA__" not in page
 os.makedirs(os.path.dirname(os.path.abspath(OUT)), exist_ok=True)
+page = with_session(page, Path(__file__).resolve().parents[2], OUT)
 open(OUT, "w").write(page)
 print("wrote", OUT, len(page) // 1024, "KB")
