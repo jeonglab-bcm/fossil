@@ -4,9 +4,8 @@ Usage: update_readmes.py PAPER_DIR
 
 PAPER_DIR/README.md gets the summary line and a short table (item, verdict, measure) between
 <!--RESULTS-SUMMARY--> markers; figure-reproduction/README.md gets the full table (with the causes)
-between <!--RESULTS-TABLE--> markers; package/README.md gets the checks between <!--CHECKS--> markers; the
-repository README gets the paper's status between <!--PMC2430201-STATUS--> markers. Every number comes from
-results.json or the committed outputs. Run it after results.json changes; never edit those parts by hand.
+between <!--RESULTS-TABLE--> markers; package/README.md gets the checks between <!--CHECKS--> markers. Every
+number comes from results.json or the committed outputs. Run it after results.json changes; never edit those parts by hand.
 """
 import json
 import re
@@ -50,11 +49,6 @@ put(paper / "package" / "README.md", "CHECKS",
     f"The package is implemented from the paper's text and checked against the paper's printed tables ({F['within']} of "
     f"{F['cells']} cells of Tables 3-8 within Monte Carlo error) and its pooling against R's metafor 4.4.0 (the example "
     f"data, and {F['x_fits']} simulated meta-analyses to a relative {F['x_diff']}).", inline=True)
-status = (f"{sm['exact']} exact, {sm['agrees']} agree, {sm['partly']} partly, {sm['differs']} differ, {sm['not_attempted']} not attempted"
-          + (f"; {sm['reviewed']} verdicts set in review" if sm.get("reviewed") else "") + " "
-          f"(`results.json`): the SAS simulation rebuilt as `rommeta` and rerun; {F['within']} of {F['cells']} printed cells of Tables 3-8 "
-          f"within Monte Carlo error; RoM bias as a share of the true RoM and I2 from the mean Q/(k-1) found from the tables; main claim {mv}")
-put(paper.parent / "README.md", f"{paper.name}-STATUS", status, inline=True)
 
 # The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.
 att = [i["verdict"] for i in R["items"] if i["verdict"] != "not_attempted"]

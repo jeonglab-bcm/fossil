@@ -12,9 +12,6 @@ import sys
 from pathlib import Path
 
 paper = Path(sys.argv[1])
-# The words after the counts in the top-level README's status cell (plain facts from results.json).
-STATUS_NOTE = (Path(__file__).resolve().parent.parent / "status_note.txt").read_text().strip() \
-    if (Path(__file__).resolve().parent.parent / "status_note.txt").exists() else "the method rebuilt as `cfsenn`"
 here = Path(__file__).resolve().parent
 r = subprocess.run([sys.executable, here / "check_results.py", paper / "results.json", "--markdown", "--root", paper],
                    capture_output=True, text=True, check=True)
@@ -35,14 +32,6 @@ def put(path, tag, body):
 put(paper / "README.md", "RESULTS-SUMMARY", summary + "\n\n" + "\n".join(short))
 put(paper / "figure-reproduction" / "README.md", "RESULTS-TABLE", summary + "\n\n" + "\n".join(lines))
 print("READMEs updated:", summary)
-
-# Status cell of the paper's row in the repository README, from the same summary
-top = paper.parent / "README.md"
-if top.exists():
-    s = top.read_text()
-    status = summary.rstrip(".") + " (`results.json`): " + STATUS_NOTE
-    tag = f"{paper.name}-STATUS"
-    top.write_text(re.sub(rf"<!--{tag}-->.*?<!--/{tag}-->", f"<!--{tag}-->{status}<!--/{tag}-->", s, flags=re.S))
 
 # The one-line verdict on the claims, from results_notes.json, under the results of both READMEs
 import json  # noqa: E402
