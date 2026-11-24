@@ -1,0 +1,95 @@
+name: Ready gate
+
+# A reproduction PR stays a draft until it is ready for review (#130): CI green on the current main with
+# no conflicts, the Install block, results.json found, no ⚠️ items in the AI review, the PR body
+# regenerated from results.json, and a reason on every review block. tools/ready_gate.py checks them,
+# keeps one comment on the PR saying what is missing, and moves a PR that is not ready back to a draft.
+# It runs on every push and when the PR is marked ready, after the other checks finish.
+#
+# Run workflow (workflow_dispatch) reruns the gate on one PR, or, with "move open PRs to draft", moves
+# every open, non-draft reproduction PR to a draft with a comment (a dry run unless "dry run" is off).
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Pull request number (leave empty with move open PRs to draft)"
+        required: false
+        type: string
+      move_open_to_draft:
+        description: "Move every open, non-draft reproduction PR to a draft"
+        type: boolean
+        default: false
+      dry_run:
+        description: "Only print what would be done"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  pull-requests: write   # convert to draft
+  issues: write          # the gate's comment
+  checks: read
+  actions: read
+  statuses: read
+
+concurrency:
+  group: ready-gate-${{ github.event.pull_request.number || inputs.pr || 'all' }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: ready gate   # tools/ready_gate.py leaves its own check out of the checks it waits for
+    # A PR from a fork gets a read-only token and cannot be moved to a draft.
+    if: >-
+      github.event_name == 'workflow_dispatch' && inputs.pr != '' && !inputs.move_open_to_draft
+      || github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
+        run: |
+          pr=$(gh api "repos/$GITHUB_REPOSITORY/pulls/$NUMBER")
+          { echo "number=$NUMBER"; echo "sha=$(jq -r .head.sha <<<"$pr")"; echo "base=$(jq -r .base.ref <<<"$pr")"; } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.pr.outputs.sha }}
+          fetch-depth: 0
+
+      - name: Gate self-test (this PR's code)
+        run: python3 tools/test_ready_gate.py
+
+      # The gate's own code comes from the base branch once it is there, so a PR cannot loosen it.
+      - name: Gate code from the base branch
+        env:
+          BASE: ${{ steps.pr.outputs.base }}
+        run: |
+          # The checker and site_install.py stay the PR's own, as in the results check.
+          if git cat-file -e "origin/$BASE:tools/ready_gate.py" 2>/dev/null; then git checkout "origin/$BASE" -- tools/ready_gate.py; fi
+
+      - name: Ready gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          set -o pipefail
+          python3 tools/ready_gate.py --repo "$GITHUB_REPOSITORY" --pr "${{ steps.pr.outputs.number }}" --wait 75 $DRY \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+  move-open-to-draft:
+    if: github.event_name == 'workflow_dispatch' && inputs.move_open_to_draft
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          DRY: ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: |
+          set -o pipefail
+          python3 tools/ready_gate.py --repo "$GITHUB_REPOSITORY" --draft-open $DRY | tee -a "$GITHUB_STEP_SUMMARY"
