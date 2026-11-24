@@ -20,6 +20,22 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from check_results import field_matches  # noqa: E402
 
+
+def with_install_block(page):
+    """The repository's "Install" block (tools/site_install.py, from package/README.md), placed as that
+    tool places it, so the page the pipeline writes equals the committed one (as PMC2430201 and PMC3196500 do)."""
+    tools = HERE.parents[2] / "tools"
+    if not (tools / "site_install.py").is_file():
+        return page
+    sys.path.insert(0, str(tools))
+    import site_install
+
+    want = site_install.block(HERE.parents[1].name)
+    page = site_install.BLOCK.sub("", page)
+    if want and site_install.ANCHOR in page:
+        page = page.replace(site_install.ANCHOR, site_install.ANCHOR + "    " + want, 1)
+    return page
+
 esc = html.escape
 STAMP = {"exact": ("agrees", "Exact"), "agrees": ("agrees", "Agrees"), "partly": ("partly", "Partly agrees"),
          "inconclusive": ("partly", "Inconclusive"), "differs": ("differs", "Differs")}
@@ -207,6 +223,7 @@ def main(results, figs, pub, out):
                  "CLOSING": esc(N["closing"])}.items():
         page = page.replace(f"<!--__{k}__-->", v)
     page = page.replace("/*__FIGS__*/[]", json.dumps(figjs))
+    page = with_install_block(page)
     outp = Path(out) / "index.html"
     outp.parent.mkdir(parents=True, exist_ok=True)
     outp.write_text(page)
