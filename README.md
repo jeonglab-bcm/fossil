@@ -5,8 +5,18 @@ PubMed Central ID. Each folder holds our code, our data, and our results. We do 
 papers or their supplements.
 
 The list of papers, with each one's status, results page and code, is the front page of the site:
-<https://jeonglab-bcm.github.io/fossil/> (source [`site/index.html`](site/index.html)). This README does
-not list them, so adding or updating a paper never touches it.
+<https://jeonglab-bcm.github.io/fossil/>. This README does not list them, and neither does any shared
+file: each paper's row is its own `PMC…/index.json`, which `tools/build_index.py` turns into the front
+page when the site deploys ([`site/index.html`](site/index.html) is the template). A pull request that
+adds or updates a paper touches only its own folder and its own workflow.
+
+```sh
+python3 tools/build_index.py                          # check every PMC…/index.json
+python3 tools/build_index.py --out _site/index.html   # build the front page to look at it
+python3 tools/index_row_to_json.py --ref origin/BRANCH PMC…   # move a branch's hand-written row into PMC…/index.json
+```
+
+The fields of `index.json` are listed at the top of `tools/build_index.py`.
 
 Other analyses:
 
@@ -62,8 +72,8 @@ it in `PMC…/figure-reproduction/results.json`. Sessions write it with the skil
 fails when a pull request adds a paper, or changes a paper's `results.json`, without a block whose
 version is a `paper2repro-v…` tag of Paper2Repro.
 
-The same job checks that the front page's Paper2Repro column matches each paper's block. The
-column is written by `tools/site_versions.py --write`, never by hand.
+The same job checks that every paper's block gives the front page's Paper2Repro column, and that
+the front page builds. The column is written by `tools/build_index.py` from the block, never by hand.
 
 ```sh
 python3 tools/check_skill.py --all                 # every paper

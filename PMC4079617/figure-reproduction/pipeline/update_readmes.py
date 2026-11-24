@@ -5,8 +5,8 @@ Usage: update_readmes.py PAPER_DIR
 PAPER_DIR/README.md gets the summary line and a short table (item, verdict, measure) between
 <!--RESULTS-SUMMARY--> markers; figure-reproduction/README.md gets the full table (with the causes) between
 <!--RESULTS-TABLE--> markers; both get the claims line between <!--CLAIMS-LINE--> markers; package/README.md
-gets the checks between <!--CHECKS--> markers; site/index.html gets the verdict stamp between <!--PMC4079617-VERDICT-->
-markers. Every number comes from results.json or the committed outputs. Run it after results.json changes;
+gets the checks between <!--CHECKS--> markers; PMC4079617/index.json gets the front page's verdict.
+Every number comes from results.json or the committed outputs. Run it after results.json changes;
 never edit those parts by hand.
 """
 import json
@@ -74,13 +74,12 @@ put(paper / "package" / "README.md", "CHECKS",
     f"{F['within']} of {F['cells']} printed cells of Tables 1-3 and A1-A3 within Monte Carlo error (the miss is a "
     f"misprint of the paper), and its fits against statsmodels and an independent maximizer ({F['x_detail']}).", inline=True)
 
-# The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.
+# The front page's verdict (PMC…/index.json): agrees when every attempted item is exact or agrees, partly otherwise.
 att = [i["verdict"] for i in R["items"] if i["verdict"] != "not_attempted"]
 v = "agrees" if all(x in ("exact", "agrees") for x in att) else "partly"
-icon = {"agrees": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        "partly": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg>'}[v]
-word = {"agrees": "Agrees", "partly": "Partly agrees"}[v]
 note = f"The main claim {mv}; {F['within']} of {F['cells']} table cells came back"
-put(paper.parent / "site" / "index.html", f"{paper.name}-VERDICT",
-    f'<span class="verdict" data-v="{v}">{word}{icon}</span><span class="verdict-note">{note}</span>', inline=True)
+sys.path.insert(0, str(paper.parent / "tools"))
+from build_index import set_fields  # noqa: E402
+
+set_fields(paper.name, verdict={"v": v, "note": note})  # the front page is built from it
 print("READMEs updated:", summary)

@@ -50,13 +50,12 @@ put(paper / "package" / "README.md", "CHECKS",
     f"{F['cells']} cells of Tables 3-8 within Monte Carlo error) and its pooling against R's metafor 4.4.0 (the example "
     f"data, and {F['x_fits']} simulated meta-analyses to a relative {F['x_diff']}).", inline=True)
 
-# The front page's stamp: agrees when every attempted item is exact or agrees, partly otherwise.
+# The front page's verdict (PMC…/index.json): agrees when every attempted item is exact or agrees, partly otherwise.
 att = [i["verdict"] for i in R["items"] if i["verdict"] != "not_attempted"]
 v = "agrees" if all(x in ("exact", "agrees") for x in att) else "partly"
-icon = {"agrees": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        "partly": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg>'}[v]
-word = {"agrees": "Agrees", "partly": "Partly agrees"}[v]
 note = f"The main claim {mv}; {F['within']} of {F['cells']} table cells came back"
-put(paper.parent / "site" / "index.html", f"{paper.name}-VERDICT",
-    f'<span class="verdict" data-v="{v}">{word}{icon}</span><span class="verdict-note">{note}</span>', inline=True)
+sys.path.insert(0, str(paper.parent / "tools"))
+from build_index import set_fields  # noqa: E402
+
+set_fields(paper.name, verdict={"v": v, "note": note})  # the front page is built from it
 print("READMEs updated:", summary)
