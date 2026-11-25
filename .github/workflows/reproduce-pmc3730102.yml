@@ -1,0 +1,71 @@
+name: Reproduce PMC3730102
+
+# Reruns the whole PMC3730102 pipeline (CoLP, Lee et al. 2013, rebuilt as the package condloc) and checks
+# it: the inputs are downloaded and their SHA-256 checked (UniProt has no pinned release, so a new UniProt
+# release is reported, not refused); Table 1, the leave-two-out DC-kNN of Fig. 2, the conditional location
+# maps, mislocations and named proteins of Figs 3 to 6 are recomputed and drawn; check_results.py runs on
+# the fresh results.json; the package is built and tested in a fresh environment and its tutorial rerun;
+# and the fresh run is compared with the committed output/ (compare_runs.py). About 15 minutes.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "PMC3730102/figure-reproduction/**"
+      - "PMC3730102/package/**"
+      - "PMC3730102/results.json"
+      - ".github/workflows/reproduce-pmc3730102.yml"
+  push:
+    branches: [main]
+    paths:
+      - "PMC3730102/figure-reproduction/**"
+      - "PMC3730102/package/**"
+      - "PMC3730102/results.json"
+      - ".github/workflows/reproduce-pmc3730102.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install poppler and Liberation fonts
+        # pdftoppm renders the paper's vector figures at 600 dpi; Liberation Sans stands in for Arial
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-liberation
+
+      - name: Install Python packages
+        run: pip install -r PMC3730102/figure-reproduction/requirements.txt
+
+      - uses: astral-sh/setup-uv@v6  # check_package.py builds and installs the package with uv
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: nf-core/setup-nextflow@v2
+        with:
+          version: "26.04.3"
+
+      - name: Run the Nextflow pipeline
+        run: nextflow run PMC3730102/figure-reproduction/main.nf --outdir results -ansi-log false
+
+      - name: Report
+        if: always()
+        run: cat results/report.md >> "$GITHUB_STEP_SUMMARY" || echo "No report." >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pmc3730102-reproduction
+          path: |
+            results
+            .nextflow.log
+          include-hidden-files: true
