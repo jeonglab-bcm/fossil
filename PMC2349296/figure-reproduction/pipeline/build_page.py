@@ -17,6 +17,8 @@ import sys
 from pathlib import Path
 
 from PIL import Image
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 HERE = Path(__file__).resolve().parent
 TABLE, CLAIMS, VERDICTS, BY_CORPUS, FIGS, CMP, COUNTS, PUB, OUT = map(Path, sys.argv[1:10])
@@ -256,5 +258,6 @@ for marker, text in (("<!--__STATIONS__-->", "\n".join(stations)), ("<!--__EXTRA
     assert marker in page, marker
     page = page.replace(marker, text)
 OUT.parent.mkdir(parents=True, exist_ok=True)
+page = with_session(page, Path(__file__).resolve().parents[2], OUT)
 OUT.write_text(page)
 print("wrote", OUT, len(page) // 1024, "KB")

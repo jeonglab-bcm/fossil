@@ -18,6 +18,8 @@ import sys
 from pathlib import Path
 
 from PIL import Image
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "tools"))
+from session_page import with_session  # noqa: E402  the session card and session.html
 
 HERE = Path(__file__).resolve().parent
 RUN, PUB, OUT = map(Path, sys.argv[1:4])
@@ -265,5 +267,6 @@ for k, v in {"LEDE": esc(LEDE), "LABEL": LABEL, "STATIONS": STATIONS, "EXTRA": E
 page = page.replace("<!--__MAINCLAIM__-->", esc(CLAIM)).replace("<!--__SO__-->", esc(CLAIM))
 page = page.replace("/*__FIGS__*/[]", json.dumps(FIGS_JS))
 OUT.parent.mkdir(parents=True, exist_ok=True)
+page = with_session(page, Path(__file__).resolve().parents[2], OUT)
 OUT.write_text(page)
 print(f"wrote {OUT} ({len(page) // 1024} KB)")
