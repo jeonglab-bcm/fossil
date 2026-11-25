@@ -85,3 +85,32 @@ item by a field), from CSV (`"column"`, `"where"`, `"agg"`), or as a file's SHA-
 (`"digest": "sha256"`). Paths are those of the pipeline's output directory; `"committed_paths"`
 maps them to the committed layout where the two differ. A tolerance is `{"abs": …}`, `{"rel": …}` or both. Without one, the value
 must be equal. Timings and other values that depend on the machine are left out.
+
+## Ready for review
+
+A reproduction pull request (one that adds or changes a `PMC…/results.json`) is opened as a draft and
+stays one while the work goes on. `.github/workflows/ready-gate.yml` runs `tools/ready_gate.py` on every
+push and when the PR is marked ready for review. Once the other checks have finished, it keeps one comment
+on the PR that lists each condition:
+
+- CI is green on the head commit, and the branch is up to date with `main` and has no conflicts, so CI ran
+  on the current `main`;
+- the results check finds the paper's `results.json`;
+- a paper with a package shows the Install block (`tools/site_install.py`) on its results page;
+- the AI review in the results-check comment is for the head commit and marks no item ⚠️;
+- the PR body holds every row (item, verdict, measure) of `check_results.py --markdown`, so it was
+  regenerated from `results.json` after the last change;
+- every `review` block the PR adds or changes has a `reason` with a `kind` and a `text`. One already on
+  `main` without a reason only gets a note until it is backfilled.
+
+When a condition fails and the PR is not a draft, the gate moves it back to a draft. The gate never marks
+a PR ready. A PR that changes no `results.json` is held only to the CI conditions.
+
+```sh
+python3 tools/ready_gate.py --pr 118 --dry-run   # what the gate would say (needs gh, signed in)
+python3 tools/test_ready_gate.py                 # the gate's own tests
+```
+
+Run workflow on the Ready gate workflow, with "move open PRs to draft" set, moves every open, non-draft
+reproduction PR to a draft with a comment that explains the gate. It is a dry run unless "dry run" is
+turned off.
