@@ -7,15 +7,13 @@ Usage: check_reproduction.py RUN_DIR PAPER_DIR OUT_JSON REPORT_MD
    (a score that crosses a pass mark or a control changes a verdict and fails here).
 3. compare_runs.py: every committed file under figure-reproduction/output equals the fresh one (numbers
    within 1e-9, images by decoded pixels); package.json (timings) is left out.
-4. The fresh results page equals the committed site/PMC2430201/index.html (text, and embedded images as pixels), less the
-   install block that tools/site_install.py adds after the build.
+4. The fresh results page equals the committed site/PMC2430201/index.html (text, and embedded images as pixels),
+   install block included: build_page.py writes it as tools/site_install.py does.
 Exits 1 if any check fails.
 """
 import json
-import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 run, paper, out, report_md = map(Path, sys.argv[1:5])
@@ -40,15 +38,8 @@ r = subprocess.run([sys.executable, here / "compare_runs.py", run / "output", pa
                     "--ignore", "package.json"], capture_output=True, text=True)
 report["compare_runs"] = {"passed": r.returncode == 0, "output": r.stdout.strip().splitlines()}
 
-# tools/site_install.py writes the install block into the committed page after build_page.py; compare without it.
-sys.path.insert(0, str(paper.parent / "tools"))
-from site_install import BLOCK  # noqa: E402
-committed_site = Path(tempfile.mkdtemp()) / "site"
-shutil.copytree(site, committed_site)
-page = committed_site / "index.html"
-if page.exists():
-    page.write_text(BLOCK.sub("", page.read_text(encoding="utf-8")), encoding="utf-8")
-r = subprocess.run([sys.executable, here / "compare_runs.py", run / "site", committed_site], capture_output=True, text=True)
+# build_page.py writes the install block (tools/site_install.py) itself, so the pages compare as they are.
+r = subprocess.run([sys.executable, here / "compare_runs.py", run / "site", site], capture_output=True, text=True)
 report["page"] = {"passed": r.returncode == 0 and (site / "index.html").exists(), "output": r.stdout.strip().splitlines()}
 
 # The repository's results-check file (figure-reproduction/results.json) is what the run writes.
