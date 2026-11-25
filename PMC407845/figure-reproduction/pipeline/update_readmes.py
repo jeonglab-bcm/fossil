@@ -32,15 +32,3 @@ def put(path, tag, body):
 put(paper / "README.md", "RESULTS-SUMMARY", summary + "\n\n" + "\n".join(short))
 put(paper / "figure-reproduction" / "README.md", "RESULTS-TABLE", summary + "\n\n" + "\n".join(lines))
 print("READMEs updated:", summary)
-
-# Status cell of the paper's row in the repository README, from the same summary
-top = paper.parent / "README.md"
-if top.exists():
-    s = top.read_text()
-    m = re.search(r"(\d+) exact, (\d+) agrees?, (\d+) partly, (\d+) inconclusive, (\d+) differs?, (\d+) not attempted", summary)
-    status = summary.rstrip(".") + " (`results.json`)" if not m else (
-        f"{m.group(1)} exact, {m.group(2)} agree, {m.group(3)} partly, {m.group(4)} inconclusive, {m.group(5)} differ, "
-        f"{m.group(6)} not attempted (`results.json`): MA-Networker rebuilt as `manetworker`; bound genes per TF within "
-        "8 genes of Table 1's, 59% of them coupled against 58%; the expression library rebuilt from SGD (677 of 751 arrays)")
-    tag = f"{paper.name}-STATUS"
-    top.write_text(re.sub(rf"<!--{tag}-->.*?<!--/{tag}-->", f"<!--{tag}-->{status}<!--/{tag}-->", s, flags=re.S))

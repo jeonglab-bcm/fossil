@@ -4,7 +4,6 @@ Usage (from the repository root): python3 PMC2850872/figure-reproduction/pipelin
 
 - PMC2850872/README.md and figure-reproduction/README.md: the table between <!--RESULTS--> and
   <!--/RESULTS-->, from check_results.py --markdown; the claims line between <!--CLAIMS--> markers.
-- README.md (top level): the PMC2850872 row's status, from the summary.
 - site/index.html: the PMC2850872 row and the paper count.
 Nothing here is typed by hand: rerun it after results.json changes.
 """
@@ -81,32 +80,6 @@ def main():
         if "<!--CLAIMS-->" in t:
             t = fill(t, "CLAIMS", claims)
         p.write_text(t)
-
-    # Top-level README row.
-    t1 = count("table1")
-    t3a, t3b = count("table3.schemeI"), count("table3.schemeII")
-    fa, fb = count("fig2.a.values"), count("fig2.b.values")
-    status = (f"Table 1 {t1[0]} of {t1[1]} counts exact (diagnosed 1,266 as published, the rest within 10); "
-              f"Table 2 {t2[0]} of {t2[1]} AUCs within the split spread (polynomial kernels differ); "
-              f"Table 3 {t3a[0]} of {t3a[1]} and {t3b[0]} of {t3b[1]}; Fig. 2 {fa[0] + fb[0]} of {fa[1] + fb[1]} "
-              f"curve points; main claim holds; package `diabclass`"
-              + (f"; {S['reviewed']} verdicts set to agrees in review" if S.get("reviewed") else ""))
-    readme = ROOT / "README.md"
-    t = readme.read_text()
-    row = ("| [`PMC2850872`](PMC2850872/) | Yu W, Liu T, Valdez R, Gwinn M, Khoury MJ. Application of support vector "
-           "machine modeling for prediction of common diseases: the case of diabetes and pre-diabetes. *BMC Medical "
-           "Informatics and Decision Making* 10:16 (2010). [doi:10.1186/1472-6947-10-16](https://doi.org/10.1186/1472-6947-10-16) | "
-           f"{status} |")
-    if "[`PMC2850872`]" in t:
-        t = re.sub(r"^\| \[`PMC2850872`\].*$", row, t, flags=re.M)
-    else:
-        t = t.replace("| [`PMC4247685`](PMC4247685/)", row + "\n| [`PMC4247685`](PMC4247685/)", 1)
-    if "reproduce-pmc2850872.yml" not in t:
-        t = t.replace("`.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843",
-                      "`.github/workflows/reproduce-pmc2850872.yml` reruns PMC2850872 on changes to its folder, "
-                      "refitting every model from the committed grid search (the search itself, about 80 minutes, only "
-                      "when started by hand with `search = true`). `.github/workflows/reproduce-pmc4426843.yml` does the same for PMC4426843")
-    readme.write_text(t)
 
     # Front page row.
     verdicts = [i["verdict"] for i in RES["items"] if i["verdict"] != "not_attempted"]
