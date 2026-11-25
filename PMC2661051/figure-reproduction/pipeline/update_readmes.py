@@ -6,9 +6,8 @@ the paper's verdict into the front page.
 
 PAPER_DIR/README.md gets the summary line and a short table (item, verdict, measure) between
 <!--RESULTS-SUMMARY--> markers; figure-reproduction/README.md gets the full table (with the causes)
-between <!--RESULTS-TABLE--> markers; site/index.html's row gets
-the verdict stamp (agrees when every attempted item is exact or agrees, partly otherwise) between
-<!--PMC…-VERDICT--> markers. Run it after results.json changes; never edit those parts by hand.
+between <!--RESULTS-TABLE--> markers; PMC…/index.json gets the front page's verdict (agrees when every
+attempted item is exact or agrees, partly otherwise). Run it after results.json changes; never edit those parts by hand.
 """
 import json
 import re
@@ -40,9 +39,8 @@ res = json.load(open(paper / "results.json"))
 sm = res["summary"]
 attempted = [i["verdict"] for i in res["items"] if i["verdict"] != "not_attempted"]
 v = "agrees" if all(x in ("exact", "agrees") for x in attempted) else "partly"
-icon = {"agrees": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 10.4l2.7 2.7L14.2 7.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        "partly": '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.4A8.6 8.6 0 0 0 10 18.6Z" fill="currentColor"/></svg>'}[v]
-word = {"agrees": "Agrees", "partly": "Partly agrees"}[v]
-put(paper.parent / "site" / "index.html", f"{paper.name}-VERDICT",
-    f'<span class="verdict" data-v="{v}">{word}{icon}</span><span class="verdict-note">{notes["site_note"]}</span>', sep="")
+sys.path.insert(0, str(paper.parent / "tools"))
+from build_index import set_fields  # noqa: E402
+
+set_fields(paper.name, verdict={"v": v, "note": notes["site_note"]})  # the front page is built from it
 print("READMEs and front page updated:", summary)

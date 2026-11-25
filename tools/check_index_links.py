@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Check the links of every row in the front-page paper index (site/index.html).
+"""Check the links of every row in the front-page paper index, as tools/build_index.py builds it.
 
 Usage:
-  check_index_links.py
+  check_index_links.py            check the front page as tools/build_index.py builds it
+  check_index_links.py PAGE.html  check a built page
 
 design.md: "In the paper index, each title links to the paper's results page; Article (the DOI),
 Code analysis and GitHub sit under it." For each row that names its paper in
@@ -13,14 +14,14 @@ Code analysis and GitHub sit under it." For each row that names its paper in
   - no link under it is called "Results" (the layout before the front-page redesign)
   - the results page site/PMC…/index.html exists
 
-A row written by a paper's own pipeline from a template made before the redesign fails here.
+tools/build_index.py builds the rows from PMC…/index.json in this layout; the check keeps it that way.
 """
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGE = ROOT / "site" / "index.html"
+sys.path.insert(0, str(ROOT / "tools"))
 ROW = re.compile(r"<tr>.*?</tr>", re.S)
 
 
@@ -51,9 +52,17 @@ def check(row):
 
 
 def main():
-    if sys.argv[1:]:
+    if len(sys.argv) > 2:
         sys.exit(__doc__)
-    page = PAGE.read_text(encoding="utf-8")
+    if sys.argv[1:]:
+        page = Path(sys.argv[1]).read_text(encoding="utf-8")
+    else:
+        from build_index import build
+        page, errors = build()
+        for e in errors:
+            print(f"ERROR {e}", file=sys.stderr)
+        if errors:
+            return 1
     papers, failed = [], False
     for row in ROW.findall(page):
         paper, errors = check(row)
@@ -64,13 +73,13 @@ def main():
             failed = True
             print(f"ERROR {paper}: {e}", file=sys.stderr)
     if not papers:
-        print("ERROR no paper rows found in site/index.html", file=sys.stderr)
+        print("ERROR no paper rows found on the front page", file=sys.stderr)
         return 1
     if failed:
         print("each title links to PMC…/; Article (the DOI), Code analysis and GitHub sit under it (design.md)",
               file=sys.stderr)
         return 1
-    print(f"site/index.html: all {len(papers)} titles link to their results pages, Article to the DOI")
+    print(f"front page: all {len(papers)} titles link to their results pages, Article to the DOI")
     return 0
 
 

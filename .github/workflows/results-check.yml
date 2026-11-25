@@ -5,7 +5,8 @@ run-name: "${{ github.event_name == 'workflow_dispatch' && format('Results check
 # committed in the same PR (nothing is rerun), and keep one comment per reproduction on the PR with
 # the diffs and an overlay of each published figure with the committed render.
 # A separate job checks that every paper the PR adds, or whose results.json it changes, names the
-# Paper2Repro release it was made with (tools/check_skill.py).
+# Paper2Repro release it was made with (tools/check_skill.py), and that the front page builds from every
+# paper's PMC…/index.json (tools/build_index.py).
 # The comment ends with a plain-language AI review (tools/ai_review.py) of the items the PR changes in
 # <paper>/results.json: why each matched the paper or not, and a flag where the evidence seems to
 # contradict the verdict. It needs the ANTHROPIC_API_KEY secret; without it (e.g. a PR from a fork) the
@@ -20,6 +21,7 @@ on:
     paths:
       - "PMC*/**"
       - "tools/check_skill.py"
+      - "tools/build_index.py"
       - "tools/site_versions.py"
       - "tools/check_index_links.py"
       - "tools/site_install.py"
@@ -54,6 +56,11 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/check_skill.py --base "origin/$BASE" 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Front page builds from each paper's index.json
+        run: |
+          set -o pipefail
+          python3 tools/build_index.py 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Front page shows each paper's version
         run: |
